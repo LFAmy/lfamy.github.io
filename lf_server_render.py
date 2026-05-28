@@ -24,7 +24,10 @@ def get_db():
     import psycopg2
     db_url = os.environ.get("DATABASE_URL", "")
     if db_url:
-        return psycopg2.connect(db_url)
+        # Add 5s timeout for production stability
+        if "?" in db_url:
+            return psycopg2.connect(db_url + "&connect_timeout=5")
+        return psycopg2.connect(db_url + "?connect_timeout=5")
     # Fallback to local
     return psycopg2.connect("host='localhost' dbname='question_bank' user='postgres' password=''")
 
@@ -317,7 +320,7 @@ def api_worksheet(student):
 @app.route("/api/health")
 def health():
     try:
-        conn = get_db()
+        conn = get_db()  # Uses 5s connect_timeout now
         cur = conn.cursor()
         cur.execute("SELECT COUNT(*) FROM questions")
         q_count = cur.fetchone()[0]
