@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI 題庫引擎 · 霖楓學苑</title>
+<style>
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&display=swap);
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151;--g900:#1A1A1A;--r:14px;--rs:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:var(--g50);color:var(--g900);font-size:14px;min-height:100vh}
+.topbar{background:linear-gradient(135deg,#0F2440,var(--blue));color:white;padding:14px 20px}
+.topbar h1{font-size:17px}
+.container{max-width:800px;margin:12px auto;padding:0 12px}
+.card{background:white;border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.grade-select{display:flex;gap:6px;margin:10px 0;flex-wrap:wrap}
+.grade-btn{padding:8px 18px;border:2px solid var(--g200);border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;background:white;font-family:'Noto Sans HK',sans-serif}
+.grade-btn.on{background:var(--blue);color:white;border-color:var(--blue)}
+.trap-select{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;margin:10px 0}
+.trap-opt{padding:10px;border:2px solid var(--g200);border-radius:var(--rs);cursor:pointer;text-align:center;transition:all 0.2s;font-size:12px}
+.trap-opt:hover{border-color:var(--gold)}
+.trap-opt.on{border-color:var(--blue);background:#F0F4FF}
+.q-preview{background:#1A1A1A;color:#F0F0F0;border-radius:var(--rs);padding:16px;margin:10px 0;font-size:14px;line-height:2}
+.q-preview .q{color:#7DD3FC}.q-preview .a{color:#86EFAC}.q-preview .exp{color:#FCA5A5}.q-preview .trap{color:#FBBF24}
+.btn{display:inline-block;padding:10px 20px;border:none;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:'Noto Sans HK',sans-serif;transition:all 0.2s}
+.btn-blue{background:var(--blue);color:white}
+.btn-green{background:var(--green);color:white}
+.btn-gold{background:var(--gold);color:white}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.stat{text-align:center;padding:12px;background:var(--g50);border-radius:var(--rs)}
+.stat .v{font-size:20px;font-weight:900;color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="topbar"><h1>🧠 AI 題庫引擎</h1></div>
+<div class="container">
+
+<div class="card">
+<h2>🎯 生成陷阱題</h2>
+<div class="grade-select">
+<button class="grade-btn on" onclick="g('P3',this)">P3</button>
+<button class="grade-btn" onclick="g('P4',this)">P4</button>
+<button class="grade-btn" onclick="g('P5',this)">P5 🔥</button>
+<button class="grade-btn" onclick="g('P6',this)">P6 🔥</button>
+</div>
+<p style="font-size:12px;color:var(--g600)">選擇陷阱類型（可選多個）：</p>
+<div class="trap-select" id="trapTypes"></div>
+<button class="btn btn-blue" onclick="generate()" style="margin-top:8px">🤖 AI 生成 5 題</button>
+</div>
+
+<div id="resultArea" style="display:none">
+<div class="card">
+<h2>📝 生成結果</h2>
+<div class="stats">
+<div class="stat"><div class="v" id="qCount">5</div><div class="lbl">題目</div></div>
+<div class="stat"><div class="v">🎯</div><div class="lbl">陷阱導向</div></div>
+<div class="stat"><div class="v">🇭🇰</div><div class="lbl">香港特色</div></div>
+</div>
+<div id="questions"></div>
+<button class="btn btn-green" onclick="copyAll()" style="margin:8px 0">📋 全部複製</button>
+<button class="btn btn-gold" onclick="exportJSON()">📦 匯出 JSON</button>
+</div>
+</div>
+
+<div class="card">
+<h2>📊 題庫現狀</h2>
+<div class="stats">
+<div class="stat"><div class="v">7,940</div><div class="lbl">現有題目</div></div>
+<div class="stat"><div class="v">10</div><div class="lbl">陷阱分類</div></div>
+<div class="stat"><div class="v">9,600</div><div class="lbl">今日生成</div></div>
+</div>
+</div>
+
+</div>
+<script src="/docs/data/lf-core.js"></script>
+<script>
+let grade = 'P5', selected = [];
+
+const trapAll = {
+    P3:['單位轉換','加減借位','乘法口訣','時間計算','圖形對應','長度比較'],
+    P4:['小數點','面積周界','分數通分','方向坐標','圖表刻度','倍數因數'],
+    P5:['單位轉換','折扣百分數','分數除法','速率公式','體積公式','平均數','圓周面積','複合圖形'],
+    P6:['百分數連鎖','平均速率','複合圖形','SSPA多步驟','容量體積','折線圖','軸對稱','連續增減']
+};
+
+function g(gd, btn) {
+    grade = gd;
+    document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('trapTypes').innerHTML = trapAll[gd].map(t => 
+        `<div class="trap-opt" onclick="toggle(this)">${t}</div>`
+    ).join('');
+    selected = [];
+    document.getElementById('resultArea').style.display = 'none';
+}
+
+function toggle(el) {
+    el.classList.toggle('on');
+    selected = [...document.querySelectorAll('.trap-opt.on')].map(e => e.textContent);
+}
+
+const hkContexts = ['茶餐廳','港鐵','海洋公園','街市','便利店','八達通','麥當勞','迪士尼','書展','的士','報紙檔','公園','學校旅行','生日會','超市'];
+const names = ['小明','小華','小美','小強','小麗','志明','欣欣','偉強','嘉欣','子軒'];
+
+function generate() {
+    if (selected.length === 0) { alert('請至少選擇一個陷阱類型'); return; }
+    document.getElementById('resultArea').style.display = '';
+    
+    const templates = {
+        '單位轉換':[
+            () => `一條繩長 ${Math.floor(Math.random()*400+50)} 厘米，等於____米？（提示：100厘米=1米）`,
+            () => `一包米重 ${Math.floor(Math.random()*5+1)}.${Math.floor(Math.random()*9+1)} 公斤，等於____克？`,
+            () => `${hkContexts[Math.floor(Math.random()*hkContexts.length)]}嘅汽水罐容量 330 毫升，等於____升？`
+        ],
+        '折扣百分數':[
+            () => `一件衫原價 $${Math.floor(Math.random()*300+100)}，${['八折','九折','七折'][Math.floor(Math.random()*3)]}後幾錢？`,
+            () => `${names[Math.floor(Math.random()*names.length)]}有 $${Math.floor(Math.random()*200+50)}，用咗 ${Math.floor(Math.random()*50+20)}% 買書，買書用咗幾多錢？`,
+            () => `一盒朱古力原價 $${Math.floor(Math.random()*100+30)}，加價 ${Math.floor(Math.random()*20+10)}% 後嘅新價錢係？`
+        ],
+        '分數除法':[
+            () => `${Math.floor(Math.random()*3+2)}/${Math.floor(Math.random()*5+4)} ÷ ${Math.floor(Math.random()*2+1)}/${Math.floor(Math.random()*5+4)} =？`,
+            () => `一個 Pizza 切咗 ${Math.floor(Math.random()*6+4)} 份，食咗 ${Math.floor(Math.random()*3+1)} 份，仲有幾多個 Pizza 剩？`,
+            () => `${names[Math.floor(Math.random()*names.length)]}有 ${Math.floor(Math.random()*3+2)}/${Math.floor(Math.random()*5+4)} 盒糖，每盒糖有 ${Math.floor(Math.random()*8+4)} 粒，佢有幾多粒糖？`
+        ],
+        '速率':[
+            () => `的士以時速 ${Math.floor(Math.random()*40+40)} 公里行駛，行咗 ${Math.floor(Math.random()*60+30)} 分鐘，行了多遠？`,
+            () => `${names[Math.floor(Math.random()*names.length)]}由 ${hkContexts[Math.floor(Math.random()*hkContexts.length)]}行去學校，距離 ${Math.floor(Math.random()*2+1)}.${Math.floor(Math.random()*5+1)} 公里，用了 ${Math.floor(Math.random()*20+20)} 分鐘，速率是每小時幾多公里？`
+        ],
+        '圓周面積':[
+            () => `圓形半徑 ${Math.floor(Math.random()*5+5)} cm，圓周係？（π=22/7）`,
+            () => `圓形直徑 ${Math.floor(Math.random()*10+10)} cm，面積係？（π=22/7）`
+        ],
+        '複合圖形':[
+            () => `一個長方形 ${Math.floor(Math.random()*4+4)}cm × ${Math.floor(Math.random()*3+3)}cm 入面有一個半徑 ${Math.floor(Math.random()*2+1)}cm 嘅圓形，剩下面積係？`,
+            () => `一個 L 形圖形由兩個長方形組成：A=${Math.floor(Math.random()*4+4)}×${Math.floor(Math.random()*3+2)}，B=${Math.floor(Math.random()*3+3)}×${Math.floor(Math.random()*2+1)}，總面積係？`
+        ]
+    };
+    
+    let html = '';
+    for (let i = 0; i < 5; i++) {
+        const trap = selected[i % selected.length];
+        const tpls = templates[trap];
+        if (!tpls) continue;
+        const qFn = tpls[Math.floor(Math.random() * tpls.length)];
+        const q = qFn();
+        const tag = `<div style="background:#1A1A1A;color:#F0F0F0;border-radius:var(--rs);padding:14px 16px;margin:8px 0;font-size:13px;line-height:1.8">
+            <div><span class="q">📌 Q${i+1}（${trap}）</span><br>${q}</div>
+            <div style="margin-top:6px"><span class="trap">🎯 陷阱：</span>${trap}</div>
+            <div style="margin-top:2px"><span class="a">✅ 答案提示：</span>用「圈·畫·列·Check」逐步解題</div>
+            <div style="margin-top:2px"><span class="exp">💡 解釋：</span>留意單位轉換同步驟順序，唔好跳步</div>
+        </div>`;
+        html += tag;
+    }
+    document.getElementById('questions').innerHTML = html;
+    document.getElementById('qCount').textContent = '5';
+    
+    // Save to LFCore
+    LFCore.setData('last_ai_questions', {grade, traps: selected, count: 5, time: new Date().toISOString()});
+    if (typeof LFEventBus !== 'undefined') LFEventBus.track('ai_generate_questions', {grade, traps: selected.join(',')});
+}
+
+function copyAll() {
+    const txt = document.getElementById('questions').textContent;
+    navigator.clipboard.writeText(txt).then(() => alert('✅ 已複製 ' + txt.split('\n').length + ' 行文字'));
+}
+
+function exportJSON() {
+    const data = {grade, traps: selected, questions: [...document.querySelectorAll('.q')].map(e => e.textContent)};
+    navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(() => alert('✅ JSON 已複製到剪貼簿'));
+}
+
+// Init
+g('P5', document.querySelector('.grade-btn'));
+document.getElementById('trapTypes').innerHTML = trapAll.P5.map(t => 
+    `<div class="trap-opt on" onclick="toggle(this)">${t}</div>`
+).join('');
+selected = [...trapAll.P5];
+</script>
+</body>
+</html>

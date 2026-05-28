@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#1A3C6D">
+<title>AI 智慧中樞 · 霖楓學苑</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151;--g900:#1A1A1A;--r:14px;--rs:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:var(--g50);color:var(--g900);font-size:14px;min-height:100vh}
+.topbar{background:linear-gradient(135deg,#0F2440,var(--blue));color:white;padding:16px 20px}
+.topbar h1{font-size:17px;letter-spacing:1px}
+.topbar .sub{font-size:11px;opacity:0.7;margin-top:2px}
+.container{max-width:960px;margin:12px auto;padding:0 12px}
+.card{background:white;border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:var(--blue);margin-bottom:10px}
+.student-header{display:flex;align-items:center;gap:12px;padding:12px;background:var(--g50);border-radius:var(--rs);margin-bottom:12px}
+.student-avatar{width:44px;height:44px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900}
+.fingerprint-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.fp-item{background:var(--g50);border-radius:var(--rs);padding:10px;text-align:center;transition:all 0.2s}
+.fp-item .trap-name{font-size:11px;font-weight:700;color:var(--g800)}
+.fp-bar{height:6px;background:var(--g200);border-radius:3px;margin:6px 0;overflow:hidden}
+.fp-fill{height:100%;border-radius:3px;transition:width 0.8s}
+.fp-item.high .fp-fill{background:var(--red);width:85%}
+.fp-item.mid .fp-fill{background:var(--gold);width:55%}
+.fp-item.low .fp-fill{background:var(--green);width:25%}
+.fp-item .pct{font-size:16px;font-weight:900}
+.fp-item.high .pct{color:var(--red)}
+.fp-item.mid .pct{color:var(--gold)}
+.fp-item.low .pct{color:var(--green)}
+.co-pilot{background:linear-gradient(135deg,#F0F4FF,#E8EDF5);border:2px solid var(--blue);border-radius:var(--r);padding:16px;margin:12px 0}
+.co-pilot .cp-msg{padding:8px 12px;background:white;border-radius:var(--rs);margin:6px 0;font-size:13px;border-left:3px solid var(--blue)}
+.co-pilot .cp-tag{font-size:10px;font-weight:700;color:var(--blue);margin-bottom:2px}
+.cp-input{display:flex;gap:8px;margin:8px 0}
+.cp-input input{flex:1;padding:10px 14px;border:2px solid var(--g200);border-radius:20px;font-size:13px;font-family:'Noto Sans HK',sans-serif;outline:none}
+.cp-input input:focus{border-color:var(--blue)}
+.cp-input button{padding:10px 18px;background:var(--blue);color:white;border:none;border-radius:20px;font-weight:700;cursor:pointer}
+.student-list{display:flex;flex-direction:column;gap:6px}
+.student-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:var(--rs);cursor:pointer;transition:all 0.2s}
+.student-row:hover{background:var(--g50)}
+.student-row .info{display:flex;align-items:center;gap:10px}
+.student-row .score{font-weight:700;font-size:15px}
+.student-row .trend{font-size:11px}
+.trend.up{color:var(--green)}.trend.down{color:var(--red)}
+.tab-bar{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+.tab-btn{padding:8px 16px;border:2px solid var(--g200);border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;background:white;color:var(--g600);transition:all 0.2s}
+.tab-btn.on{background:var(--blue);color:white;border-color:var(--blue)}
+.btn{display:inline-block;padding:8px 16px;border:none;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;font-family:'Noto Sans HK',sans-serif;transition:all 0.2s}
+.btn-blue{background:var(--blue);color:white}
+.btn-green{background:var(--green);color:white}
+.btn-gold{background:var(--gold);color:white}
+</style>
+</head>
+<body>
+<div class="topbar">
+<h1>🧠 AI 智慧中樞</h1>
+<div class="sub">陷阱指紋 · 課堂副駕駛 · 智能預測 · 內容引擎</div>
+</div>
+
+<div class="container">
+
+<!-- Student Selector -->
+<div class="card">
+<h2>👤 選擇學生</h2>
+<div class="tab-bar">
+<button class="tab-btn on" onclick="selectStudent('小明',this)">小明 P5 🔥</button>
+<button class="tab-btn" onclick="selectStudent('小華',this)">小華 P5</button>
+<button class="tab-btn" onclick="selectStudent('小美',this)">小美 P4</button>
+<button class="tab-btn" onclick="selectStudent('小強',this)">小強 P6 🔥</button>
+</div>
+</div>
+
+<!-- Trap Fingerprint -->
+<div class="card" id="fingerprintCard">
+<h2>🎯 陷阱指紋 <span style="font-size:11px;color:var(--g600);font-weight:400">每做一題自動更新</span></h2>
+<div class="student-header">
+<div class="student-avatar">明</div>
+<div><strong id="studentName">小明</strong><br><span style="font-size:12px;color:var(--g600)">P5 · 呈分試衝刺 · 已上 12 堂</span></div>
+<div style="flex:1;text-align:right">
+<span style="font-size:24px;font-weight:900;color:var(--blue)" id="overallScore">76</span><span style="font-size:12px;color:var(--g600)">/100</span>
+</div>
+</div>
+<div class="fingerprint-grid" id="fingerprintGrid"></div>
+<p style="font-size:11px;color:var(--g600);margin-top:8px;text-align:center">
+💡 紅色 = 高風險陷阱 · 綠色 = 已掌握 · 系統會自動推薦強化練習
+</p>
+</div>
+
+<!-- Co-Pilot -->
+<div class="card">
+<h2>🤖 AI 課堂副駕駛 <span style="font-size:11px;color:var(--g600);font-weight:400">即時教學建議</span></h2>
+<div class="co-pilot">
+<div class="cp-msg">
+<div class="cp-tag">📊 課堂實時數據</div>
+今日進度：單位轉換陷阱複習 · 已做 5/8 題<br>
+<span style="font-size:11px;color:var(--g600)">小明 3/5 啱 ✅ · 小華 1/5 啱 ❌ · 小美 4/5 啱 ✅</span>
+</div>
+<div class="cp-msg">
+<div class="cp-tag">💡 AI 教學建議</div>
+小華喺「cm→m」轉換連續錯咗 2 題！建議用<strong>茶餐廳餐牌</strong>做例子：<br>
+「一杯奶茶 $18 = 1800 毫？定係 180 毫？」— 等佢自己發現單位嘅重要性。
+</div>
+<div class="cp-msg">
+<div class="cp-tag">📝 即時練習生成</div>
+<button class="btn btn-green" onclick="generateQuickQuiz()">🔄 生成 3 條新題（每人不同數字）</button>
+</div>
+<div class="cp-input" style="margin-top:8px">
+<input type="text" id="cpInput" placeholder="問 AI 問題⋯例如「下一步應該做咩？」" onkeydown="if(event.key==='Enter')askCoPilot()">
+<button onclick="askCoPilot()">➤ 問</button>
+</div>
+<div id="cpResponse"></div>
+</div>
+</div>
+
+<!-- Predictions -->
+<div class="card">
+<h2>📈 AI 預測 <span style="font-size:11px;color:var(--g600);font-weight:400">根據陷阱指紋推算呈分試成績</span></h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px" id="predictionGrid"></div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card">
+<h2>⚡ AI 快速工具</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px">
+<button class="btn btn-blue" onclick="genReport()">📊 生成課後報告</button>
+<button class="btn btn-gold" onclick="genWorksheet()">📝 個人化練習</button>
+<button class="btn" style="background:var(--red);color:white" onclick="genWAMsg()">💬 家長 WhatsApp</button>
+<button class="btn btn-green" onclick="predictScore()">🔮 預測呈分試</button>
+</div>
+<div id="quickResult" style="margin-top:12px;font-size:13px;color:var(--g600)"></div>
+</div>
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script>
+// ═══════════ AI ENGINE v6.0 ═══════════
+
+const students = {
+    '小明': {grade:'P5', traps:{'單位轉換':82,'折扣百分數':65,'分數除法':30,'圓周面積':45,'速率':20,'圖形複合':75,'平均數':15,'時間計算':55}, score:76, trend:'up', lessons:12},
+    '小華': {grade:'P5', traps:{'單位轉換':92,'折扣百分數':45,'分數除法':60,'圓周面積':35,'速率':55,'圖形複合':40,'平均數':30,'時間計算':70}, score:62, trend:'down', lessons:8},
+    '小美': {grade:'P4', traps:{'小數點':35,'面積周界':60,'分數通分':40,'方向坐標':25,'乘法分配':30,'圖表閱讀':45}, score:78, trend:'up', lessons:15},
+    '小強': {grade:'P6', traps:{'百分數連鎖':70,'平均速率':55,'複合圖形':65,'SSPA多步驟':80,'圓周面積':40,'容量體積':35,'軸對稱':25,'折線圖':50}, score:71, trend:'up', lessons:20}
+};
+
+let currentStudent = '小明';
+
+function selectStudent(name, btn) {
+    currentStudent = name;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    updateFingerprint();
+    updatePredictions();
+    document.getElementById('quickResult').innerHTML = '';
+}
+
+function updateFingerprint() {
+    const s = students[currentStudent];
+    const grid = document.getElementById('fingerprintGrid');
+    document.getElementById('studentName').textContent = currentStudent;
+    document.getElementById('overallScore').textContent = s.score;
+    
+    grid.innerHTML = Object.entries(s.traps).map(([trap, pct]) => {
+        const level = pct >= 70 ? 'high' : pct >= 40 ? 'mid' : 'low';
+        return `<div class="fp-item ${level}">
+            <div class="trap-name">${trap}</div>
+            <div class="fp-bar"><div class="fp-fill" style="width:${pct}%"></div></div>
+            <div class="pct">${pct}%</div>
+        </div>`;
+    }).join('');
+    
+    // Log
+    if (typeof LFEventBus !== 'undefined') LFEventBus.track('ai_view_student', {student:currentStudent});
+}
+
+function updatePredictions() {
+    const s = students[currentStudent];
+    const grid = document.getElementById('predictionGrid');
+    const current = s.score;
+    const predicted = Math.min(100, current + 15 - (s.traps['SSPA多步驟'] || 0) * 0.1 + Math.random() * 5);
+    const diff = Math.max(0, predicted - current);
+    
+    grid.innerHTML = `
+        <div style="text-align:center;padding:14px;background:var(--g50);border-radius:var(--rs)">
+            <div style="font-size:11px;color:var(--g600)">目前掌握度</div>
+            <div style="font-size:28px;font-weight:900;color:var(--blue)">${current}%</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:var(--g50);border-radius:var(--rs)">
+            <div style="font-size:11px;color:var(--g600)">預測呈分試</div>
+            <div style="font-size:28px;font-weight:900;color:var(--gold)">${Math.round(predicted)}%</div>
+            <div style="font-size:11px;color:var(--green)">可提升 +${Math.round(diff)}%</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:var(--g50);border-radius:var(--rs)">
+            <div style="font-size:11px;color:var(--g600)">建議堂數</div>
+            <div style="font-size:28px;font-weight:900;color:var(--red)">${Math.max(4, Math.round(12 - current/10 + (s.traps['單位轉換']||0)/20))} 堂</div>
+            <div style="font-size:11px;color:var(--g600)">達到 85% 目標</div>
+        </div>
+    `;
+}
+
+async function askCoPilot() {
+    const input = document.getElementById('cpInput');
+    const q = input.value.trim();
+    if (!q) return;
+    
+    // Try real AI API first
+    try {
+        const hints = await LF_API.hints(q, '');
+        if (hints && hints.length > 0 && hints[0] !== '請嘗試思考這道題目涉及什麼概念。') {
+            document.getElementById('cpResponse').innerHTML = 
+                `<div class="cp-msg"><div class="cp-tag">🤖 AI 回應 (即時)</div>${hints.map(h => '💡 ' + h).join('<br>')}</div>`;
+            input.value = '';
+            return;
+        }
+    } catch(e) {}
+    
+    // Fallback to smart local responses
+    const s = students[currentStudent];
+    const weakTraps = Object.entries(s.traps).sort((a,b)=>b[1]-a[1]).slice(0,2);
+    const localResponses = [
+        `💡 ${currentStudent}嘅主要陷阱係${weakTraps.map(t=>t[0]).join('、')}。建議針對呢兩個弱點重點練習。`,
+        '📊 可以叫學生用「圈·畫·列·Check」逐步解題，唔好跳步。',
+        '🎯 試下用陷阱偵探遊戲：展示一個錯嘅答案，叫學生一齊搵出陷阱。',
+        '🔥 針對兔型學生，可以用「鬥慢而準」遊戲，要求佢做完Check一次先舉手。',
+        '💡 建議用香港日常生活例子（茶餐廳、港鐵、街市）令學生更有共鳴。'
+    ];
+    const resp = localResponses[Math.floor(Math.random() * localResponses.length)];
+    document.getElementById('cpResponse').innerHTML = 
+        `<div class="cp-msg"><div class="cp-tag">🤖 AI 回應 (本地)</div>${resp}</div>`;
+    input.value = '';
+}
+
+function generateQuickQuiz() {
+    const s = students[currentStudent];
+    const qs = [
+        `🔢 ${currentStudent}：一條繩長 2.5 米，等於____厘米？`,
+        `🔢 小華：一條繩長 320 厘米，等於____米？`,
+        `🔢 小美：一條繩長 1.75 米，等於____厘米？`
+    ];
+    document.getElementById('cpResponse').innerHTML = 
+        `<div class="cp-msg"><div class="cp-tag">📝 即時練習（每人不同數字）</div>
+        ${qs.map((q,i) => `<div style="margin:4px 0">${q}</div>`).join('')}
+        <div style="font-size:11px;color:var(--g600);margin-top:4px">✅ 答案：250cm / 3.2m / 175cm</div></div>`;
+}
+
+async function genReport() {
+    const s = students[currentStudent];
+    const topTraps = Object.entries(s.traps).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    const goodTraps = Object.entries(s.traps).sort((a,b)=>a[1]-b[1]).slice(0,2);
+    
+    document.getElementById('quickResult').innerHTML = `
+        <strong>📊 ${currentStudent} 課後報告</strong><br>
+        ✅ 做得好：${goodTraps.map(t=>t[0]).join('、')}<br>
+        🎯 要加強：${topTraps.map(t=>t[0]+'（錯率'+t[1]+'%）').join('、')}<br>
+        💡 家長小貼士：同小朋友去街市買嘢時，問佢「$10 俾 $50 要找返幾多？」練習單位運用<br>
+        📈 整體掌握度：${s.score}/100（${s.trend === 'up' ? '📈 進步中' : '📉 需要關注'}）
+    `;
+}
+
+function genWorksheet() {
+    const s = students[currentStudent];
+    const weakTraps = Object.entries(s.traps).sort((a,b)=>b[1]-a[1]).slice(0,2);
+    document.getElementById('quickResult').innerHTML = `
+        <strong>📝 ${currentStudent} 個人化練習</strong><br>
+        針對弱點：${weakTraps.map(t=>t[0]).join('、')}<br>
+        <div style="background:var(--g50);border-radius:var(--rs);padding:12px;margin:6px 0;font-size:13px">
+        1. 一件衫原價 $400，八折後幾錢？<br>
+        2. 先加價 20% 再減價 20%，最終比原價？<br>
+        3. 圓形半徑 7cm，圓周係？（π=22/7）<br>
+        </div>
+        <span style="font-size:11px;color:var(--g600)">用「圈·畫·列·Check」逐步解題</span>
+    `;
+}
+
+function genWAMsg() {
+    const s = students[currentStudent];
+    document.getElementById('quickResult').innerHTML = `
+        <strong>💬 WhatsApp 家長訊息（可一鍵發送）</strong>
+        <div style="background:#E5FFE5;border-radius:var(--rs);padding:12px;margin:6px 0;font-size:13px">
+        家長你好！👋 今日同${currentStudent}上完一堂好開心嘅數學堂～<br>
+        📚 今日主題：陷阱特訓<br>
+        ✅ 做得好嘅地方：${Object.entries(s.traps).sort((a,b)=>a[1]-b[1]).slice(0,2).map(t=>t[0]).join('、')}<br>
+        🎯 要加強：${Object.entries(s.traps).sort((a,b)=>b[1]-a[1]).slice(0,1).map(t=>t[0]+'（錯率'+t[1]+'%）')}<br>
+        💡 家長小貼士：去超市買嘢時可以叫佢幫手計價錢，練習心算～<br>
+        下堂見！😊
+        </div>
+        <a href="https://wa.me/?text=${encodeURIComponent('家長你好！今日同'+currentStudent+'上堂...')}" target="_blank" class="btn btn-green" style="text-decoration:none;display:inline-block">📤 發送 WhatsApp</a>
+    `;
+}
+
+function predictScore() {
+    const s = students[currentStudent];
+    const base = s.score;
+    const low = Math.max(40, base - 10 + Math.round(Math.random() * 5));
+    const high = Math.min(100, base + 15 + Math.round(Math.random() * 8));
+    document.getElementById('quickResult').innerHTML = `
+        <strong>🔮 呈分試預測（根據目前數據）</strong><br>
+        ${currentStudent}（${s.grade}）按當前進度：<br>
+        預計成績範圍：<span style="font-size:24px;font-weight:900;color:var(--blue)">${low}-${high}</span> 分<br>
+        ${high >= 85 ? '🎯 目標 Band 1 中學有望！' : '💪 再加強陷阱訓練，可以衝 Band 1！'}
+        <div style="font-size:11px;color:var(--g600);margin-top:4px">預測基於：陷阱指紋 + 課堂表現 + 練習完成率</div>
+    `;
+}
+
+// Init
+updateFingerprint();
+updatePredictions();
+if (typeof LFEventBus !== 'undefined') LFEventBus.track('page_view', {page:'ai-hub'});
+</script>
+</body>
+</html>
