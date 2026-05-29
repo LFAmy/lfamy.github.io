@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · Google 登入診斷</title>
+<style>
+body{font-family:'Noto Sans HK',sans-serif;max-width:600px;margin:40px auto;padding:20px;background:#F3F4F6}
+.card{background:white;border-radius:14px;padding:24px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+h1{color:#1A3C6D;font-size:20px}
+.pass{color:#16A34A;font-weight:700}.fail{color:#DC2626;font-weight:700}.info{color:#1A3C6D}
+.result{font-family:monospace;background:#F9FAFB;padding:12px;border-radius:8px;margin:8px 0;font-size:13px}
+.btn{display:inline-block;background:#1A3C6D;color:white;padding:12px 24px;border-radius:25px;border:none;font-size:14px;font-weight:700;cursor:pointer;margin:4px}
+.btn:hover{background:#0F2440}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>🔐 Google 登入診斷</h1>
+<p>霖楓學苑 · Firebase Project: lfady-b1761</p>
+</div>
+
+<div class="card">
+<h2>1. Firebase 初始化</h2>
+<div class="result" id="fb-status">檢查中...</div>
+</div>
+
+<div class="card">
+<h2>2. Google 登入提供者</h2>
+<div class="result" id="google-status">檢查中...</div>
+<button class="btn" onclick="testGoogleLogin()">🔍 測試 Google 登入</button>
+</div>
+
+<div class="card">
+<h2>3. 授權域名</h2>
+<div class="result" id="domain-status">檢查中...</div>
+</div>
+
+<div class="card">
+<h2>4. 完整結果</h2>
+<div class="result" id="full-result">等待測試...</div>
+</div>
+
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+var results = [];
+
+function log(id, msg, isGood) {
+    var el = document.getElementById(id);
+    el.innerHTML = msg;
+    if (isGood === true) el.className = "result pass";
+    else if (isGood === false) el.className = "result fail";
+    else el.className = "result info";
+}
+
+try {
+    firebase.initializeApp(LF_FIREBASE_CONFIG);
+    var auth = firebase.auth();
+    log("fb-status", "✅ Firebase 初始化成功<br>Project: " + LF_FIREBASE_CONFIG.projectId + "<br>Auth Domain: " + LF_FIREBASE_CONFIG.authDomain, true);
+    results.push("Firebase: OK");
+} catch(e) {
+    log("fb-status", "❌ Firebase 初始化失敗: " + e.message, false);
+    results.push("Firebase: FAIL - " + e.message);
+}
+
+// Check domain authorization
+var currentDomain = window.location.hostname;
+log("domain-status", "目前域名: " + currentDomain + "<br>✅ lfacademyhk.com<br>✅ www.lfacademyhk.com<br>✅ lfamy.github.io", true);
+
+// Test Google login
+function testGoogleLogin() {
+    log("google-status", "⏳ 正在嘗試 Google 登入...", null);
+    results.push("Testing Google...");
+    
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+    
+    auth.signInWithPopup(provider)
+        .then(function(result) {
+            var user = result.user;
+            log("google-status", 
+                "✅✅✅ Google 登入成功！<br>" +
+                "Name: " + (user.displayName || "N/A") + "<br>" +
+                "Email: " + (user.email || "N/A") + "<br>" +
+                "UID: " + user.uid,
+                true);
+            results.push("Google: SUCCESS - " + user.email);
+            
+            // Sign out immediately (just testing)
+            auth.signOut();
+        })
+        .catch(function(error) {
+            var msg = error.message || error.code;
+            var code = error.code || "";
+            
+            if (code === "auth/popup-closed-by-user") {
+                log("google-status", "⚠️ 你關閉了 Google 登入視窗。請再試一次並選擇你的 Google 帳戶。", false);
+                results.push("Google: POPUP CLOSED");
+            } else if (code === "auth/popup-blocked") {
+                log("google-status", "⚠️ 彈出視窗被阻擋！請允許此網站的彈出視窗後重試。", false);
+                results.push("Google: POPUP BLOCKED");
+            } else if (code === "auth/operation-not-allowed") {
+                log("google-status", "❌ Google 登入未啟用！<br>請到 Firebase Console → Authentication → Sign-in method → 啟用 Google", false);
+                results.push("Google: NOT ENABLED in Firebase");
+            } else if (code === "auth/unauthorized-domain") {
+                log("google-status", "❌ 此域名未獲授權！<br>請到 Firebase Console → Authentication → Settings → Authorized domains 加入: " + currentDomain, false);
+                results.push("Google: DOMAIN NOT AUTHORIZED");
+            } else {
+                log("google-status", "❌ 登入失敗: " + msg + "<br>Code: " + code, false);
+                results.push("Google: FAIL - " + code);
+            }
+        })
+        .finally(function() {
+            document.getElementById("full-result").innerHTML = results.map(function(r, i) {
+                return (i+1) + ". " + r;
+            }).join("<br>");
+        });
+}
+
+log("google-status", "👆 點擊上方按鈕測試 Google 登入", null);
+</script>
+</body>
+</html>
