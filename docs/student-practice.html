@@ -258,24 +258,29 @@ function submitAnswer(){
     };
 }
 
+// Dynamic hint generation based on trap type
+var trapHints = {
+    'T1':['計數時小心對齊數位','檢查有冇進位或借位','用直式覆算一次'],
+    'T2':['小數點對齊咗未？','試下將小數點向右移，變成整數','除數和被除數要同時移小數點'],
+    'T3':['記住：先乘除，後加減','有括號要先計括號入面','從左到右依序計算'],
+    'T4':['諗下要用邊條面積公式？','平行四邊形唔使除2，三角形要','梯形：(上底+下底)×高÷2'],
+    'T5':['體積同面積嘅公式唔同！','體積單位係 cm³，唔係 cm²','正方體：邊長×邊長×邊長'],
+    'T6':['分母唔同要先通分','通分即係搵最小公倍數','分數乘法：分子×分子，分母×分母'],
+    'T7':['幾折即係幾多%？','八折 = 80%，唔係減$80','正確率 = 對÷總×100%'],
+    'T8':['距離 = 速率 × 時間','速率 = 距離 ÷ 時間','單位要一致（km/h 配 h）'],
+    'T9':['先將未知數放一邊','移項時要變號（+變−）','最後除係數就搵到答案'],
+    'T10':['每格代表幾多個單位？','平均 = 總和 ÷ 數量','圓形圖：角度÷360°×100%']
+};
+
 function showHint(){
     if (quiz.submitted) return;
     quiz.hintsUsed++;
     var q = quiz.questions[quiz.currentIndex];
-    var hints = {
-        0:'平行四邊形面積公式係咩？',
-        1:'兩個分數分母唔同，要先做咩？',
-        2:'八折即係幾多%？',
-        3:'距離 = ? × ?',
-        4:'三角形面積公式同平行四邊形有咩分別？',
-        5:'先將7移去右邊，變成咩？',
-        6:'每格代表2個單位，唔係1個！',
-        7:'小數除法：將小數點向右移幾多位？',
-        8:'計數嘅時候，乘除同加減，邊個先？',
-        9:'長方體體積 = 長 × 闊 × ?'
-    };
-    var hint = hints[quiz.currentIndex]||'仔細觀察題目中嘅數字同單位，諗下應該用邊條公式。';
-    document.getElementById('hintArea').innerHTML = '<div class="hint-box"><div class="hint-label">💡 提示</div>'+hint+'</div>';
+    var trapH = trapHints[q.trap] || ['仔細觀察題目中嘅數字同單位','諗下應該用邊條公式','試下將題目嘅數字代入公式'];
+    // Pick hint based on how many times hints used for this question
+    var idx = quiz.hintsUsed % trapH.length;
+    var hint = trapH[idx];
+    document.getElementById('hintArea').innerHTML = '<div class="hint-box"><div class="hint-label">💡 提示 (' + q.trap + '陷阱)</div>' + hint + '</div>';
 }
 
 function showSolution(){
