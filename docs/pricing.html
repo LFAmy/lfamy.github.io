@@ -2,6 +2,7 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1A3C6D">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>霖楓學苑 · 課程收費</title>
 <meta name="description" content="霖楓學苑一對三線上數學課程收費。P3-P6呈分試專家。每堂65分鐘。免費試堂。">
@@ -104,14 +105,10 @@ body{padding-top:48px!important}
 </div>
 <div class="plan-price">
 <div class="per">$330<small>/堂</small></div>
-<div class="monthly">每月4堂 · <div class="monthly">每月4堂 · $1,320</div>
+<div class="monthly">每月4堂 · $1,320</div>
 </div>
 </div>
 
-<!-- P6 -->,320</div>
-<a href="javascript:void(0)" onclick="checkout('P5_monthly')" style="display:block;background:#4f46e5;color:white;text-align:center;padding:8px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;font-size:13px">💳 立即報名</a>
-</div>
-</div>
 <!-- P6 -->
 <div class="plan highlight">
 <div class="plan-icon">🏆</div>
@@ -121,14 +118,10 @@ body{padding-top:48px!important}
 </div>
 <div class="plan-price">
 <div class="per">$330<small>/堂</small></div>
-<div class="monthly">每月4堂 · <div class="monthly">每月4堂 · $1,320</div>
+<div class="monthly">每月4堂 · $1,320</div>
 </div>
 </div>
 
-<div class="info-strip">,320</div>
-<a href="javascript:void(0)" onclick="checkout('P6_monthly')" style="display:block;background:#4f46e5;color:white;text-align:center;padding:8px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;font-size:13px">💳 立即報名</a>
-</div>
-</div>
 <div class="info-strip">
 ✅ 所有年級均為 <strong>一對三小班教學</strong> · 每堂<strong>65分鐘</strong> · 包含課後練習包
 </div>
@@ -166,64 +159,6 @@ body{padding-top:48px!important}
 <a href="/docs/faq.html" style="color:#6B7280;text-decoration:none">FAQ</a>
 </div>
 
-<script>
-// ═══ Stripe Checkout Integration ═══
-const API = 'https://lf-api-f80h.onrender.com';
-
-async function checkout(planId) {
-  const btn = event.target;
-  const origText = btn.textContent;
-  btn.textContent = '⏳ 處理中...';
-  btn.disabled = true;
-
-  try {
-    // Get user email if logged in
-    let email = '';
-    let name = '';
-    try {
-      if (typeof firebase !== 'undefined' && firebase.auth) {
-        const user = firebase.auth().currentUser;
-        if (user) {
-          email = user.email || '';
-          name = user.displayName || '';
-        }
-      }
-    } catch(e) {}
-
-    const resp = await fetch(API + '/api/payment/checkout', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        plan_id: planId,
-        email: email || localStorage.getItem('lf_user_email') || '',
-        student_name: name || localStorage.getItem('lf_student_name') || '',
-        success_url: window.location.origin + '/docs/payment-success.html?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url: window.location.origin + '/docs/pricing.html',
-      })
-    });
-
-    const data = await resp.json();
-
-    if (data.trial) {
-      // Free trial — go directly to success
-      localStorage.setItem('lf_active_membership', JSON.stringify(data.membership));
-      window.location.href = '/docs/payment-success.html';
-      return;
-    }
-
-    if (data.checkout_url || data.mock_url) {
-      // Redirect to Stripe Checkout
-      window.location.href = data.checkout_url || data.mock_url;
-    } else {
-      alert('付款系統暫時無法使用，請稍後再試或直接WhatsApp聯絡我們。');
-    }
-  } catch(e) {
-    alert('網絡錯誤，請檢查連接後重試。');
-  } finally {
-    btn.textContent = origText;
-    btn.disabled = false;
-  }
-}
-</script>
+  <script src="/docs/data/lf-analytics.js"></script>
 </body>
 </html>
