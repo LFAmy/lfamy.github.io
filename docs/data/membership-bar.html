@@ -32,28 +32,37 @@
   var usage = null;
   try { usage = JSON.parse(localStorage.getItem('lf_usage')); } catch(e) {}
   var studentName = localStorage.getItem('lf_student_name') || '';
+  var points = localStorage.getItem('lf_points') || '0';
+  var badge = localStorage.getItem('lf_badge') || '';
+  var streak = localStorage.getItem('lf_streak') || '0';
 
   var right = document.getElementById('mbRight');
   var greeting = document.getElementById('mbGreeting');
 
+  // Build gamification snippet
+  var gameHTML = '';
+  if (badge) gameHTML = '<span style="font-size:11px;margin-right:4px">' + badge + '</span>';
+
   if (member && member.expiry && new Date(member.expiry) > new Date()) {
     var daysLeft = Math.ceil((new Date(member.expiry) - new Date()) / 86400000);
-    var planName = member.plan === 'annual' ? '年費' : member.plan === 'trial' ? '試用' : 'Pro';
-    greeting.textContent = (studentName ? studentName + '，' : '') + '你好！';
+    var planName = member.plan === 'annual' ? '年費' : (member.plan === 'trial' ? '試用' : 'Pro');
+    greeting.innerHTML = (studentName ? studentName + '，' : '') + '你好！' + gameHTML;
     var badgeClass = daysLeft <= 7 ? 'mb-badge-expiring' : 'mb-badge-pro';
-    right.innerHTML = '<span class="mb-badge ' + badgeClass + '">' + planName + ' · 剩' + daysLeft + '日</span>' +
-      '<a href="/docs/student-platform.html">學習平台</a>' +
-      '<a href="/docs/pricing.html">續期</a>';
+    var badgeText = planName + (member.plan === 'trial' ? ' · ' + member.sessions_remaining + '堂' : '');
+    right.innerHTML = '<span class="mb-badge ' + badgeClass + '">' + badgeText + '</span>' +
+      '<a href="/ai-tutor.html">🤖 AI導師</a>' +
+      '<a href="/parent-dashboard.html">📊 報告</a>' +
+      (daysLeft <= 14 ? '<a href="/docs/pricing.html" class="mb-btn-upgrade">續期</a>' : '');
   } else if (usage && usage.usedThisMonth > 0) {
-    greeting.textContent = '免費版用戶';
-    var left = 15 - (usage.usedThisMonth || 0);
-    right.innerHTML = '<span class="mb-badge mb-badge-free">免費 · ' + Math.max(0, left) + '/15次</span>' +
-      '<a href="/docs/pricing.html" class="mb-btn-upgrade">升級 Pro</a>' +
-      '<a href="/docs/student-platform.html">學習平台</a>';
+    greeting.innerHTML = '免費版用戶' + gameHTML;
+    var left = Math.max(0, 15 - (usage.usedThisMonth || 0));
+    right.innerHTML = '<span class="mb-badge mb-badge-free">免費 · ' + left + '/15次</span>' +
+      '<a href="/ai-tutor.html">🤖 AI導師</a>' +
+      '<a href="/docs/pricing.html" class="mb-btn-upgrade">升級 Pro</a>';
   } else {
     greeting.textContent = '歡迎！';
-    right.innerHTML = '<a href="/docs/activate.html" class="mb-btn-login">登入/激活</a>' +
-      '<a href="/docs/enroll.html" class="mb-btn-register">免費註冊</a>';
+    right.innerHTML = '<a href="/ai-tutor.html">🤖 免費試用AI導師</a>' +
+      '<a href="/docs/pricing.html" class="mb-btn-register">免費註冊</a>';
   }
 })();
 </script>

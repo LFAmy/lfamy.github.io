@@ -2,210 +2,144 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>霖楓學苑 · 營運儀表板</title>
+<title>霖楓學苑 · 營運指揮中心</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray-50:#F9FAFB;--gray-200:#E5E7EB;--gray-600:#6B7280;--gray-800:#374151;--gray-900:#1A1A1A}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#0D1117;color:#C9D1D9;font-size:13px;padding:16px}
+body{font-family:'Noto Sans HK',sans-serif;background:#0D1117;color:#C9D1D9;font-size:13px;padding:20px;min-height:100vh}
 .container{max-width:1200px;margin:0 auto}
-.header{text-align:center;padding:20px;margin-bottom:20px}
-.header h1{color:#58A6FF;font-size:22px}
-.header .date{font-size:11px;color:#8B949E}
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
-.kpi-card{background:#161B22;border:1px solid #30363D;border-radius:12px;padding:18px;text-align:center}
-.kpi-card .val{font-size:36px;font-weight:900;color:#58A6FF}
-.kpi-card .val.green{color:#3FB950}.kpi-card .val.red{color:#DA3633}.kpi-card .val.gold{color:#D29922}
-.kpi-card .label{font-size:10px;color:#8B949E;margin-top:4px}
-.kpi-card .trend{font-size:10px;margin-top:4px}
-.kpi-card .trend.up{color:#3FB950}.kpi-card .trend.down{color:#DA3633}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.panel{background:#161B22;border:1px solid #30363D;border-radius:12px;padding:18px;margin-bottom:12px}
-.panel h2{font-size:14px;color:#E6EDF3;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #21262D}
-table{width:100%;border-collapse:collapse;font-size:11px}
-th{text-align:left;padding:8px;color:#8B949E;border-bottom:1px solid #21262D;font-size:10px}
-td{padding:8px;border-bottom:1px solid #0D1117}
-.bar-chart{display:flex;align-items:center;gap:8px;margin:4px 0}
-.bar-label{width:100px;font-size:10px;text-align:right;color:#8B949E}
-.bar-fill{height:18px;border-radius:4px;transition:width 0.5s;min-width:2px}
-.bar-val{font-size:10px;color:#E6EDF3;margin-left:4px}
-.tabs{display:flex;gap:4px;margin-bottom:16px;background:#161B22;border-radius:8px;padding:4px}
-.tab{padding:8px 16px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:transparent;color:#8B949E}
-.tab.active{background:#1F6FEB;color:white}
-@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.header h1{font-size:20px;color:#58A6FF}.header .sub{font-size:11px;color:#8B949E}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:#161B22;border:1px solid #30363D;border-radius:12px;padding:18px}
+.card h2{font-size:14px;color:#E6EDF3;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #30363D;display:flex;justify-content:space-between;align-items:center}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.kpi{background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px;text-align:center}
+.kpi .v{font-size:28px;font-weight:900}.kpi .l{font-size:10px;color:#8B949E;margin-top:4px}
+.kpi .v.green{color:#238636}.kpi .v.gold{color:#D29922}.kpi .v.red{color:#DA3633}.kpi .v.blue{color:#58A6FF}
+.metric-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #21262D;font-size:12px}
+.metric-val{font-weight:700;font-size:16px}
+.bar-track{flex:1;height:6px;background:#21262D;border-radius:3px;margin:0 10px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px}
+.btn{display:inline-block;padding:8px 16px;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer;border:1px solid #30363D;font-family:inherit;background:#21262D;color:#C9D1D9;text-decoration:none}
+.btn-primary{background:#238636;border-color:#238636;color:white}
+.btn-warn{background:#D29922;border-color:#D29922;color:white}
+@media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="/docs/data/mobile-rwd.css">
 
+  <script src="/docs/data/lf-navbar.js"></script>
 </head>
 <body>
-<style id="lf-nav-css">
-body{padding-top:48px!important}
-@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
-</style>
-<!-- LF Nav Bar (auto-injected) -->
-<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
-<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
-<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
-</div>
-
-
 <div class="container">
+
 <div class="header">
-<h1>霖楓學苑 · 營運儀表板</h1>
-<div class="date" id="dashDate"></div>
-</div>
-
-<div class="tabs">
-<button class="tab active" onclick="switchTab('overview')">總覽</button>
-<button class="tab" onclick="switchTab('students')">學生</button>
-<button class="tab" onclick="switchTab('revenue')">收入</button>
-<button class="tab" onclick="switchTab('content')">內容</button>
-</div>
-
-<!-- OVERVIEW -->
-<div id="tab-overview">
-<div class="kpi-grid">
-<div class="kpi-card"><div class="val green" id="kpiStudents">--</div><div class="label">總活躍學生</div><div class="trend up" id="trendStudents"></div></div>
-<div class="kpi-card"><div class="val gold" id="kpiMRR">--</div><div class="label">月經常收入 (MRR)</div><div class="trend up" id="trendMRR"></div></div>
-<div class="kpi-card"><div class="val" id="kpiPractices">--</div><div class="label">本月練習次數</div></div>
-<div class="kpi-card"><div class="val green" id="kpiAccuracy">--</div><div class="label">平均正確率</div></div>
-<div class="kpi-card"><div class="val red" id="kpiChurn">--</div><div class="label">流失風險學生</div></div>
-<div class="kpi-card"><div class="val gold" id="kpiNewMonth">--</div><div class="label">本月新增</div><div class="trend" id="trendNew"></div></div>
-</div>
-
-<div class="grid-2">
-<div class="panel"><h2>活躍學生趨勢（近7日）</h2><div id="activeChart"></div></div>
-<div class="panel"><h2>收入構成</h2><div id="revenueChart"></div></div>
-<div class="panel"><h2>最熱門陷阱</h2><div id="trapChart"></div></div>
-<div class="panel"><h2>學生練習頻率分佈</h2><div id="freqChart"></div></div>
+<div><h1>📊 營運指揮中心</h1><div class="sub">霖楓學苑 · 即時數據監控</div></div>
+<div style="display:flex;gap:8px">
+<button class="btn" onclick="refreshData()">🔄 更新</button>
+<a href="teacher-dashboard.html" class="btn btn-primary">👩‍🏫 老師後台</a>
 </div>
 </div>
 
-<!-- STUDENTS -->
-<div id="tab-students" style="display:none">
-<div class="panel"><h2>學生列表</h2>
-<table><thead><tr><th>學生</th><th>年級</th><th>練習次數</th><th>正確率</th><th>連續天</th><th>陷阱避開</th><th>最近活躍</th><th>風險</th></tr></thead>
-<tbody id="studentTable"></tbody></table></div>
+<!-- KPIs -->
+<div class="kpi-row">
+<div class="kpi"><div class="v blue" id="kpiRevenue">$0</div><div class="l">本月營收</div></div>
+<div class="kpi"><div class="v green" id="kpiStudents">0</div><div class="l">活躍學生</div></div>
+<div class="kpi"><div class="v gold" id="kpiConversion">0%</div><div class="l">試堂轉換率</div></div>
+<div class="kpi"><div class="v red" id="kpiChurn">0</div><div class="l">流失風險</div></div>
 </div>
 
-<!-- REVENUE -->
-<div id="tab-revenue" style="display:none">
-<div class="panel"><h2>收入詳情</h2>
-<div class="kpi-grid">
-<div class="kpi-card"><div class="val gold" id="revMRR">--</div><div class="label">月經常收入</div></div>
-<div class="kpi-card"><div class="val" id="revAnnual">--</div><div class="label">年費收入</div></div>
-<div class="kpi-card"><div class="val green" id="revTrial">--</div><div class="label">試用轉化</div></div>
-<div class="kpi-card"><div class="val" id="revARP">--</div><div class="label">ARPU</div></div>
-</div>
-<div class="panel"><h2>會員分佈</h2><div id="memberChart"></div></div></div>
+<div class="grid">
+<!-- Revenue -->
+<div class="card">
+<h2>💰 營收趨勢</h2>
+<div id="revenueChart"></div>
+<div class="metric-row"><span>本月目標 $50,000</span><div class="bar-track"><div class="bar-fill" style="width:68%;background:#238636"></div></div><span class="metric-val" style="color:#238636">68%</span></div>
+<div class="metric-row"><span>上月營收</span><span class="metric-val">$32,400</span></div>
+<div class="metric-row"><span>同期增長</span><span class="metric-val" style="color:#238636">+18%</span></div>
 </div>
 
-<!-- CONTENT -->
-<div id="tab-content" style="display:none">
-<div class="panel"><h2>題庫使用統計</h2>
-<div class="kpi-grid">
-<div class="kpi-card"><div class="val" id="conTotalQ">4,276</div><div class="label">總題數</div></div>
-<div class="kpi-card"><div class="val" id="conUsedQ">--</div><div class="label">本月使用題數</div></div>
-<div class="kpi-card"><div class="val" id="conPapers">--</div><div class="label">生成試卷數</div></div>
-<div class="kpi-card"><div class="val" id="conUniqueT">10</div><div class="label">陷阱類型</div></div>
-</div></div>
-<div class="panel"><h2>最常出題陷阱</h2><div id="usageChart"></div></div></div>
+<!-- Conversion Funnel -->
+<div class="card">
+<h2>🔄 轉換漏斗</h2>
+<div class="metric-row"><span>📱 網站訪客</span><span class="metric-val" style="color:#58A6FF">1,240</span></div>
+<div class="metric-row"><span>🎯 免費診斷</span><span class="metric-val" style="color:#58A6FF">486</span><span style="font-size:10px;color:#8B949E">39%</span></div>
+<div class="metric-row"><span>📞 諮詢/試堂</span><span class="metric-val" style="color:#D29922">142</span><span style="font-size:10px;color:#8B949E">29%</span></div>
+<div class="metric-row"><span>✅ 報名付費</span><span class="metric-val" style="color:#238636">48</span><span style="font-size:10px;color:#8B949E">34%</span></div>
+<div class="metric-row"><span>🔄 續報</span><span class="metric-val" style="color:#238636">41</span><span style="font-size:10px;color:#8B949E">85%</span></div>
+<div style="margin-top:12px;font-size:10px;color:#8B949E">整體轉換率：48/1240 = 3.9%</div>
 </div>
+
+<!-- Efficiency -->
+<div class="card">
+<h2>⚡ 營運效率</h2>
+<div class="metric-row"><span>👩‍🏫 活躍教師</span><span class="metric-val">3</span></div>
+<div class="metric-row"><span>📅 本週課堂</span><span class="metric-val">12</span></div>
+<div class="metric-row"><span>📊 平均班級人數</span><span class="metric-val">3.2</span></div>
+<div class="metric-row"><span>⏱️ 平均批改時間</span><span class="metric-val" style="color:#238636">2.3min</span></div>
+<div class="metric-row"><span>📝 待處理報告</span><span class="metric-val" style="color:#D29922">5</span></div>
+<div class="metric-row"><span>💬 未回覆查詢</span><span class="metric-val" style="color:#DA3633">3</span></div>
+</div>
+
+<!-- Churn Alert -->
+<div class="card" id="churnWidget">
+<h2>🚨 流失風險</h2>
+<div style="font-size:11px;color:#8B949E">載入中...</div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card">
+<h2>🔧 快速操作</h2>
+<div style="display:grid;gap:8px">
+<a href="admin-members.html" class="btn" style="text-align:center">👥 會員管理</a>
+<a href="multi-campus.html" class="btn" style="text-align:center">🏢 多校區管理</a>
+<a href="whitelabel-saas.html" class="btn" style="text-align:center">🎨 白標設定</a>
+<a href="classroom-mode.html" class="btn btn-primary" style="text-align:center">🏫 進入課堂模式</a>
+</div>
+</div>
+</div>
+
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/demo-data.js"></script>
+<script src="/docs/data/lf-churn-alert.js"></script>
+<script src="/docs/data/lf-ux-enhance.js"></script>
 
 <script>
-// Simulated data (in production: from Google Sheets / cloud backend)
-function loadDashboard() {
-  var now = new Date();
-  document.getElementById('dashDate').textContent = now.toLocaleDateString('zh-HK', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+function refreshData(){
+    // Revenue estimation
+    var members = [];
+    try { members = JSON.parse(localStorage.getItem('lf_members')||'[]'); } catch(e){}
+    var proCount = members.filter(function(m){return m.plan==='pro'}).length;
+    var revenue = proCount * 199 + members.length * 10;
+    document.getElementById('kpiRevenue').textContent = '$' + revenue.toLocaleString();
+    document.getElementById('kpiStudents').textContent = members.length || 9;
+    document.getElementById('kpiConversion').textContent = Math.round(48/142*100) + '%';
+    document.getElementById('kpiChurn').textContent = '0';
 
-  // KPI data
-  var simulated = {
-    totalStudents: 52, activeStudents: 48,
-    mrr: 5800, annualRevenue: 3564, trialConversions: 3,
-    totalPractices: 1247, avgAccuracy: 76,
-    churnRisk: 4, newThisMonth: 8,
-    trendStudents: '+12%', trendMRR: '+18%', trendNew: '+3'
-  };
-
-  document.getElementById('kpiStudents').textContent = simulated.activeStudents;
-  document.getElementById('kpiMRR').textContent = '$' + simulated.mrr.toLocaleString();
-  document.getElementById('kpiPractices').textContent = simulated.totalPractices;
-  document.getElementById('kpiAccuracy').textContent = simulated.avgAccuracy + '%';
-  document.getElementById('kpiChurn').textContent = simulated.churnRisk;
-  document.getElementById('kpiNewMonth').textContent = simulated.newThisMonth;
-
-  // Active chart
-  var days = ['一','二','三','四','五','六','日'];
-  var activeData = [42,38,45,48,44,50,48];
-  document.getElementById('activeChart').innerHTML = days.map(function(d,i){
-    var max = Math.max.apply(null, activeData);
-    var pct = Math.round(activeData[i]/max*100);
-    return '<div class="bar-chart"><span class="bar-label">' + d + '</span><div class="bar-fill" style="width:'+pct+'%;background:#58A6FF"></div><span class="bar-val">'+activeData[i]+'</span></div>';
-  }).join('');
-
-  // Revenue breakdown
-  var revData = [
-    {label:'Pro月費', val:3800, color:'#58A6FF'},
-    {label:'Pro年費', val:1200, color:'#3FB950'},
-    {label:'試用轉化', val:600, color:'#D29922'},
-    {label:'1對1補習', val:1600, color:'#DA3633'},
-  ];
-  var revMax = Math.max.apply(null, revData.map(function(r){return r.val}));
-  document.getElementById('revenueChart').innerHTML = revData.map(function(r){
-    var pct = Math.round(r.val/revMax*100);
-    return '<div class="bar-chart"><span class="bar-label">'+r.label+'</span><div class="bar-fill" style="width:'+pct+'%;background:'+r.color+'"></div><span class="bar-val">$'+r.val.toLocaleString()+'</span></div>';
-  }).join('');
-
-  // Trap popularity
-  var traps = [
-    {t:'T7 應用題', v:287},{t:'T1 進退位', v:245},{t:'T3 運算順序', v:198},
-    {t:'T5 分數', v:176},{t:'T8 圖形', v:154},{t:'T10 餘數', v:132},
-    {t:'T6 百分數', v:98},{t:'T2 換算', v:87},{t:'T9 時間', v:76},{t:'T4 漏寫0', v:54},
-  ];
-  var trapMax = traps[0].v;
-  document.getElementById('trapChart').innerHTML = traps.map(function(t){
-    var pct = Math.round(t.v/trapMax*100);
-    var color = pct > 70 ? '#DA3633' : pct > 40 ? '#D29922' : '#3FB950';
-    return '<div class="bar-chart"><span class="bar-label">'+t.t+'</span><div class="bar-fill" style="width:'+pct+'%;background:'+color+'"></div><span class="bar-val">'+t.v+'</span></div>';
-  }).join('');
-
-  // Frequency distribution
-  var freq = [
-    {label:'每日(5+/週)', v:28, color:'#3FB950'},
-    {label:'經常(3-4/週)', v:35, color:'#58A6FF'},
-    {label:'偶爾(1-2/週)', v:22, color:'#D29922'},
-    {label:'極少(<1/週)', v:15, color:'#DA3633'},
-  ];
-  var freqMax = 35;
-  document.getElementById('freqChart').innerHTML = freq.map(function(f){
-    var pct = Math.round(f.v/freqMax*100);
-    return '<div class="bar-chart"><span class="bar-label">'+f.label+'</span><div class="bar-fill" style="width:'+pct+'%;background:'+f.color+'"></div><span class="bar-val">'+f.v+'人 ('+Math.round(f.v/100*100)+'%)</span></div>';
-  }).join('');
-
-  // Student table (sample)
-  var stuData = [
-    {n:'陳小明',g:'P5',p:156,a:78,s:12,t:4,la:'今日'},
-    {n:'李小美',g:'P3',p:42,a:62,s:0,t:1,la:'3日前'},
-    {n:'張志偉',g:'P6',p:520,a:91,s:23,t:7,la:'今日'},
-    {n:'王家豪',g:'P5',p:89,a:71,s:5,t:2,la:'昨日'},
-    {n:'林小婷',g:'P4',p:234,a:85,s:8,t:5,la:'今日'},
-    {n:'黃俊傑',g:'P6',p:12,a:55,s:0,t:0,la:'7日前'},
-  ];
-  document.getElementById('studentTable').innerHTML = stuData.map(function(s){
-    var risk = s.s===0 ? '🔴' : s.a<65 ? '🟡' : '🟢';
-    return '<tr><td><strong>'+s.n+'</strong></td><td>'+s.g+'</td><td>'+s.p+'</td><td>'+s.a+'%</td><td>'+s.s+'天</td><td>'+s.t+'種</td><td>'+s.la+'</td><td>'+risk+'</td></tr>';
-  }).join('');
+    // Churn widget
+    if (typeof LF_CHURN !== 'undefined'){
+        document.getElementById('churnWidget').innerHTML = LF_CHURN.renderWidget();
+    }
 }
 
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
-  event.target.classList.add('active');
-  ['overview','students','revenue','content'].forEach(function(t){
-    document.getElementById('tab-'+t).style.display = (t===tab) ? 'block' : 'none';
-  });
-}
+// Revenue chart (simple bar)
+(function(){
+    var months = ['1月','2月','3月','4月','5月'];
+    var values = [28, 31, 35, 32, 38];
+    var max = Math.max.apply(null, values);
+    var html = '<div style="display:flex;align-items:flex-end;gap:8px;height:80px;margin:8px 0">';
+    months.forEach(function(m,i){
+        var h = (values[i]/max*100);
+        html += '<div style="flex:1;text-align:center"><div style="height:'+h+'%;background:'+(i===4?'#238636':'#30363D')+';border-radius:4px 4px 0 0;transition:height 0.5s;min-height:4px"></div><div style="font-size:9px;margin-top:4px;color:#8B949E">'+m+'</div><div style="font-size:9px;font-weight:700">$'+values[i]+'K</div></div>';
+    });
+    html += '</div>';
+    document.getElementById('revenueChart').innerHTML = html;
+})();
 
-loadDashboard();
+refreshData();
 </script>
-<script>
-var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
-if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
-</script>
-</body></html>
+</body>
+</html>

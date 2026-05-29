@@ -2,179 +2,150 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>霖楓學苑 · 白標 SaaS</title><style>
+<title>霖楓學苑 · 白標 SaaS 管理</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-600:#6B7280;--gray-800:#374151;--gray-900:#1A1A1A}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
-.container{max-width:900px;margin:0 auto}
-.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
-.header h1{font-size:24px}
-.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
-.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
-.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.config-grid .full{grid-column:1/-1}
-label{display:block;font-size:11px;color:#6B7280;margin-bottom:4px;font-weight:700}
-input,select{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%}
-input:focus,select:focus{border-color:#1A3C6D;outline:none}
-input[type=color]{height:40px;padding:4px;cursor:pointer}
-.preview-box{background:#F9FAFB;border:2px dashed #E5E7EB;border-radius:12px;padding:24px;text-align:center;margin:16px 0;transition:all 0.3s}
-.preview-box h2{font-size:20px;margin-bottom:4px}
-.preview-box .sub{font-size:12px;color:#6B7280}
-.btn{display:inline-block;padding:10px 22px;border-radius:25px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;margin:4px}
-.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#16A34A;color:white}
-.btn-gold{background:#C9A84C;color:#1A3C6D}
-.client-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:12px}
-th{text-align:left;padding:8px;background:#F9FAFB;color:#6B7280;font-size:10px;border-bottom:2px solid #E5E7EB}
-td{padding:8px;border-bottom:1px solid #F3F4F6}
-.status-badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:700}
-.status-active{background:#D1FAE5;color:#065F46}.status-trial{background:#FEF3C7;color:#92400E}
-.tabs{display:flex;gap:4px;margin-bottom:16px;background:#F3F4F6;border-radius:10px;padding:4px}
-.tab{padding:10px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:transparent;color:#6B7280;flex:1;text-align:center}
-.tab.active{background:white;color:#1A3C6D;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:var(--gray-900);font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px 28px;margin-bottom:20px}
+.header h1{font-size:20px}.header .sub{font-size:11px;opacity:0.7;margin-top:4px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:var(--blue);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gray-200)}
+.btn{display:inline-block;padding:10px 20px;border-radius:25px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;text-decoration:none;transition:all 0.2s}
+.btn-primary{background:var(--blue);color:white}.btn-green{background:var(--green);color:white}.btn-gold{background:var(--gold);color:var(--blue)}.btn-red{background:var(--red);color:white}.btn-outline{background:white;border:2px solid var(--gray-200);color:var(--gray-800)}
+.form-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.form-group{flex:1;min-width:150px}
+.form-group label{display:block;font-size:11px;font-weight:700;color:var(--gray-600);margin-bottom:4px}
+input,select{padding:10px 14px;border:2px solid var(--gray-200);border-radius:8px;font-size:13px;font-family:inherit;width:100%}
+input:focus,select:focus{border-color:var(--blue);outline:none}
+.preview-box{border:2px dashed var(--gray-200);border-radius:12px;padding:32px;text-align:center;margin:12px 0;transition:all 0.3s}
+.color-picker{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.color-swatch{width:32px;height:32px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all 0.2s}
+.color-swatch:hover,.color-swatch.active{border-color:var(--blue);transform:scale(1.2)}
+@media(max-width:768px){.form-row{flex-direction:column}}
 </style>
+<link rel="stylesheet" href="/docs/data/mobile-rwd.css">
 
+  <script src="/docs/data/lf-navbar.js"></script>
 </head>
 <body>
-<style id="lf-nav-css">
-body{padding-top:48px!important}
-@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
-</style>
-<!-- LF Nav Bar (auto-injected) -->
-<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
-<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
-<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
-</div>
-
-
 <div class="container">
-<div class="header"><h1>白標 SaaS 管理中心</h1><p>授權其他補習社使用霖楓技術 · 自訂品牌 · 月費制</p></div>
 
-<div class="tabs">
-<button class="tab active" onclick="switchTab('config')">品牌設定</button>
-<button class="tab" onclick="switchTab('clients')">客戶管理</button>
-<button class="tab" onclick="switchTab('pricing')">定價方案</button>
+<div class="header">
+<h1>🎨 白標 SaaS 管理中心</h1>
+<div class="sub">自訂品牌 · 專屬域名 · 一鍵部署</div>
 </div>
 
-<!-- CONFIG -->
-<div id="tab-config">
-<div class="card"><h2>品牌自訂</h2>
-<div class="config-grid">
-<div class="full"><label>補習社名稱</label><input type="text" id="brandName" placeholder="例如：陳Sir數學教室" oninput="updatePreview()"></div>
-<div class="full"><label>口號/標語</label><input type="text" id="brandSlogan" placeholder="例如：專業數學輔導 · 呈分試專家" oninput="updatePreview()"></div>
-<div><label>主色</label><input type="color" id="brandColor" value="#1A3C6D" oninput="updatePreview()"></div>
-<div><label>輔助色 (金色)</label><input type="color" id="brandGold" value="#C9A84C" oninput="updatePreview()"></div>
-<div class="full"><label>Logo URL (可選)</label><input type="text" id="brandLogo" placeholder="https://你的網站/logo.png"></div>
-</div></div>
-
-<div class="card"><h2>即時預覽</h2>
-<div class="preview-box" id="livePreview">
-<h2 id="previewName">陳Sir數學教室</h2>
-<div class="sub" id="previewSlogan">專業數學輔導 · 呈分試專家</div>
-<div style="margin-top:12px">
-<button class="btn btn-primary" style="background:var(--primary)" id="previewBtn">開始練習 →</button>
+<!-- Brand Settings -->
+<div class="card">
+<h2>🏷️ 品牌設定</h2>
+<div class="form-row">
+<div class="form-group"><label>平台名稱</label><input type="text" id="brandName" value="霖楓學苑" onchange="updatePreview()"></div>
+<div class="form-group"><label>副標題</label><input type="text" id="brandTagline" value="不教數學，教避開陷阱" onchange="updatePreview()"></div>
+</div>
+<div class="form-row">
+<div class="form-group"><label>主色調</label>
+<div class="color-picker">
+<div class="color-swatch active" style="background:#1A3C6D" onclick="setColor('#1A3C6D',this)"></div>
+<div class="color-swatch" style="background:#0F766E" onclick="setColor('#0F766E',this)"></div>
+<div class="color-swatch" style="background:#7C3AED" onclick="setColor('#7C3AED',this)"></div>
+<div class="color-swatch" style="background:#DC2626" onclick="setColor('#DC2626',this)"></div>
+<div class="color-swatch" style="background:#EA580C" onclick="setColor('#EA580C',this)"></div>
+<div class="color-swatch" style="background:#0891B2" onclick="setColor('#0891B2',this)"></div>
 </div>
 </div>
-<button class="btn btn-gold" onclick="saveBrand()">儲存品牌設定</button>
-<button class="btn btn-green" onclick="generateWhitelabel()">生成白標頁面</button></div>
+<div class="form-group"><label>強調色</label>
+<div class="color-picker">
+<div class="color-swatch active" style="background:#C9A84C" onclick="setAccent('#C9A84C',this)"></div>
+<div class="color-swatch" style="background:#F59E0B" onclick="setAccent('#F59E0B',this)"></div>
+<div class="color-swatch" style="background:#10B981" onclick="setAccent('#10B981',this)"></div>
+<div class="color-swatch" style="background:#EC4899" onclick="setAccent('#EC4899',this)"></div>
 </div>
-
-<!-- CLIENTS -->
-<div id="tab-clients" style="display:none">
-<div class="card"><h2>白標客戶</h2>
-<table class="client-table"><thead><tr><th>客戶</th><th>品牌</th><th>方案</th><th>學生數</th><th>月費</th><th>到期日</th><th>狀態</th><th>操作</th></tr></thead>
-<tbody>
-<tr><td>陳Sir數學教室</td><td>陳Sir數學</td><td>Growth</td><td>28</td><td>$688/月</td><td>2026-08-15</td><td><span class="status-badge status-active">活躍</span></td><td><button class="btn btn-primary">管理</button></td></tr>
-<tr><td>李Miss補習社</td><td>李Miss Learning</td><td>Starter</td><td>15</td><td>$388/月</td><td>2026-07-01</td><td><span class="status-badge status-active">活躍</span></td><td><button class="btn btn-primary">管理</button></td></tr>
-<tr><td>黃Sir教育中心</td><td>黃Sir Edu</td><td>試用</td><td>5</td><td>免費</td><td>2026-06-15</td><td><span class="status-badge status-trial">試用中</span></td><td><button class="btn btn-primary">管理</button></td></tr>
-</tbody></table>
-<button class="btn btn-green" onclick="alert('已發送邀請連結給新客戶')">+ 新增白標客戶</button></div>
+</div>
+</div>
 </div>
 
-<!-- PRICING -->
-<div id="tab-pricing" style="display:none">
-<div class="card"><h2>白標定價方案</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-<div style="background:#F9FAFB;border-radius:12px;padding:20px;text-align:center;border:2px solid #E5E7EB">
-<h3>Starter</h3>
-<div style="font-size:28px;font-weight:900;color:#1A3C6D">$388<span style="font-size:14px">/月</span></div>
-<div style="font-size:11px;line-height:2;margin:12px 0">最多30學生<br>自訂品牌<br>基本題庫<br>電郵支援</div>
+<!-- Domain -->
+<div class="card">
+<h2>🌐 域名設定</h2>
+<div class="form-row">
+<div class="form-group"><label>自訂域名</label><input type="text" id="customDomain" placeholder="math.yourschool.edu.hk"></div>
+<div class="form-group"><label>SSL 憑證</label><select><option>自動 (Let's Encrypt)</option><option>手動上傳</option></select></div>
 </div>
-<div style="background:#FFFDF5;border-radius:12px;padding:20px;text-align:center;border:2px solid #C9A84C">
-<h3>Growth <span style="font-size:10px;color:#C9A84C">推薦</span></h3>
-<div style="font-size:28px;font-weight:900;color:#1A3C6D">$688<span style="font-size:14px">/月</span></div>
-<div style="font-size:11px;line-height:2;margin:12px 0">最多100學生<br>自訂品牌+主題色<br>完整題庫<br>WhatsApp/微信支援<br>數據分析儀表板</div>
+<button class="btn btn-primary" onclick="alert('域名設定已儲存！（示範模式）')">💾 儲存設定</button>
 </div>
-<div style="background:#F9FAFB;border-radius:12px;padding:20px;text-align:center;border:2px solid #E5E7EB">
-<h3>Enterprise</h3>
-<div style="font-size:28px;font-weight:900;color:#1A3C6D">$1,288<span style="font-size:14px">/月</span></div>
-<div style="font-size:11px;line-height:2;margin:12px 0">無限學生<br>多校區管理<br>完整白標+API<br>專屬支援<br>客製化題庫</div>
+
+<!-- Logo Upload -->
+<div class="card">
+<h2>🖼️ 品牌標誌</h2>
+<div class="form-row">
+<div class="form-group"><label>上傳 Logo</label><input type="file" accept="image/*" onchange="previewLogo(event)"></div>
+<div class="form-group"><label>Favicon</label><input type="file" accept="image/*"></div>
 </div>
-</div></div></div>
+<div id="logoPreview" class="preview-box">
+<div style="font-size:48px;opacity:0.3">霖楓</div>
+<div style="font-size:11px;color:var(--gray-400);margin-top:4px">Logo 預覽區域</div>
+</div>
+</div>
+
+<!-- Preview -->
+<div class="card">
+<h2>👁️ 即時預覽 <button class="btn btn-outline btn-sm" onclick="openPreview()">新視窗預覽</button></h2>
+<div id="livePreview" class="preview-box" style="background:linear-gradient(135deg,#0A1A35,#1A3C6D);color:white">
+<div style="font-family:'Noto Serif HK',serif;font-size:24px;font-weight:900" id="prevBrand">霖楓學苑</div>
+<div style="font-size:13px;opacity:0.7;margin:4px 0" id="prevTagline">不教數學，教避開陷阱</div>
+<div style="display:inline-block;margin-top:12px;padding:10px 24px;background:#DC2626;border-radius:20px;font-weight:700;font-size:13px">免費診斷 →</div>
+</div>
+</div>
+
+<!-- Deployment -->
+<div class="card" style="border-left:3px solid var(--green)">
+<h2>🚀 一鍵部署</h2>
+<div style="font-size:12px;color:var(--gray-600);margin-bottom:12px">你的白標平台將獨立部署，擁有專屬域名和品牌。所有霖楓功能完整保留。</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn btn-green" onclick="alert('🚀 部署請求已提交！（示範模式）\n預計 5-10 分鐘完成。')">🚀 立即部署</button>
+<button class="btn btn-outline" onclick="alert('📋 部署配置已匯出')">📋 匯出配置</button>
+</div>
+</div>
+
 </div>
 
 <script>
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
-  event.target.classList.add('active');
-  ['config','clients','pricing'].forEach(function(t){
-    document.getElementById('tab-'+t).style.display = (t===tab) ? 'block' : 'none';
-  });
+function setColor(color, el) {
+    document.querySelectorAll('.color-picker')[0].querySelectorAll('.color-swatch').forEach(function(s){s.classList.remove('active')});
+    el.classList.add('active');
+    document.getElementById('livePreview').style.background = 'linear-gradient(135deg,' + adjustColor(color,-20) + ',' + color + ')';
 }
-
+function setAccent(color, el) {
+    document.querySelectorAll('.color-picker')[1].querySelectorAll('.color-swatch').forEach(function(s){s.classList.remove('active')});
+    el.classList.add('active');
+}
+function adjustColor(hex, amount) {
+    var num = parseInt(hex.slice(1), 16);
+    var r = Math.min(255, Math.max(0, (num >> 16) + amount));
+    var g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+    var b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+    return '#' + (0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
 function updatePreview() {
-  var name = document.getElementById('brandName').value || '陳Sir數學教室';
-  var slogan = document.getElementById('brandSlogan').value || '專業數學輔導';
-  var color = document.getElementById('brandColor').value;
-  var gold = document.getElementById('brandGold').value;
-  document.getElementById('previewName').textContent = name;
-  document.getElementById('previewSlogan').textContent = slogan;
-  document.getElementById('livePreview').style.background = 'linear-gradient(135deg,'+color+','+gold+')';
-  document.getElementById('livePreview').style.color = 'white';
-  document.getElementById('previewName').style.color = 'white';
-  document.getElementById('previewSlogan').style.color = 'rgba(255,255,255,0.7)';
-  document.getElementById('previewBtn').style.background = color;
-  document.getElementById('previewBtn').style.color = 'white';
+    document.getElementById('prevBrand').textContent = document.getElementById('brandName').value;
+    document.getElementById('prevTagline').textContent = document.getElementById('brandTagline').value;
 }
-
-function saveBrand() {
-  var config = {
-    name: document.getElementById('brandName').value,
-    slogan: document.getElementById('brandSlogan').value,
-    color: document.getElementById('brandColor').value,
-    gold: document.getElementById('brandGold').value,
-    logo: document.getElementById('brandLogo').value
-  };
-  localStorage.setItem('lf_whitelabel_config', JSON.stringify(config));
-  alert('品牌設定已儲存 ✅\n\n白標頁面將會使用這些設定。');
+function previewLogo(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+        document.getElementById('logoPreview').innerHTML = '<img src="' + ev.target.result + '" style="max-height:80px">';
+    };
+    reader.readAsDataURL(file);
 }
-
-function generateWhitelabel() {
-  var config = JSON.parse(localStorage.getItem('lf_whitelabel_config') || '{}');
-  var name = config.name || '我的教室';
-  var html = '<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><title>'+name+'</title><style>';
-  html += '<style>body{font-family:sans-serif;background:linear-gradient(135deg,'+(config.color||'#1A3C6D')+','+(config.gold||'#C9A84C')+');color:white;text-align:center;padding:80px 20px}';
-  html += 'h1{font-size:32px} .sub{color:rgba(255,255,255,0.7)} .btn{display:inline-block;padding:16px 40px;border-radius:30px;font-weight:900;text-decoration:none;background:white;color:'+(config.color||'#1A3C6D')+';margin-top:24px}';
-  html += '</style>
-</head><body><h1>'+name+'</h1><div class="sub">'+(config.slogan||'')+'</div>';
-  html += '<div style="margin-top:24px"><a href="/docs/trap-quiz.html" class="btn">免費數學診斷 →</a></div>';
-  html += '<div style="font-size:11px;margin-top:20px;opacity:0.5">Powered by 霖楓學苑</div><script>
-var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
-if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
-</script>
-</body></html>';
-
-  var blob = new Blob([html], {type: 'text/html'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a'); a.href = url;
-  a.download = 'whitelabel_' + (name.replace(/\s/g,'_')) + '.html';
-  a.click();
-  alert('白標頁面已生成 ✅\n\n包含自訂品牌名稱、顏色、口號。\n可上傳到你的網站或用 GitHub Pages 部署。');
+function openPreview() {
+    window.open('landing.html', '_blank');
 }
-
-updatePreview();
 </script>
-<script>
-var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
-if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
-</script>
-</body></html>
+<script src="/docs/data/lf-ux-enhance.js"></script>
+</body>
+</html>

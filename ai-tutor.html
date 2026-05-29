@@ -2,38 +2,45 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
+<meta property="og:title" content="霖楓學苑 · AI 數學導師">
+<meta property="og:description" content="AI智能數學導師，逐步解題、陷阱分析、蘇格拉底式引導。P3-P6香港小學數學。">
+<meta property="og:image" content="https://www.lfacademyhk.com/logo.png">
+<meta property="og:url" content="https://www.lfacademyhk.com/ai-tutor.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="霖楓學苑 LF Academy">
+<meta property="og:locale" content="zh_HK">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>霖楓學苑 · AI 數學導師</title>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <style>
-:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--purple:#7C3AED;--gray:#6B7280;--bg:#F8FAFC}
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--purple:#1A3C6D;--gray:#6B7280;--bg:#F8FAFC}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;display:flex;align-items:center;justify-content:center}
+body{font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D,#1E4D8C);min-height:100vh;display:flex;align-items:center;justify-content:center}
 .container{width:100%;max-width:760px;height:96vh;background:#fff;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden}
-.header{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .header h1{font-size:1.1em;font-weight:700}
 .header .status{font-size:.7em;opacity:.7;margin-left:auto;display:flex;align-items:center;gap:4px}
 .header .status .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
 .dot.online{background:#4ade80}.dot.offline{background:#fbbf24}
 .mode-tabs{display:flex;gap:0;background:#f1f5f9;padding:4px;margin:8px 14px;border-radius:12px;flex-shrink:0}
 .mode-tab{flex:1;padding:8px;text-align:center;border-radius:10px;cursor:pointer;font-size:.8em;font-weight:600;color:var(--gray);transition:all .2s}
-.mode-tab.active{background:#fff;color:var(--purple);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.mode-tab.active{background:#fff;color:var(--blue);box-shadow:0 1px 3px rgba(0,0,0,.1)}
 .mode-tab .icon{font-size:1.2em;display:block;margin-bottom:2px}
 #topicView{flex:1;overflow-y:auto;padding:14px;display:none}
 #topicView h2{font-size:.95em;color:var(--blue);margin:12px 0 8px;padding-left:8px;border-left:3px solid var(--purple)}
 .topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
 .topic-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;padding:12px;cursor:pointer;transition:all .2s}
-.topic-card:hover{border-color:var(--purple);background:#f5f3ff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(124,58,237,.15)}
+.topic-card:hover{border-color:var(--blue);background:#EFF6FF;transform:translateY(-2px);box-shadow:0 4px 12px rgba(124,58,237,.15)}
 .topic-card .tname{font-weight:600;color:#1e293b;font-size:.9em;margin-bottom:4px}
 .topic-card .tmeta{font-size:.75em;color:var(--gray);display:flex;gap:10px}
 #qArea{background:linear-gradient(135deg,#eff6ff,#dbeafe);padding:18px;border-bottom:2px solid #bfdbfe;flex-shrink:0;display:none}
-#qArea .topic-tag{display:inline-block;background:var(--purple);color:#fff;padding:2px 10px;border-radius:12px;font-size:.72em;margin-bottom:8px}
+#qArea .topic-tag{display:inline-block;background:var(--blue);color:#fff;padding:2px 10px;border-radius:12px;font-size:.72em;margin-bottom:8px}
 #qArea .qtext{font-size:1.1em;line-height:1.7;color:#1e293b}
 #qArea .meta{color:var(--gray);font-size:.75em;margin-top:6px}
 .chat-area{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
 .msg{max-width:88%;padding:10px 14px;border-radius:14px;line-height:1.6;font-size:.92em;animation:fadeIn .3s;word-wrap:break-word}
 .msg.ai{align-self:flex-start;background:#fff;border:1px solid #e2e8f0;border-bottom-left-radius:4px}
-.msg.user{align-self:flex-end;background:var(--purple);color:#fff;border-bottom-right-radius:4px}
+.msg.user{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
 .msg.system{align-self:center;background:#f1f5f9;color:var(--gray);font-size:.78em;padding:6px 14px;border-radius:8px}
 .msg.correct{align-self:center;background:#dcfce7;color:#166534;font-weight:600;padding:10px 18px;border-radius:20px}
 .msg.wrong{align-self:center;background:#fef2f2;color:#991b1b;padding:10px 18px;border-radius:20px}
@@ -47,21 +54,21 @@ body{font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;backgroun
 .btn-skip{background:#f1f5f9;color:#475569}.btn-skip:hover{background:#e2e8f0}
 .btn-topic{background:#dcfce7;color:#166534}.btn-topic:hover{background:#bbf7d0}
 .btn-back{background:#fee2e2;color:#991b1b}.btn-back:hover{background:#fecaca}
-.btn-solve{background:#ede9fe;color:#5b21b6}.btn-solve:hover{background:#ddd6fe}
+.btn-solve{background:#ede9fe;color:#1A3C6D}.btn-solve:hover{background:#DBEAFE}
 .input-area{padding:10px 14px;border-top:1px solid #e2e8f0;display:flex;gap:8px;background:#fff;flex-shrink:0}
 .input-area input{flex:1;padding:12px 16px;border:2px solid #e2e8f0;border-radius:22px;font-size:.95em;outline:none;transition:border .2s}
-.input-area input:focus{border-color:var(--purple)}
-.input-area button{background:var(--purple);color:#fff;border:none;border-radius:50%;min-width:42px;height:42px;cursor:pointer;font-size:1.1em;flex-shrink:0;transition:all .2s}
+.input-area input:focus{border-color:var(--blue)}
+.input-area button{background:var(--blue);color:#fff;border:none;border-radius:50%;min-width:42px;height:42px;cursor:pointer;font-size:1.1em;flex-shrink:0;transition:all .2s}
 .input-area button:hover{background:#6d28d9;transform:scale(1.05)}
 .input-area button:disabled{background:#cbd5e1;transform:none}
 .stats{display:flex;gap:16px;padding:8px 18px;font-size:.75em;color:var(--gray);background:#fafafa;border-top:1px solid #f1f5f9;flex-shrink:0}
 .stats span{display:flex;align-items:center;gap:4px}
 .quick-actions{display:flex;gap:6px;padding:6px 14px;flex-wrap:wrap;flex-shrink:0}
 .quick-btn{padding:6px 14px;border-radius:16px;border:1.5px solid #e2e8f0;background:#fff;font-size:.75em;cursor:pointer;transition:all .2s;color:var(--gray)}
-.quick-btn:hover{border-color:var(--purple);color:var(--purple);background:#f5f3ff}
+.quick-btn:hover{border-color:var(--blue);color:var(--blue);background:#EFF6FF}
 .loading{text-align:center;padding:30px;color:var(--gray)}
 .nav-top{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.95);padding:8px 16px;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.1);backdrop-filter:blur(8px)}
-.nav-top a{color:var(--purple);text-decoration:none;font-weight:600;font-size:.85em}
+.nav-top a{color:var(--blue);text-decoration:none;font-weight:600;font-size:.85em}
 .nav-top .brand{font-size:1em;color:#1e293b}
 body{padding-top:44px}
 .welcome{padding:40px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
@@ -118,7 +125,29 @@ body{padding-top:44px}
   </div>
 </div>
 
+<script src="/docs/data/lf-api-client.js"></script>
 <script>
+// ═══════ LF DeepSeek AI Fallback ═══════
+async function deepseekAsk(question) {
+  try {
+    const resp = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer sk-e422da39eb9840e387134c823609995e" },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: "你係霖楓學苑 AI 數學導師。用繁體中文+廣東話回答。針對香港小學 P3-P6 數學。每次回答包含：1)解題思路 2)逐步運算 3)相關T1-T10陷阱提醒。語氣親切幽默。" },
+          { role: "user", content: question }
+        ],
+        max_tokens: 600, temperature: 0.7
+      })
+    });
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || null;
+  } catch(e) { return null; }
+}
+
 // ═══════════════ GLOBAL STATE ═══════════════
 const API = "https://lf-api-f80h.onrender.com";
 let currentMode = "practice";
@@ -379,7 +408,7 @@ function skipQuestion() {
 }
 
 // ═══════════════ FREE-FORM AI ═══════════════
-async function freeAsk() {
+async async function freeAsk() {
   const input = document.getElementById("userInput");
   const question = input.value.trim();
   if (!question) return;
@@ -387,11 +416,39 @@ async function freeAsk() {
   document.getElementById("sendBtn").disabled = true;
   showTyping();
   saveFreeChat(question, "user");
+
+  // Step 1: Try local regex math solver (fast)
   const localAnswer = generateLocalMathAnswer(question);
   if (localAnswer) {
     hideTyping(); addMsg(localAnswer, "ai"); saveFreeChat(localAnswer, "ai");
     document.getElementById("sendBtn").disabled = false; input.focus(); return;
   }
+
+  // Step 2: Try Render API
+  if (apiOnline) {
+    try {
+      const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
+      if (resp.ok) {
+        const data = await resp.json(); hideTyping();
+        const reply = data.reply || data.message || "";
+        if (reply && reply.length > 10) { addMsg(reply, "ai"); saveFreeChat(reply, "ai"); document.getElementById("sendBtn").disabled = false; input.focus(); return; }
+      }
+    } catch(e) { /* fall through to DeepSeek */ }
+  }
+
+  // Step 3: Try DeepSeek API (real AI - always available)
+  hideTyping(); showTyping();
+  const dsReply = await deepseekAsk(question);
+  hideTyping();
+  if (dsReply) {
+    addMsg(dsReply, "ai"); saveFreeChat(dsReply, "ai");
+  } else {
+    // Step 4: Generic fallback
+    const fb = generateGenericMathAnswer(question);
+    addMsg(fb, "ai"); saveFreeChat(fb, "ai");
+  }
+  document.getElementById("sendBtn").disabled = false; input.focus();
+}
   if (apiOnline) {
     try {
       const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
