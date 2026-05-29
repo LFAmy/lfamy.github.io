@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · AI 智能組卷</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:900px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.config-grid .full{grid-column:1/-1}
+select,input[type=number]{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%}
+select:focus,input:focus{border-color:#1A3C6D;outline:none}
+label{display:block;font-size:11px;color:#6B7280;margin-bottom:4px;font-weight:700}
+.topic-tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.topic-tag{padding:6px 14px;border-radius:20px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-size:11px;font-weight:700;font-family:inherit;transition:all 0.2s}
+.topic-tag:hover{border-color:#1A3C6D}
+.topic-tag.selected{background:#1A3C6D;color:white;border-color:#1A3C6D}
+.trap-tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.trap-tag{padding:6px 12px;border-radius:20px;border:2px solid #FEF3C7;background:#FEF3C7;cursor:pointer;font-size:10px;font-weight:700;font-family:inherit;transition:all 0.2s;color:#92400E}
+.trap-tag.selected{background:#DC2626;color:white;border-color:#DC2626}
+.btn{display:inline-block;padding:12px 28px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-gold{background:linear-gradient(135deg,#C9A84C,#DFC06A);color:#1A3C6D}
+.btn-red{background:#DC2626;color:white}
+.btn-green{background:#16A34A;color:white}
+.btn-outline{background:white;border:2px solid #E5E7EB}
+.preview-section{display:none;margin-top:16px}
+.pack-card{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:16px;margin:8px 0}
+.pack-card h3{font-size:14px;color:#1A3C6D;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.q-preview{font-size:11px;line-height:2;max-height:300px;overflow-y:auto;background:white;border-radius:8px;padding:14px}
+.q-item{padding:4px 0;border-bottom:1px solid #F3F4F6}
+.q-item .q-num{color:#1A3C6D;font-weight:700}
+.q-item .q-trap{font-size:9px;color:#DC2626;margin-left:4px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat-tile{text-align:center;padding:12px 8px;background:#F0F7FF;border-radius:8px}
+.stat-tile .val{font-size:22px;font-weight:900;color:#1A3C6D}
+.stat-tile .label{font-size:9px;color:#6B7280}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>AI 智能組卷 V2</h1><p>一鍵生成完整課堂包：練習卷 + 答案 + 教學提示 + 功課</p></div>
+
+<!-- CONFIG -->
+<div class="card"><h2>組卷設定</h2>
+<div class="config-grid">
+<div>
+<label>年級</label>
+<select id="grade"><option value="P3">P3 小三</option><option value="P4">P4 小四</option><option value="P5" selected>P5 小五</option><option value="P6">P6 小六</option></select>
+</div>
+<div>
+<label>題數</label>
+<select id="qCount"><option value="10">10 題 (快速診斷)</option><option value="15" selected>15 題 (標準課堂)</option><option value="20">20 題 (完整練習)</option><option value="30">30 題 (模擬試卷)</option></select>
+</div>
+<div class="full">
+<label>課題（可多選，不選=全部）</label>
+<div class="topic-tags" id="topicTags"></div>
+</div>
+<div class="full">
+<label>陷阱類型（可多選）</label>
+<div class="trap-tags" id="trapTags"></div>
+</div>
+<div>
+<label>難度模式</label>
+<select id="diffMode"><option value="progressive" selected>由淺入深 (推薦)</option><option value="mixed">混合難度</option><option value="easy">基礎為主</option><option value="hard">挑戰為主</option></select>
+</div>
+<div>
+<label>生成內容</label>
+<select id="packType"><option value="full" selected>完整課堂包</option><option value="practice">僅練習卷</option><option value="exam">模擬考試卷</option></select>
+</div>
+</div>
+<button class="btn btn-gold" onclick="generatePack()" style="font-size:18px;padding:16px 48px;width:100%;margin-top:12px">生成課堂包</button>
+</div>
+
+<!-- PREVIEW -->
+<div class="preview-section" id="preview">
+<div class="stats-grid">
+<div class="stat-tile"><div class="val" id="statTotal">0</div><div class="label">題目</div></div>
+<div class="stat-tile"><div class="val" id="statTraps">0</div><div class="label">陷阱類型</div></div>
+<div class="stat-tile"><div class="val" id="statTopics">0</div><div class="label">課題</div></div>
+<div class="stat-tile"><div class="val" id="statTime">0</div><div class="label">預計分鐘</div></div>
+</div>
+
+<div class="pack-card"><h3>📝 練習卷（學生版）</h3>
+<div class="q-preview" id="studentPaper"></div>
+<button class="btn btn-primary" onclick="printPaper('student')">列印學生版</button>
+<button class="btn btn-outline" onclick="copyPaper('student')">複製題目</button>
+</div>
+
+<div class="pack-card"><h3>✅ 答案卷（教師版）</h3>
+<div class="q-preview" id="answerKey"></div>
+<button class="btn btn-primary" onclick="printPaper('answer')">列印答案卷</button>
+</div>
+
+<div class="pack-card" id="teachingTipsCard"><h3>💡 教學提示</h3>
+<div class="q-preview" id="teachingTips"></div>
+</div>
+
+<div class="pack-card" id="homeworkCard"><h3>📝 功課建議</h3>
+<div class="q-preview" id="homeworkSuggestions"></div>
+<button class="btn btn-green" onclick="sendHomework()">發送功課俾學生</button>
+</div>
+
+<div style="text-align:center;margin:16px 0">
+<button class="btn btn-red" onclick="exportAll()">匯出完整課堂包</button>
+<button class="btn btn-primary" onclick="window.open('/docs/wechat-comms.html','_blank')">發送家長通知</button>
+</div>
+</div>
+</div>
+
+<script>
+var bank = [];
+var selectedTopics = [];
+var selectedTraps = [];
+
+// Topic definitions
+var topics = {
+  P3: ['加減運算','乘法入門','除法入門','分數認識','時間','貨幣','長度與距離','圖形認識','統計圖入門','倍數認識'],
+  P4: ['四則運算','分數加減','小數認識','面積入門','周界計算','圖形分類','方向與位置','棒形圖','平均數','倍數與因數'],
+  P5: ['分數乘除','小數運算','面積計算','體積入門','百分數','代數入門','平均數進階','八方位','棒形圖進階','速率入門'],
+  P6: ['分數四則','小數四則','圓面積','體積計算','百分數應用','簡易方程','統計圖進階','速率應用','折線圖','可能性']
+};
+
+var trapNames = {
+  T1: '進退位', T2: '單位換算', T3: '運算順序', T4: '漏寫0', T5: '分數陷阱',
+  T6: '百分數', T7: '應用題', T8: '圖形', T9: '時間換算', T10: '餘數'
+};
+
+// Load bank
+async function loadBank() {
+  var grade = document.getElementById('grade').value;
+  try {
+    var resp = await fetch('/docs/data/question_bank_' + grade + '.json');
+    bank = await resp.json();
+  } catch(e) {
+    try {
+      var resp2 = await fetch('/docs/data/question_bank_zh.json');
+      var full = await resp2.json();
+      bank = full.filter(function(q){return q.grade === grade});
+    } catch(e2) { bank = []; }
+  }
+  document.getElementById('statTotal').textContent = bank.length + '可用';
+}
+
+function renderTopicTags() {
+  var grade = document.getElementById('grade').value;
+  var html = (topics[grade] || []).map(function(t){
+    return '<button class="topic-tag" onclick="toggleTopic(this,\'' + t + '\')">' + t + '</button>';
+  }).join('');
+  document.getElementById('topicTags').innerHTML = html;
+}
+
+function renderTrapTags() {
+  var html = Object.keys(trapNames).map(function(t){
+    return '<button class="trap-tag" onclick="toggleTrap(this,\'' + t + '\')">' + t + ' ' + trapNames[t] + '</button>';
+  }).join('');
+  document.getElementById('trapTags').innerHTML = html;
+}
+
+function toggleTopic(el, t) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    selectedTopics.push(t);
+  } else {
+    selectedTopics = selectedTopics.filter(function(x){return x !== t});
+  }
+}
+
+function toggleTrap(el, t) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    selectedTraps.push(t);
+  } else {
+    selectedTraps = selectedTraps.filter(function(x){return x !== t});
+  }
+}
+
+function generatePack() {
+  if (bank.length === 0) return alert('題庫載入中，請稍候…');
+
+  var count = parseInt(document.getElementById('qCount').value);
+  var diffMode = document.getElementById('diffMode').value;
+  var packType = document.getElementById('packType').value;
+
+  // Filter bank
+  var pool = bank.slice();
+
+  // Filter by selected traps
+  if (selectedTraps.length > 0) {
+    pool = pool.filter(function(q){return selectedTraps.indexOf(q.trap) >= 0});
+  }
+
+  // Sort by difficulty based on mode
+  if (diffMode === 'progressive') {
+    var diffOrder = {easy:0, medium:1, hard:2};
+    pool.sort(function(a,b){return (diffOrder[a.difficulty]||0) - (diffOrder[b.difficulty]||0)});
+  } else if (diffMode === 'easy') {
+    pool = pool.filter(function(q){return q.difficulty === 'easy'});
+  } else if (diffMode === 'hard') {
+    pool = pool.filter(function(q){return q.difficulty === 'hard'});
+  }
+
+  // Select questions
+  var selected = [];
+  var step = Math.max(1, Math.floor(pool.length / count));
+  for (var i = 0; i < pool.length && selected.length < count; i += step) {
+    selected.push(pool[i]);
+  }
+  // Fill remaining randomly
+  while (selected.length < count && pool.length > selected.length) {
+    var r = pool[Math.floor(Math.random() * pool.length)];
+    if (selected.indexOf(r) < 0) selected.push(r);
+  }
+
+  if (selected.length < 3) return alert('題目不足，請放寬篩選條件');
+
+  // Render preview
+  renderPaper(selected);
+  renderAnswers(selected);
+  renderTips(selected);
+  renderHomework(selected, packType);
+
+  document.getElementById('preview').style.display = 'block';
+  document.getElementById('statTotal').textContent = selected.length;
+  var trapsInPaper = new Set(selected.map(function(q){return q.trap}));
+  document.getElementById('statTraps').textContent = trapsInPaper.size;
+  document.getElementById('statTopics').textContent = '多課題';
+  document.getElementById('statTime').textContent = Math.round(selected.length * 1.5);
+
+  // Save generated pack
+  var pack = {
+    grade: document.getElementById('grade').value,
+    questions: selected,
+    generated: new Date().toISOString()
+  };
+  localStorage.setItem('lf_last_pack', JSON.stringify(pack));
+}
+
+function renderPaper(questions) {
+  var html = '';
+  questions.forEach(function(q, i){
+    html += '<div class="q-item"><span class="q-num">' + (i+1) + '.</span> ' + q.q;
+    html += '<span class="q-trap">[' + q.trap + ']</span>';
+    html += '<br><span style="color:#6B7280;font-size:10px">';
+    q.opts.forEach(function(o, j){
+      html += ['A','B','C','D'][j] + '. ' + o + '  ';
+    });
+    html += '</span></div>';
+  });
+  document.getElementById('studentPaper').innerHTML = html || '未有題目';
+}
+
+function renderAnswers(questions) {
+  var html = '';
+  questions.forEach(function(q, i){
+    html += '<div class="q-item"><span class="q-num">' + (i+1) + '.</span> ';
+    html += '答案: <strong>' + ['A','B','C','D'][q.ans] + '</strong> = ' + q.opts[q.ans];
+    html += ' <span class="q-trap">[' + q.trap + ' ' + trapNames[q.trap] + ']</span>';
+    html += '</div>';
+  });
+  document.getElementById('answerKey').innerHTML = html || '未有答案';
+}
+
+function renderTips(questions) {
+  var trapCounts = {};
+  questions.forEach(function(q){
+    trapCounts[q.trap] = (trapCounts[q.trap] || 0) + 1;
+  });
+  var worst = Object.entries(trapCounts).sort(function(a,b){return b[1]-a[1]});
+
+  var tips = '<strong>教學重點：</strong><br>';
+  tips += '• 本卷最常見陷阱：<strong>' + (worst[0] ? trapNames[worst[0][0]] : '—') + '</strong> (' + (worst[0] ? worst[0][1] : 0) + '題)<br>';
+  tips += '• 建議課前複習：' + (worst[0] ? trapNames[worst[0][0]] : '—') + ' 的基本概念<br>';
+  tips += '• 課堂巡視時重點留意：第1-3題（基礎建立信心）、最後3題（挑戰題）<br>';
+  tips += '• 如超過30%學生錯同一題 → 立即全班講解<br>';
+  tips += '<br><strong>常見錯誤預測：</strong><br>';
+  if (worst[0] && worst[0][0] === 'T1') tips += '• 進退位：學生容易在連續進位/退位時出錯<br>';
+  if (worst[0] && worst[0][0] === 'T3') tips += '• 運算順序：學生常忘記「先乘除後加減」<br>';
+  if (worst[0] && worst[0][0] === 'T5') tips += '• 分數：學生容易忘記通分直接加減<br>';
+  if (worst[0] && worst[0][0] === 'T7') tips += '• 應用題：提醒學生先找出關鍵數字，再列式<br>';
+  tips += '<br>💡 使用課堂監控台即時追蹤每位學生進度';
+
+  document.getElementById('teachingTips').innerHTML = tips;
+}
+
+function renderHomework(questions, packType) {
+  // Select the last 3-5 questions as homework (harder ones)
+  var hw = questions.slice(-Math.min(5, Math.ceil(questions.length * 0.3)));
+
+  var html = '<strong>建議功課：</strong><br>';
+  html += '• 完成課堂未做完的題目<br>';
+  html += '• 重做以下 ' + hw.length + ' 題（課堂上最難的題目）：<br>';
+  hw.forEach(function(q, i){
+    html += '  ' + (i+1) + '. ' + q.q.substring(0, 60) + '… [' + q.trap + ']<br>';
+  });
+  html += '<br><strong>家長指引：</strong><br>';
+  html += '• 建議家長陪同檢討錯題，而非只睇分數<br>';
+  html += '• 可以使用「超市折扣遊戲」練習百分數<br>';
+  html += '• 下次上堂前完成，系統會自動記錄進度';
+
+  document.getElementById('homeworkSuggestions').innerHTML = html;
+}
+
+function printPaper(type) {
+  var content = type === 'student' ?
+    document.getElementById('studentPaper').innerText :
+    document.getElementById('answerKey').innerText;
+  var win = window.open('', '_blank', 'width=800,height=600');
+  win.document.write('<pre style="font-size:14px;line-height:2.2">' + content + '</pre>');
+  win.document.close();
+  setTimeout(function(){win.print()}, 500);
+}
+
+function copyPaper(type) {
+  var content = type === 'student' ?
+    document.getElementById('studentPaper').innerText :
+    document.getElementById('answerKey').innerText;
+  navigator.clipboard.writeText(content).then(function(){alert('已複製 ✅')});
+}
+
+function sendHomework() {
+  var hw = document.getElementById('homeworkSuggestions').innerText;
+  navigator.clipboard.writeText(hw).then(function(){
+    alert('功課內容已複製 ✅\n請到「家長通訊中心」發送');
+  });
+}
+
+function exportAll() {
+  var pack = JSON.parse(localStorage.getItem('lf_last_pack') || '{}');
+  var blob = new Blob([JSON.stringify(pack, null, 2)], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href = url;
+  a.download = 'lamfung_pack_' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+}
+
+// Init
+loadBank();
+renderTopicTags();
+renderTrapTags();
+document.getElementById('grade').addEventListener('change', function(){
+  loadBank();
+  renderTopicTags();
+});
+</script>
+
+<script src="/docs/data/lf-event-bus.js"></script>
+</body></html>

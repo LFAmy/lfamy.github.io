@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSPA Mock Exam Generator | LF Academy</title>
+<style>
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans HK",sans-serif}
+:root {
+  --primary: #1B3A5C; --primary-light: #2A5A8C;
+  --gold: #C8922A; --gold-light: #E8B84B;
+  --accent: #2D7D46; --accent-light: #3DA85E;
+  --bg: #F7F4ED; --card: #FFFFFF;
+  --text: #2C3E50; --text-light: #5D6D7E;
+  --border: #E2DCCE; --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --radius: 12px; --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { font-size:16px; scroll-behavior:smooth; }
+body {
+  font-family: 'Noto Sans HK', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text); background: var(--bg); line-height: 1.6; min-height: 100vh;
+}
+.container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, #0F2A45 100%);
+  color: #fff; padding: 24px 0; text-align: center; position: relative;
+}
+.header::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+.header-top { display: flex; justify-content: space-between; align-items: center; max-width: 960px; margin: 0 auto; padding: 0 20px 16px; }
+.header h1 { font-size: 1.5rem; font-weight: 900; letter-spacing: 0.02em; }
+.header .tagline { font-size: 0.9rem; color: var(--gold-light); font-weight: 500; }
+
+/* Language Toggle */
+.lang-toggle {
+  display: flex; gap: 4px; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 3px;
+}
+.lang-btn {
+  padding: 6px 14px; border: none; border-radius: 18px; font-size: 0.82rem;
+  font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.2s;
+  background: transparent; color: rgba(255,255,255,0.75);
+}
+.lang-btn.active { background: #fff; color: var(--primary); }
+.lang-btn:hover:not(.active) { color: #fff; }
+
+/* Grade Selector */
+.grade-selector {
+  display: flex; gap: 8px; justify-content: center; margin-bottom: 4px;
+}
+.grade-chip {
+  padding: 8px 22px; border: 2px solid var(--border); border-radius: 25px;
+  font-size: 0.9rem; font-weight: 600; cursor: pointer; user-select: none;
+  transition: all 0.2s; background: var(--bg); color: var(--text); font-family: inherit;
+}
+.grade-chip:hover { border-color: var(--primary-light); }
+.grade-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* Controls */
+.controls-section {
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 28px 32px; margin: 28px auto;
+}
+.section-title {
+  font-size: 1.15rem; font-weight: 700; color: var(--primary);
+  margin-bottom: 20px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.control-group { margin-bottom: 20px; }
+.control-group:last-child { margin-bottom: 0; }
+.control-label {
+  font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 8px; display: block;
+}
+
+.radio-row, .checkbox-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.radio-card { position: relative; cursor: pointer; }
+.radio-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+.radio-card .card-content {
+  display: block; padding: 10px 18px; border: 2px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 500;
+  transition: all 0.2s; background: var(--bg); color: var(--text);
+  user-select: none; cursor: pointer;
+}
+.radio-card input:checked + .card-content {
+  border-color: var(--primary); background: #EDF2F8; color: var(--primary); font-weight: 700;
+}
+.radio-card:hover .card-content { border-color: var(--primary-light); }
+
+.checkbox-card { position: relative; cursor: pointer; }
+.checkbox-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+.checkbox-card .cb-content {
+  display: block; padding: 8px 14px; border: 2px solid var(--border);
+  border-radius: 20px; font-size: 0.82rem; font-weight: 500;
+  transition: all 0.2s; background: var(--bg); color: var(--text);
+  user-select: none; cursor: pointer;
+}
+.checkbox-card input:checked + .cb-content {
+  border-color: var(--accent); background: #EAF5EE; color: var(--accent); font-weight: 700;
+}
+.checkbox-card:hover .cb-content { border-color: var(--accent-light); }
+
+.difficulty-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.diff-card { position: relative; cursor: pointer; }
+.diff-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+.diff-card .diff-content {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 20px; border: 2px solid var(--border);
+  border-radius: 30px; font-size: 0.9rem; font-weight: 600;
+  transition: all 0.2s; background: var(--bg); user-select: none; cursor: pointer;
+}
+.diff-card input:checked + .diff-content {
+  border-color: var(--gold); background: #FDF8EF; color: var(--gold);
+}
+.diff-card:hover .diff-content { border-color: var(--gold-light); }
+
+/* Q Count selector */
+.qcount-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.qcount-chip {
+  padding: 8px 18px; border: 2px solid var(--border); border-radius: 25px;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer; user-select: none;
+  transition: all 0.2s; background: var(--bg); color: var(--text); font-family: inherit;
+}
+.qcount-chip:hover { border-color: var(--accent); }
+.qcount-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.btn-generate {
+  display: block; width: 100%; padding: 14px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff; border: none; border-radius: var(--radius-sm);
+  font-size: 1.05rem; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.25s; margin-top: 8px; letter-spacing: 0.03em;
+}
+.btn-generate:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(27,58,92,0.3); }
+.btn-generate:active { transform: translateY(0); }
+.btn-generate:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.bank-info {
+  text-align: center; margin-top: 10px; font-size: 0.8rem; color: var(--text-light); font-weight: 500;
+}
+.bank-info strong { color: var(--primary); }
+
+/* Exam Output */
+.exam-output { display: none; margin: 32px auto; }
+.exam-output.active { display: block; }
+
+.exam-paper {
+  background: #fff; padding: 48px 44px; border-radius: 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1); max-width: 800px;
+  margin: 0 auto; font-family: 'Noto Serif HK', serif;
+}
+@media print {
+  body { background: #fff; }
+  .header, .controls-section, .btn-row, .answer-key-section, .footer { display: none !important; }
+  .exam-paper { box-shadow: none; padding: 20px 0; max-width: 100%; border-radius: 0; }
+  .exam-output { display: block !important; margin: 0; }
+}
+.exam-paper .school-name { text-align: center; font-size: 0.9rem; color: #555; margin-bottom: 4px; }
+.exam-paper .exam-title { text-align: center; font-size: 1.4rem; font-weight: 900; margin-bottom: 20px; color: #000; }
+.exam-paper .exam-meta { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; color: #333; border-bottom: 1px solid #ddd; padding-bottom: 8px; flex-wrap: wrap; gap: 4px; }
+.exam-paper .exam-meta span { font-weight: 600; }
+.exam-paper .exam-meta .field { display: inline-block; min-width: 100px; border-bottom: 1px solid #000; }
+.exam-paper .section-header {
+  font-size: 1.1rem; font-weight: 900; margin: 24px 0 12px;
+  padding: 6px 12px; background: #f5f5f5; border-left: 4px solid #000;
+}
+.exam-paper .section-instruction { font-size: 0.82rem; color: #555; margin-bottom: 12px; }
+.exam-paper .question { margin-bottom: 16px; page-break-inside: avoid; }
+.exam-paper .q-num { font-weight: 700; display: inline-block; min-width: 36px; }
+.exam-paper .q-text { display: inline; }
+.exam-paper .q-options { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; margin: 6px 0 6px 40px; }
+.exam-paper .q-option { font-size: 0.9rem; }
+.exam-paper .q-answer-line { margin: 4px 0 4px 40px; border-bottom: 1px dashed #ccc; min-width: 200px; display: inline-block; }
+.exam-paper .end-marker { text-align: center; font-weight: 900; font-size: 1rem; margin-top: 32px; padding-top: 12px; border-top: 2px solid #000; color: #000; }
+
+/* Answer Key */
+.answer-key-section { margin-top: 24px; }
+.btn-answer-key {
+  display: block; width: 100%; max-width: 800px; margin: 0 auto;
+  padding: 12px; background: var(--gold); color: #fff; border: none;
+  border-radius: var(--radius-sm); font-size: 0.95rem; font-weight: 700;
+  font-family: inherit; cursor: pointer; transition: all 0.2s;
+}
+.btn-answer-key:hover { background: #B07D1E; }
+.answer-key {
+  display: none; background: #fff; padding: 28px 32px;
+  border-radius: var(--radius); box-shadow: var(--shadow); max-width: 800px; margin: 16px auto;
+}
+.answer-key.visible { display: block; }
+.answer-key h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.answer-key table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.answer-key th, .answer-key td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; }
+.answer-key th { background: var(--primary); color: #fff; font-weight: 600; }
+.answer-key tr:nth-child(even) { background: #f9f7f2; }
+
+/* Buttons */
+.btn-row { display: flex; gap: 12px; max-width: 800px; margin: 0 auto 16px; justify-content: center; flex-wrap: wrap; }
+.btn-print, .btn-new {
+  padding: 10px 24px; border-radius: var(--radius-sm);
+  font-size: 0.9rem; font-weight: 600; font-family: inherit;
+  cursor: pointer; transition: all 0.2s; border: 2px solid var(--border);
+  background: #fff; color: var(--text);
+}
+.btn-print:hover, .btn-new:hover { border-color: var(--primary); color: var(--primary); }
+
+/* Footer */
+.footer { text-align: center; padding: 24px; color: var(--text-light); font-size: 0.82rem; margin-top: 40px; border-top: 1px solid var(--border); }
+.footer strong { color: var(--primary); }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--primary); color: #fff; padding: 10px 24px;
+  border-radius: 30px; font-weight: 600; font-size: 0.88rem;
+  z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+/* Loading */
+.loading-overlay {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(255,255,255,0.8); z-index: 999; justify-content: center; align-items: center;
+}
+.loading-overlay.show { display: flex; }
+.loading-spinner {
+  width: 40px; height: 40px; border: 4px solid var(--border);
+  border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .exam-paper { padding: 24px 16px; }
+  .exam-paper .q-options { grid-template-columns: 1fr; }
+  .controls-section { padding: 20px 16px; }
+  .checkbox-row { gap: 6px; }
+  .checkbox-card .cb-content { padding: 6px 10px; font-size: 0.78rem; }
+  .header-top { flex-direction: column; gap: 12px; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Stats bar */
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.stat-mini { background: var(--card); border-radius: var(--radius-sm); padding: 10px 8px; text-align: center; box-shadow: var(--shadow); border-top: 2px solid var(--primary); }
+.stat-mini .sn { font-size: 1.1rem; font-weight: 900; color: var(--primary); }
+.stat-mini .sl { font-size: 0.7rem; color: var(--text-light); }
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<header class="header">
+  <div class="header-top">
+    <div>
+      <h1 data-zh="SSPA 模擬試卷生成器" data-en="SSPA Mock Exam Generator">SSPA 模擬試卷生成器</h1>
+      <p class="tagline" data-zh="不教數學，教避開陷阱。 — 霖楓學苑 LF Academy" data-en="We don't teach math. We teach trap avoidance. — LF Academy">不教數學，教避開陷阱。 — 霖楓學苑 LF Academy</p>
+    </div>
+    <div class="lang-toggle" id="langToggle">
+      <button class="lang-btn active" onclick="setLang('zh')">中</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Controls -->
+  <section class="controls-section" id="controlsSection">
+    <div class="section-title"><span data-zh="自訂模擬試卷" data-en="Customize Mock Exam">自訂模擬試卷</span></div>
+
+    <div class="control-group">
+      <label class="control-label" data-zh="年級" data-en="Grade">年級</label>
+      <div class="grade-selector" id="gradeSelector">
+        <span class="grade-chip" data-grade="P3" onclick="selectGrade('P3')">P3</span>
+        <span class="grade-chip active" data-grade="P5" onclick="selectGrade('P5')">P5</span>
+        <span class="grade-chip" data-grade="P4" onclick="selectGrade('P4')">P4</span>
+        <span class="grade-chip" data-grade="P6" onclick="selectGrade('P6')">P6</span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" data-zh="試卷類型" data-en="Exam Type">試卷類型</label>
+      <div class="radio-row">
+        <label class="radio-card">
+          <input type="radio" name="examType" value="full" checked onchange="updateUI()">
+          <span class="card-content" data-zh="全卷模擬 (50分鐘 · 100分)" data-en="Full Mock (50 min · 100 marks)">全卷模擬 (50分鐘 · 100分)</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="examType" value="drill" onchange="updateUI()">
+          <span class="card-content" data-zh="主題操練 (針對弱點)" data-en="Topic Drill (Target Weak Spots)">主題操練 (針對弱點)</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="control-group" id="qcountGroup" style="display:none;">
+      <label class="control-label" data-zh="題數" data-en="Number of Questions">題數</label>
+      <div class="qcount-row" id="qcountRow">
+        <span class="qcount-chip active" data-count="10" onclick="selectQCount(10)">10</span>
+        <span class="qcount-chip" data-count="20" onclick="selectQCount(20)">20</span>
+        <span class="qcount-chip" data-count="30" onclick="selectQCount(30)">30</span>
+        <span class="qcount-chip" data-count="50" onclick="selectQCount(50)">50</span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" data-zh="陷阱類型（可選多項，不選=全部）" data-en="Trap Types (multi-select; none = all)">陷阱類型（可選多項，不選=全部）</label>
+      <div class="checkbox-row" id="trapCheckboxes"></div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" data-zh="難度" data-en="Difficulty">難度</label>
+      <div class="difficulty-row">
+        <label class="diff-card"><input type="radio" name="difficulty" value="basic"><span class="diff-content" data-zh="基礎" data-en="Basic">基礎</span></label>
+        <label class="diff-card"><input type="radio" name="difficulty" value="standard" checked><span class="diff-content" data-zh="標準" data-en="Standard">標準</span></label>
+        <label class="diff-card"><input type="radio" name="difficulty" value="challenging"><span class="diff-content" data-zh="挑戰" data-en="Challenge">挑戰</span></label>
+        <label class="diff-card"><input type="radio" name="difficulty" value="all"><span class="diff-content" data-zh="混合" data-en="Mixed">混合</span></label>
+      </div>
+    </div>
+
+    <button class="btn-generate" onclick="generateExam()" data-zh="生成試卷" data-en="Generate Exam">生成試卷</button>
+    <p class="bank-info" id="bankInfo"></p>
+  </section>
+
+  <!-- Exam Output -->
+  <div class="exam-output" id="examOutput">
+    <div class="btn-row" style="margin-bottom:16px;">
+      <button class="btn-print" onclick="window.print()" data-zh="列印試卷" data-en="Print Exam">列印試卷</button>
+      <button class="btn-new" onclick="scrollToControls()" data-zh="生成新試卷" data-en="Generate New Exam">生成新試卷</button>
+    </div>
+    <div class="exam-paper" id="examPaper"></div>
+    <div class="answer-key-section">
+      <button class="btn-answer-key" id="btnAnswerKey" onclick="toggleAnswerKey()" data-zh="顯示答案（家長/教師用）" data-en="Show Answer Key (Parent/Teacher)">顯示答案（家長/教師用）</button>
+      <div class="answer-key" id="answerKey"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p data-zh="Powered by 霖楓學苑 · LF Academy — SSPA 呈分試專家" data-en="Powered by LF Academy — SSPA Exam Specialists">Powered by 霖楓學苑 · LF Academy — SSPA 呈分試專家</p>
+  <p style="margin-top:4px;" data-zh="WhatsApp 查詢免費試堂" data-en="WhatsApp for Free Trial Class">WhatsApp 查詢免費試堂</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// i18n — Bilingual Labels
+// ============================================================
+const L = {
+  zh: {
+    traps: {
+      T1:'T1 近似值·位值',T2:'T2 小數轉換',T3:'T3 分數運算',T4:'T4 面積計算',
+      T5:'T5 方向·對稱·體積',T6:'T6 公因數·公倍數',T7:'T7 倍數應用',
+      T8:'T8 平均數·應用',T9:'T9 餘數·除法',T10:'T10 代數·數據'
+    },
+    trapShort: {T1:'近似值',T2:'小數',T3:'分數',T4:'面積',T5:'體積/方向',T6:'因數倍數',T7:'公倍數',T8:'平均/應用',T9:'餘數',T10:'代數/數據'},
+    diff: {'🌱':'基礎','🌿':'標準','🌳':'挑戰','🏔️':'極限'},
+    basic:'基礎',standard:'標準',challenging:'挑戰',all:'混合',
+    qTotal:'題庫總數',qValid:'有效題目',qMc:'選擇題',qShort:'短答題',qLong:'應用題',
+    qAvail:'可用題目',qSelected:'已選',qGenExam:'每次生成獨特試卷',
+    examGenerated:'已生成試卷（變體',
+    sectionA:'甲部：多項選擇題', sectionB:'乙部：短答題', sectionC:'丙部：應用題',
+    sectionAinstr:'選出正確的答案，把字母填在方格內。',
+    sectionBinstr:'在橫線上填寫答案，須列出計算步驟。',
+    sectionCinstr:'須列出完整算式、過程及答案，否則不給分。',
+    showAnswer:'顯示答案（家長/教師用）',hideAnswer:'隱藏答案',
+    answerKeyTitle:'答案參考 (Answer Key)',
+    answerKeyNote:'僅供家長/教師核對用，請勿讓學生直接查閱。',
+    name:'姓名',date:'日期',score:'分數',time:'時間',grade:'年級',
+    endMarker:'— 全卷完 —',endDrill:'— 操練完 —',
+    calcArea:'計算區域',calcLong:'列式計算區域',
+    answerArea:'作答區域',answerCol:'答案',
+    qNumLabel:'題號',typeLabel:'類型',trapLabel:'陷阱',
+    typeMc:'MC',typeShort:'短答',typeLong:'應用',
+    appNote:'* 應用題答案為參考答案，評分時請考慮列式過程。',
+    schoolName:'霖楓學苑 · LF Academy',
+    p3:'小學三年級',p4:'小學四年級',p5:'小學五年級',p6:'小學六年級',
+    examTitleP3:'小三數學科 呈分試模擬試卷',
+    examTitleP4:'小四數學科 呈分試模擬試卷',
+    examTitleP5:'小五數學科 呈分試模擬試卷',
+    examTitleP6:'小六數學科 呈分試模擬試卷',
+    drillTitle:'陷阱操練',
+    lfAcademy:'霖楓學苑 · LF Academy',
+    bankInfoLabel:'題庫總數',
+  },
+  en: {
+    traps: {
+      T1:'T1 Place Value',T2:'T2 Decimals',T3:'T3 Fractions',T4:'T4 Area',
+      T5:'T5 Geometry',T6:'T6 Factors/Multiples',T7:'T7 Multiples',
+      T8:'T8 Word Problems',T9:'T9 Division',T10:'T10 Algebra/Data'
+    },
+    trapShort: {T1:'PlaceVal',T2:'Decimal',T3:'Fraction',T4:'Area',T5:'Geometry',T6:'Factors',T7:'Multiples',T8:'WordProb',T9:'Division',T10:'Algebra'},
+    diff: {'🌱':'Basic','🌿':'Standard','🌳':'Challenge','🏔️':'Extreme'},
+    basic:'Basic',standard:'Standard',challenging:'Challenge',all:'Mixed',
+    qTotal:'Total Bank',qValid:'Valid Qs',qMc:'MC',qShort:'Short',qLong:'Long',
+    qAvail:'Available',qSelected:'Selected',qGenExam:'Unique exam each click',
+    examGenerated:'Exam Generated (Variant ',
+    sectionA:'Section A: Multiple Choice', sectionB:'Section B: Short Answer', sectionC:'Section C: Word Problems',
+    sectionAinstr:'Choose the correct answer and write the letter in the box.',
+    sectionBinstr:'Write your answer on the line. Show your working steps.',
+    sectionCinstr:'Show full working, steps, and answer. No marks for answer only.',
+    showAnswer:'Show Answer Key (Parent/Teacher)',hideAnswer:'Hide Answer Key',
+    answerKeyTitle:'Answer Key',
+    answerKeyNote:'For parent/teacher verification only. Do not show to students.',
+    name:'Name',date:'Date',score:'Score',time:'Time',grade:'Grade',
+    endMarker:'— End of Paper —',endDrill:'— End of Drill —',
+    calcArea:'Working Area',calcLong:'Working Steps Area',
+    answerArea:'Answer Area',answerCol:'Answer',
+    qNumLabel:'Q#',typeLabel:'Type',trapLabel:'Trap',
+    typeMc:'MC',typeShort:'Short',typeLong:'Long',
+    appNote:'* Long question answers are reference answers. Consider working steps when grading.',
+    schoolName:'LF Academy',
+    p3:'Primary 3',p4:'Primary 4',p5:'Primary 5',p6:'Primary 6',
+    examTitleP3:'P3 Math — SSPA Mock Exam',
+    examTitleP4:'P4 Math — SSPA Mock Exam',
+    examTitleP5:'P5 Math — SSPA Mock Exam',
+    examTitleP6:'P6 Math — SSPA Mock Exam',
+    drillTitle:'Trap Drill',
+    lfAcademy:'LF Academy',
+    bankInfoLabel:'Total Questions',
+  }
+};
+
+let currentLang = 'zh';
+function t(key) { return (L[currentLang] && L[currentLang][key]) || key; }
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === (lang==='zh'?'中':'EN')));
+  document.querySelectorAll('[data-zh]').forEach(el => { el.textContent = el.dataset[lang] || el.dataset.zh; });
+  document.querySelectorAll('input, button, span').forEach(el => { if(el.dataset.zh) el.textContent = el.dataset[lang] || el.dataset.zh; });
+  // Re-render dynamic content
+  updateUI();
+  updateTrapLabels();
+  updateBankInfo();
+}
+function updateTrapLabels() {
+  document.querySelectorAll('#trapCheckboxes .cb-content').forEach(el => {
+    const tKey = el.dataset.trap;
+    if (tKey && L[currentLang].traps[tKey]) el.textContent = L[currentLang].traps[tKey];
+  });
+}
+
+// ============================================================
+// BANK LOADING — Unified from all 4 grade banks
+// ============================================================
+const ALL_BANKS = { P3:[], P4:[], P5:[], P6:[] };
+let currentGrade = 'P5';
+let qCount = 10;
+
+function loadBanks() {
+  ['P3','P4','P5','P6'].forEach(g => {
+    const bankVar = window[g + '_BANK'];
+    if (bankVar && Array.isArray(bankVar)) {
+      ALL_BANKS[g] = bankVar.map(q => normalizeQ(q, g));
+    }
+  });
+}
+
+function normalizeQ(q, grade) {
+  const opts = (q.opts && Array.isArray(q.opts)) ? q.opts.map(o => String(o).replace(/^[A-Ea-e][.、]\s*/, '')) : [];
+  return {
+    id: q.id || '',
+    grade: q.grade || grade,
+    type: q.type || 'short',
+    trap: q.trap || '',
+    diff: q.difficulty || '🌿',
+    topic: q.topic || '',
+    subtopic: q.subtopic || '',
+    q: q.q || q.question_text || '',
+    opts: opts,
+    ans: q.ans !== undefined ? q.ans : (q.answer !== undefined ? q.answer : -1),
+    ansText: q.ansText || q.answer_text || '',
+    marks: q.marks || 0,
+    sspa: q.sspa || q.sspa_relevance || '🟡'
+  };
+}
+
+function getBank(grade) { return ALL_BANKS[grade] || []; }
+function getActiveBank() { return getBank(currentGrade); }
+function getValidBank(grade) {
+  return getBank(grade).filter(q => q.ans !== -1 && q.ans !== null && q.ans !== undefined);
+}
+
+// ============================================================
+// UI INIT
+// ============================================================
+(function init() {
+  loadBanks();
+  buildTrapCheckboxes();
+  updateUI();
+  updateBankInfo();
+})();
+
+function buildTrapCheckboxes() {
+  const container = document.getElementById('trapCheckboxes');
+  const traps = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+  container.innerHTML = traps.map(t =>
+    `<label class="checkbox-card"><input type="checkbox" value="${t}"><span class="cb-content" data-trap="${t}">${L[currentLang].traps[t]}</span></label>`
+  ).join('');
+  updateTrapLabels();
+}
+
+function updateBankInfo() {
+  const bank = getValidBank(currentGrade);
+  const total = getBank(currentGrade).length;
+  document.getElementById('bankInfo').innerHTML =
+    `<span data-zh="題庫總數" data-en="Total Questions">${t('bankInfoLabel')}</span>: <strong>${total.toLocaleString()}</strong> | ` +
+    `<span data-zh="有效題目" data-en="Valid Qs">${t('qValid')}</span>: <strong>${bank.length.toLocaleString()}</strong> | ` +
+    `<span data-zh="每次生成獨特試卷" data-en="Unique exam each click">${t('qGenExam')}</span>`;
+}
+
+function selectGrade(grade) {
+  currentGrade = grade;
+  document.querySelectorAll('.grade-chip').forEach(c => c.classList.toggle('active', c.dataset.grade === grade));
+  updateBankInfo();
+}
+
+function selectQCount(count) {
+  qCount = count;
+  document.querySelectorAll('.qcount-chip').forEach(c => c.classList.toggle('active', parseInt(c.dataset.count) === count));
+}
+
+function updateUI() {
+  const examType = document.querySelector('input[name="examType"]:checked');
+  const isDrill = examType && examType.value === 'drill';
+  document.getElementById('qcountGroup').style.display = isDrill ? 'block' : 'none';
+}
+
+// ============================================================
+// EXAM GENERATION
+// ============================================================
+let seed = Date.now();
+function seededRandom() {
+  seed = (seed * 16807 + 0) % 2147483647;
+  return (seed - 1) / 2147483646;
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(seededRandom() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function scrollToControls() {
+  document.getElementById('examOutput').classList.remove('active');
+  document.getElementById('controlsSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function getSelectedTraps() {
+  const checks = document.querySelectorAll('#trapCheckboxes input:checked');
+  if (checks.length === 0) return ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+  return Array.from(checks).map(c => c.value);
+}
+
+function getSelectedDifficulty() {
+  const sel = document.querySelector('input[name="difficulty"]:checked');
+  return sel ? sel.value : 'standard';
+}
+
+function getExamType() {
+  const sel = document.querySelector('input[name="examType"]:checked');
+  return sel ? sel.value : 'full';
+}
+
+function filterQuestions(traps, diff, examType) {
+  let pool = getValidBank(currentGrade);
+  // Filter by traps
+  pool = pool.filter(q => traps.includes(q.trap));
+  // Filter by difficulty
+  if (diff !== 'all') {
+    const diffMap = { basic: '🌱', standard: '🌿', challenging: ['🌳','🏔️'] };
+    const target = diffMap[diff];
+    if (Array.isArray(target)) {
+      pool = pool.filter(q => target.includes(q.diff));
+    } else {
+      pool = pool.filter(q => q.diff === target);
+    }
+  }
+  // If pool is too small, relax filters
+  if (pool.length < 5) {
+    pool = getValidBank(currentGrade).filter(q => {
+      if (diff !== 'all') {
+        const dm = { basic: '🌱', standard: '🌿', challenging: ['🌳','🏔️'] }[diff];
+        const targets = Array.isArray(dm) ? dm : [dm];
+        if (!targets.includes(q.diff)) return false;
+      }
+      return true;
+    });
+  }
+  return pool;
+}
+
+function generateExam() {
+  seed = Date.now();
+  const traps = getSelectedTraps();
+  const diff = getSelectedDifficulty();
+  const examType = getExamType();
+  const pool = filterQuestions(traps, diff, examType);
+
+  if (pool.length < 3) {
+    showToast(currentLang === 'zh' ? '題庫不足，請放寬篩選條件' : 'Not enough questions. Relax filters.');
+    return;
+  }
+
+  const mcPool = shuffle(pool.filter(q => q.type === 'mc'));
+  const shortPool = shuffle(pool.filter(q => q.type === 'short'));
+  const longPool = shuffle(pool.filter(q => q.type === 'long' || q.type === 'long'));
+
+  let selected;
+  if (examType === 'drill') {
+    const n = Math.min(qCount, pool.length);
+    selected = [
+      ...mcPool.slice(0, Math.ceil(n * 0.5)),
+      ...shortPool.slice(0, Math.ceil(n * 0.35)),
+      ...longPool.slice(0, Math.ceil(n * 0.15))
+    ];
+    // Fill remaining
+    const used = new Set(selected.map(q => q.id));
+    const rest = shuffle(pool.filter(q => !used.has(q.id)));
+    while (selected.length < n && rest.length > 0) {
+      selected.push(rest.shift());
+    }
+    selected = selected.slice(0, n);
+    renderDrill(selected, traps, diff);
+  } else {
+    // Full mock: Section A (10 MC), B (8 Short), C (3 Long)
+    selected = [
+      ...mcPool.slice(0, 10),
+      ...shortPool.slice(0, 8),
+      ...longPool.slice(0, 3)
+    ];
+    // Ensure we have enough by relaxing filters
+    if (selected.length < 21) {
+      const used = new Set(selected.map(q => q.id));
+      const extraQ = shuffle(getValidBank(currentGrade).filter(q => !used.has(q.id)));
+      const needMc = 10 - selected.filter(q => q.type === 'mc').length;
+      const needShort = 8 - selected.filter(q => q.type === 'short').length;
+      const needLong = 3 - selected.filter(q => q.type === 'long' || q.type === 'long').length;
+      selected = [
+        ...selected.filter(q => q.type === 'mc'),
+        ...extraQ.filter(q => q.type === 'mc').slice(0, needMc),
+        ...selected.filter(q => q.type === 'short'),
+        ...extraQ.filter(q => q.type === 'short').slice(0, needShort),
+        ...selected.filter(q => q.type === 'long'),
+        ...extraQ.filter(q => q.type === 'long').slice(0, needLong)
+      ].slice(0, 21);
+    }
+    renderFullMock(selected);
+  }
+
+  document.getElementById('examOutput').classList.add('active');
+  document.getElementById('examOutput').scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('answerKey').classList.remove('visible');
+  document.getElementById('btnAnswerKey').textContent = t('showAnswer');
+
+  const variant = String.fromCharCode(65 + Math.floor(seededRandom() * 3));
+  showToast(t('examGenerated') + variant + ')');
+}
+
+function getGradeLabel(g) {
+  const map = {P3:'p3',P4:'p4',P5:'p5',P6:'p6'};
+  return t(map[g] || 'p5');
+}
+
+function getExamTitle(g) {
+  const map = {P3:'examTitleP3',P4:'examTitleP4',P5:'examTitleP5',P6:'examTitleP6'};
+  return t(map[g] || 'examTitleP5');
+}
+
+function renderFullMock(questions) {
+  const mc = questions.filter(q => q.type === 'mc').slice(0, 10);
+  const short = questions.filter(q => q.type === 'short').slice(0, 8);
+  const long = questions.filter(q => (q.type === 'long')).slice(0, 3);
+
+  let html = '';
+  html += `<div class="school-name">${t('lfAcademy')} — ${getGradeLabel(currentGrade)} SSPA Mock Exam</div>`;
+  html += `<div class="exam-title">${getExamTitle(currentGrade)}</div>`;
+  html += '<div class="exam-meta">';
+  html += `<span>${t('name')}：<span class="field">&nbsp;</span></span>`;
+  html += `<span>${t('date')}：<span class="field">&nbsp;</span></span>`;
+  html += `<span>${t('score')}：<span class="field">&nbsp;</span> / 100</span>`;
+  html += '</div>';
+  html += '<div class="exam-meta" style="border:none; margin-bottom:16px;">';
+  html += `<span>${t('time')}：50 ${currentLang === 'zh' ? '分鐘' : 'min'}</span>`;
+  html += `<span>${t('grade')}：${getGradeLabel(currentGrade)}</span>`;
+  html += '</div>';
+
+  // Section A
+  html += `<div class="section-header">${t('sectionA')} (10 ${currentLang === 'zh' ? '題' : 'Q'} × 3 ${currentLang === 'zh' ? '分' : 'marks'} = 30 ${currentLang === 'zh' ? '分' : 'marks'})</div>`;
+  html += `<div class="section-instruction">${t('sectionAinstr')}</div>`;
+  mc.forEach((q, i) => {
+    html += `<div class="question"><span class="q-num">${i+1}.</span><span class="q-text">${q.q}</span>`;
+    if (q.opts && q.opts.length > 0) {
+      html += '<div class="q-options">';
+      q.opts.forEach((opt, j) => { html += `<span class="q-option">${String.fromCharCode(65+j)}. ${opt}</span>`; });
+      html += '</div>';
+    }
+    html += `<div style="margin-left:40px;font-size:0.82rem;">${t('answerCol')}：<span style="display:inline-block;width:30px;border-bottom:1px solid #000;">&nbsp;</span></div>`;
+    html += '</div>';
+  });
+
+  // Section B
+  html += `<div class="section-header">${t('sectionB')} (8 ${currentLang === 'zh' ? '題' : 'Q'} × 5 ${currentLang === 'zh' ? '分' : 'marks'} = 40 ${currentLang === 'zh' ? '分' : 'marks'})</div>`;
+  html += `<div class="section-instruction">${t('sectionBinstr')}</div>`;
+  short.forEach((q, i) => {
+    html += `<div class="question"><span class="q-num">${i+11}.</span><span class="q-text">${q.q}</span>`;
+    html += `<div style="margin:8px 0 4px 40px; min-height:60px; border:1px dashed #ddd; padding:8px; font-size:0.82rem; color:#999;">${t('calcArea')}</div>`;
+    html += '</div>';
+  });
+
+  // Section C
+  html += `<div class="section-header">${t('sectionC')} (3 ${currentLang === 'zh' ? '題' : 'Q'} × 10 ${currentLang === 'zh' ? '分' : 'marks'} = 30 ${currentLang === 'zh' ? '分' : 'marks'})</div>`;
+  html += `<div class="section-instruction">${t('sectionCinstr')}</div>`;
+  long.forEach((q, i) => {
+    html += `<div class="question"><span class="q-num">${i+19}.</span><span class="q-text">${q.q}</span>`;
+    html += `<div style="margin:8px 0 4px 40px; min-height:100px; border:1px dashed #ddd; padding:8px; font-size:0.82rem; color:#999;">${t('calcLong')}</div>`;
+    html += '</div>';
+  });
+
+  html += `<div class="end-marker">${t('endMarker')}</div>`;
+  document.getElementById('examPaper').innerHTML = html;
+  buildAnswerKey(mc, short, long);
+}
+
+function renderDrill(questions, traps, diff) {
+  const lang = currentLang;
+  let html = '';
+  html += `<div class="school-name">${t('schoolName')} — Topic Drill</div>`;
+  html += `<div class="exam-title">${t('drillTitle')} — ${traps.map(tr => L[lang].trapShort[tr] || tr).join(', ')} | ${t('difficulty')}: ${t(diff)}</div>`;
+  html += '<div class="exam-meta">';
+  html += `<span>${t('name')}：<span class="field">&nbsp;</span></span>`;
+  html += `<span>${t('date')}：<span class="field">&nbsp;</span></span>`;
+  html += `<span>${t('grade')}：${getGradeLabel(currentGrade)} | ${questions.length} ${currentLang === 'zh' ? '題' : 'Q'}</span>`;
+  html += '</div>';
+
+  questions.forEach((q, i) => {
+    html += `<div class="question">`;
+    html += `<span class="q-num">${i+1}.</span>`;
+    html += `<span class="q-text">${q.q}</span>`;
+    if (q.type === 'mc' && q.opts && q.opts.length > 0) {
+      html += '<div class="q-options">';
+      q.opts.forEach((opt, j) => { html += `<span class="q-option">${String.fromCharCode(65+j)}. ${opt}</span>`; });
+      html += '</div>';
+    }
+    html += `<div style="margin:6px 0 4px 40px; min-height:50px; border:1px dashed #ddd; padding:6px; font-size:0.8rem; color:#999;">${t('answerArea')}</div>`;
+    html += '</div>';
+  });
+
+  html += `<div class="end-marker">${t('endDrill')}</div>`;
+  document.getElementById('examPaper').innerHTML = html;
+  document.getElementById('answerKey').innerHTML = buildSimpleAnswerKey(questions);
+}
+
+function buildAnswerKey(mc, short, long) {
+  let html = `<h3>${t('answerKeyTitle')}</h3>`;
+  html += `<p style="font-size:0.82rem;color:var(--text-light);margin-bottom:12px;">${t('answerKeyNote')}</p>`;
+  html += '<table><thead><tr>';
+  html += `<th>${t('qNumLabel')}</th><th>${t('typeLabel')}</th><th>${t('trapLabel')}</th><th>${t('answerCol')}</th>`;
+  html += '</tr></thead><tbody>';
+
+  mc.forEach((q, i) => {
+    const ansLetter = q.ans >= 0 && q.ans < (q.opts ? q.opts.length : 0) ? String.fromCharCode(65 + q.ans) : '?';
+    const ansText = q.ans >= 0 && q.ans < (q.opts ? q.opts.length : 0) ? q.opts[q.ans] : (q.ansText || '?');
+    html += `<tr><td>${i+1}</td><td>${t('typeMc')}</td><td>${q.trap}</td><td>${ansLetter}. ${ansText}</td></tr>`;
+  });
+  short.forEach((q, i) => {
+    const a = q.ansText || (q.ans >= 0 ? String(q.ans) : '?');
+    html += `<tr><td>${i+11}</td><td>${t('typeShort')}</td><td>${q.trap}</td><td>${a}</td></tr>`;
+  });
+  long.forEach((q, i) => {
+    const a = q.ansText || (q.ans >= 0 ? String(q.ans) : '?');
+    html += `<tr><td>${i+19}</td><td>${t('typeLong')}</td><td>${q.trap}</td><td>${a}</td></tr>`;
+  });
+
+  html += '</tbody></table>';
+  html += `<p style="font-size:0.78rem;color:var(--text-light);margin-top:8px;">${t('appNote')}</p>`;
+  document.getElementById('answerKey').innerHTML = html;
+  return html;
+}
+
+function buildSimpleAnswerKey(questions) {
+  let html = `<h3>${t('answerKeyTitle')}</h3>`;
+  html += '<table><thead><tr>';
+  html += `<th>${t('qNumLabel')}</th><th>${t('trapLabel')}</th><th>${t('answerCol')}</th>`;
+  html += '</tr></thead><tbody>';
+  questions.forEach((q, i) => {
+    let ansText;
+    if (q.type === 'mc') {
+      ansText = q.ans >= 0 && q.ans < q.opts.length ? `${String.fromCharCode(65+q.ans)}. ${q.opts[q.ans]}` : (q.ansText || '?');
+    } else {
+      ansText = q.ansText || (q.ans >= 0 ? String(q.ans) : '?');
+    }
+    html += `<tr><td>${i+1}</td><td>${q.trap}</td><td>${ansText}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+function toggleAnswerKey() {
+  const ak = document.getElementById('answerKey');
+  const btn = document.getElementById('btnAnswerKey');
+  ak.classList.toggle('visible');
+  btn.textContent = ak.classList.contains('visible') ? t('hideAnswer') : t('showAnswer');
+}
+</script>
+
+<!-- Load question banks -->
+<script src="P3_bank.js"></script>
+<script src="P4_bank.js"></script>
+<script src="P5_bank.js"></script>
+<script src="P6_bank.js"></script>
+</body>
+</html>

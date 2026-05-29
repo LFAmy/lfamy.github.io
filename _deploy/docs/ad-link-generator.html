@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 廣告連結產生器</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.6;padding:20px}
+.container{max-width:800px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;margin-bottom:20px;color:#1A3C6D}
+.card{background:white;border-radius:12px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;margin-bottom:12px;color:#1A3C6D}
+.form-row{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:flex-end}
+.form-row label{font-size:12px;color:#6B7280;display:block;margin-bottom:2px}
+.form-row input,.form-row select{padding:8px 12px;border:1px solid #E5E7EB;border-radius:8px;font-size:14px;font-family:inherit}
+.form-row input{flex:1;min-width:120px}
+.output{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px;padding:12px;font-family:monospace;font-size:12px;word-break:break-all;margin:10px 0}
+.btn-copy{background:#1A3C6D;color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:700;font-size:12px}
+.btn-copy:hover{background:#1E4D8C}
+.preview-box{background:#E8F5E9;border:1px solid #A5D6A7;border-radius:8px;padding:12px;margin-top:10px;font-size:13px}
+.note{font-size:11px;color:#6B7280;margin-top:8px}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th{text-align:left;font-size:11px;color:#6B7280;padding:6px 8px;border-bottom:1px solid #E5E7EB}
+td{font-size:12px;padding:6px 8px;border-bottom:1px solid #F3F4F6}
+code{background:#F3F4F6;padding:1px 4px;border-radius:3px;font-size:11px}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<h1>🔗 霖楓學苑 · 廣告連結產生器</h1>
+
+<div class="card">
+<h2>快速產生 UTM 追蹤連結</h2>
+<div class="form-row">
+<div><label>廣告平台</label><select id="utmSource"><option value="fb">Facebook</option><option value="ig">Instagram</option><option value="google">Google Ads</option></select></div>
+<div><label>廣告系列名稱</label><input id="utmCampaign" placeholder="例: P5-呈分試急補-v1" value="P5-呈分試急補-v1"></div>
+<div><label>廣告內容版本</label><input id="utmContent" placeholder="例: 紅色CTA" value="紅色CTA"></div>
+<div><label>目標年級</label><select id="grade"><option value="">不指定</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select></div>
+</div>
+<button class="btn-copy" onclick="generateLink()" style="font-size:14px;padding:10px 24px">⚡ 產生連結</button>
+<div class="output" id="outputLink" style="display:none"></div>
+<button class="btn-copy" id="btnCopy" style="display:none;margin-top:8px" onclick="copyLink()">📋 複製連結</button>
+<div class="preview-box" id="preview" style="display:none"></div>
+</div>
+
+<div class="card">
+<h2>現有廣告範例</h2>
+<table>
+<tr><th>廣告目的</th><th>UTM Campaign</th><th>追蹤連結</th></tr>
+<tr><td>P5 呈分試急補</td><td><code>P5-呈分試急補-v1</code></td><td><a href="#" onclick="prefill('fb','P5-呈分試急補-v1','紅色CTA','P5')">產生 →</a></td></tr>
+<tr><td>P6 SSPA 終極衝刺</td><td><code>P6-SSPA衝刺-v1</code></td><td><a href="#" onclick="prefill('fb','P6-SSPA衝刺-v1','藍色CTA','P6')">產生 →</a></td></tr>
+<tr><td>P3 數學基礎打底</td><td><code>P3-基礎打底-v1</code></td><td><a href="#" onclick="prefill('fb','P3-基礎打底-v1','綠色CTA','P3')">產生 →</a></td></tr>
+<tr><td>P4 分數急救</td><td><code>P4-分數急救-v1</code></td><td><a href="#" onclick="prefill('fb','P4-分數急救-v1','橙色CTA','P4')">產生 →</a></td></tr>
+<tr><td>暑期班早鳥</td><td><code>summer-earlybird-v1</code></td><td><a href="#" onclick="prefill('fb','summer-earlybird-v1','早鳥','')">產生 →</a></td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>設定說明</h2>
+<div class="note">
+<p><strong>1. Google Sheets CRM 後端設定：</strong></p>
+<ol style="margin-left:16px;margin-bottom:12px">
+<li>開 <a href="https://script.google.com" target="_blank">script.google.com</a> → 新專案</li>
+<li>貼上 <code>_operations/apps_script_crm.js</code> 內容</li>
+<li>部署 → 網路應用程式 → 複製 URL</li>
+<li>替換 <code>track.html</code> 和 <code>crm.html</code> 中的 <code>YOUR_GOOGLE_APPS_SCRIPT_URL</code></li>
+</ol>
+<p><strong>2. FB Pixel 設定：</strong></p>
+<ol style="margin-left:16px">
+<li>在 FB 事件管理中取得你的 Pixel ID</li>
+<li>搜尋並替換所有檔案中的 <code>XXXXXXXXXXXXXXXX</code></li>
+</ol>
+</div>
+</div>
+</div>
+
+<script>
+function generateLink(){
+    var src = document.getElementById("utmSource").value;
+    var camp = document.getElementById("utmCampaign").value;
+    var content = document.getElementById("utmContent").value;
+    var grade = document.getElementById("grade").value;
+
+    var base = "https://www.lfacademyhk.com/track.html";
+    var params = [];
+    if(src) params.push("utm_source="+encodeURIComponent(src));
+    params.push("utm_medium=cpc");
+    if(camp) params.push("utm_campaign="+encodeURIComponent(camp));
+    if(content) params.push("utm_content="+encodeURIComponent(content));
+    if(grade) params.push("grade="+encodeURIComponent(grade));
+
+    var url = base + "?" + params.join("&");
+    document.getElementById("outputLink").textContent = url;
+    document.getElementById("outputLink").style.display = "block";
+    document.getElementById("btnCopy").style.display = "inline-block";
+
+    // Preview WhatsApp message
+    var label = camp ? " ["+camp+(content?" "+content:"")+"]" : "";
+    document.getElementById("preview").innerHTML = "📱 WhatsApp 預填訊息：<br><strong>我想查詢霖楓學苑課程"+label+"</strong><br><br>✅ 自動跳轉 WhatsApp<br>✅ 自動記錄 UTM 數據<br>✅ 自動觸發 FB Pixel Lead 事件";
+    document.getElementById("preview").style.display = "block";
+}
+
+function copyLink(){
+    var text = document.getElementById("outputLink").textContent;
+    navigator.clipboard.writeText(text).then(function(){
+        alert("已複製！貼到 FB 廣告的「網站 URL」欄位");
+    });
+}
+
+function prefill(src,camp,content,grade){
+    document.getElementById("utmSource").value = src;
+    document.getElementById("utmCampaign").value = camp;
+    document.getElementById("utmContent").value = content;
+    document.getElementById("grade").value = grade;
+    generateLink();
+}
+</script>
+</body>
+</html>

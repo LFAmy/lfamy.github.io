@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 社交媒體發布器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:16px}
+.container{max-width:900px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:20px;text-align:center;margin-bottom:16px}
+.header h1{font-size:20px}.header p{font-size:11px;opacity:0.6}
+
+.workspace{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:white;border-radius:12px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.card h2{font-size:14px;color:#1A3C6D;margin-bottom:12px}
+
+input,textarea,select{padding:10px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;width:100%;margin-bottom:8px;font-family:inherit}
+textarea{height:100px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:#1A3C6D;outline:none}
+label{display:block;font-size:11px;color:#6B7280;margin-bottom:3px;font-weight:700}
+
+.platform-tabs{display:flex;gap:4px;margin-bottom:12px}
+.ptab{padding:8px 16px;border-radius:20px;border:2px solid #E5E7EB;cursor:pointer;font-size:12px;font-weight:700;background:white}
+.ptab:hover,.ptab.on{border-color:#1A3C6D;background:#1A3C6D;color:white}
+
+.preview{display:flex;align-items:center;justify-content:center;min-height:300px;background:#F9FAFB;border-radius:8px;overflow:hidden}
+.preview canvas{border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+
+.btn{display:inline-block;padding:10px 22px;border-radius:25px;font-weight:900;font-size:13px;cursor:pointer;border:none;margin:4px;text-decoration:none}
+.btn-primary{background:#1A3C6D;color:white}.btn-gold{background:#C9A84C;color:#1A3C6D}
+.btn-fb{background:#1877F2;color:white}.btn-ig{background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF);color:white}
+.btn-xhs{background:#FE2C55;color:white}.btn-green{background:#16A34A;color:white}
+
+.hashtag-chips{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}
+.chip{padding:4px 10px;border-radius:15px;background:#F0F7FF;font-size:10px;cursor:pointer;border:1px solid #DBEAFE}
+.chip:hover{background:#DBEAFE}.chip.on{background:#1A3C6D;color:white;border-color:#1A3C6D}
+
+.copy-box{background:#F9FAFB;border-radius:8px;padding:14px;font-size:11px;line-height:1.8;white-space:pre-wrap;margin:8px 0;max-height:200px;overflow-y:auto}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<div class="container">
+
+<div class="header">
+<h1>社交媒體發布器</h1>
+<p>一鍵生成 FB/IG/小紅書 海報 + 文案</p>
+</div>
+
+<div class="workspace">
+
+<!-- LEFT: Content -->
+<div>
+<div class="card">
+<h2>內容設定</h2>
+
+<div class="platform-tabs">
+<button class="ptab on" onclick="setPlatform('fb')">📘 Facebook</button>
+<button class="ptab" onclick="setPlatform('ig')">📸 Instagram</button>
+<button class="ptab" onclick="setPlatform('xhs')">📕 小紅書</button>
+</div>
+
+<label>標題</label><input type="text" id="title" placeholder="例如：你小朋友成日錯同一類題目？" oninput="updatePreview()">
+<label>內文</label><textarea id="body" placeholder="輸入帖文內容..." oninput="updatePreview()"></textarea>
+
+<label>常用 Hashtag</label>
+<div class="hashtag-chips" id="hashtags"></div>
+
+<label>品牌口號</label>
+<select id="slogan" onchange="updatePreview()">
+<option>不教數學，教避開陷阱</option>
+<option>2分鐘免費數學陷阱診斷</option>
+<option>你唔係數學渣，你只係未學識睇陷阱</option>
+<option>578堂原創講義 · 唔係影印練習</option>
+<option>10種陷阱 · 精準定位 · AI個人化練習</option>
+</select>
+</div>
+
+<div class="card">
+<h2>一鍵發布</h2>
+<button class="btn btn-fb" onclick="copyFor('fb')" style="width:100%;margin:4px 0">📘 複製 Facebook 文案</button>
+<button class="btn btn-ig" onclick="copyFor('ig')" style="width:100%;margin:4px 0">📸 複製 Instagram 文案</button>
+<button class="btn btn-xhs" onclick="copyFor('xhs')" style="width:100%;margin:4px 0">📕 複製 小紅書 文案</button>
+<button class="btn btn-green" onclick="downloadImage()" style="width:100%;margin:4px 0">🖼️ 下載海報圖片</button>
+<button class="btn btn-gold" onclick="copyAll()" style="width:100%;margin:4px 0">📋 複製全部文案</button>
+</div>
+</div>
+
+<!-- RIGHT: Preview -->
+<div>
+<div class="card">
+<h2>海報預覽</h2>
+<div class="preview" id="preview">
+<canvas id="poster" width="600" height="600"></canvas>
+</div>
+</div>
+
+<div class="card">
+<h2>文案預覽</h2>
+<div class="copy-box" id="copyPreview">輸入內容後此處會顯示文案預覽…</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+var platform='fb';
+var sizes={fb:{w:600,h:315,name:'Facebook'},ig:{w:600,h:600,name:'Instagram'},xhs:{w:600,h:800,name:'小紅書'}};
+
+var defaultTags={
+fb:['#數學補習','#呈分試','#小學數學','#香港補習','#數學陷阱','#SSPA','#家長必看'],
+ig:['#數學補習','#呈分試','#小學數學','#香港媽媽','#數學陷阱','#learning','#hkprimary'],
+xhs:['#香港小學數學','#呈分試攻略','#數學陷阱診斷','#家長必看','#香港補習','#數學練習','#育兒']
+};
+
+function setPlatform(p){
+platform=p;
+document.querySelectorAll('.ptab').forEach(function(t){t.classList.remove('on')});
+event.target.classList.add('on');
+// Update canvas size
+var s=sizes[p];
+document.getElementById('poster').width=s.w;
+document.getElementById('poster').height=s.h;
+renderHashtags();
+updatePreview();
+}
+
+function renderHashtags(){
+var tags=defaultTags[platform];
+var html='';
+tags.forEach(function(t){
+html+='<span class=\"chip\" onclick=\"toggleTag(this)\">'+t+'</span>';
+});
+document.getElementById('hashtags').innerHTML=html;
+}
+
+function toggleTag(el){el.classList.toggle('on')}
+function getSelectedTags(){
+var tags=[];
+document.querySelectorAll('.chip.on').forEach(function(c){tags.push(c.textContent)});
+return tags.length>0?tags:defaultTags[platform].slice(0,4);
+}
+
+function updatePreview(){
+var title=document.getElementById('title').value||'你小朋友數學成日錯同一樣嘢？';
+var body=document.getElementById('body').value||'2分鐘免費診斷，搵出小朋友嘅陷阱指紋！';
+var slogan=document.getElementById('slogan').value;
+var tags=getSelectedTags();
+
+// Update copy preview
+var copyText=title+'\n\n'+body+'\n\n'+slogan+'\n'+tags.join(' ')+'\n\n👉 www.lfacademyhk.com/docs/trap-quiz.html';
+document.getElementById('copyPreview').textContent=copyText;
+
+// Draw poster
+var s=sizes[platform];
+var canvas=document.getElementById('poster');
+var ctx=canvas.getContext('2d');
+var w=s.w,h=s.h;
+
+// Background gradient (brand navy)
+var grad=ctx.createLinearGradient(0,0,0,h);
+grad.addColorStop(0,'#0A1A35');grad.addColorStop(0.5,'#1A3C6D');grad.addColorStop(1,'#1E4D8C');
+ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+
+// Gold accent line
+ctx.fillStyle='#C9A84C';ctx.fillRect(w*0.1,h*0.22,w*0.8,3);
+
+// Title
+ctx.fillStyle='white';ctx.font='bold '+Math.floor(w*0.045)+'px \"PingFang SC\",\"Microsoft YaHei\",sans-serif';
+ctx.textAlign='center';
+var titleLines=wrapText(ctx,title,w*0.8);
+titleLines.forEach(function(line,i){
+ctx.fillText(line,w/2,h*0.1+i*Math.floor(w*0.05));
+});
+
+// Body
+ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font=Math.floor(w*0.028)+'px \"PingFang SC\",\"Microsoft YaHei\",sans-serif';
+var bodyLines=wrapText(ctx,body,w*0.8);
+var bodyY=h*0.28;
+bodyLines.forEach(function(line,i){
+if(bodyY<h*0.65)ctx.fillText(line,w/2,bodyY+i*Math.floor(w*0.035));
+});
+
+// Slogan
+ctx.fillStyle='#C9A84C';ctx.font='bold '+Math.floor(w*0.03)+'px \"PingFang SC\",\"Microsoft YaHei\",sans-serif';
+ctx.fillText(slogan,w/2,h*0.72);
+
+// Tags
+ctx.fillStyle='rgba(255,255,255,0.5)';ctx.font=Math.floor(w*0.022)+'px \"PingFang SC\",\"Microsoft YaHei\",sans-serif';
+ctx.fillText(tags.slice(0,5).join(' '),w/2,h*0.80);
+
+// CTA
+ctx.fillStyle='#DC2626';ctx.fillRect(w*0.25,h*0.85,w*0.5,Math.floor(w*0.07));
+ctx.fillStyle='white';ctx.font='bold '+Math.floor(w*0.032)+'px \"PingFang SC\",\"Microsoft YaHei\",sans-serif';
+ctx.fillText('免費診斷 →',w/2,h*0.85+Math.floor(w*0.05));
+
+// Brand
+ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font=Math.floor(w*0.02)+'px \"PingFang SC\",\"Microsoft YaHei\",sans-serif';
+ctx.fillText('霖楓學苑 · Lam Fung Academy',w/2,h*0.95);
+}
+
+function wrapText(ctx,text,maxWidth){
+var words=text.split('');var lines=[];var line='';
+for(var i=0;i<words.length;i++){
+var test=line+words[i];
+if(ctx.measureText(test).width>maxWidth&&line.length>0){lines.push(line);line=words[i]}
+else{line=test}
+}
+lines.push(line);return lines;
+}
+
+function copyFor(p){
+var title=document.getElementById('title').value||'你小朋友數學成日錯同一樣嘢？';
+var body=document.getElementById('body').value||'2分鐘免費診斷！';
+var slogan=document.getElementById('slogan').value;
+var tags=getSelectedTags();
+var text=title+'\n\n'+body+'\n\n'+slogan+'\n'+tags.join(' ')+'\n\n👉 www.lfacademyhk.com/docs/trap-quiz.html';
+navigator.clipboard.writeText(text).then(function(){alert(p.toUpperCase()+' 文案已複製 ✅\n\n貼上到 '+p+' 即可發布')});
+}
+
+function copyAll(){
+var title=document.getElementById('title').value||'你小朋友數學成日錯同一樣嘢？';
+var body=document.getElementById('body').value||'2分鐘免費診斷！';
+var slogan=document.getElementById('slogan').value;
+var text='【Facebook/IG】\n'+title+'\n\n'+body+'\n\n'+slogan+'\n\n【小紅書】\n'+title+'\n\n'+body+'\n\n'+slogan+'\n\n👉 www.lfacademyhk.com';
+navigator.clipboard.writeText(text).then(function(){alert('全部文案已複製 ✅')});
+}
+
+function downloadImage(){
+var canvas=document.getElementById('poster');
+var link=document.createElement('a');link.download='lamfung_'+platform+'_'+new Date().toISOString().slice(0,10)+'.png';
+link.href=canvas.toDataURL();link.click();
+}
+
+renderHashtags();
+updatePreview();
+</script>
+</body>
+</html>

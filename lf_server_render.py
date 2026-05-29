@@ -35,7 +35,10 @@ def get_db():
 try:
     from engines.mark_engine import mark_with_feedback
     from engines.adaptive_engine import get_next_question
-    from engines.tutor_engine import get_hint, generate_hints
+    from engines.tutor_engine import get_hint, generate_hints, socratic_chat, adaptive_hint_branch, validate_reasoning, generate_session_summary
+from engines.socratic_session import create_session, get_session, end_session, active_sessions
+from engines.payment_engine import create_checkout_session, get_checkout_session, handle_webhook, get_plans, get_plan_by_grade, create_trial_membership, check_membership_status
+from engines.lf_ai_brain import ai_tutor_chat, ai_tutor_solve
     from engines.misconception_engine import detect_misconceptions
     from engines.ai_orchestrator import smart_pipeline
     ENGINES_LOADED = True
@@ -317,6 +320,194 @@ def api_worksheet(student):
         return jsonify({"error": str(e)[:200]}), 500
 
 # ==================== HEALTH ====================
+
+# ═══ AI Tutor Chat (Free Ask) ═══
+@app.route('/api/ai/tutor/chat', methods=['POST'])
+def api_tutor_chat():
+    try:
+        data = request.get_json(force=True) or {}
+        message = data.get('message', '')
+        mode = data.get('mode', 'math_tutor')
+        session_id = data.get('session_id', '')
+        topic = data.get('topic', '')
+        student_answer = data.get('student_answer', '')
+        correct_answer = data.get('correct_answer', '')
+
+        if not message:
+            return jsonify({'response': '請輸入你的問題，我們一起來思考！', 'mode': mode})
+
+        # Get or create session
+        session = get_session(session_id) if session_id else None
+        history = ''
+        if session:
+            history = session.get_context()
+            session.add_message('user', message)
+        else:
+            session = create_session(student_name='student', topic=topic)
+            session.add_message('user', message)
+            session_id = session.session_id
+
+        # Use intelligent Socratic chat
+        result = socratic_chat(
+            message=message,
+            conversation_history=history,
+            topic=topic or getattr(session, 'topic', ''),
+            student_answer=student_answer,
+            correct_answer=correct_answer,
+            student_name=getattr(session, 'student_name', '')
+        )
+
+        response_text = result.get('response', '')
+        session.add_message('assistant', response_text)
+
+        # Track misconceptions
+        if result.get('misconception_detected') and hasattr(session, 'misconceptions_detected'):
+            session.misconceptions_detected.append(result.get('misconception_hint', ''))
+
+        return jsonify({
+            'response': response_text,
+            'mode': mode,
+            'session_id': session_id,
+            'situation': result.get('situation', 'stuck'),
+            'topic': result.get('topic', topic),
+            'misconception_detected': result.get('misconception_detected', False),
+            'key_concepts': result.get('key_concepts_used', []),
+        })
+    except Exception as e:
+        return jsonify({'response': '讓我幫你思考這道題目。你能告訴我題目中給了哪些數字和條件嗎？', 'error': str(e)})
+
+@app.route('/api/ai/tutor/solve', methods=['POST'])
+def api_tutor_solve():
+    try:
+        data = request.get_json(force=True) or {}
+        question = data.get('question', '')
+        session_id = data.get('session_id', '')
+        if not question:
+            return jsonify({'solution': '沒有收到題目，請重新嘗試。'})
+        if session_id:
+            session = get_session(session_id)
+            if session:
+                session.mark_resolved()
+        solution = ai_tutor_solve(question)
+        return jsonify({'solution': solution, 'question': question[:100]})
+    except Exception as e:
+        return jsonify({'solution': '請嘗試從已知條件開始推理。先找出題目中的關鍵數字，再決定用什麼公式。', 'error': str(e)})
+
+@app.route('/api/ai/tutor/session', methods=['GET'])
+def api_tutor_session():
+    session_id = request.args.get('id', '')
+    if not session_id:
+        return jsonify({'active_sessions': active_sessions()})
+    session = get_session(session_id)
+    if not session:
+        return jsonify({'error': 'Session not found'}), 404
+    return jsonify(session.to_dict())
+
+
+@app.route('/api/ai/tutor/reasoning', methods=['POST'])
+def api_validate_reasoning():
+    try:
+        data = request.get_json(force=True) or {}
+        reasoning = data.get('reasoning', '')
+        question = data.get('question', '')
+        correct_answer = data.get('correct_answer', '')
+        if not reasoning:
+            return jsonify({'error': '請提供學生的推理過程'}), 400
+        result = validate_reasoning(reasoning, question, correct_answer)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'status': 'error', 'error_step': '', 'guidance': '無法驗證推理過程，請重新嘗試。'})
+
+@app.route('/api/ai/tutor/summary', methods=['POST'])
+def api_session_summary():
+    try:
+        data = request.get_json(force=True) or {}
+        session_id = data.get('session_id', '')
+        if session_id:
+            session = get_session(session_id)
+            if session:
+                summary = generate_session_summary(session.to_dict())
+                return jsonify({'summary': summary, 'session': session.to_dict()})
+        return jsonify({'summary': '本次學習結束。繼續努力！'})
+    except Exception as e:
+        return jsonify({'summary': '本次學習結束。繼續努力！', 'error': str(e)})
+
+
+# ═══ Payment API ═══
+@app.route('/api/payment/plans', methods=['GET'])
+def api_payment_plans():
+    grade = request.args.get('grade', '')
+    if grade:
+        return jsonify({'plans': get_plan_by_grade(grade)})
+    return jsonify({'plans': get_plans()})
+
+@app.route('/api/payment/checkout', methods=['POST'])
+def api_payment_checkout():
+    try:
+        data = request.get_json(force=True) or {}
+        plan_id = data.get('plan_id', '')
+        email = data.get('email', '')
+        name = data.get('student_name', '')
+        success_url = data.get('success_url', '')
+        cancel_url = data.get('cancel_url', '')
+
+        if not plan_id:
+            return jsonify({'error': '請選擇方案', 'available_plans': ["P3_monthly","P4_monthly","P5_monthly","P6_monthly","P3_annual","P4_annual","P5_annual","P6_annual","trial"]})
+
+        if plan_id == 'trial':
+            membership = create_trial_membership(email, name, data.get('grade', ''))
+            return jsonify({
+                'success': True,
+                'trial': True,
+                'membership': membership,
+                'message': '試堂已開通！',
+            })
+
+        result = create_checkout_session(plan_id, email, name, success_url, cancel_url)
+
+        if result.get('mock'):
+            return jsonify({
+                'mock': True,
+                'checkout_url': result.get('mock_url'),
+                'plan': result.get('plan'),
+                'message': '開發模式：Stripe 未配置',
+            })
+
+        if result.get('error'):
+            return jsonify({'error': result.get('error', '付款系統暫時無法使用')}), 500
+
+        return jsonify({
+            'checkout_url': result.get('url', ''),
+            'session_id': result.get('id', ''),
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/payment/webhook', methods=['POST'])
+def api_payment_webhook():
+    try:
+        payload = request.get_data()
+        signature = request.headers.get('Stripe-Signature', '')
+        result = handle_webhook(payload, signature)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/api/payment/session/<session_id>', methods=['GET'])
+def api_payment_session(session_id):
+    result = get_checkout_session(session_id)
+    return jsonify(result)
+
+@app.route('/api/payment/membership/status', methods=['POST'])
+def api_membership_status():
+    try:
+        data = request.get_json(force=True) or {}
+        membership = data.get('membership', {})
+        result = check_membership_status(membership)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
 @app.route("/api/health")
 def health():
     try:
@@ -346,7 +537,7 @@ def home():
         "service": "LF Academy API",
         "version": "3.0",
         "docs": "/api/health",
-        "endpoints": ["/api/topics","/api/questions/random","/api/ai/tutor/hint","/api/ai/mark","/api/ai/smart"]
+        "endpoints": ["/api/topics","/api/questions/random","/api/ai/tutor/hint","/api/ai/tutor/chat","/api/ai/tutor/solve","/api/ai/tutor/session","/api/ai/tutor/reasoning","/api/ai/tutor/summary","/api/ai/mark","/api/ai/smart","/api/payment/plans","/api/payment/checkout","/api/payment/webhook","/api/payment/session/<id>","/api/payment/membership/status"]
     })
 
 if __name__ == "__main__":

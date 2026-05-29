@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 代課模式</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#0D1117;color:#E6EDF3;font-size:14px}
+.topbar{background:#161B22;border-bottom:1px solid #30363D;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.topbar .brand{font-weight:900;font-size:16px;color:#C9A84C}
+.topbar .badge{background:#DA3633;color:white;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.layout{display:grid;grid-template-columns:1fr 340px;min-height:calc(100vh - 50px)}
+.main{padding:20px;overflow-y:auto}
+.sidebar{background:#161B22;border-left:1px solid #30363D;padding:16px;overflow-y:auto}
+.card{background:#161B22;border:1px solid #30363D;border-radius:12px;padding:20px;margin-bottom:16px}
+.card h2{font-size:14px;color:#C9A84C;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h3{font-size:12px;color:#8B949E;margin-bottom:8px}
+.btn{padding:8px 16px;border-radius:8px;border:1px solid #30363D;background:#21262D;color:#E6EDF3;cursor:pointer;font-size:12px;font-weight:700;transition:all 0.15s;font-family:inherit}
+.btn:hover{background:#30363D}
+.btn-red{background:#DA3633;color:white;border-color:#DA3633}
+.btn-green{background:#238636;color:white;border-color:#238636}
+.btn-blue{background:#1F6FEB;color:white;border-color:#1F6FEB}
+.btn-gold{background:#C9A84C;color:#1A3C6D;border-color:#C9A84C}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quick-btn{padding:14px;border-radius:10px;border:1px solid #30363D;background:#21262D;color:#E6EDF3;cursor:pointer;font-size:12px;font-weight:700;text-align:center;transition:all 0.15s}
+.quick-btn:hover{background:#30363D;border-color:#C9A84C}
+.quick-btn .icon{font-size:24px;display:block;margin-bottom:4px}
+.student-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0D1117;border:1px solid #30363D;border-radius:8px;margin-bottom:4px;font-size:11px}
+.student-row .name{font-weight:700}
+.student-row .status{font-size:10px}
+.status-done{color:#238636}.status-active{color:#C9A84C}.status-idle{color:#8B949E}
+.proj-area{background:#0D1117;border:1px solid #30363D;border-radius:12px;min-height:280px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px}
+.proj-area h1{font-size:32px;margin-bottom:8px}
+.proj-area .opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;max-width:500px}
+.proj-area .opt{padding:16px;border:2px solid #30363D;border-radius:10px;font-size:16px;font-weight:700;background:#161B22}
+.timer-display{font-size:36px;font-weight:900;color:#58A6FF;font-family:monospace;text-align:center}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px}
+.info-item{background:#0D1117;padding:10px;border-radius:8px}
+.info-item .label{color:#8B949E;font-size:10px}
+.info-item .value{font-weight:700;font-size:14px;margin-top:2px}
+.lesson-item{padding:8px 12px;background:#0D1117;border-radius:8px;margin-bottom:6px;cursor:pointer;border:2px solid transparent;font-size:12px}
+.lesson-item:hover{border-color:#C9A84C}
+.lesson-item.active{border-color:#238636;background:rgba(35,134,54,0.08)}
+textarea{width:100%;background:#0D1117;border:1px solid #30363D;border-radius:8px;color:#E6EDF3;padding:10px;font-family:inherit;font-size:12px;resize:vertical;min-height:80px}
+select{background:#0D1117;border:1px solid #30363D;border-radius:8px;color:#E6EDF3;padding:8px 12px;font-family:inherit;font-size:12px}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-content{background:#161B22;border:1px solid #30363D;border-radius:16px;padding:24px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto}
+@media(max-width:768px){.layout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+	<div>
+		<span class="brand"><img src="logo.png" alt="霖楓學苑" style="height:24px;vertical-align:middle;margin-right:6px">霖楓學苑 · 代課模式</span>
+		<span style="color:#8B949E;font-size:11px;margin-left:12px">臨時代課 · 快速接手課堂</span>
+	</div>
+	<div style="display:flex;gap:8px;align-items:center">
+		<span class="badge" id="modeBadge">代課中</span>
+		<button class="btn" onclick="saveAll()">💾 保存進度</button>
+		<button class="btn btn-red" onclick="endSubClass()">結束代課</button>
+	</div>
+</div>
+
+<div class="layout">
+
+<!-- MAIN AREA -->
+<div class="main">
+
+	<!-- Class Info Quick View -->
+	<div class="card" style="padding:14px 20px">
+		<div class="info-grid">
+			<div class="info-item">
+				<div class="label">課堂</div>
+				<div class="value" id="infoClass">未設定</div>
+			</div>
+			<div class="info-item">
+				<div class="label">年級</div>
+				<div class="value" id="infoGrade">P5</div>
+			</div>
+			<div class="info-item">
+				<div class="label">原任老師</div>
+				<div class="value" id="infoTeacher">-</div>
+			</div>
+			<div class="info-item">
+				<div class="label">學生人數</div>
+				<div class="value" id="infoStudents">0</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Projector Area -->
+	<div class="proj-area" id="projector">
+		<div style="width:100%">
+			<h1 id="projTitle">準備代課</h1>
+			<div style="color:#8B949E;margin-bottom:8px" id="projSub">選擇下方操作開始上堂</div>
+			<div class="timer-display" id="classTimer" style="display:none">00:00</div>
+			<div class="opts" id="projOpts" style="display:none;margin:16px auto"></div>
+		</div>
+	</div>
+
+	<!-- Quick Actions -->
+	<div class="card">
+		<h2>⚡ 快速操作</h2>
+		<div class="quick-grid">
+			<div class="quick-btn" onclick="loadEmergencyPlan()">
+				<span class="icon">📋</span>一鍵載入應急教案
+			</div>
+			<div class="quick-btn" onclick="startTimer()">
+				<span class="icon">⏱</span>開始計時
+			</div>
+			<div class="quick-btn" onclick="pauseClass()">
+				<span class="icon">⏸</span>暫停全班
+			</div>
+			<div class="quick-btn" onclick="showCurrentAnswer()">
+				<span class="icon">💡</span>顯示答案
+			</div>
+			<div class="quick-btn" onclick="sendHintAll()">
+				<span class="icon">📢</span>全體提示
+			</div>
+			<div class="quick-btn" onclick="nextQ()">
+				<span class="icon">⏭</span>下一題
+			</div>
+			<div class="quick-btn" onclick="openBankBrowser()">
+				<span class="icon">📚</span>瀏覽題庫
+			</div>
+			<div class="quick-btn" onclick="toggleModal('notesModal')">
+				<span class="icon">📝</span>寫交接筆記
+			</div>
+		</div>
+	</div>
+
+	<!-- Current Lesson Plan -->
+	<div class="card" id="lessonPlanCard">
+		<h2>📖 本堂教案</h2>
+		<div id="lessonPlanContent">
+			<div style="color:#8B949E;font-size:12px">未載入教案 — 點擊「一鍵載入應急教案」或選擇下方範本</div>
+		</div>
+		<div style="margin-top:12px">
+			<select id="templateSelect" onchange="loadTemplate(this.value)" style="width:100%">
+				<option value="">— 選擇教案範本 —</option>
+				<option value="addition">P3 進退位加減練習</option>
+				<option value="multiplication">P4 乘除法綜合練習</option>
+				<option value="fraction">P5 分數運算專題</option>
+				<option value="percentage">P6 百分數應用專題</option>
+				<option value="mixed">綜合陷阱診斷練習</option>
+				<option value="exam">考試技巧特訓</option>
+			</select>
+		</div>
+	</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+	<div class="card" style="padding:12px">
+		<h3>👥 學生名單</h3>
+		<div id="studentList">
+			<div style="color:#8B949E;font-size:11px;text-align:center;padding:20px">尚未開始課堂</div>
+		</div>
+	</div>
+
+	<div class="card" style="padding:12px">
+		<h3>📝 交接筆記</h3>
+		<div id="handoverNotes" style="font-size:11px;color:#8B949E">
+			暫無筆記。點擊「寫交接筆記」留訊息俾原任老師。
+		</div>
+	</div>
+
+	<div style="text-align:center">
+		<button class="btn btn-blue" style="width:100%" onclick="openQR()">📱 QR Code 簽到</button>
+	</div>
+</div>
+
+</div>
+
+<!-- Notes Modal -->
+<div class="modal" id="notesModal">
+	<div class="modal-content">
+		<h2 style="margin-bottom:12px">📝 交接筆記</h2>
+		<p style="font-size:11px;color:#8B949E;margin-bottom:12px">原任老師返來時會見到呢啲筆記</p>
+		<textarea id="notesText" placeholder="寫低今日課堂情況：學生表現、完成咗咩練習、遇到咩問題..."></textarea>
+		<div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+			<button class="btn" onclick="toggleModal('notesModal')">取消</button>
+			<button class="btn btn-green" onclick="saveNotes()">保存筆記</button>
+		</div>
+	</div>
+</div>
+
+<!-- Bank Browser Modal -->
+<div class="modal" id="bankModal">
+	<div class="modal-content" style="max-width:700px">
+		<h2 style="margin-bottom:12px">📚 題庫瀏覽器</h2>
+		<div style="display:flex;gap:8px;margin-bottom:12px">
+			<select id="bankGrade" onchange="browseBank()">
+				<option value="P3">P3</option><option value="P4">P4</option>
+				<option value="P5" selected>P5</option><option value="P6">P6</option>
+			</select>
+			<select id="bankTrap" onchange="browseBank()">
+				<option value="">全部陷阱</option>
+				<option value="T1">T1 進退位</option><option value="T2">T2 單位換算</option>
+				<option value="T3">T3 運算順序</option><option value="T4">T4 漏寫0</option>
+				<option value="T5">T5 分數</option><option value="T6">T6 百分數</option>
+				<option value="T7">T7 應用題</option><option value="T8">T8 圖形</option>
+				<option value="T9">T9 時間換算</option><option value="T10">T10 餘數</option>
+			</select>
+			<button class="btn btn-gold" onclick="projectBankQuestion()">📽 投影此題</button>
+		</div>
+		<div id="bankResults" style="max-height:400px;overflow-y:auto;font-size:12px"></div>
+	</div>
+</div>
+
+<script>
+var classActive = false;
+var timerSec = 0;
+var timerInt = null;
+var currentQIndex = 0;
+var currentQuestions = [];
+var currentGrade = 'P5';
+var students = [];
+var demoNames = ['陳小明','李小美','張志偉','王家豪','林小婷','黃俊傑','周詠詩','吳嘉欣'];
+
+// Load saved state
+function loadState() {
+	var saved = null;
+	try { saved = JSON.parse(localStorage.getItem('lf_sub_teacher') || '{}'); } catch(e) {}
+
+	if (saved.className) document.getElementById('infoClass').textContent = saved.className;
+	if (saved.grade) { currentGrade = saved.grade; document.getElementById('infoGrade').textContent = saved.grade; }
+	if (saved.teacher) document.getElementById('infoTeacher').textContent = saved.teacher;
+	if (saved.notes) {
+		document.getElementById('handoverNotes').textContent = saved.notes;
+		document.getElementById('handoverNotes').style.color = '#E6EDF3';
+	}
+	if (saved.lessonPlan) {
+		document.getElementById('lessonPlanContent').innerHTML = saved.lessonPlan;
+	}
+
+	// Init students
+	students = demoNames.map(function(n, i) {
+		return {name: n, trap: 'T' + ((i % 10) + 1), done: false, q: 0, online: true, stuck: false};
+	});
+	document.getElementById('infoStudents').textContent = students.length;
+	renderStudents();
+}
+
+// Emergency one-click lesson plan
+function loadEmergencyPlan() {
+	var plans = {
+		P3: {title: 'P3 應急教案：進退位加減', steps: [
+			'熱身啟動：上堂陷阱回顧 (0-5分鐘)',
+			'核心知識精講：進退位 T1 — 3個KP (5-20分鐘)',
+			'輪流實戰：每人1題出聲解 (20-30分鐘)',
+			'分層練習：基礎→進階→挑戰 (30-45分鐘)',
+			'應用題挑戰：跨陷阱綜合 (45-55分鐘)',
+			'出門券：1題必須啱 (55-15-20分鐘)',
+			'功課+口訣背誦 (60-65分鐘)'
+		]},
+		P4: {title: 'P4 應急教案：乘除與單位換算', steps: [
+			'熱身啟動：乘法表速答+陷阱回顧 (0-5分鐘)',
+			'核心知識精講：單位換算 T2 (5-20分鐘)',
+			'輪流實戰：乘除混合 (20-30分鐘)',
+			'分層練習：漏寫0 T4專項 (30-45分鐘)',
+			'應用題挑戰：Boss T2/T4 (45-55分鐘)',
+			'出門券：1題必須啱 (55-15-20分鐘)',
+			'功課+口訣背誦 (60-65分鐘)'
+		]},
+		P5: {title: 'P5 應急教案：分數與運算順序', steps: [
+			'熱身啟動：運算順序回顧 T3 (0-5分鐘)',
+			'核心知識精講：分數加減 T5 (5-20分鐘)',
+			'輪流實戰：混合運算出聲練 (20-30分鐘)',
+			'分層練習：分數應用題 (30-45分鐘)',
+			'應用題挑戰：Boss T3/T5 (45-55分鐘)',
+			'出門券：1題必須啱 (55-15-20分鐘)',
+			'功課+口訣背誦 (60-65分鐘)'
+		]},
+		P6: {title: 'P6 應急教案：百分數與應用題', steps: [
+			'熱身啟動：百分數換算回顧 T6 (0-5分鐘)',
+			'核心知識精講：應用題拆解 T7 (5-20分鐘)',
+			'輪流實戰：綜合應用題出聲練 (20-30分鐘)',
+			'分層練習：跨陷阱綜合 (30-45分鐘)',
+			'應用題挑戰：Boss T6/T7 (45-55分鐘)',
+			'出門券：1題必須啱 (55-15-20分鐘)',
+			'功課+口訣背誦 (60-65分鐘)'
+		]}
+	};
+
+	var plan = plans[currentGrade] || plans.P5;
+	var html = '<div style="font-weight:700;color:#C9A84C;margin-bottom:8px">' + plan.title + '</div>';
+	html += '<div style="font-size:11px;color:#8B949E;margin-bottom:4px">⏱ 總時長：65分鐘（7個環節）</div>';
+	plan.steps.forEach(function(s, i) {
+		html += '<div class="lesson-item' + (i === 0 ? ' active' : '') + '" onclick="highlightStep(this)">' + (i+1) + '. ' + s + '</div>';
+	});
+	document.getElementById('lessonPlanContent').innerHTML = html;
+
+	// Auto-load questions for the grade
+	loadQuestionsForGrade(currentGrade);
+
+	// Save state
+	saveAll();
+}
+
+function highlightStep(el) {
+	document.querySelectorAll('.lesson-item').forEach(function(item) { item.classList.remove('active'); });
+	el.classList.add('active');
+}
+
+function loadTemplate(type) {
+	if (!type) return;
+	var templates = {
+		addition: {title: '進退位加減練習', grade: 'P3', trap: 'T1', desc: '專注於加減進退位的常見錯誤'},
+		multiplication: {title: '乘除法綜合練習', grade: 'P4', trap: 'T4', desc: '乘除運算及漏寫0陷阱'},
+		fraction: {title: '分數運算專題', grade: 'P5', trap: 'T5', desc: '分數加減、通分、約分'},
+		percentage: {title: '百分數應用專題', grade: 'P6', trap: 'T6', desc: '百分數計算與應用題'},
+		mixed: {title: '綜合陷阱診斷', grade: 'P5', trap: '', desc: '混合10種陷阱的全面練習'},
+		exam: {title: '考試技巧特訓', grade: 'P6', trap: '', desc: '時間管理、檢查技巧、常見陷阱'}
+	};
+	var t = templates[type];
+	if (!t) return;
+
+	var html = '<div style="font-weight:700;color:#C9A84C;margin-bottom:8px">' + t.title + '</div>';
+	html += '<div style="font-size:11px;color:#8B949E;margin-bottom:8px">' + t.desc + '</div>';
+	html += '<div style="font-size:11px;color:#8B949E">年級：' + t.grade + ' | 重點陷阱：' + (t.trap || '全部') + '</div>';
+	document.getElementById('lessonPlanContent').innerHTML = html;
+
+	if (t.grade) {
+		currentGrade = t.grade;
+		document.getElementById('infoGrade').textContent = t.grade;
+	}
+	loadQuestionsForGrade(currentGrade);
+	saveAll();
+}
+
+function loadQuestionsForGrade(grade) {
+	document.getElementById('projTitle').textContent = '載入題目中...';
+	document.getElementById('projSub').textContent = '正在從題庫載入 ' + grade + ' 題目';
+
+	fetch('/docs/data/question_bank_' + grade + '.json')
+		.then(function(r) { return r.json(); })
+		.then(function(data) {
+			var pool = data.slice();
+			for (var i = pool.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+			}
+			currentQuestions = pool.slice(0, 10);
+			currentQIndex = 0;
+			classActive = true;
+			showProjectedQuestion();
+			renderStudents();
+		})
+		.catch(function() {
+			document.getElementById('projTitle').textContent = '題庫載入失敗';
+			document.getElementById('projSub').textContent = '請檢查網絡連接，或使用應急教案';
+		});
+}
+
+function showProjectedQuestion() {
+	if (currentQIndex >= currentQuestions.length) {
+		document.getElementById('projTitle').textContent = '練習完成！';
+		document.getElementById('projSub').textContent = '全部 ' + currentQuestions.length + ' 題已完成';
+		document.getElementById('projOpts').style.display = 'none';
+		return;
+	}
+	var q = currentQuestions[currentQIndex];
+	document.getElementById('projTitle').textContent = '第 ' + (currentQIndex + 1) + ' / ' + currentQuestions.length + ' 題';
+	document.getElementById('projSub').textContent = '陷阱：' + (q.trap || '綜合') + ' | 年級：' + (q.grade || currentGrade);
+
+	var html = '';
+	q.opts.forEach(function(o, i) {
+		html += '<div class="opt">' + ['A','B','C','D'][i] + '. ' + o + '</div>';
+	});
+	document.getElementById('projOpts').innerHTML = html;
+	document.getElementById('projOpts').style.display = 'grid';
+	document.getElementById('classTimer').style.display = 'none';
+}
+
+function nextQ() {
+	if (!classActive) return alert('請先載入題目');
+	currentQIndex++;
+	if (currentQIndex >= currentQuestions.length) currentQIndex = 0;
+	showProjectedQuestion();
+}
+
+function showCurrentAnswer() {
+	if (!classActive || currentQuestions.length === 0) return;
+	var q = currentQuestions[currentQIndex];
+	document.getElementById('projTitle').textContent = '✅ 答案：' + ['A','B','C','D'][q.ans];
+	document.getElementById('projOpts').style.display = 'none';
+	document.getElementById('projSub').textContent = q.q;
+}
+
+function startTimer() {
+	if (timerInt) return;
+	timerSec = 0;
+	document.getElementById('classTimer').style.display = 'block';
+	document.getElementById('classTimer').textContent = '00:00';
+	timerInt = setInterval(function() {
+		timerSec++;
+		var m = Math.floor(timerSec / 60), s = timerSec % 60;
+		document.getElementById('classTimer').textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+	}, 1000);
+}
+
+function pauseClass() {
+	alert('⏸ 全班暫停！\n\n請所有學生停低，望住投影幕。');
+}
+
+function sendHintAll() {
+	alert('📢 提示已發送：\n\n「仔細檢查有冇進退位錯誤？」');
+}
+
+function renderStudents() {
+	var html = students.map(function(s) {
+		var cls = s.done ? 'status-done' : s.stuck ? 'status-active' : 'status-idle';
+		var icon = s.done ? '✅' : s.stuck ? '⚠️' : '◻️';
+		return '<div class="student-row"><span class="name">' + icon + ' ' + s.name + '</span><span class="status ' + cls + '">Q' + s.q + '/10</span></div>';
+	}).join('');
+	document.getElementById('studentList').innerHTML = html;
+
+	var done = students.filter(function(s) { return s.done; }).length;
+	document.getElementById('infoStudents').textContent = students.length + ' (' + done + ' 完成)';
+}
+
+// Simulate student progress
+function simulateProgress() {
+	if (!classActive) return;
+	students.forEach(function(s) {
+		if (Math.random() < 0.25 && !s.done) {
+			s.q++;
+			if (s.q >= 10) { s.done = true; s.stuck = false; }
+			else { s.stuck = Math.random() < 0.15; }
+		}
+	});
+	renderStudents();
+}
+
+// Bank browser
+function browseBank() {
+	var grade = document.getElementById('bankGrade').value;
+	var trap = document.getElementById('bankTrap').value;
+
+	fetch('/docs/data/question_bank_' + grade + '.json')
+		.then(function(r) { return r.json(); })
+		.then(function(data) {
+			var filtered = trap ? data.filter(function(q) { return q.trap === trap; }) : data;
+			var sample = filtered.slice(0, 20);
+			var html = '<div style="color:#8B949E;margin-bottom:8px">共 ' + filtered.length + ' 題，顯示首 20 題</div>';
+			sample.forEach(function(q, i) {
+				html += '<div class="lesson-item" onclick="projectThisQuestion(' + JSON.stringify(JSON.stringify(q)) + ')">';
+				html += '<strong>' + (i+1) + '.</strong> ' + q.q + ' <span style="color:#8B949E;font-size:10px">[' + (q.trap||'') + ']</span>';
+				html += '</div>';
+			});
+			document.getElementById('bankResults').innerHTML = html;
+		})
+		.catch(function() {
+			document.getElementById('bankResults').innerHTML = '<div style="color:#DA3633">載入失敗</div>';
+		});
+}
+
+function openBankBrowser() {
+	toggleModal('bankModal');
+	browseBank();
+}
+
+function projectThisQuestion(qJson) {
+	var q = JSON.parse(qJson);
+	currentQuestions = [q];
+	currentQIndex = 0;
+	showProjectedQuestion();
+	toggleModal('bankModal');
+	classActive = true;
+}
+
+function projectBankQuestion() {
+	var items = document.querySelectorAll('#bankResults .lesson-item');
+	// Pick first available
+	if (items.length > 0) items[0].click();
+}
+
+function openQR() {
+	window.open('qr-checkin.html', '_blank');
+}
+
+function toggleModal(id) {
+	var el = document.getElementById(id);
+	el.classList.toggle('show');
+}
+
+function saveNotes() {
+	var text = document.getElementById('notesText').value;
+	document.getElementById('handoverNotes').textContent = text || '暫無筆記';
+	document.getElementById('handoverNotes').style.color = text ? '#E6EDF3' : '#8B949E';
+	toggleModal('notesModal');
+	saveAll();
+}
+
+function saveAll() {
+	var data = {
+		className: document.getElementById('infoClass').textContent,
+		grade: currentGrade,
+		teacher: document.getElementById('infoTeacher').textContent,
+		notes: document.getElementById('handoverNotes').textContent,
+		lessonPlan: document.getElementById('lessonPlanContent').innerHTML,
+		savedAt: new Date().toISOString()
+	};
+	localStorage.setItem('lf_sub_teacher', JSON.stringify(data));
+}
+
+function endSubClass() {
+	if (!confirm('確定結束代課？\n\n請確保已保存交接筆記。')) return;
+	if (timerInt) clearInterval(timerInt);
+	saveAll();
+	alert('代課結束。交接筆記已保存，原任老師返來時可以查看。\n\n感謝你嘅幫忙！');
+}
+
+// Init
+loadState();
+if (students.length === 0) {
+	students = demoNames.map(function(n, i) {
+		return {name: n, trap: 'T' + ((i % 10) + 1), done: false, q: 0, online: true, stuck: false};
+	});
+	renderStudents();
+}
+setInterval(simulateProgress, 4000);
+</script>
+</body>
+</html>

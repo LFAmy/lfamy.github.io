@@ -1,0 +1,255 @@
+/* ═══════════════════════════════════════════════════
+   LF Unified Design System v2.0
+   霖楓學苑 · 品牌一致性樣式
+   所有頁面引用此檔即可統一風格
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  /* ═══ Brand Colors ═══ */
+  --lf-navy: #1A3C6D;
+  --lf-navy-light: #1E4D8C;
+  --lf-navy-dark: #0F2440;
+  --lf-gold: #C9A84C;
+  --lf-gold-light: #DFC06A;
+  --lf-red: #DC2626;
+  --lf-green: #16A34A;
+  --lf-purple: #7C3AED;
+
+  /* ═══ Neutrals ═══ */
+  --lf-bg: #F3F4F6;
+  --lf-surface: #FFFFFF;
+  --lf-border: #E5E7EB;
+  --lf-text: #1A1A1A;
+  --lf-text-secondary: #6B7280;
+  --lf-text-muted: #9CA3AF;
+
+  /* ═══ Shadows ═══ */
+  --lf-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --lf-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  --lf-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --lf-shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+  --lf-shadow-xl: 0 20px 60px rgba(0,0,0,0.2);
+
+  /* ═══ Typography ═══ */
+  --lf-font-sans: 'Noto Sans HK', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --lf-font-serif: 'Noto Serif HK', 'PingFang SC', 'SimSun', 'STSong', 'KaiTi', serif;
+  --lf-font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* ═══ Radius ═══ */
+  --lf-radius-sm: 8px;
+  --lf-radius: 12px;
+  --lf-radius-md: 14px;
+  --lf-radius-lg: 16px;
+  --lf-radius-xl: 20px;
+  --lf-radius-full: 9999px;
+
+  /* ═══ Transitions ═══ */
+  --lf-transition: all 0.2s ease;
+}
+
+/* ═══════════════ SHARED NAV BAR ═══════════════ */
+.lf-nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 1000;
+  box-shadow: var(--lf-shadow);
+  transition: var(--lf-transition);
+}
+.lf-nav.scrolled { box-shadow: var(--lf-shadow-md); }
+.lf-nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 12px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.lf-nav-logo {
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none;
+}
+.lf-nav-logo img { height: 30px; }
+.lf-nav-logo span {
+  font-family: var(--lf-font-serif);
+  font-size: 16px; font-weight: 900;
+  color: var(--lf-navy); letter-spacing: 1px;
+}
+.lf-nav-links { display: flex; gap: 16px; align-items: center; list-style: none; }
+.lf-nav-links a {
+  text-decoration: none; color: var(--lf-text-secondary);
+  font-size: 13px; font-weight: 500;
+  transition: var(--lf-transition);
+}
+.lf-nav-links a:hover { color: var(--lf-navy); }
+.lf-nav-cta {
+  background: var(--lf-red) !important;
+  color: white !important;
+  padding: 8px 20px !important;
+  border-radius: var(--lf-radius-full) !important;
+  font-weight: 700 !important;
+  transition: var(--lf-transition);
+}
+.lf-nav-cta:hover { background: #B91C1C !important; transform: scale(1.03); }
+
+/* ═══════════════ SHARED FOOTER ═══════════════ */
+.lf-footer {
+  text-align: center; padding: 40px 24px;
+  border-top: 1px solid var(--lf-border);
+  background: var(--lf-bg);
+  font-size: 12px; color: var(--lf-text-secondary);
+}
+.lf-footer a { color: var(--lf-navy); text-decoration: none; }
+.lf-footer .lf-footer-logo { height: 24px; vertical-align: middle; margin-right: 6px; }
+
+/* ═══════════════ BUTTONS ═══════════════ */
+.lf-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 24px; border-radius: var(--lf-radius-full);
+  font-weight: 700; font-size: 14px; cursor: pointer; border: none;
+  font-family: var(--lf-font-sans); text-decoration: none;
+  transition: var(--lf-transition);
+}
+.lf-btn:hover { transform: translateY(-1px); }
+.lf-btn:active { transform: translateY(0); }
+.lf-btn-primary { background: var(--lf-navy); color: white; }
+.lf-btn-primary:hover { background: var(--lf-navy-light); }
+.lf-btn-gold { background: linear-gradient(135deg, var(--lf-gold), var(--lf-gold-light)); color: var(--lf-navy); }
+.lf-btn-gold:hover { box-shadow: 0 4px 16px rgba(201,168,76,0.4); }
+.lf-btn-red { background: var(--lf-red); color: white; }
+.lf-btn-red:hover { background: #B91C1C; }
+.lf-btn-green { background: var(--lf-green); color: white; }
+.lf-btn-outline { background: white; border: 2px solid var(--lf-border); color: var(--lf-navy); }
+.lf-btn-outline:hover { border-color: var(--lf-navy); background: #F8FAFC; }
+.lf-btn-lg { padding: 14px 32px; font-size: 16px; }
+.lf-btn-sm { padding: 6px 14px; font-size: 12px; }
+
+/* ═══════════════ CARDS ═══════════════ */
+.lf-card {
+  background: var(--lf-surface);
+  border-radius: var(--lf-radius-lg);
+  padding: 24px;
+  box-shadow: var(--lf-shadow);
+  border: 1px solid var(--lf-border);
+}
+.lf-card-hover:hover {
+  box-shadow: var(--lf-shadow-md);
+  transform: translateY(-2px);
+  transition: var(--lf-transition);
+}
+
+/* ═══════════════ SECTION HEADERS ═══════════════ */
+.lf-section-label {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--lf-navy), var(--lf-navy-light));
+  color: white;
+  padding: 4px 14px;
+  border-radius: var(--lf-radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.lf-section-title {
+  font-family: var(--lf-font-serif);
+  font-size: 28px;
+  color: var(--lf-navy);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.lf-section-sub {
+  color: var(--lf-text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+/* ═══════════════ HERO ═══════════════ */
+.lf-hero {
+  background: linear-gradient(135deg, var(--lf-navy), var(--lf-navy-dark));
+  color: white;
+  padding: 60px 24px;
+  text-align: center;
+  border-radius: var(--lf-radius-xl);
+  margin-bottom: 32px;
+}
+.lf-hero h1 {
+  font-family: var(--lf-font-serif);
+  font-size: 36px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.lf-hero p {
+  font-size: 16px;
+  opacity: 0.85;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  line-height: 1.7;
+}
+
+/* ═══════════════ UTILITY ═══════════════ */
+.lf-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.lf-text-center { text-align: center; }
+.lf-mt-sm { margin-top: 8px; }
+.lf-mt-md { margin-top: 16px; }
+.lf-mt-lg { margin-top: 24px; }
+.lf-mb-md { margin-bottom: 16px; }
+.lf-mb-lg { margin-bottom: 24px; }
+
+/* ═══════════════ MOBILE ═══════════════ */
+@media (max-width: 768px) {
+  .lf-nav-links { display: none; }
+  .lf-nav-mobile-cta { display: block !important; }
+  .lf-mobile-nav { display: flex !important; }
+  .lf-section-title { font-size: 22px; }
+  .lf-hero h1 { font-size: 26px; }
+}
+.lf-nav-mobile-cta { display: none; position: fixed; top: 10px; right: 10px; z-index: 1001; }
+.lf-mobile-nav {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(12px);
+  padding: 8px 16px;
+  justify-content: space-around;
+  z-index: 1000;
+  box-shadow: 0 -1px 4px rgba(0,0,0,0.06);
+}
+.lf-mobile-nav a {
+  text-decoration: none; color: var(--lf-text-secondary);
+  font-size: 10px; font-weight: 700; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.lf-mobile-nav a .mi { font-size: 20px; }
+.lf-mobile-nav a.cta-m { color: var(--lf-red); }
+
+@media (min-width: 769px) {
+  .lf-nav-mobile-cta { display: none !important; }
+  .lf-mobile-nav { display: none !important; }
+}
+
+/* ═══════════════ ANIMATIONS ═══════════════ */
+@keyframes lf-fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lf-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes lf-slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.lf-animate-in { animation: lf-fadeIn 0.4s ease forwards; }
+
+/* ═══════════════ ACCESSIBILITY ═══════════════ */
+:focus-visible { outline: 2px solid var(--lf-gold); outline-offset: 2px; border-radius: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════ DARK MODE ═══════════════ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lf-bg: #0D1117;
+    --lf-surface: #161B22;
+    --lf-border: #30363D;
+    --lf-text: #C9D1D9;
+    --lf-text-secondary: #8B949E;
+  }
+  .lf-nav { background: rgba(22,27,34,0.95); }
+  .lf-card { background: var(--lf-surface); border-color: var(--lf-border); }
+}

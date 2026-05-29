@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>霖楓學苑 · 即將為你轉接</title>
+<!-- FB Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
+fbq("init","XXXXXXXXXXXXXXXX");
+fbq("track","PageView");
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',-apple-system,sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center}
+.card{background:rgba(255,255,255,0.08);backdrop-filter:blur(16px);border-radius:20px;padding:48px 32px;max-width:420px;width:90%;border:1px solid rgba(255,255,255,0.12)}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:22px;margin-bottom:12px;font-weight:900}
+p{color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:24px;line-height:1.6}
+.loader{width:48px;height:48px;border:3px solid rgba(255,255,255,0.15);border-top-color:#25D366;border-radius:50%;margin:0 auto 20px;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.whatsapp-btn{display:inline-block;background:#25D366;color:white;padding:14px 32px;border-radius:30px;text-decoration:none;font-weight:700;font-size:15px;margin-top:16px;transition:all 0.2s}
+.whatsapp-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,0.4)}
+.note{color:rgba(255,255,255,0.4);font-size:11px;margin-top:20px}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="card">
+<div class="loader"></div>
+<h1>正在為你轉接 WhatsApp…</h1>
+<p id="status">自動跳轉中，請稍候</p>
+<a id="wa-link" href="#" class="whatsapp-btn" style="display:none">📱 如未跳轉請按此 →</a>
+<p class="note">霖楓學苑 · 呈分試陷阱診斷專家</p>
+</div>
+<script>
+(function(){
+
+var params = new URLSearchParams(window.location.search);
+var utm_source = params.get("utm_source")||"";
+var utm_medium = params.get("utm_medium")||"";
+var utm_campaign = params.get("utm_campaign")||"";
+var utm_content = params.get("utm_content")||"";
+var utm_term = params.get("utm_term")||"";
+var ref = document.referrer||"";
+var grade = params.get("grade")||"";
+
+// Build source label for WhatsApp message
+var sourceLabel = [];
+if(utm_campaign) sourceLabel.push(utm_campaign);
+if(utm_content) sourceLabel.push(utm_content);
+var label = sourceLabel.length ? " ["+sourceLabel.join(" ")+"]" : "";
+
+// Build WhatsApp pre-filled message
+var waMsg = encodeURIComponent("我想查詢霖楓學苑課程" + label);
+var waNumber = "85294796459";
+var waURL = "https://wa.me/"+waNumber+"?text="+waMsg;
+
+// Store lead data to Google Sheets (if configured)
+var SHEETS_WEBHOOK = "YOUR_GOOGLE_APPS_SCRIPT_URL";
+if(SHEETS_WEBHOOK.indexOf("YOUR_")===-1){
+    var data = {
+        timestamp: new Date().toISOString(),
+        utm_source: utm_source,
+        utm_medium: utm_medium,
+        utm_campaign: utm_campaign,
+        utm_content: utm_content,
+        utm_term: utm_term,
+        grade: grade,
+        referrer: ref,
+        userAgent: navigator.userAgent
+    };
+    try{
+        fetch(SHEETS_WEBHOOK,{
+            method:"POST",
+            mode:"no-cors",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(data)
+        });
+    }catch(e){}
+}
+
+// Fire FB Pixel Lead event
+if(typeof fbq!=="undefined"){
+    fbq("track","Lead",{
+        content_name: utm_campaign||"unknown",
+        content_category: "WhatsApp Click"
+    });
+}
+
+// Redirect to WhatsApp after 1.5s
+setTimeout(function(){
+    window.location.href = waURL;
+},1500);
+
+// Show fallback button after 5s
+setTimeout(function(){
+    var btn = document.getElementById("wa-link");
+    var status = document.getElementById("status");
+    if(btn) btn.style.display="inline-block";
+    if(status) status.textContent="跳轉似乎未成功，請點擊下方按鈕";
+},5000);
+
+document.getElementById("wa-link").href = waURL;
+
+})();
+</script>
+</body>
+</html>

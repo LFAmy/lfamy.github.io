@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 學生學習旅程系統</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:1000px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:26px;color:#1A3C6D;text-align:center;margin-bottom:8px}
+.sub{text-align:center;color:#6B7280;font-size:13px;margin-bottom:30px}
+.card{background:white;border-radius:14px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card h2{font-size:18px;color:#1A3C6D;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #C9A84C}
+.card h3{font-size:15px;color:#374151;margin:16px 0 10px}
+.tabs{display:flex;gap:8px;margin-bottom:24px;justify-content:center;flex-wrap:wrap}
+.tab{padding:10px 20px;border-radius:25px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:13px}
+.tab:hover,.tab.active{border-color:#1A3C6D;background:#1A3C6D;color:white}
+.msg-card{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:16px;margin-bottom:12px}
+.msg-card .msg-label{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;margin-bottom:8px}
+.msg-label.breakthrough{background:#D1FAE5;color:#065F46}
+.msg-label.steady{background:#DBEAFE;color:#1E40AF}
+.msg-label.struggling{background:#FEF3C7;color:#92400E}
+.msg-label.review{background:#EDE9FE;color:#6B21A8}
+.msg-label.renewal{background:#FCE7F3;color:#9D174D}
+.msg-label.referral{background:#CCFBF1;color:#0F766E}
+.msg-card .msg-body{font-size:13px;line-height:1.9;white-space:pre-wrap;color:#374151;margin-bottom:10px}
+.msg-card .msg-trigger{font-size:11px;color:#6B7280;margin-bottom:8px}
+.btn-copy{background:#25D366;color:white;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:700;font-size:11px}
+.btn-copy:hover{background:#1EBE5B}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.tip-card{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px;padding:14px;font-size:12px;color:#374151;line-height:1.7}
+.tip-num{display:inline-block;background:#1A3C6D;color:white;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px;font-weight:900;margin-right:8px}
+.quick-start{background:#1A3C6D;color:white;border-radius:14px;padding:24px;margin-bottom:20px;white-space:pre-wrap;font-size:13px;line-height:1.8}
+.journey-map{display:flex;gap:8px;margin:20px 0;flex-wrap:wrap;justify-content:center}
+.journey-step{background:white;border:2px solid #E5E7EB;border-radius:10px;padding:16px;text-align:center;min-width:120px}
+.journey-step .step-icon{font-size:28px;margin-bottom:6px}
+.journey-step .step-label{font-size:11px;font-weight:700;color:#1A3C6D}
+.journey-arrow{display:flex;align-items:center;font-size:20px;color:#C9A84C}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<h1>學生學習旅程自動化系統</h1>
+<div class="sub">報名後全自動跟進：進度更新 → 續報提醒 → 轉介紹</div>
+
+<div class="quick-start">=== 使用流程 ===
+1. 學生報名 → 第一堂
+2. 每堂後：揀適合嘅進度模板 → 複製 → 改 {欄位} → WhatsApp send 俾家長
+3. 每 4 堂：send 階段複習報告
+4. 最後 2 堂：send 續報提醒
+5. 家長滿意時：send 轉介紹邀請
+6. 所有模板都係一鍵複製，只需改學生名同數據</div>
+
+<!-- Journey Map -->
+<div class="card">
+<h2>學習旅程地圖</h2>
+<div class="journey-map">
+<div class="journey-step"><div class="step-icon">📝</div><div class="step-label">報名</div></div>
+<div class="journey-arrow">→</div>
+<div class="journey-step"><div class="step-icon">📚</div><div class="step-label">每堂進度</div></div>
+<div class="journey-arrow">→</div>
+<div class="journey-step"><div class="step-icon">📊</div><div class="step-label">4堂報告</div></div>
+<div class="journey-arrow">→</div>
+<div class="journey-step"><div class="step-icon">🔄</div><div class="step-label">續報</div></div>
+<div class="journey-arrow">→</div>
+<div class="journey-step"><div class="step-icon">🎁</div><div class="step-label">轉介紹</div></div>
+</div>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="showTab('lessons')">📚 課後進度</button>
+<button class="tab" onclick="showTab('renewal')">🔄 續報提醒</button>
+<button class="tab" onclick="showTab('referral')">🎁 轉介紹</button>
+<button class="tab" onclick="showTab('tips')">💡 家長貼士</button>
+<button class="tab" onclick="showTab('logger')" style="background:#DC2626;color:white;border-color:#DC2626">⚡ 快速記錄器</button>
+</div>
+
+<div id="content">    <div class="card" style="border-left:4px solid #DC2626;margin-top:20px" id="logger-card">
+<h2>⚡ 30秒快速記錄器</h2>
+<p style="font-size:12px;color:#6B7280;margin-bottom:16px">落堂即刻㩒幾下 → 自動生成 WhatsApp 訊息 → 複製 → Send 俾家長。</p>
+<div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+<input type="text" id="logStudent" placeholder="學生名稱" style="padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1;min-width:140px">
+<select id="logLessonNum" style="padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;background:white;font-family:inherit;flex:1;min-width:100px">
+<option value="1">第1堂</option><option value="2">第2堂</option><option value="3">第3堂</option><option value="4" selected>第4堂</option>
+<option value="5">第5堂</option><option value="6">第6堂</option><option value="7">第7堂</option><option value="8">第8堂</option></select>
+</div>
+<div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+<select id="logType" style="padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;background:white;font-family:inherit;flex:1;min-width:180px">
+<option value="breakthrough">🌟 突破 — 明顯進步</option><option value="steady" selected>👍 穩定 — 正常進步</option>
+<option value="struggling">💪 掙扎 — 需要更多時間</option><option value="review">📊 階段複習（每4堂）</option></select>
+</div>
+<div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+<input type="text" id="logTopic" placeholder="今日課題（例：分數除法）" style="padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1;min-width:140px">
+<input type="text" id="logAccuracy" placeholder="正確率（例：75%）" style="padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1;min-width:120px"></div>
+<div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+<input type="text" id="logHighlight" placeholder="做得好嘅位 / 挑戰位" style="padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1">
+<input type="text" id="logWatch" placeholder="仍需留意" style="padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1"></div>
+<button onclick="generateLog()" style="width:100%;padding:14px;background:linear-gradient(135deg,#DC2626,#B91C1C);color:white;border:none;border-radius:10px;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;margin-top:10px">⚡ 生成 WhatsApp 訊息</button>
+<div id="logOutput" style="display:none;margin-top:16px;background:#F9FAFB;border:2px solid #25D366;border-radius:10px;padding:16px">
+<div style="font-size:13px;line-height:1.9;white-space:pre-wrap;color:#374151;margin-bottom:10px" id="logMessage"></div>
+<button class="btn-copy" onclick="copyLog()" style="font-size:13px;padding:8px 20px">📋 複製到 WhatsApp</button></div></div>
+</div>
+</div>
+
+<script>
+var lessonData = {"breakthrough": {"label": "突破型 — 學生有明顯進步", "trigger": "本堂正確率 > 80% 或 解咗之前卡住嘅課題", "message": "【霖楓學苑 · 第{lesson}堂進度更新】\n\n{student_name} 今日嘅表現：🌟 突破！\n\n✅ 掌握課題：{topic}\n✅ 本堂正確率：{accuracy}%\n✅ 突破亮點：{highlight}\n\n之前佢成日中嘅陷阱（{trap_type}），今日完全避開咗！\n睇住佢由「成日錯」到「一眼睇穿個陷阱」，真係好感動。\n\n💡 下堂預告：{next_topic}\n我哋會進一步鞏固呢個課題，再加一個新嘅挑戰。\n\n家長有咩問題隨時問我 😊"}, "steady": {"label": "穩定型 — 正常進步中", "trigger": "本堂正確率 60-80%", "message": "【霖楓學苑 · 第{lesson}堂進度更新】\n\n{student_name} 今日嘅表現：👍 穩定進步\n\n✅ 學習課題：{topic}\n✅ 本堂正確率：{accuracy}%\n✅ 做得好嘅位：{highlight}\n⚠️ 仍需留意：{watch_out}\n\n佢對{topic}嘅理解愈嚟愈好。下堂我哋會針對「{watch_out}」做多啲練習。\n\n💡 家長小貼士：\n{parent_tip}\n\n下堂見！😊"}, "struggling": {"label": "掙扎型 — 需要更多時間", "trigger": "本堂正確率 < 60% 或 重複中同一陷阱", "message": "【霖楓學苑 · 第{lesson}堂進度更新】\n\n{student_name} 今日嘅表現：💪 努力中\n\n✅ 學習課題：{topic}\n⚠️ 挑戰位：{challenge}\n\n今日佢喺{challenge}呢個位有啲掙扎。不過放心，呢個係正常嘅 — 大部分學生喺呢個課題都需要多啲時間。\n\n我哋嘅計劃：\n1️⃣ 下堂會用唔同嘅方法再解釋一次\n2️⃣ 會俾多啲基礎練習佢打好個底\n3️⃣ 重點避開 T{trap_num} 陷阱\n\n學習唔係一條直線，有上有落係正常㗎。\n我哋會陪住佢一齊進步 💪\n\n有咩問題隨時問我 😊"}, "review": {"label": "階段複習 — 每4堂一次", "trigger": "第 4/8/12 堂", "message": "【霖楓學苑 · 階段進度報告】\n\n{student_name} 嘅 {weeks} 週學習總結：\n\n📊 整體正確率：{overall_accuracy}%\n📈 進步幅度：{improvement}\n🏆 最強課題：{strength}\n🎯 下階段目標：{next_goal}\n\n已避開嘅陷阱：\n✅ {traps_fixed}\n\n仍需留意嘅陷阱：\n⚠️ {traps_remaining}\n\n💡 下 4 堂計劃：\n{next_plan}\n\n整體嚟講，{student_name}嘅進步好明顯！\n繼續保持呢個節奏，呈分試一定冇問題 💪"}};
+var renewalData = {"pre_renewal": {"label": "續報提醒 — 最後2堂時", "message": "【霖楓學苑 · 課程更新提醒】\n\n{student_name} 而家嘅進度真係好好！💪\n\n佢仲有 2 堂就完成呢個階段嘅課程。\n下一個階段我哋會：\n\n✨ {next_phase_plan}\n\n而家續報可以保留同一個時間 slot\n（好多時段都好快 full）\n\n想繼續嗎？可以呢度 confirm：\nhttps://www.lfacademyhk.com/enroll.html\n\n或者 WhatsApp 我傾都得 😊"}, "last_chance": {"label": "最後一堂提醒", "message": "【霖楓學苑 · 最後一堂】\n\n今日係 {student_name} 呢個階段嘅最後一堂！🎉\n\n佢由 {start_level} 進步到 {current_level}\n真係睇住佢一步一步成長 🤍\n\n如果想繼續，聽日之前 confirm 可以保留時段。\n下階段我哋會專注喺 {next_focus}。\n\nhttps://www.lfacademyhk.com/enroll.html"}};
+var referralData = {"happy_parent": {"label": "滿意家長 — 邀請轉介紹", "trigger": "家長表示滿意 / 學生有明顯進步", "message": "【霖楓學苑 · 分享有禮 🎁】\n\n{student_name} 嘅進步真係好大！\n我哋好開心可以陪佢一齊成長 🤍\n\n如果你身邊有朋友嘅小朋友都需要數學幫助，\n介紹佢嚟我哋呢度 —\n\n你同你朋友**一人送一堂免費**！\n（價值 $200）\n\n佢可以先做免費陷阱診斷，覺得合適先報名。\n完全冇壓力㗎～\n\n有興趣嘅話，叫朋友 WhatsApp 我時提你個名就得 😊"}};
+var tipsData = ["唔好急於幫佢對答案。先問佢：「你覺得呢題最易錯嘅位係邊？」— 訓練佢自己發現陷阱。", "每次做完練習，只挑 1-2 題錯題討論。一次過講太多佢會 overwhelmed。", "用生活例子解釋數學。超市買嘢時問：「如果呢包餅加價 20% 再 8 折，即係幾錢？」", "讚佢嘅「過程」而唔係「結果」。唔好話「你好叻」，試下話「我見到你好專心咁逐個位檢查」。", "俾佢做小老師，教你一個佢今日學識嘅概念。教識人 = 自己真正明。", "設立一個「陷阱日記」：每次發現一個新陷阱就寫低。久而久之佢會建立自己嘅陷阱警報系統。", "保持 20 分鐘專注 → 5 分鐘休息嘅節奏。小學生嘅專注力有限，勉強冇幸福。"];
+
+function showTab(t){
+    document.querySelectorAll(".tab").forEach(function(b){b.classList.remove("active")});
+    event.target.classList.add("active");
+    var d=document.getElementById("content");
+
+    if(t==="lessons"){
+        var html='';
+        Object.entries(lessonData).forEach(function(e){
+            var k=e[0],v=e[1];
+            html+='<div class="card"><h3>'+v.label+'</h3><div style="font-size:12px;color:#6B7280;margin-bottom:16px">觸發條件：'+v.trigger+'</div>';
+            html+='<div class="msg-card"><div class="msg-label '+k+'">'+v.label+'</div><div class="msg-body">'+v.message.replace(/\{.*?\}/g,'＿＿＿')+'</div><button class="btn-copy" onclick="copyMsg(this)" data-msg="'+encodeURIComponent(v.message)+'">📋 複製模板</button></div>';
+            html+='</div>';
+        });
+        d.innerHTML=html;return;
+    }
+    if(t==="renewal"){
+        var html='';
+        Object.entries(renewalData).forEach(function(e){
+            var v=e[1];html+='<div class="card"><h3>'+v.label+'</h3><div class="msg-card"><div class="msg-label renewal">'+v.label+'</div><div class="msg-body">'+v.message.replace(/\{.*?\}/g,'＿＿＿')+'</div><button class="btn-copy" onclick="copyMsg(this)" data-msg="'+encodeURIComponent(v.message)+'">📋 複製模板</button></div></div>';
+        });
+        d.innerHTML=html;return;
+    }
+    if(t==="referral"){
+        var html='';
+        Object.entries(referralData).forEach(function(e){
+            var v=e[1];html+='<div class="card"><h3>'+v.label+'</h3><div style="font-size:12px;color:#6B7280;margin-bottom:16px">觸發條件：'+v.trigger+'</div><div class="msg-card"><div class="msg-label referral">'+v.label+'</div><div class="msg-body">'+v.message.replace(/\{.*?\}/g,'＿＿＿')+'</div><button class="btn-copy" onclick="copyMsg(this)" data-msg="'+encodeURIComponent(v.message)+'">📋 複製模板</button></div></div>';
+        });
+        d.innerHTML=html;return;
+    }
+    if(t==="tips"){
+        d.innerHTML='<div class="card"><h2>💡 家長教育小貼士</h2><div class="tips-grid">'+tipsData.map(function(t,i){return'<div class="tip-card"><span class="tip-num">'+(i+1)+'</span>'+t+'</div>'}).join("")+'</div></div>';
+        return;
+    }
+    if(t==="logger"){
+        d.innerHTML=LOGGER_HTML;
+        return;
+        return;
+    }
+}
+function copyMsg(b){var t=decodeURIComponent(b.getAttribute("data-msg"));navigator.clipboard.writeText(t).then(function(){b.textContent="已複製 ✓";setTimeout(function(){b.textContent="📋 複製模板"},2000)})}
+showTab("lessons");
+
+function generateLog(){
+    var t=document.getElementById("logType").value;
+    var msg=(lessonData[t]||lessonData["steady"]).message;
+    var name=document.getElementById("logStudent").value||"＿＿＿";
+    var fields={
+        "{student_name}":name,
+        "{lesson}":document.getElementById("logLessonNum").value||"1",
+        "{topic}":document.getElementById("logTopic").value||"＿＿＿",
+        "{accuracy}":document.getElementById("logAccuracy").value||"＿＿＿",
+        "{highlight}":document.getElementById("logHighlight").value||"＿＿＿",
+        "{watch_out}":document.getElementById("logWatch").value||"＿＿＿",
+        "{challenge}":document.getElementById("logHighlight").value||"＿＿＿",
+        "{weeks}":"4","{improvement}":"＿＿＿","{strength}":"＿＿＿",
+        "{next_goal}":"＿＿＿","{trap_type}":"T4 漏寫0陷阱","{trap_num}":"4",
+        "{next_topic}":document.getElementById("logTopic").value||"下堂課題",
+        "{parent_tip}":tipsData[Math.floor(Math.random()*tipsData.length)],
+        "{overall_accuracy}":document.getElementById("logAccuracy").value||"＿＿＿",
+        "{traps_fixed}":"＿＿＿","{traps_remaining}":"＿＿＿","{next_plan}":"＿＿＿"
+    };
+    Object.entries(fields).forEach(function(e){msg=msg.split(e[0]).join(e[1])});
+    document.getElementById("logMessage").textContent=msg;
+    document.getElementById("logOutput").style.display="block";
+}
+function copyLog(){
+    var t=document.getElementById("logMessage").textContent;
+    navigator.clipboard.writeText(t).then(function(){alert("已複製！貼上去 WhatsApp send 俾家長 ✅")});
+}
+
+</script>
+</body></html>

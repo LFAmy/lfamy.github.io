@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>霖楓學苑 · 每日操作中心 2026-05-25</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.6;padding:16px}
+.topbar{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;padding:14px 20px;border-radius:14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.topbar h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:20px;font-weight:900}
+.topbar .date{font-size:13px;opacity:0.8}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.card{background:white;border-radius:12px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #E5E7EB;display:flex;align-items:center;gap:8px}
+.card h2 .icon{font-size:20px}
+.task-list{list-style:none}
+.task-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F3F4F6;font-size:13px}
+.task-item:last-child{border-bottom:none}
+.task-checkbox{width:22px;height:22px;border:2px solid #D1D5DB;border-radius:6px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.task-checkbox.done{background:#16A34A;border-color:#16A34A;color:white}
+.task-checkbox.done::after{content:'✓';font-size:14px;font-weight:900}
+.task-text{flex:1}
+.task-text .task-label{font-weight:700}
+.task-text .task-desc{font-size:11px;color:#6B7280}
+.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.quick-btn{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:10px;text-decoration:none;font-weight:700;font-size:12px;transition:all 0.2s;border:none;cursor:pointer;font-family:inherit}
+.quick-btn.publish{background:#DC2626;color:white}
+.quick-btn.wa{background:#25D366;color:white}
+.quick-btn.crm{background:#1A3C6D;color:white}
+.quick-btn.lesson{background:#C9A84C;color:#1A3C6D}
+.quick-btn.reactivate{background:#1E4D8C;color:white}
+.quick-btn.calendar{background:#F59E0B;color:white}
+.quick-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.lead-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F3F4F6;font-size:12px}
+.lead-row .lead-name{font-weight:700}
+.lead-row .lead-status{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.lead-status.new{background:#FEF3C7;color:#92400E}
+.lead-status.contacted{background:#DBEAFE;color:#1E40AF}
+.lead-status.enrolled{background:#D1FAE5;color:#065F46}
+.lesson-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F3F4F6;font-size:12px}
+.lesson-row .student-name{font-weight:700}
+.content-card{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #F3F4F6}
+.content-card:last-child{border-bottom:none}
+.content-card .platform-badge{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;color:white;flex-shrink:0;min-width:40px;text-align:center}
+.platform-badge.fb{background:#1877F2}
+.platform-badge.ig{background:#E4405F}
+.platform-badge.xhs{background:#FF2442}
+.content-card .content-info{flex:1;min-width:0}
+.content-card .content-title{font-size:12px;font-weight:700;margin-bottom:2px}
+.content-card .content-meta{font-size:10px;color:#6B7280}
+.tool-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tool-link{padding:6px 14px;border-radius:20px;border:1px solid #E5E7EB;text-decoration:none;font-size:11px;color:#6B7280;font-weight:500;transition:all 0.2s}
+.tool-link:hover{border-color:#1A3C6D;color:#1A3C6D;background:#F9FAFB}
+.empty-state{text-align:center;padding:30px;color:#9CA3AF;font-size:13px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.quick-actions{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="topbar">
+<div><h1>霖楓學苑 · 每日操作中心</h1><div class="date">2026-05-25 星期一</div></div>
+<a href="/launchpad.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:12px">完整工具箱 →</a>
+</div>
+
+<div class="grid">
+
+<!-- TODAY'S TASKS -->
+<div class="card">
+<h2><span class="icon">📋</span>今日任務</h2>
+<ul class="task-list" id="taskList">
+<li class="task-item"><div class="task-checkbox" onclick="toggleTask(this)"></div><div class="task-text"><div class="task-label">發佈今日社交內容</div><div class="task-desc">FB + IG + 小紅書，3 個平台</div></div></li>
+<li class="task-item"><div class="task-checkbox" onclick="toggleTask(this)"></div><div class="task-text"><div class="task-label">檢查新 Lead + 跟進</div><div class="task-desc">回覆 WhatsApp 查詢，更新 CRM</div></div></li>
+<li class="task-item"><div class="task-checkbox" onclick="toggleTask(this)"></div><div class="task-text"><div class="task-label">今日有堂嘅學生：send 進度更新</div><div class="task-desc">用快速記錄器，30秒/學生</div></div></li>
+<li class="task-item"><div class="task-checkbox" onclick="toggleTask(this)"></div><div class="task-text"><div class="task-label">檢查沉睡 Lead → 再激活</div><div class="task-desc">Day 3 / Day 7 跟進</div></div></li>
+<li class="task-item"><div class="task-checkbox" onclick="toggleTask(this)"></div><div class="task-text"><div class="task-label">檢查廣告表現（如有數據）</div><div class="task-desc">FB 廣告管理員 + GA4</div></div></li>
+</ul>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="card">
+<h2><span class="icon">⚡</span>快速行動</h2>
+<div class="quick-actions">
+<a href="/docs/social/publish/" class="quick-btn publish" target="_blank">🚀 今日發佈內容</a>
+<a href="wa-responses.html" class="quick-btn wa" target="_blank">💬 WhatsApp 回覆</a>
+<a href="crm.html" class="quick-btn crm" target="_blank">📊 Lead 管理</a>
+<a href="student-journey.html" class="quick-btn lesson" target="_blank">🎓 課後記錄器</a>
+<a href="reactivation-kit.html" class="quick-btn reactivate" target="_blank">🎯 Lead 再激活</a>
+<a href="social/social_calendar_v2.html" class="quick-btn calendar" target="_blank">📅 內容日曆</a>
+</div>
+<div class="tool-links">
+<a href="ad-link-generator.html" class="tool-link" target="_blank">🔗 廣告連結</a>
+<a href="tracking-setup.html" class="tool-link" target="_blank">📈 追蹤設定</a>
+<a href="setup-guide.html" class="tool-link" target="_blank">📋 CRM 手冊</a>
+<a href="/docs/social/videos/" class="tool-link" target="_blank">🎬 影片庫</a>
+<a href="/docs/blog/" class="tool-link" target="_blank">📰 部落格</a>
+<a href="#" class="tool-link" target="_blank">📚 講義庫</a>
+</div>
+</div>
+
+<!-- TODAY'S CONTENT -->
+<div class="card">
+<h2><span class="icon">📱</span>今日要發嘅內容</h2>
+<div id="todayContent">
+<div class="empty-state">載入中…</div>
+</div>
+<a href="/docs/social/publish/" target="_blank" style="display:block;text-align:center;margin-top:12px;color:#1A3C6D;font-weight:700;font-size:12px;text-decoration:none">開完整發佈頁面 →</a>
+</div>
+
+<!-- LEAD OVERVIEW -->
+<div class="card">
+<h2><span class="icon">👥</span>Lead 概覽</h2>
+<div id="leadOverview">
+<div class="empty-state">CRM 未設定<br><a href="tracking-setup.html" style="color:#1E4D8C;font-size:12px">設定 Google Apps Script →</a></div>
+</div>
+<a href="crm.html" target="_blank" style="display:block;text-align:center;margin-top:12px;color:#1A3C6D;font-weight:700;font-size:12px;text-decoration:none">開完整 CRM →</a>
+</div>
+
+<!-- TEACHER BATCH OPS -->
+<div class="card" id="batchOps">
+<h2><span class="icon">⚡</span>批次操作 — 今日課堂</h2>
+<p style="font-size:11px;color:#6B7280;margin-bottom:12px">填一次資料，一鍵生成所有學生嘅 WhatsApp 訊息</p>
+<div id="batchStudents"></div>
+<button onclick="addBatchStudent()" style="background:#1A3C6D;color:white;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:700;font-size:11px;margin-bottom:12px">+ 加入學生</button>
+<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+<select id="batchLessonNum" style="padding:8px 12px;border:2px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit">
+<option value="1">第1堂</option><option value="2">第2堂</option><option value="3">第3堂</option><option value="4" selected>第4堂</option></select>
+<select id="batchType" style="padding:8px 12px;border:2px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit">
+<option value="steady" selected>👍 穩定進步</option><option value="breakthrough">🌟 突破</option><option value="struggling">💪 掙扎中</option></select>
+<input type="text" id="batchTopic" placeholder="今日課題" style="padding:8px 12px;border:2px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit;flex:1;min-width:120px">
+<input type="text" id="batchAccuracy" placeholder="正確率%" style="padding:8px 12px;border:2px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit;width:80px">
+</div>
+<button onclick="generateBatch()" style="width:100%;padding:12px;background:linear-gradient(135deg,#DC2626,#B91C1C);color:white;border:none;border-radius:8px;font-size:14px;font-weight:900;cursor:pointer;font-family:inherit">⚡ 一鍵生成全部訊息</button>
+<div id="batchOutput" style="display:none;margin-top:12px"></div>
+</div>
+<!-- TODAY'S LESSONS -->
+<div class="card">
+<h2><span class="icon">🎓</span>今日課堂</h2>
+<div id="todayLessons">
+<div class="empty-state">未有今日課堂資料<br><span style="font-size:11px">去 <a href="student-journey.html" style="color:#1E4D8C">學生旅程頁面</a> 用快速記錄器</span></div>
+</div>
+</div>
+
+</div>
+
+<script>
+// Restore task states from localStorage
+(function(){
+    var tasks=JSON.parse(localStorage.getItem("daily_tasks_"+today)||"[]");
+    document.querySelectorAll(".task-checkbox").forEach(function(cb,i){
+        if(tasks[i]){cb.classList.add("done")}
+    });
+})();
+
+function toggleTask(cb){
+    cb.classList.toggle("done");
+    var tasks=[];
+    document.querySelectorAll(".task-checkbox").forEach(function(c){tasks.push(c.classList.contains("done"))});
+    localStorage.setItem("daily_tasks_"+today,JSON.stringify(tasks));
+}
+
+// Show today's content from content_v3
+(function(){
+    var platColors={fb:'#1877F2',ig:'#E4405F',xhs:'#FF2442'};
+    var platNames={fb:'FB',ig:'IG',xhs:'小紅書'};
+    // Simple content rotation based on date
+    var dayIdx=new Date().getDate()%8;
+    var posts=[
+        {plat:'fb',title:'試過3間補習社，間間都係俾練習佢做'},
+        {plat:'ig',title:'90%錯誤唔係因為唔識'},
+        {plat:'xhs',title:'香港媽媽必知｜小朋友數學粗心背後嘅真相'},
+    ];
+    var html='';
+    posts.forEach(function(p){
+        html+='<div class="content-card"><div class="platform-badge '+p.plat+'">'+platNames[p.plat]+'</div><div class="content-info"><div class="content-title">'+p.title+'</div><div class="content-meta">今日 '+date_str+' · 等緊你發佈</div></div></div>';
+    });
+    document.getElementById("todayContent").innerHTML=html;
+})();
+
+var batchStudents=[];
+function addBatchStudent(){var n=prompt("學生名稱：");if(n){batchStudents.push(n);renderBatchStudents()}}
+function renderBatchStudents(){
+    var d=document.getElementById("batchStudents");
+    d.innerHTML=batchStudents.map(function(s,i){return'<div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px"><span style="font-weight:700">'+s+'</span><span onclick="batchStudents.splice('+i+',1);renderBatchStudents()" style="cursor:pointer;color:#DC2626;font-size:10px">✕</span></div>'}).join("");
+}
+function generateBatch(){
+    if(batchStudents.length===0){alert("請先加入學生");return}
+    var t=document.getElementById("batchType").value;
+    var templates={breakthrough:"【霖楓學苑 · 第{lesson}堂進度更新】\n\n{student_name} 今日嘅表現：🌟 突破！\n\n✅ 掌握課題：{topic}\n✅ 本堂正確率：{accuracy}%\n✅ 之前成日中嘅陷阱，今日完全避開咗！\n\n💡 下堂我哋會進一步鞏固同挑戰新課題。\n家長有咩問題隨時問我 😊",
+        steady:"【霖楓學苑 · 第{lesson}堂進度更新】\n\n{student_name} 今日嘅表現：👍 穩定進步\n\n✅ 學習課題：{topic}\n✅ 本堂正確率：{accuracy}%\n\n佢對{topic}嘅理解愈嚟愈好。繼續保持！\n家長有咩問題隨時問我 😊",
+        struggling:"【霖楓學苑 · 第{lesson}堂進度更新】\n\n{student_name} 今日嘅表現：💪 努力中\n\n⚠️ 挑戰位：{topic}\n\n放心，呢個課題大部分學生都需要多啲時間。我哋下堂會用唔同方法再解釋。\n\n學習唔係一條直線，有上有落係正常㗎 💪"
+    };
+    var msg=templates[t]||templates.steady;
+    var outputs="";
+    batchStudents.forEach(function(s){
+        var m=msg.replace(/\{student_name\}/g,s)
+            .replace(/\{lesson\}/g,document.getElementById("batchLessonNum").value||"1")
+            .replace(/\{topic\}/g,document.getElementById("batchTopic").value||"今日課題")
+            .replace(/\{accuracy\}/g,document.getElementById("batchAccuracy").value||"?");
+        outputs+='<div class="msg-card" style="margin-bottom:10px"><div style="font-weight:700;color:#1A3C6D;margin-bottom:6px;font-size:12px">'+s+'</div><div style="font-size:12px;line-height:1.8;white-space:pre-wrap;color:#374151;margin-bottom:8px">'+m+'</div><button class="btn-copy" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent).then(function(){alert('已複製 ✅')})" style="font-size:11px">📋 複製</button></div>';
+    });
+    document.getElementById("batchOutput").innerHTML='<div style="margin-bottom:8px;font-weight:700;font-size:13px">'+batchStudents.length+' 個學生嘅訊息：</div>'+outputs+'<button class="btn-copy" onclick="copyAllBatch()" style="margin-top:8px;font-size:12px;padding:8px 16px">📋 一鍵複製全部</button>';
+    document.getElementById("batchOutput").style.display="block";
+}
+function copyAllBatch(){
+    var all="";document.querySelectorAll("#batchOutput .msg-card div:first-child + div").forEach(function(d){all+=d.textContent+"\n\n---\n\n"});
+    navigator.clipboard.writeText(all).then(function(){alert("已複製全部 "+batchStudents.length+" 個學生嘅訊息 ✅")});
+}
+
+</script>
+</body>
+</html>

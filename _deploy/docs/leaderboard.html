@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 排行榜</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;padding:30px 20px}
+.container{max-width:600px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;text-align:center;font-size:28px;color:#C9A84C;margin-bottom:4px}
+.sub{text-align:center;color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:24px}
+.leaderboard{display:flex;flex-direction:column;gap:8px}
+.lb-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.05);border-radius:12px;padding:14px 18px;transition:all 0.2s}
+.lb-row:hover{background:rgba(255,255,255,0.1)}
+.lb-row.top1{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3)}
+.lb-row.top2{background:rgba(201,168,76,0.08)}
+.lb-row.top3{background:rgba(201,168,76,0.04)}
+.lb-rank{width:36px;text-align:center;font-weight:900;font-size:18px}
+.lb-rank.gold{color:#C9A84C;font-size:28px}
+.lb-rank.silver{color:#E5E7EB;font-size:22px}
+.lb-rank.bronze{color:#D4A574;font-size:20px}
+.lb-name{flex:1;font-weight:700;font-size:15px}
+.lb-grade{font-size:11px;color:rgba(255,255,255,0.4)}
+.lb-score{text-align:right}
+.lb-score .pts{font-size:20px;font-weight:900;color:#C9A84C}
+.lb-score .lbl{font-size:10px;color:rgba(255,255,255,0.4)}
+.my-rank{background:rgba(22,163,74,0.15);border:2px solid #16A34A;border-radius:12px;padding:16px;margin-top:20px;text-align:center}
+.my-rank .msg{font-size:16px;font-weight:700;margin-bottom:4px}
+.my-rank .pos{font-size:14px;color:#4ADE80}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<h1>🏆 排行榜</h1>
+<div class="sub">P5 班級 · 本週排名</div>
+
+<div class="leaderboard" id="lb"></div>
+<div class="my-rank" id="myRank"></div>
+</div>
+
+<script>
+var students=[
+{name:"陳小明",grade:"P5",pts:1250,streak:12},
+{name:"李小花",grade:"P5",pts:980,streak:7},
+{name:"張志偉",grade:"P5",pts:840,streak:5},
+{name:"王詩雅",grade:"P5",pts:720,streak:4},
+{name:"林大文",grade:"P5",pts:650,streak:15},
+{name:"黃小美",grade:"P5",pts:520,streak:3},
+{name:"劉俊傑",grade:"P5",pts:480,streak:2},
+{name:"周嘉欣",grade:"P5",pts:350,streak:1},
+];
+students.sort(function(a,b){return b.pts-a.pts});
+
+var html="",myPos=0;
+students.forEach(function(s,i){
+var cls=i===0?"top1":i===1?"top2":i===2?"top3":"";
+var rank=i===0?'<span class="lb-rank gold">🥇</span>':i===1?'<span class="lb-rank silver">🥈</span>':i===2?'<span class="lb-rank bronze">🥉</span>':'<span class="lb-rank">'+(i+1)+'</span>';
+html+='<div class="lb-row '+cls+'">'+rank+'<div class="lb-name">'+s.name+'<div class="lb-grade">'+s.grade+' · '+s.streak+'日連續</div></div><div class="lb-score"><div class="pts">'+s.pts.toLocaleString()+'</div><div class="lbl">積分</div></div></div>';
+if(s.name==="陳小明")myPos=i+1;
+});
+document.getElementById("lb").innerHTML=html;
+document.getElementById("myRank").innerHTML='<div class="msg">🔥 你的排名</div><div class="pos">第 '+myPos+' 名 · 1,250 積分 · 連續 12 日</div><div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px">再做 3 日就可以超越第 1 名！</div>';
+</script>
+</body></html>

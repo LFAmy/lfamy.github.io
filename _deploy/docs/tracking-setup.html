@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 追蹤系統啟動指南</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:15px;line-height:1.8;padding:30px 20px}
+.container{max-width:750px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:26px;color:#1A3C6D;text-align:center;margin-bottom:8px}
+.sub{text-align:center;color:#6B7280;font-size:13px;margin-bottom:30px}
+.card{background:white;border-radius:14px;padding:28px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card h2{font-size:18px;color:#1A3C6D;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #C9A84C}
+.card h3{font-size:15px;color:#374151;margin:16px 0 8px}
+ol{margin-left:20px;margin-bottom:12px}
+li{margin-bottom:8px}
+.code{background:#1A1A1A;color:#25D366;padding:14px 18px;border-radius:8px;font-family:'Consolas',monospace;font-size:13px;margin:12px 0;word-break:break-all}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px}
+.warn{background:#FEF2F2;border:1px solid #DC2626;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px}
+.status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700}
+.status.ready{background:#D1FAE5;color:#065F46}
+.status.waiting{background:#FEF3C7;color:#92400E}
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th{text-align:left;font-size:12px;color:#6B7280;padding:8px 12px;border-bottom:2px solid #E5E7EB;background:#F9FAFB}
+td{font-size:13px;padding:8px 12px;border-bottom:1px solid #F3F4F6}
+a{color:#1E4D8C}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<h1>追蹤系統啟動指南</h1>
+<div class="sub">1 個 FB Pixel ID + 1 個 GA4 ID = 全站追蹤即時上線</div>
+
+<div class="card">
+<h2>你只需要 2 個 ID</h2>
+<table>
+<tr><th>ID</th><th>去邊度搵</th><th>狀態</th></tr>
+<tr>
+<td>FB Pixel ID（16位數字）</td>
+<td><a href="https://business.facebook.com/events_manager2" target="_blank">FB 事件管理工具</a> → 選擇 Pixel → 設定</td>
+<td><span class="status waiting">等你提供</span></td>
+</tr>
+<tr>
+<td>GA4 Measurement ID（G-開頭）</td>
+<td><a href="https://analytics.google.com" target="_blank">Google Analytics</a> → 管理 → 資料串流 → 選擇串流</td>
+<td><span class="status waiting">等你提供</span></td>
+</tr>
+</table>
+</div>
+
+<div class="card">
+<h2>第 1 步：搵 FB Pixel ID</h2>
+<ol>
+<li>去 <a href="https://business.facebook.com/events_manager2" target="_blank">business.facebook.com/events_manager2</a></li>
+<li>左手邊選擇你嘅 Pixel（如果你得一個，會直接顯示）</li>
+<li>左手邊「設定」tab</li>
+<li>你會見到一串 16 位數字 — 呢個就係你嘅 Pixel ID</li>
+<li>複製佢</li>
+</ol>
+<div class="note">如果你從來未建立過 Pixel：點「+ 建立」→ 按照指示建立一個新嘅 Pixel。2 分鐘搞掂。</div>
+</div>
+
+<div class="card">
+<h2>第 2 步：搵 GA4 Measurement ID</h2>
+<ol>
+<li>去 <a href="https://analytics.google.com" target="_blank">analytics.google.com</a></li>
+<li>左下角「管理」(⚙️)</li>
+<li>「資料串流」→ 選擇你網站嘅串流</li>
+<li>你會見到「Measurement ID」— 格式係 G-XXXXXXXXXX</li>
+<li>複製佢</li>
+</ol>
+<div class="note">如果你未設定過 GA4：需要先建立一個 GA4 資源。去 admin → 建立資源 → 跟指示做。5 分鐘搞掂。</div>
+</div>
+
+<div class="card">
+<h2>第 3 步：俾 ID 我，我幫你全站替換</h2>
+<p>將你搵到嘅兩個 ID send 俾我，格式：</p>
+<div class="code">
+FB Pixel: 1234567890123456<br>
+GA4: G-ABC123DEF4
+</div>
+<p>我會即刻執行：</p>
+<div class="code">
+python scripts/activate_tracking.py --fb-pixel 1234567890123456 --ga4 G-ABC123DEF4
+</div>
+<p>30 秒內，以下全部檔案嘅 placeholder 會被替換：</p>
+<table>
+<tr><th>檔案</th><th>替換內容</th></tr>
+<tr><td>index.html</td><td>FB Pixel ID + GA4 ID</td></tr>
+<tr><td>docs/track.html</td><td>FB Pixel ID</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2>啟動後你會得到咩</h2>
+<table>
+<tr><th>功能</th><th>說明</th></tr>
+<tr><td>✅ FB 廣告追蹤</td><td>知道邊個廣告帶嚟 WhatsApp 點擊</td></tr>
+<tr><td>✅ Retargeting 受眾</td><td>可以建立「點過 WhatsApp 但未報名」嘅自訂受眾 → 再行銷</td></tr>
+<tr><td>✅ FB CAPI 事件</td><td>track.html 會自動 send Lead 事件返 FB</td></tr>
+<tr><td>✅ 類似受眾</td><td>累積夠 Conversion 數據 → 建立 Lookalike Audience</td></tr>
+<tr><td>✅ GA4 網站分析</td><td>流量、頁面瀏覽、用戶行為全部有數據</td></tr>
+<tr><td>✅ WhatsApp 點擊追蹤</td><td>GA4 記錄每次 WhatsApp 點擊</td></tr>
+<tr><td>✅ 報名漏斗分析</td><td>知道由廣告 → WhatsApp → 報名嘅轉換率</td></tr>
+</table>
+</div>
+
+<div class="warn">
+<strong>⚠️ 而家嘅狀態：</strong>你嘅廣告費每個月喺度燒，但你完全唔知邊個廣告有效、邊個浪費錢。啟動追蹤之後，你會第一次真正睇到自己嘅 ROAS（廣告回報率）。
+</div>
+
+</div>
+</body>
+</html>

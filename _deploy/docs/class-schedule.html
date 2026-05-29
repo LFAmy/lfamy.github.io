@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 課堂時間表</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:900px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.timetable{display:grid;grid-template-columns:100px repeat(6,1fr);gap:4px;background:white;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.timetable>div{padding:12px 8px;text-align:center;font-size:12px;min-height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tt-header{background:#1A3C6D;color:white;font-weight:900;font-size:11px}
+.tt-time{background:#F9FAFB;font-weight:700;color:#6B7280;font-size:10px;line-height:1.4}
+.tt-slot{background:white;border:1px solid #E5E7EB;border-radius:6px;cursor:pointer;transition:all 0.2s;font-size:10px}
+.tt-slot.booked{background:#DBEAFE;border-color:#1E4D8C;font-weight:700}
+.tt-slot:hover{background:#F0F7FF;border-color:#1A3C6D}
+.tt-slot .student{color:#1A3C6D;font-weight:700;font-size:10px}
+.tt-slot .grade{color:#6B7280;font-size:9px}
+.btn{display:inline-block;padding:8px 16px;border-radius:8px;font-weight:700;font-size:11px;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white;margin-top:12px}
+@media(max-width:600px){.timetable{grid-template-columns:70px repeat(3,1fr);font-size:9px}}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>📅 課堂時間表</h1><p>一對三小班 · 每堂65分鐘 · 堂與堂之間15分鐘緩衝</p></div>
+
+<div class="timetable" id="timetable"></div>
+<button class="btn" onclick="addDemoClass()">+ 新增課堂</button>
+<button class="btn" style="background:#25D366" onclick="shareSchedule()">📱 Share 時間表</button>
+</div>
+
+<script>
+var days=["一","二","三","四","五","六"];
+var times=["3:30","4:50","6:10"];
+
+function calcEndTime(t) {
+	var parts = t.split(':');
+	var h = parseInt(parts[0]), m = parseInt(parts[1]);
+	m += 65;
+	h += Math.floor(m / 60);
+	m = m % 60;
+	return h + ':' + (m < 10 ? '0' : '') + m;
+}
+
+var classes=JSON.parse(localStorage.getItem("lf_schedule")||"[]");
+
+function render(){
+var html='<div class="tt-header">時間 (65分鐘)</div>';
+days.forEach(function(d){html+='<div class="tt-header">星期'+d+'</div>'});
+times.forEach(function(t){
+	var endTime = calcEndTime(t);
+	html+='<div class="tt-time">'+t+'<br>至 '+endTime+'</div>';
+	days.forEach(function(d){
+	var cls=classes.filter(function(c){return c.day===d&&c.time===t});
+	if(cls.length>0){
+	html+='<div class="tt-slot booked"><span class="student">'+cls.map(function(c){return c.student}).join(", ")+'</span><span class="grade">'+cls[0].grade+'</span></div>';
+	}else{html+='<div class="tt-slot">—</div>'}
+	});
+});
+document.getElementById("timetable").innerHTML=html;
+}
+
+function addDemoClass(){
+var students=["陳小明","李小花","張志偉","王詩雅","林大文"];
+var s=students[Math.floor(Math.random()*students.length)];
+classes.push({student:s,grade:"P5",day:days[Math.floor(Math.random()*5)],time:times[Math.floor(Math.random()*3)]});
+localStorage.setItem("lf_schedule",JSON.stringify(classes));render();
+}
+function shareSchedule(){alert("時間表已複製，可 WhatsApp send俾老師")}
+render();
+</script>
+</body></html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 轉介紹追蹤系統</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:800px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;color:#1A3C6D;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #E5E7EB}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:white;border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.stat-card .num{font-size:28px;font-weight:900}
+.stat-card .lbl{font-size:11px;color:#6B7280;margin-top:2px}
+.form-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.form-row input,.form-row select{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1;min-width:120px}
+.btn-primary{background:#1A3C6D;color:white;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;font-family:inherit}
+.btn-primary:hover{background:#1E4D8C}
+.btn-reward{background:#C9A84C;color:#1A3C6D;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:700;font-size:11px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#F9FAFB;text-align:left;padding:8px 10px;font-size:11px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+td{padding:8px 10px;border-bottom:1px solid #F3F4F6}
+.badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.badge.pending{background:#FEF3C7;color:#92400E}
+.badge.rewarded{background:#D1FAE5;color:#065F46}
+.badge.enrolled{background:#DBEAFE;color:#1E40AF}
+.share-link-box{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px;padding:12px;margin:8px 0;font-size:12px}
+.share-link-box code{background:#1A1A1A;color:#25D366;padding:4px 8px;border-radius:4px;font-size:11px;word-break:break-all}
+.btn-copy-sm{background:#E5E7EB;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:10px;font-weight:700}
+@media(max-width:500px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<h1>🎁 轉介紹追蹤系統</h1>
+
+<!-- Stats -->
+<div class="stats">
+<div class="stat-card"><div class="num" id="statTotal" style="color:#1A3C6D">0</div><div class="lbl">總介紹</div></div>
+<div class="stat-card"><div class="num" id="statEnrolled" style="color:#16A34A">0</div><div class="lbl">已報名</div></div>
+<div class="stat-card"><div class="num" id="statPending" style="color:#F59E0B">0</div><div class="lbl">待獎勵</div></div>
+<div class="stat-card"><div class="num" id="statRewarded" style="color:#C9A84C">0</div><div class="lbl">已獎勵</div></div>
+</div>
+
+<!-- Add Referral -->
+<div class="card">
+<h2>➕ 新增轉介紹記錄</h2>
+<div class="form-row">
+<input type="text" id="refReferrer" placeholder="介紹人（家長名）">
+<input type="text" id="refReferred" placeholder="被介紹人（新家長名）">
+<select id="refGrade"><option value="">年級</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option></select>
+</div>
+<div class="form-row">
+<input type="text" id="refPhone" placeholder="被介紹人 WhatsApp">
+<select id="refStatus"><option value="contacted">已聯繫</option><option value="trial">已試堂</option><option value="enrolled">已報名 ✅</option></select>
+<button class="btn-primary" onclick="addReferral()">➕ 新增</button>
+</div>
+</div>
+
+<!-- Share Link Generator -->
+<div class="card">
+<h2>🔗 生成專屬轉介紹連結</h2>
+<div class="form-row">
+<input type="text" id="shareParent" placeholder="家長名稱">
+<button class="btn-primary" onclick="generateShareLink()">生成連結</button>
+</div>
+<div class="share-link-box" id="shareLinkBox" style="display:none">
+<div style="margin-bottom:6px;font-weight:700" id="shareLinkLabel"></div>
+<code id="shareLinkCode"></code>
+<button class="btn-copy-sm" onclick="copyShareLink()" style="margin-left:8px">📋 複製</button>
+<div style="font-size:10px;color:#6B7280;margin-top:6px">家長可以呢個連結 send 俾朋友。朋友㩒入去會自動帶埋介紹人資料。</div>
+</div>
+</div>
+
+<!-- Referral Table -->
+<div class="card">
+<h2>📊 轉介紹記錄</h2>
+<table>
+<thead><tr><th>介紹人</th><th>被介紹人</th><th>年級</th><th>狀態</th><th>獎勵</th><th>日期</th><th></th></tr></thead>
+<tbody id="refTable"><tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:30px">未有轉介紹記錄</td></tr></tbody>
+</table>
+</div>
+</div>
+
+<script>
+var referrals = JSON.parse(localStorage.getItem("lf_referrals")||"[]");
+
+function save(){localStorage.setItem("lf_referrals",JSON.stringify(referrals));render()}
+
+function addReferral(){
+    var r = document.getElementById("refReferrer").value.trim();
+    var d = document.getElementById("refReferred").value.trim();
+    var g = document.getElementById("refGrade").value;
+    var p = document.getElementById("refPhone").value.trim();
+    var s = document.getElementById("refStatus").value;
+    if(!r||!d){alert("請填寫介紹人同被介紹人");return}
+    referrals.push({referrer:r,referred:d,grade:g,phone:p,status:s,reward:s==="enrolled"?"pending":"none",date:new Date().toISOString().split("T")[0]});
+    ["refReferrer","refReferred","refPhone"].forEach(function(id){document.getElementById(id).value=""});
+    document.getElementById("refGrade").value="";document.getElementById("refStatus").value="contacted";
+    save();
+}
+
+function toggleReward(i){
+    referrals[i].reward = referrals[i].reward==="rewarded"?"pending":"rewarded";
+    save();
+}
+
+function generateShareLink(){
+    var name = document.getElementById("shareParent").value.trim();
+    if(!name){alert("請輸入家長名稱");return}
+    var code = btoa(encodeURIComponent(name)).substring(0,12);
+    var url = "https://www.lfacademyhk.com/enroll.html?ref="+code;
+    document.getElementById("shareLinkLabel").textContent = name+" 嘅專屬連結：";
+    document.getElementById("shareLinkCode").textContent = url;
+    document.getElementById("shareLinkBox").style.display="block";
+}
+
+function copyShareLink(){
+    var t = document.getElementById("shareLinkCode").textContent;
+    navigator.clipboard.writeText(t).then(function(){alert("已複製！Send 俾家長 ✅")});
+}
+
+function render(){
+    var enrolled = referrals.filter(function(r){return r.status==="enrolled"}).length;
+    var pending = referrals.filter(function(r){return r.reward==="pending"}).length;
+    var rewarded = referrals.filter(function(r){return r.reward==="rewarded"}).length;
+    document.getElementById("statTotal").textContent = referrals.length;
+    document.getElementById("statEnrolled").textContent = enrolled;
+    document.getElementById("statPending").textContent = pending;
+    document.getElementById("statRewarded").textContent = rewarded;
+
+    var tbody = document.getElementById("refTable");
+    if(referrals.length===0){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:30px">未有轉介紹記錄</td></tr>';return}
+    var statusLabels={contacted:"已聯繫",trial:"已試堂",enrolled:"已報名"};
+    tbody.innerHTML = referrals.map(function(r,i){
+        return '<tr><td><strong>'+r.referrer+'</strong></td><td>'+r.referred+'</td><td>'+r.grade+'</td><td><span class="badge '+r.status+'">'+(statusLabels[r.status]||r.status)+'</span></td><td>'+(r.status==="enrolled"?'<button class="btn-reward" onclick="toggleReward('+i+')">'+(r.reward==="rewarded"?"✅ 已送":"🎁 待送")+'</button>':"—")+'</td><td>'+r.date+'</td><td><span onclick="referrals.splice('+i+',1);save()" style="cursor:pointer;color:#DC2626;font-size:10px">✕</span></td></tr>';
+    }).reverse().join("");
+}
+render();
+</script>
+</body></html>

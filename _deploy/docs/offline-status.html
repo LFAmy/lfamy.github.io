@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 離線狀態</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:600px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);text-align:center}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.status-dot{display:inline-block;width:16px;height:16px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.status-dot.online{background:#16A34A}.status-dot.offline{background:#DC2626}
+.sync-list{text-align:left;font-size:12px;line-height:2;background:#F9FAFB;border-radius:10px;padding:14px}
+.sync-list .item{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #F3F4F6}
+.btn{display:inline-block;padding:12px 24px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white;margin:4px}
+.tip-card{background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:14px;margin:12px 0;font-size:12px;text-align:left;line-height:1.8}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>離線狀態</h1><p id="statusText">檢查中…</p></div>
+
+<div class="card"><h2>同步狀態</h2>
+<div id="syncStatus" style="font-size:24px;font-weight:900;margin:12px 0"></div>
+<div class="sync-list" id="syncList"></div>
+</div>
+
+<div class="card"><h2>快速操作</h2>
+<button class="btn" onclick="LFOffline._sync()">立即同步</button>
+<button class="btn" style="background:#DC2626" onclick="clearAll()">清除緩存</button>
+</div>
+
+<div class="tip-card"><strong>離線模式說明：</strong><br>
+- 你可以在沒有網絡的情況下繼續做練習<br>
+- 答案會自動儲存在你的裝置上<br>
+- 恢復連線後，所有數據會自動同步<br>
+- 建議在有WiFi時先打開一次平台，讓題目預載<br>
+- 緩存的題目可在離線時繼續使用</div>
+</div>
+
+<script src="/docs/data/offline-sync.js"></script>
+<script>
+function updateUI(){
+  var s = LFOffline.getStatus();
+  document.getElementById('statusText').textContent = s.online ? '已連接' : '離線模式';
+  document.getElementById('syncStatus').innerHTML =
+    '<span class="status-dot '+(s.online?'online':'offline')+'"></span>' +
+    (s.online ? '在線' : '離線') +
+    ' | ' + s.queued + ' 項待同步' +
+    (s.lastSync ? '<br><span style="font-size:11px;color:#6B7280">上次同步: '+new Date(s.lastSync).toLocaleString('zh-HK')+'</span>' : '');
+
+  var list = document.getElementById('syncList');
+  list.innerHTML = '<div class="item"><span>連線狀態</span><strong>'+(s.online?'在線':'離線')+'</strong></div>' +
+    '<div class="item"><span>待同步隊列</span><strong>'+s.queued+' 項</strong></div>' +
+    '<div class="item"><span>已同步總數</span><strong>'+s.syncedCount+' 項</strong></div>' +
+    '<div class="item"><span>上次同步</span><strong>'+(s.lastSync?new Date(s.lastSync).toLocaleString('zh-HK'):'從未')+'</strong></div>';
+}
+updateUI();
+setInterval(updateUI, 3000);
+
+function clearAll(){
+  if(confirm('確定要清除所有緩存數據嗎？這不會刪除你的練習記錄。')){
+    if('caches' in window){
+      caches.keys().then(function(keys){keys.forEach(function(k){caches.delete(k)})});
+    }
+    alert('緩存已清除。下次加載時會重新下載。');
+  }
+}
+</script>
+</body></html>

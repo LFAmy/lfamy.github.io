@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 課堂摘要</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:700px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.summary-box{background:#F9FAFB;border:2px solid #C9A84C;border-radius:12px;padding:18px;font-size:13px;line-height:2.2;white-space:pre-wrap}
+.btn{display:inline-block;padding:12px 24px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#25D366;color:white}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>📋 課堂摘要生成器</h1><p>落堂即生成 → 一鍵 send 俾全班家長</p></div>
+
+<div class="card"><h2>摘要預覽</h2>
+<div class="summary-box" id="summaryText" contenteditable="true">
+【霖楓學苑 · 課堂摘要】
+日期：2026-05-26 · P5 數學
+
+📊 本堂重點：分數除法
+✅ 全班平均正確率：72%
+⚠️ 最常見錯誤：異分母通分（第5題全班正確率僅25%）
+🌟 表現最佳：陳小明（正確率92%）
+
+📝 本堂功課：
+練習卷第5-8題（未完成的課堂練習）
+
+💡 家長貼士：
+可以同小朋友玩「超市折扣遊戲」練習百分數
+</div></div>
+
+<button class="btn btn-primary" onclick="copySummary()">📋 複製摘要</button>
+<button class="btn btn-green" onclick="sendSummary()">📱 WhatsApp 群發全班家長</button>
+<button class="btn" style="background:#E5E7EB" onclick="autoHomework()">📝 未完成練習 → 轉為功課</button>
+</div>
+
+<script>
+function copySummary(){var t=document.getElementById("summaryText").textContent;navigator.clipboard.writeText(t).then(function(){alert("已複製 ✅")})}
+function sendSummary(){var t=encodeURIComponent(document.getElementById("summaryText").textContent);window.open("https://wa.me/?text="+t,"_blank")}
+function autoHomework(){alert("已將 3 位學生未完成嘅練習轉為功課 ✅\n陳小明(剩2題) · 李小花(剩5題) · 張志偉(剩1題)")}
+</script>
+</body></html>

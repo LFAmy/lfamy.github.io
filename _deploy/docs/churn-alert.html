@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 流失預警</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#DC2626,#991B1B);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.alert-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;margin-bottom:8px}
+.alert-row.critical{background:#FEF2F2;border:1px solid #FECACA}
+.alert-row.warning{background:#FEF3C7;border:1px solid #FDE68A}
+.alert-row.ok{background:#D1FAE5;border:1px solid #A7F3D0}
+.alert-row .student{font-weight:700}
+.alert-row .risk{font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px}
+.risk.high{background:#DC2626;color:white}
+.risk.medium{background:#F59E0B;color:white}
+.risk.low{background:#16A34A;color:white}
+.alert-row .action-btn{padding:6px 14px;border-radius:15px;border:none;cursor:pointer;font-weight:700;font-size:11px;background:#1A3C6D;color:white}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat-box{background:white;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.stat-box .val{font-size:28px;font-weight:900}
+.stat-box .lbl{font-size:11px;color:#6B7280}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>⚠️ 流失預警儀表板</h1><p>AI 自動標記高流失風險學生</p></div>
+
+<div class="stats-grid">
+<div class="stat-box"><div class="val" style="color:#DC2626">2</div><div class="lbl">高風險（需即時跟進）</div></div>
+<div class="stat-box"><div class="val" style="color:#F59E0B">3</div><div class="lbl">中風險（持續觀察）</div></div>
+<div class="stat-box"><div class="val" style="color:#16A34A">15</div><div class="lbl">健康</div></div>
+</div>
+
+<div class="card"><h2>🔴 高風險學生</h2>
+<div class="alert-row critical"><div class="student">陳小明 (P5)</div><div><span class="risk high">流失機率 82%</span></div><div style="font-size:11px;color:#991B1B">3週冇練習 · 正確率跌15%</div><button class="action-btn" onclick="alert('建議：WhatsApp 家長，提供免費1對1診斷')">👆 行動建議</button></div>
+<div class="alert-row critical"><div class="student">李小花 (P3)</div><div><span class="risk high">流失機率 75%</span></div><div style="font-size:11px;color:#991B1B">連續5次練習正確率<50%</div><button class="action-btn" onclick="alert('建議：切換到兒童模式，前3題降低難度')">👆 行動建議</button></div>
+</div>
+
+<div class="card"><h2>🟡 中風險</h2>
+<div class="alert-row warning"><div class="student">張志偉 (P6)</div><div><span class="risk medium">42%</span></div><div style="font-size:11px;color:#92400E">使用頻率下降（每日→每週1次）</div><button class="action-btn">提醒</button></div>
+<div class="alert-row warning"><div class="student">王詩雅 (P4)</div><div><span class="risk medium">35%</span></div><div style="font-size:11px;color:#92400E">家長2週未查看報告</div><button class="action-btn">提醒</button></div>
+</div>
+
+<div class="card"><h2>早期預警信號</h2>
+<div style="font-size:12px;color:#6B7280;line-height:2">
+🔴 3日冇練習 → 自動推送提醒<br>
+🔴 正確率連續下跌 → AI 建議調整難度<br>
+🔴 家長2週冇查看報告 → 推送摘要<br>
+🔴 訂閱到期前7日 → 發送續費優惠<br>
+🔴 取消訂閱時 → 收集原因（1題調查）
+</div></div>
+</div>
+</body></html>

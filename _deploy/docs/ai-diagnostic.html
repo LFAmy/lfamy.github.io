@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta property="og:title" content="霖楓學苑 · AI 陷阱診斷">
+<meta property="og:description" content="15-20分鐘找出學生最弱陷阱類型。AI自適應出題，生成個人化學習路徑。">
+<meta property="og:image" content="https://www.lfacademyhk.com/logo.png">
+<meta property="og:url" content="https://www.lfacademyhk.com/docs/ai-diagnostic.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="霖楓學苑 LF Academy">
+<meta property="og:locale" content="zh_HK">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>霖楓學苑 · AI 智能陷阱診斷 2.0</title>
+<meta name="description" content="AI自適應數學診斷 — 10分鐘找出學生最弱陷阱類型，生成個人化學習路徑。P3-P6呈分試專家。">
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151;--shadow:0 4px 24px rgba(0,0,0,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:var(--g100);color:var(--g800);min-height:100vh}
+.container{max-width:700px;margin:0 auto;padding:20px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#0A1A35,#1A3C6D,#1E4D8C);color:white;border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:24px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;border:2px solid rgba(201,168,76,0.15);border-radius:50%}
+.header h1{font-size:22px;margin-bottom:6px;position:relative}
+.header .badge{display:inline-block;background:rgba(201,168,76,0.2);color:var(--g);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px}
+.header p{font-size:13px;opacity:0.75;margin-top:8px;position:relative}
+
+/* Cards */
+.card{background:white;border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
+.card h2{font-size:17px;color:var(--b);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h2 .icon{font-size:22px}
+
+/* Grade Selector */
+.grade-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.grade-btn{padding:16px 8px;border:2px solid var(--g200);border-radius:14px;background:white;cursor:pointer;text-align:center;font-size:14px;font-weight:700;transition:all 0.2s;font-family:inherit}
+.grade-btn:hover{border-color:var(--g);background:#FFFDF5}
+.grade-btn.active{border-color:var(--b);background:var(--b);color:white}
+.grade-btn .emoji{font-size:24px;display:block;margin-bottom:4px}
+
+/* Quiz */
+.question-card{background:white;border-radius:16px;padding:28px;margin-bottom:16px;box-shadow:var(--shadow);animation:fadeIn 0.3s ease}
+.question-card .q-num{font-size:11px;color:var(--g400);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.question-card .q-text{font-size:18px;font-weight:700;margin-bottom:20px;line-height:1.6}
+.options{display:grid;gap:10px}
+.opt-btn{padding:16px 20px;border:2px solid var(--g200);border-radius:12px;background:white;cursor:pointer;font-size:16px;text-align:left;transition:all 0.15s;font-family:inherit;display:flex;align-items:center;gap:12px}
+.opt-btn:hover{border-color:var(--b);background:#F0F5FF}
+.opt-btn.correct{border-color:var(--gr);background:#F0FDF4;animation:pulse 0.4s}
+.opt-btn.wrong{border-color:var(--r);background:#FEF2F2;animation:shake 0.4s}
+.opt-btn .letter{width:32px;height:32px;border-radius:50%;background:var(--g100);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0}
+.opt-btn.correct .letter{background:var(--gr);color:white}
+.opt-btn.wrong .letter{background:var(--r);color:white}
+
+/* Progress Bar */
+.progress-wrap{background:var(--g200);border-radius:10px;height:6px;margin-bottom:8px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--b),var(--g));border-radius:10px;transition:width 0.4s}
+.progress-text{font-size:11px;color:var(--g400);text-align:right}
+
+/* Timer */
+.timer{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--g100);border-radius:20px;font-size:13px;font-weight:700;color:var(--g600)}
+.timer.warning{background:#FEF2F2;color:var(--r);animation:pulse 1s infinite}
+
+/* AI Analysis */
+.analysis-card{background:linear-gradient(135deg,#F0FDF4,#FFFDF5);border:1px solid #BBF7D0;border-radius:16px;padding:24px;margin-bottom:16px}
+.analysis-card.warn{background:linear-gradient(135deg,#FEF2F2,#FFFDF5);border-color:#FECACA}
+.trap-tag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;margin:2px}
+.trap-tag.t1{background:#FFE5E5;color:#DC2626}.trap-tag.t2{background:#E0F2FE;color:#0284C7}
+.trap-tag.t3{background:#FEF3C7;color:#D97706}.trap-tag.t4{background:#F3E8FF;color:#7C3AED}
+.trap-tag.t5{background:#FCE7F3;color:#DB2777}.trap-tag.t6{background:#D1FAE5;color:#059669}
+
+/* Radar Chart Container */
+.radar-container{width:100%;max-width:280px;margin:16px auto}
+.radar-label{font-size:10px;fill:var(--g600)}
+
+/* Recommendation */
+.rec-item{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--g200);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.15s}
+.rec-item:hover{border-color:var(--g);background:#FFFDF5}
+.rec-item .rec-icon{font-size:28px}
+.rec-item .rec-info{flex:1}
+.rec-item .rec-info h4{font-size:14px;color:var(--b);margin-bottom:2px}
+.rec-item .rec-info p{font-size:11px;color:var(--g600)}
+.rec-item .rec-arrow{color:var(--g400);font-size:20px}
+
+/* Buttons */
+.btn{display:inline-block;padding:14px 36px;border-radius:25px;font-weight:900;font-size:15px;cursor:pointer;border:none;text-align:center;text-decoration:none;transition:all 0.2s;font-family:inherit}
+.btn-primary{background:var(--b);color:white;width:100%}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,60,109,0.3)}
+.btn-gold{background:linear-gradient(135deg,var(--g),#DFC06A);color:var(--b);width:100%}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,0.3)}
+.btn-outline{background:white;border:2px solid var(--b);color:var(--b)}
+.btn-sm{padding:8px 20px;font-size:13px}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* AI Thinking Indicator */
+.ai-thinking{display:flex;align-items:center;gap:8px;padding:16px;background:#F0F5FF;border-radius:12px;margin:16px 0}
+.ai-thinking .dot{width:8px;height:8px;border-radius:50%;background:var(--b);animation:pulse 1.2s infinite}
+.ai-thinking .dot:nth-child(2){animation-delay:0.2s}
+.ai-thinking .dot:nth-child(3){animation-delay:0.4s}
+.ai-thinking span{font-size:12px;color:var(--b);font-weight:500}
+
+/* Score Circle */
+.score-circle{width:120px;height:120px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;position:relative}
+.score-circle::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:4px solid transparent}
+.score-circle.high{color:var(--gr);background:#F0FDF4;border:4px solid #BBF7D0}
+.score-circle.mid{color:var(--g);background:#FFFDF5;border:4px solid #FDE68A}
+.score-circle.low{color:var(--r);background:#FEF2F2;border:4px solid #FECACA}
+
+@media(max-width:480px){
+  .grade-grid{grid-template-columns:repeat(2,1fr)}
+  .question-card .q-text{font-size:16px}
+}
+</style>
+<link rel="manifest" href="/manifest.json">
+<script src="/docs/data/lf-cloud-sync.js"></script>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <div class="badge">🪤 AI 2.0 · 自適應智能診斷</div>
+  <h1>AI 數學陷阱診斷系統</h1>
+  <p>10題 · 自適應難度 · 精準定位弱項 · 生成個人化學習路徑</p>
+</div>
+
+<!-- ═══ STEP 1: GRADE SELECT ═══ -->
+<div id="stepGrade" class="card">
+  <h2><span class="icon">🎯</span>選擇年級</h2>
+  <p style="font-size:12px;color:var(--g600);margin-bottom:16px">AI會根據你嘅年級自動調整題目難度</p>
+  <div class="grade-grid">
+    <button class="grade-btn" onclick="selectGrade('P3')"><span class="emoji">🧒</span>小三 P3</button>
+    <button class="grade-btn" onclick="selectGrade('P4')"><span class="emoji">📚</span>小四 P4</button>
+    <button class="grade-btn" onclick="selectGrade('P5')"><span class="emoji">🎯</span>小五 P5</button>
+    <button class="grade-btn" onclick="selectGrade('P6')"><span class="emoji">🏆</span>小六 P6</button>
+  </div>
+</div>
+
+<!-- ═══ STEP 2: QUIZ ═══ -->
+<div id="stepQuiz" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <span id="quizGrade" style="font-size:12px;color:var(--g400);font-weight:700"></span>
+    <div id="timerDisplay" class="timer">⏱ <span id="timerVal">0:00</span></div>
+  </div>
+  <div class="progress-wrap"><div id="progressBar" class="progress-fill" style="width:0%"></div></div>
+  <div class="progress-text" id="progressText">0/10</div>
+  <div id="questionContainer"></div>
+</div>
+
+<!-- ═══ STEP 3: AI ANALYSIS ═══ -->
+<div id="stepAnalysis" style="display:none">
+  <!-- AI Thinking -->
+  <div id="aiThinking" class="ai-thinking">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <span>AI 正在分析你嘅答題模式...</span>
+  </div>
+  
+  <!-- Score -->
+  <div id="analysisContent" style="display:none">
+    <div class="card" style="text-align:center">
+      <h2><span class="icon">📊</span>診斷結果</h2>
+      <div id="scoreCircle" class="score-circle mid">--</div>
+      <p style="font-size:13px;color:var(--g600)" id="scoreText"></p>
+    </div>
+
+    <!-- Trap Radar -->
+    <div class="card">
+      <h2><span class="icon">🎯</span>陷阱弱項分析</h2>
+      <div class="radar-container">
+        <svg id="radarChart" viewBox="0 0 250 250"></svg>
+      </div>
+      <div id="trapTags" style="text-align:center;margin-top:12px"></div>
+    </div>
+
+    <!-- AI Insights -->
+    <div id="aiInsights" class="analysis-card"></div>
+
+    <!-- Smart Recommendations -->
+    <div class="card">
+      <h2><span class="icon">💡</span>AI 個人化學習建議</h2>
+      <div id="recommendations"></div>
+    </div>
+
+    <!-- CTA -->
+    <a href="enroll.html" class="btn btn-gold" style="display:block;margin:16px 0">🎯 免費試堂 · 針對性改善弱項 →</a>
+    <button onclick="restartQuiz()" class="btn btn-outline" style="width:100%">🔄 重新診斷</button>
+  </div>
+</div>
+
+</div>
+
+<script src="/docs/data/lf-whatsapp.js"></script>
+<script>
+// ═══════════════════════════════════════
+// AI DIAGNOSTIC 2.0 ENGINE
+// ═══════════════════════════════════════
+
+var LF_AI = {
+  grade: null,
+  questions: [],
+  answers: [],
+  currentQ: 0,
+  timerSec: 0,
+  timerInterval: null,
+  difficulty: 0.5, // adaptive difficulty 0-1
+  
+  // ── TRAP TYPE DEFINITIONS ──
+  traps: {
+    T1: {name:'進退位陷阱', icon:'🔢', desc:'加減乘除時進位/退位出錯'},
+    T2: {name:'單位換算陷阱', icon:'📏', desc:'單位轉換時乘除倍數錯誤'},
+    T3: {name:'運算順序陷阱', icon:'⚡', desc:'先乘除後加減規則混淆'},
+    T4: {name:'漏寫0陷阱', icon:'0️⃣', desc:'小數點/補零位置錯漏'},
+    T5: {name:'分數運算陷阱', icon:'🍕', desc:'通分/約分/分數四則錯誤'},
+    T6: {name:'百分數陷阱', icon:'💯', desc:'百分數增減/折扣計算錯誤'},
+    T7: {name:'應用題理解陷阱', icon:'📖', desc:'讀題不仔細/單位混淆'},
+    T8: {name:'圖形公式陷阱', icon:'📐', desc:'面積體積公式混淆/忘記÷2'},
+    T9: {name:'時間計算陷阱', icon:'⏰', desc:'時間加減/12/24小時制'},
+    T10:{name:'方程代數陷阱', icon:'🔣', desc:'移項符號錯誤/代數式簡化'}
+  },
+  
+  // ── QUESTION POOL (adaptive) ──
+  questionPool: {
+    P3: [
+      {q:'234 + 189 = ?', opts:['413','423','323','433'], ans:1, trap:'T1', diff:0.3, explain:'小心個位：4+9=13，要進1'},
+      {q:'500 - 267 = ?', opts:['233','243','333','343'], ans:0, trap:'T1', diff:0.4, explain:'500-260=240，再減7=233'},
+      {q:'3米 = ? 厘米', opts:['30','300','3000','3'], ans:1, trap:'T2', diff:0.3, explain:'1米=100厘米，所以3×100=300'},
+      {q:'8 × 7 = ?', opts:['54','56','58','64'], ans:1, trap:'T1', diff:0.2, explain:'背熟乘數表：8×7=56'},
+      {q:'三角形有幾多條邊？', opts:['2','3','4','5'], ans:1, trap:'T8', diff:0.1, explain:'三角形一定有3條邊'},
+      {q:'小明有15粒糖，食咗7粒，仲有幾多？', opts:['7','8','9','22'], ans:1, trap:'T7', diff:0.2, explain:'15-7=8，小心讀題'},
+      {q:'1小時 = ? 分鐘', opts:['30','60','100','24'], ans:1, trap:'T9', diff:0.1, explain:'1小時=15-20分鐘'},
+      {q:'24 + □ = 50，□ = ?', opts:['24','26','36','76'], ans:1, trap:'T10', diff:0.3, explain:'50-24=26，用逆向思維'},
+      {q:'正方形有幾多條邊相同長度？', opts:['2','3','4','0'], ans:2, trap:'T8', diff:0.2, explain:'正方形四條邊一樣長'},
+      {q:'半公斤 = ? 克', opts:['50','100','500','1000'], ans:2, trap:'T2', diff:0.4, explain:'1公斤=1000克，一半=500克'}
+   
+    {q:'156 + 278 = ?', opts:['424','434','334','444'], ans:1, trap:'T1', diff:0.3, explain:'6+8=14進1,5+7+1=13進1,1+2+1=4→434'},{q:'800 - 345 = ?', opts:['455','445','555','545'], ans:0, trap:'T1', diff:0.4, explain:'800-300=500,500-45=455'},{q:'5公里 = ? 米', opts:['50','500','5000','50000'], ans:2, trap:'T2', diff:0.3, explain:'1公里=1000米,5×1000=5000'},{q:'1/2 + 1/2 = ?', opts:['2/4','1','1/4','2/2'], ans:1, trap:'T5', diff:0.2, explain:'兩個一半加埋=1'},{q:'正方形邊長4cm周界=？', opts:['8cm','12cm','16cm','4cm'], ans:2, trap:'T8', diff:0.2, explain:'4×4=16cm'},{q:'36 ÷ 4 = ?', opts:['8','9','6','12'], ans:1, trap:'T1', diff:0.2, explain:'4×9=36'},{q:'1公斤 = ? 克', opts:['10','100','1000','10000'], ans:2, trap:'T2', diff:0.2, explain:'1公斤=1000克'},{q:'長方形長6cm闊4cm面積=？', opts:['10cm²','20cm²','24cm²','12cm²'], ans:2, trap:'T8', diff:0.3, explain:'6×4=24cm²'},{q:'小明有50元買書用28元仲有？', opts:['22','32','28','78'], ans:0, trap:'T7', diff:0.2, explain:'50-28=22'},{q:'7 × 8 = ?', opts:['54','56','48','64'], ans:1, trap:'T1', diff:0.2, explain:'7×8=56'},{q:'9 × 6 = ?', opts:['54','56','48','64'], ans:0, trap:'T1', diff:0.2, explain:'9×6=54'},{q:'三角形有幾多個角？', opts:['2','3','4','5'], ans:1, trap:'T8', diff:0.1, explain:'三個角'},{q:'100cm = ? 米', opts:['0.1','1','10','100'], ans:1, trap:'T2', diff:0.3, explain:'100cm=1米'},{q:'下午3時用24小時制係？', opts:['3:00','13:00','15:00','17:00'], ans:2, trap:'T9', diff:0.3, explain:'下午+12=15:00'},{q:'45 + □ = 100, □ = ?', opts:['45','55','65','145'], ans:1, trap:'T10', diff:0.3, explain:'100-45=55'},{q:'2小時 = ? 分鐘', opts:['60','100','120','200'], ans:2, trap:'T9', diff:0.2, explain:'2×60=120'},{q:'公園紅花18朵黃花比紅花多7朵共有？', opts:['25','43','32','18'], ans:1, trap:'T7', diff:0.4, explain:'黃18+7=25,共18+25=43'},{q:'48 + 36 = ?', opts:['74','84','72','82'], ans:1, trap:'T1', diff:0.3, explain:'8+6=14進1,4+3+1=8→84'},{q:'81 ÷ 9 = ?', opts:['8','7','9','10'], ans:2, trap:'T1', diff:0.2, explain:'9×9=81'},{q:'500 - 267 = ?', opts:['233','243','333','343'], ans:0, trap:'T1', diff:0.3, explain:'500-260=240-7=233'},]
+    // P3 EXPANDED (+20 questions)
+    {q:'156 + 278 = ?', opts:['424','434','334','444'], ans:1, trap:'T1', diff:0.3, explain:'6+8=14進1, 5+7+1=13進1, 1+2+1=4 → 434'},
+    {q:'800 - 345 = ?', opts:['455','445','555','545'], ans:0, trap:'T1', diff:0.4, explain:'800-300=500, 500-45=455'},
+    {q:'5公里 = ? 米', opts:['50','500','5000','50000'], ans:2, trap:'T2', diff:0.3, explain:'1公里=1000米, 5×1000=5000'},
+    {q:'1/2 + 1/2 = ?', opts:['2/4','1','1/4','2/2'], ans:1, trap:'T5', diff:0.2, explain:'兩個一半加埋=1個完整'},
+    {q:'正方形邊長4cm，周界=？', opts:['8cm','12cm','16cm','4cm'], ans:2, trap:'T8', diff:0.2, explain:'4×4=16cm，四條邊一樣長'},
+    {q:'20 × 5 = ?', opts:['100','25','15','4'], ans:0, trap:'T1', diff:0.1, explain:'2×5=10，補0→100'},
+    {q:'36 ÷ 4 = ?', opts:['8','9','6','12'], ans:1, trap:'T1', diff:0.2, explain:'4×9=36，所以36÷4=9'},
+    {q:'1公斤 = ? 克', opts:['10','100','1000','10000'], ans:2, trap:'T2', diff:0.2, explain:'1公斤=1000克'},
+    {q:'長方形長6cm闊4cm，面積=？', opts:['10cm²','20cm²','24cm²','12cm²'], ans:2, trap:'T8', diff:0.3, explain:'6×4=24cm²'},
+    {q:'小明有$50，買書用咗$28，仲有？', opts:['$22','$32','$28','$78'], ans:0, trap:'T7', diff:0.2, explain:'50-28=22'},
+    {q:'7 × 8 = ?', opts:['54','56','48','64'], ans:1, trap:'T1', diff:0.2, explain:'7×8=56'},
+    {q:'9 × 6 = ?', opts:['54','56','48','64'], ans:0, trap:'T1', diff:0.2, explain:'9×6=54'},
+    {q:'三角形有幾多個角？', opts:['2','3','4','5'], ans:1, trap:'T8', diff:0.1, explain:'三角形=三個角'},
+    {q:'100cm = ? 米', opts:['0.1','1','10','100'], ans:1, trap:'T2', diff:0.3, explain:'100cm=1米'},
+    {q:'下午3時用24小時制係？', opts:['3:00','13:00','15:00','17:00'], ans:2, trap:'T9', diff:0.3, explain:'下午=+12, 3+12=15:00'},
+    {q:'45 + □ = 100, □ = ?', opts:['45','55','65','145'], ans:1, trap:'T10', diff:0.3, explain:'100-45=55'},
+    {q:'2小時 = ? 分鐘', opts:['60','100','120','200'], ans:2, trap:'T9', diff:0.2, explain:'2×60=120分鐘'},
+    {q:'公園有紅花18朵，黃花比紅花多7朵，共有？', opts:['25','43','32','18'], ans:1, trap:'T7', diff:0.4, explain:'黃花=18+7=25，共18+25=43'},
+    {q:'48 + 36 = ?', opts:['74','84','72','82'], ans:1, trap:'T1', diff:0.3, explain:'8+6=14進1, 4+3+1=8→84'},
+    {q:'81 ÷ 9 = ?', opts:['8','7','9','10'], ans:2, trap:'T1', diff:0.2, explain:'9×9=81'},
+    ],
+    P4: [
+      {q:'1256 + 3789 = ?', opts:['5035','5045','5145','4045'], ans:1, trap:'T1', diff:0.3, explain:'小心千位進位：1+3=4再加進位=5'},
+      {q:'2.5公里 = ? 米', opts:['25','250','2500','25000'], ans:2, trap:'T2', diff:0.4, explain:'1公里=1000米，2.5×1000=2500'},
+      {q:'12 + 8 × 3 = ?', opts:['60','36','32','20'], ans:1, trap:'T3', diff:0.5, explain:'先乘後加：8×3=24，再加12=36，唔係(12+8)×3'},
+      {q:'3/4 + 1/2 = ?', opts:['4/6','1','1 1/4','2/2'], ans:2, trap:'T5', diff:0.5, explain:'通分：3/4+2/4=5/4=1 1/4'},
+      {q:'長方形長8cm，闊5cm，面積=？', opts:['13cm²','26cm²','40cm²','80cm²'], ans:2, trap:'T8', diff:0.4, explain:'8×5=40，注意面積單位係cm²'},
+      {q:'2小時45分鐘 = ? 分鐘', opts:['145','155','165','245'], ans:2, trap:'T9', diff:0.4, explain:'2×60=120，加45=165分鐘'},
+      {q:'100 ÷ 4 × 2 = ?', opts:['12.5','25','50','200'], ans:2, trap:'T3', diff:0.5, explain:'由左到右：100÷4=25，25×2=50（唔係先乘！）'},
+      {q:'學校有男生245人，女生比男生多38人，共有？', opts:['283','490','528','273'], ans:2, trap:'T7', diff:0.5, explain:'女生=245+38=283，總數=245+283=528'},
+      {q:'3.05 × 10 = ?', opts:['3.05','30.5','305','0.305'], ans:1, trap:'T4', diff:0.3, explain:'小數點右移一位=30.5'},
+      {q:'平行四邊形面積公式？', opts:['底×高','底×高÷2','(上底+下底)×高÷2','長×闊'], ans:0, trap:'T8', diff:0.3, explain:'平行四邊形=底×高，三角形先要÷2'}
+    ]
+    {q:'2345 + 1678 = ?', opts:['4013','4023','3923','4123'], ans:1, trap:'T1', diff:0.4, explain:'5+8=13進1,4+7+1=12進1→4023'},{q:'5000 - 2345 = ?', opts:['2655','2755','2555','2665'], ans:0, trap:'T1', diff:0.4, explain:'逐位借位減'},{q:'3.5公里 = ? 米', opts:['35','350','3500','35000'], ans:2, trap:'T2', diff:0.4, explain:'3.5×1000=3500'},{q:'24 + 36 ÷ 6 = ?', opts:['10','30','6','60'], ans:1, trap:'T3', diff:0.5, explain:'先除後加:36÷6=6,24+6=30'},{q:'2/5 + 3/10 = ?', opts:['5/15','7/10','1/2','5/10'], ans:1, trap:'T5', diff:0.5, explain:'通分4/10+3/10=7/10'},{q:'正方形邊長5cm面積=？', opts:['10cm²','20cm²','25cm²','50cm²'], ans:2, trap:'T8', diff:0.3, explain:'5×5=25cm²'},{q:'長方形周界長8cm闊3cm', opts:['11cm','22cm','24cm','48cm'], ans:1, trap:'T8', diff:0.3, explain:'(8+3)×2=22cm'},{q:'1.5 × 10 = ?', opts:['0.15','1.5','15','150'], ans:2, trap:'T4', diff:0.3, explain:'小數點右移1位→15'},{q:'3/4 - 1/4 = ?', opts:['2/4','4/4','2/0','1'], ans:0, trap:'T5', diff:0.3, explain:'同分母直減2/4=1/2'},{q:'0.5 + 0.25 = ?', opts:['0.3','0.75','0.525','0.30'], ans:1, trap:'T4', diff:0.4, explain:'0.50+0.25=0.75'},{q:'平行四邊形底8cm高5cm面積?', opts:['13cm²','20cm²','40cm²','80cm²'], ans:2, trap:'T8', diff:0.4, explain:'8×5=40唔使÷2'},{q:'三角形底6cm高8cm面積=？', opts:['48cm²','24cm²','14cm²','28cm²'], ans:1, trap:'T8', diff:0.4, explain:'6×8÷2=24記得÷2'},{q:'2000克 = ? 公斤', opts:['2','20','200','20000'], ans:0, trap:'T2', diff:0.3, explain:'2000÷1000=2'},{q:'1小時30分鐘 = ? 分鐘', opts:['60','90','130','30'], ans:1, trap:'T9', diff:0.3, explain:'60+30=90'},{q:'4 × (3 + 5) = ?', opts:['17','32','23','12'], ans:1, trap:'T3', diff:0.4, explain:'括號先3+5=8,4×8=32'},{q:'8000 ÷ 100 = ?', opts:['8','80','800','80000'], ans:1, trap:'T4', diff:0.3, explain:'÷100左移2位→80'},{q:'一本書45元買3本=？', opts:['48','135','15','450'], ans:1, trap:'T7', diff:0.3, explain:'45×3=135'},{q:'100 - 25 × 2 = ?', opts:['150','50','75','200'], ans:1, trap:'T3', diff:0.5, explain:'先乘後減25×2=50,100-50=50'},{q:'12 × 5 = ?', opts:['50','60','70','17'], ans:1, trap:'T1', diff:0.2, explain:'12×5=60'},{q:'10 ÷ 2 × 5 = ?', opts:['1','25','10','4'], ans:1, trap:'T3', diff:0.5, explain:'左到右10÷2=5,5×5=25'},
+    P5: [
+      {q:'三角形底10cm，高6cm，面積=？', opts:['60cm²','30cm²','16cm²','40cm²'], ans:1, trap:'T8', diff:0.4, explain:'10×6÷2=30，記得÷2！最多人錯呢個'},
+      {q:'梯形上底5cm，下底9cm，高4cm，面積=？', opts:['28cm²','56cm²','14cm²','36cm²'], ans:0, trap:'T8', diff:0.5, explain:'(5+9)×4÷2=56÷2=28'},
+      {q:'2/3 + 1/4 = ?', opts:['3/7','11/12','3/12','8/12'], ans:1, trap:'T5', diff:0.5, explain:'通分：8/12+3/12=11/12'},
+      {q:'折扣：原價$280，八折後=？', opts:['$224','$56','$240','$336'], ans:0, trap:'T6', diff:0.5, explain:'280×0.8=224，八折=×0.8'},
+      {q:'速率：2.5小時行咗150公里，速率=？', opts:['60km/h','75km/h','375km/h','50km/h'], ans:0, trap:'T7', diff:0.5, explain:'150÷2.5=60 km/h'},
+      {q:'方程：3x + 5 = 20，x = ?', opts:['3','4','5','15'], ans:2, trap:'T10', diff:0.5, explain:'3x=15，x=5，小心移項符號'},
+      {q:'1.2 × 0.5 = ?', opts:['0.6','6','0.06','60'], ans:0, trap:'T4', diff:0.5, explain:'12×5=60，小數點共2位=0.60=0.6'},
+      {q:'組合圖形面積：正方形邊長6cm，上面有三角形高4cm，總面積？', opts:['48cm²','60cm²','36cm²','72cm²'], ans:0, trap:'T8', diff:0.7, explain:'正方形36+三角形12=48cm²'},
+      {q:'爸爸38歲，小明12歲，幾年後爸爸年齡係小明2倍？', opts:['12','14','26','38'], ans:1, trap:'T10', diff:0.7, explain:'設x年後：38+x=2(12+x)，解x=14'},
+      {q:'2小時15分鐘 - 45分鐘 = ?', opts:['1h30min','1h15min','2h0min','1h45min'], ans:0, trap:'T9', diff:0.4, explain:'135-45=90分鐘=1小時30分鐘'}
+    ],
+    {q:'三角形底12cm高5cm面積=？', opts:['60cm²','30cm²','17cm²','34cm²'], ans:1, trap:'T8', diff:0.4, explain:'12×5÷2=30'},{q:'1/3 + 1/6 = ?', opts:['2/9','1/2','2/6','3/6'], ans:1, trap:'T5', diff:0.5, explain:'通分2/6+1/6=3/6=1/2'},{q:'3/4 × 2/3 = ?', opts:['5/7','6/12','1/2','2/1'], ans:2, trap:'T5', diff:0.5, explain:'6/12=1/2'},{q:'組合圖形長方形8×5+三角形底8高3=？', opts:['40cm²','52cm²','64cm²','28cm²'], ans:1, trap:'T8', diff:0.6, explain:'40+12=52'},{q:'八折後240元原價=？', opts:['192','300','288','200'], ans:1, trap:'T6', diff:0.6, explain:'240÷0.8=300'},{q:'加價25%後500元原價=？', opts:['375','400','625','475'], ans:1, trap:'T6', diff:0.6, explain:'500÷1.25=400'},{q:'5x - 3 = 17, x=?', opts:['4','2.8','14','20'], ans:0, trap:'T10', diff:0.5, explain:'5x=20,x=4'},{q:'2(x+3)=14, x=?', opts:['4','5','7','8.5'], ans:0, trap:'T10', diff:0.6, explain:'2x+6=14,x=4'},{q:'速率3小時行240公里速率=？', opts:['80km/h','60km/h','720km/h','40km/h'], ans:0, trap:'T7', diff:0.5, explain:'240÷3=80'},{q:'2.4 × 0.5 = ?', opts:['12','1.2','0.12','120'], ans:1, trap:'T4', diff:0.5, explain:'24×5=120,2位→1.20=1.2'},{q:'平行四邊形面積36cm²底9cm高=?', opts:['4cm','27cm','45cm','3cm'], ans:0, trap:'T8', diff:0.5, explain:'36÷9=4'},{q:'七五折後150元原價=？', opts:['112.5','200','225','187.5'], ans:1, trap:'T6', diff:0.6, explain:'150÷0.75=200'},{q:'1/2 ÷ 1/4 = ?', opts:['1/8','2','1/2','4'], ans:1, trap:'T5', diff:0.6, explain:'÷1/4=×4,1/2×4=2'},{q:'梯形面積上底6下底10高5=？', opts:['40cm²','80cm²','30cm²','20cm²'], ans:0, trap:'T8', diff:0.5, explain:'(6+10)×5÷2=40'},{q:'4x+8=3x+15, x=?', opts:['7','23','-7','1'], ans:0, trap:'T10', diff:0.6, explain:'x=15-8=7'},{q:'3小時45分-1小時30分=？', opts:['2h15min','2h45min','1h15min','4h15min'], ans:0, trap:'T9', diff:0.4, explain:'225-90=135=2h15'},{q:'正方體邊長4cm體積=？', opts:['16cm³','64cm³','12cm³','48cm³'], ans:1, trap:'T8', diff:0.4, explain:'4×4×4=64'},{q:'1.25 ÷ 0.5 = ?', opts:['0.25','2.5','0.625','25'], ans:1, trap:'T4', diff:0.6, explain:'125÷5=25→2.5'},{q:'長方體6×4×3體積=？', opts:['72cm³','18cm³','24cm³','13cm³'], ans:0, trap:'T8', diff:0.4, explain:'6×4×3=72'},{q:'800元先加10%再減10%=？', opts:['800','792','808','880'], ans:1, trap:'T6', diff:0.7, explain:'800×1.1×0.9=792≠800'},    P6: [
+      {q:'圓形半徑7cm，面積=？(π=22/7)', opts:['44cm²','154cm²','308cm²','49cm²'], ans:1, trap:'T8', diff:0.5, explain:'π×7²=22/7×49=154cm²'},
+      {q:'折扣後再折扣：$400先八折再九折=？', opts:['$288','$320','$68','$360'], ans:0, trap:'T6', diff:0.6, explain:'400×0.8×0.9=288，唔係400×0.7'},
+      {q:'速率：甲車60km/h，乙車80km/h，相距280km，相向而行幾耐相遇？', opts:['2h','3.5h','4h','2.8h'], ans:0, trap:'T7', diff:0.7, explain:'280÷(60+80)=280÷140=2小時'},
+      {q:'體積：長方體長8cm，闊5cm，高3cm，體積=？', opts:['40cm³','120cm³','80cm³','16cm³'], ans:1, trap:'T8', diff:0.4, explain:'8×5×3=120cm³'},
+      {q:'2/5 ÷ 3/4 = ?', opts:['3/10','8/15','6/20','5/6'], ans:1, trap:'T5', diff:0.6, explain:'2/5×4/3=8/15，÷分數=×倒數'},
+      {q:'正比例：y=3x，當x=4，y=？', opts:['7','12','1','3/4'], ans:1, trap:'T10', diff:0.4, explain:'y=3×4=12'},
+      {q:'利息：本金$5000，年利率4%，2年單利息=？', opts:['$200','$400','$5400','$408'], ans:1, trap:'T6', diff:0.6, explain:'5000×4%×2=400'},
+      {q:'圓柱體半徑3cm，高10cm，體積=？(π=3.14)', opts:['94.2cm³','282.6cm³','188.4cm³','376.8cm³'], ans:1, trap:'T8', diff:0.7, explain:'π×3²×10=3.14×9×10=282.6'},
+      {q:'平均數：5個數分別係 8,12,6,10,14，平均=？', opts:['10','12','8','11'], ans:0, trap:'T3', diff:0.4, explain:'(8+12+6+10+14)÷5=50÷5=10'},
+      {q:'連續增減：$1000先加20%再減20%=？', opts:['$1000','$960','$1040','$800'], ans:1, trap:'T6', diff:0.7, explain:'1000×1.2=1200，再×0.8=960（唔係1000！）'}
+    ]
+ 
+    {q:'圓形半徑14cm面積=？(π=22/7)', opts:['44cm²','616cm²','308cm²','88cm²'], ans:1, trap:'T8', diff:0.5, explain:'22/7×14×14=616'},{q:'圓周直徑10cm圓周=？(π=3.14)', opts:['31.4cm','62.8cm','314cm','15.7cm'], ans:0, trap:'T8', diff:0.4, explain:'π×10=31.4'},{q:'速率甲75乙65對行420km幾時相遇', opts:['3h','5.6h','2.8h','6h'], ans:0, trap:'T7', diff:0.7, explain:'420÷140=3'},{q:'利息8000元年利率3%3年單利=？', opts:['240','720','8720','480'], ans:1, trap:'T6', diff:0.5, explain:'8000×3%×3=720'},{q:'3/5 ÷ 2/3 = ?', opts:['6/15','9/10','2/5','5/6'], ans:1, trap:'T5', diff:0.6, explain:'3/5×3/2=9/10'},{q:'圓柱體半徑5cm高8cm體積？(π=3.14)', opts:['125.6','628','314','251.2'], ans:1, trap:'T8', diff:0.6, explain:'3.14×25×8=628'},{q:'折線圖25,28,26,30,27平均=？', opts:['26','27.2','28','136'], ans:1, trap:'T3', diff:0.4, explain:'(25+28+26+30+27)÷5=27.2'},{q:'比例3:5=15:x, x=?', opts:['25','9','17','20'], ans:0, trap:'T10', diff:0.5, explain:'3/5=15/x→x=25'},{q:'1200元七折再八折=？', opts:['672','600','840','960'], ans:0, trap:'T6', diff:0.7, explain:'1200×0.7×0.8=672≠600'},{q:'負數(-3)-(-8)=?', opts:['-11','5','-5','11'], ans:1, trap:'T1', diff:0.5, explain:'減負=加正-3+8=5'},{q:'不等式2x+3>11,x最小整數=?', opts:['4','5','3','8'], ans:1, trap:'T10', diff:0.6, explain:'2x>8,x>4→5'},{q:'2000加15%再減15%=？', opts:['2000','1955','2045','1700'], ans:1, trap:'T6', diff:0.7, explain:'2000×1.15×0.85=1955'},{q:'正方體表面面積邊長5cm=？', opts:['125cm²','150cm²','100cm²','25cm²'], ans:1, trap:'T8', diff:0.5, explain:'6×5×5=150'},{q:'中位數3,7,2,9,5,1,8=?', opts:['5','3','7','1'], ans:0, trap:'T3', diff:0.5, explain:'排序後中位=5'},{q:'速率去60回40平均速率=?', opts:['50','48','52','100'], ans:1, trap:'T7', diff:0.8, explain:'120÷(2+2.5)=48注意唔係50'},{q:'0.3 ÷ 0.06 = ?', opts:['0.5','5','0.05','50'], ans:1, trap:'T4', diff:0.5, explain:'30÷6=5'},{q:'圓面積78.5cm²半徑=？(π=3.14)', opts:['5cm','25cm','12.5cm','10cm'], ans:0, trap:'T8', diff:0.7, explain:'78.5÷3.14=25,√25=5'},{q:'y=2x+3,x=4時y=?', opts:['11','8','5','14'], ans:0, trap:'T10', diff:0.3, explain:'2×4+3=11'},{q:'梯形上底8下底12高5面積=？', opts:['50cm²','100cm²','40cm²','60cm²'], ans:0, trap:'T8', diff:0.4, explain:'(8+12)×5÷2=50'},{q:'複利息5000元4%複利2年=？', opts:['5400','5408','5200','400'], ans:1, trap:'T6', diff:0.8, explain:'5000×1.04²=5408'},},
+  
+  // ── INIT ──
+  init: function() {
+    this.questions = [];
+    this.answers = [];
+    this.currentQ = 0;
+    this.difficulty = 0.5;
+    this.timerSec = 0;
+    if(this.timerInterval) clearInterval(this.timerInterval);
+  },
+  
+  // ── ADAPTIVE QUESTION SELECTION ──
+  selectQuestions: function(grade) {
+    var pool = (this.questionPool[grade] || this.questionPool.P5).slice();
+    // Shuffle
+    for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t;}
+    // Select 10 questions with difficulty spread based on adaptive level
+    var selected = [];
+    var easy = pool.filter(function(q){return q.diff<=0.3});
+    var mid = pool.filter(function(q){return q.diff>0.3 && q.diff<=0.5});
+    var hard = pool.filter(function(q){return q.diff>0.5});
+    
+    // Adaptive mix: start easy, increase difficulty
+    for(var i=0;i<3;i++){if(easy.length>0)selected.push(easy.splice(Math.floor(Math.random()*easy.length),1)[0]);}
+    for(var i=0;i<4;i++){if(mid.length>0)selected.push(mid.splice(Math.floor(Math.random()*mid.length),1)[0]);}
+    for(var i=0;i<3;i++){if(hard.length>0)selected.push(hard.splice(Math.floor(Math.random()*hard.length),1)[0]);}
+    
+    // Fill remaining with random
+    while(selected.length<10){
+      var remaining = pool.filter(function(q){return !selected.includes(q);});
+      if(remaining.length===0) break;
+      selected.push(remaining.splice(Math.floor(Math.random()*remaining.length),1)[0]);
+    }
+    
+    this.questions = selected.slice(0,10);
+  },
+  
+  // ── AI ANALYSIS ENGINE ──
+  analyze: function() {
+    var self = this;
+    var trapResults = {};
+    var correctByTrap = {};
+    var totalByTrap = {};
+    
+    // Initialize
+    for(var t in this.traps){trapResults[t]=0;correctByTrap[t]=0;totalByTrap[t]=0;}
+    
+    // Analyze each answer
+    for(var i=0;i<this.answers.length;i++){
+      var a = this.answers[i];
+      var q = a.question;
+      totalByTrap[q.trap] = (totalByTrap[q.trap]||0) + 1;
+      if(a.correct){
+        correctByTrap[q.trap] = (correctByTrap[q.trap]||0) + 1;
+      }
+    }
+    
+    // Calculate accuracy per trap
+    for(var t in totalByTrap){
+      if(totalByTrap[t]>0){
+        trapResults[t] = Math.round(correctByTrap[t]/totalByTrap[t]*100);
+      }
+    }
+    
+    // Find weakest traps
+    var weakTraps = [];
+    for(var t in trapResults){
+      if(totalByTrap[t]>0 && trapResults[t]<70){
+        weakTraps.push({trap:t, accuracy:trapResults[t], count:totalByTrap[t]});
+      }
+    }
+    weakTraps.sort(function(a,b){return a.accuracy-b.accuracy;});
+    
+    // Overall score
+    var totalCorrect = this.answers.filter(function(a){return a.correct;}).length;
+    var avgTime = this.answers.reduce(function(s,a){return s+a.time;},0)/this.answers.length;
+    
+    return {
+      totalCorrect: totalCorrect,
+      totalQuestions: this.answers.length,
+      score: Math.round(totalCorrect/this.answers.length*100),
+      avgTime: Math.round(avgTime),
+      trapResults: trapResults,
+      weakTraps: weakTraps.slice(0,3),
+      totalByTrap: totalByTrap,
+      correctByTrap: correctByTrap
+    };
+  },
+  
+  // ── GENERATE AI INSIGHTS ──
+  generateInsights: function(analysis) {
+    var insights = [];
+    var grade = this.grade;
+    
+    // Overall assessment
+    if(analysis.score>=90){
+      insights.push({type:'success', text:'🎉 好強！你嘅數學基礎好紮實，大部分陷阱都避開到。建議挑戰更高難度嘅題目或參加競賽班。'});
+    } else if(analysis.score>=70){
+      insights.push({type:'info', text:'👍 表現唔錯！但有幾個特定陷阱需要加強。專注改善弱項，成績可以再提升10-20分。'});
+    } else if(analysis.score>=50){
+      insights.push({type:'warn', text:'⚠️ 需要針對性補強。你喺幾個關鍵課題有明顯弱點，呢啲正係呈分試最常考嘅陷阱。'});
+    } else {
+      insights.push({type:'warn', text:'🔴 基礎需要重新建立。唔使擔心，好多學生一開始都係咁。霖楓嘅陷阱教學法可以幫你一步步改善。'});
+    }
+    
+    // Trap-specific insights
+    var weakTraps = analysis.weakTraps;
+    for(var i=0;i<weakTraps.length;i++){
+      var wt = weakTraps[i];
+      var trapInfo = this.traps[wt.trap];
+      if(trapInfo){
+        insights.push({
+          type: wt.accuracy<40?'warn':'info',
+          text: trapInfo.icon+' <b>'+trapInfo.name+'</b>：正確率 '+wt.accuracy+'% — '+trapInfo.desc+'。'+
+            (wt.accuracy<40?'呢個係你最需要改善嘅課題。':'需要多加練習。')
+        });
+      }
+    }
+    
+    // Speed analysis
+    if(analysis.avgTime<8){
+      insights.push({type:'info', text:'⚡ 你答題好快（平均'+analysis.avgTime+'秒），但快唔代表準。建議放慢速度，每題檢查一次先確認。'});
+    } else if(analysis.avgTime>20){
+      insights.push({type:'info', text:'🐢 你答題較慢（平均'+analysis.avgTime+'秒），可能係概念未夠熟。多做練習可以提高速度。'});
+    }
+    
+    // SSPA prediction (P5-P6 only)
+    if((grade==='P5'||grade==='P6') && analysis.score>=85){
+      insights.push({type:'success', text:'🎯 SSPA預測：以目前水平，呈分試數學有望取得A級，對升讀Band 1中學好有幫助！'});
+    }
+    
+    return insights;
+  },
+  
+  // ── GENERATE RECOMMENDATIONS ──
+  generateRecommendations: function(analysis) {
+    var recs = [];
+    var grade = this.grade;
+    
+    // Weak trap recommendations
+    var weakTraps = analysis.weakTraps;
+    for(var i=0;i<Math.min(weakTraps.length,2);i++){
+      var wt = weakTraps[i];
+      var trapInfo = this.traps[wt.trap];
+      if(trapInfo){
+        recs.push({
+          icon: '🎯',
+          title: '針對性練習：'+trapInfo.name,
+          desc: '生成'+trapInfo.desc+'嘅專項練習，AI自動調整難度',
+          link: 'trap-quiz.html?trap='+wt.trap+'&grade='+grade
+        });
+      }
+    }
+    
+    // Grade-appropriate lecture recommendations
+    var lectureMap = {
+      P3: [{title:'多位數加減', link:'講義/P3/LF-P3-上-L01.html'},{title:'周界認識', link:'講義/P3/LF-P3-下-L41.html'}],
+      P4: [{title:'大數估算', link:'講義/P4/LF-P4-上-L02.html'},{title:'分數初探', link:'講義/P4/LF-P4-上-L08.html'}],
+      P5: [{title:'面積陷阱專項', link:'講義/P5/LF-P5-上-L05_面積陷阱專項.html'},{title:'方程應用題', link:'講義/P5/LF-P5-上-L15_方程應用題.html'}],
+      P6: [{title:'速率應用', link:'講義/P6/LF-P6-上-L08.html'},{title:'百分數綜合', link:'講義/P6/LF-P6-上-L05.html'}]
+    };
+    
+    var gradeLectures = lectureMap[grade] || lectureMap.P5;
+    recs.push({
+      icon: '📖',
+      title: '推薦講義：'+gradeLectures[0].title,
+      desc: '霖楓陷阱教學法 — 先睇陷阱後做題，效率提升3倍',
+      link: gradeLectures[0].link
+    });
+    
+    // SSPA simulation for P5-P6
+    if(grade==='P5'||grade==='P6'){
+      recs.push({
+        icon: '🏆',
+        title: 'SSPA呈分試模擬考試',
+        desc: '全真模擬呈分試環境，AI批改+詳細報告',
+        link: 'sspa-elite.html'
+      });
+    }
+    
+    // Boss battle
+    recs.push({
+      icon: '⚔️',
+      title: 'Boss挑戰：打敗數學大魔王',
+      desc: '遊戲化練習 — 邊玩邊學，每打敗一個Boss解鎖新技能',
+      link: 'kids-boss-battle.html'
+    });
+    
+    return recs;
+  }
+};
+
+// ═══════════════════════════════════════
+// UI CONTROLLER
+// ═══════════════════════════════════════
+
+function selectGrade(g){
+  LF_AI.init();
+  LF_AI.grade = g;
+  LF_AI.selectQuestions(g);
+  
+  // Update UI
+  document.querySelectorAll('.grade-btn').forEach(function(b){b.classList.remove('active');});
+  event.target.classList.add('active');
+  document.getElementById('stepGrade').style.display = 'none';
+  document.getElementById('stepQuiz').style.display = 'block';
+  document.getElementById('quizGrade').textContent = g+' · AI自適應診斷';
+  
+  // Start timer
+  LF_AI.timerInterval = setInterval(function(){
+    LF_AI.timerSec++;
+    var m = Math.floor(LF_AI.timerSec/60);
+    var s = LF_AI.timerSec%60;
+    document.getElementById('timerVal').textContent = m+':'+(s<10?'0':'')+s;
+    if(LF_AI.timerSec>120){
+      document.getElementById('timerDisplay').classList.add('warning');
+    }
+  },1000);
+  
+  // Show first question
+  showQuestion();
+}
+
+function showQuestion(){
+  var q = LF_AI.questions[LF_AI.currentQ];
+  var container = document.getElementById('questionContainer');
+  var qStartTime = Date.now();
+  
+  var letters = ['A','B','C','D'];
+  var optsHtml = '';
+  for(var i=0;i<q.opts.length;i++){
+    optsHtml += '<button class="opt-btn" onclick="submitAnswer('+i+',this,'+qStartTime+')"><span class="letter">'+letters[i]+'</span>'+q.opts[i]+'</button>';
+  }
+  
+  container.innerHTML = 
+    '<div class="question-card">'+
+    '<div class="q-num">第 '+(LF_AI.currentQ+1)+' 題 · 難度：'+'⭐'.repeat(Math.ceil(q.diff*5))+'</div>'+
+    '<div class="q-text">'+q.q+'</div>'+
+    '<div class="options">'+optsHtml+'</div>'+
+    '</div>';
+  
+  // Update progress
+  var pct = Math.round(LF_AI.currentQ/LF_AI.questions.length*100);
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('progressText').textContent = LF_AI.currentQ+'/'+LF_AI.questions.length;
+}
+
+function submitAnswer(idx, el, qStartTime){
+  var q = LF_AI.questions[LF_AI.currentQ];
+  var correct = (idx === q.ans);
+  var timeTaken = Math.round((Date.now()-qStartTime)/1000);
+  
+  // Record answer
+  LF_AI.answers.push({
+    question: q,
+    selectedIdx: idx,
+    correct: correct,
+    time: timeTaken
+  });
+  
+  // Show correct/wrong
+  var buttons = document.querySelectorAll('.opt-btn');
+  buttons.forEach(function(b){b.style.pointerEvents='none';});
+  el.classList.add(correct?'correct':'wrong');
+  buttons[q.ans].classList.add('correct');
+  
+  // Adaptive difficulty adjustment
+  if(correct) LF_AI.difficulty = Math.min(1, LF_AI.difficulty+0.05);
+  else LF_AI.difficulty = Math.max(0.1, LF_AI.difficulty-0.1);
+  
+  // Show explanation
+  setTimeout(function(){
+    var explainDiv = document.createElement('div');
+    explainDiv.style.cssText = 'margin-top:12px;padding:12px;background:#F0FDF4;border-radius:10px;font-size:12px;color:#065F46';
+    explainDiv.innerHTML = (correct?'✅ 正確！':'❌ 唔緊要！')+' <b>AI解題：</b>'+q.explain;
+    document.querySelector('.question-card').appendChild(explainDiv);
+    
+    // Next button
+    var nextBtn = document.createElement('button');
+    nextBtn.textContent = LF_AI.currentQ<LF_AI.questions.length-1?'下一題 →':'查看AI分析報告 →';
+    nextBtn.className = 'btn btn-primary';
+    nextBtn.style.cssText = 'margin-top:12px';
+    nextBtn.onclick = function(){
+      LF_AI.currentQ++;
+      if(LF_AI.currentQ<LF_AI.questions.length){
+        showQuestion();
+      } else {
+        finishQuiz();
+      }
+    };
+    document.querySelector('.question-card').appendChild(nextBtn);
+  },600);
+}
+
+function finishQuiz(){
+  clearInterval(LF_AI.timerInterval);
+  document.getElementById('stepQuiz').style.display = 'none';
+  document.getElementById('stepAnalysis').style.display = 'block';
+  document.getElementById('aiThinking').style.display = 'flex';
+  document.getElementById('analysisContent').style.display = 'none';
+  
+  // Simulate AI analysis delay
+  setTimeout(function(){
+    var analysis = LF_AI.analyze();
+    LFCloud.saveDiagnostic({grade:LF_AI.grade,score:analysis.score,trapResults:analysis.trapResults,weakTraps:analysis.weakTraps,answers:LF_AI.answers}); LFCloud.saveProgressSnapshot();
+    
+    document.getElementById('aiThinking').style.display = 'none';
+    document.getElementById('analysisContent').style.display = 'block';
+  },2000);
+}
+
+function renderAnalysis(analysis){
+  // Score circle
+  var circle = document.getElementById('scoreCircle');
+  circle.textContent = analysis.score+'%';
+  circle.className = 'score-circle '+(analysis.score>=80?'high':analysis.score>=55?'mid':'low');
+  document.getElementById('scoreText').textContent = 
+    '共'+analysis.totalQuestions+'題 · 答對'+analysis.totalCorrect+'題 · 平均用時'+analysis.avgTime+'秒/題';
+  
+  // Radar chart
+  drawRadar(analysis.trapResults, analysis.totalByTrap);
+  
+  // Trap tags
+  var tagsHtml = '';
+  var weakTraps = analysis.weakTraps;
+  for(var t in analysis.totalByTrap){
+    if(analysis.totalByTrap[t]>0){
+      var acc = analysis.trapResults[t]||0;
+      var cls = 't'+(parseInt(t.replace('T',''))%6+1);
+      var isWeak = weakTraps.some(function(w){return w.trap===t;});
+      tagsHtml += '<span class="trap-tag '+cls+'" style="'+(isWeak?'border:2px solid #DC2626':'')+'">'+
+        LF_AI.traps[t].icon+' '+LF_AI.traps[t].name+' '+acc+'%</span> ';
+    }
+  }
+  document.getElementById('trapTags').innerHTML = tagsHtml;
+  
+  // AI Insights
+  var insights = LF_AI.generateInsights(analysis);
+  var insightsHtml = '<h2 style="font-size:16px;color:var(--b);margin-bottom:12px">🤖 AI 智能分析</h2>';
+  for(var i=0;i<insights.length;i++){
+    var cls = insights[i].type==='warn'?'analysis-card warn':'analysis-card';
+    insightsHtml += '<div class="'+cls+'" style="padding:14px;margin-bottom:8px;font-size:13px">'+insights[i].text+'</div>';
+  }
+  document.getElementById('aiInsights').innerHTML = insightsHtml;
+  
+  // Recommendations
+  var recs = LF_AI.generateRecommendations(analysis);
+  var recsHtml = '';
+  for(var i=0;i<recs.length;i++){
+    recsHtml += '<a href="'+recs[i].link+'" class="rec-item" style="text-decoration:none;color:inherit">'+
+      '<span class="rec-icon">'+recs[i].icon+'</span>'+
+      '<div class="rec-info"><h4>'+recs[i].title+'</h4><p>'+recs[i].desc+'</p></div>'+
+      '<span class="rec-arrow">→</span></a>';
+  }
+  document.getElementById('recommendations').innerHTML = recsHtml;
+}
+
+// ── SIMPLE SVG RADAR CHART ──
+function drawRadar(trapResults, totalByTrap){
+  var svg = document.getElementById('radarChart');
+  var cx=125,cy=125,r=100;
+  var traps = ['T1','T2','T3','T5','T6','T7','T8','T10'];
+  var n = traps.length;
+  var html = '';
+  
+  // Background grid
+  for(var lvl=1;lvl<=3;lvl++){
+    var pts = [];
+    for(var i=0;i<n;i++){
+      var angle = (Math.PI*2/n)*i - Math.PI/2;
+      var rr = r*lvl/3;
+      pts.push((cx+rr*Math.cos(angle))+','+(cy+rr*Math.sin(angle)));
+    }
+    html += '<polygon points="'+pts.join(' ')+'" fill="none" stroke="#E5E7EB" stroke-width="1"/>';
+  }
+  
+  // Axes
+  for(var i=0;i<n;i++){
+    var angle = (Math.PI*2/n)*i - Math.PI/2;
+    html += '<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+r*Math.cos(angle))+'" y2="'+(cy+r*Math.sin(angle))+'" stroke="#E5E7EB" stroke-width="1"/>';
+  }
+  
+  // Data polygon
+  var dataPts = [];
+  for(var i=0;i<n;i++){
+    var t = traps[i];
+    var val = totalByTrap[t]?((trapResults[t]||0)/100):0;
+    var angle = (Math.PI*2/n)*i - Math.PI/2;
+    var rr = r*val;
+    dataPts.push((cx+rr*Math.cos(angle))+','+(cy+rr*Math.sin(angle)));
+  }
+  html += '<polygon points="'+dataPts.join(' ')+'" fill="rgba(26,60,109,0.2)" stroke="#1A3C6D" stroke-width="2"/>';
+  
+  // Labels
+  var shortNames = {T1:'進退位',T2:'單位',T3:'運算序',T5:'分數',T6:'百分數',T7:'應用題',T8:'圖形',T10:'方程'};
+  for(var i=0;i<n;i++){
+    var t = traps[i];
+    var angle = (Math.PI*2/n)*i - Math.PI/2;
+    var lr = r+25;
+    var lx = cx+lr*Math.cos(angle);
+    var ly = cy+lr*Math.sin(angle);
+    html += '<text x="'+lx+'" y="'+ly+'" text-anchor="middle" dominant-baseline="middle" font-size="9" fill="#6B7280">'+(shortNames[t]||t)+'</text>';
+  }
+  
+  svg.innerHTML = html;
+}
+
+function restartQuiz(){
+  document.getElementById('stepQuiz').style.display = 'none';
+  document.getElementById('stepAnalysis').style.display = 'none';
+  document.getElementById('stepGrade').style.display = 'block';
+  document.querySelectorAll('.grade-btn').forEach(function(b){b.classList.remove('active');});
+  LF_AI.init();
+}
+
+// WhatsApp integration
+if(typeof LFW !== 'undefined' && LFW.init){LFW.init();}
+</script>
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+
+<div style="text-align:center;margin:20px 0"><a href="/docs/booking.html" style="display:inline-block;background:#DC2626;color:white;padding:12px 30px;border-radius:25px;text-decoration:none;font-weight:700">📅 預約試堂 →</a></div>
+</body>
+</html>
+
+
+

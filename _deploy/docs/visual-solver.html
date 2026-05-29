@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 視覺化解題</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.demo-select{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.demo-btn{padding:10px 18px;border-radius:20px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:13px;font-family:inherit;transition:all 0.2s}
+.demo-btn:hover,.demo-btn.active{background:#1A3C6D;color:white;border-color:#1A3C6D}
+.viz-container{min-height:300px;padding:20px;text-align:center}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>視覺化解題步驟</h1><p>分數 · 幾何 · 面積 · 數線 — 逐步動畫展示</p></div>
+
+<div class="card"><h2>選擇範例</h2>
+<div class="demo-select">
+<button class="demo-btn active" onclick="showDemo('fraction')">分數模型 (3/4)</button>
+<button class="demo-btn" onclick="showDemo('area')">面積網格 (5×4)</button>
+<button class="demo-btn" onclick="showDemo('numberline')">數線 (0-15)</button>
+<button class="demo-btn" onclick="showDemo('geometry-rect')">長方形面積</button>
+<button class="demo-btn" onclick="showDemo('geometry-tri')">三角形</button>
+<button class="demo-btn" onclick="showDemo('geometry-circle')">圓形</button>
+<button class="demo-btn" onclick="showDemo('steps')">逐步解題 (1/4+2/4)</button>
+</div>
+<div class="viz-container" id="vizContainer"></div>
+</div>
+</div>
+
+<script src="/docs/data/visual-solver.js"></script>
+<script>
+function showDemo(type){
+  var c = document.getElementById('vizContainer');
+  c.innerHTML = '';
+  document.querySelectorAll('.demo-btn').forEach(function(b){b.classList.remove('active')});
+  event.target.classList.add('active');
+
+  if (type === 'fraction') {
+    LFVisual.FractionBar(c, 3, 4);
+  } else if (type === 'area') {
+    LFVisual.AreaModel(c, 5, 4);
+  } else if (type === 'numberline') {
+    LFVisual.NumberLine(c, 0, 15, {
+      markers: [{value: 6, label: '3/4 of 8', color: '#DC2626'}, {value: 12, label: 'result', color: '#16A34A'}]
+    });
+  } else if (type === 'geometry-rect') {
+    LFVisual.GeometryShape(c, 'rectangle', {rectWidth: 140, rectHeight: 90, labelWidth: 14, labelHeight: 9, width: 300, height: 200});
+  } else if (type === 'geometry-tri') {
+    LFVisual.GeometryShape(c, 'triangle', {base: 130, triHeight: 95, rightAngle: true, width: 300, height: 200});
+  } else if (type === 'geometry-circle') {
+    LFVisual.GeometryShape(c, 'circle', {radius: 60, width: 300, height: 200});
+  } else if (type === 'steps') {
+    LFVisual.FractionDemo(c, 1, 4, '+', 2);
+  }
+}
+// Load first demo
+showDemo('fraction');
+</script>
+</body></html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 電子點名</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:700px;margin:0 auto}.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.student-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #F3F4F6}
+.student-row .name{font-weight:700}.student-row .grade{font-size:11px;color:#6B7280}
+.att-btn{padding:8px 18px;border-radius:8px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit}
+.att-btn.present{background:#D1FAE5;border-color:#16A34A;color:#065F46}
+.att-btn.absent{background:#FEF2F2;border-color:#DC2626;color:#991B1B}
+.att-btn:hover{opacity:0.8}.btn{display:inline-block;padding:12px 24px;border-radius:8px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white}
+</style></head><body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+<div class="container">
+<div class="header"><h1>📋 電子點名</h1><p id="attDate"></p></div>
+<div class="card"><h2>今日出席</h2><div id="attList"><p style="color:#9CA3AF;text-align:center;padding:20px">從老師後台載入學生…</p></div></div>
+<div class="card"><h2>出席記錄</h2><div id="attHistory"><p style="color:#9CA3AF;text-align:center;padding:20px">未有記錄</p></div></div>
+<button class="btn" id="btnSave" onclick="saveAttendance()" style="margin-top:12px">💾 儲存出席記錄</button>
+</div>
+<script>
+var d=new Date();document.getElementById("attDate").textContent=d.toISOString().split("T")[0"]+" "+["日","一","二","三","四","五","六"][d.getDay()];
+var students=JSON.parse(localStorage.getItem("lf_class")||"[]");
+var attendance={};
+function render(){var list=document.getElementById("attList");if(students.length===0){list.innerHTML='<p style="color:#9CA3AF;text-align:center;padding:20px">未有學生 — 先去老師後台新增</p>';return}
+list.innerHTML=students.map(function(s,i){attendance[s.name]=attendance[s.name]||true;return'<div class="student-row"><div><div class="name">'+s.name+'</div><div class="grade">'+s.grade+'</div></div><div><button class="att-btn '+ (attendance[s.name]?'present':'absent')+'" onclick="toggle('+i+')">'+ (attendance[s.name]?'✅ 出席':'❌ 缺席')+'</button></div></div>'}).join("")}
+function toggle(i){var s=students[i];attendance[s.name]=!attendance[s.name];render()}
+function saveAttendance(){
+var hist=JSON.parse(localStorage.getItem("lf_attendance")||"[]");
+var present=students.filter(function(s){return attendance[s.name]}).length;
+hist.unshift({date:d.toISOString().split("T")[0],present:present,total:students.length,detail:Object.assign({},attendance)});
+localStorage.setItem("lf_attendance",JSON.stringify(hist.slice(0,90)));
+document.getElementById("attHistory").innerHTML=hist.slice(0,10).map(function(h){return'<div class="student-row"><span>'+h.date+'</span><span>'+h.present+'/'+h.total+' 出席</span></div>'}).join("");
+alert("已儲存 ✅")}
+render();</script></body></html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 積分商城</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;padding:30px 20px}
+.container{max-width:600px;margin:0 auto}h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;text-align:center;color:#C9A84C;margin-bottom:4px}
+.sub{text-align:center;color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:24px}
+.balance{background:rgba(255,255,255,0.05);border-radius:16px;padding:24px;text-align:center;margin-bottom:24px}
+.balance .pts{font-size:56px;font-weight:900;color:#C9A84C}.balance .lbl{font-size:14px;color:rgba(255,255,255,0.5)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.reward-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;text-align:center}
+.reward-card .icon{font-size:36px;margin-bottom:6px}.reward-card .name{font-weight:900;font-size:14px;margin-bottom:2px}
+.reward-card .cost{color:#C9A84C;font-weight:700;font-size:12px}.reward-card .btn-redeem{padding:8px 16px;border-radius:15px;border:2px solid #C9A84C;background:transparent;color:#C9A84C;cursor:pointer;font-weight:700;font-size:11px;margin-top:8px;font-family:inherit}
+.reward-card .btn-redeem:hover{background:#C9A84C;color:#1A3C6D}
+</style></head><body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+<div class="container"><h1>🏪 積分商城</h1><div class="sub">做練習賺積分 · 換獎勵</div>
+<div class="balance"><div class="pts" id="myPts">1,250</div><div class="lbl">可用積分</div></div>
+<div class="grid">
+<div class="reward-card"><div class="icon">⭐</div><div class="name">換 banner 裝飾</div><div class="cost">100 積分</div><button class="btn-redeem" onclick="redeem(100,'banner')">兌換</button></div>
+<div class="reward-card"><div class="icon">🦊</div><div class="name">解鎖新角色</div><div class="cost">300 積分</div><button class="btn-redeem" onclick="redeem(300,'character')">兌換</button></div>
+<div class="reward-card"><div class="icon">🎯</div><div class="name">跳過一題</div><div class="cost">200 積分</div><button class="btn-redeem" onclick="redeem(200,'skip')">兌換</button></div>
+<div class="reward-card"><div class="icon">📱</div><div class="name">5分鐘休息</div><div class="cost">500 積分</div><button class="btn-redeem" onclick="redeem(500,'break')">兌換</button></div>
+</div></div>
+<script>function redeem(cost,item){var pts=parseInt(document.getElementById("myPts").textContent.replace(",",""));if(pts<cost)return alert("積分不足！");document.getElementById("myPts").textContent=(pts-cost).toLocaleString();alert("已兌換 ✅")}</script></body></html>

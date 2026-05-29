@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="霖楓學苑 · AI 數學導師">
+<meta property="og:description" content="AI智能數學導師，逐步解題、陷阱分析、蘇格拉底式引導。P3-P6香港小學數學。">
+<meta property="og:image" content="https://www.lfacademyhk.com/logo.png">
+<meta property="og:url" content="https://www.lfacademyhk.com/ai-tutor.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="霖楓學苑 LF Academy">
+<meta property="og:locale" content="zh_HK">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · AI 數學導師</title>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--purple:#1A3C6D;--gray:#6B7280;--bg:#F8FAFC}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D,#1E4D8C);min-height:100vh;display:flex;align-items:center;justify-content:center}
+.container{width:100%;max-width:760px;height:96vh;background:#fff;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.header h1{font-size:1.1em;font-weight:700}
+.header .status{font-size:.7em;opacity:.7;margin-left:auto;display:flex;align-items:center;gap:4px}
+.header .status .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.dot.online{background:#4ade80}.dot.offline{background:#fbbf24}
+.mode-tabs{display:flex;gap:0;background:#f1f5f9;padding:4px;margin:8px 14px;border-radius:12px;flex-shrink:0}
+.mode-tab{flex:1;padding:8px;text-align:center;border-radius:10px;cursor:pointer;font-size:.8em;font-weight:600;color:var(--gray);transition:all .2s}
+.mode-tab.active{background:#fff;color:var(--blue);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.mode-tab .icon{font-size:1.2em;display:block;margin-bottom:2px}
+#topicView{flex:1;overflow-y:auto;padding:14px;display:none}
+#topicView h2{font-size:.95em;color:var(--blue);margin:12px 0 8px;padding-left:8px;border-left:3px solid var(--purple)}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.topic-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;padding:12px;cursor:pointer;transition:all .2s}
+.topic-card:hover{border-color:var(--blue);background:#EFF6FF;transform:translateY(-2px);box-shadow:0 4px 12px rgba(124,58,237,.15)}
+.topic-card .tname{font-weight:600;color:#1e293b;font-size:.9em;margin-bottom:4px}
+.topic-card .tmeta{font-size:.75em;color:var(--gray);display:flex;gap:10px}
+#qArea{background:linear-gradient(135deg,#eff6ff,#dbeafe);padding:18px;border-bottom:2px solid #bfdbfe;flex-shrink:0;display:none}
+#qArea .topic-tag{display:inline-block;background:var(--blue);color:#fff;padding:2px 10px;border-radius:12px;font-size:.72em;margin-bottom:8px}
+#qArea .qtext{font-size:1.1em;line-height:1.7;color:#1e293b}
+#qArea .meta{color:var(--gray);font-size:.75em;margin-top:6px}
+.chat-area{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.msg{max-width:88%;padding:10px 14px;border-radius:14px;line-height:1.6;font-size:.92em;animation:fadeIn .3s;word-wrap:break-word}
+.msg.ai{align-self:flex-start;background:#fff;border:1px solid #e2e8f0;border-bottom-left-radius:4px}
+.msg.user{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.msg.system{align-self:center;background:#f1f5f9;color:var(--gray);font-size:.78em;padding:6px 14px;border-radius:8px}
+.msg.correct{align-self:center;background:#dcfce7;color:#166534;font-weight:600;padding:10px 18px;border-radius:20px}
+.msg.wrong{align-self:center;background:#fef2f2;color:#991b1b;padding:10px 18px;border-radius:20px}
+.typing span{display:inline-block;width:7px;height:7px;border-radius:50%;background:#94a3b8;animation:bounce 1.4s infinite;margin:0 2px}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.actions{padding:8px 14px;display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.actions button{flex:1;min-width:70px;padding:9px 6px;border-radius:18px;border:none;font-size:.8em;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-hint{background:#fef3c7;color:#92400e}.btn-hint:hover{background:#fde68a}
+.btn-skip{background:#f1f5f9;color:#475569}.btn-skip:hover{background:#e2e8f0}
+.btn-topic{background:#dcfce7;color:#166534}.btn-topic:hover{background:#bbf7d0}
+.btn-back{background:#fee2e2;color:#991b1b}.btn-back:hover{background:#fecaca}
+.btn-solve{background:#ede9fe;color:#1A3C6D}.btn-solve:hover{background:#DBEAFE}
+.input-area{padding:10px 14px;border-top:1px solid #e2e8f0;display:flex;gap:8px;background:#fff;flex-shrink:0}
+.input-area input{flex:1;padding:12px 16px;border:2px solid #e2e8f0;border-radius:22px;font-size:.95em;outline:none;transition:border .2s}
+.input-area input:focus{border-color:var(--blue)}
+.input-area button{background:var(--blue);color:#fff;border:none;border-radius:50%;min-width:42px;height:42px;cursor:pointer;font-size:1.1em;flex-shrink:0;transition:all .2s}
+.input-area button:hover{background:#6d28d9;transform:scale(1.05)}
+.input-area button:disabled{background:#cbd5e1;transform:none}
+.stats{display:flex;gap:16px;padding:8px 18px;font-size:.75em;color:var(--gray);background:#fafafa;border-top:1px solid #f1f5f9;flex-shrink:0}
+.stats span{display:flex;align-items:center;gap:4px}
+.quick-actions{display:flex;gap:6px;padding:6px 14px;flex-wrap:wrap;flex-shrink:0}
+.quick-btn{padding:6px 14px;border-radius:16px;border:1.5px solid #e2e8f0;background:#fff;font-size:.75em;cursor:pointer;transition:all .2s;color:var(--gray)}
+.quick-btn:hover{border-color:var(--blue);color:var(--blue);background:#EFF6FF}
+.loading{text-align:center;padding:30px;color:var(--gray)}
+.nav-top{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.95);padding:8px 16px;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.1);backdrop-filter:blur(8px)}
+.nav-top a{color:var(--blue);text-decoration:none;font-weight:600;font-size:.85em}
+.nav-top .brand{font-size:1em;color:#1e293b}
+body{padding-top:44px}
+.welcome{padding:40px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1}
+.welcome .icon{font-size:64px;margin-bottom:16px}
+.welcome h2{color:var(--blue);margin-bottom:8px}
+.welcome p{color:var(--gray);max-width:400px;line-height:1.6;font-size:.9em}
+@media(max-width:500px){
+  .container{height:100vh;border-radius:0;max-width:100%}
+  .mode-tabs{margin:6px 8px}
+  .topic-grid{grid-template-columns:1fr}
+  .actions button{font-size:.72em;padding:8px 4px}
+}
+</style>
+</head>
+<body>
+<div class="nav-top">
+  <a href="/" class="brand"><img src="logo.png" alt="霖楓學苑" style="height:26px;">霖楓學苑</a>
+  <div style="display:flex;gap:12px">
+    <span id="onlineStatus" style="font-size:11px;display:flex;align-items:center;gap:4px"><span class="dot online"></span> AI 在線</span>
+    <a href="/">🏠 首頁</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="mode-tabs">
+    <div class="mode-tab active" onclick="switchMode('practice')"><span class="icon">📝</span>練習模式</div>
+    <div class="mode-tab" onclick="switchMode('free')"><span class="icon">💬</span>自由問答</div>
+  </div>
+  <div id="topicView"></div>
+  <div id="qArea"><span class="topic-tag" id="qTopic"></span><div class="qtext" id="qText"></div><div class="meta"><span id="qDiff"></span> · <span id="qMarks"></span>分 · 編號: <span id="qId"></span></div></div>
+  <div class="chat-area" id="chat">
+    <div class="welcome" id="welcomeScreen"><div class="icon">🤖</div><h2>AI 數學導師</h2><p>選擇練習模式做題目，或者自由問答直接問數學問題。AI 會逐步引導你。</p></div>
+  </div>
+  <div class="quick-actions" id="quickActions" style="display:none">
+    <button class="quick-btn" onclick="quickAsk('呢題點樣開始諗？')">🤔 點開始諗？</button>
+    <button class="quick-btn" onclick="quickAsk('解釋呢個數學概念')">📖 解釋概念</button>
+    <button class="quick-btn" onclick="quickAsk('俾多個類似例題我')">📝 類似例題</button>
+    <button class="quick-btn" onclick="quickAsk('我錯咗邊度？')">🔍 錯咗邊度</button>
+  </div>
+  <div class="actions" id="actionsArea" style="display:none">
+    <button class="btn-hint" onclick="getHint()">💡 提示</button>
+    <button class="btn-solve" onclick="solveIt()">🧮 逐步解</button>
+    <button class="btn-skip" onclick="skipQuestion()">⏭ 跳過</button>
+    <button class="btn-topic" onclick="showTopics()">📚 換主題</button>
+  </div>
+  <div class="input-area" id="inputArea" style="display:none">
+    <input type="text" id="userInput" placeholder="輸入答案或數學問題..." autocomplete="off">
+    <button id="sendBtn" onclick="handleSend()">▶</button>
+  </div>
+  <div class="stats" id="statsBar" style="display:none">
+    <span>✅ <span id="correctCount">0</span></span>
+    <span>💡 <span id="hintCount">0</span></span>
+    <span>📝 <span id="qCount">0</span></span>
+  </div>
+</div>
+
+<script src="/docs/data/lf-api-client.js"></script>
+<script>
+// ═══════ LF DeepSeek AI Fallback ═══════
+async function deepseekAsk(question) {
+  try {
+    const resp = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer sk-e422da39eb9840e387134c823609995e" },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: "你係霖楓學苑 AI 數學導師。用繁體中文+廣東話回答。針對香港小學 P3-P6 數學。每次回答包含：1)解題思路 2)逐步運算 3)相關T1-T10陷阱提醒。語氣親切幽默。" },
+          { role: "user", content: question }
+        ],
+        max_tokens: 600, temperature: 0.7
+      })
+    });
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || null;
+  } catch(e) { return null; }
+}
+
+// ═══════════════ GLOBAL STATE ═══════════════
+const API = "https://lf-api-f80h.onrender.com";
+let currentMode = "practice";
+let currentQ = null, currentTopic = null, currentForm = null;
+let hintLevel = 0, apiOnline = true;
+let stats = { correct: 0, hints: 0, total: 0 };
+
+(function init() {
+  checkAPIStatus();
+  showTopics();
+  const saved = localStorage.getItem("lf_tutor_session");
+  if (saved) { try { const s = JSON.parse(saved); stats = s.stats || stats; updateStats(); } catch(e) {} }
+})();
+
+async function checkAPIStatus() {
+  try {
+    const resp = await fetch(API + "/api/topics", { signal: AbortSignal.timeout(4000) });
+    apiOnline = resp.ok;
+  } catch(e) { apiOnline = false; }
+  document.getElementById("onlineStatus").innerHTML = apiOnline
+    ? '<span class="dot online"></span> AI 在線'
+    : '<span class="dot offline"></span> 離線模式';
+}
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll(".mode-tab").forEach((t,i) => {
+    t.classList.toggle("active", (i===0 && mode==="practice") || (i===1 && mode==="free"));
+  });
+  document.getElementById("welcomeScreen").style.display = "none";
+  document.getElementById("chat").innerHTML = "";
+  if (mode === "practice") {
+    document.getElementById("quickActions").style.display = "none";
+    showTopics();
+  } else {
+    document.getElementById("topicView").style.display = "none";
+    document.getElementById("qArea").style.display = "none";
+    document.getElementById("actionsArea").style.display = "none";
+    document.getElementById("statsBar").style.display = "none";
+    document.getElementById("quickActions").style.display = "flex";
+    document.getElementById("inputArea").style.display = "flex";
+    document.getElementById("userInput").placeholder = "問我任何數學問題...";
+    addMsg("👋 你好！我係霖楓 AI 數學導師。你可以：\n\n📐 問數學概念（例如：咩係 LCM？）\n🧮 俾條題目我幫你分析\n📝 問功課題（貼上題目我逐步教你）\n\n有咩數學問題都可以問我！", "ai");
+    try { const hist = JSON.parse(localStorage.getItem("lf_free_chat") || "[]"); hist.slice(-10).forEach(h => addMsg(h.text, h.role)); } catch(e) {}
+  }
+}
+
+// ═══════════════ TOPICS ═══════════════
+const TOPICS = {
+  P3: [
+    {id:"p3_addition",name:"加法",icon:"➕",q:"p3_addition"},
+    {id:"p3_subtraction",name:"減法",icon:"➖",q:"p3_subtraction"},
+    {id:"p3_multiplication",name:"乘法",icon:"✖️",q:"p3_multiplication"},
+    {id:"p3_division",name:"除法",icon:"➗",q:"p3_division"},
+    {id:"p3_fractions",name:"分數認識",icon:"🔢",q:"p3_fractions"},
+    {id:"p3_measurement",name:"度量",icon:"📏",q:"p3_measurement"}
+  ],
+  P4: [
+    {id:"p4_factors_multiples",name:"因數與倍數",icon:"🔗",q:"p4_factors_multiples"},
+    {id:"p4_fractions",name:"分數加減",icon:"🧮",q:"p4_fractions"},
+    {id:"p4_decimals",name:"小數",icon:"💯",q:"p4_decimals"},
+    {id:"p4_area_perimeter",name:"面積與周界",icon:"📐",q:"p4_area_perimeter"},
+    {id:"p4_division_2",name:"兩位除數",icon:"➗",q:"p4_division_2"}
+  ],
+  P5: [
+    {id:"p5_fractions_multi_div",name:"分數乘除",icon:"✖️",q:"p5_fractions_multi_div"},
+    {id:"p5_percentage",name:"百分數",icon:"%",q:"p5_percentage"},
+    {id:"p5_volume",name:"體積",icon:"📦",q:"p5_volume"},
+    {id:"p5_equations",name:"簡易方程",icon:"🔤",q:"p5_equations"},
+    {id:"p5_avg_speed",name:"平均數與速率",icon:"🚀",q:"p5_avg_speed"}
+  ],
+  P6: [
+    {id:"p6_percentage_app",name:"百分數應用",icon:"📊",q:"p6_percentage_app"},
+    {id:"p6_ratio",name:"比和比例",icon:"⚖️",q:"p6_ratio"},
+    {id:"p6_circle",name:"圓形",icon:"⭕",q:"p6_circle"},
+    {id:"p6_speed",name:"速率進階",icon:"🏃",q:"p6_speed"},
+    {id:"p6_revision",name:"呈分試總複習",icon:"🎯",q:"p6_revision"}
+  ]
+};
+
+function showTopics() {
+  currentQ = null;
+  ["qArea","actionsArea","inputArea","statsBar","quickActions"].forEach(id => document.getElementById(id).style.display="none");
+  const tv = document.getElementById("topicView");
+  tv.style.display = "block";
+  let html = "";
+  for (const [grade, topics] of Object.entries(TOPICS)) {
+    html += '<h2>📚 ' + grade + '</h2><div class="topic-grid">';
+    for (const t of topics) {
+      html += '<div class="topic-card" onclick="selectTopic(\'' + t.q + "','" + grade + '\')"><div class="tname">' + t.icon + ' ' + t.name + '</div><div class="tmeta"><span>📝 練習</span><span>' + grade + '</span></div></div>';
+    }
+    html += "</div>";
+  }
+  tv.innerHTML = html;
+}
+
+function selectTopic(topic, form) {
+  currentTopic = topic; currentForm = form; hintLevel = 0;
+  document.getElementById("topicView").style.display = "none";
+  ["actionsArea","inputArea","statsBar"].forEach(id => document.getElementById(id).style.display="flex");
+  document.getElementById("chat").innerHTML = "";
+  addMsg("📚 主題：" + topic.replace(/_/g," ") + " (" + form + ") · 準備開始！", "system");
+  apiOnline ? loadQuestionFromAPI() : generateLocalQuestion(topic, form);
+}
+
+async function loadQuestionFromAPI() {
+  showTyping();
+  try {
+    const resp = await fetch(API + "/api/questions/random", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({topic:currentTopic, form:currentForm}) });
+    const data = await resp.json();
+    hideTyping();
+    if (!data.error) showQuestion(data);
+    else addMsg("⚠️ " + data.error + " · 改用離線題目", "system"), generateLocalQuestion(currentTopic, currentForm);
+  } catch(e) {
+    hideTyping(); apiOnline = false;
+    document.getElementById("onlineStatus").innerHTML = '<span class="dot offline"></span> 離線模式';
+    addMsg("⚠️ API 離線 · 使用本地題庫", "system");
+    generateLocalQuestion(currentTopic, currentForm);
+  }
+}
+
+// ═══════════════ LOCAL QUESTIONS ═══════════════
+const LOCAL_Q = {
+  p3_addition: [{q:"235 + 478 = ?", a:"713", hint:["先加個位：5+8=13，寫3進1","再加十位：3+7+1=11，寫1進1","最後百位：2+4+1=7"], diff:"★", marks:3},{q:"189 + 367 = ?", a:"556", hint:["個位：9+7=16，寫6進1","十位：8+6+1=15，寫5進1","百位：1+3+1=5"], diff:"★", marks:3}],
+  p3_subtraction: [{q:"523 - 287 = ?", a:"236", hint:["個位：3-7 唔夠，借位→13-7=6","十位：1-8 唔夠，借位→11-8=3","百位：4-2=2"], diff:"★★", marks:3},{q:"800 - 456 = ?", a:"344", hint:["個位：0-6 唔夠，借位→10-6=4","十位：9-5=4（借咗位）","百位：7-4=3"], diff:"★★", marks:3}],
+  p4_fractions: [{q:"2/3 + 1/4 = ? (分數形式)", a:"11/12", hint:["通分：分母 LCM=12","2/3 = 8/12, 1/4 = 3/12","8/12 + 3/12 = 11/12"], diff:"★★", marks:4},{q:"3/5 - 1/3 = ? (分數形式)", a:"4/15", hint:["通分：分母 LCM=15","3/5 = 9/15, 1/3 = 5/15","9/15 - 5/15 = 4/15"], diff:"★★", marks:4}],
+  p4_area_perimeter: [{q:"長方形長 8cm，闊 5cm，面積係幾多？(cm²)", a:"40", hint:["面積 = 長 × 闊","8 × 5 = 40 cm²","單位係 cm²，唔係 cm"], diff:"★", marks:3},{q:"長方形長 12m，闊 3m，周界係幾多？(m)", a:"30", hint:["周界 = (長+闊) × 2","(12+3) × 2 = 30m","周界用長度單位 (m)"], diff:"★", marks:3}],
+  p5_percentage: [{q:"$100 加 20% 後再減 20%，等於幾多？", a:"96", hint:["加20%：100 × 1.2 = 120","減20%係減120嘅20%：120×0.8=96","T8陷阱：連續百分比唔係加減抵消！"], diff:"★★★", marks:5},{q:"衫原價250，八折後再九折，最後幾錢？", a:"180", hint:["八折：250 × 0.8 = 200","再九折：200 × 0.9 = 180","唔係 250 × 0.7！"], diff:"★★", marks:4}],
+  p5_fractions_multi_div: [{q:"2/3 ÷ 4/5 = ? (分數形式)", a:"5/6", hint:["除以分數 = 乘倒數","2/3 ÷ 4/5 = 2/3 × 5/4","= 10/12 = 5/6"], diff:"★★★", marks:4}],
+  p5_volume: [{q:"長方體長5cm、闊4cm、高3cm，體積？(cm³)", a:"60", hint:["體積 = 長×闊×高","5×4×3 = 60 cm³","單位係 cm³"], diff:"★", marks:3}],
+  p6_percentage_app: [{q:"書包原價400，加價25%後再八折出售，賺定蝕？", a:"0", hint:["加價後：400×1.25=500","八折：500×0.8=400","=原價，冇賺冇蝕"], diff:"★★★", marks:5}],
+  p6_ratio: [{q:"A:B=2:3, B:C=4:5, 求A:B:C", a:"8:12:15", hint:["統一B：LCM(3,4)=12","A:B=2:3=8:12","B:C=4:5=12:15","A:B:C=8:12:15"], diff:"★★★", marks:5}],
+  p6_circle: [{q:"圓形半徑7cm，面積？(π≈22/7)", a:"154", hint:["面積 = πr²","= 22/7 × 7 × 7","= 22×7 = 154 cm²"], diff:"★★", marks:4}]
+};
+
+function generateLocalQuestion(topic, form) {
+  const bank = LOCAL_Q[topic] || LOCAL_Q["p5_percentage"];
+  const q = bank[Math.floor(Math.random() * bank.length)];
+  showQuestion({id:"local_"+Date.now(), topic:topic, question_text:q.q, difficulty:q.diff, marks:q.marks, answer:q.a, hints:q.hint, isLocal:true});
+}
+
+function showQuestion(data) {
+  currentQ = data; hintLevel = 0; stats.total++; updateStats();
+  document.getElementById("qArea").style.display = "block";
+  document.getElementById("qId").textContent = data.id;
+  document.getElementById("qTopic").textContent = (data.topic||"").replace(/_/g," ").replace(/\b\w/g,l=>l.toUpperCase());
+  document.getElementById("qDiff").textContent = "難度 " + (data.difficulty||"★★");
+  document.getElementById("qMarks").textContent = data.marks || 5;
+  document.getElementById("qText").textContent = data.question_text || "請作答";
+  addMsg("準備好！輸入你嘅答案～唔識可以㩒「💡 提示」或「🧮 逐步解」", "ai");
+  document.getElementById("userInput").focus();
+  document.getElementById("userInput").placeholder = "輸入答案...";
+  if (window.MathJax) MathJax.typesetPromise([document.getElementById("qText")]);
+  saveSession();
+}
+
+function handleSend() { currentMode === "free" ? freeAsk() : submitAnswer(); }
+
+async function submitAnswer() {
+  const input = document.getElementById("userInput");
+  const answer = input.value.trim();
+  if (!answer || !currentQ) return;
+  addMsg(answer, "user"); input.value = "";
+  document.getElementById("sendBtn").disabled = true;
+  showTyping();
+  const localResult = checkAnswerLocally(answer);
+  if (localResult.correct) {
+    hideTyping(); stats.correct++; updateStats();
+    addMsg("🎉 正確！得分：" + localResult.score, "correct");
+    if (localResult.message) addMsg(localResult.message, "ai");
+    saveSession(); setTimeout(() => loadNextQuestion(), 1500);
+  } else if (apiOnline) {
+    try {
+      const markResp = await fetch(API + "/api/ai/mark", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({student_answer:answer, question_id:currentQ.id}) });
+      const mark = await markResp.json(); hideTyping();
+      if (mark.status === "CORRECT") { addMsg("🎉 正確！"+(mark.message||""), "correct"); stats.correct++; updateStats(); saveSession(); setTimeout(() => loadNextQuestion(), 1500); }
+      else if (mark.status === "PARTIAL") { addMsg("🤔 部分正確。"+(mark.message||"再試下？"), "wrong"); if (mark.hint) addMsg("💡 "+mark.hint, "ai"); }
+      else { addMsg("❌ 唔啱。"+(mark.message||"試下攞提示？"), "wrong"); if (mark.hint) addMsg("💡 "+mark.hint, "ai"); }
+    } catch(e) { hideTyping(); addMsg("❌ 唔啱。試下逐步解？", "wrong"); }
+  } else {
+    hideTyping();
+    addMsg("❌ 唔啱。正確答案：" + (currentQ.answer||"?"), "wrong");
+    if (currentQ.hints && currentQ.hints.length > 0) addMsg("💡 "+currentQ.hints[0], "ai");
+  }
+  document.getElementById("sendBtn").disabled = false;
+  document.getElementById("userInput").focus();
+}
+
+function checkAnswerLocally(answer) {
+  if (!currentQ || !currentQ.answer) return {correct:false};
+  const ua = answer.replace(/\s+/g,"").toLowerCase();
+  const ca = String(currentQ.answer).replace(/\s+/g,"").toLowerCase();
+  if (ua === ca) return {correct:true, score:currentQ.marks||5};
+  const un = parseFloat(ua), cn = parseFloat(ca);
+  if (!isNaN(un) && !isNaN(cn)) {
+    if (Math.abs(un-cn) < 0.001) return {correct:true, score:currentQ.marks||5};
+  }
+  const fm = ua.match(/^(\d+)\/(\d+)$/);
+  if (fm && !isNaN(cn)) { const v = parseInt(fm[1])/parseInt(fm[2]); if (Math.abs(v-cn) < 0.001) return {correct:true, score:currentQ.marks||5}; }
+  return {correct:false};
+}
+
+async function getHint() {
+  if (!currentQ) return;
+  hintLevel++; stats.hints++; updateStats(); saveSession();
+  if (currentQ.hints && currentQ.hints.length >= hintLevel) { addMsg("💡 <strong>提示 L"+hintLevel+"</strong>: "+currentQ.hints[hintLevel-1], "ai"); return; }
+  if (apiOnline) {
+    showTyping();
+    try {
+      const resp = await fetch(API+"/api/ai/tutor/hint", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({question:currentQ.question_text, student_answer:"", hint_level:hintLevel}) });
+      const data = await resp.json(); hideTyping();
+      if (data.hints && data.hints.length>0) addMsg("💡 <strong>提示 L"+hintLevel+"</strong>: "+data.hints[Math.min(hintLevel-1,data.hints.length-1)], "ai");
+      else generateSmartHint();
+    } catch(e) { hideTyping(); generateSmartHint(); }
+  } else { generateSmartHint(); }
+}
+
+function generateSmartHint() {
+  const hints = ["諗下：呢題涉及邊個數學概念？第一步應該點做？","試下將題目中嘅數字同單位寫出嚟","有冇類似嘅例題你做過？試下用同樣嘅方法","畫個圖或者列表幫自己理解題目"];
+  addMsg("💡 <strong>提示 L"+hintLevel+"</strong>: "+hints[Math.min(hintLevel-1,hints.length-1)], "ai");
+}
+
+async function solveIt() {
+  if (!currentQ) return;
+  if (currentQ.hints && currentQ.hints.length > 0) {
+    addMsg("🧮 <strong>逐步解答：</strong>", "ai");
+    currentQ.hints.forEach((h,i) => { setTimeout(() => addMsg("<strong>步驟 "+(i+1)+"：</strong>"+h, "ai"), i*300); });
+    setTimeout(() => addMsg("✅ <strong>答案："+currentQ.answer+"</strong>", "ai"), currentQ.hints.length*300+300);
+    return;
+  }
+  if (apiOnline) {
+    showTyping();
+    try {
+      const resp = await fetch(API+"/api/ai/tutor/solve", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({question:currentQ.question_text}) });
+      const data = await resp.json(); hideTyping();
+      if (data.steps) { addMsg("🧮 <strong>逐步解答：</strong>", "ai"); data.steps.forEach(s => addMsg(s, "ai")); }
+      else addMsg("🧮 答案："+(data.answer||currentQ.answer||"請參考提示"), "ai");
+    } catch(e) { hideTyping(); addMsg("🧮 答案："+(currentQ.answer||"未能計算"), "ai"); }
+  } else { addMsg("🧮 答案："+(currentQ.answer||"未能計算"), "ai"); }
+}
+
+async function loadNextQuestion() {
+  if (apiOnline) {
+    showTyping();
+    try {
+      const resp = await fetch(API+"/api/questions/random", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({topic:currentTopic, form:currentForm}) });
+      const data = await resp.json(); hideTyping();
+      if (!data.error) showQuestion(data);
+      else addMsg("⚠️ "+data.error, "system"), generateLocalQuestion(currentTopic, currentForm);
+    } catch(e) { hideTyping(); generateLocalQuestion(currentTopic, currentForm); }
+  } else { generateLocalQuestion(currentTopic, currentForm); }
+}
+
+function skipQuestion() {
+  if (currentQ && currentQ.answer) addMsg("📝 正確答案：<strong>"+currentQ.answer+"</strong>", "ai");
+  addMsg("⏭ 跳過，換新題目～", "system");
+  loadNextQuestion();
+}
+
+// ═══════════════ FREE-FORM AI ═══════════════
+async async function freeAsk() {
+  const input = document.getElementById("userInput");
+  const question = input.value.trim();
+  if (!question) return;
+  addMsg(question, "user"); input.value = "";
+  document.getElementById("sendBtn").disabled = true;
+  showTyping();
+  saveFreeChat(question, "user");
+
+  // Step 1: Try local regex math solver (fast)
+  const localAnswer = generateLocalMathAnswer(question);
+  if (localAnswer) {
+    hideTyping(); addMsg(localAnswer, "ai"); saveFreeChat(localAnswer, "ai");
+    document.getElementById("sendBtn").disabled = false; input.focus(); return;
+  }
+
+  // Step 2: Try Render API
+  if (apiOnline) {
+    try {
+      const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
+      if (resp.ok) {
+        const data = await resp.json(); hideTyping();
+        const reply = data.reply || data.message || "";
+        if (reply && reply.length > 10) { addMsg(reply, "ai"); saveFreeChat(reply, "ai"); document.getElementById("sendBtn").disabled = false; input.focus(); return; }
+      }
+    } catch(e) { /* fall through to DeepSeek */ }
+  }
+
+  // Step 3: Try DeepSeek API (real AI - always available)
+  hideTyping(); showTyping();
+  const dsReply = await deepseekAsk(question);
+  hideTyping();
+  if (dsReply) {
+    addMsg(dsReply, "ai"); saveFreeChat(dsReply, "ai");
+  } else {
+    // Step 4: Generic fallback
+    const fb = generateGenericMathAnswer(question);
+    addMsg(fb, "ai"); saveFreeChat(fb, "ai");
+  }
+  document.getElementById("sendBtn").disabled = false; input.focus();
+}
+  if (apiOnline) {
+    try {
+      const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
+      const data = await resp.json(); hideTyping();
+      const reply = data.reply || data.message || generateGenericMathAnswer(question);
+      addMsg(reply, "ai"); saveFreeChat(reply, "ai");
+    } catch(e) { hideTyping(); const fb = generateGenericMathAnswer(question); addMsg(fb, "ai"); saveFreeChat(fb, "ai"); }
+  } else { hideTyping(); const fb = generateGenericMathAnswer(question); addMsg(fb, "ai"); saveFreeChat(fb, "ai"); }
+  document.getElementById("sendBtn").disabled = false; input.focus();
+}
+
+function generateLocalMathAnswer(q) {
+  const ql = q.toLowerCase();
+  const calcMatch = ql.match(/([\d.]+)\s*([+\-×x*÷\/])\s*([\d.]+)/);
+  if (calcMatch) {
+    const a = parseFloat(calcMatch[1]), b = parseFloat(calcMatch[3]);
+    let result, op = calcMatch[2];
+    if (op === "+") result = a + b;
+    else if (op === "-") result = a - b;
+    else if (op === "×" || op === "x" || op === "*") result = a * b;
+    else if (op === "÷" || op === "/") result = b !== 0 ? a / b : "除數不能為0";
+    return "🧮 " + a + " " + op + " " + b + " = **" + result + "**";
+  }
+  const pctMatch = ql.match(/([\d.]+)\s*%\s*(?:of|嘅|的)?\s*([\d.]+)/);
+  if (pctMatch) { const pct=parseFloat(pctMatch[1]), val=parseFloat(pctMatch[2]); return "💯 "+val+" 的 "+pct+"% = **"+val*pct/100+"**"; }
+  if (ql.includes("lcm") || ql.includes("最小公倍數")) {
+    const nums = ql.match(/\d+/g);
+    if (nums && nums.length>=2) { const a=parseInt(nums[0]), b=parseInt(nums[1]); const lcm=(a*b)/gcd(a,b); return "🔗 "+a+" 和 "+b+" 的 LCM = **"+lcm+"**\n\nLCM(a,b) = a×b÷GCD(a,b)"+"\n= "+a+"×"+b+"÷"+gcd(a,b)+" = "+lcm; }
+  }
+  if (ql.includes("hcf") || ql.includes("gcd") || ql.includes("最大公因數")) {
+    const nums = ql.match(/\d+/g);
+    if (nums && nums.length>=2) { const a=parseInt(nums[0]), b=parseInt(nums[1]); return "🔗 "+a+" 和 "+b+" 的 HCF = **"+gcd(a,b)+"**"; }
+  }
+  if (ql.includes("質因數") || ql.includes("prime factor")) {
+    const numMatch = ql.match(/\b(\d+)\b/);
+    if (numMatch) { const n=parseInt(numMatch[1]); const factors=primeFactors(n); return "🔢 "+n+" = **"+factors.join(" × ")+"**"; }
+  }
+  if ((ql.includes("面積")||ql.includes("area")) && ql.match(/\d+/g)) {
+    const nums = ql.match(/\d+/g).map(Number);
+    if (nums.length>=2 && (ql.includes("長方")||ql.includes("rectangle"))) return "📐 長方形面積 = 長×闊 = "+nums[0]+"×"+nums[1]+" = **"+(nums[0]*nums[1])+"**\n\n單位係平方（cm²/m²）";
+    if (nums.length>=2 && (ql.includes("三角")||ql.includes("triangle"))) return "📐 三角形面積 = 底×高÷2 = "+nums[0]+"×"+nums[1]+"÷2 = **"+(nums[0]*nums[1]/2)+"**";
+  }
+  return null;
+}
+
+function generateGenericMathAnswer(q) {
+  const ql = q.toLowerCase();
+  if (ql.includes("分數")||ql.includes("fraction")) return "📖 **分數運算要點：**\n\n1. **加減**：先通分，分子相加減，分母不變\n2. **乘法**：分子×分子，分母×分母，然後約簡\n3. **除法**：÷分數 = ×它的倒數\n\n例：2/3÷4/5 = 2/3×5/4 = 10/12 = 5/6\n\n⚠️ 常見陷阱：加減時直接加分子分母（錯！）\n\n有具體題目想我幫你睇嗎？";
+  if (ql.includes("百分")||ql.includes("percent")||ql.includes("%")||ql.includes("折扣")) return "📖 **百分數要點：**\n\n1. 百分數 = 分數（分母100），25%=1/4\n2. 加價x%：原價×(1+x/100)\n3. 折扣y%：原價×y/100\n\n⚠️ **T8陷阱**：連續百分比不可直接加減！\n例：$100加20%($120)再減20%($96)≠$100";
+  if (ql.includes("面積")||ql.includes("周界")||ql.includes("area")||ql.includes("perimeter")) return "📖 **面積vs周界：**\n\n周界（Perimeter）：圍住圖形嘅總長度\n- 長方形：(長+闊)×2\n\n面積（Area）：圖形佔據嘅空間\n- 長方形：長×闊\n- 三角形：底×高÷2\n\n⚠️ T7陷阱：周界用長度單位(cm)，面積用平方單位(cm²)！";
+  if (ql.includes("體積")||ql.includes("volume")) return "📖 **體積要點：**\n\n長方體體積 = 長×闊×高\n\n⚠️ T9陷阱：體積單位係立方(cm³)\n1m³=1,000,000cm³（唔係100！）";
+  if (ql.includes("hello")||ql.includes("hi")||ql.includes("你好")) return "👋 你好！我係霖楓AI數學導師！\n\n我可以幫你：📐解釋數學概念 · 🧮逐步解答題目 · 📝分析常見陷阱 · 💡提供類似練習\n\n有咩數學問題想問？";
+  return "🤔 好問題！我係專注數學嘅AI導師。你可以：\n\n📐 問我數學概念（如：分數除法點計？）\n🧮 俾條題目我幫你逐步分析\n📝 貼上功課題目\n\n或者轉去「練習模式」揀年級主題做練習～";
+}
+
+function quickAsk(question) { document.getElementById("userInput").value = question; freeAsk(); }
+
+// ═══════════════ UTILS ═══════════════
+function gcd(a,b) { a=Math.abs(a); b=Math.abs(b); while(b){[a,b]=[b,a%b];} return a; }
+function primeFactors(n) { const f=[]; let d=2; while(d*d<=n){while(n%d===0){f.push(d);n/=d;}d++;} if(n>1)f.push(n); return f; }
+
+function addMsg(text, role) {
+  const div = document.createElement("div");
+  div.className = "msg " + role;
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  div.innerHTML = text.replace(/\n/g, "<br>");
+  document.getElementById("chat").appendChild(div);
+  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+  if (window.MathJax) MathJax.typesetPromise([div]);
+}
+
+function updateStats() { document.getElementById("correctCount").textContent = stats.correct; document.getElementById("hintCount").textContent = stats.hints; document.getElementById("qCount").textContent = stats.total; }
+function showTyping() { const div=document.createElement("div"); div.className="typing"; div.id="typing"; div.innerHTML="<span></span><span></span><span></span>"; document.getElementById("chat").appendChild(div); document.getElementById("chat").scrollTop=document.getElementById("chat").scrollHeight; }
+function hideTyping() { const e=document.getElementById("typing"); if(e)e.remove(); }
+function saveSession() { try{localStorage.setItem("lf_tutor_session",JSON.stringify({stats}));}catch(e){} }
+function saveFreeChat(text,role) { try{const h=JSON.parse(localStorage.getItem("lf_free_chat")||"[]"); h.push({text,role,time:Date.now()}); if(h.length>100)h.splice(0,h.length-100); localStorage.setItem("lf_free_chat",JSON.stringify(h));}catch(e){} }
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Enter" && document.activeElement === document.getElementById("userInput")) handleSend();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>霖楓學苑 · AI 每週學習報告 | Weekly Report</title>
+<meta name="description" content="AI自動生成每週學習報告 — WhatsApp推送畀家長。進度追蹤、弱項分析、學習建議。">
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:var(--g100);color:var(--g800);min-height:100vh}
+.container{max-width:650px;margin:0 auto;padding:20px}
+
+.header{background:linear-gradient(135deg,#0A1A35,var(--b));color:white;border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:20px}
+.header h1{font-size:20px;margin-bottom:4px}
+.header .sub{font-size:12px;opacity:0.7}
+
+.card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.card h2{font-size:16px;color:var(--b);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+/* Report Preview */
+.report-preview{background:#FFFDF5;border:2px solid #FDE68A;border-radius:14px;padding:24px;font-size:13px;line-height:1.9}
+.report-preview .r-header{text-align:center;border-bottom:2px dashed #FDE68A;padding-bottom:16px;margin-bottom:16px}
+.report-preview .r-logo{font-size:18px;font-weight:900;color:var(--b)}
+.report-preview .r-date{font-size:11px;color:var(--g600)}
+.report-preview .r-section{margin:12px 0}
+.report-preview .r-section h4{font-size:13px;color:var(--b);margin-bottom:4px}
+.report-preview .r-highlight{background:#FEF3C7;padding:2px 6px;border-radius:4px;font-weight:700}
+.report-preview .r-good{color:var(--gr);font-weight:700}
+.report-preview .r-warn{color:var(--r);font-weight:700}
+.report-preview .r-footer{text-align:center;border-top:2px dashed #FDE68A;padding-top:16px;margin-top:16px;font-size:11px;color:var(--g600)}
+
+/* Stats Row */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat-mini{text-align:center;padding:10px 4px;background:var(--g50);border-radius:10px}
+.stat-mini .s-val{font-size:22px;font-weight:900;color:var(--b)}
+.stat-mini .s-lbl{font-size:9px;color:var(--g600)}
+.stat-mini .s-change{font-size:9px;font-weight:700}
+.s-up{color:var(--gr)}.s-down{color:var(--r)}.s-same{color:var(--g600)}
+
+/* Actions */
+.btn{display:block;width:100%;padding:14px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;text-align:center;text-decoration:none;transition:all 0.2s;font-family:inherit;margin:8px 0}
+.btn-primary{background:var(--b);color:white}
+.btn-wa{background:#25D366;color:white}
+.btn-outline{background:white;border:2px solid var(--g200);color:var(--b)}
+
+/* Schedule */
+.schedule-card{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--g200);border-radius:12px;margin-bottom:8px}
+.schedule-card .s-icon{font-size:28px}
+.schedule-card .s-info{flex:1}
+.schedule-card .s-info h4{font-size:13px;color:var(--b)}
+.schedule-card .s-info p{font-size:11px;color:var(--g600)}
+.schedule-card .s-toggle{width:48px;height:28px;border-radius:14px;background:var(--g200);position:relative;cursor:pointer;transition:all 0.2s}
+.schedule-card .s-toggle.active{background:var(--gr)}
+.schedule-card .s-toggle::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:white;transition:all 0.2s}
+.schedule-card .s-toggle.active::after{left:23px}
+
+@media(max-width:480px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+<link rel="manifest" href="/manifest.json">
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<div class="container">
+
+<div class="header">
+  <h1>📋 AI 每週學習報告</h1>
+  <div class="sub">自動生成 · WhatsApp推送畀家長 · 提升留存率</div>
+</div>
+
+<!-- Current Report -->
+<div class="card">
+  <h2>📊 本週報告預覽</h2>
+  <div class="report-preview" id="reportPreview">
+    <div class="r-header">
+      <div class="r-logo">🪤 霖楓學苑 · 每週學習報告</div>
+      <div class="r-date" id="rDate">---</div>
+    </div>
+    <div id="rContent">
+      <p style="text-align:center;color:var(--g400)">尚未有足夠數據生成報告</p>
+      <p style="text-align:center;font-size:11px">請學生先完成 AI診斷 同至少一次練習</p>
+    </div>
+    <div class="r-footer">
+      🤖 此報告由霖楓AI自動生成 · 每週一早上自動推送<br>
+      <a href="ai-diagnostic.html" style="color:var(--b)">立即做AI診斷 →</a>
+    </div>
+  </div>
+  <button class="btn btn-wa" onclick="sendWhatsAppReport()" style="margin-top:12px">💬 WhatsApp 發送畀家長</button>
+  <button class="btn btn-outline" onclick="copyReportText()">📋 複製報告文字</button>
+</div>
+
+<!-- Stats -->
+<div class="card">
+  <h2>📈 學習趨勢</h2>
+  <div class="stats-row" id="statsRow">
+    <div class="stat-mini"><div class="s-val">--</div><div class="s-lbl">本週練習</div><div class="s-change s-same">--</div></div>
+    <div class="stat-mini"><div class="s-val">--</div><div class="s-lbl">正確率</div><div class="s-change s-same">--</div></div>
+    <div class="stat-mini"><div class="s-val">--</div><div class="s-lbl">連續天數</div><div class="s-change s-same">--</div></div>
+    <div class="stat-mini"><div class="s-val">--</div><div class="s-lbl">Boss擊敗</div><div class="s-change s-same">--</div></div>
+  </div>
+</div>
+
+<!-- Auto Schedule -->
+<div class="card">
+  <h2>⏰ 自動推送設定</h2>
+  <p style="font-size:11px;color:var(--g600);margin-bottom:12px">AI會根據以下排程自動生成並推送報告</p>
+  <div class="schedule-card">
+    <span class="s-icon">📅</span>
+    <div class="s-info"><h4>每週學習報告</h4><p>逢星期一早上9:00自動推送 · WhatsApp</p></div>
+    <div class="s-toggle active" onclick="this.classList.toggle('active')"></div>
+  </div>
+  <div class="schedule-card">
+    <span class="s-icon">🎯</span>
+    <div class="s-info"><h4>診斷後即時報告</h4><p>完成AI診斷後立即發送弱項分析</p></div>
+    <div class="s-toggle active" onclick="this.classList.toggle('active')"></div>
+  </div>
+  <div class="schedule-card">
+    <span class="s-icon">🏆</span>
+    <div class="s-info"><h4>里程碑通知</h4><p>升級/Boss擊敗/連續7天時自動推送</p></div>
+    <div class="s-toggle active" onclick="this.classList.toggle('active')"></div>
+  </div>
+  <div class="schedule-card">
+    <span class="s-icon">⚠️</span>
+    <div class="s-info"><h4>學習警報</h4><p>連續3天冇練習時提醒家長</p></div>
+    <div class="s-toggle" onclick="this.classList.toggle('active')"></div>
+  </div>
+</div>
+
+<!-- Upgrade CTA -->
+<div class="card" style="background:linear-gradient(135deg,#FEF2F2,#FFFDF5);border:1px solid #FECACA;text-align:center">
+  <h2>🔓 解鎖完整版家長儀表板</h2>
+  <p style="font-size:12px;color:var(--g600);margin-bottom:12px">連接Firebase後可查看：歷史報告趨勢、同級對比、SSPA預測</p>
+  <a href="parent-dashboard.html" class="btn btn-primary">前往家長儀表板 →</a>
+</div>
+
+</div>
+
+<script src="/docs/data/lf-cloud-sync.js"></script>
+<script src="/docs/data/lf-whatsapp.js"></script>
+<script>
+// ═══════════════════════════════════════
+// PARENT WEEKLY REPORT ENGINE
+// ═══════════════════════════════════════
+
+function initReport(){
+  var gf = null;
+  try{ gf = JSON.parse(localStorage.getItem('lf_gamification')); }catch(e){}
+  
+  var now = new Date();
+  var dateStr = now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日';
+  document.getElementById('rDate').textContent = dateStr;
+  
+  if(!gf || !gf.totalQuestions || gf.totalQuestions<3){
+    return; // Not enough data
+  }
+  
+  var totalQ = gf.totalQuestions||0;
+  var accuracy = gf.totalQuestions>0?Math.round(gf.totalCorrect/gf.totalQuestions*100):0;
+  var streak = gf.currentStreak||0;
+  var level = gf.level||1;
+  var bossDefeats = Object.keys(gf.bossDefeats||{}).length;
+  
+  // Stats
+  document.getElementById('statsRow').innerHTML = 
+    '<div class="stat-mini"><div class="s-val">'+totalQ+'</div><div class="s-lbl">總練習</div><div class="s-change s-up">累積</div></div>'+
+    '<div class="stat-mini"><div class="s-val">'+accuracy+'%</div><div class="s-lbl">正確率</div><div class="s-change '+(accuracy>=70?'s-up':accuracy<50?'s-down':'s-same')+'">'+(accuracy>=70?'👍':accuracy<50?'💪':'🙂')+'</div></div>'+
+    '<div class="stat-mini"><div class="s-val">'+streak+'</div><div class="s-lbl">連續天數</div><div class="s-change '+(streak>=5?'s-up':'s-same')+'">'+(streak>=5?'🔥':'')+'</div></div>'+
+    '<div class="stat-mini"><div class="s-val">'+bossDefeats+'/10</div><div class="s-lbl">Boss擊敗</div><div class="s-change '+(bossDefeats>=5?'s-up':'s-same')+'">⚔️</div></div>';
+  
+  // Report content
+  var accDesc = accuracy>=85?'表現優異，基礎非常扎實！':
+                accuracy>=70?'表現唔錯，有幾個課題可以再提升。':
+                accuracy>=55?'需要針對性加強練習，特別係弱項課題。':
+                '基礎需要重新建立，建議增加練習頻率。';
+  
+  var streakDesc = streak>=7?'連續學習習慣非常好！':
+                   streak>=3?'保持緊良好嘅學習習慣。':
+                   '建議建立每日練習習慣，每次15-20分鐘就夠。';
+  
+  var bossDesc = bossDefeats>=7?'已掌握多個核心課題！':
+                 bossDefeats>=3?'穩步進步中，繼續挑戰！':
+                 '建議多挑戰Boss鞏固所學。';
+  
+  document.getElementById('rContent').innerHTML = 
+    '<div class="r-section"><h4>📊 學習概況</h4>'+
+    '<p>總練習量：<span class="r-highlight">'+totalQ+'題</span> | 正確率：<span class="r-highlight">'+accuracy+'%</span> | 等級：<span class="r-highlight">Lv.'+level+'</span></p>'+
+    '<p>連續學習：<span class="r-highlight">'+streak+'天</span> | Boss擊敗：<span class="r-highlight">'+bossDefeats+'/10</span></p></div>'+
+    '<div class="r-section"><h4>🤖 AI 綜合評估</h4>'+
+    '<p>'+accDesc+'</p><p>'+streakDesc+'</p><p>'+bossDesc+'</p></div>'+
+    '<div class="r-section"><h4>💡 下週學習建議</h4>'+
+    '<p>1. 完成<span class="r-highlight">AI陷阱診斷</span>定位弱項</p>'+
+    '<p>2. 針對弱項做<span class="r-highlight">陷阱專項練習</span></p>'+
+    '<p>3. 每日挑戰<span class="r-highlight">1個Boss</span></p></div>';
+}
+
+function sendWhatsAppReport(){
+  var reportText = document.getElementById('reportPreview').innerText;
+  var waMsg = encodeURIComponent('🪤 霖楓學苑 · 每週學習報告\n\n'+reportText+'\n\n查看詳情：https://www.lfacademyhk.com/docs/ai-smart-hub.html');
+  window.open('https://wa.me/85294796459?text='+waMsg, '_blank');
+}
+
+function copyReportText(){
+  var text = document.getElementById('reportPreview').innerText;
+  navigator.clipboard.writeText(text).then(function(){
+    alert('✅ 報告已複製！可以貼上WhatsApp/微信發送畀家長。');
+  }).catch(function(){
+    prompt('手動複製（Ctrl+C）：', text);
+  });
+}
+
+initReport();
+if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js")}
+</script>
+
+<script src="/docs/data/lf-event-bus.js"></script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body>
+</html>

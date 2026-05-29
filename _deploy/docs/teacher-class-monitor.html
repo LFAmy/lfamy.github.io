@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 課堂監控台</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#0D1117;color:#C9D1D9;font-size:13px;padding:16px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.header h1{font-size:18px;color:#58A6FF}
+.header .class-info{font-size:11px;color:#8B949E}
+.btn{display:inline-block;padding:8px 16px;border-radius:6px;font-weight:700;font-size:11px;cursor:pointer;border:1px solid #30363D;font-family:inherit;background:#21262D;color:#C9D1D9}
+.btn-primary{background:#238636;border-color:#238636;color:white}
+.btn-warn{background:#D29922;border-color:#D29922;color:white}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat-panel{background:#161B22;border:1px solid #30363D;border-radius:10px;padding:16px;text-align:center}
+.stat-panel .val{font-size:32px;font-weight:900;color:#58A6FF}
+.stat-panel .label{font-size:10px;color:#8B949E;margin-top:4px}
+.stat-panel .warn{color:#D29922}
+.stat-panel .danger{color:#DA3633}
+.student-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin:16px 0}
+.student-card{background:#161B22;border:1px solid #30363D;border-radius:10px;padding:12px;position:relative}
+.student-card.stuck{border-color:#D29922;background:#1A1500}
+.student-card.offline{opacity:0.4}
+.student-card .name{font-weight:700;font-size:12px;margin-bottom:4px;color:#E6EDF3}
+.student-card .status{font-size:10px;color:#8B949E;display:flex;justify-content:space-between}
+.student-card .q-progress{font-size:10px;color:#58A6FF}
+.student-card .time-on-q{font-size:10px;color:#D29922}
+.question-alert{background:#1A1500;border:1px solid #D29922;border-radius:10px;padding:14px;margin:12px 0}
+.question-alert h3{color:#D29922;font-size:13px;margin-bottom:8px}
+.question-alert .q-text{font-size:12px;color:#E6EDF3;margin-bottom:6px}
+.question-alert .q-stats{font-size:10px;color:#8B949E}
+.quick-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.status-dot.active{background:#238636}
+.status-dot.stuck{background:#D29922}
+.status-dot.off{background:#484F58}
+.empty-state{text-align:center;padding:40px;color:#484F58}
+.empty-state .icon{font-size:48px;margin-bottom:8px}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:#161B22;border-radius:8px;padding:4px}
+.tab{padding:8px 16px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:transparent;color:#8B949E}
+.tab.active{background:#1F6FEB;color:white}
+<style>
+</style>
+
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<div class="header">
+<div>
+<h1>課堂監控台</h1>
+<div class="class-info" id="classInfo">課堂編號: — · 今日 · 未有活躍學生</div>
+</div>
+<div style="display:flex;gap:8px">
+<button class="btn btn-primary" onclick="startClass()">開始上課</button>
+<button class="btn btn-warn" onclick="endClass()">落堂</button>
+<button class="btn" onclick="generateSummary()">生成摘要</button>
+</div>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="switchTab('live')">實時監控</button>
+<button class="tab" onclick="switchTab('analysis')">全班分析</button>
+<button class="tab" onclick="switchTab('history')">課堂記錄</button>
+</div>
+
+<!-- LIVE TAB -->
+<div id="tab-live">
+<div class="grid-3">
+<div class="stat-panel"><div class="val" id="statOnline">0</div><div class="label">在線學生</div></div>
+<div class="stat-panel"><div class="val" id="statCompleted">0</div><div class="label">已完成</div></div>
+<div class="stat-panel"><div class="val warn" id="statStuck">0</div><div class="label">⚠️ 卡住</div></div>
+</div>
+
+<div id="questionAlert" class="question-alert" style="display:none"></div>
+
+<div class="quick-actions">
+<button class="btn" onclick="sendHint()">發送提示</button>
+<button class="btn btn-primary" onclick="moveAllNext()">全班下一題</button>
+<button class="btn" onclick="pauseAll()">暫停全班</button>
+<button class="btn" onclick="endClass()">落堂 + 出摘要</button>
+</div>
+
+<div class="student-grid" id="studentGrid">
+<div class="empty-state"><div class="icon">👨‍🎓</div><p>未有學生連接<br><span style="font-size:11px">學生打開練習頁面就會自動出現</span></p></div>
+</div>
+</div>
+
+<!-- ANALYSIS TAB -->
+<div id="tab-analysis" style="display:none">
+<div class="stat-panel" style="margin-bottom:16px">
+<h3 style="color:#58A6FF;margin-bottom:8px">全班弱點分析</h3>
+<div id="weaknessAnalysis" style="font-size:11px;color:#8B949E;line-height:2">開始上課後會自動分析…</div>
+</div>
+<div id="classAccuracy" style="font-size:11px;color:#8B949E"></div>
+</div>
+
+<!-- HISTORY TAB -->
+<div id="tab-history" style="display:none">
+<div class="empty-state"><div class="icon">📋</div><p>課堂記錄<br><span style="font-size:11px">落堂後會自動保存</span></p></div>
+<div id="historyList" style="font-size:11px"></div>
+</div>
+
+<script>
+var classId = 'LF-CLASS-' + Date.now().toString(36).toUpperCase().slice(-6);
+var students = JSON.parse(localStorage.getItem('lf_class_students_' + classId) || '[]');
+var classActive = localStorage.getItem('lf_class_active') === classId;
+var classStartTime = classActive ? parseInt(localStorage.getItem('lf_class_start_' + classId) || '0') : 0;
+var currentTab = 'live';
+
+document.getElementById('classInfo').textContent = '課堂編號: ' + classId + ' · ' + new Date().toLocaleDateString('zh-HK');
+
+function startClass() {
+  classActive = true;
+  classStartTime = Date.now();
+  localStorage.setItem('lf_class_active', classId);
+  localStorage.setItem('lf_class_start_' + classId, String(classStartTime));
+  document.getElementById('classInfo').textContent = '課堂編號: ' + classId + ' · 上堂中…';
+  updateMonitor();
+}
+
+function endClass() {
+  if (!classActive) return;
+  if (!confirm('確定落堂？系統會自動生成課堂摘要。')) return;
+
+  // Save class record
+  var record = {
+    classId: classId,
+    date: new Date().toISOString(),
+    duration: Math.round((Date.now() - classStartTime) / 60000),
+    students: students.length,
+    completed: students.filter(function(s){return s.completed}).length,
+    avgAccuracy: students.length > 0 ? Math.round(students.reduce(function(sum,s){return sum+(s.accuracy||0)},0) / students.length) : 0
+  };
+
+  var history = JSON.parse(localStorage.getItem('lf_class_history') || '[]');
+  history.unshift(record);
+  localStorage.setItem('lf_class_history', JSON.stringify(history));
+
+  classActive = false;
+  localStorage.removeItem('lf_class_active');
+  students = [];
+  localStorage.setItem('lf_class_students_' + classId, '[]');
+
+  document.getElementById('classInfo').textContent = '課堂編號: — · 已落堂';
+  updateMonitor();
+
+  // Auto-open class summary
+  window.open('/docs/class-summary.html', '_blank');
+}
+
+function generateSummary() {
+  window.open('/docs/class-summary.html', '_blank');
+}
+
+// Simulate student activity (in production: via Google Sheets or WebSocket)
+function simulateStudentActivity() {
+  if (!classActive) return;
+
+  // Generate demo students for testing
+  if (students.length === 0) {
+    var demoNames = ['陳小明', '李小美', '張志偉', '王家豪', '林小婷', '黃俊傑', '周詠詩', '吳嘉欣'];
+    var traps = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+
+    students = demoNames.map(function(name, i){
+      return {
+        id: 's' + (i+1),
+        name: name,
+        currentQ: Math.floor(Math.random() * 8) + 1,
+        totalQ: 10,
+        accuracy: Math.floor(Math.random() * 30) + 60,
+        timeOnQ: Math.floor(Math.random() * 180),
+        online: Math.random() > 0.1,
+        stuck: Math.random() < 0.15,
+        trap: traps[i] || 'T7',
+        lastActive: Date.now() - Math.floor(Math.random() * 60000)
+      };
+    });
+    localStorage.setItem('lf_class_students_' + classId, JSON.stringify(students));
+  }
+
+  // Slightly randomize for realism
+  students.forEach(function(s){
+    if (s.online && Math.random() < 0.3 && s.currentQ < s.totalQ){
+      s.currentQ++;
+      s.timeOnQ = Math.floor(Math.random() * 120);
+    }
+    s.stuck = s.timeOnQ > 120 && s.currentQ < s.totalQ;
+    if (Math.random() < 0.1) s.accuracy += Math.floor(Math.random() * 3) - 1;
+  });
+}
+
+function updateMonitor() {
+  if (classActive) simulateStudentActivity();
+
+  var online = students.filter(function(s){return s.online});
+  var completed = students.filter(function(s){return s.currentQ >= s.totalQ});
+  var stuck = students.filter(function(s){return s.stuck});
+
+  document.getElementById('statOnline').textContent = online.length;
+  document.getElementById('statCompleted').textContent = completed.length;
+  document.getElementById('statStuck').textContent = stuck.length;
+
+  // Student cards
+  var grid = document.getElementById('studentGrid');
+  if (students.length === 0 || !classActive) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">👨‍🎓</div><p>未有學生連接<br><span style="font-size:11px">學生打開練習頁面就會自動出現</span></p></div>';
+  } else {
+    grid.innerHTML = students.map(function(s){
+      var cls = s.stuck ? ' stuck' : (!s.online ? ' offline' : '');
+      var dot = s.stuck ? 'stuck' : (s.online ? 'active' : 'off');
+      return '<div class="student-card' + cls + '">' +
+        '<div class="name"><span class="status-dot ' + dot + '"></span>' + s.name + '</div>' +
+        '<div class="status"><span class="q-progress">Q' + Math.min(s.currentQ, s.totalQ) + '/' + s.totalQ + '</span>' +
+        '<span>' + s.accuracy + '%</span></div>' +
+        '<div class="time-on-q">' + (s.stuck ? '⚠️ 停留 ' + Math.floor(s.timeOnQ/60) + '分' : s.trap) + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  // Question alert - lowest accuracy question
+  if (stuck.length > 0 && classActive) {
+    var alert = document.getElementById('questionAlert');
+    alert.style.display = 'block';
+    alert.innerHTML = '<h3>⚠️ 注意：' + stuck.length + ' 位學生卡住</h3>' +
+      '<div class="q-text">' + stuck.map(function(s){return s.name + ' (第' + s.currentQ + '題, ' + s.trap + ')'}).join(' · ') + '</div>' +
+      '<div class="q-stats">建議：行過去睇下佢哋需要咩幫助</div>';
+  } else {
+    document.getElementById('questionAlert').style.display = 'none';
+  }
+
+  // Analysis tab
+  if (students.length > 0) {
+    var trapCounts = {};
+    students.forEach(function(s){
+      trapCounts[s.trap] = (trapCounts[s.trap] || 0) + 1;
+    });
+    var worst = Object.entries(trapCounts).sort(function(a,b){return b[1]-a[1]})[0];
+    document.getElementById('weaknessAnalysis').innerHTML =
+      '全班最常見陷阱: <strong style="color:#D29922">' + (worst ? worst[0] : '—') + '</strong> (' + (worst ? worst[1] : 0) + '位學生)<br>' +
+      '平均正確率: <strong>' + (students.length > 0 ? Math.round(students.reduce(function(s,acc){return acc+s.accuracy},0)/students.length) : 0) + '%</strong><br>' +
+      '卡住學生: <strong style="color:#DA3633">' + stuck.length + '</strong> 位';
+  }
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  event.target.classList.add('active');
+  ['live','analysis','history'].forEach(function(t){
+    document.getElementById('tab-'+t).style.display = (t===tab) ? 'block' : 'none';
+  });
+  if (tab === 'history') renderHistory();
+}
+
+function sendHint() {
+  alert('提示已發送到卡住的學生螢幕：「檢查下進退位有冇錯？」');
+}
+
+function moveAllNext() { alert('全班已移至下一題'); }
+function pauseAll() { alert('全班已暫停 · 老師講解中…'); }
+
+function renderHistory() {
+  var history = JSON.parse(localStorage.getItem('lf_class_history') || '[]');
+  if (history.length === 0) {
+    document.getElementById('historyList').innerHTML = '<div class="empty-state"><p>未有課堂記錄</p></div>';
+    return;
+  }
+  document.getElementById('historyList').innerHTML = history.slice(0, 20).map(function(h){
+    return '<div style="background:#161B22;border:1px solid #30363D;border-radius:8px;padding:12px;margin:6px 0">' +
+      '<div style="display:flex;justify-content:space-between"><strong>' + new Date(h.date).toLocaleDateString('zh-HK') + '</strong>' +
+      '<span style="color:#8B949E">' + h.duration + ' 分鐘</span></div>' +
+      '<div style="font-size:10px;color:#8B949E">' + h.students + ' 學生 · ' + h.completed + ' 完成 · ' + h.avgAccuracy + '% 平均</div></div>';
+  }).join('');
+}
+
+// Auto-refresh
+updateMonitor();
+setInterval(updateMonitor, classActive ? 3000 : 10000);
+</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body></html>

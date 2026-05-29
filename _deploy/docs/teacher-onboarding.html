@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 新教師入職</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;padding:20px}
+.container{max-width:600px;margin:0 auto}
+.header{text-align:center;padding:30px 20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC',serif;font-size:28px;margin-bottom:4px}
+.header .sub{font-size:13px;color:rgba(255,255,255,0.4)}
+.step-indicator{display:flex;justify-content:center;gap:8px;margin:20px 0}
+.step-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.3);transition:all 0.3s}
+.step-dot.active{background:#C9A84C;color:#1A3C6D}
+.step-dot.done{background:#16A34A;color:white}
+.step-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;margin:16px 0;display:none}
+.step-card.active{display:block}
+.step-card h2{font-size:18px;margin-bottom:16px;color:#C9A84C}
+input,select{padding:12px 14px;border:2px solid rgba(255,255,255,0.1);border-radius:10px;font-size:14px;font-family:inherit;background:rgba(255,255,255,0.04);color:white;width:100%;margin-bottom:10px}
+input:focus,select:focus{border-color:#C9A84C;outline:none}
+input::placeholder{color:rgba(255,255,255,0.2)}
+label{display:block;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px}
+.btn{display:inline-block;padding:14px 32px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;margin:8px 4px}
+.btn-primary{background:#C9A84C;color:#1A3C6D}
+.btn-next{background:#1A3C6D;color:white;border:2px solid rgba(255,255,255,0.2)}
+.student-list{max-height:250px;overflow-y:auto}
+.student-row{display:flex;gap:8px;align-items:center;margin:6px 0}
+.student-row input{flex:1;margin-bottom:0}
+.student-row button{background:#DC2626;color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px}
+.preview-box{background:rgba(255,255,255,0.04);border-radius:10px;padding:16px;font-size:12px;line-height:2;margin:12px 0}
+.note{background:rgba(7,193,96,0.1);border:1px solid rgba(7,193,96,0.2);border-radius:8px;padding:12px;font-size:11px;margin:8px 0}
+.check-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12px}
+.check-row input[type=checkbox]{width:18px;height:18px}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header">
+<h1>霖楓學苑 · 5分鐘開始第一堂</h1>
+<div class="sub">適合內地及香港老師 · 無需 WhatsApp · 微信即可</div>
+</div>
+
+<div class="step-indicator">
+<div class="step-dot active" id="d1">1</div>
+<div class="step-dot" id="d2">2</div>
+<div class="step-dot" id="d3">3</div>
+<div class="step-dot" id="d4">4</div>
+<div class="step-dot" id="d5">5</div>
+</div>
+
+<!-- STEP 1: TEACHER PROFILE -->
+<div class="step-card active" id="s1">
+<h2>Step 1: 你的資料</h2>
+<label>你的名稱</label><input type="text" id="teacherName" placeholder="例如：陳Sir / 李老師">
+<label>你的微信 ID（家長不會看到）</label><input type="text" id="teacherWechat" placeholder="用於內部通訊">
+<label>教學年級</label>
+<select id="teacherGrades" multiple style="height:100px">
+<option value="P1">P1 小一</option><option value="P2">P2 小二</option>
+<option value="P3" selected>P3 小三</option><option value="P4" selected>P4 小四</option>
+<option value="P5" selected>P5 小五</option><option value="P6" selected>P6 小六</option>
+</select>
+<label style="font-size:10px;color:rgba(255,255,255,0.3)">按住 Ctrl 多選</label>
+<div class="check-row"><input type="checkbox" id="inChina" checked><span>我在中國內地（會自動使用微信通訊+國內字體）</span></div>
+<div class="note" id="chinaNote" style="display:none">🇨🇳 內地模式已啟用：字體自動降級 · 通訊使用微信 · 雲端建議使用WPS/騰訊文檔</div>
+<button class="btn btn-primary" onclick="nextStep(2)">下一步 →</button>
+</div>
+
+<!-- STEP 2: CREATE CLASS -->
+<div class="step-card" id="s2">
+<h2>Step 2: 建立班級</h2>
+<label>班級名稱</label><input type="text" id="className" placeholder="例如：星期六 P5 數學班">
+<label>上課時間</label>
+<select id="classDay"><option>星期六</option><option>星期日</option><option>星期一</option><option>星期二</option><option>星期三</option><option>星期四</option><option>星期五</option></select>
+<input type="time" id="classTime" value="10:00">
+<label>快速導入學生</label>
+<textarea id="studentCsv" placeholder="貼上學生名單（每行一位）&#10;陳小明&#10;李小美&#10;張志偉&#10;王家豪" style="height:120px;background:rgba(255,255,255,0.04);color:white;border:2px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;font-family:inherit;width:100%"></textarea>
+<div class="student-list" id="studentPreview"></div>
+<button class="btn btn-primary" onclick="nextStep(3)">下一步 →</button>
+<button class="btn btn-next" onclick="prevStep(1)">← 返回</button>
+</div>
+
+<!-- STEP 3: FIRST LESSON SETUP -->
+<div class="step-card" id="s3">
+<h2>Step 3: 設定第一堂</h2>
+<label>課堂主題</label>
+<select id="lessonTopic">
+<option>分數加減</option><option>小數乘法</option><option>面積與周界</option>
+<option>百分數應用</option><option>四則運算</option><option>體積計算</option>
+<option>代數入門</option><option>速率問題</option><option>圖形與空間</option>
+</select>
+<label>每組題數</label>
+<select id="qCount"><option>10 題</option><option selected>15 題</option><option>20 題</option><option>30 題</option></select>
+<label>難度</label>
+<select id="difficulty"><option>混合難度</option><option selected>由淺入深</option><option>挑戰模式</option></select>
+<div class="preview-box" id="lessonPreview">
+📊 將從題庫 (4,276題) 中自動選擇適合 {grade} 的題目<br>
+🎯 重點陷阱：依你選擇的主題自動配對<br>
+📝 會自動生成：練習卷 + 答案 + 課堂摘要模板
+</div>
+<div class="note">💡 提示：第一堂建議用「由淺入深」模式，學生先做3題簡單的建立信心</div>
+<button class="btn btn-primary" onclick="nextStep(4)">生成教材 →</button>
+<button class="btn btn-next" onclick="prevStep(2)">← 返回</button>
+</div>
+
+<!-- STEP 4: GENERATED MATERIALS -->
+<div class="step-card" id="s4">
+<h2>Step 4: 你的教材已就緒</h2>
+<div class="preview-box">
+<strong>📝 課堂練習卷</strong> (15題)<br>
+年級：<span id="previewGrade">P5</span> | 陷阱：<span id="previewTrap">T1,T3,T5,T7</span><br>
+難度分佈：🌱5題 🌿7題 🌳3題<br><br>
+<strong>✅ 答案卷</strong> — 含解題步驟<br>
+<strong>📋 課堂摘要模板</strong> — 落堂即用<br>
+<strong>📱 家長通知模板</strong> — 微信/WhatsApp雙版本
+</div>
+<button class="btn btn-primary" onclick="openMaterials()">打開教材 →</button>
+<button class="btn btn-primary" style="background:#07C160" onclick="openWechatTemplates()">家長通知模板 →</button>
+<button class="btn btn-next" onclick="nextStep(5)">下一步 →</button>
+<button class="btn btn-next" onclick="prevStep(3)">← 返回</button>
+</div>
+
+<!-- STEP 5: GO LIVE -->
+<div class="step-card" id="s5">
+<h2>Step 5: 準備上堂！</h2>
+<div class="preview-box">
+<strong>📋 上堂流程清單：</strong><br>
+1. 打開 <strong>QR 簽到頁面</strong> → 學生掃碼簽到<br>
+2. 打開 <strong>課堂監控台</strong> → 即時睇每人進度<br>
+3. 學生開始做練習 → 系統自動批改<br>
+4. 留意監控台「⚠️ 卡住」警報 → 精準介入<br>
+5. 落堂 → <strong>一鍵生成摘要</strong> → 微信群發家長
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin:16px 0">
+<button class="btn btn-primary" onclick="window.open('/docs/qr-checkin.html','_blank')">📱 QR 簽到</button>
+<button class="btn btn-primary" style="background:#58A6FF" onclick="window.open('/docs/teacher-class-monitor.html','_blank')">📊 課堂監控台</button>
+<button class="btn btn-primary" style="background:#07C160" onclick="window.open('/docs/wechat-comms.html','_blank')">💬 微信通訊</button>
+<button class="btn" style="background:rgba(255,255,255,0.08);color:white" onclick="saveAndFinish()">✅ 完成設定 · 開始上堂</button>
+</div>
+</div>
+</div>
+
+<script>
+var step = 1;
+
+function showStep(n) {
+  step = n;
+  document.querySelectorAll('.step-card').forEach(function(s){s.classList.remove('active')});
+  document.getElementById('s'+n).classList.add('active');
+  document.querySelectorAll('.step-dot').forEach(function(d){d.classList.remove('active','done')});
+  for (var i=1; i<=5; i++) {
+    var dot = document.getElementById('d'+i);
+    if (i < n) dot.classList.add('done');
+    if (i === n) dot.classList.add('active');
+  }
+}
+
+function nextStep(n) { showStep(n); }
+function prevStep(n) { showStep(n); }
+
+function openMaterials() {
+  window.open('/docs/test-generator.html', '_blank');
+}
+
+function openWechatTemplates() {
+  window.open('/docs/wechat-comms.html', '_blank');
+}
+
+function saveAndFinish() {
+  var config = {
+    teacher: document.getElementById('teacherName').value,
+    wechat: document.getElementById('teacherWechat').value,
+    className: document.getElementById('className').value,
+    topic: document.getElementById('lessonTopic').value,
+    inChina: document.getElementById('inChina').checked,
+    onboarded: new Date().toISOString()
+  };
+  localStorage.setItem('lf_teacher_config', JSON.stringify(config));
+  alert('設定已保存！✅\n\n課堂工具已就緒。祝你第一堂順利！');
+  window.location.href = '/docs/teacher-class-monitor.html';
+}
+
+// Real-time student preview
+document.getElementById('inChina').addEventListener('change', function() {
+  document.getElementById('chinaNote').style.display = this.checked ? 'block' : 'none';
+});
+document.getElementById('chinaNote').style.display = document.getElementById('inChina').checked ? 'block' : 'none';
+
+document.getElementById('studentCsv').addEventListener('input', function() {
+  var names = this.value.split('\n').filter(function(l){return l.trim()});
+  var preview = document.getElementById('studentPreview');
+  preview.innerHTML = '<div style="font-size:11px;color:rgba(255,255,255,0.4);margin:4px 0">已導入 ' + names.length + ' 位學生：</div>' +
+    names.map(function(n){return '<div style="font-size:12px;padding:4px 0">👨‍🎓 ' + n.trim() + '</div>'}).join('');
+});
+</script>
+
+<div class="tabs" style="display:flex;gap:2px;background:white;border-radius:12px;padding:4px;margin:16px">
+<button class="tab-btn active" onclick="switchTab('day1',this)" style="flex:1;padding:10px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Day 1 · 認識平台</button>
+<button class="tab-btn" onclick="switchTab('day2',this)" style="flex:1;padding:10px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Day 2 · 互動教學</button>
+<button class="tab-btn" onclick="switchTab('day3',this)" style="flex:1;padding:10px;border:none;border-radius:10px;font-weight:700;cursor:pointer">Day 3 · 正式上崗</button>
+</div>
+<div id="tab-day1"><h2>Day 1：認識霖楓平台（65分鐘）</h2>
+<p>✅ 平台操作教學 · ✅ T1陷阱系統介紹 · ✅ 學生練習模式體驗</p>
+<div class="story-box"><strong>📖 親切故事：</strong>李Sir第一次用平台時覺得好複雜，但10分鐘後就上手了。因為所有功能都係為1對3教學設計。</div>
+</div>
+<div id="tab-day2" style="display:none"><h2>Day 2：課堂互動技巧（65分鐘）</h2>
+<p>✅ 3-2-1互動法 · ✅ 輪流提問技巧 · ✅ 親切感建立</p>
+</div>
+<div id="tab-day3" style="display:none"><h2>Day 3：正式上崗（65分鐘）</h2>
+<p>✅ 模擬課堂 · ✅ 家長WhatsApp溝通 · ✅ 薪資說明</p>
+</div>
+<script>function switchTab(id,btn){document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");["day1","day2","day3"].forEach(d=>{var e=document.getElementById("tab-"+d);if(e)e.style.display=d===id?"block":"none"})}</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 多校區管理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:1000px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.header h1{font-size:24px}
+.campus-bar{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.campus-chip{padding:10px 20px;border-radius:25px;cursor:pointer;font-weight:700;font-size:13px;border:2px solid #E5E7EB;font-family:inherit;background:white;transition:all 0.2s}
+.campus-chip.active{background:#1A3C6D;color:white;border-color:#1A3C6D}
+.campus-chip .count{font-size:10px;color:#6B7280;display:block}
+.campus-chip.active .count{color:rgba(255,255,255,0.5)}
+.btn-add{background:#16A34A;color:white;border:none;border-radius:25px;padding:10px 20px;font-weight:700;cursor:pointer;font-family:inherit;font-size:12px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat-card{padding:16px;background:#F9FAFB;border-radius:10px;text-align:center}
+.stat-card .val{font-size:28px;font-weight:900;color:#1A3C6D}
+.stat-card .label{font-size:10px;color:#6B7280;margin-top:4px}
+.campus-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.compare-card{background:#F9FAFB;border-radius:10px;padding:16px;text-align:center;border:2px solid #E5E7EB}
+.compare-card h3{font-size:14px;color:#1A3C6D;margin-bottom:8px}
+.compare-card .metric{font-size:12px;line-height:2}
+.btn{display:inline-block;padding:8px 16px;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-top:12px}
+th{text-align:left;padding:8px;background:#F9FAFB;color:#6B7280;font-size:10px;border-bottom:2px solid #E5E7EB}
+td{padding:8px;border-bottom:1px solid #F3F4F6}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>多校區管理中心</h1><p>統一管理所有分校 · 教材共享 · 數據獨立</p></div>
+
+<!-- CAMPUS SELECTOR -->
+<div class="campus-bar">
+<button class="campus-chip active" onclick="switchCampus('all')">全部校區<span class="count">3校區</span></button>
+<button class="campus-chip" onclick="switchCampus('c1')">🏫 旺角總校<span class="count">28學生</span></button>
+<button class="campus-chip" onclick="switchCampus('c2')">🏫 銅鑼灣分校<span class="count">15學生</span></button>
+<button class="campus-chip" onclick="switchCampus('c3')">🏫 荃灣分校<span class="count">9學生</span></button>
+<button class="btn-add" onclick="addCampus()">+ 新增校區</button>
+</div>
+
+<!-- OVERVIEW -->
+<div class="grid-3">
+<div class="stat-card"><div class="val">52</div><div class="label">總學生數</div></div>
+<div class="stat-card"><div class="val">$7,200</div><div class="label">月收入</div></div>
+<div class="stat-card"><div class="val">8</div><div class="label">活躍教師</div></div>
+</div>
+
+<!-- CAMPUS COMPARISON -->
+<div class="card"><h2>校區對比</h2>
+<div class="campus-compare" id="campusCompare"></div></div>
+
+<!-- SHARED RESOURCES -->
+<div class="card"><h2>共享資源庫</h2>
+<table><thead><tr><th>資源</th><th>類型</th><th>共享範圍</th><th>使用次數</th><th>操作</th></tr></thead>
+<tbody>
+<tr><td>P5 分數練習卷 (15題)</td><td>練習卷</td><td>全部校區</td><td>47次</td><td><button class="btn btn-primary">使用</button></td></tr>
+<tr><td>呈分試模擬卷 A</td><td>模擬卷</td><td>全部校區</td><td>32次</td><td><button class="btn btn-primary">使用</button></td></tr>
+<tr><td>P3 面積入門講義</td><td>講義</td><td>旺角+銅鑼灣</td><td>18次</td><td><button class="btn btn-primary">使用</button></td></tr>
+<tr><td>暑期班課程大綱</td><td>課程</td><td>全部校區</td><td>5次</td><td><button class="btn btn-primary">使用</button></td></tr>
+</tbody></table>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="card"><h2>批量操作</h2>
+<button class="btn btn-primary" onclick="alert('已從共享庫複製教材到所有校區')">教材同步到全部校區</button>
+<button class="btn btn-primary" onclick="alert('已生成全部校區的營收對比報告')">生成跨校區營收報告</button>
+<button class="btn btn-primary" onclick="window.open('/docs/ops-dashboard.html','_blank')">打開營運儀表板</button>
+</div>
+</div>
+
+<script>
+var campuses = [
+  {id:'c1',name:'旺角總校',students:28,revenue:4200,active:26,avgAccuracy:78,topTrap:'T7'},
+  {id:'c2',name:'銅鑼灣分校',students:15,revenue:2200,active:13,avgAccuracy:72,topTrap:'T1'},
+  {id:'c3',name:'荃灣分校',students:9,revenue:800,active:7,avgAccuracy:68,topTrap:'T5'},
+];
+var currentCampus = 'all';
+
+function switchCampus(id) {
+  currentCampus = id;
+  document.querySelectorAll('.campus-chip').forEach(function(c){c.classList.remove('active')});
+  if (event.target.classList.contains('campus-chip')) event.target.classList.add('active');
+  renderComparison();
+}
+
+function addCampus() {
+  var name = prompt('新校區名稱：');
+  if (!name) return;
+  campuses.push({id:'c'+Date.now(),name:name,students:0,revenue:0,active:0,avgAccuracy:0,topTrap:'—'});
+  alert('已新增校區：' + name + '\n請設定學生及教材。');
+  location.reload();
+}
+
+function renderComparison() {
+  var data = currentCampus === 'all' ? campuses : campuses.filter(function(c){return c.id===currentCampus});
+  var html = data.map(function(c){
+    return '<div class="compare-card"><h3>'+c.name+'</h3><div class="metric">學生：<strong>'+c.students+'</strong><br>月收入：<strong>$'+c.revenue.toLocaleString()+'</strong><br>活躍率：<strong>'+Math.round(c.active/c.students*100)+'%</strong><br>平均正確率：<strong>'+c.avgAccuracy+'%</strong><br>最熱陷阱：<strong>'+c.topTrap+'</strong></div></div>';
+  }).join('');
+  document.getElementById('campusCompare').innerHTML = html;
+}
+
+renderComparison();
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body></html>

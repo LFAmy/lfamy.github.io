@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 互動數學圖形引擎 | Interactive Geometry Lab</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK","Segoe UI",sans-serif;background:var(--g100);color:var(--g800);overflow-x:hidden}
+.topbar{background:linear-gradient(135deg,#0A1A35,var(--b));color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.topbar h1{font-size:18px}.topbar .badge{font-size:9px;background:rgba(201,168,76,0.2);color:var(--g);padding:3px 10px;border-radius:10px}
+.toolbar{background:white;padding:12px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--g200);position:sticky;top:0;z-index:100}
+.toolbar button,.toolbar select{padding:8px 14px;border-radius:20px;border:1px solid var(--g200);background:white;font-size:12px;font-family:inherit;cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.toolbar button:hover,.toolbar select:hover{border-color:var(--g)}
+.toolbar button.active{background:var(--b);color:white;border-color:var(--b)}
+.toolbar button.trap-on{background:var(--r);color:white;border-color:var(--r)}
+.toolbar button.proof-on{background:#7C3AED;color:white;border-color:#7C3AED}
+.canvas-wrap{position:relative;background:white;margin:10px;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);overflow:hidden;min-height:420px}
+canvas{display:block;width:100%;height:100%;cursor:default}
+.info-panel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 16px}
+.info-card{background:white;border-radius:12px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.info-card .val{font-size:24px;font-weight:900;color:var(--b)}.info-card .lbl{font-size:10px;color:var(--g600)}
+.info-card.highlight .val{color:var(--r)}
+.proof-panel{background:linear-gradient(135deg,#F5F3FF,#EDE9FE);margin:10px;border-radius:16px;padding:20px;display:none}
+.proof-panel h3{color:#5B21B6;font-size:16px;margin-bottom:12px}
+.proof-steps{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+.proof-step{padding:10px 16px;background:white;border-radius:20px;font-size:12px;font-weight:700;color:#7C3AED;border:2px solid #DDD6FE;cursor:pointer;transition:all 0.2s}
+.proof-step.active{background:#7C3AED;color:white;border-color:#7C3AED}
+.proof-step.done{background:#F0FDF4;color:var(--gr);border-color:#BBF7D0}
+.trap-legend{display:flex;gap:12px;flex-wrap:wrap;padding:8px 16px;font-size:11px}
+.trap-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px}
+.trap-dot.r{background:var(--r)}.trap-dot.o{background:#F59E0B}
+.back-link{display:block;text-align:center;color:var(--g600);font-size:12px;padding:16px}
+.controls-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.controls-row label{font-size:11px;color:var(--g600);white-space:nowrap}
+.controls-row input[type=range]{width:80px;accent-color:var(--b)}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="topbar">
+<div><h1>📐 互動數學圖形實驗室</h1><span style="font-size:10px;opacity:0.6">Interactive Geometry · Trap Overlay · Proof Animation</span></div>
+<span class="badge">tkz-euclide + Canvas</span>
+</div>
+
+<div class="toolbar">
+<select id="shapeSelect" onchange="switchShape()">
+<option value="triangle">📐 三角形面積</option>
+<option value="parallelogram">🔷 平行四邊形</option>
+<option value="trapezoid">📏 梯形面積</option>
+<option value="circle">⭕ 圓形</option>
+</select>
+<button id="btnDrag" class="active" onclick="toggleMode('drag')">🖐️ 拖動模式</button>
+<button id="btnMeasure" onclick="toggleMode('measure')">📏 測量模式</button>
+<button id="btnTrap" onclick="toggleTrap()">🪤 陷阱疊層</button>
+<button id="btnProof" onclick="toggleProof()">🎬 逐步證明</button>
+<button onclick="resetShape()">🔄 重置</button>
+</div>
+
+<div class="canvas-wrap" id="canvasWrap">
+<canvas id="mainCanvas"></canvas>
+</div>
+
+<div class="info-panel" id="infoPanel">
+<div class="info-card"><div class="val" id="valBase">--</div><div class="lbl">底 (cm)</div></div>
+<div class="info-card"><div class="val" id="valHeight">--</div><div class="lbl">高 (cm)</div></div>
+<div class="info-card highlight"><div class="val" id="valArea">--</div><div class="lbl">面積 (cm²)</div></div>
+<div class="info-card"><div class="val" id="valFormula">--</div><div class="lbl">公式</div></div>
+</div>
+
+<div class="trap-legend" id="trapLegend" style="display:none">
+<span>🪤 陷阱標記：</span>
+<span><span class="trap-dot r"></span>常見錯誤</span>
+<span><span class="trap-dot o"></span>注意事項</span>
+<span style="color:var(--g600)">（拖動圖形時陷阱位置會跟隨更新）</span>
+</div>
+
+<div class="proof-panel" id="proofPanel">
+<h3>🎬 逐步證明動畫</h3>
+<div id="proofDesc" style="font-size:13px;color:#5B21B6;margin-bottom:12px;line-height:1.8"></div>
+<div class="proof-steps" id="proofSteps"></div>
+<div class="controls-row" style="justify-content:center;margin-top:10px">
+<button onclick="prevProofStep()" style="padding:8px 16px;border-radius:20px;border:1px solid #DDD6FE;background:white;cursor:pointer">◀ 上一步</button>
+<button onclick="nextProofStep()" style="padding:8px 16px;border-radius:20px;border:1px solid #DDD6FE;background:white;cursor:pointer">下一步 ▶</button>
+<button onclick="autoPlayProof()" style="padding:8px 16px;border-radius:20px;border:1px solid #DDD6FE;background:white;cursor:pointer">▶ 自動播放</button>
+</div>
+</div>
+
+<a href="ai-smart-hub.html" class="back-link">← 返回AI智能中心</a>
+
+<script>
+// ═══════════════════════════════════════════════
+// 互動幾何引擎 v1.0
+// A: 拖動互動  B: 陷阱疊層  C: 逐步證明
+// ═══════════════════════════════════════════════
+
+const canvas = document.getElementById("mainCanvas");
+const ctx = canvas.getContext("2d");
+let W, H, dpr;
+
+// State
+let currentShape = "triangle";
+let mode = "drag";
+let showTraps = false;
+let showProof = false;
+let proofStep = 0;
+let proofAnimId = null;
+let dragTarget = null;
+let measureStart = null;
+
+// Shape data (all in canvas coordinates)
+let shapeData = {
+  triangle: {
+    vertices: [{x:0.2,y:0.85}, {x:0.8,y:0.85}, {x:0.35,y:0.15}],
+    baseIdx: [0,1], heightIdx: 2,
+    baseLabel: "底", heightLabel: "高",
+    formula: "底 × 高 ÷ 2",
+    trapMsg: "忘記÷2！三角形面積=底×高÷2",
+    trapPos: {x:0.5,y:0.5},
+    proofSteps: [
+      {desc:"① 原始三角形",action:"reset"},
+      {desc:"② 複製一個相同的三角形",action:"clone"},
+      {desc:"③ 旋轉180°拼在一起",action:"rotate"},
+      {desc:"④ 形成平行四邊形！面積=底×高",action:"parallelogram"},
+      {desc:"⑤ 三角形=平行四邊形÷2 → 底×高÷2 ✅",action:"formula"}
+    ]
+  },
+  parallelogram: {
+    vertices: [{x:0.15,y:0.8}, {x:0.75,y:0.8}, {x:0.9,y:0.2}, {x:0.3,y:0.2}],
+    baseIdx: [0,1], heightIdx: 3,
+    baseLabel: "底", heightLabel: "高",
+    formula: "底 × 高",
+    trapMsg: "不是斜邊×底！高必須是垂直距離",
+    trapPos: {x:0.55,y:0.5},
+    proofSteps: [
+      {desc:"① 平行四邊形，高是垂直距離",action:"reset"},
+      {desc:"② 沿虛線切出三角形",action:"cut"},
+      {desc:"③ 把三角形移到右邊",action:"move"},
+      {desc:"④ 變成矩形！面積=底×高 ✅",action:"rectangle"}
+    ]
+  },
+  trapezoid: {
+    vertices: [{x:0.22,y:0.8}, {x:0.78,y:0.8}, {x:0.65,y:0.2}, {x:0.12,y:0.2}],
+    baseIdx: [3,2], heightIdx: 0, baseIdx2: [0,1],
+    baseLabel: "上底", heightLabel: "高", baseLabel2: "下底",
+    formula: "(上底+下底) × 高 ÷ 2",
+    trapMsg: "混淆上底和下底！看清楚哪條在上",
+    trapPos: {x:0.5,y:0.55},
+    proofSteps: [
+      {desc:"① 梯形有上底和下底",action:"reset"},
+      {desc:"② 複製一個相同的梯形",action:"clone"},
+      {desc:"③ 旋轉180°對齊",action:"rotate"},
+      {desc:"④ 拼成平行四邊形！",action:"parallelogram"},
+      {desc:"⑤ 平行四邊形底=(上底+下底)",action:"formula"},
+      {desc:"⑥ ÷2 = 梯形面積 ✅",action:"final"}
+    ]
+  },
+  circle: {
+    center: {x:0.5,y:0.5}, radius: 0.32,
+    formula: "π × r²",
+    trapMsg: "半徑²不是半徑×2！r²=r×r",
+    trapPos: {x:0.5,y:0.72},
+    proofSteps: [
+      {desc:"① 圓形，從圓心畫半徑r",action:"reset"},
+      {desc:"② 把圓切成很多個扇形",action:"slice"},
+      {desc:"③ 展開排列",action:"unfold"},
+      {desc:"④ 近似長方形：闊=πr, 高=r",action:"rectangle"},
+      {desc:"⑤ 面積=πr×r=πr² ✅",action:"formula"}
+    ]
+  }
+};
+
+function resize() {
+  const wrap = document.getElementById("canvasWrap");
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = wrap.clientWidth;
+  H = Math.max(420, W * 0.65);
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + "px";
+  canvas.style.height = H + "px";
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr, dpr);
+}
+window.addEventListener("resize",()=>{resize();draw();});
+
+function toCanvas(p) { return {x: p.x*W, y: p.y*H}; }
+function fromCanvas(c) { return {x: c.x/W, y: c.y/H}; }
+
+// ═══ DRAWING ═══
+function draw() {
+  ctx.clearRect(0,0,W,H);
+  const sd = shapeData[currentShape];
+  ctx.save();
+
+  if (currentShape === "circle") {
+    drawCircle(sd);
+  } else {
+    drawPolygon(sd);
+  }
+
+  // Trap overlay
+  if (showTraps) drawTraps(sd);
+
+  // Proof animation overlay
+  if (showProof) drawProofOverlay(sd);
+
+  ctx.restore();
+  updateInfoPanel(sd);
+}
+
+function drawPolygon(sd) {
+  const vs = sd.vertices.map(toCanvas);
+
+  // Fill
+  ctx.beginPath();
+  ctx.moveTo(vs[0].x, vs[0].y);
+  for (let i=1;i<vs.length;i++) ctx.lineTo(vs[i].x, vs[i].y);
+  ctx.closePath();
+  ctx.fillStyle = "#EEF2FF";
+  ctx.fill();
+  ctx.strokeStyle = "#1A3C6D";
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Vertices
+  vs.forEach((v,i)=>{
+    ctx.beginPath();
+    ctx.arc(v.x,v.y,6,0,Math.PI*2);
+    ctx.fillStyle = i===dragTarget ? "#DC2626":"#1A3C6D";
+    ctx.fill();
+    ctx.fillStyle = "#1A3C6D";
+    ctx.font = "bold 13px 'Microsoft JhengHei','Noto Sans HK',sans-serif";
+    ctx.fillText(String.fromCharCode(65+i), v.x+10, v.y-8);
+  });
+
+  // Base
+  const [b1,b2] = sd.baseIdx;
+  drawDoubleArrow(vs[b1], vs[b2], sd.baseLabel, "#DC2626", -22);
+
+  // Height (dashed from height vertex to base)
+  const hv = vs[sd.heightIdx];
+  const proj = projectToLine(hv, vs[b1], vs[b2]);
+  ctx.setLineDash([6,4]);
+  ctx.beginPath();ctx.moveTo(hv.x,hv.y);ctx.lineTo(proj.x,proj.y);
+  ctx.strokeStyle="#DC2626";ctx.lineWidth=1.8;ctx.stroke();
+  ctx.setLineDash([]);
+
+  const midH = {x:(hv.x+proj.x)/2, y:(hv.y+proj.y)/2};
+  ctx.fillStyle="#DC2626";ctx.font="bold 12px 'Microsoft JhengHei','Noto Sans HK',sans-serif";
+  ctx.fillText(sd.heightLabel, midH.x+8, midH.y);
+
+  // Right angle mark
+  drawRightAngle(proj, hv, vs[b1]);
+
+  // Second base label (for trapezoid)
+  if (sd.baseIdx2) {
+    const [b3,b4] = sd.baseIdx2;
+    drawDoubleArrow(vs[b3], vs[b4], sd.baseLabel2, "#DC2626", 22);
+  }
+}
+
+function drawCircle(sd) {
+  const c = toCanvas(sd.center);
+  const r = sd.radius * Math.min(W,H);
+
+  ctx.beginPath();ctx.arc(c.x,c.y,r,0,Math.PI*2);
+  ctx.fillStyle="#EEF2FF";ctx.fill();
+  ctx.strokeStyle="#1A3C6D";ctx.lineWidth=2.5;ctx.stroke();
+
+  // Center
+  ctx.beginPath();ctx.arc(c.x,c.y,5,0,Math.PI*2);
+  ctx.fillStyle="#1A3C6D";ctx.fill();
+  ctx.fillStyle="#1A3C6D";ctx.font="bold 13px 'Microsoft JhengHei'";
+  ctx.fillText("O",c.x+10,c.y-8);
+
+  // Radius
+  const rx = c.x+r, ry=c.y;
+  ctx.setLineDash([]);
+  ctx.beginPath();ctx.moveTo(c.x,c.y);ctx.lineTo(rx,ry);
+  ctx.strokeStyle="#DC2626";ctx.lineWidth=2;ctx.stroke();
+
+  // Arrow
+  ctx.beginPath();ctx.moveTo(rx-10,ry-5);ctx.lineTo(rx,ry);ctx.lineTo(rx-10,ry+5);
+  ctx.strokeStyle="#DC2626";ctx.lineWidth=2;ctx.stroke();
+
+  ctx.fillStyle="#DC2626";ctx.font="bold 12px 'Microsoft JhengHei'";
+  ctx.fillText("r",c.x+r/2,c.y-12);
+
+  // Diameter dashed
+  ctx.setLineDash([6,4]);
+  ctx.beginPath();ctx.moveTo(c.x-r,c.y);ctx.lineTo(c.x+r,c.y);
+  ctx.strokeStyle="#C9A84C";ctx.lineWidth=1.5;ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawDoubleArrow(a, b, label, color, offset) {
+  const dx=b.x-a.x,dy=b.y-a.y;
+  const len=Math.sqrt(dx*dx+dy*dy);
+  const nx=-dy/len, ny=dx/len;
+  const mx=(a.x+b.x)/2+nx*offset, my=(a.y+b.y)/2+ny*offset;
+
+  ctx.beginPath();ctx.moveTo(a.x+nx*offset,a.y+ny*offset);ctx.lineTo(b.x+nx*offset,b.y+ny*offset);
+  ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();
+
+  // Arrows
+  const ang=Math.atan2(dy,dx);
+  drawArrowHead(a.x+nx*offset,a.y+ny*offset,ang,color);
+  drawArrowHead(b.x+nx*offset,b.y+ny*offset,ang+Math.PI,color);
+
+  ctx.fillStyle=color;ctx.font="bold 11px 'Microsoft JhengHei'";
+  ctx.textAlign="center";
+  ctx.fillText(label, mx, my-6);
+  ctx.textAlign="start";
+}
+
+function drawArrowHead(x,y,ang,color){
+  const s=10;
+  ctx.beginPath();ctx.moveTo(x,y);
+  ctx.lineTo(x-Math.cos(ang-0.6)*s,y-Math.sin(ang-0.6)*s);
+  ctx.moveTo(x,y);
+  ctx.lineTo(x-Math.cos(ang+0.6)*s,y-Math.sin(ang+0.6)*s);
+  ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();
+}
+
+function drawRightAngle(hv, proj, basePt) {
+  const size=10;
+  const dx1=proj.x-hv.x,dy1=proj.y-hv.y;
+  const d1=Math.sqrt(dx1*dx1+dy1*dy1);
+  const dx2=basePt.x-proj.x,dy2=basePt.y-proj.y;
+  const d2=Math.sqrt(dx2*dx2+dy2*dy2);
+  const p1={x:proj.x+dx1/d1*size,y:proj.y+dy1/d1*size};
+  const p2={x:proj.x+dx2/d2*size,y:proj.y+dy2/d2*size};
+  const corner={x:p1.x+dx2/d2*size,y:p1.y+dy2/d2*size};
+
+  ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(corner.x,corner.y);ctx.lineTo(p2.x,p2.y);
+  ctx.strokeStyle="#DC2626";ctx.lineWidth=1.5;ctx.stroke();
+}
+
+function projectToLine(p, a, b) {
+  const dx=b.x-a.x,dy=b.y-a.y;
+  const t=((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy);
+  return {x:a.x+t*dx, y:a.y+t*dy};
+}
+
+// ═══ TRAP OVERLAY ═══
+function drawTraps(sd) {
+  if (currentShape==="circle") return drawCircleTraps(sd);
+  const vs=sd.vertices.map(toCanvas);
+  const [b1,b2]=sd.baseIdx;
+  const hv=vs[sd.heightIdx];
+  const proj=projectToLine(hv,vs[b1],vs[b2]);
+
+  // Red zone: height ÷ 2 reminder
+  ctx.fillStyle="rgba(220,38,38,0.08)";
+  ctx.beginPath();ctx.moveTo(hv.x,hv.y);ctx.lineTo(proj.x,proj.y);
+  ctx.lineTo(vs[b2].x,vs[b2].y);ctx.lineTo(hv.x,hv.y);
+  ctx.fill();
+
+  // Warning icon
+  const tp=toCanvas(sd.trapPos);
+  ctx.fillStyle="#DC2626";ctx.font="28px sans-serif";ctx.textAlign="center";
+  ctx.fillText("⚠️",tp.x,tp.y-14);
+  ctx.font="bold 11px 'Microsoft JhengHei'";
+  ctx.fillText(sd.trapMsg,tp.x,tp.y+12);
+  ctx.textAlign="start";
+
+  // Yellow zone
+  ctx.fillStyle="rgba(245,158,11,0.06)";
+  const by=toCanvas({x:0.5,y:0.82});
+  ctx.fillRect(tp.x-120,by.y-10,240,30);
+  ctx.fillStyle="#F59E0B";ctx.font="bold 10px 'Microsoft JhengHei'";
+  ctx.textAlign="center";
+  ctx.fillText("🔍 檢查：高必須是垂直線段，不是斜邊！",tp.x,by.y+12);
+  ctx.textAlign="start";
+}
+
+function drawCircleTraps(sd) {
+  const c=toCanvas(sd.center);
+  const r=sd.radius*Math.min(W,H);
+  const tp=toCanvas(sd.trapPos);
+
+  ctx.fillStyle="rgba(220,38,38,0.08)";
+  ctx.beginPath();ctx.arc(c.x,c.y,r*0.4,0,Math.PI*2);ctx.fill();
+
+  ctx.fillStyle="#DC2626";ctx.font="28px sans-serif";ctx.textAlign="center";
+  ctx.fillText("⚠️",tp.x-30,tp.y);
+  ctx.font="bold 11px 'Microsoft JhengHei'";
+  ctx.fillText(sd.trapMsg,tp.x+10,tp.y+6);
+  ctx.textAlign="start";
+}
+
+// ═══ PROOF OVERLAY ═══
+function drawProofOverlay(sd) {
+  const step=sd.proofSteps[proofStep];
+  if (!step) return;
+
+  ctx.fillStyle="rgba(124,58,237,0.06)";
+  ctx.fillRect(10,10,W-20,40);
+  ctx.fillStyle="#5B21B6";
+  ctx.font="bold 13px 'Microsoft JhengHei'";
+  ctx.textAlign="center";
+  ctx.fillText(step.desc, W/2, 36);
+  ctx.textAlign="start";
+
+  if (step.action==="clone" && currentShape!=="circle") {
+    const vs=sd.vertices.map(toCanvas);
+    const dx=60; ctx.globalAlpha=0.5;
+    ctx.beginPath();ctx.moveTo(vs[0].x+dx,vs[0].y);for(let i=1;i<vs.length;i++)ctx.lineTo(vs[i].x+dx,vs[i].y);ctx.closePath();
+    ctx.strokeStyle="#7C3AED";ctx.setLineDash([6,4]);ctx.lineWidth=2;ctx.stroke();ctx.setLineDash([]);
+    ctx.globalAlpha=1;
+    ctx.fillStyle="#7C3AED";ctx.font="bold 11px 'Microsoft JhengHei'";
+    ctx.fillText("複製品",vs[0].x+dx,vs[0].y-10);
+  }
+
+  if (step.action==="parallelogram" && (currentShape==="triangle"||currentShape==="trapezoid")) {
+    const vs=sd.vertices.map(toCanvas);
+    const dx=60;ctx.globalAlpha=0.3;
+    ctx.beginPath();ctx.moveTo(vs[0].x+dx,vs[0].y);for(let i=1;i<vs.length;i++)ctx.lineTo(vs[i].x+dx,vs[i].y);ctx.closePath();
+    ctx.fillStyle="#DDD6FE";ctx.fill();ctx.globalAlpha=1;
+    ctx.fillStyle="#7C3AED";ctx.font="bold 12px 'Microsoft JhengHei'";
+    ctx.fillText("=平行四邊形",vs[0].x+dx+10,vs[0].y+40);
+  }
+
+  if (step.action==="formula") {
+    ctx.fillStyle="#7C3AED";ctx.font="bold 16px 'Microsoft JhengHei'";
+    ctx.textAlign="center";
+    ctx.fillText("✅ "+sd.formula+" = "+getArea(sd).toFixed(1)+" cm²",W/2,H-40);
+    ctx.textAlign="start";
+  }
+}
+
+// ═══ COMPUTE ═══
+function getArea(sd) {
+  if (currentShape==="circle") {
+    return Math.PI * sd.radius*sd.radius * 100; // scale
+  }
+  const vs=sd.vertices;
+  const [b1,b2]=sd.baseIdx;
+  const base=Math.hypot(vs[b2].x-vs[b1].x, vs[b2].y-vs[b1].y)*10;
+  const hv=vs[sd.heightIdx];
+  const proj=projectToLine(hv, vs[b1], vs[b2]);
+  const height=Math.hypot(hv.x-proj.x, hv.y-proj.y)*10;
+
+  if (currentShape==="triangle") return base*height/2;
+  if (currentShape==="trapezoid") {
+    const [b3,b4]=sd.baseIdx2;
+    const base2=Math.hypot(vs[b4].x-vs[b3].x, vs[b4].y-vs[b3].y)*10;
+    return (base+base2)*height/2;
+  }
+  return base*height;
+}
+
+function updateInfoPanel(sd) {
+  const area=getArea(sd);
+  if (currentShape==="circle") {
+    document.getElementById("valBase").textContent=(sd.radius*10).toFixed(1);
+    document.getElementById("valHeight").textContent="--";
+    document.getElementById("valArea").textContent=area.toFixed(1);
+    document.getElementById("valFormula").textContent="π × r²";
+    return;
+  }
+  const vs=sd.vertices;
+  const [b1,b2]=sd.baseIdx;
+  const base=Math.hypot(vs[b2].x-vs[b1].x, vs[b2].y-vs[b1].y)*10;
+  const hv=vs[sd.heightIdx];
+  const proj=projectToLine(hv, vs[b1], vs[b2]);
+  const height=Math.hypot(hv.x-proj.x, hv.y-proj.y)*10;
+
+  document.getElementById("valBase").textContent=base.toFixed(1);
+  document.getElementById("valHeight").textContent=height.toFixed(1);
+  document.getElementById("valArea").textContent=area.toFixed(1);
+  document.getElementById("valFormula").textContent=sd.formula;
+}
+
+// ═══ INTERACTION ═══
+canvas.addEventListener("mousedown",(e)=>{
+  if (mode!=="drag") return;
+  const rect=canvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left), my=(e.clientY-rect.top);
+  const sd=shapeData[currentShape];
+
+  if (currentShape==="circle") {
+    const c=toCanvas(sd.center); const r=sd.radius*Math.min(W,H);
+    if (Math.hypot(mx-c.x,my-c.y)<r+20) { dragTarget="radius"; }
+    return;
+  }
+
+  const vs=sd.vertices.map(toCanvas);
+  for (let i=0;i<vs.length;i++) {
+    if (Math.hypot(mx-vs[i].x, my-vs[i].y)<20) { dragTarget=i; break; }
+  }
+});
+
+canvas.addEventListener("mousemove",(e)=>{
+  const rect=canvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left), my=(e.clientY-rect.top);
+
+  if (dragTarget===null) {
+    // Cursor hint
+    const sd=shapeData[currentShape];
+    if (currentShape!=="circle") {
+      const vs=sd.vertices.map(toCanvas);
+      let near=false;
+      for (let i=0;i<vs.length;i++) {
+        if (Math.hypot(mx-vs[i].x,my-vs[i].y)<20) {near=true;break;}
+      }
+      canvas.style.cursor=near?"grab":"default";
+    }
+    return;
+  }
+
+  if (dragTarget==="radius" && currentShape==="circle") {
+    const c=shapeData[currentShape].center;
+    const nc=toCanvas(c);
+    shapeData[currentShape].radius=Math.max(0.05, Math.min(0.45, Math.hypot(mx-nc.x,my-nc.y)/Math.min(W,H)));
+  } else if (typeof dragTarget==="number") {
+    shapeData[currentShape].vertices[dragTarget]=fromCanvas({x:Math.max(5,Math.min(W-5,mx)), y:Math.max(5,Math.min(H-5,my))});
+  }
+  draw();
+});
+
+canvas.addEventListener("mouseup",()=>{dragTarget=null;});
+canvas.addEventListener("mouseleave",()=>{dragTarget=null;});
+
+// ═══ CONTROLS ═══
+function switchShape() {
+  currentShape=document.getElementById("shapeSelect").value;
+  proofStep=0;
+  resetShape();
+}
+
+function toggleMode(m) {
+  mode=m;
+  document.getElementById("btnDrag").classList.toggle("active",m==="drag");
+  document.getElementById("btnMeasure").classList.toggle("active",m==="measure");
+  dragTarget=null;
+}
+
+function toggleTrap() {
+  showTraps=!showTraps;
+  document.getElementById("btnTrap").classList.toggle("trap-on",showTraps);
+  document.getElementById("trapLegend").style.display=showTraps?"flex":"none";
+  draw();
+}
+
+function toggleProof() {
+  showProof=!showProof;
+  document.getElementById("btnProof").classList.toggle("proof-on",showProof);
+  document.getElementById("proofPanel").style.display=showProof?"block":"none";
+  if (showProof) {
+    proofStep=0;
+    renderProofSteps();
+  }
+  draw();
+}
+
+function resetShape() {
+  shapeData.triangle.vertices=[{x:0.2,y:0.85},{x:0.8,y:0.85},{x:0.35,y:0.15}];
+  shapeData.parallelogram.vertices=[{x:0.15,y:0.8},{x:0.75,y:0.8},{x:0.9,y:0.2},{x:0.3,y:0.2}];
+  shapeData.trapezoid.vertices=[{x:0.22,y:0.8},{x:0.78,y:0.8},{x:0.65,y:0.2},{x:0.12,y:0.2}];
+  shapeData.circle.radius=0.32;
+  proofStep=0;
+  draw();
+}
+
+function renderProofSteps() {
+  const sd=shapeData[currentShape];
+  const container=document.getElementById("proofSteps");
+  document.getElementById("proofDesc").textContent="點擊步驟或使用按鈕逐步觀看證明過程";
+  container.innerHTML=sd.proofSteps.map((s,i)=>
+    '<button class="proof-step'+(i===proofStep?' active':'')+(i<proofStep?' done':'')+
+    '" onclick="proofStep='+i+';renderProofSteps();draw()">'+(i+1)+'. '+s.desc.split('→')[0]+'</button>'
+  ).join("");
+}
+
+function nextProofStep() {
+  const sd=shapeData[currentShape];
+  if (proofStep<sd.proofSteps.length-1) { proofStep++; renderProofSteps(); draw(); }
+}
+function prevProofStep() {
+  if (proofStep>0) { proofStep--; renderProofSteps(); draw(); }
+}
+function autoPlayProof() {
+  const sd=shapeData[currentShape];
+  if (proofAnimId) { clearInterval(proofAnimId); proofAnimId=null; return; }
+  proofAnimId=setInterval(()=>{
+    if (proofStep>=sd.proofSteps.length-1) { clearInterval(proofAnimId); proofAnimId=null; return; }
+    proofStep++; renderProofSteps(); draw();
+  },1500);
+}
+
+// ═══ INIT ═══
+resize();
+draw();
+</script>
+</body></html>

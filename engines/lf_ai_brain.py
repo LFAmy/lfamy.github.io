@@ -20,7 +20,7 @@ try:
 except Exception:
     pass
 
-FRELLMAPI_KEY = "freellmapi-62aba54641319d6581f6421b736b4d530c8e2140fa82f4de"
+FRELLMAPI_KEY = "sk-e422da39eb9840e387134c823609995e"
 FRELLMAPI_URL = "http://localhost:3001/v1"
 TIMEOUT = 30
 CACHE_TTL = 3600  # 1 hour
@@ -310,51 +310,99 @@ def _cached_call(prompt: str, role: str = "math_checker", max_tokens: int = 300,
     return ""
 
 
-def ai_semantic_mark(student_answer: str, model_answer: str, question_text: str = "", max_marks: int = 5) -> dict:
-    """AI 語意批改 — 當規則引擎無法判定時的最終裁決"""
-    cache_key = f"mark_{hash(student_answer)}_{hash(model_answer)}"
-    if cache_key in _cache and time.time() - _cache_timestamps.get(cache_key, 0) < CACHE_TTL:
-        return _cache[cache_key]
-    
-    prompt = f"""比較以下學生答案與標準答案是否數學上等價：
 
-題目: {question_text[:200]}
+# ═══════ DeepSeek Direct API (primary AI backend) ═══════
+DEEPSEEK_API_KEY = "sk-e422da39eb9840e387134c823609995e"
+DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
+
+def _call_deepseek(prompt, system_prompt="", max_tokens=200, timeout=15):
+    """Call DeepSeek API directly — primary AI backend"""
+    import urllib.request, json
+    
+    payload = {
+        "model": "deepseek-chat",
+        "messages": [],
+        "max_tokens": max_tokens
+    }
+    if system_prompt:
+        payload["messages"].append({"role": "system", "content": system_prompt})
+    payload["messages"].append({"role": "user", "content": prompt})
+    
+    try:
+        req = urllib.request.Request(
+            DEEPSEEK_API_URL,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
+            }
+        )
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            result = json.loads(resp.read().decode("utf-8"))
+            return result["choices"][0]["message"]["content"]
+    except Exception as e:
+        print(f"[DeepSeek] Error: {e}", file=sys.stderr)
+        return None
+
+def ai_semantic_mark(student_answer: str, model_answer: str, question_text: str = "", max_marks: int = 5, student_history: dict = None) -> dict:
+    """AI 語意批改 — 優先使用 DeepSeek"""
+    prompt = f"""題目: {question_text}
 標準答案: {model_answer}
 學生答案: {student_answer}
+滿分: {max_marks}
 
-判斷是否等價並回傳JSON。"""
+請評估學生答案。回傳JSON（不要其他文字）:
+{{"status": "CORRECT|PARTIAL|WRONG", "confidence": 0.0-1.0, "score": 分數, "reason": "用廣東話寫原因, 指出的陷阱"}}"""
     
+    # Try DeepSeek first
     try:
-        raw = _cached_call(prompt, role="math_checker", max_tokens=200, ttl=3600)
-        if not raw:
-            raise Exception("cached_call returned empty")
-        result = json.loads(raw)
-        result["_ai_used"] = True
-        _cache[cache_key] = result
-        _cache_timestamps[cache_key] = time.time()
-        return result
+        result = _call_deepseek(prompt, "你是香港小學數學老師，擅長分析學生錯誤。只回傳JSON。", 200, 15)
+        if result:
+            try:
+                return json.loads(result)
+            except:
+                pass
     except:
-        return {"status": "REVIEW", "confidence": 0.0, "reason": "AI unavailable", "_ai_used": False}
-
-def ai_generate_hints(question_text: str, correct_answer: str, student_answer: str = "", hint_level: int = 1) -> list:
-    """AI 生成漸進式蘇格拉底提示"""
-    prompt = f"""題目: {question_text}
-標準答案: {correct_answer}
-學生當前答案: {student_answer if student_answer else "（尚未作答）"}
-當前提示等級: {hint_level}/5
-
-請生成3個漸進式提示（從籠統到具體），用蘇格拉底式提問引導，不直接給答案。
-回傳JSON: {{"hints": ["提示1", "提示2", "提示3"]}}"""
+        pass
     
+    # Fallback — exact match
+    if student_answer.strip() == model_answer.strip():
+        return {"status": "CORRECT", "confidence": 0.9, "score": max_marks, "reason": "答案完全正確。"}
+    
+    # Try frellmapi
+    try:
+        raw = _cached_call(prompt, role="math_checker", max_tokens=300)
+        if raw:
+            return json.loads(raw)
+    except:
+        pass
+    return {"status": "UNCERTAIN", "confidence": 0.3, "score": 0, "reason": "無法自動評分，請老師人工檢查。"}
+def ai_generate_hints(question: str, model_answer: str = "", student_history: dict = None) -> list:
+    """AI 蘇格拉底式提示 — 優先使用 DeepSeek"""
+    prompt = f"""題目: {question}
+答案: {model_answer}
+
+學生需要引導性提示來解決這道題。生成 3 個由淺入深的提示（繁體中文），用蘇格拉底式提問引導，不直接給答案。"""
+    
+    # Try DeepSeek first
+    try:
+        result = _call_deepseek(prompt, "你是香港數學補習老師，擅長用蘇格拉底提問法引導學生。", 300, 15)
+        if result:
+            hints = [h.strip() for h in result.replace('\n\n', '\n').split('\n') if h.strip()]
+            if hints:
+                return hints[:3]
+    except:
+        pass
+    
+    # Fallback
     try:
         raw = _cached_call(prompt, role="tutor_socratic", max_tokens=300)
-        if not raw:
-            raise Exception("cached_call empty")
-        result = json.loads(raw)
-        return result.get("hints", ["請嘗試思考這道題目涉及什麼概念。"])
+        if raw:
+            result = json.loads(raw)
+            return result.get("hints", ["請嘗試思考這道題目涉及什麼概念。"])
     except:
-        return ["這道題目需要你仔細思考。試著從已知條件開始推理。"]
-
+        pass
+    return ["請嘗試思考這道題目涉及什麼概念。"]
 def ai_analyze_student(student_name: str, progress_data: list) -> dict:
     """AI 深度分析學生認知模型"""
     if not progress_data:
@@ -416,7 +464,7 @@ def ai_detect_misconceptions(student_name: str, errors: list) -> dict:
     except:
         return {"patterns": [], "root_cause": "分析暫時不可用", "fix_suggestions": ["回顧錯題涉及的基礎概念"]}
 
-def ai_generate_question(topic: str, difficulty: int = 3, avoid_ids: list = None) -> dict:
+def ai_generate_question(topic: str, difficulty: int = 3, avoid_ids: list = None, student_history: dict = None) -> dict:
     """AI 智能出題 — 根據主題和難度生成全新題目"""
     prompt = f"""生成一道香港中學數學題目：
 主題: {topic}
@@ -464,3 +512,51 @@ if __name__ == "__main__":
         print(f"  L{i+1}: {h}")
     
     print("\n✅ LF AI Brain Core 就緒")
+
+# ═══ Tutor Chat (Free Ask) ═══
+def ai_tutor_chat(message: str, conversation_history: str = "", mode: str = "math_tutor") -> str:
+    """Free-form Socratic math tutor chat with conversation context."""
+    system = '''你是霖楓學苑的 AI 數學導師。以蘇格拉底式對話引導學生思考，不要直接給答案。
+規則：
+1. 每次只問一個引導性問題
+2. 如果學生答對，給予正面鼓勵再問下一步
+3. 如果學生答錯，不要說「錯」，說「讓我們再想想」
+4. 用學生年級適合的語言（香港小學 P3-P6）
+5. 全程使用繁體中文
+6. 如果學生明顯困惑，給一個小提示而不是答案'''
+    
+    context_block = ""
+    if conversation_history:
+        context_block = f"\n\n對話歷史：\n{conversation_history}\n\n請根據以上對話歷史繼續引導。"
+    
+    full_prompt = f"{system}{context_block}\n\n學生說：{message}\n\n你的引導回應："
+    
+    try:
+        return _call_frellmapi(full_prompt, "tutor_socratic", max_tokens=400)
+    except:
+        return "讓我幫你一起思考這道題目。你可以先告訴我，題目中給了哪些已知條件？"
+
+
+def ai_tutor_solve(question: str) -> str:
+    """Generate a step-by-step solution for a math problem."""
+    prompt = f'''你是香港小學數學老師。請逐步解答以下題目，每一步都要清楚解釋。
+
+題目：{question}
+
+請按以下格式回答：
+第1步：[步驟說明]
+第2步：[步驟說明]
+...
+最終答案：[答案]
+
+使用繁體中文。適合小學 P3-P6 學生理解。'''
+
+    try:
+        return _call_frellmapi(prompt, "math_checker", max_tokens=600)
+    except:
+        # Rule-based fallback
+        import re
+        numbers = re.findall(r'\d+', question)
+        if numbers:
+            return f"這道題目的關鍵數字是：{', '.join(numbers[:5])}。請嘗試自己逐步推理，找出它們之間的關係。"
+        return "請嘗試從題目中找出已知條件，一步一步推理。"

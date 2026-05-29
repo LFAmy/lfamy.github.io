@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 學生數據 — 只能讀寫自己的
+    match /students/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    // 學生練習記錄
+    match /students/{userId}/practice/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    // 診斷結果
+    match /students/{userId}/diagnostics/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // 老師數據
+    match /teachers/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // 家長數據
+    match /parents/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // 公開數據 — 題庫 (只讀)
+    match /question_bank/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/teachers/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // 講義 (只讀)
+    match /lectures/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+        get(/databases/$(database)/documents/teachers/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // 全域事件追蹤 — 僅服務端寫入，用戶只讀自己的
+    match /events/{docId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.resource.data._server == true;
+    }
+    
+    // 營銷線索
+    match /leads/{docId} {
+      allow read: if request.auth != null && 
+        get(/databases/$(database)/documents/teachers/$(request.auth.uid)).data.role == 'admin';
+      allow create: if true;  // 任何人都可以提交線索
+    }
+  }
+}

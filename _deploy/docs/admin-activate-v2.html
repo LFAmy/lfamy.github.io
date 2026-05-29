@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 會員激活中心</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:#F3F4F6;border-radius:10px;padding:4px}
+.tab{padding:10px 20px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:transparent;color:#6B7280;transition:all 0.2s;flex:1;text-align:center}
+.tab.active{background:white;color:#1A3C6D;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+input,select{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+.form-row{display:flex;gap:8px}.form-row>*{flex:1}
+.btn{display:inline-block;padding:10px 20px;border-radius:22px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#16A34A;color:white}
+.btn-red{background:#DC2626;color:white}.btn-gold{background:#C9A84C;color:#1A3C6D}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-top:12px}
+th{background:#F9FAFB;text-align:left;padding:8px;font-size:10px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+td{padding:8px;border-bottom:1px solid #F3F4F6}
+.badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:700}
+.badge-pending{background:#FEF3C7;color:#92400E}.badge-active{background:#D1FAE5;color:#065F46}
+.badge-expired{background:#FEF2F2;color:#991B1B}
+.badge-waiting{background:#EFF6FF;color:#1E40AF}
+.qr-box{text-align:center;padding:16px}
+.qr-box .emoji{font-size:100px;display:block;margin:12px}
+.code-display{background:#1A1A1A;color:#25D366;padding:12px 24px;border-radius:10px;font-family:monospace;font-size:18px;text-align:center;letter-spacing:2px;margin:8px 0}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>會員激活中心</h1><p>生成激活碼 · 審批付款 · 管理會員 · 追蹤到期</p></div>
+
+<!-- TABS -->
+<div class="tabs">
+<button class="tab active" onclick="switchTab('generate')">生成激活碼</button>
+<button class="tab" onclick="switchTab('approvals')" id="approvalsTab">審批付款 <span id="approvalCount" style="background:#DC2626;color:white;border-radius:50%;padding:1px 6px;font-size:9px;display:none">0</span></button>
+<button class="tab" onclick="switchTab('members')">活躍會員</button>
+<button class="tab" onclick="switchTab('expiring')">即將到期</button>
+</div>
+
+<!-- GENERATE TAB -->
+<div class="card" id="tab-generate">
+<h2>生成新激活碼</h2>
+<div class="form-row">
+<select id="genPlan"><option value="monthly">Pro 月費 $199/月</option><option value="annual">Pro 年費 $99/月（$1,188/年）</option><option value="trial">首月試用 $99</option></select>
+<select id="genDuration"><option value="1">1個月</option><option value="3">3個月</option><option value="6">6個月</option><option value="12" selected>12個月</option></select>
+</div>
+<div class="form-row">
+<input type="text" id="genParent" placeholder="家長名稱">
+<input type="text" id="genStudent" placeholder="學生名稱">
+</div>
+<select id="genGrade" style="width:auto"><option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option><option value="P4" selected>P4</option><option value="P5">P5</option><option value="P6">P6</option></select>
+<button class="btn btn-primary" onclick="generateCode()">生成激活碼</button>
+<div class="code-display" id="codeDisplay" style="display:none"></div>
+<button class="btn btn-green" id="btnCopyCode" style="display:none" onclick="copyCode()">複製激活碼</button>
+<button class="btn" id="btnWA" style="display:none;background:#25D366;color:white" onclick="sendWA()">WhatsApp 發送</button>
+</div>
+
+<!-- APPROVALS TAB -->
+<div class="card" id="tab-approvals" style="display:none">
+<h2>待審批付款</h2>
+<div id="approvalList"><p style="text-align:center;color:#9CA3AF;padding:30px">沒有待審批的報名</p></div>
+</div>
+
+<!-- MEMBERS TAB -->
+<div class="card" id="tab-members" style="display:none">
+<h2>活躍會員列表</h2>
+<table><thead><tr><th>學生</th><th>年級</th><th>家長</th><th>方案</th><th>激活日期</th><th>到期日</th><th>剩餘</th><th>操作</th></tr></thead><tbody id="memberTable"><tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:30px">沒有活躍會員</td></tr></tbody></table>
+</div>
+
+<!-- EXPIRING TAB -->
+<div class="card" id="tab-expiring" style="display:none">
+<h2>即將到期（30日內）</h2>
+<div id="expiringList"><p style="text-align:center;color:#9CA3AF;padding:30px">沒有即將到期的會員</p></div>
+</div>
+
+</div>
+
+<script>
+var codes = JSON.parse(localStorage.getItem('lf_activation_codes') || '[]');
+var members = JSON.parse(localStorage.getItem('lf_members') || '[]');
+var approvals = JSON.parse(localStorage.getItem('lf_pending_approvals') || '[]');
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  event.target.classList.add('active');
+  ['generate','approvals','members','expiring'].forEach(function(t){
+    document.getElementById('tab-'+t).style.display = (t===tab) ? 'block' : 'none';
+  });
+  if (tab==='approvals') renderApprovals();
+  if (tab==='members') renderMembers();
+  if (tab==='expiring') renderExpiring();
+}
+
+function generateCode() {
+  var plan = document.getElementById('genPlan').value;
+  var dur = parseInt(document.getElementById('genDuration').value);
+  var parent = document.getElementById('genParent').value || '家長';
+  var student = document.getElementById('genStudent').value || '';
+  var grade = document.getElementById('genGrade').value;
+  var code = 'LF-' + Date.now().toString(36).toUpperCase().slice(-8);
+  var now = new Date();
+  var expiry = new Date(now);
+  expiry.setMonth(expiry.getMonth() + dur);
+
+  codes.push({
+    code: code, plan: plan, duration: dur,
+    parent: parent, student: student, grade: grade,
+    status: 'pending', created: now.toISOString(), expiry: expiry.toISOString()
+  });
+  localStorage.setItem('lf_activation_codes', JSON.stringify(codes));
+
+  document.getElementById('codeDisplay').textContent = code;
+  document.getElementById('codeDisplay').style.display = 'block';
+  document.getElementById('btnCopyCode').style.display = 'inline-block';
+  document.getElementById('btnWA').style.display = 'inline-block';
+}
+
+function copyCode() {
+  navigator.clipboard.writeText(document.getElementById('codeDisplay').textContent)
+    .then(function(){ alert('已複製 ✅') });
+}
+
+function sendWA() {
+  var code = document.getElementById('codeDisplay').textContent;
+  var plan = document.getElementById('genPlan').value;
+  var planName = {monthly:'Pro月費 $199/月',annual:'Pro年費 $99/月',trial:'首月試用 $99'}[plan];
+  window.open('https://wa.me/?text=' + encodeURIComponent(
+    '你好！呢個係你嘅霖楓學苑激活碼：\n\n' + code + '\n\n方案：' + planName + '\n\n激活步驟：\n1. 打開 www.lfacademyhk.com/docs/activate.html\n2. 輸入激活碼\n3. 即時開通會員\n\n有問題隨時問我 😊'
+  ), '_blank');
+}
+
+// --- APPROVALS ---
+function renderApprovals() {
+  approvals = JSON.parse(localStorage.getItem('lf_pending_approvals') || '[]');
+  var badge = document.getElementById('approvalCount');
+  if (approvals.length > 0) {
+    badge.textContent = approvals.length;
+    badge.style.display = 'inline-block';
+  } else {
+    badge.style.display = 'none';
+  }
+
+  if (approvals.length === 0) {
+    document.getElementById('approvalList').innerHTML = '<p style="text-align:center;color:#9CA3AF;padding:30px">沒有待審批的報名 ✅</p>';
+    return;
+  }
+
+  var html = '<table><thead><tr><th>學生</th><th>年級</th><th>家長</th><th>方案</th><th>金額</th><th>提交時間</th><th>操作</th></tr></thead><tbody>';
+  approvals.forEach(function(a, i) {
+    html += '<tr><td><strong>' + a.reg.student + '</strong></td><td>' + a.reg.grade + '</td><td>' + a.reg.parent + '<br><span style="font-size:9px;color:#6B7280">' + a.reg.phone + '</span></td><td>' + {trial:'試用',monthly:'月費',annual:'年費'}[a.reg.plan] + '</td><td style="font-weight:900;color:#16A34A">HK$' + a.reg.amount + '</td><td style="font-size:10px">' + new Date(a.time).toLocaleString('zh-HK') + '</td><td><button class="btn btn-green" onclick="confirmApproval(' + i + ')" style="font-size:11px">✅ 確認收款</button><button class="btn btn-red" onclick="rejectApproval(' + i + ')" style="font-size:11px;padding:6px 12px">✕</button></td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById('approvalList').innerHTML = html;
+}
+
+function confirmApproval(i) {
+  if (!confirm('確定已收到款項？\n確認後會自動激活會員並生成激活碼。')) return;
+
+  approvals = JSON.parse(localStorage.getItem('lf_pending_approvals') || '[]');
+  var a = approvals[i];
+  approvals.splice(i, 1);
+  localStorage.setItem('lf_pending_approvals', JSON.stringify(approvals));
+
+  // Find and activate the pending code
+  codes = JSON.parse(localStorage.getItem('lf_activation_codes') || '[]');
+  var found = codes.find(function(c) { return c.status === 'pending' && c.parent === a.reg.parent; });
+  if (found) {
+    found.status = 'active';
+    found.approved_date = new Date().toISOString();
+    var months = found.plan === 'annual' ? 12 : 1;
+    var expiry = new Date();
+    expiry.setMonth(expiry.getMonth() + months);
+    found.expiry = expiry.toISOString();
+    found.student = a.reg.student;
+    found.grade = a.reg.grade;
+    localStorage.setItem('lf_activation_codes', JSON.stringify(codes));
+
+    // Add to members
+    members = JSON.parse(localStorage.getItem('lf_members') || '[]');
+    members.push({
+      student: found.student, grade: found.grade,
+      parent: found.parent, plan: found.plan,
+      activated: new Date().toISOString(), expiry: found.expiry, code: found.code
+    });
+    localStorage.setItem('lf_members', JSON.stringify(members));
+
+    // Auto-open WhatsApp with activation code
+    var planName = {monthly:'Pro月費',annual:'Pro年費',trial:'首月試用'}[found.plan];
+    window.open('https://wa.me/?text=' + encodeURIComponent(
+      found.parent + '你好！你嘅霖楓學苑會員已開通 ✅\n\n' +
+      '學生：' + found.student + '（' + found.grade + '）\n' +
+      '激活碼：' + found.code + '\n' +
+      '方案：' + planName + '\n' +
+      '到期日：' + found.expiry.split('T')[0] + '\n\n' +
+      '激活步驟：\n' +
+      '1. 打開 www.lfacademyhk.com/docs/activate.html\n' +
+      '2. 輸入激活碼\n' +
+      '3. 即時開通會員\n\n' +
+      '歡迎加入霖楓學苑！'
+    ), '_blank');
+  }
+
+  renderApprovals();
+  alert('已確認！激活碼已自動生成並 WhatsApp 通知家長。');
+}
+
+function rejectApproval(i) {
+  if (!confirm('確定要拒絕此報名？')) return;
+  approvals = JSON.parse(localStorage.getItem('lf_pending_approvals') || '[]');
+  approvals.splice(i, 1);
+  localStorage.setItem('lf_pending_approvals', JSON.stringify(approvals));
+  renderApprovals();
+}
+
+// --- MEMBERS ---
+function renderMembers() {
+  members = JSON.parse(localStorage.getItem('lf_members') || '[]');
+  var active = members.filter(function(m) { return new Date(m.expiry) > new Date(); });
+
+  if (active.length === 0) {
+    document.getElementById('memberTable').innerHTML = '<tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:30px">沒有活躍會員</td></tr>';
+    return;
+  }
+
+  document.getElementById('memberTable').innerHTML = active.map(function(m) {
+    var days = Math.ceil((new Date(m.expiry) - new Date()) / 86400000);
+    return '<tr><td><strong>' + (m.student || '—') + '</strong></td><td>' + (m.grade || '—') + '</td><td>' + m.parent + '</td><td>' + {monthly:'Pro月費',annual:'Pro年費',trial:'試用'}[m.plan] + '</td><td>' + (m.activated ? m.activated.split('T')[0] : '—') + '</td><td>' + m.expiry.split('T')[0] + '</td><td>' + (days > 30 ? '✅ ' + days + '日' : days > 7 ? '⚠️ ' + days + '日' : '🔴 ' + days + '日') + '</td><td><button class="btn" style="background:#25D366;color:white;font-size:10px;padding:4px 10px" onclick="renewMember(\'' + m.code + '\')">續期</button></td></tr>';
+  }).join('');
+}
+
+function renderExpiring() {
+  members = JSON.parse(localStorage.getItem('lf_members') || '[]');
+  var expiring = members.filter(function(m) {
+    var days = Math.ceil((new Date(m.expiry) - new Date()) / 86400000);
+    return days <= 30 && days > 0;
+  });
+
+  if (expiring.length === 0) {
+    document.getElementById('expiringList').innerHTML = '<p style="text-align:center;color:#9CA3AF;padding:30px">沒有即將到期的會員 ✅</p>';
+    return;
+  }
+
+  document.getElementById('expiringList').innerHTML = expiring.map(function(m) {
+    var days = Math.ceil((new Date(m.expiry) - new Date()) / 86400000);
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:#FEF3C7;border-radius:10px;margin:6px 0"><div><strong>' + (m.student || '—') + '</strong> · ' + m.parent + '<br><span style="font-size:11px;color:#92400E">🔴 ' + days + ' 日後到期 · ' + m.expiry.split('T')[0] + '</span></div><div><button class="btn btn-green" style="font-size:10px;padding:6px 14px" onclick="renewMember(\'' + m.code + '\')">提醒續期</button></div></div>';
+  }).join('');
+}
+
+function renewMember(code) {
+  var member = members.find(function(m) { return m.code === code; });
+  var parent = member ? member.parent : '';
+  window.open('https://wa.me/?text=' + encodeURIComponent(
+    parent + '你好！你嘅霖楓學苑會員就快到期啦 📅\n\n' +
+    '續期方案：\n' +
+    '· Pro月費 $199/月\n' +
+    '· Pro年費 $99/月（$1,188/年，最抵！）\n\n' +
+    '續期方法：WhatsApp 回覆「續期」我哋會幫你處理 👍'
+  ), '_blank');
+}
+
+// Init
+renderApprovals();
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body></html>

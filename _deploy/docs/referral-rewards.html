@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 推薦獎勵</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;padding:20px}
+.container{max-width:600px;margin:0 auto}
+.header{text-align:center;padding:30px 0}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:28px;margin-bottom:4px}
+.header .sub{font-size:13px;color:rgba(255,255,255,0.4)}
+.reward-big{text-align:center;padding:24px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:20px;margin:20px 0}
+.reward-big .amount{font-size:48px;font-weight:900;color:#C9A84C}
+.reward-big .desc{font-size:13px;color:rgba(255,255,255,0.5)}
+.steps{display:flex;flex-direction:column;gap:12px;margin:20px 0}
+.step-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;display:flex;gap:14px;align-items:center}
+.step-num{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#C9A84C;color:#1A3C6D;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
+.step-info h3{font-size:14px;color:#C9A84C;margin-bottom:2px}
+.step-info p{font-size:11px;color:rgba(255,255,255,0.4)}
+.code-box{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:20px;text-align:center;margin:16px 0}
+.code-box .code{font-size:28px;font-weight:900;color:#C9A84C;letter-spacing:3px;font-family:monospace}
+.leaderboard{background:rgba(255,255,255,0.04);border-radius:14px;padding:16px;margin:16px 0}
+.leaderboard-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.leaderboard-item .rank{font-weight:900;width:30px}
+.leaderboard-item .name{flex:1;font-size:13px}
+.leaderboard-item .count{font-weight:900;color:#C9A84C}
+.btn{display:inline-block;padding:12px 28px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-gold{background:#C9A84C;color:#1A3C6D}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white}
+.stats-row{display:flex;gap:16px;justify-content:center;margin:12px 0}
+.stat-item{text-align:center;padding:12px 16px;background:rgba(255,255,255,0.04);border-radius:10px}
+.stat-item .val{font-size:22px;font-weight:900;color:#C9A84C}
+.stat-item .label{font-size:10px;color:rgba(255,255,255,0.3)}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>推薦獎勵計劃</h1><div class="sub">推薦朋友 · 齊齊有賞</div></div>
+
+<div class="reward-big">
+<div style="font-size:40px">🎁</div>
+<div class="amount">1 個月免費</div>
+<div class="desc">你推薦一位家長加入 Pro → 你同佢各送 1 個月</div>
+</div>
+
+<div class="code-box">
+<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px">你的專屬推薦碼</div>
+<div class="code" id="referralCode">LF-REF-XXXX</div>
+<button class="btn btn-gold" onclick="copyCode()">複製推薦碼</button>
+<button class="btn btn-outline" onclick="shareReferral()">分享推薦連結</button>
+</div>
+
+<div class="steps">
+<div class="step-card"><div class="step-num">1</div><div class="step-info"><h3>分享你的推薦碼</h3><p>WhatsApp/微信 send 俾其他家長</p></div></div>
+<div class="step-card"><div class="step-num">2</div><div class="step-info"><h3>朋友用你推薦碼註冊</h3><p>佢哋喺 activate.html 入你嘅推薦碼</p></div></div>
+<div class="step-card"><div class="step-num">3</div><div class="step-info"><h3>雙方自動獲獎</h3><p>系統確認後自動延長會籍 1 個月</p></div></div>
+</div>
+
+<div class="stats-row">
+<div class="stat-item"><div class="val" id="myReferrals">0</div><div class="label">已推薦</div></div>
+<div class="stat-item"><div class="val" id="myRewards">0</div><div class="label">獲得月份</div></div>
+<div class="stat-item"><div class="val" id="myRank">-</div><div class="label">排名</div></div>
+</div>
+
+<div class="leaderboard"><h3 style="font-size:14px;color:#C9A84C;margin-bottom:12px">🏆 推薦排行榜</h3>
+<div class="leaderboard-item"><span class="rank">🥇</span><span class="name">陳太</span><span class="count">8 人</span></div>
+<div class="leaderboard-item"><span class="rank">🥈</span><span class="name">李太</span><span class="count">5 人</span></div>
+<div class="leaderboard-item"><span class="rank">🥉</span><span class="name">張太</span><span class="count">4 人</span></div>
+<div class="leaderboard-item"><span class="rank">4</span><span class="name">黃太</span><span class="count">3 人</span></div>
+<div class="leaderboard-item"><span class="rank">5</span><span class="name">你</span><span class="count" id="myCount">0 人</span></div>
+</div>
+</div>
+
+<script>
+var code = 'LF-REF-' + (localStorage.getItem('lf_student_id') || Date.now().toString(36)).slice(-6).toUpperCase();
+document.getElementById('referralCode').textContent = code;
+
+// Simulate referral data
+var myRefs = parseInt(localStorage.getItem('lf_referral_count') || '0');
+document.getElementById('myReferrals').textContent = myRefs;
+document.getElementById('myRewards').textContent = myRefs + ' 個月';
+document.getElementById('myCount').textContent = myRefs + ' 人';
+
+function copyCode() {
+  navigator.clipboard.writeText(code).then(function(){alert('推薦碼已複製 ✅\n\n發送俾其他家長即可！')});
+}
+
+function shareReferral() {
+  var msg = '🎁 霖楓學苑推薦獎勵！\n\n用我呢個推薦碼註冊，我同你各送1個月Pro會員！\n\n推薦碼：' + code + '\n註冊連結：www.lfacademyhk.com/docs/enroll.html\n\n香港小學數學AI練習平台，2分鐘免費診斷數學陷阱 🔍';
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+</script>
+</body></html>

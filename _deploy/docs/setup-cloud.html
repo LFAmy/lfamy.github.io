@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 雲端後端設定</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:16px;line-height:1.7}
+.container{max-width:750px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:16px}
+.card{background:white;border-radius:12px;padding:22px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #C9A84C}
+.step{display:flex;gap:14px;margin:16px 0;align-items:flex-start}
+.step-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#1A3C6D;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
+.step-info h3{font-size:14px;color:#1A3C6D;margin-bottom:4px}
+.step-info p{font-size:12px;color:#6B7280}
+code{background:#F0F7FF;padding:2px 6px;border-radius:4px;font-size:11px;color:#DC2626}
+.important{background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:12px;margin:8px 0;font-size:11px}
+.check{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px}
+.btn{display:inline-block;padding:10px 24px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;text-decoration:none;background:#1A3C6D;color:white;margin:4px}
+.btn-green{background:#16A34A}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<div class="container">
+
+<div class="header">
+<h1>Google Sheets 雲端後端設定</h1>
+<p>跟住做 · 5 分鐘完成 · 跨裝置同步</p>
+</div>
+
+<div class="card">
+<h2>第 1 步：建立 Google Sheets</h2>
+<div class="step"><div class="step-num">1</div><div class="step-info"><h3>建立新試算表</h3><p>打開 <a href="https://sheets.google.com" target="_blank">sheets.google.com</a> → 點「+ 空白」→ 改名為 <code>霖楓CRM</code></p></div></div>
+<div class="check">✅ 見到全新空白試算表</div>
+</div>
+
+<div class="card">
+<h2>第 2 步：打開 Apps Script</h2>
+<div class="step"><div class="step-num">2</div><div class="step-info"><h3>打開程式碼編輯器</h3><p>Sheets 選單：<code>擴充功能</code> → <code>Apps Script</code></p></div></div>
+<div class="check">✅ 見到新分頁，內有 <code>function myFunction() { }</code></div>
+</div>
+
+<div class="card">
+<h2>第 3 步：貼上後端代碼</h2>
+<div class="step"><div class="step-num">3</div><div class="step-info"><h3>複製並貼上</h3><p>打開你電腦上嘅：<br><code>G:\lam-fung-academy\scripts\cloud-backend.gs</code></p><p>全選（Ctrl+A）→ 複製（Ctrl+C）→ 去 Apps Script 編輯器 → 刪除原有代碼 → 貼上（Ctrl+V）→ 儲存（💾）</p></div></div>
+<div class="important">⚠️ 確保代碼全部貼上，不要遺漏任何一行</div>
+</div>
+
+<div class="card">
+<h2>第 4 步：初始化</h2>
+<div class="step"><div class="step-num">4</div><div class="step-info"><h3>執行 testSetup</h3><p>1. 下拉選單揀 <code>testSetup</code><br>2. 按 ▶️ 執行<br>3. 授權（揀你嘅 Google 帳戶 → 允許）</p></div></div>
+<div class="check">✅ 返去 Sheets 見到 7 個新分頁</div>
+</div>
+
+<div class="card">
+<h2>第 5 步：部署</h2>
+<div class="step"><div class="step-num">5</div><div class="step-info"><h3>部署為 Web App</h3><p>右上角 <code>部署</code> → <code>新增部署</code> → 類型揀 <code>網路應用程式</code> → 存取權限揀 <code>任何人</code> → 按 <code>部署</code> → <b>複製 URL</b></p></div></div>
+<div class="important">⚠️ 必須保存此 URL！格式：https://script.google.com/macros/s/XXXXX/exec</div>
+</div>
+
+<div class="card">
+<h2>第 6 步：連接平台</h2>
+<div class="step"><div class="step-num">6</div><div class="step-info"><h3>貼上 URL</h3><p>打開 <a href="admin-cloud.html">admin-cloud.html</a> → 貼上 URL → 儲存並連接 → 見到「已連接 ✅」</p></div></div>
+<div class="check">✅ 從此所有數據自動同步到 Google Sheets</div>
+</div>
+
+<div style="text-align:center;margin:20px 0">
+<a href="admin-cloud.html" class="btn btn-green">打開雲端管理中心</a>
+<a href="launchpad.html" class="btn">返回 Launchpad</a>
+</div>
+
+</div>
+</body>
+</html>

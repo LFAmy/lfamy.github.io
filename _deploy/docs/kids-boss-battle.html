@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · Boss 挑戰</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(180deg,#1A0A0A 0%,#2D1111 50%,#0A1A35 100%);color:white;min-height:100vh;padding:20px;text-align:center}
+.container{max-width:600px;margin:0 auto}
+.header{padding:30px 20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:28px;color:#DC2626;margin-bottom:4px;animation:glow 2s infinite}
+.header .sub{font-size:13px;color:rgba(255,255,255,0.4)}
+@keyframes glow{0%,100%{text-shadow:0 0 10px rgba(220,38,38,0.5)}50%{text-shadow:0 0 30px rgba(220,38,38,0.9),0 0 60px rgba(220,38,38,0.4)}}
+.grade-pick{display:flex;gap:6px;justify-content:center;margin:12px 0}
+.grade-pick button{padding:8px 16px;border-radius:8px;border:2px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.6);cursor:pointer;font-weight:700;font-size:13px;transition:all 0.15s;font-family:inherit}
+.grade-pick button.active{border-color:#C9A84C;color:#C9A84C;background:rgba(201,168,76,0.1)}
+.boss-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.boss-card{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px;cursor:pointer;transition:all 0.2s}
+.boss-card:hover{border-color:#DC2626;background:rgba(220,38,38,0.08);transform:translateY(-2px)}
+.boss-card.defeated{border-color:#16A34A;background:rgba(22,163,74,0.06)}
+.boss-card .icon{font-size:40px;margin-bottom:6px}
+.boss-card .name{font-weight:900;font-size:12px}
+.boss-card .status{font-size:10px;margin-top:4px}
+.battle-screen{display:none}
+.boss-display{text-align:center;margin:20px 0}
+.boss-sprite{font-size:100px;animation:bossShake 1s infinite}
+@keyframes bossShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.boss-sprite.hurt{animation:hurt 0.3s}
+@keyframes hurt{0%,100%{transform:translateX(0)}50%{transform:translateX(-20px)}}
+.boss-sprite.defeated{font-size:40px;opacity:0.3;animation:none}
+.hp-bar-outer{background:rgba(255,255,255,0.1);border-radius:10px;height:20px;margin:12px 0;overflow:hidden}
+.hp-bar-inner{background:linear-gradient(90deg,#DC2626,#EF4444);height:100%;transition:width 0.5s;border-radius:10px}
+.hp-text{font-size:12px;color:rgba(255,255,255,0.5)}
+.question-zone{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;margin:16px 0}
+.question-zone .q-text{font-size:20px;font-weight:700;margin-bottom:16px;line-height:1.5}
+.answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ans-btn{padding:16px;border-radius:12px;border:2px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.04);color:white;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.ans-btn:hover{background:rgba(255,255,255,0.1);border-color:#C9A84C}
+.ans-btn.correct{background:#065F46;border-color:#16A34A;animation:pulse 0.5s}
+.ans-btn.wrong{background:#7F1D1D;border-color:#DC2626}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.result-screen{display:none;text-align:center;padding:30px}
+.result-screen .trophy{font-size:80px;margin-bottom:12px}
+.result-screen h2{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;margin-bottom:8px}
+.btn{display:inline-block;padding:12px 28px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;margin:6px}
+.btn-fight{background:linear-gradient(135deg,#DC2626,#991B1B);color:white;font-size:16px;padding:16px 40px}
+.btn-gold{background:linear-gradient(135deg,#C9A84C,#DFC06A);color:#1A3C6D}
+.btn-back{background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.2)}
+</style>
+
+
+<script src="lf-gamification.js"></script>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+
+<!-- SELECT SCREEN -->
+<div class="header" id="selectHeader"><h1>Boss 挑戰</h1><div class="sub">選擇年級，然後挑戰陷阱大魔王</div></div>
+<div class="grade-pick" id="gradePick">
+	<button onclick="setGrade('P3')">P3</button>
+	<button onclick="setGrade('P4')">P4</button>
+	<button class="active" onclick="setGrade('P5')">P5</button>
+	<button onclick="setGrade('P6')">P6</button>
+</div>
+<div class="boss-select" id="bossSelect"></div>
+
+<!-- BATTLE SCREEN -->
+<div class="battle-screen" id="battleScreen">
+<div class="boss-display">
+<div class="boss-sprite" id="bossSprite">👾</div>
+<div style="font-weight:900;color:#DC2626;margin-top:4px" id="bossName">進退位大魔王</div>
+<div class="hp-bar-outer"><div class="hp-bar-inner" id="hpBar" style="width:100%"></div></div>
+<div class="hp-text" id="hpText">HP: 5/5</div>
+</div>
+<div class="question-zone" id="questionZone"></div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div class="result-screen" id="resultScreen"></div>
+
+<div style="text-align:center;margin:12px 0">
+<button class="btn btn-back" id="btnBack" onclick="goBack()" style="display:none">← 選擇其他 Boss</button>
+<a href="kids-mode.html" class="btn btn-back">← 返回冒險</a>
+</div>
+</div>
+
+<script src="/docs/data/gamification-engine.js"></script>
+<script>
+LFG.init();
+var currentBattle = null;
+var currentQuestion = null;
+var currentGrade = 'P5';
+
+// ── LFGen: Client-side unlimited question generator ──
+var LFGen = {
+	_bankCache: {},
+
+	loadBank: function(grade) {
+		var self = this;
+		if (this._bankCache[grade]) return Promise.resolve(this._bankCache[grade]);
+		return fetch('/docs/data/question_bank_' + grade + '.json')
+			.then(function(r) { return r.json(); })
+			.then(function(data) { self._bankCache[grade] = data; return data; })
+			.catch(function() { return []; });
+	},
+
+	getQuestions: function(grade, trap, count) {
+		var self = this;
+		return this.loadBank(grade).then(function(pool) {
+			var filtered = pool.filter(function(q) { return q.trap === trap; });
+			if (filtered.length < count) {
+				var gen = self.generateQuestions(grade, trap, count - filtered.length);
+				return filtered.concat(gen);
+			}
+			var shuffled = filtered.slice();
+			for (var i = shuffled.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var t = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = t;
+			}
+			return shuffled.slice(0, count);
+		});
+	},
+
+	generateQuestions: function(grade, trap, count) {
+		var qs = [];
+		for (var n = 0; n < count; n++) {
+			var q = this._generateOne(grade, trap);
+			if (q) qs.push(q);
+		}
+		return qs;
+	},
+
+	_generateOne: function(grade, trap) {
+		var a, b, c, name, correct, wrongs;
+		var names = ['小明','小美','家豪','Chloe','婷婷','志偉','詠詩'];
+
+		if (trap === 'T1') {
+			var ranges = {P3:[20,200,10,150], P4:[1000,8000,500,3000], P5:[10000,50000,5000,20000], P6:[10000,50000,5000,20000]};
+			var r = ranges[grade] || ranges.P5;
+			a = rand(r[0],r[1]); b = rand(r[2],r[3]);
+			correct = a + b; wrongs = [correct+rand(1,10), correct-rand(1,10), correct+rand(10,100)];
+			return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+		}
+		if (trap === 'T2') {
+			var units = {P3:[['米','厘米',100]], P4:[['公里','米',1000]], P5:[['平方米','平方厘米',10000]], P6:[['公里','米',1000]]};
+			var u = (units[grade]||units.P5)[0];
+			a = rand(1,10); correct = a * u[2]; wrongs = [correct*10, correct/10, correct*2];
+			return makeQ(a + ' ' + u[0] + ' = ? ' + u[1], correct, wrongs, 'T2', grade);
+		}
+		if (trap === 'T3') {
+			a = rand(2,20); b = rand(2,10); c = rand(2,8);
+			var patterns = [[a+' + '+b+' × '+c, a+b*c], ['('+a+' + '+b+') × '+c, (a+b)*c]];
+			var p = patterns[Math.floor(Math.random()*2)];
+			correct = p[1]; wrongs = [correct+rand(1,5), correct-rand(1,5), correct*2];
+			return makeQ(p[0] + ' = ?', correct, wrongs, 'T3', grade);
+		}
+		if (trap === 'T4') {
+			if (grade === 'P3' || grade === 'P4') {
+				var pairs = [[408,2],[306,3],[804,2],[1020,4],[1500,5],[606,3],[909,9]];
+				var p2 = pairs[Math.floor(Math.random()*pairs.length)];
+				correct = Math.floor(p2[0]/p2[1]); wrongs = [correct*10, Math.floor(correct/10)||1, correct+1];
+				return makeQ(p2[0] + ' ÷ ' + p2[1] + ' = ?', correct, wrongs, 'T4', grade);
+			} else {
+				a = round(rand(1,50)/10, 1); b = round(rand(2,9)/10, 1);
+				correct = round(a/b, 2); wrongs = [round(correct*10,1), round(correct/10,2), round(correct+1,1)];
+				return makeQ(a + ' ÷ ' + b + ' = ?', correct, wrongs, 'T4', grade);
+			}
+		}
+		if (trap === 'T5') {
+			var den = [2,3,4,5,6,8][Math.floor(Math.random()*6)];
+			var n1 = rand(1,den-1), n2 = rand(1,den-1);
+			correct = n1 + n2;
+			if (correct >= den) { n1 = rand(1,Math.floor(den/2)); correct = n1 + 1; }
+			wrongs = [correct+1, correct-1, den];
+			return makeQ(n1+'/'+den+' + 1/'+den+' = ?', correct+'/'+den, wrongs.map(function(w){return w+'/'+den}), 'T5', grade);
+		}
+		if (trap === 'T6') {
+			var pairs6 = [[200,15],[400,20],[500,25],[800,10],[300,30],[150,50],[600,12]];
+			var p6 = pairs6[Math.floor(Math.random()*pairs6.length)];
+			correct = Math.floor(p6[0]*p6[1]/100);
+			wrongs = [correct*2, correct+Math.floor(p6[0]/10), correct+5];
+			return makeQ('$' + p6[0] + ' 的 ' + p6[1] + '% 是多少？', correct, wrongs, 'T6', grade);
+		}
+		if (trap === 'T7') {
+			name = names[Math.floor(Math.random()*names.length)];
+			a = rand(10,50); b = rand(2,10);
+			return makeQ(name+'有'+a+'粒糖，食咗'+b+'粒，仲有幾多？', a-b, [a, b, a+b], 'T7', grade);
+		}
+		if (trap === 'T8') {
+			var w8 = rand(3,12), h8 = rand(2,8);
+			if (Math.random() > 0.5) {
+				return makeQ('長方形長'+w8+'cm闊'+h8+'cm，面積？', w8*h8+'cm²', [2*(w8+h8)+'cm', w8+h8+'cm', w8*h8*2+'cm²'], 'T8', grade);
+			} else {
+				return makeQ('正方形邊長'+w8+'cm，面積？', w8*w8+'cm²', [w8*4+'cm', w8*2+'cm', w8*w8*2+'cm²'], 'T8', grade);
+			}
+		}
+		if (trap === 'T9') {
+			a = rand(1,4); b = rand(1,59);
+			correct = a*60+b; wrongs = [a*100+b, a*60, correct+60];
+			return makeQ(a+'小時'+b+'分鐘 = ? 分鐘', correct, wrongs, 'T9', grade);
+		}
+		if (trap === 'T10') {
+			var div = rand(10,200), div2 = [3,4,5,6][Math.floor(Math.random()*4)];
+			var q10 = Math.floor(div/div2), r10 = div % div2;
+			if (r10 === 0) { div++; r10 = div % div2; }
+			correct = q10+'餘'+r10;
+			wrongs = [(q10+1)+'餘'+Math.max(0,r10-1), q10+'餘'+(r10+1), (q10+rand(1,2))+'餘'+r10];
+			return makeQ(div+' ÷ '+div2+' = ?', correct, wrongs, 'T10', grade);
+		}
+		return null;
+	}
+};
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function round(v, d) { var m = Math.pow(10, d); return Math.round(v * m) / m; }
+function makeQ(text, answer, wrongs, trap, grade) {
+	var correctStr = String(answer);
+	var wrongStrs = wrongs.map(function(w) { return String(w).replace('NaN','0'); });
+	var all = [correctStr].concat(wrongStrs.slice(0,3));
+	var clean = [], seen = {};
+	all.forEach(function(o) { if (!seen[o] && o && o.length > 0) { clean.push(o); seen[o] = true; } });
+	for (var i = 0; i < 10 && clean.length < 4; i++) {
+		var fake = String(rand(1, 99));
+		if (!seen[fake]) { clean.push(fake); seen[fake] = true; }
+	}
+	for (var i2 = clean.length - 1; i2 > 0; i2--) {
+		var j2 = Math.floor(Math.random() * (i2 + 1));
+		var t2 = clean[i2]; clean[i2] = clean[j2]; clean[j2] = t2;
+	}
+	var ansIdx = clean.indexOf(correctStr);
+	if (ansIdx < 0) { clean[0] = correctStr; clean = clean.slice(0,4); ansIdx = 0; }
+	return { q: text, opts: clean.slice(0,4), ans: ansIdx, trap: trap, grade: grade, source: 'live_gen' };
+}
+
+function setGrade(g) {
+	currentGrade = g;
+	document.querySelectorAll('#gradePick button').forEach(function(b) { b.classList.remove('active'); });
+	event.target.classList.add('active');
+	renderBossSelect();
+}
+
+function renderBossSelect() {
+	var html = '';
+	var traps = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+	traps.forEach(function(t) {
+		var def = LFG.monsters[t];
+		var defeated = (LFG._state.bossDefeats[t] || 0) > 0;
+		html += '<div class="boss-card' + (defeated ? ' defeated' : '') + '" onclick="startBattle(\'' + t + '\')">';
+		html += '<div class="icon">' + (defeated ? '🏆' : def.stages[2]) + '</div>';
+		html += '<div class="name">' + def.name + ' 大魔王</div>';
+		html += '<div class="status">' + (defeated ? '✅ 已擊敗 (' + LFG._state.bossDefeats[t] + '次)' : '⚔️ 挑戰') + '</div>';
+		html += '</div>';
+	});
+	document.getElementById('bossSelect').innerHTML = html;
+}
+
+function startBattle(trapType) {
+	currentBattle = LFG.startBossBattle(trapType);
+	document.getElementById('selectHeader').style.display = 'none';
+	document.getElementById('gradePick').style.display = 'none';
+	document.getElementById('bossSelect').style.display = 'none';
+	document.getElementById('battleScreen').style.display = 'block';
+	document.getElementById('resultScreen').style.display = 'none';
+	document.getElementById('btnBack').style.display = 'inline-block';
+	document.getElementById('bossSprite').textContent = currentBattle.monster.stages[2];
+	document.getElementById('bossSprite').className = 'boss-sprite';
+	document.getElementById('bossName').textContent = currentBattle.monster.name + ' 大魔王';
+	updateHP();
+	// Pre-load bank then show first question
+	var self = this;
+	LFGen.loadBank(currentGrade).then(function() {
+		nextBossQuestion(trapType);
+	});
+}
+
+function updateHP() {
+	document.getElementById('hpBar').style.width = (currentBattle.bossHP / 5 * 100) + '%';
+	document.getElementById('hpText').textContent = 'HP: ' + currentBattle.bossHP + '/5';
+}
+
+function nextBossQuestion(trapType) {
+	// Try bank first, fall back to live generation
+	LFGen.getQuestions(currentGrade, trapType, 1).then(function(qs) {
+		if (qs.length > 0) {
+			currentQuestion = qs[0];
+		} else {
+			// Pure live gen fallback
+			var gen = LFGen.generateQuestions(currentGrade, trapType, 1);
+			currentQuestion = gen[0] || {q:'128 + 367 = ?', opts:['495','485','505','475'], ans:0, trap:'T1'};
+		}
+		showCurrentQuestion();
+	});
+}
+
+function showCurrentQuestion() {
+	if (!currentQuestion) return;
+	var html = '<div class="q-text">' + currentQuestion.q + '</div>';
+	html += '<div class="answer-grid">';
+	currentQuestion.opts.forEach(function(o, i) {
+		html += '<button class="ans-btn" onclick="submitBossAnswer(' + i + ', this)">' + ['A','B','C','D'][i] + '. ' + o + '</button>';
+	});
+	html += '</div>';
+	document.getElementById('questionZone').innerHTML = html;
+}
+
+function submitBossAnswer(idx, el) {
+	var correct = idx === currentQuestion.ans;
+	var buttons = document.querySelectorAll('.ans-btn');
+	buttons.forEach(function(b) { b.style.pointerEvents = 'none'; });
+	if (correct) {
+		el.classList.add('correct');
+		var sprite = document.getElementById('bossSprite');
+		sprite.classList.add('hurt');
+		setTimeout(function() { sprite.classList.remove('hurt'); }, 300);
+	} else {
+		el.classList.add('wrong');
+		buttons[currentQuestion.ans].classList.add('correct');
+	}
+
+	currentBattle = LFG.recordBossAnswer(currentBattle, correct);
+	updateHP();
+
+	setTimeout(function() {
+		if (currentBattle.won) {
+			showBossResult(true);
+		} else if (!currentBattle.active && !currentBattle.won) {
+			showBossResult(false);
+		} else {
+			nextBossQuestion(currentBattle.trapType);
+		}
+	}, 800);
+}
+
+function showBossResult(won) {
+	document.getElementById('battleScreen').style.display = 'none';
+	var screen = document.getElementById('resultScreen');
+	screen.style.display = 'block';
+	if (won) {
+		screen.innerHTML = '<div class="trophy">🏆</div><h2>你打敗咗大魔王！</h2><p style="color:#C9A84C;font-size:16px;margin:8px 0">+200 XP · Boss 擊敗記錄更新</p><p style="font-size:12px;color:rgba(255,255,255,0.4)">' + currentBattle.monster.name + '大魔王已被消滅！</p><button class="btn btn-fight" onclick="goBack()">⚔️ 挑戰下一個Boss</button>';
+	} else {
+		screen.innerHTML = '<div class="trophy">💔</div><h2>差少少！</h2><p style="font-size:14px;margin:8px 0">正確: ' + currentBattle.questionsCorrect + ' | 錯誤: ' + currentBattle.questionsWrong + '</p><p style="font-size:12px;color:rgba(255,255,255,0.4)">再試一次！每次練習都會變得更強</p><button class="btn btn-fight" onclick="startBattle(\'' + currentBattle.trapType + '\')">🔄 再戰</button>';
+	}
+}
+
+function goBack() {
+	document.getElementById('selectHeader').style.display = 'block';
+	document.getElementById('gradePick').style.display = 'flex';
+	document.getElementById('bossSelect').style.display = 'grid';
+	document.getElementById('battleScreen').style.display = 'none';
+	document.getElementById('resultScreen').style.display = 'none';
+	document.getElementById('btnBack').style.display = 'none';
+	currentBattle = null;
+	renderBossSelect();
+}
+
+renderBossSelect();
+</script>
+
+<script src="/docs/data/lf-event-bus.js"></script>
+</body></html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 資料備份</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:600px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.data-preview{background:#F9FAFB;border-radius:10px;padding:14px;font-size:11px;font-family:monospace;max-height:200px;overflow-y:auto;white-space:pre-wrap;margin:8px 0}
+.btn{display:inline-block;padding:12px 24px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#16A34A;color:white}
+.upload-zone{border:2px dashed #E5E7EB;border-radius:12px;padding:30px;text-align:center;cursor:pointer;margin:8px 0}
+.upload-zone:hover{border-color:#1A3C6D}.upload-zone input{display:none}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:12px;font-size:12px;margin:8px 0}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>Data Backup Center</h1><p>Backup practice records, badges, membership status</p></div>
+
+<div class="card"><h2>Export Data</h2><p style="font-size:12px;color:#6B7280;margin-bottom:12px">Save all data as backup file. Use when switching phones/computers.</p>
+<div class="data-preview" id="dataPreview"></div>
+<button class="btn btn-primary" onclick="exportData()">Download Backup File</button></div>
+
+<div class="card"><h2>Import Data</h2><p style="font-size:12px;color:#6B7280;margin-bottom:12px">Upload backup file on new device. Membership status is preserved.</p>
+<div class="upload-zone" onclick="document.getElementById('importFile').click()"><div style="font-size:36px">Open File</div><p>Click to upload backup (.json)</p><input type="file" id="importFile" accept=".json" onchange="importData(event)"></div></div>
+
+<div class="note"><strong>Important:</strong><br>- Exported backup contains your practice records and badges<br>- When importing on a new device, membership needs re-activation (if applicable)<br>- Regular backups recommended (weekly)</div>
+</div>
+
+<script>
+function getAllData(){var data={};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.startsWith("lf_")){try{data[k]=JSON.parse(localStorage.getItem(k))}catch(e){data[k]=localStorage.getItem(k)}}}return data}
+function exportData(){var data=getAllData();var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download="lamfung_backup_"+new Date().toISOString().split("T")[0]+".json";a.click();alert("Backup downloaded. Save to a safe location.")}
+function importData(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){try{var data=JSON.parse(ev.target.result);var keepMember=localStorage.getItem("lf_active_membership");var count=0;Object.entries(data).forEach(function(e){localStorage.setItem(e[0],typeof e[1]==="string"?e[1]:JSON.stringify(e[1]));count++});if(keepMember)localStorage.setItem("lf_active_membership",keepMember);alert("Imported "+count+" items. Practice records and badges restored.")}catch(e){alert("Invalid file format")}};reader.readAsText(file)}
+var data=getAllData();var keys=Object.keys(data);document.getElementById("dataPreview").textContent=keys.length+" data items:
+"+keys.map(function(k){return k+" ("+(typeof data[k]==="object"?Object.keys(data[k]).length+" fields":typeof data[k])+")"}).join("
+");
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body></html>

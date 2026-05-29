@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 學費計算器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:white;border-radius:20px;padding:36px;max-width:500px;width:100%;color:#1A1A1A;text-align:center}
+.card h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;color:#1A3C6D;margin-bottom:20px}
+.option-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.opt-btn{padding:12px 20px;border:2px solid #E5E7EB;border-radius:25px;cursor:pointer;font-weight:700;font-size:14px;font-family:inherit;background:white;transition:all 0.2s}
+.opt-btn:hover,.opt-btn.selected{border-color:#1A3C6D;background:#1A3C6D;color:white}
+.result-box{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;margin:20px 0}
+.result-box .total{font-size:48px;font-weight:900;color:#C9A84C}
+.result-box .per{font-size:14px;opacity:0.7}
+.saving{color:#16A34A;font-weight:700;font-size:14px}
+.btn-wa{display:inline-block;padding:14px 36px;background:#25D366;color:white;border-radius:30px;text-decoration:none;font-weight:900;font-size:15px;margin-top:12px}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="card">
+<h1>💰 學費計算器</h1>
+
+<div class="option-row" id="lessonOpts">
+<span class="opt-btn selected" onclick="calc(4,800,this)">4堂 · $800</span>
+<span class="opt-btn" onclick="calc(8,1600,this)">8堂 · $1,600</span>
+<span class="opt-btn" onclick="calc(12,2080,this)">12堂 · $2,080</span>
+</div>
+
+<div class="result-box">
+<div style="font-size:14px;opacity:0.7">每月學費</div>
+<div class="total" id="totalPrice">$800</div>
+<div class="per">每堂 <span id="perPrice">$200</span> · 65分鐘</div>
+<div class="saving" id="savingMsg"></div>
+</div>
+
+<div style="font-size:13px;color:#6B7280;line-height:1.8;text-align:left">
+✅ 一對三小班教學<br>
+✅ 包所有原創講義教材<br>
+✅ 每堂後 WhatsApp 進度報告<br>
+✅ 免費陷阱診斷<br>
+✅ 冇長約束縛<br>
+</div>
+
+<a href="https://wa.me/85294796459?text=我想查詢課程" class="btn-wa">💬 WhatsApp 查詢</a>
+</div>
+
+<script>
+function calc(lessons,price,el){
+document.querySelectorAll(".opt-btn").forEach(function(b){b.classList.remove("selected")});
+el.classList.add("selected");
+document.getElementById("totalPrice").textContent="$"+price.toLocaleString();
+document.getElementById("perPrice").textContent="$"+Math.round(price/lessons);
+var saving=lessons>=12?"（慳$320 vs 逐堂報）":lessons>=8?"（慳$0 vs 逐堂報）":"";
+document.getElementById("savingMsg").textContent=saving;
+}
+calc(4,800,document.querySelector(".opt-btn"));
+</script>
+</body></html>

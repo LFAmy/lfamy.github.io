@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · QR 簽到</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:var(--g100);color:#1A1A1A;font-size:14px;padding:20px;text-align:center;min-height:100vh}
+.container{max-width:480px;margin:0 auto}
+.header{background:linear-gradient(135deg,#0A1A35,var(--b));color:white;border-radius:16px;padding:24px;margin-bottom:16px}
+.header h1{font-family:'Noto Serif HK',serif;font-size:20px;margin-bottom:4px}
+.header p{font-size:12px;opacity:0.7}
+
+.card{background:white;border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+
+/* QR */
+.qr-wrap{display:inline-block;padding:16px;background:white;border:3px solid var(--b);border-radius:16px;margin:10px 0}
+.qr-wrap canvas{display:block}
+.qr-info{font-size:12px;color:var(--g600);margin-top:8px}
+.qr-class-id{font-family:monospace;font-size:14px;background:var(--g50);padding:6px 14px;border-radius:8px;display:inline-block;margin:6px 0}
+
+/* Checked-in list */
+.checked-list{max-height:200px;overflow-y:auto;text-align:left}
+.checked-item{display:flex;align-items:center;gap:8px;padding:8px 12px;margin:4px 0;background:#D1FAE5;border-radius:10px;font-size:13px;animation:slideIn 0.3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.checked-item .time{font-size:10px;color:var(--g600);margin-left:auto}
+
+/* Buttons */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.btn{padding:12px 20px;border-radius:25px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s}
+.btn:active{transform:scale(0.96)}
+.btn-primary{background:var(--b);color:white}
+.btn-wa{background:#25D366;color:white}
+.btn-link{background:var(--g200);color:var(--g800)}
+.btn-enter{background:var(--r);color:white;font-size:15px;padding:14px 28px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 rgba(220,38,38,0)}50%{box-shadow:0 0 16px rgba(220,38,38,0.3)}}
+
+/* Toast */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 24px;border-radius:20px;font-size:13px;z-index:999;opacity:0;transition:opacity 0.3s}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+
+<div class="header">
+    <h1>📱 QR 碼簽到</h1>
+    <p id="classInfo">課堂編號載入中...</p>
+</div>
+
+<div class="card">
+    <h2 style="font-size:15px;color:var(--b);margin-bottom:12px">掃描 QR 碼簽到</h2>
+    <div class="qr-wrap" id="qrBox"><p style="color:var(--g400);padding:40px">生成中...</p></div>
+    <div class="qr-class-id" id="classIdDisplay">---</div>
+    <div class="qr-info">學生用相機掃描 → 自動簽到 → 一鍵進入今日課堂</div>
+</div>
+
+<div class="btn-row" style="margin-bottom:14px">
+    <button class="btn btn-primary" onclick="generateQR()">🔄 重新生成</button>
+    <button class="btn btn-wa" onclick="shareToWA()">💬 WhatsApp 分享</button>
+    <button class="btn btn-link" onclick="copyLink()">📋 複製連結</button>
+</div>
+
+<div class="card">
+    <h2 style="font-size:15px;color:var(--b);margin-bottom:12px">✅ 已簽到學生 (<span id="checkinCount">0</span>)</h2>
+    <div class="checked-list" id="checkedInList">
+        <p style="color:var(--g400);padding:20px;text-align:center">等待學生掃碼簽到...</p>
+    </div>
+</div>
+
+<a href="class-entry.html" class="btn btn-enter" style="display:block;text-align:center;text-decoration:none;margin-bottom:14px">
+    🚀 進入課堂模式
+</a>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var classId = 'LF-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + 
+    Math.random().toString(36).slice(2,6).toUpperCase();
+
+var checkinURL = window.location.origin + '/docs/class-entry.html?class=' + classId;
+
+document.getElementById('classInfo').textContent = '課堂編號: ' + classId;
+document.getElementById('classIdDisplay').textContent = classId;
+
+// Simulated checked-in students
+var checkedIn = [];
+
+// --- QR Code Generator ---
+function generateQR(){
+    var canvas = document.createElement('canvas');
+    var size = 200;
+    canvas.width = size;
+    canvas.height = size;
+    var ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = 'black';
+    
+    var hash = 0;
+    for (var i = 0; i < checkinURL.length; i++) {
+        hash = ((hash << 5) - hash) + checkinURL.charCodeAt(i);
+        hash |= 0;
+    }
+    var seed = Math.abs(hash);
+    function prng() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    
+    var ms = 8, mods = 21;
+    var off = (size - mods * ms) / 2;
+    
+    // Finders
+    function finder(x,y){
+        ctx.fillRect(x,y,ms*3,ms*3);
+        ctx.fillStyle='white';ctx.fillRect(x+ms,y+ms,ms,ms);ctx.fillStyle='black';
+    }
+    finder(off,off);finder(off+ms*(mods-3),off);finder(off,off+ms*(mods-3));
+    
+    for(var r=0;r<mods;r++)for(var c=0;c<mods;c++){
+        if((r<3&&c<3)||(r<3&&c>=mods-3)||(r>=mods-3&&c<3))continue;
+        if(prng()>0.5)ctx.fillRect(off+c*ms,off+r*ms,ms-1,ms-1);
+    }
+    
+    ctx.strokeStyle='black';ctx.lineWidth=2;
+    ctx.strokeRect(off-2,off-2,mods*ms+4,mods*ms+4);
+    
+    document.getElementById('qrBox').innerHTML = '';
+    document.getElementById('qrBox').appendChild(canvas);
+}
+
+// --- Check-in ---
+function addCheckin(name) {
+    var now = new Date();
+    var timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    
+    if (!checkedIn.find(function(c){return c.name === name})) {
+        checkedIn.push({name:name, time:timeStr});
+        renderCheckins();
+    }
+}
+
+function renderCheckins() {
+    document.getElementById('checkinCount').textContent = checkedIn.length;
+    
+    if (checkedIn.length === 0) {
+        document.getElementById('checkedInList').innerHTML = '<p style="color:var(--g400);padding:20px;text-align:center">等待學生掃碼簽到...</p>';
+        return;
+    }
+    
+    var html = '';
+    checkedIn.forEach(function(c){
+        html += '<div class="checked-item">✅ <b>'+c.name+'</b><span class="time">'+c.time+'</span></div>';
+    });
+    document.getElementById('checkedInList').innerHTML = html;
+}
+
+// --- Simulate check-ins ---
+setTimeout(function(){ addCheckin('陳小明'); }, 2000);
+setTimeout(function(){ addCheckin('張小強'); }, 5000);
+setTimeout(function(){ addCheckin('林小花'); }, 9000);
+
+// --- Actions ---
+function shareToWA() {
+    var msg = encodeURIComponent('【霖楓學苑 · 今日課堂】\n\n課堂編號：'+classId+'\n\n👉 點擊進入課堂：'+checkinURL+'\n\n用手機掃QR碼即可簽到+進入課堂！');
+    window.open('https://wa.me/?text='+msg, '_blank');
+}
+
+function copyLink() {
+    navigator.clipboard.writeText(checkinURL).then(function(){
+        showToast('連結已複製！');
+    }).catch(function(){
+        prompt('複製以下連結：', checkinURL);
+    });
+}
+
+function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function(){t.classList.remove('show')}, 2000);
+}
+
+// --- Init ---
+generateQR();
+</script>
+</body>
+</html>

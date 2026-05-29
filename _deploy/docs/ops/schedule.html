@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>課堂時間表 · 霖楓學苑 LF Academy</title>
+<style>
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans HK",sans-serif}
+:root {
+  --blue: #1A3C6D;
+  --gold: #C9A84C;
+  --red: #DC2626;
+  --green: #16A34A;
+  --bg: #F5F6F8;
+  --card: #FFFFFF;
+  --text: #1F2937;
+  --text-secondary: #6B7280;
+  --border: #E5E7EB;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.12);
+  --p3: #16A34A;
+  --p4: #2563EB;
+  --p5: #C9A84C;
+  --p6: #DC2626;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+/* NAV */
+.nav { background: var(--blue); color: #fff; padding: 0 20px; display: flex; align-items: center; height: 56px; gap: 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.nav-brand { font-weight: 700; font-size: 17px; margin-right: auto; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+.nav-brand span { color: var(--gold); }
+.nav a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+.nav a:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.nav a.active { color: #fff; background: rgba(255,255,255,0.18); font-weight: 600; }
+
+/* STATS BAR */
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 18px 20px; max-width: 1300px; margin: 0 auto; }
+.stat-card { background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 4px; }
+.stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-value { font-size: 26px; font-weight: 700; color: var(--blue); }
+.stat-sub { font-size: 12px; color: var(--text-secondary); }
+
+/* CONTROLS */
+.controls { max-width: 1300px; margin: 0 auto; padding: 0 20px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: #152F54; }
+.btn-outline { background: var(--card); color: var(--blue); border: 1.5px solid var(--blue); }
+.btn-outline:hover { background: #EEF2F8; }
+.btn-outline.active { background: var(--blue); color: #fff; }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: #B8953A; }
+.btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 5px; }
+.view-toggle { display: flex; border-radius: 7px; overflow: hidden; border: 1.5px solid var(--border); }
+.view-toggle button { padding: 8px 16px; border: none; background: var(--card); cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text-secondary); transition: all 0.15s; }
+.view-toggle button.active { background: var(--blue); color: #fff; }
+
+/* SCHEDULE GRID */
+.schedule-container { max-width: 1300px; margin: 0 auto; padding: 0 20px 30px; overflow-x: auto; }
+.schedule-grid { display: grid; grid-template-columns: 90px repeat(6, 1fr); gap: 3px; min-width: 800px; }
+.grid-header { background: var(--blue); color: #fff; padding: 12px 8px; text-align: center; font-weight: 600; font-size: 13px; border-radius: 6px 6px 0 0; }
+.grid-header:first-child { background: transparent; }
+.time-label { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-secondary); padding: 8px 4px; background: var(--card); border-radius: 6px; min-height: 90px; flex-direction: column; gap: 2px; }
+.time-label small { font-weight: 400; font-size: 11px; }
+.grid-cell { background: var(--card); border-radius: 6px; min-height: 90px; padding: 8px; cursor: pointer; transition: all 0.15s; border: 2px solid transparent; display: flex; flex-direction: column; gap: 3px; position: relative; }
+.grid-cell:hover { box-shadow: var(--shadow-lg); border-color: var(--blue); }
+.grid-cell.empty { display: flex; align-items: center; justify-content: center; color: #D1D5DB; font-size: 22px; cursor: pointer; }
+.grid-cell.empty:hover { color: var(--blue); }
+.grid-cell.empty::after { content: '+'; font-size: 28px; font-weight: 300; }
+.grid-cell.p3 { border-left: 4px solid var(--p3); }
+.grid-cell.p4 { border-left: 4px solid var(--p4); }
+.grid-cell.p5 { border-left: 4px solid var(--p5); }
+.grid-cell.p6 { border-left: 4px solid var(--p6); }
+.cell-teacher { font-weight: 700; font-size: 13px; color: var(--text); }
+.cell-grade { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 4px; display: inline-block; width: fit-content; }
+.grade-p3 { background: #DCFCE7; color: #15803D; }
+.grade-p4 { background: #DBEAFE; color: #1D4ED8; }
+.grade-p5 { background: #FEF9C3; color: #A16207; }
+.grade-p6 { background: #FEE2E2; color: #B91C1C; }
+.cell-count { font-size: 11px; color: var(--text-secondary); }
+.cell-link { font-size: 10px; color: var(--blue); text-decoration: none; word-break: break-all; display: flex; align-items: center; gap: 3px; }
+.cell-link:hover { text-decoration: underline; }
+
+/* TEACHER WORKLOAD VIEW */
+.workload-view { display: none; max-width: 1300px; margin: 0 auto; padding: 0 20px 30px; }
+.workload-view.active { display: block; }
+.schedule-view.active { display: block; }
+.schedule-view { display: block; }
+.schedule-view.hidden { display: none; }
+.workload-card { background: var(--card); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); margin-bottom: 12px; }
+.workload-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.workload-name { font-weight: 700; font-size: 16px; }
+.workload-hours { font-size: 14px; color: var(--text-secondary); }
+.workload-bar-bg { height: 12px; background: #E5E7EB; border-radius: 6px; overflow: hidden; }
+.workload-bar-fill { height: 100%; border-radius: 6px; transition: width 0.3s; }
+.workload-bar-fill.ok { background: var(--green); }
+.workload-bar-fill.warn { background: var(--gold); }
+.workload-bar-fill.over { background: var(--red); }
+.workload-slots { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.workload-slot { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: #F3F4F6; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--card); border-radius: 12px; padding: 24px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+.modal-title { font-size: 18px; font-weight: 700; margin-bottom: 18px; }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+.form-group input, .form-group select { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 14px; font-family: inherit; transition: border-color 0.15s; }
+.form-group input:focus, .form-group select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,60,109,0.1); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #B91C1C; }
+
+/* PRINT */
+@media print {
+  .nav, .stats-bar, .controls, .btn, .view-toggle { display: none !important; }
+  .schedule-container { padding: 0; max-width: 100%; }
+  .schedule-grid { min-width: 100%; gap: 1px; }
+  .grid-cell { border: 1px solid #ccc; min-height: 60px; font-size: 10px; }
+  .grid-cell.empty::after { content: ''; }
+  body { background: #fff; }
+}
+
+@media (max-width: 768px) {
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .schedule-grid { grid-template-columns: 60px repeat(6, 1fr); min-width: 700px; font-size: 10px; }
+  .grid-cell { min-height: 70px; padding: 4px; }
+  .cell-teacher { font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">霖楓學苑 <span>·</span> LF Academy <span style="font-size:11px;font-weight:400;opacity:0.7;">— 營運後台</span></div>
+  <a href="schedule.html" class="active">時間表</a>
+  <a href="revenue.html">收入計算</a>
+  <a href="teachers.html">導師管理</a>
+</nav>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat-card"><span class="stat-label">本週學生總數</span><span class="stat-value" id="statStudents">0</span><span class="stat-sub">人次</span></div>
+  <div class="stat-card"><span class="stat-label">導師總工時</span><span class="stat-value" id="statHours">0</span><span class="stat-sub">小時</span></div>
+  <div class="stat-card"><span class="stat-label">本週總收入</span><span class="stat-value" id="statRevenue">$0</span><span class="stat-sub">HKD</span></div>
+  <div class="stat-card"><span class="stat-label">剩餘可用名額</span><span class="stat-value" id="statSlots">0</span><span class="stat-sub">空位</span></div>
+</div>
+
+<div class="controls">
+  <div class="view-toggle" id="viewToggle">
+    <button class="active" data-view="schedule">課堂時間表</button>
+    <button data-view="workload">導師工作量</button>
+  </div>
+  <button class="btn btn-primary" onclick="openAddModal()">+ 新增課堂</button>
+  <button class="btn btn-outline btn-sm" onclick="window.print()">列印時間表</button>
+  <button class="btn btn-outline btn-sm" onclick="exportCSV()">匯出 CSV</button>
+</div>
+
+<div class="schedule-view active" id="scheduleView">
+  <div class="schedule-container">
+    <div class="schedule-grid" id="scheduleGrid"></div>
+  </div>
+</div>
+
+<div class="workload-view" id="workloadView"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+const DAYS = ['', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+const DAYS_SHORT = ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const TIME_SLOTS = [
+  { label: '16:00', sub: '17:05', block: 1 },
+  { label: '17:10', sub: '18:15', block: 2 },
+  { label: '18:20', sub: '19:25', block: 3 },
+  { label: '19:30', sub: '20:35', block: 4 },
+];
+const GRADES = ['P3', 'P4', 'P5', 'P6'];
+const GRADE_COLORS = { 'P3': 'p3', 'P4': 'p4', 'P5': 'p5', 'P6': 'p6' };
+const GRADE_CLASS = { 'P3': 'grade-p3', 'P4': 'grade-p4', 'P5': 'grade-p5', 'P6': 'grade-p6' };
+const MAX_STUDENTS = 3;
+const PRICE_PER_LESSON = 220;
+
+function loadData(key, fallback) {
+  try { const d = localStorage.getItem('lf_' + key); return d ? JSON.parse(d) : fallback; }
+  catch(e) { return fallback; }
+}
+function saveData(key, data) { localStorage.setItem('lf_' + key, JSON.stringify(data)); }
+
+function getDefaultTeachers() {
+  return [
+    { id: 't1', name: '陳老師', contact: '91234567', hourlyRate: 250, maxHours: 15, grades: ['P3','P4'], hasClassIn: true },
+    { id: 't2', name: '李老師', contact: '92345678', hourlyRate: 250, maxHours: 12, grades: ['P4','P5'], hasClassIn: true },
+    { id: 't3', name: '張老師', contact: '93456789', hourlyRate: 280, maxHours: 10, grades: ['P5','P6'], hasClassIn: false },
+    { id: 't4', name: '黃老師', contact: '94567890', hourlyRate: 220, maxHours: 8, grades: ['P3'], hasClassIn: true },
+  ];
+}
+
+function getDefaultStudents() {
+  const s = [];
+  const names = ['王小明','林小美','陳大文','李小花','張志強','劉天佑','黃小龍','何美玲','周子軒','吳俊傑','鄭小晴','馬志明','朱小燕','胡家豪','林心怡'];
+  for (let i = 0; i < 15; i++) {
+    s.push({ id: 's' + (i+1), name: names[i], grade: GRADES[i % 4], parentContact: '9' + String(Math.floor(Math.random()*90000000+10000000)) });
+  }
+  return s;
+}
+
+function getDefaultSchedule() {
+  return [];
+}
+
+let schedule = loadData('schedule', getDefaultSchedule());
+let teachers = loadData('teachers', getDefaultTeachers());
+let students = loadData('students', getDefaultStudents());
+
+function getClass(day, block) {
+  return schedule.find(c => c.day === day && c.block === block) || null;
+}
+
+function getTeacherById(id) { return teachers.find(t => t.id === id); }
+function getStudentsByGrade(grade) { return students.filter(s => s.grade === grade); }
+
+function renderSchedule() {
+  const grid = document.getElementById('scheduleGrid');
+  let html = '<div class="grid-header"></div>';
+  for (let d = 1; d <= 6; d++) html += '<div class="grid-header">' + DAYS[d] + '</div>';
+  for (const slot of TIME_SLOTS) {
+    html += '<div class="time-label">' + slot.label + '<small>' + slot.sub + '</small></div>';
+    for (let d = 1; d <= 6; d++) {
+      const cls = getClass(d, slot.block);
+      if (cls) {
+        const t = getTeacherById(cls.teacherId);
+        const gradeCls = GRADE_COLORS[cls.grade] || '';
+        const gradeLabel = GRADE_CLASS[cls.grade] || '';
+        const count = (cls.studentIds || []).length;
+        const full = count >= MAX_STUDENTS;
+        html += '<div class="grid-cell ' + gradeCls + '" onclick="openEditModal(\'' + cls.id + '\')">' +
+          '<span class="cell-teacher">' + (t ? t.name : '未知') + '</span>' +
+          '<span class="cell-grade ' + gradeLabel + '">' + cls.grade + '</span>' +
+          '<span class="cell-count" style="color:' + (full ? 'var(--red)' : 'var(--text-secondary)') + '">' + count + '/' + MAX_STUDENTS + (full ? ' 滿' : '') + '</span>' +
+          (cls.classinLink ? '<a class="cell-link" href="' + cls.classinLink + '" target="_blank" onclick="event.stopPropagation()">ClassIn</a>' : '') +
+          '</div>';
+      } else {
+        html += '<div class="grid-cell empty" onclick="openAddModal(' + d + ',' + slot.block + ')"></div>';
+      }
+    }
+  }
+  grid.innerHTML = html;
+  updateStats();
+}
+
+function updateStats() {
+  let totalStudentSlots = 0, totalHours = 0, totalCells = 6 * 4, filledCells = 0;
+  const teacherHours = {};
+  schedule.forEach(c => {
+    const count = (c.studentIds || []).length;
+    totalStudentSlots += count;
+    totalHours += 65/60;
+    filledCells++;
+    teacherHours[c.teacherId] = (teacherHours[c.teacherId] || 0) + 65/60;
+  });
+  document.getElementById('statStudents').textContent = totalStudentSlots;
+  document.getElementById('statHours').textContent = totalHours.toFixed(1);
+  document.getElementById('statRevenue').textContent = '$' + (totalStudentSlots * PRICE_PER_LESSON).toLocaleString();
+  document.getElementById('statSlots').textContent = (totalCells * MAX_STUDENTS) - totalStudentSlots;
+}
+
+function genId() { return 'c' + Date.now() + Math.random().toString(36).substr(2, 5); }
+
+function openAddModal(presetDay, presetBlock) {
+  const modal = document.getElementById('modalContent');
+  const teacherOpts = teachers.map(t => '<option value="' + t.id + '">' + t.name + ' ($' + t.hourlyRate + '/hr)</option>').join('');
+  const gradeOpts = GRADES.map(g => '<option value="' + g + '">' + g + '</option>').join('');
+  const studentCheckboxes = students.map(s => '<label style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:13px;"><input type="checkbox" value="' + s.id + '" class="student-check"> ' + s.name + ' (' + s.grade + ')</label>').join('');
+
+  modal.innerHTML = '<div class="modal-title">新增課堂</div>' +
+    '<div class="form-row"><div class="form-group"><label>星期</label><select id="editDay">' + DAYS.slice(1).map((d,i) => '<option value="' + (i+1) + '"' + ((i+1)===presetDay?' selected':'') + '>' + d + '</option>').join('') + '</select></div>' +
+    '<div class="form-group"><label>時段</label><select id="editBlock">' + TIME_SLOTS.map(s => '<option value="' + s.block + '"' + (s.block===presetBlock?' selected':'') + '>' + s.label + ' - ' + s.sub + '</option>').join('') + '</select></div></div>' +
+    '<div class="form-row"><div class="form-group"><label>導師</label><select id="editTeacher">' + teacherOpts + '</select></div>' +
+    '<div class="form-group"><label>年級</label><select id="editGrade">' + gradeOpts + '</select></div></div>' +
+    '<div class="form-group"><label>學生 (可選多名，最多' + MAX_STUDENTS + '人)</label><div style="max-height:180px;overflow-y:auto;border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;">' + studentCheckboxes + '</div></div>' +
+    '<div class="form-group"><label>ClassIn 連結</label><input type="url" id="editClassinLink" placeholder="https://www.classin.com/..."></div>' +
+    '<div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveNewClass()">儲存</button></div>';
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function openEditModal(classId) {
+  const cls = schedule.find(c => c.id === classId);
+  if (!cls) return;
+  const t = getTeacherById(cls.teacherId);
+  const modal = document.getElementById('modalContent');
+  const teacherOpts = teachers.map(t => '<option value="' + t.id + '"' + (t.id===cls.teacherId?' selected':'') + '>' + t.name + ' ($' + t.hourlyRate + '/hr)</option>').join('');
+  const gradeOpts = GRADES.map(g => '<option value="' + g + '"' + (g===cls.grade?' selected':'') + '>' + g + '</option>').join('');
+  const studentCheckboxes = students.map(s => '<label style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:13px;"><input type="checkbox" value="' + s.id + '" class="student-check"' + ((cls.studentIds||[]).includes(s.id)?' checked':'') + '> ' + s.name + ' (' + s.grade + ')</label>').join('');
+
+  modal.innerHTML = '<div class="modal-title">編輯課堂</div>' +
+    '<div class="form-row"><div class="form-group"><label>星期</label><select id="editDay">' + DAYS.slice(1).map((d,i) => '<option value="' + (i+1) + '"' + ((i+1)===cls.day?' selected':'') + '>' + d + '</option>').join('') + '</select></div>' +
+    '<div class="form-group"><label>時段</label><select id="editBlock">' + TIME_SLOTS.map(s => '<option value="' + s.block + '"' + (s.block===cls.block?' selected':'') + '>' + s.label + ' - ' + s.sub + '</option>').join('') + '</select></div></div>' +
+    '<div class="form-row"><div class="form-group"><label>導師</label><select id="editTeacher">' + teacherOpts + '</select></div>' +
+    '<div class="form-group"><label>年級</label><select id="editGrade">' + gradeOpts + '</select></div></div>' +
+    '<div class="form-group"><label>學生 (可選多名，最多' + MAX_STUDENTS + '人)</label><div style="max-height:180px;overflow-y:auto;border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;">' + studentCheckboxes + '</div></div>' +
+    '<div class="form-group"><label>ClassIn 連結</label><input type="url" id="editClassinLink" value="' + (cls.classinLink||'') + '" placeholder="https://www.classin.com/..."></div>' +
+    '<div class="modal-actions"><button class="btn btn-danger" onclick="deleteClass(\'' + cls.id + '\')">刪除課堂</button><button class="btn btn-outline" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveEditClass(\'' + cls.id + '\')">儲存變更</button></div>';
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function saveNewClass() {
+  const day = parseInt(document.getElementById('editDay').value);
+  const block = parseInt(document.getElementById('editBlock').value);
+  const teacherId = document.getElementById('editTeacher').value;
+  const grade = document.getElementById('editGrade').value;
+  const classinLink = document.getElementById('editClassinLink').value;
+  const checked = document.querySelectorAll('.student-check:checked');
+  if (checked.length > MAX_STUDENTS) { alert('每班最多 ' + MAX_STUDENTS + ' 名學生'); return; }
+  const studentIds = Array.from(checked).map(cb => cb.value);
+  if (schedule.find(c => c.day === day && c.block === block)) { alert('此時段已有課堂'); return; }
+  schedule.push({ id: genId(), day, block, teacherId, grade, studentIds, classinLink, maxStudents: MAX_STUDENTS });
+  saveData('schedule', schedule);
+  closeModal();
+  renderSchedule();
+}
+
+function saveEditClass(id) {
+  const cls = schedule.find(c => c.id === id);
+  if (!cls) return;
+  const checked = document.querySelectorAll('.student-check:checked');
+  if (checked.length > MAX_STUDENTS) { alert('每班最多 ' + MAX_STUDENTS + ' 名學生'); return; }
+  const newDay = parseInt(document.getElementById('editDay').value);
+  const newBlock = parseInt(document.getElementById('editBlock').value);
+  const conflict = schedule.find(c => c.id !== id && c.day === newDay && c.block === newBlock);
+  if (conflict) { alert('此時段已有課堂'); return; }
+  cls.day = newDay;
+  cls.block = newBlock;
+  cls.teacherId = document.getElementById('editTeacher').value;
+  cls.grade = document.getElementById('editGrade').value;
+  cls.classinLink = document.getElementById('editClassinLink').value;
+  cls.studentIds = Array.from(checked).map(cb => cb.value);
+  saveData('schedule', schedule);
+  closeModal();
+  renderSchedule();
+}
+
+function deleteClass(id) {
+  if (!confirm('確定要刪除此課堂嗎？此操作無法復原。')) return;
+  schedule = schedule.filter(c => c.id !== id);
+  saveData('schedule', schedule);
+  closeModal();
+  renderSchedule();
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+
+document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+// Teacher workload view
+function renderWorkload() {
+  const container = document.getElementById('workloadView');
+  if (teachers.length === 0) { container.innerHTML = '<p style="text-align:center;padding:40px;color:var(--text-secondary);">尚未新增導師。請前往 <a href="teachers.html">導師管理</a> 新增。</p>'; return; }
+  const hoursMap = {};
+  schedule.forEach(c => { hoursMap[c.teacherId] = (hoursMap[c.teacherId] || 0) + 65/60; });
+  let html = '';
+  teachers.forEach(t => {
+    const hrs = hoursMap[t.id] || 0;
+    const pct = t.maxHours > 0 ? (hrs / t.maxHours * 100) : 0;
+    const barClass = pct > 90 ? 'over' : (pct > 70 ? 'warn' : 'ok');
+    const slots = schedule.filter(c => c.teacherId === t.id);
+    html += '<div class="workload-card">' +
+      '<div class="workload-header"><span class="workload-name">' + t.name + '</span><span class="workload-hours">' + hrs.toFixed(1) + ' / ' + t.maxHours + ' 小時 (' + Math.round(pct) + '%)</span></div>' +
+      '<div class="workload-bar-bg"><div class="workload-bar-fill ' + barClass + '" style="width:' + Math.min(pct, 100) + '%"></div></div>' +
+      '<div class="workload-slots">' + slots.map(c => '<span class="workload-slot">' + DAYS[c.day] + ' ' + TIME_SLOTS[c.block-1].label + ' ' + c.grade + ' (' + (c.studentIds||[]).length + '人)</span>').join('') + '</div>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+}
+
+// View toggle
+document.getElementById('viewToggle').addEventListener('click', function(e) {
+  if (e.target.tagName !== 'BUTTON') return;
+  const view = e.target.dataset.view;
+  this.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  if (view === 'schedule') {
+    document.getElementById('scheduleView').classList.remove('hidden');
+    document.getElementById('workloadView').classList.remove('active');
+  } else {
+    document.getElementById('scheduleView').classList.add('hidden');
+    document.getElementById('workloadView').classList.add('active');
+    renderWorkload();
+  }
+});
+
+function exportCSV() {
+  let csv = 'Day,Time,Teacher,Grade,Students,ClassIn Link\n';
+  schedule.forEach(c => {
+    const t = getTeacherById(c.teacherId);
+    const names = (c.studentIds || []).map(sid => { const s = students.find(st => st.id === sid); return s ? s.name : sid; }).join('; ');
+    csv += DAYS[c.day] + ',' + TIME_SLOTS[c.block-1].label + '-' + TIME_SLOTS[c.block-1].sub + ',' + (t?t.name:'') + ',' + c.grade + ',"' + names + '",' + (c.classinLink||'') + '\n';
+  });
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'schedule_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// Init
+renderSchedule();
+</script>
+</body>
+</html>

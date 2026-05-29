@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 正式營運</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:750px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:30px 24px;text-align:center;margin-bottom:20px}
+.header h1{font-size:24px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.phase{background:#F0F7FF;border-left:4px solid #1A3C6D;border-radius:0 10px 10px 0;padding:16px;margin:12px 0}
+.phase h3{font-size:14px;color:#1A3C6D;margin-bottom:8px}
+.phase .time{font-size:10px;color:#6B7280;float:right}
+.checklist{display:flex;flex-direction:column;gap:6px}
+.check-item{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12px}
+.check-item input[type=checkbox]{width:18px;height:18px;cursor:pointer;accent-color:#16A34A}
+.check-item .done{color:#16A34A}.check-item .pending{color:#F59E0B}
+.btn{display:inline-block;padding:10px 22px;border-radius:25px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white;margin:4px;text-decoration:none}
+.btn-green{background:#16A34A;color:white}
+.progress-bar{background:#E5E7EB;border-radius:8px;height:12px;margin:16px 0;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#16A34A,#58A6FF);height:100%;border-radius:8px;transition:width 0.5s}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:12px;font-size:11px;margin:8px 0;line-height:1.8}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>正式營運清單</h1><p>從「系統就緒」→「正式營運」— 逐步執行</p></div>
+
+<div class="progress-bar"><div class="progress-fill" id="totalProgress" style="width:0%"></div></div>
+<div style="text-align:center;font-size:12px;color:#6B7280" id="progressLabel">0/24 完成</div>
+
+<!-- PHASE 1: INFRASTRUCTURE -->
+<div class="phase"><h3>Phase 1: 基礎建設 <span class="time">本週完成</span></h3>
+<div class="checklist">
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c1"><span>部署 Google Sheets 後端 (script.google.com → 貼上 cloud-backend.gs)</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c2"><span>設定雲端 URL (admin-cloud.html → 貼上 Web App URL)</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c3"><span>設定 Gitee 鏡像 (gitee.com → 導入倉庫 → 開啟 Pages)</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c4"><span>測試國內訪問速度（請內地老師打開 lfamy.gitee.io）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c5"><span>開通微信公眾號（用於內地家長通知）</span></div>
+</div></div>
+
+<!-- PHASE 2: CONTENT -->
+<div class="phase"><h3>Phase 2: 內容發布 <span class="time">本週完成</span></h3>
+<div class="checklist">
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c6"><span>發布 FB 廣告 → landing.html（用 Phase 24 著陸頁）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c7"><span>發布 IG 帖子（用 social_calendar_v2.html 內容）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c8"><span>發布小紅書內容（用 xhs 模板）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c9"><span>設定 Facebook Pixel（tracking-setup.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c10"><span>設定百度統計（內地流量追蹤）</span></div>
+</div></div>
+
+<!-- PHASE 3: STUDENTS -->
+<div class="phase"><h3>Phase 3: 學生激活 <span class="time">下週完成</span></h3>
+<div class="checklist">
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c11"><span>導入第一批學生（admin-activate-v2.html → 批量生成激活碼）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c12"><span>每位學生做一次陷阱診斷（trap-quiz.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c13"><span>用 AI 智能組卷生成第一堂教材（smart-test-gen.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c14"><span>設定微信/WhatsApp 通知模板</span></div>
+</div></div>
+
+<!-- PHASE 4: FIRST CLASS -->
+<div class="phase"><h3>Phase 4: 第一堂課 <span class="time">下週完成</span></h3>
+<div class="checklist">
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c15"><span>用教師入職精靈設定課堂（teacher-onboarding.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c16"><span>開 QR 簽到（qr-checkin.html → 學生掃碼）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c17"><span>開啟課堂監控台（teacher-class-monitor.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c18"><span>落堂 → 生成摘要 → 發送家長</span></div>
+</div></div>
+
+<!-- PHASE 5: GROWTH -->
+<div class="phase"><h3>Phase 5: 增長營運 <span class="time">持續</span></h3>
+<div class="checklist">
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c19"><span>開啟推薦獎勵計劃（referral-rewards.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c20"><span>每日檢查營運儀表板（ops-dashboard.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c21"><span>每週檢查自動通訊中心（auto-comms.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c22"><span>處理待審批付款（admin-approvals.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c23"><span>跟進舊線索再激活（reactivation-kit.html）</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" id="c24"><span>持續擴充題庫（定期跑 build_mega_question_bank.py）</span></div>
+</div></div>
+
+<div style="text-align:center;margin:20px 0">
+<button class="btn btn-green" onclick="saveProgress()">儲存進度</button>
+<button class="btn" onclick="resetAll()">重設</button>
+</div>
+
+<div class="note"><strong>預計時間線：</strong><br>Phase 1-2: 1 星期內完成 · Phase 3-4: 第 2 星期完成 · Phase 5: 持續營運<br>全部完成後，平台進入正式營運狀態。</div>
+</div>
+
+<script>
+var total = 24;
+
+// Load saved progress
+for (var i = 1; i <= total; i++) {
+  var saved = localStorage.getItem('lf_golive_c' + i);
+  if (saved === 'true') document.getElementById('c' + i).checked = true;
+}
+updateProgress();
+
+function updateProgress() {
+  var done = 0;
+  for (var i = 1; i <= total; i++) {
+    if (document.getElementById('c' + i).checked) done++;
+    localStorage.setItem('lf_golive_c' + i, document.getElementById('c' + i).checked ? 'true' : 'false');
+  }
+  var pct = Math.round(done / total * 100);
+  document.getElementById('totalProgress').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = done + '/' + total + ' 完成 (' + pct + '%)';
+
+  if (done === total) {
+    alert('全部完成！🎉\n霖楓學苑正式進入營運狀態！');
+  }
+}
+
+function saveProgress() {
+  var done = 0;
+  for (var i = 1; i <= total; i++) {
+    if (document.getElementById('c' + i).checked) done++;
+  }
+  alert('進度已儲存 ✅\n完成: ' + done + '/' + total + ' (' + Math.round(done/total*100) + '%)');
+}
+
+function resetAll() {
+  if (!confirm('確定重設所有進度？')) return;
+  for (var i = 1; i <= total; i++) {
+    document.getElementById('c' + i).checked = false;
+    localStorage.removeItem('lf_golive_c' + i);
+  }
+  updateProgress();
+}
+</script>
+</body></html>

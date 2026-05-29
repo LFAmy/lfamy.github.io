@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 溝通記錄</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select,textarea{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1;min-width:120px}
+textarea{width:100%;min-height:60px;resize:vertical}
+.btn{display:inline-block;padding:8px 18px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white}
+.log-item{padding:10px 0;border-bottom:1px solid #F3F4F6;font-size:12px}
+.log-item .log-date{color:#6B7280;font-size:10px}
+.log-item .log-type{display:inline-block;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:700;margin-right:6px}
+.log-type.wa{background:#D1FAE5;color:#065F46}
+.log-type.call{background:#DBEAFE;color:#1E40AF}
+.log-type.note{background:#FEF3C7;color:#92400E}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>📞 家長溝通記錄</h1><p>追蹤每位家長嘅所有溝通歷史</p></div>
+
+<div class="card">
+<div class="form-row">
+<input type="text" id="logParent" placeholder="家長/學生名稱">
+<select id="logType"><option value="wa">WhatsApp</option><option value="call">電話</option><option value="note">備註</option></select>
+<button class="btn" onclick="addLog()">+ 記錄</button>
+</div>
+<textarea id="logNote" placeholder="溝通內容摘要…"></textarea>
+</div>
+
+<div class="card"><h2>最近記錄</h2><div id="logList"><p style="color:#9CA3AF;text-align:center;padding:20px">未有記錄</p></div></div>
+</div>
+
+<script>
+var logs=JSON.parse(localStorage.getItem("lf_comm_log")||"[]");
+function addLog(){
+var p=document.getElementById("logParent").value.trim();
+var t=document.getElementById("logType").value;
+var n=document.getElementById("logNote").value.trim();
+if(!p||!n)return alert("請填寫名稱同內容");
+logs.unshift({parent:p,type:t,note:n,date:new Date().toISOString()});
+localStorage.setItem("lf_comm_log",JSON.stringify(logs.slice(0,100)));
+document.getElementById("logParent").value="";document.getElementById("logNote").value="";render();
+}
+function render(){
+var list=document.getElementById("logList");
+if(logs.length===0)return;
+list.innerHTML=logs.slice(0,30).map(function(l){return'<div class="log-item"><span class="log-type '+l.type+'">'+{wa:"WhatsApp",call:"電話",note:"備註"}[l.type]+'</span><strong>'+l.parent+'</strong> — '+l.note+'<br><span class="log-date">'+l.date.split("T")[0]+' '+l.date.split("T")[1].substring(0,5)+'</span></div>'}).join("");
+}
+render();
+</script>
+</body></html>

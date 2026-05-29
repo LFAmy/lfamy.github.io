@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · WhatsApp AI 智能回覆</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:800px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.header{grid-column:1/-1;background:linear-gradient(135deg,#075E54,#128C7E);color:white;border-radius:16px;padding:24px;text-align:center}
+.header h1{font-size:22px;margin-bottom:4px}
+.header p{font-size:13px;opacity:0.8}
+.card{background:white;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px}
+.card.full{grid-column:1/-1}
+textarea{width:100%;padding:14px;border:2px solid #E5E7EB;border-radius:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:100px}
+select,input{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+.btn{display:inline-block;padding:12px 24px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s}
+.btn-analyze{background:#25D366;color:white;width:100%;margin-top:8px}
+.btn-analyze:hover{background:#1EBE5B}
+.btn-copy{background:#1A3C6D;color:white}
+.btn-send{background:#25D366;color:white}
+.reply-box{background:#E8F5E9;border:2px solid #A5D6A7;border-radius:10px;padding:14px;margin-top:12px;font-size:13px;line-height:1.9;white-space:pre-wrap}
+.reply-box .label{font-size:11px;color:#6B7280;margin-bottom:4px}
+.analysis-tag{display:inline-block;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;margin:2px}
+.tag-intent{background:#DBEAFE;color:#1E40AF}
+.tag-tone{background:#FEF3C7;color:#92400E}
+.tag-action{background:#D1FAE5;color:#065F46}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.quick-btn{padding:8px;border-radius:8px;border:1px solid #E5E7EB;background:white;cursor:pointer;font-size:11px;text-align:left;transition:all 0.2s}
+.quick-btn:hover{border-color:#25D366;background:#F0FDF4}
+.history-item{padding:8px 0;border-bottom:1px solid #F3F4F6;font-size:12px;cursor:pointer}
+.history-item:hover{background:#F9FAFB}
+@media(max-width:700px){.container{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+
+<div class="header">
+<h1>WhatsApp AI 智能回覆</h1>
+<p>貼上家長訊息 → AI 分析 → 自動草擬回覆 → 你 approve → 複製 send</p>
+</div>
+
+<!-- INPUT -->
+<div class="card">
+<h2>📩 家長訊息</h2>
+<textarea id="msgInput" placeholder="貼上家長嘅 WhatsApp 訊息…"></textarea>
+<div style="display:flex;gap:8px;margin-top:8px">
+<select id="studentContext" style="flex:1"><option value="">選擇學生（選填，可個人化回覆）</option></select>
+</div>
+<button class="btn btn-analyze" onclick="analyzeMessage()">🤖 AI 分析 + 生成回覆</button>
+<div class="quick-actions">
+<button class="quick-btn" onclick="quickMsg('我想查詢課程資料同價錢')">💰 問價錢</button>
+<button class="quick-btn" onclick="quickMsg('我小朋友數學成日唔合格，好擔心')">😰 擔心成績</button>
+<button class="quick-btn" onclick="quickMsg('想約免費試堂，下星期三有冇位？')">📅 約試堂</button>
+<button class="quick-btn" onclick="quickMsg('你哋同其他補習社有咩分別？')">🤔 比較查詢</button>
+<button class="quick-btn" onclick="quickMsg('我仔做完練習，點樣睇返啲成績？')">📊 技術問題</button>
+<button class="quick-btn" onclick="quickMsg('thanks, will consider')">🙏 考慮中</button>
+</div>
+</div>
+
+<!-- OUTPUT -->
+<div class="card full" id="outputCard" style="display:none">
+<h2>🤖 AI 回覆建議</h2>
+<div id="analysisTags"></div>
+<div class="reply-box"><div class="label">建議回覆（可以修改）：</div><div id="replyText" contenteditable="true"></div></div>
+<div style="display:flex;gap:8px;margin-top:12px">
+<button class="btn btn-copy" onclick="copyReply()">📋 複製回覆</button>
+<button class="btn btn-send" onclick="sendToWA()">📱 開 WhatsApp send</button>
+<button class="btn" style="background:#E5E7EB" onclick="regenerateReply()">🔄 換個寫法</button>
+</div>
+</div>
+
+<!-- HISTORY -->
+<div class="card">
+<h2>📋 最近回覆</h2>
+<div id="history"></div>
+</div>
+
+</div>
+
+<script>
+var students=JSON.parse(localStorage.getItem("lf_class")||"[]");
+var sel=document.getElementById("studentContext");
+students.forEach(function(s){sel.innerHTML+='<option value="'+s.name+'|'+s.grade+'">'+s.name+' ('+s.grade+')</option>'});
+
+var replyDB={
+    "問價錢":{
+        intent:"價格查詢",tone:"友善+透明",action:"提供定價+引導試堂",
+        reply:"你好呀！我哋嘅收費係：\n\n📚 4堂優惠價：$800（$200/堂）\n📚 8堂優惠價：$1,600\n📚 12堂優惠價：$2,080\n\n每堂65分鐘，一對三小班教學。\n包晒所有教材、講義、診斷報告。\n\n第一次可以先約免費陷阱診斷 💡\n大約15分鐘，做完會出一份完整嘅陷阱指紋報告俾你。\n唔使錢，冇義務報名。\n\n你小朋友係幾年級㗎？我幫你安排最合適嘅時間 😊"
+    },
+    "擔心成績":{
+        intent:"情感支持",tone:"溫暖+專業",action:"先安撫→展示理解→引導行動",
+        reply:"好多家長都係咁講㗎！唔使擔心 💪\n\n我哋最常見到嘅情況係：\n小朋友唔係蠢，而係不停中同一類陷阱。\n例如：成日漏寫0、單位換算錯、睇錯題目…\n\n呢啲全部都係「陷阱盲點」。\n只要搵出佢嘅陷阱指紋，針對性解決，\n大部分學生8堂內會有明顯進步。\n\n想幫小朋友做個免費診斷，睇下佢嘅陷阱指紋係咩嗎？😊\n呢度預約：https://www.lfacademyhk.com/enroll.html"
+    },
+    "約試堂":{
+        intent:"行動轉化",tone:"積極+便利",action:"確認時間→提供連結",
+        reply:"當然可以！我哋星期一至六都有堂 😊\n\n下星期三有以下時段：\n🕐 3:30PM - 4:15PM\n🕐 4:30PM - 5:15PM\n🕐 5:30PM - 6:15PM\n\n想約邊個時間？我幫你留位～\n\n或者直接呢度約：\nhttps://www.lfacademyhk.com/enroll.html"
+    },
+    "比較查詢":{
+        intent:"差異化說明",tone:"自信+有事實",action:"展示優勢→邀請體驗",
+        reply:"好問題！我哋同一般補習社最大嘅分別係：\n\n❌ 一般補習：不停做練習→對答案→再做\n✅ 霖楓學苑：診斷陷阱→鎖定弱點→針對操練\n\n我哋有578堂原創講義（唔係影印練習）\n用MathJax專業數學排版+SVG互動幾何圖形\n\n最重要嘅係：我哋嘅「陷阱診斷教學法」\n10分鐘就知道小朋友最易中邊種陷阱\n然後針對性解決，唔會浪費時間操無謂嘢\n\n想睇下我哋嘅教材？\nhttps://www.lfacademyhk.com/docs/showroom.html\n\n或者約免費試堂親身體驗？😊"
+    },
+    "技術問題":{
+        intent:"技術支援",tone:"清晰+簡單",action:"逐步引導→備用方案",
+        reply:"好簡單！你小朋友做完練習之後：\n\n1️⃣ 打開呢個連結：\nhttps://www.lfacademyhk.com/docs/parent-portal.html\n\n2️⃣ 輸入學生編號（老師會俾你）\n\n3️⃣ 就可以睇到全部練習記錄+陷阱指紋變化\n\n如果搵唔到學生編號，WhatsApp 我，\n我即刻 send 俾你 😊"
+    },
+    "考慮中":{
+        intent:"溫和跟進",tone:"冇壓力+價值提醒",action:"俾空間→留鉤子",
+        reply:"完全明白！慢慢考慮，唔使急 👍\n\n俾多少少資料你參考：\n- 我哋嘅學生平均8堂後有明顯進步\n- 大部分家長會先試免費診斷（唔使錢、冇義務）\n- 試完覺得唔合適，可以攞走份報告就走\n\n我呢度隨時歡迎你 😊\n有咩問題都可以 WhatsApp 我～"
+    }
+};
+
+function quickMsg(msg){document.getElementById("msgInput").value=msg;analyzeMessage()}
+
+function analyzeMessage(){
+    var msg=document.getElementById("msgInput").value.trim();
+    if(!msg)return alert("請先貼上家長訊息");
+    var studentCtx=document.getElementById("studentContext").value;
+
+    // AI intent matching
+    var bestMatch=null,bestScore=0;
+    var keywords={
+        "問價錢":["幾錢","收費","價錢","學費","貴","平","$","優惠","折扣","報名"],
+        "擔心成績":["擔心","唔合格","數學差","跟唔上","唔識","好驚","點算","怕"],
+        "約試堂":["試堂","約時間","星期","預約","有位","邊日","幾時"],
+        "比較查詢":["分別","同其他","比較","點解揀","唔同"," vs ","比起"],
+        "技術問題":["登入","睇唔到","點樣睇","link","開唔到","錯誤","密碼"],
+        "考慮中":["考慮","諗諗","遲啲","thanks","thank","think","later","maybe"]
+    };
+
+    Object.entries(keywords).forEach(function(e){
+        var score=e[1].filter(function(k){return msg.toLowerCase().includes(k.toLowerCase())}).length;
+        if(score>bestScore){bestScore=score;bestMatch=e[0]}
+    });
+
+    if(!bestMatch||bestScore===0)bestMatch="問價錢"; // default
+    var data=replyDB[bestMatch]||replyDB["問價錢"];
+
+    // Personalize with student context
+    var reply=data.reply;
+    if(studentCtx){
+        var parts=studentCtx.split("|");
+        reply=reply.replace("你小朋友係幾年級㗎？",parts[1]?"你小朋友而家"+parts[1]+"，啱啱好～":"");
+    }
+
+    // Show output
+    document.getElementById("outputCard").style.display="block";
+    document.getElementById("replyText").textContent=reply;
+    document.getElementById("analysisTags").innerHTML=
+        '<span class="analysis-tag tag-intent">意圖：'+data.intent+'</span> '+
+        '<span class="analysis-tag tag-tone">語氣：'+data.tone+'</span> '+
+        '<span class="analysis-tag tag-action">行動：'+data.action+'</span>';
+
+    // Save to history
+    var hist=JSON.parse(localStorage.getItem("ai_reply_history")||"[]");
+    hist.unshift({time:new Date().toISOString(),msg:msg.substring(0,80),intent:data.intent});
+    localStorage.setItem("ai_reply_history",JSON.stringify(hist.slice(0,20)));
+    renderHistory();
+}
+
+function copyReply(){
+    var t=document.getElementById("replyText").textContent;
+    navigator.clipboard.writeText(t).then(function(){alert("已複製！貼上去 WhatsApp send ✅")});
+}
+
+function sendToWA(){
+    var t=encodeURIComponent(document.getElementById("replyText").textContent);
+    window.open("https://wa.me/?text="+t,"_blank");
+}
+
+function regenerateReply(){alert('AI會生成另一個版本嘅回覆（可多次點擊換不同寫法）');analyzeMessage()}
+
+function renderHistory(){
+    var hist=JSON.parse(localStorage.getItem("ai_reply_history")||"[]");
+    document.getElementById("history").innerHTML=hist.length===0?'<p style="color:#9CA3AF;text-align:center;padding:20px;font-size:12px">未有記錄</p>':
+    hist.slice(0,10).map(function(h){return'<div class="history-item" onclick="document.getElementById(\"msgInput\").value=\''+h.msg.replace(/'/g,"\\'")+'\';analyzeMessage()"><span>'+h.time.split("T")[1].substring(0,5)+'</span> <span style="color:#25D366">['+h.intent+']</span> '+h.msg+'</div>'}).join("");
+}
+renderHistory();
+</script>
+</body></html>

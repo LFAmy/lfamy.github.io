@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 分享進步卡</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:var(--g100);color:#1A1A1A;font-size:14px;padding:16px;min-height:100vh}
+.container{max-width:480px;margin:0 auto}
+
+.header{text-align:center;margin-bottom:16px}
+.header h1{font-family:'Noto Serif HK',serif;font-size:18px;color:var(--b)}
+.header p{font-size:12px;color:var(--g600)}
+
+/* Share Card Preview */
+.card-preview{background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:16px}
+.card-top{background:linear-gradient(135deg,#0A1A35,var(--b));color:white;padding:24px 20px;text-align:center}
+.card-top .brand{font-family:'Noto Serif HK',serif;font-size:15px;letter-spacing:2px;opacity:0.7;margin-bottom:8px}
+.card-top .student-name{font-size:22px;font-weight:900;margin-bottom:2px}
+.card-top .grade-badge{display:inline-block;background:var(--g);color:var(--b);padding:2px 14px;border-radius:12px;font-size:13px;font-weight:900;margin-top:6px}
+
+.card-stats{display:grid;grid-template-columns:repeat(3,1fr);padding:16px;gap:8px;background:var(--g50)}
+.stat-box{text-align:center;padding:10px 4px}
+.stat-box .stat-num{font-size:22px;font-weight:900;color:var(--b)}
+.stat-box .stat-label{font-size:10px;color:var(--g600);margin-top:2px}
+
+.card-body{padding:16px}
+.progress-row{margin-bottom:10px}
+.progress-row .pr-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
+.progress-row .pr-track{height:8px;background:var(--g200);border-radius:4px;overflow:hidden}
+.progress-row .pr-fill{height:100%;border-radius:4px;transition:width 0.5s}
+
+.achievement-row{display:flex;flex-wrap:wrap;gap:4px;margin:12px 0}
+.achievement-tag{font-size:10px;padding:3px 8px;border-radius:10px;font-weight:700}
+.achievement-tag.gold{background:#FEF3C7;color:#92400E}
+.achievement-tag.green{background:#D1FAE5;color:#065F46}
+
+.card-footer{background:var(--g50);padding:12px 16px;text-align:center;font-size:11px;color:var(--g600);border-top:1px solid var(--g200)}
+.card-footer .cta{display:inline-block;background:var(--g);color:var(--b);padding:4px 12px;border-radius:10px;font-weight:700;font-size:11px;margin-top:4px}
+
+/* Share Buttons */
+.share-section{margin-bottom:16px}
+.share-btn{display:block;width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:900;cursor:pointer;font-family:inherit;margin-bottom:8px;text-align:center;transition:all 0.2s}
+.share-btn:active{transform:scale(0.97)}
+.share-wa{background:#25D366;color:white}
+.share-copy{background:var(--b);color:white}
+.share-more{background:white;color:var(--b);border:2px solid var(--b)}
+
+/* Edit Panel */
+.edit-toggle{text-align:center;margin-bottom:10px}
+.edit-toggle button{background:none;border:1px dashed var(--g400);padding:4px 16px;border-radius:14px;font-size:11px;color:var(--g600);cursor:pointer}
+.edit-panel{display:none;background:white;border-radius:14px;padding:16px;margin-bottom:16px}
+.edit-panel.show{display:block}
+.edit-panel input,.edit-panel select{width:100%;padding:10px;border:2px solid var(--g200);border-radius:8px;margin-bottom:8px;font-size:13px;font-family:inherit}
+
+/* Referral */
+.referral-card{background:linear-gradient(135deg,#FFFDF5,#FFFBEB);border:2px solid var(--g);border-radius:14px;padding:16px;margin-bottom:16px;text-align:center}
+.referral-card h3{font-size:14px;color:#92400E;margin-bottom:6px}
+.referral-card p{font-size:12px;color:#92400E;opacity:0.8;margin-bottom:8px}
+.referral-card .ref-code{font-family:monospace;font-size:16px;background:white;padding:6px 16px;border-radius:8px;display:inline-block;letter-spacing:2px}
+.referral-card .ref-reward{font-size:11px;color:var(--gr);margin-top:4px;font-weight:700}
+
+/* Toast */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:10px 24px;border-radius:20px;font-size:13px;z-index:999;opacity:0;transition:opacity 0.3s}
+.toast.show{opacity:1}
+@media(min-width:768px){.container{max-width:480px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+    <h1>📤 分享小朋友嘅進步</h1>
+    <p>一鍵生成精美進步卡 · 分享到WhatsApp/家庭群組</p>
+</div>
+
+<!-- SHARE CARD PREVIEW -->
+<div class="card-preview" id="shareCard">
+    <div class="card-top">
+        <div class="brand"><img src="logo.png" alt="霖楓學苑" style="height:44px"></div>
+        <div class="student-name" id="cardName">陳小明</div>
+        <div class="grade-badge" id="cardGrade">P5 · 數學</div>
+    </div>
+    <div class="card-stats">
+        <div class="stat-box">
+            <div class="stat-num" style="color:#16A34A" id="cardImprove">+10%</div>
+            <div class="stat-label">本月進步</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num" style="color:#1A3C6D" id="cardAccuracy">78%</div>
+            <div class="stat-label">正確率</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num" style="color:#DC2626" id="cardTraps">3個</div>
+            <div class="stat-label">已消滅陷阱</div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="progress-row">
+            <div class="pr-label"><span>陷阱避開率</span><span id="trapVal">72%</span></div>
+            <div class="pr-track"><div class="pr-fill" id="trapFill" style="width:72%;background:#16A34A"></div></div>
+        </div>
+        <div class="progress-row">
+            <div class="pr-label"><span>計算速度</span><span id="speedVal">65%</span></div>
+            <div class="pr-track"><div class="pr-fill" id="speedFill" style="width:65%;background:#F59E0B"></div></div>
+        </div>
+        <div class="progress-row">
+            <div class="pr-label"><span>應用題理解</span><span id="appVal">58%</span></div>
+            <div class="pr-track"><div class="pr-fill" id="appFill" style="width:58%;background:#DC2626"></div></div>
+        </div>
+        <div class="achievement-row">
+            <span class="achievement-tag gold">🏆 陷阱獵人</span>
+            <span class="achievement-tag green">✅ 連續7日</span>
+            <span class="achievement-tag gold">⭐ 速度之星</span>
+        </div>
+    </div>
+    <div class="card-footer">
+        霖楓學苑 · 陷阱診斷法<br>
+        <span class="cta">👉 免費試堂診斷：wa.me/852XXXXXXX</span>
+    </div>
+</div>
+
+<!-- SHARE BUTTONS -->
+<div class="share-section">
+    <button class="share-btn share-wa" onclick="shareToWA()">
+        💬 分享到 WhatsApp
+    </button>
+    <button class="share-btn share-copy" onclick="copyCardText()">
+        📋 複製報告文字
+    </button>
+</div>
+
+<!-- REFERRAL -->
+<div class="referral-card">
+    <h3>🎁 推薦朋友 · 齊齊有賞</h3>
+    <p>分享你嘅推薦碼俾朋友，朋友報名後你同朋友各得 <b>$200學費減免</b>！</p>
+    <div class="ref-code" id="refCode">LF-XM2026</div>
+    <div class="ref-reward">已成功推薦：2位 · 累積獎勵：$400</div>
+    <button class="share-btn share-wa" onclick="shareReferral()" style="margin-top:8px">
+        📤 分享推薦碼
+    </button>
+</div>
+
+<!-- EDIT -->
+<div class="edit-toggle"><button onclick="document.getElementById('editPanel').classList.toggle('show')">✏️ 自訂數據</button></div>
+<div class="edit-panel" id="editPanel">
+    <input type="text" id="eName" placeholder="小朋友名稱" value="陳小明">
+    <select id="eGrade"><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+    <input type="text" id="eImprove" placeholder="本月進步 (例: +10%)" value="+12%">
+    <input type="text" id="eAccuracy" placeholder="正確率 (例: 78%)" value="80%">
+    <input type="text" id="eTraps" placeholder="已消滅陷阱數" value="4">
+    <button class="share-btn share-copy" onclick="updateCard()">更新進度卡</button>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function shareToWA() {
+    var name = document.getElementById('cardName').textContent;
+    var grade = document.getElementById('cardGrade').textContent;
+    var improve = document.getElementById('cardImprove').textContent;
+    var accuracy = document.getElementById('cardAccuracy').textContent;
+    var traps = document.getElementById('cardTraps').textContent;
+    var code = document.getElementById('refCode').textContent;
+    
+    var msg = encodeURIComponent(
+        '【'+name+'嘅數學進步卡】\n'+
+        '━━━━━━━━━━━━━━\n'+
+        '🎓 '+grade+'\n'+
+        '📈 本月進步：'+improve+'\n'+
+        '✅ 正確率：'+accuracy+'\n'+
+        '🪤 已消滅陷阱：'+traps+'\n'+
+        '━━━━━━━━━━━━━━\n'+
+        '🏫 霖楓學苑 · 陷阱診斷法\n'+
+        '1對3小班 · 65分鐘高效課堂\n\n'+
+        '👉 免費試堂診斷：wa.me/852XXXXXXX\n'+
+        '🎁 用推薦碼 '+code+' 報名，齊齊減$200！\n\n'+
+        '#霖楓學苑 #數學補習 #呈分試'
+    );
+    window.open('https://wa.me/?text='+msg, '_blank');
+}
+
+function copyCardText() {
+    var name = document.getElementById('cardName').textContent;
+    var improve = document.getElementById('cardImprove').textContent;
+    var accuracy = document.getElementById('cardAccuracy').textContent;
+    var traps = document.getElementById('cardTraps').textContent;
+    var code = document.getElementById('refCode').textContent;
+    
+    var text = 
+        '【'+name+'嘅數學進步卡】\n'+
+        '━━━━━━━━━━━━━━\n'+
+        '📈 本月進步：'+improve+'\n'+
+        '✅ 正確率：'+accuracy+'\n'+
+        '🪤 已消滅陷阱：'+traps+'\n'+
+        '━━━━━━━━━━━━━━\n'+
+        '🏫 霖楓學苑 · 陷阱診斷法\n'+
+        '👉 免費試堂：wa.me/852XXXXXXX\n'+
+        '🎁 推薦碼：'+code+' (齊齊減$200)';
+    
+    navigator.clipboard.writeText(text).then(function(){
+        showToast('報告已複製！貼上WhatsApp即可分享');
+    }).catch(function(){
+        prompt('複製以下文字：', text);
+    });
+}
+
+function shareReferral() {
+    var code = document.getElementById('refCode').textContent;
+    var msg = encodeURIComponent(
+        '🎁 我小朋友喺霖楓學苑學數學，進步咗好多！\n\n'+
+        '用我嘅推薦碼 '+code+' 報名，你同我都可以減$200學費！\n\n'+
+        '👉 免費試堂診斷：wa.me/852XXXXXXX\n'+
+        '👨‍🏫 1對3小班 · 陷阱診斷法 · P3-P6數學'
+    );
+    window.open('https://wa.me/?text='+msg, '_blank');
+}
+
+function updateCard() {
+    document.getElementById('cardName').textContent = document.getElementById('eName').value || '陳小明';
+    document.getElementById('cardGrade').textContent = (document.getElementById('eGrade').value || 'P5') + ' · 數學';
+    document.getElementById('cardImprove').textContent = document.getElementById('eImprove').value || '+10%';
+    document.getElementById('cardAccuracy').textContent = document.getElementById('eAccuracy').value || '78%';
+    document.getElementById('cardTraps').textContent = (document.getElementById('eTraps').value || '3') + '個';
+    
+    var acc = parseInt(document.getElementById('eAccuracy').value) || 78;
+    document.getElementById('trapVal').textContent = Math.min(100, acc+5) + '%';
+    document.getElementById('trapFill').style.width = Math.min(100, acc+5) + '%';
+    document.getElementById('speedVal').textContent = Math.min(100, acc-5) + '%';
+    document.getElementById('speedFill').style.width = Math.min(100, acc-5) + '%';
+    document.getElementById('appVal').textContent = Math.min(100, acc-12) + '%';
+    document.getElementById('appFill').style.width = Math.min(100, acc-12) + '%';
+    
+    document.getElementById('editPanel').classList.remove('show');
+    showToast('進度卡已更新！');
+}
+
+function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(function(){t.classList.remove('show')}, 2000);
+}
+
+// Generate unique referral code
+document.getElementById('refCode').textContent = 'LF-' + Math.random().toString(36).slice(2,6).toUpperCase() + '26';
+</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body>
+</html>

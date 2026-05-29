@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 勳章收藏</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(180deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;padding:20px}
+.container{max-width:700px;margin:0 auto}
+.header{text-align:center;padding:30px 20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:28px}
+.header .sub{font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px}
+.filter-row{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.filter-btn{padding:6px 14px;border-radius:15px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:white;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.filter-btn:hover,.filter-btn.active{background:#C9A84C;color:#1A3C6D;border-color:#C9A84C}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:16px 0}
+.badge-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;text-align:center;transition:all 0.3s}
+.badge-card.earned{border-color:rgba(201,168,76,0.5);background:rgba(201,168,76,0.08)}
+.badge-card.earned:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(201,168,76,0.15)}
+.badge-card.locked{opacity:0.3;filter:grayscale(1)}
+.badge-card .icon{font-size:40px;margin-bottom:6px}
+.badge-card .name{font-weight:900;font-size:12px;margin-bottom:2px}
+.badge-card .desc{font-size:10px;color:rgba(255,255,255,0.3);line-height:1.4}
+.badge-card .date{font-size:9px;color:#C9A84C;margin-top:4px}
+.badge-card .rarity{display:inline-block;padding:2px 6px;border-radius:6px;font-size:8px;font-weight:700;margin-top:4px}
+.rarity-common{background:#6B7280;color:white}
+.rarity-uncommon{background:#16A34A;color:white}
+.rarity-rare{background:#2563EB;color:white}
+.rarity-epic{background:#7C3AED;color:white}
+.rarity-legendary{background:#C9A84C;color:#1A3C6D}
+.rarity-mythic{background:linear-gradient(135deg,#DC2626,#C9A84C);color:white}
+.progress-bar{background:rgba(255,255,255,0.08);border-radius:6px;height:4px;margin:12px 0;overflow:hidden}
+.progress-fill{background:#C9A84C;height:100%;transition:width 0.5s;border-radius:6px}
+.stats-row{display:flex;justify-content:center;gap:24px;margin:12px 0}
+.stat-item{text-align:center}
+.stat-item .val{font-size:24px;font-weight:900;color:#C9A84C}
+.stat-item .label{font-size:10px;color:rgba(255,255,255,0.3)}
+.btn{display:inline-block;padding:10px 24px;border-radius:20px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;background:#C9A84C;color:#1A3C6D;margin:6px}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header">
+<h1>勳章收藏</h1>
+<div class="sub" id="headerSub"></div>
+<div class="stats-row">
+<div class="stat-item"><div class="val" id="statEarned">0</div><div class="label">已獲得</div></div>
+<div class="stat-item"><div class="val" id="statTotal">35</div><div class="label">總勳章</div></div>
+<div class="stat-item"><div class="val" id="statCompletion">0%</div><div class="label">完成度</div></div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="badgeProgress" style="width:0%"></div></div>
+</div>
+
+<div class="filter-row">
+<button class="filter-btn active" onclick="filterBadges('all',this)">全部</button>
+<button class="filter-btn" onclick="filterBadges('streak',this)">連續</button>
+<button class="filter-btn" onclick="filterBadges('speed',this)">速度</button>
+<button class="filter-btn" onclick="filterBadges('accuracy',this)">準確度</button>
+<button class="filter-btn" onclick="filterBadges('volume',this)">練習量</button>
+<button class="filter-btn" onclick="filterBadges('trap',this)">陷阱獵人</button>
+<button class="filter-btn" onclick="filterBadges('special',this)">特殊</button>
+<button class="filter-btn" onclick="filterBadges('earned',this)">已獲得</button>
+</div>
+
+<div class="badge-grid" id="badgeGrid"></div>
+
+<div style="text-align:center;margin:12px 0">
+<a href="kids-mode.html" class="btn">← 返回冒險</a>
+<a href="kids-monster-box.html" class="btn" style="background:#4ECDC4">怪獸圖鑑 →</a>
+</div>
+</div>
+
+<script src="/docs/data/gamification-engine.js"></script>
+<script>
+LFG.init();
+var currentFilter = 'all';
+
+function renderBadges() {
+  var badges = LFG.getBadges();
+  var earned = LFG.getEarnedBadges();
+  document.getElementById('statEarned').textContent = earned.length;
+  document.getElementById('statCompletion').textContent = Math.round(earned.length / 35 * 100) + '%';
+  document.getElementById('badgeProgress').style.width = (earned.length / 35 * 100) + '%';
+  document.getElementById('headerSub').textContent = earned.length >= 35 ? '🏆 全勳章解鎖！傳奇達成！' : '繼續努力解鎖更多勳章！';
+
+  var filtered = badges;
+  if (currentFilter === 'earned') {
+    filtered = earned;
+  } else if (currentFilter !== 'all') {
+    filtered = badges.filter(function(b) { return b.def.cat === currentFilter; });
+  }
+
+  var html = '';
+  filtered.forEach(function(b) {
+    html += '<div class="badge-card' + (b.earned ? ' earned' : ' locked') + '">';
+    html += '<div class="icon">' + b.def.icon + '</div>';
+    html += '<div class="name">' + b.def.name + '</div>';
+    html += '<div class="desc">' + b.def.desc + '</div>';
+    if (b.earned) {
+      html += '<div class="date">' + new Date(b.date).toLocaleDateString('zh-HK') + '</div>';
+    }
+    html += '<div class="rarity rarity-' + b.def.rarity + '">' + b.def.rarity.toUpperCase() + '</div>';
+    html += '</div>';
+  });
+  document.getElementById('badgeGrid').innerHTML = html;
+}
+
+function filterBadges(cat, el) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  el.classList.add('active');
+  renderBadges();
+}
+
+renderBadges();
+</script>
+</body></html>

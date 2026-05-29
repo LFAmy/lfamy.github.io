@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 全科平台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.header h1{font-size:24px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.subject-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.subject-card{background:#F9FAFB;border-radius:14px;padding:24px;text-align:center;border:2px solid #E5E7EB;transition:all 0.3s;cursor:pointer}
+.subject-card:hover{border-color:#1A3C6D;transform:translateY(-2px)}
+.subject-card.active{border-color:#16A34A;background:#F0FDF4}
+.subject-card .icon{font-size:48px;display:block;margin-bottom:8px}
+.subject-card h3{font-size:16px;color:#1A3C6D;margin-bottom:4px}
+.subject-card .status{font-size:10px;color:#6B7280}
+.trap-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.trap-card{background:#F9FAFB;border-radius:10px;padding:14px;border-left:3px solid #DC2626}
+.trap-card h4{font-size:13px;color:#1A3C6D;margin-bottom:4px}
+.trap-card p{font-size:11px;color:#6B7280;line-height:1.6}
+.chinese-traps-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.english-traps-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-top:12px}
+th{text-align:left;padding:8px;background:#F9FAFB;color:#6B7280;font-size:10px;border-bottom:2px solid #E5E7EB}
+td{padding:8px;border-bottom:1px solid #F3F4F6}
+.btn{display:inline-block;padding:10px 24px;border-radius:25px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;margin:4px;text-decoration:none}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-green{background:#16A34A;color:white}
+.badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700}
+.badge-live{background:#D1FAE5;color:#065F46}
+.badge-soon{background:#FEF3C7;color:#92400E}
+.badge-plan{background:#EFF6FF;color:#1E40AF}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>霖楓學苑 · 全科學習平台</h1><p>數學 · 中文 · 英文 — 同一陷阱診斷方法論</p></div>
+
+<!-- SUBJECT SELECTOR -->
+<div class="card"><h2>選擇科目</h2>
+<div class="subject-grid">
+<div class="subject-card active" onclick="showSubject('math')">
+<span class="icon">📐</span><h3>數學</h3><div class="status"><span class="badge badge-live">4,276題</span></div>
+</div>
+<div class="subject-card" onclick="showSubject('chinese')">
+<span class="icon">📝</span><h3>中文</h3><div class="status"><span class="badge badge-soon">框架就緒</span></div>
+</div>
+<div class="subject-card" onclick="showSubject('english')">
+<span class="icon">🔤</span><h3>英文</h3><div class="status"><span class="badge badge-soon">框架就緒</span></div>
+</div>
+</div></div>
+
+<!-- MATH (current) -->
+<div id="subject-math">
+<div class="card"><h2>數學科 — 10 陷阱診斷系統</h2>
+<div class="trap-grid" id="mathTraps"></div></div>
+</div>
+
+<!-- CHINESE -->
+<div id="subject-chinese" style="display:none">
+<div class="card"><h2>中文科 — 8 陷阱診斷系統（框架）</h2>
+<p style="font-size:12px;color:#6B7280;margin-bottom:12px">將數學陷阱方法論應用於中文科。以下為已定義的陷阱框架，題庫建置中。</p>
+<div class="chinese-traps-grid">
+<div class="trap-card"><h4>C1 同音字混淆</h4><p>的/得/地 · 再/在 · 到/道 · 向/響<br>例：我_書包唔見咗（的/得）</p></div>
+<div class="trap-card"><h4>C2 形近字錯誤</h4><p>己/已/巳 · 未/末 · 千/干 · 人/入<br>例：自_（己/已）</p></div>
+<div class="trap-card"><h4>C3 筆畫錯誤</h4><p>多一橫/少一點/出頭/唔出頭<br>例：「鳥」字少咗一點</p></div>
+<div class="trap-card"><h4>C4 標點符號</h4><p>逗號vs頓號 · 引號位置 · 書名號用法<br>例：佢話_我今日唔得閒_（標點）</p></div>
+<div class="trap-card"><h4>C5 粵普混淆</h4><p>口語入文 · 粵語詞vs書面語<br>例：_聽日_要返學（改書面語）</p></div>
+<div class="trap-card"><h4>C6 閱讀理解陷阱</h4><p>主旨判斷 · 細節遺漏 · 推論錯誤<br>例：文章主要想表達咩？</p></div>
+<div class="trap-card"><h4>C7 詞語搭配</h4><p>量詞錯誤 · 動賓搭配 · 修飾語位置<br>例：一_刀（把/張/個）</p></div>
+<div class="trap-card"><h4>C8 成語誤用</h4><p>成語意思理解錯誤 · 望文生義<br>例：「不以為然」意思是？</p></div>
+</div>
+
+<div class="card"><h2>範例題目</h2>
+<table><thead><tr><th>陷阱</th><th>題目</th><th>選項</th><th>答案</th></tr></thead>
+<tbody>
+<tr><td>C1</td><td>我_書包唔見咗</td><td>A.的 B.得 C.地 D.在</td><td>A</td></tr>
+<tr><td>C2</td><td>自_努力</td><td>A.己 B.已 C.巳 D.几</td><td>A</td></tr>
+<tr><td>C5</td><td>「聽日」的書面語是？</td><td>A.明日 B.昨日 C.今日 D.聽日</td><td>A</td></tr>
+<tr><td>C6</td><td>文章主旨是…</td><td>A.環保 B.友情 C.努力 D.家庭</td><td>依文章定</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ENGLISH -->
+<div id="subject-english" style="display:none">
+<div class="card"><h2>英文科 — 8 陷阱診斷系統（框架）</h2>
+<p style="font-size:12px;color:#6B7280;margin-bottom:12px">將陷阱方法論應用於英文文法及閱讀。</p>
+<div class="english-traps-grid">
+<div class="trap-card"><h4>E1 Tense Confusion</h4><p>Past vs Present Perfect · Future forms<br>e.g. I _ to school yesterday (go/went/gone)</p></div>
+<div class="trap-card"><h4>E2 Preposition Errors</h4><p>in/on/at · to/for/with · phrasal verbs<br>e.g. I go to school _ bus (by/on/in)</p></div>
+<div class="trap-card"><h4>E3 Article Mistakes</h4><p>a/an/the · zero article · countable nouns<br>e.g. She is _ teacher (a/an/the)</p></div>
+<div class="trap-card"><h4>E4 Subject-Verb Agreement</h4><p>Singular/plural · collective nouns<br>e.g. The team _ playing well (is/are)</p></div>
+<div class="trap-card"><h4>E5 Word Form Errors</h4><p>Adjective vs Adverb · Noun vs Verb<br>e.g. She runs _ (quick/quickly)</p></div>
+<div class="trap-card"><h4>E6 Vocabulary Confusion</h4><p>Commonly confused words · False friends<br>e.g. The _ is very hot today (weather/whether)</p></div>
+<div class="trap-card"><h4>E7 Reading Comprehension</h4><p>Main idea · Inference · Detail questions<br>e.g. What is the main idea of paragraph 2?</p></div>
+<div class="trap-card"><h4>E8 Sentence Structure</h4><p>Run-on sentences · Fragments · Word order<br>e.g. Because I was late. (Fragment fix)</p></div>
+</div>
+
+<div class="card"><h2>範例題目</h2>
+<table><thead><tr><th>陷阱</th><th>題目</th><th>選項</th><th>答案</th></tr></thead>
+<tbody>
+<tr><td>E1</td><td>She _ to school every day</td><td>A.go B.goes C.went D.going</td><td>B</td></tr>
+<tr><td>E2</td><td>The book is _ the table</td><td>A.in B.on C.at D.by</td><td>B</td></tr>
+<tr><td>E4</td><td>Everyone _ happy today</td><td>A.is B.are C.were D.be</td><td>A</td></tr>
+<tr><td>E5</td><td>She speaks English very _</td><td>A.good B.well C.better D.best</td><td>B</td></tr>
+</tbody></table></div>
+</div>
+
+<div style="text-align:center;margin:20px 0">
+<a href="/docs/hub.html" class="btn btn-primary">返回 Hub</a>
+</div>
+</div>
+
+<script>
+var mathTraps = {
+  T1:'進退位錯誤',T2:'單位換算',T3:'運算順序',T4:'漏寫0',T5:'分數陷阱',
+  T6:'百分數陷阱',T7:'應用題理解',T8:'圖形面積/周界',T9:'時間換算',T10:'餘數錯誤'
+};
+
+function showSubject(subj) {
+  document.querySelectorAll('.subject-card').forEach(function(c){c.classList.remove('active')});
+  event.target.classList.add('active');
+  ['math','chinese','english'].forEach(function(s){
+    document.getElementById('subject-'+s).style.display = (s===subj) ? 'block' : 'none';
+  });
+}
+
+// Render math traps
+document.getElementById('mathTraps').innerHTML = Object.entries(mathTraps).map(function(e){
+  return '<div class="trap-card"><h4>'+e[0]+' '+e[1]+'</h4><p>'+
+    {T1:'加法進位/減法退位時出錯',T2:'公里↔米↔厘米等單位換算錯',T3:'忘記「先乘除後加減」',T4:'除法答案漏寫或多寫0',
+     T5:'通分/約分/分數加減出錯',T6:'百分數計算/折扣問題',T7:'文字題理解錯誤→列錯式',T8:'面積公式vs周界公式混淆',
+     T9:'時分秒換算/時間計算',T10:'除法餘數處理錯誤'}[e[0]]+'</p></div></div></div>';
+}).join('');
+</script>
+</body></html>

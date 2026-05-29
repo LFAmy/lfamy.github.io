@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 教學資源庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:1000px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:8px 20px;border-radius:20px;border:none;background:white;cursor:pointer;font-weight:700;font-size:13px;font-family:inherit}
+.tab.active{background:#1A3C6D;color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.res-card{background:white;border-radius:12px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.06);transition:all 0.2s;text-decoration:none;color:inherit;display:block}
+.res-card:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,0.1)}
+.res-card .icon{font-size:28px;margin-bottom:6px}
+.res-card .name{font-weight:900;font-size:14px;color:#1A3C6D;margin-bottom:2px}
+.res-card .desc{font-size:11px;color:#6B7280}
+.res-card .tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-top:4px}
+.tag.grade{background:#DBEAFE;color:#1E40AF}
+.tag.type{background:#D1FAE5;color:#065F46}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>📚 教學資源庫</h1><p>全部教學資源按年級、課題、類型整理</p></div>
+
+<div class="tabs"><button class="tab active" onclick="filter('all')">全部</button><button class="tab" onclick="filter('P3')">P3</button><button class="tab" onclick="filter('P4')">P4</button><button class="tab" onclick="filter('P5')">P5</button><button class="tab" onclick="filter('P6')">P6</button></div>
+
+<div class="grid" id="resGrid"></div>
+</div>
+
+<script>
+var resources=[
+{name:"AI智能出題系統",desc:"736題雙語題庫，個人化出卷",icon:"🤖",grade:"all",type:"tool",url:"/docs/test-generator.html"},
+{name:"線上測驗模式",desc:"瀏覽器作答，即時批改+陷阱分析",icon:"💻",grade:"all",type:"tool",url:"/docs/online-test.html"},
+{name:"陷阱診斷Quiz",desc:"2分鐘快速診斷陷阱指紋",icon:"🧪",grade:"all",type:"tool",url:"/docs/trap-quiz.html"},
+{name:"工作紙生成器",desc:"自訂參數，列印版工作紙",icon:"📝",grade:"all",type:"tool",url:"/docs/worksheet-generator.html"},
+{name:"OCR試卷掃描",desc:"影相→分析→生成相似練習",icon:"📸",grade:"all",type:"tool",url:"/docs/ocr-scan.html"},
+{name:"P5分數除法練習",desc:"分數除法專項練習，含陷阱警報",icon:"🍕",grade:"P5",type:"practice",url:"/test-generator.html?grade=P5&traps=T5"},
+{name:"P6百分數陷阱專項",desc:"針對T6百分數陷阱",icon:"💯",grade:"P6",type:"practice",url:"/test-generator.html?grade=P6&traps=T6"},
+{name:"P3基礎加減練習",desc:"進退位陷阱訓練",icon:"🔢",grade:"P3",type:"practice",url:"/test-generator.html?grade=P3&traps=T1"},
+{name:"P4面積周界練習",desc:"T8圖形面積陷阱",icon:"📐",grade:"P4",type:"practice",url:"/test-generator.html?grade=P4&traps=T8"},
+{name:"百分比陷阱動畫",desc:"$100+20%-20% ≠ $100",icon:"🎬",grade:"P5",type:"video",url:"/docs/social/videos/percentage_trap_ig.mp4"},
+{name:"除法陷阱動畫",desc:"408÷2 = 204，唔係24",icon:"🎬",grade:"P4",type:"video",url:"/docs/social/videos/division_trap_ig.mp4"},
+{name:"面積vs周界動畫",desc:"舖地磚 vs 圍欄杆",icon:"🎬",grade:"P4",type:"video",url:"/docs/social/videos/comparison_ig.mp4"},
+{name:"578堂原創講義庫",desc:"P3-P6完整講義，含答案+EN翻譯",icon:"📚",grade:"all",type:"resource",url:"/講義/master_index.html"},
+{name:"10大陷阱分類圖解",desc:"完整陷阱分類+教學對策",icon:"🎯",grade:"all",type:"resource",url:"/docs/teacher-manual.html"},
+{name:"家長進度Portal",desc:"查看小朋友學習進度",icon:"👨‍👩‍👧",grade:"all",type:"parent",url:"/docs/parent-portal.html"},
+];
+
+function filter(g){
+document.querySelectorAll(".tab").forEach(function(t){t.classList.toggle("active",t.textContent===g||(g==="all"&&t.textContent==="全部"))});
+var grid=document.getElementById("resGrid");
+var filtered=g==="all"?resources:resources.filter(function(r){return r.grade===g||r.grade==="all"});
+grid.innerHTML=filtered.map(function(r){return'<a href="'+r.url+'" class="res-card" target="_blank"><div class="icon">'+r.icon+'</div><div class="name">'+r.name+'</div><div class="desc">'+r.desc+'</div><span class="tag grade">'+r.grade+'</span> <span class="tag type">'+r.type+'</span></a>'}).join("");
+}
+filter("all");
+</script>
+</body></html>

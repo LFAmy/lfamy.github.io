@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · AI 影片報告</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.video-preview{background:#0D1117;border-radius:14px;padding:30px;text-align:center;color:white;min-height:400px;position:relative;overflow:hidden}
+.scene{display:none;text-align:center;padding:30px}
+.scene.active{display:block;animation:fadeIn 0.5s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.scene .emoji{font-size:80px;display:block;margin:16px}
+.scene h2{font-size:24px;color:#C9A84C;margin:8px 0}
+.scene .stat{font-size:48px;font-weight:900;color:#58A6FF;font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif}
+.scene .sub{font-size:14px;color:#8B949E;margin:8px 0}
+.progress-bar-v{background:#21262D;border-radius:8px;height:8px;margin:12px 0;overflow:hidden}
+.progress-fill-v{background:linear-gradient(90deg,#3FB950,#58A6FF);height:100%;border-radius:8px;transition:width 1s}
+.scene-nav{display:flex;gap:8px;justify-content:center;margin:12px 0}
+.scene-dot{width:10px;height:10px;border-radius:50%;background:#30363D;cursor:pointer}
+.scene-dot.active{background:#58A6FF}
+.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.btn{display:inline-block;padding:10px 22px;border-radius:25px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#16A34A;color:white}
+.script-box{background:#F9FAFB;border-radius:10px;padding:16px;font-size:12px;line-height:2;margin:8px 0;white-space:pre-wrap}
+.student-select{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.student-chip{padding:8px 16px;border-radius:20px;border:2px solid #E5E7EB;cursor:pointer;font-weight:700;font-size:12px;background:white;font-family:inherit}
+.student-chip.selected{background:#1A3C6D;color:white;border-color:#1A3C6D}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>AI 影片報告生成器</h1><p>30秒家長報告 · 自動動畫 · WhatsApp/微信一鍵發送</p></div>
+
+<div class="card"><h2>選擇學生</h2>
+<div class="student-select" id="studentSelect"></div>
+<button class="btn btn-primary" onclick="generateReport()">🎬 生成影片報告</button>
+</div>
+
+<!-- VIDEO PREVIEW -->
+<div class="card"><h2>影片預覽</h2>
+<div class="video-preview" id="videoPreview">
+<div class="scene active" id="scene0">
+<span class="emoji">🎓</span>
+<h2>霖楓學苑 · 學習報告</h2>
+<div class="sub" id="reportStudent">選擇學生以生成報告</div>
+</div>
+<div class="scene" id="scene1">
+<span class="emoji">📊</span>
+<h2>本週練習統計</h2>
+<div class="stat" id="statPractices">--</div>
+<div class="sub">次練習</div>
+</div>
+<div class="scene" id="scene2">
+<span class="emoji">🎯</span>
+<h2>正確率</h2>
+<div class="stat" id="statAccuracy">--%</div>
+<div class="progress-bar-v"><div class="progress-fill-v" id="accuracyBar" style="width:0%"></div></div>
+</div>
+<div class="scene" id="scene3">
+<span class="emoji">🛡️</span>
+<h2>已避開陷阱</h2>
+<div class="stat" id="statTraps">--</div>
+<div class="sub">種陷阱</div>
+</div>
+<div class="scene" id="scene4">
+<span class="emoji">🔥</span>
+<h2>連續練習</h2>
+<div class="stat" id="statStreak">--</div>
+<div class="sub">天</div>
+</div>
+<div class="scene" id="scene5">
+<span class="emoji">💡</span>
+<h2>AI 建議</h2>
+<div class="sub" id="aiAdvice">繼續保持練習頻率，專注弱項</div>
+</div>
+<div class="scene" id="scene6">
+<span class="emoji">⭐</span>
+<h2>霖楓學苑</h2>
+<div class="sub">下週繼續努力！</div>
+</div>
+
+<div class="scene-nav" id="sceneNav"></div>
+</div>
+
+<div class="controls">
+<button class="btn btn-primary" onclick="prevScene()">← 上一幕</button>
+<button class="btn btn-primary" onclick="nextScene()">下一幕 →</button>
+<button class="btn" style="background:#25D366;color:white" onclick="shareReport('wa')">WhatsApp 發送</button>
+<button class="btn" style="background:#07C160;color:white" onclick="shareReport('wx')">微信發送</button>
+</div></div>
+
+<!-- SCRIPT -->
+<div class="card"><h2>語音稿（旁白文字）</h2>
+<div class="script-box" id="voiceScript">選擇學生後自動生成…</div>
+<button class="btn btn-green" onclick="copyScript()">複製語音稿</button></div>
+</div>
+
+<script>
+var currentScene = 0;
+var totalScenes = 7;
+var reportData = null;
+
+var students = [
+  {name:'陳小明', grade:'P5', practices:18, accuracy:82, traps:4, streak:12, weakTrap:'T5 分數', advice:'分數加減已明顯改善，建議多練分數乘除'},
+  {name:'李小美', grade:'P3', practices:8, accuracy:65, traps:1, streak:3, weakTrap:'T1 進退位', advice:'建議每日10題基礎練習，先鞏固進退位概念'},
+  {name:'張志偉', grade:'P6', practices:42, accuracy:93, traps:8, streak:30, weakTrap:'T6 百分數', advice:'表現優秀！可挑戰Boss關卡，衝擊100%正確率'},
+];
+
+function renderStudents() {
+  document.getElementById('studentSelect').innerHTML = students.map(function(s,i){
+    return '<button class="student-chip" onclick="selectStudent('+i+',this)">'+s.name+' ('+s.grade+')</button>';
+  }).join('');
+}
+
+function selectStudent(i, el) {
+  document.querySelectorAll('.student-chip').forEach(function(c){c.classList.remove('selected')});
+  el.classList.add('selected');
+  reportData = students[i];
+  updatePreview();
+}
+
+function updatePreview() {
+  if (!reportData) return;
+  document.getElementById('reportStudent').textContent = reportData.name + ' · ' + reportData.grade;
+  document.getElementById('statPractices').textContent = reportData.practices;
+  document.getElementById('statAccuracy').textContent = reportData.accuracy + '%';
+  document.getElementById('accuracyBar').style.width = reportData.accuracy + '%';
+  document.getElementById('statTraps').textContent = reportData.traps;
+  document.getElementById('statStreak').textContent = reportData.streak;
+  document.getElementById('aiAdvice').textContent = reportData.advice;
+
+  document.getElementById('voiceScript').textContent =
+    '【30秒家長報告語音稿】\n\n' +
+    reportData.name + '本週完成了' + reportData.practices + '次練習，正確率' + reportData.accuracy + '%。\n' +
+    '已成功避開' + reportData.traps + '種數學陷阱，連續' + reportData.streak + '天保持練習。\n' +
+    '主要弱項是' + reportData.weakTrap + '。\n' +
+    reportData.advice + '。\n\n' +
+    '下週繼續努力！霖楓學苑，與你一起進步。';
+}
+
+function nextScene() { showScene((currentScene + 1) % totalScenes); }
+function prevScene() { showScene((currentScene - 1 + totalScenes) % totalScenes); }
+
+function showScene(n) {
+  document.querySelectorAll('.scene').forEach(function(s,i){s.classList.toggle('active',i===n)});
+  document.querySelectorAll('.scene-dot').forEach(function(d,i){d.classList.toggle('active',i===n)});
+  currentScene = n;
+}
+
+function generateReport() {
+  if (!reportData) return alert('請先選擇學生');
+  updatePreview();
+  showScene(0);
+
+  // Auto-play scenes
+  var scenes = document.querySelectorAll('.scene');
+  document.getElementById('sceneNav').innerHTML = Array.from(scenes).map(function(_,i){
+    return '<div class="scene-dot'+(i===0?' active':'')+'" onclick="showScene('+i+')"></div>';
+  }).join('');
+
+  // Auto advance every 3 seconds
+  var interval = setInterval(function(){
+    if (currentScene >= totalScenes - 1) {
+      clearInterval(interval);
+      return;
+    }
+    showScene(currentScene + 1);
+  }, 3000);
+}
+
+function shareReport(channel) {
+  if (!reportData) return alert('請先生成報告');
+  var msg = '【霖楓學苑】'+reportData.name+' ('+reportData.grade+') 本週學習報告 📊\n\n'+
+    '練習：'+reportData.practices+'次 | 正確率：'+reportData.accuracy+'%\n'+
+    '已避開陷阱：'+reportData.traps+'種 | 連續：'+reportData.streak+'天\n\n'+
+    '💡 '+reportData.advice+'\n\n查看完整報告：www.lfacademyhk.com/docs/parent-portal.html';
+
+  if (channel === 'wa') {
+    window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+  } else {
+    navigator.clipboard.writeText(msg).then(function(){alert('已複製 ✅\n請打開微信粘貼發送')});
+  }
+}
+
+function copyScript() {
+  var script = document.getElementById('voiceScript').textContent;
+  navigator.clipboard.writeText(script).then(function(){alert('語音稿已複製 ✅')});
+}
+
+renderStudents();
+</script>
+</body></html>

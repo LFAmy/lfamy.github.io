@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 工具中心</title><style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:16px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
+.card{background:white;border-radius:12px;padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px}
+.btn{display:inline-block;padding:10px 22px;border-radius:25px;font-weight:900;font-size:13px;cursor:pointer;border:none;margin:4px;text-decoration:none}
+.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#16A34A;color:white}
+.btn-gold{background:#C9A84C;color:#1A3C6D}.btn-red{background:#DC2626;color:white}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+input,select{padding:8px 12px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px}
+.badge{display:inline-block;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700}
+.badge-on{background:#D1FAE5;color:#065F46}.badge-off{background:#FEF2F2;color:#991B1B}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+th{background:#F9FAFB;padding:8px;text-align:left;font-size:10px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+td{padding:8px;border-bottom:1px solid #F3F4F6}
+.toggle{width:48px;height:26px;background:#D1D5DB;border-radius:13px;cursor:pointer;position:relative;display:inline-block;transition:all 0.2s}
+.toggle.on{background:#16A34A}
+.toggle:after{content:'';width:22px;height:22px;background:white;border-radius:50%;position:absolute;top:2px;left:2px;transition:all 0.2s}
+.toggle.on:after{left:24px}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<div class="container">
+
+<div class="header"><h1>工具中心</h1><p>投影模式 · 通知設定 · ROI計算 · 課程對標</p></div>
+
+<!-- PROJECTOR MODE -->
+<div class="card">
+<h2>投影模式</h2>
+<p style="font-size:11px;color:#6B7280;margin-bottom:8px">將題目以大字體顯示，適合白板投影教學</p>
+<label style="font-size:11px">題目</label>
+<input type="text" id="projQ" placeholder="輸入或貼上題目..." style="width:100%;font-size:16px">
+<div style="margin:8px 0">
+<label style="font-size:11px">選項（每行一個）</label>
+<textarea id="projOpts" rows="4" placeholder="A. 選項一&#10;B. 選項二&#10;C. 選項三&#10;D. 選項四" style="width:100%"></textarea>
+</div>
+<button class="btn btn-primary" onclick="openProjector()">打開投影模式</button>
+<script>
+function openProjector(){
+var q=document.getElementById('projQ').value||'請輸入題目';
+var opts=document.getElementById('projOpts').value.split('\n').filter(function(l){return l.trim()});
+var w=window.open('','projector','width=1024,height=768');
+w.document.write('<!DOCTYPE html><html><head><meta charset=UTF-8><style>*{margin:0;padding:0}body{font-family:PingFang SC,Microsoft YaHei,sans-serif;background:white;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:60px}.card{max-width:800px;width:100%}h1{font-size:36px;margin-bottom:30px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:20px}.opt{background:#F0F7FF;border:3px solid #1A3C6D;border-radius:16px;padding:24px;font-size:28px;font-weight:700;text-align:center}</style></head><body><div class=card><h1>'+q+'</h1><div class=opts>'+opts.map(function(o){return '<div class=opt>'+o+'</div>'}).join('')+'</div></div></body></html>');
+w.document.close();
+}
+</script>
+</div>
+
+<!-- NOTIFICATION SETTINGS -->
+<div class="card">
+<h2>通知設定（無推送模式 #45）</h2>
+<div class="row">
+<span style="flex:1">每日練習提醒</span>
+<span class="toggle on" id="tglDaily" onclick="toggleNotif('daily',this)"></span>
+</div>
+<div class="row">
+<span style="flex:1">每週進度報告</span>
+<span class="toggle on" id="tglWeekly" onclick="toggleNotif('weekly',this)"></span>
+</div>
+<div class="row">
+<span style="flex:1">陷阱改善通知</span>
+<span class="toggle on" id="tglMilestone" onclick="toggleNotif('milestone',this)"></span>
+</div>
+<div class="row">
+<span style="flex:1">會員到期提醒</span>
+<span class="toggle on" id="tglExpiry" onclick="toggleNotif('expiry',this)"></span>
+</div>
+<div class="row">
+<span style="flex:1">課堂摘要</span>
+<span class="toggle on" id="tglClass" onclick="toggleNotif('class',this)"></span>
+</div>
+<button class="btn btn-green" onclick="saveNotifs()">儲存通知設定</button>
+<span style="font-size:10px;color:#6B7280;margin-left:8px" id="notifStatus"></span>
+</div>
+
+<!-- ROI CALCULATOR -->
+<div class="card">
+<h2>ROI 計算器（企業版 #47）</h2>
+<div class="row">
+<label style="width:150px">學生人數</label>
+<input type="number" id="roiStudents" value="30" onchange="calcROI()" style="width:100px">
+</div>
+<div class="row">
+<label style="width:150px">每生月費</label>
+<input type="number" id="roiFee" value="800" onchange="calcROI()" style="width:100px">
+</div>
+<div class="row">
+<label style="width:150px">平台月費</label>
+<input type="text" value="$688/月" disabled style="width:100px">
+</div>
+<div class="row">
+<label style="width:150px">導師薪資（月）</label>
+<input type="number" id="roiSalary" value="25000" onchange="calcROI()" style="width:100px">
+</div>
+<div style="margin:12px 0;padding:16px;background:#F0FDF4;border-radius:10px">
+<strong>預估月利潤：</strong> <span id="roiResult" style="font-size:24px;font-weight:900;color:#16A34A">$0</span>
+</div>
+</div>
+
+<!-- CURRICULUM ALIGNMENT -->
+<div class="card">
+<h2>課程對標工具（#42）</h2>
+<p style="font-size:11px;color:#6B7280;margin-bottom:8px">霖楓陷阱系統 ↔ 香港小學數學課程綱要對照</p>
+<table>
+<tr><th>年級</th><th>陷阱</th><th>對應課程課題</th></tr>
+<tr><td>P3</td><td>T1 進退位</td><td>3N2 三位數加減</td></tr>
+<tr><td>P3</td><td>T3 乘法口訣</td><td>3N3 基本乘法</td></tr>
+<tr><td>P4</td><td>T3 運算順序</td><td>4N4 四則混合運算</td></tr>
+<tr><td>P4</td><td>T7 面積周界</td><td>4M2 面積與周界</td></tr>
+<tr><td>P5</td><td>T5 分數乘除</td><td>5N4 分數乘法</td></tr>
+<tr><td>P5</td><td>T6 百分數</td><td>5N5 百分數認識</td></tr>
+<tr><td>P6</td><td>T7 圓周面積</td><td>6M2 圓的認識與圓周</td></tr>
+<tr><td>P6</td><td>T9 速率</td><td>6M3 速率</td></tr>
+</table>
+</div>
+
+</div>
+
+<script>
+function toggleNotif(id,el){el.classList.toggle('on');localStorage.setItem('lf_notif_'+id,el.classList.contains('on')?'1':'0')}
+['daily','weekly','milestone','expiry','class'].forEach(function(id){
+var v=localStorage.getItem('lf_notif_'+id);
+var el=document.getElementById('tgl'+id.charAt(0).toUpperCase()+id.slice(1));
+if(el&&v==='0')el.classList.remove('on');
+});
+
+function saveNotifs(){
+var settings={};
+['daily','weekly','milestone','expiry','class'].forEach(function(id){
+settings[id]=document.getElementById('tgl'+id.charAt(0).toUpperCase()+id.slice(1)).classList.contains('on');
+});
+localStorage.setItem('lf_notif_settings',JSON.stringify(settings));
+document.getElementById('notifStatus').textContent='已儲存 ✅';
+setTimeout(function(){document.getElementById('notifStatus').textContent=''},2000);
+}
+
+function calcROI(){
+var students=parseInt(document.getElementById('roiStudents').value)||0;
+var fee=parseInt(document.getElementById('roiFee').value)||0;
+var salary=parseInt(document.getElementById('roiSalary').value)||0;
+var revenue=students*fee;
+var cost=688+salary;
+var profit=revenue-cost;
+document.getElementById('roiResult').textContent='$'+profit.toLocaleString()+'/月（收入$'+revenue.toLocaleString()+' - 成本$'+cost.toLocaleString()+'）';
+}
+calcROI();
+</script>
+</body>
+</html>

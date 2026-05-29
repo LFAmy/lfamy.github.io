@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 排行榜</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(180deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;overflow-y:auto;padding:20px}
+.container{max-width:600px;margin:0 auto}
+.header{text-align:center;padding:30px 20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:28px}
+.header .sub{font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px}
+.rank-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin:8px 0;display:flex;align-items:center;gap:14px;transition:all 0.2s}
+.rank-card:hover{background:rgba(255,255,255,0.08)}
+.rank-card.top1{border-color:rgba(201,168,76,0.6);background:rgba(201,168,76,0.08)}
+.rank-card.top2{border-color:rgba(156,163,175,0.4);background:rgba(156,163,175,0.05)}
+.rank-card.top3{border-color:rgba(180,83,38,0.4);background:rgba(180,83,38,0.05)}
+.rank-num{font-size:22px;font-weight:900;width:40px;text-align:center;flex-shrink:0}
+.rank-num.gold{color:#C9A84C}.rank-num.silver{color:#9CA3AF}.rank-num.bronze{color:#B45309}
+.rank-info{flex:1}
+.rank-info .name{font-weight:700;font-size:14px}
+.rank-info .title{font-size:10px;color:rgba(255,255,255,0.3)}
+.rank-xp{text-align:right;flex-shrink:0}
+.rank-xp .xp{font-weight:900;color:#C9A84C;font-size:16px}
+.rank-xp .label{font-size:9px;color:rgba(255,255,255,0.3)}
+.my-rank{background:rgba(201,168,76,0.1);border:2px solid #C9A84C;border-radius:14px;padding:16px;margin:16px 0;display:flex;align-items:center;gap:14px}
+.tabs{display:flex;gap:6px;justify-content:center;margin:12px 0}
+.tab-btn{padding:8px 18px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.tab-btn.active,.tab-btn:hover{background:#C9A84C;color:#1A3C6D;border-color:#C9A84C}
+.btn{display:inline-block;padding:10px 24px;border-radius:20px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;background:#C9A84C;color:#1A3C6D;margin:6px}
+</style>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header">
+<h1>排行榜</h1>
+<div class="sub">本週 XP 排行榜 · 每週一重置</div>
+</div>
+
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('week',this)">本週</button>
+<button class="tab-btn" onclick="switchTab('all',this)">總榜</button>
+<button class="tab-btn" onclick="switchTab('boss',this)">Boss擊殺</button>
+</div>
+
+<div id="rankList"></div>
+
+<div style="text-align:center;margin:16px 0">
+<a href="kids-mode.html" class="btn">← 返回冒險</a>
+</div>
+</div>
+
+<script src="/docs/data/gamification-engine.js"></script>
+<script>
+LFG.init();
+var currentTab = 'week';
+
+function getLeaderboardData(tab) {
+  // In production, this would pull from Google Sheets
+  // For now, use localStorage-based ranking
+  var myStats = LFG.getStats();
+  var myData = {
+    name: localStorage.getItem('lf_student_name') || '我',
+    title: myStats.title,
+    xp: myStats.xp,
+    level: myStats.level,
+    bossDefeats: myStats.bossDefeats,
+    badges: myStats.badgesEarned
+  };
+
+  // Simulated leaderboard (in production: from Sheets)
+  var leaderboard = [
+    {name:'數學小王子', title:'至尊學者', xp:12500, level:32, bossDefeats:8, badges:28},
+    {name:'速算達人', title:'傳奇大師', xp:10200, level:28, bossDefeats:7, badges:24},
+    {name:'陷阱獵人', title:'精英導師', xp:8900, level:24, bossDefeats:6, badges:20},
+    {name:'分數女王', title:'高級學徒', xp:6700, level:18, bossDefeats:5, badges:16},
+    {name:'幾何高手', title:'中級學者', xp:5200, level:14, bossDefeats:4, badges:13},
+    {name:'小明', title:'中級學者', xp:4800, level:13, bossDefeats:3, badges:11},
+    {name:'小美', title:'初級學徒', xp:3100, level:9, bossDefeats:2, badges:8},
+  ];
+
+  // Insert current user in correct position
+  var inserted = false;
+  for (var i = 0; i < leaderboard.length; i++) {
+    var val = tab === 'boss' ? leaderboard[i].bossDefeats : leaderboard[i].xp;
+    var myVal = tab === 'boss' ? myData.bossDefeats : myData.xp;
+    if (myVal >= val) {
+      leaderboard.splice(i, 0, Object.assign({isMe: true}, myData));
+      inserted = true;
+      break;
+    }
+  }
+  if (!inserted) leaderboard.push(Object.assign({isMe: true}, myData));
+
+  return leaderboard;
+}
+
+function renderLeaderboard() {
+  var data = getLeaderboardData(currentTab);
+  var html = '';
+  data.forEach(function(p, i) {
+    var rank = i + 1;
+    var rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
+    var cardClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
+    var rankIcon = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+
+    html += '<div class="rank-card' + (cardClass ? ' ' + cardClass : '') + (p.isMe ? ' my-rank' : '') + '">';
+    html += '<div class="rank-num' + (rankClass ? ' ' + rankClass : '') + '">' + rankIcon + '</div>';
+    html += '<div class="rank-info"><div class="name">' + p.name + (p.isMe ? ' ⭐' : '') + '</div><div class="title">' + p.title + ' · Lv.' + p.level + '</div></div>';
+    html += '<div class="rank-xp"><div class="xp">' + (currentTab === 'boss' ? p.bossDefeats + ' 💀' : p.xp + ' XP') + '</div><div class="label">' + (currentTab === 'boss' ? 'Boss擊殺' : p.badges + ' 勳章') + '</div></div>';
+    html += '</div>';
+  });
+  document.getElementById('rankList').innerHTML = html;
+}
+
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  el.classList.add('active');
+  renderLeaderboard();
+}
+
+renderLeaderboard();
+</script>
+</body></html>

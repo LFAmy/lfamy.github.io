@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · AR數學體驗 | 3D Geometry Viewer</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g600:#6B7280;--g800:#374151}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:#0A1A35;color:white;min-height:100vh}
+.container{max-width:700px;margin:0 auto;padding:20px}
+.hero{text-align:center;padding:20px 0}
+.hero h1{font-size:22px;background:linear-gradient(135deg,var(--g),#DFC06A);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:12px;opacity:0.6;margin-top:6px}
+
+/* 3D Canvas */
+.canvas-wrap{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;margin:16px 0;position:relative;height:350px}
+.canvas-wrap canvas{width:100%;height:100%}
+.canvas-wrap .hint{position:absolute;bottom:12px;width:100%;text-align:center;font-size:10px;opacity:0.4}
+
+.shape-nav{display:flex;gap:8px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.shape-btn{padding:10px 18px;border:2px solid rgba(255,255,255,0.2);border-radius:25px;background:rgba(255,255,255,0.05);color:white;cursor:pointer;font-family:inherit;font-size:13px;transition:all 0.2s}
+.shape-btn:hover,.shape-btn.active{border-color:var(--g);background:rgba(201,168,76,0.15)}
+
+.info-panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:20px;text-align:center;margin:16px 0}
+.info-panel .formula{font-size:24px;font-weight:900;color:var(--g);margin:8px 0}
+.info-panel .desc{font-size:12px;opacity:0.6}
+.info-panel .trap{font-size:11px;color:#FCA5A5;margin-top:8px}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="hero"><h1>🎮 AR 3D 數學圖形檢視器</h1><p>旋轉·縮放·拆解 — 互動式理解面積同體積概念</p></div>
+
+<div class="shape-nav">
+<button class="shape-btn active" onclick="switchShape('triangle')">📐 三角形→平行四邊形</button>
+<button class="shape-btn" onclick="switchShape('trapezoid')">🔷 梯形拆解</button>
+<button class="shape-btn" onclick="switchShape('cuboid')">📦 長方體展開</button>
+<button class="shape-btn" onclick="switchShape('cylinder')">🥫 圓柱體</button>
+</div>
+
+<div class="canvas-wrap">
+<canvas id="shape3d"></canvas>
+<div class="hint">🖱 拖動旋轉 | 滾輪縮放</div>
+</div>
+
+<div class="info-panel" id="infoPanel">
+<div class="formula" id="shapeFormula">底 × 高 ÷ 2</div>
+<div class="desc" id="shapeDesc">兩個一樣嘅三角形可以拼成一個平行四邊形</div>
+<div class="trap" id="shapeTrap">⚠️ 陷阱：記得÷2！最多人錯呢個</div>
+</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// SIMPLE 3D SHAPE VIEWER (Canvas 2D fallback)
+// ═══════════════════════════════════════
+
+var viewer = {
+  canvas: null, ctx: null,
+  shape: 'triangle', rotation: 0, scale: 1,
+  dragging: false, lastX: 0, lastY: 0,
+  
+  init: function() {
+    this.canvas = document.getElementById('shape3d');
+    this.ctx = this.canvas.getContext('2d');
+    this.resize();
+    window.addEventListener('resize', this.resize.bind(this));
+    
+    // Mouse drag
+    this.canvas.addEventListener('mousedown', this._onDown.bind(this));
+    this.canvas.addEventListener('mousemove', this._onMove.bind(this));
+    this.canvas.addEventListener('mouseup', this._onUp.bind(this));
+    this.canvas.addEventListener('wheel', this._onWheel.bind(this));
+    
+    // Touch
+    this.canvas.addEventListener('touchstart', this._onTouchDown.bind(this));
+    this.canvas.addEventListener('touchmove', this._onTouchMove.bind(this));
+    
+    this._animate();
+  },
+  
+  resize: function() {
+    this.canvas.width = this.canvas.offsetWidth * 2;
+    this.canvas.height = this.canvas.offsetHeight * 2;
+    this.ctx.scale(2,2);
+    this.cw = this.canvas.offsetWidth;
+    this.ch = this.canvas.offsetHeight;
+  },
+  
+  _onDown: function(e) { this.dragging=true; this.lastX=e.clientX; this.lastY=e.clientY; },
+  _onMove: function(e) {
+    if(!this.dragging) return;
+    this.rotation += (e.clientX-this.lastX)*0.01;
+    this.lastX=e.clientX; this.lastY=e.clientY;
+  },
+  _onUp: function() { this.dragging=false; },
+  _onWheel: function(e) { e.preventDefault(); this.scale=Math.max(0.3,Math.min(3,this.scale-e.deltaY*0.001)); },
+  _onTouchDown: function(e) { this.dragging=true; this.lastX=e.touches[0].clientX; },
+  _onTouchMove: function(e) {
+    if(!this.dragging) return;
+    this.rotation += (e.touches[0].clientX-this.lastX)*0.01;
+    this.lastX=e.touches[0].clientX;
+  },
+  
+  _animate: function() {
+    var self = this;
+    this.ctx.clearRect(0,0,this.cw,this.ch);
+    this.ctx.save();
+    this.ctx.translate(this.cw/2, this.ch/2);
+    this.ctx.scale(this.scale, this.scale);
+    this.ctx.rotate(this.rotation);
+    
+    var w=120, h=80;
+    if(this.shape==='triangle') this._drawTriangle(w,h);
+    else if(this.shape==='trapezoid') this._drawTrapezoid(w,h);
+    else if(this.shape==='cuboid') this._drawCuboid(w,h);
+    else if(this.shape==='cylinder') this._drawCylinder(w);
+    
+    this.ctx.restore();
+    if(!this.dragging) this.rotation += 0.003;
+    requestAnimationFrame(function(){ self._animate(); });
+  },
+  
+  _drawTriangle: function(w,h) {
+    var ctx=this.ctx;
+    ctx.fillStyle='rgba(201,168,76,0.3)'; ctx.strokeStyle='#C9A84C'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(-w/2,h/2); ctx.lineTo(w/2,h/2); ctx.lineTo(0,-h/2); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    // Mirror triangle
+    ctx.fillStyle='rgba(201,168,76,0.1)';
+    ctx.beginPath(); ctx.moveTo(-w/2,h/2); ctx.lineTo(w/2,h/2); ctx.lineTo(0,-h/2-80); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    // Labels
+    ctx.fillStyle='white'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('底 ('+w+'px)', 0, h/2+18);
+    ctx.fillText('高 ('+h+'px)', -w/2-25, 0);
+  },
+  
+  _drawTrapezoid: function(w,h) {
+    var ctx=this.ctx;
+    ctx.fillStyle='rgba(201,168,76,0.3)'; ctx.strokeStyle='#C9A84C'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(-w/2+20,h/2); ctx.lineTo(w/2-20,h/2); ctx.lineTo(w/2,-h/2); ctx.lineTo(-w/2,-h/2); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle='white'; ctx.font='11px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('上底', 0, -h/2-12); ctx.fillText('下底', 0, h/2+18); ctx.fillText('高', w/2+25, 0);
+  },
+  
+  _drawCuboid: function(w,h) {
+    var ctx=this.ctx;
+    ctx.fillStyle='rgba(201,168,76,0.2)'; ctx.strokeStyle='#C9A84C'; ctx.lineWidth=2;
+    // Front
+    ctx.fillRect(-w/2,-h/2,w,h); ctx.strokeRect(-w/2,-h/2,w,h);
+    // Top
+    ctx.beginPath(); ctx.moveTo(-w/2,-h/2); ctx.lineTo(-w/2+20,-h/2-20); ctx.lineTo(w/2+20,-h/2-20); ctx.lineTo(w/2,-h/2); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    // Right
+    ctx.beginPath(); ctx.moveTo(w/2,-h/2); ctx.lineTo(w/2+20,-h/2-20); ctx.lineTo(w/2+20,h/2-20); ctx.lineTo(w/2,h/2); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+  },
+  
+  _drawCylinder: function(r) {
+    var ctx=this.ctx;
+    ctx.fillStyle='rgba(201,168,76,0.2)'; ctx.strokeStyle='#C9A84C'; ctx.lineWidth=2;
+    // Bottom ellipse
+    ctx.beginPath(); ctx.ellipse(0,40,r,20,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    // Body
+    ctx.beginPath(); ctx.moveTo(-r,-40); ctx.lineTo(-r,40); ctx.moveTo(r,-40); ctx.lineTo(r,40); ctx.stroke();
+    // Top ellipse
+    ctx.beginPath(); ctx.ellipse(0,-40,r,20,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  }
+};
+
+function switchShape(s) {
+  document.querySelectorAll('.shape-btn').forEach(function(b){b.classList.remove('active');});
+  event.target.classList.add('active');
+  viewer.shape = s;
+  
+  var info = {
+    triangle: {f:'底 × 高 ÷ 2', d:'兩個一樣嘅三角形可以拼成一個平行四邊形', t:'⚠️ 陷阱：記得÷2！最多人錯呢個'},
+    trapezoid: {f:'(上底+下底) × 高 ÷ 2', d:'梯形可以切割成一個長方形+兩個三角形', t:'⚠️ 陷阱：記得加括號！先加上下底先乘高'},
+    cuboid: {f:'長 × 闊 × 高', d:'長方體有6個面，體積等於三維相乘', t:'⚠️ 陷阱：單位係cm³，唔係cm²'},
+    cylinder: {f:'π × r² × 高', d:'圓柱體體積=底面積×高', t:'⚠️ 陷阱：用半徑唔係直徑！π×r²'}
+  };
+  document.getElementById('shapeFormula').textContent = info[s].f;
+  document.getElementById('shapeDesc').textContent = info[s].d;
+  document.getElementById('shapeTrap').textContent = info[s].t;
+}
+
+viewer.init();
+</script>
+</body>
+</html>

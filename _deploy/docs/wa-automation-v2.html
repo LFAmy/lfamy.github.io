@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WhatsApp 自動化 v2.0 · 霖楓學苑</title>
+<style>
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&display=swap);
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--w:#FFF;--g50:#F9FAFB}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK",sans-serif;background:var(--g50);color:#1A1A1A;min-height:100vh;font-size:14px}
+.topbar{background:linear-gradient(135deg,#075E54,#128C7E);color:white;padding:16px 20px}
+.topbar h1{font-size:18px}
+.container{max-width:800px;margin:12px auto;padding:0 12px}
+.card{background:white;border-radius:14px;padding:18px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:var(--blue);margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.setup-box{background:#E8F5E9;border:2px solid #A5D6A7;border-radius:10px;padding:14px;margin:8px 0;font-size:13px}
+.setup-box code{background:#1A1A1A;color:#F0F0F0;padding:2px 6px;border-radius:4px;font-size:12px}
+.step{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--g50)}
+.step .num{background:var(--blue);color:white;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-weight:700;font-size:12px;flex-shrink:0}
+.step .info{font-size:13px}
+.toggle{display:flex;gap:0;background:var(--g50);border-radius:10px;padding:3px;margin:8px 0}
+.toggle-btn{flex:1;padding:8px;text-align:center;border:none;background:transparent;font-weight:700;font-size:12px;cursor:pointer;border-radius:8px;color:#6B7280;font-family:"Noto Sans HK",sans-serif}
+.toggle-btn.on{background:white;color:var(--blue);box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+.btn{display:inline-block;padding:10px 20px;border:none;border-radius:20px;font-weight:700;cursor:pointer;font-size:13px;font-family:"Noto Sans HK",sans-serif;transition:all 0.2s}
+.btn-green{background:var(--green);color:white}.btn-blue{background:var(--blue);color:white}.btn-gold{background:var(--gold);color:white}
+textarea{width:100%;padding:10px;border:2px solid #E5E7EB;border-radius:10px;font-size:13px;font-family:"Noto Sans HK",sans-serif;resize:vertical;min-height:80px}
+input[type="text"],input[type="tel"]{width:100%;padding:10px;border:2px solid #E5E7EB;border-radius:10px;font-size:13px;font-family:"Noto Sans HK",sans-serif}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="topbar">
+<h1>💬 WhatsApp 自動化 v2.0</h1>
+</div>
+<div class="container">
+
+<div class="setup-box">
+<strong>🛠️ Twilio 設定指南</strong><br>
+1. 到 <a href="https://console.twilio.com" target="_blank">Twilio Console</a> 建立帳戶<br>
+2. 取得 <code>Account SID</code> + <code>Auth Token</code><br>
+3. 建立 WhatsApp Sandbox (from: <code>+14155238886</code>)<br>
+4. 將以下 Webhook URL 貼到 Sandbox 設定<br>
+5. <code>https://lfady-b1761.web.app/docs/wa-webhook.html</code><br>
+<span style="font-size:11px;color:#6B7280">試用期間每月 1,000 條免費訊息</span>
+</div>
+
+<div class="card">
+<h2>⚙️ Twilio 配置</h2>
+<div class="step"><div class="num">1</div><div class="info"><strong>Account SID</strong><br><input type="text" id="accountSid" placeholder="ACxxxxxxxxxx" onchange="saveConfig()"></div></div>
+<div class="step"><div class="num">2</div><div class="info"><strong>Auth Token</strong><br><input type="password" id="authToken" placeholder="••••••••" onchange="saveConfig()"></div></div>
+<div class="step"><div class="num">3</div><div class="info"><strong>WhatsApp 號碼 (Twilio)</strong><br><input type="text" id="twilioPhone" placeholder="+14155238886" onchange="saveConfig()"></div></div>
+</div>
+
+<div class="card">
+<h2>📤 測試發送</h2>
+<div class="step"><div class="num">4</div><div class="info"><strong>目標號碼</strong><br><input type="tel" id="targetPhone" placeholder="85298765432"></div></div>
+<div class="step"><div class="num">5</div><div class="info"><strong>訊息</strong><br>
+<textarea id="testMsg">家長你好！👋 呢個係霖楓學苑嘅WhatsApp自動推送系統測試～</textarea></div></div>
+<button class="btn btn-green" onclick="sendTest()">📤 發送測試訊息</button>
+<div id="testResult" style="margin-top:8px;font-size:13px"></div>
+</div>
+
+<div class="card">
+<h2>⏰ 7日自動序列排程</h2>
+<div class="toggle">
+<button class="toggle-btn on" id="toggleOn" onclick="toggleSeq(true)">⏰ 啟用</button>
+<button class="toggle-btn" id="toggleOff" onclick="toggleSeq(false)">⏸️ 暫停</button>
+</div>
+
+<div id="sequences">
+<div class="step"><div class="num">D0</div><div class="info"><strong>試堂預約確認 (即時)</strong><br>「🎉 感謝預約試堂！詳情如下...」<br><span style="font-size:11px;color:var(--green)">✅ 觸發中</span></div></div>
+<div class="step"><div class="num">D0</div><div class="info"><strong>試堂前1小時提醒</strong><br>「⏰ 提提你：仲有1小時開始試堂...」<br><span style="font-size:11px;color:var(--green)">✅ 觸發中</span></div></div>
+<div class="step"><div class="num">D0</div><div class="info"><strong>試堂後報告 (即時)</strong><br>「📊 試堂報告已準備好！...」<br><span style="font-size:11px;color:var(--green)">✅ 觸發中</span></div></div>
+<div class="step"><div class="num">D1</div><div class="info"><strong>試堂後24小時跟進</strong><br>「💡 想了解多啲課程資訊？...」<br><span style="font-size:11px;color:var(--gold)">⏳ 等待</span></div></div>
+<div class="step"><div class="num">D3</div><div class="info"><strong>3日後優惠提醒</strong><br>「🎯 限時優惠：首月9折！...」<br><span style="font-size:11px;color:var(--gold)">⏳ 等待</span></div></div>
+<div class="step"><div class="num">D7</div><div class="info"><strong>7日後最後跟進</strong><br>「📝 試堂優惠即將到期...」<br><span style="font-size:11px;color:var(--gold)">⏳ 等待</span></div></div>
+</div>
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<script>
+// Store Twilio config
+function saveConfig() {
+    LFCore.setData('twilio_config', {
+        accountSid: document.getElementById('accountSid').value,
+        authToken: document.getElementById('authToken').value,
+        twilioPhone: document.getElementById('twilioPhone').value || '+14155238886'
+    });
+}
+
+function toggleSeq(on) {
+    document.getElementById('toggleOn').className = on ? 'toggle-btn on' : 'toggle-btn';
+    document.getElementById('toggleOff').className = on ? 'toggle-btn' : 'toggle-btn on';
+    LFCore.setData('wa_seq_enabled', on);
+    document.getElementById('testResult').innerHTML = 
+        `<div style="color:${on ? '#16A34A' : '#DC2626'}">${on ? '✅ 序列已啟用' : '⏸️ 序列已暫停'}</div>`;
+}
+
+async function sendTest() {
+    var phone = document.getElementById('targetPhone').value.trim();
+    var msg = document.getElementById('testMsg').value.trim();
+    if (!phone || !msg) { document.getElementById('testResult').innerHTML = '<span style="color:var(--red)">請填寫號碼和訊息</span>'; return; }
+    
+    // Ensure international format
+    if (!phone.startsWith('+')) {
+        if (phone.startsWith('852')) phone = '+' + phone;
+        else phone = '+852' + phone;
+    }
+    
+    var result = document.getElementById('testResult');
+    result.innerHTML = '⏳ 發送中...';
+    
+    var config = LFCore.getData('twilio_config', {});
+    if (!config.accountSid) {
+        // Fallback: open WhatsApp Web
+        var url = 'https://wa.me/' + phone.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent(msg);
+        window.open(url, '_blank');
+        result.innerHTML = '⚠️ 未設定 Twilio，已打開 WhatsApp Web<br>設定 Twilio 後即可自動發送';
+        LF.EventBus.track('wa_send_fallback', {phone: phone});
+        return;
+    }
+    
+    // Try Twilio API
+    try {
+        var twilioUrl = 'https://api.twilio.com/2010-04-01/Accounts/' + config.accountSid + '/Messages.json';
+        var body = new URLSearchParams({
+            From: 'whatsapp:' + config.twilioPhone,
+            To: 'whatsapp:' + phone,
+            Body: msg
+        });
+        
+        var resp = await fetch(twilioUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Basic ' + btoa(config.accountSid + ':' + config.authToken),
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: body
+        });
+        
+        if (resp.ok) {
+            result.innerHTML = '✅ 訊息已發送！SID: ' + (await resp.json()).sid;
+            LF.EventBus.track('wa_sent', {phone: phone});
+        } else {
+            result.innerHTML = '❌ 發送失敗：' + (await resp.json()).message;
+        }
+    } catch(e) {
+        result.innerHTML = '❌ Twilio API 錯誤：' + e.message;
+    }
+}
+
+// Init
+var config = LFCore.getData('twilio_config', {});
+if (config.accountSid) document.getElementById('accountSid').value = config.accountSid;
+if (config.authToken) document.getElementById('authToken').value = config.authToken;
+if (config.twilioPhone) document.getElementById('twilioPhone').value = config.twilioPhone;
+toggleSeq(LFCore.getData('wa_seq_enabled', true));
+</script>
+</body>
+</html>

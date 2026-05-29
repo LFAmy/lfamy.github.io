@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#1A3C6D">
+<title>登入 · 霖楓學苑 LF Academy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--blue-l:#1E4D8C;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151;--g900:#1A1A1A;--r:14px;--rs:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:linear-gradient(135deg,#0F2440 0%,#1A3C6D 40%,#1E4D8C 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.container{background:white;border-radius:20px;box-shadow:0 24px 64px rgba(0,0,0,0.35);max-width:440px;width:100%;padding:36px 28px;animation:fadeUp 0.5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.logo{text-align:center;margin-bottom:24px}
+.logo h1{font-family:'Noto Serif HK',serif;font-size:26px;color:var(--blue);letter-spacing:2px}
+.logo .sub{font-size:13px;color:var(--gold);margin-top:2px}
+.tabs{display:flex;background:var(--g100);border-radius:var(--rs);padding:3px;margin-bottom:20px}
+.tab{flex:1;padding:10px;text-align:center;border:none;background:transparent;font-size:14px;font-weight:700;cursor:pointer;border-radius:7px;transition:all 0.2s;color:var(--g600);font-family:'Noto Sans HK',sans-serif}
+.tab.on{background:white;color:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:13px;font-weight:600;color:var(--g800);margin-bottom:4px}
+.fg input{width:100%;padding:11px 14px;border:2px solid var(--g200);border-radius:var(--rs);font-size:14px;font-family:'Noto Sans HK',sans-serif;outline:none;transition:all 0.2s}
+.fg input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,60,109,0.1)}
+.btn{display:block;width:100%;padding:12px;border:none;border-radius:25px;font-weight:700;font-size:15px;cursor:pointer;font-family:'Noto Sans HK',sans-serif;transition:all 0.2s;text-align:center;letter-spacing:1px}
+.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none!important}
+.btn-blue{background:linear-gradient(135deg,var(--blue),var(--blue-l));color:white}
+.btn-blue:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,60,109,0.3)}
+.btn-google{background:white;color:var(--g800);border:2px solid var(--g200);display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;position:relative}
+.btn-google:hover:not(:disabled){border-color:#4285F4;background:#F8FAFF}
+.divider{display:flex;align-items:center;margin:18px 0;color:var(--g400);font-size:12px}
+.divider:before,.divider:after{content:'';flex:1;border-top:1px solid var(--g200)}
+.divider span{padding:0 12px}
+.msg{padding:10px 14px;border-radius:var(--rs);font-size:13px;margin-bottom:14px;display:none;line-height:1.5}
+.msg.err{display:block;background:#FEF2F2;color:var(--red);border:1px solid #FECACA}
+.msg.ok{display:block;background:#F0FDF4;color:var(--green);border:1px solid #BBF7D0}
+.msg.info{display:block;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+.foot{text-align:center;margin-top:18px;font-size:13px;color:var(--g600)}
+.foot a{color:var(--blue);font-weight:700;text-decoration:none;cursor:pointer}
+.foot a:hover{text-decoration:underline}
+#resetLink{font-size:12px;color:var(--blue);cursor:pointer;text-align:right;display:block;margin-top:-8px;margin-bottom:14px;text-decoration:underline}
+#registerForm{display:none}
+.loading-spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo">
+<h1>🍁 霖楓學苑</h1>
+<div class="sub">LF Academy</div>
+</div>
+<div class="tabs">
+<button class="tab on" id="tabLogin" onclick="switchTab('login')">🔑 登入</button>
+<button class="tab" id="tabReg" onclick="switchTab('register')">📝 註冊</button>
+</div>
+<div class="msg" id="msg"></div>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="loginForm">
+<div class="fg"><label>電郵</label><input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email"></div>
+<div class="fg"><label>密碼</label><input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password"></div>
+<div id="resetLink" onclick="doResetPassword()">忘記密碼？</div>
+<button class="btn btn-blue" id="loginBtn" onclick="doLogin()">🔑 登入</button>
+</div>
+
+<!-- ═══ REGISTER ═══ -->
+<div id="registerForm">
+<div class="fg"><label>姓名</label><input type="text" id="regName" placeholder="陳大文"></div>
+<div class="fg"><label>電郵</label><input type="email" id="regEmail" placeholder="your@email.com"></div>
+<div class="fg"><label>密碼（最少8位）</label><input type="password" id="regPassword" placeholder="••••••••" minlength="8"></div>
+<div class="fg"><label>身份</label>
+<select id="regRole" style="width:100%;padding:11px 14px;border:2px solid var(--g200);border-radius:var(--rs);font-size:14px;font-family:'Noto Sans HK',sans-serif;outline:none">
+<option value="parent">👨‍👩‍👧 家長</option>
+<option value="teacher">👩‍🏫 老師</option>
+<option value="student">🎒 學生</option>
+</select></div>
+<button class="btn btn-blue" id="registerBtn" onclick="doRegister()">✨ 立即註冊</button>
+</div>
+
+<div class="divider"><span>或</span></div>
+
+<button class="btn btn-google" id="googleBtn" onclick="doGoogleLogin()">
+<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+使用 Google 帳戶登入
+</button>
+
+<div class="foot" id="switchLink">沒有帳戶？<a onclick="switchTab('register')">立即註冊 →</a></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+// ═══════ CONFIG ═══════
+const firebaseConfig = {
+    apiKey: "AIzaSyBQ4hOnWoSXECEQBhL8Y0MLbc9_lCu02Ws",
+    authDomain: "lfady-b1761.firebaseapp.com",
+    projectId: "lfady-b1761",
+    storageBucket: "lfady-b1761.firebasestorage.app",
+    messagingSenderId: "1081794929097",
+    appId: "1:1081794929097:web:6a40253005bcf1b67a8818"
+};
+
+// ═══════ FIREBASE INIT ═══════
+let auth = null;
+let db = null;
+let googleProvider = null;
+let fbReady = false;
+
+try {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+        console.log('[LF] Firebase initialized:', firebaseConfig.projectId);
+    }
+    auth = firebase.auth();
+    db = firebase.firestore();
+    googleProvider = new firebase.auth.GoogleAuthProvider();
+    googleProvider.addScope('email');
+    googleProvider.addScope('profile');
+    fbReady = true;
+    
+    // Handle redirect result (when popup is blocked and redirect fallback is used)
+    auth.getRedirectResult().then(result => {
+        if (result.user) {
+            handleGoogleUser(result.user);
+        }
+    }).catch(err => {
+        console.log('[LF] Redirect result error (normal if no redirect):', err.code);
+    });
+    
+    // Auto-redirect if already logged in
+    auth.onAuthStateChanged(user => {
+        if (user && !window.location.search.includes('noredirect')) {
+            showMsg('✅ 已登入，跳轉中...', 'ok');
+            setTimeout(() => { window.location.href = '/docs/app.html'; }, 500);
+        }
+    });
+    
+    showMsg('✅ Firebase 已連接', 'info');
+    setTimeout(hideMsg, 2000);
+} catch(e) {
+    console.error('[LF] Firebase init error:', e);
+    showMsg('⚠️ Firebase 初始化失敗：' + e.message + '。請重新整理頁面。', 'err');
+}
+
+// ═══════ UI ═══════
+let mode = 'login';
+
+function hideMsg() { document.getElementById('msg').className = 'msg'; }
+function showMsg(txt, type) {
+    const m = document.getElementById('msg');
+    m.textContent = txt; m.className = 'msg ' + type;
+}
+
+function switchTab(t) {
+    mode = t;
+    document.getElementById('tabLogin').className = t==='login' ? 'tab on' : 'tab';
+    document.getElementById('tabReg').className = t==='register' ? 'tab on' : 'tab';
+    document.getElementById('loginForm').style.display = t==='login' ? '' : 'none';
+    document.getElementById('registerForm').style.display = t==='register' ? '' : 'none';
+    document.getElementById('resetLink').style.display = t==='login' ? '' : 'none';
+    document.getElementById('switchLink').innerHTML = t==='login'
+        ? '沒有帳戶？<a onclick="switchTab(\'register\')">立即註冊 →</a>'
+        : '已有帳戶？<a onclick="switchTab(\'login\')">立即登入 →</a>';
+    hideMsg();
+}
+
+function setBusy(btnId, busy) {
+    const btn = document.getElementById(btnId);
+    if (busy) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> 處理中...';
+    } else {
+        btn.disabled = false;
+        btn.innerHTML = btnId === 'loginBtn' ? '🔑 登入' : btnId === 'registerBtn' ? '✨ 立即註冊' : btnId === 'googleBtn' ? '使用 Google 帳戶登入' : '🔑 登入';
+    }
+}
+
+// ═══════ EMAIL LOGIN ═══════
+function doLogin() {
+    if (!fbReady) { showMsg('⚠️ Firebase 未準備好，請稍後再試', 'err'); return; }
+    const email = document.getElementById('loginEmail').value.trim();
+    const pw = document.getElementById('loginPassword').value;
+    if (!email || !pw) { showMsg('請輸入電郵和密碼', 'err'); return; }
+    
+    setBusy('loginBtn', true);
+    showMsg('登入中...', 'info');
+    
+    auth.signInWithEmailAndPassword(email, pw)
+        .then(r => {
+            showMsg('✅ 登入成功！跳轉中...', 'ok');
+            setTimeout(() => { window.location.href = '/docs/app.html'; }, 800);
+        })
+        .catch(err => {
+            const map = {
+                'auth/user-not-found':'此電郵尚未註冊',
+                'auth/wrong-password':'密碼錯誤',
+                'auth/invalid-email':'電郵格式不正確',
+                'auth/too-many-requests':'登入次數過多，請稍後再試',
+                'auth/invalid-credential':'電郵或密碼錯誤'
+            };
+            showMsg('❌ ' + (map[err.code] || err.message), 'err');
+            setBusy('loginBtn', false);
+        });
+}
+
+// ═══════ EMAIL REGISTER ═══════
+function doRegister() {
+    if (!fbReady) { showMsg('⚠️ Firebase 未準備好，請稍後再試', 'err'); return; }
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const pw = document.getElementById('regPassword').value;
+    const role = document.getElementById('regRole').value;
+    
+    if (!name || !email || !pw) { showMsg('請填寫所有欄位', 'err'); return; }
+    if (pw.length < 8) { showMsg('密碼最少8位', 'err'); return; }
+    
+    setBusy('registerBtn', true);
+    showMsg('註冊中...', 'info');
+    
+    auth.createUserWithEmailAndPassword(email, pw)
+        .then(r => r.user.updateProfile({displayName: name}).then(() => r.user))
+        .then(r => {
+            return db.collection('users').doc(r.uid).set({
+                email, displayName: name, role,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'active'
+            });
+        })
+        .then(() => {
+            showMsg('🎉 註冊成功！跳轉中...', 'ok');
+            setTimeout(() => { window.location.href = '/docs/app.html'; }, 800);
+        })
+        .catch(err => {
+            const map = {
+                'auth/email-already-in-use':'此電郵已被註冊',
+                'auth/weak-password':'密碼太簡單（最少8位）',
+                'auth/invalid-email':'電郵格式不正確'
+            };
+            showMsg('❌ ' + (map[err.code] || err.message), 'err');
+            setBusy('registerBtn', false);
+        });
+}
+
+// ═══════ GOOGLE LOGIN ═══════
+function doGoogleLogin() {
+    if (!fbReady) { showMsg('⚠️ Firebase 未準備好，請稍後再試', 'err'); return; }
+    
+    const btn = document.getElementById('googleBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Google 登入中...';
+    showMsg('📤 打開 Google 登入視窗...', 'info');
+    
+    // Try popup first
+    auth.signInWithPopup(googleProvider)
+        .then(result => {
+            handleGoogleUser(result.user);
+        })
+        .catch(err => {
+            if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user') {
+                // Popup blocked — fall back to redirect
+                showMsg('⚠️ 彈出視窗被阻擋，嘗試重新導向登入...', 'info');
+                auth.signInWithRedirect(googleProvider);
+            } else if (err.code === 'auth/operation-not-allowed') {
+                showMsg('❌ Google 登入未啟用。請到 Firebase Console → Authentication 啟用 Google 提供者', 'err');
+            } else if (err.code === 'auth/unauthorized-domain') {
+                showMsg('❌ 此網域未獲授權。請到 Firebase Console → Authentication → 設定 → 已授權網域 加入此域名', 'err');
+            } else {
+                showMsg('❌ Google 登入失敗：' + (err.message || err.code), 'err');
+                console.error('[LF] Google login error:', err);
+            }
+            btn.disabled = false;
+            btn.innerHTML = '使用 Google 帳戶登入';
+        });
+}
+
+function handleGoogleUser(user) {
+    if (!user) return;
+    showMsg('✅ Google 登入成功！跳轉中...', 'ok');
+    
+    // Create Firestore user if first time
+    db.collection('users').doc(user.uid).get().then(doc => {
+        if (!doc.exists) {
+            db.collection('users').doc(user.uid).set({
+                email: user.email,
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+                role: 'parent',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'active'
+            });
+        }
+    }).catch(e => console.warn('[LF] Firestore user save:', e));
+    
+    setTimeout(() => { window.location.href = '/docs/app.html'; }, 800);
+}
+
+// ═══════ PASSWORD RESET ═══════
+function doResetPassword() {
+    const email = document.getElementById('loginEmail').value.trim();
+    if (!email) { showMsg('請先輸入電郵地址', 'err'); return; }
+    showMsg('📧 發送中...', 'info');
+    auth.sendPasswordResetEmail(email)
+        .then(() => showMsg('📧 重置密碼電郵已發送！請檢查收件箱（包括垃圾郵件）', 'ok'))
+        .catch(err => showMsg('❌ 發送失敗：' + err.message, 'err'));
+}
+
+// ═══════ ENTER KEY ═══════
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+        if (mode === 'login') doLogin(); else doRegister();
+    }
+});
+</script>
+</body>
+</html>

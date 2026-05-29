@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 會員管理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:16px}
+.container{max-width:1000px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
+.header h1{font-size:22px}.header p{font-size:11px;opacity:0.6}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.st{background:white;border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.st .v{font-size:28px;font-weight:900;color:#1A3C6D}.st .l{font-size:10px;color:#6B7280;margin-top:2px}
+.st .v.red{color:#DC2626}.st .v.green{color:#16A34A}.st .v.gold{color:#C9A84C}
+
+.card{background:white;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+input,select{padding:8px 12px;border:2px solid #E5E7EB;border-radius:8px;font-size:12px}
+input:focus,select:focus{border-color:#1A3C6D;outline:none}
+.btn{display:inline-block;padding:8px 18px;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;border:none;text-decoration:none}
+.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#16A34A;color:white}
+.btn-gold{background:#C9A84C;color:#1A3C6D}.btn-red{background:#DC2626;color:white}
+.btn-outline{background:white;border:2px solid #E5E7EB;color:#1A3C6D}
+
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:8px 10px;background:#F9FAFB;color:#6B7280;font-size:10px;border-bottom:2px solid #E5E7EB}
+td{padding:8px 10px;border-bottom:1px solid #F3F4F6}
+tr:hover{background:#F0F7FF}
+
+.badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:700}
+.badge-active{background:#D1FAE5;color:#065F46}.badge-free{background:#DBEAFE;color:#1E40AF}
+.badge-expired{background:#FEF2F2;color:#991B1B}.badge-trial{background:#FEF3C7;color:#92400E}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-content{background:white;border-radius:16px;padding:28px;max-width:450px;width:90%}
+.modal-content h3{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.modal-content input,.modal-content select{width:100%;margin-bottom:8px}
+</style>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+// Using unified config from lf-firebase-config.js
+const firebaseConfig = LF_FIREBASE_CONFIG || {
+  apiKey: LF_FIREBASE_CONFIG?.apiKey || "YOUR_API_KEY",
+  authDomain: "lam-fung-academy.firebaseapp.com",
+  projectId: "lam-fung-academy",
+  storageBucket: "lam-fung-academy.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Auth guard - redirect to login if not authenticated
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    var currentPage = window.location.pathname;
+    if (!currentPage.includes("login.html") && !currentPage.includes("index.html") && !currentPage.includes("ai-diagnostic") && !currentPage.includes("enroll")) {
+      window.location.href = "/docs/login.html";
+    }
+  } else {
+    window.currentUser = user;
+    console.log("Logged in as:", user.email);
+  }
+});
+</script>
+
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<div class="container">
+
+<div class="header">
+<h1>會員管理系統</h1>
+<p>查看、搜尋、管理所有會員</p>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+<div class="st"><div class="v green" id="statActive">0</div><div class="l">活躍會員</div></div>
+<div class="st"><div class="v" id="statFree">0</div><div class="l">免費版</div></div>
+<div class="st"><div class="v gold" id="statPro">0</div><div class="l">Pro 會員</div></div>
+<div class="st"><div class="v red" id="statExpiring">0</div><div class="l">即將到期</div></div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="card">
+<div class="toolbar">
+<input type="text" id="searchInput" placeholder="搜尋學生/家長/電話..." oninput="renderTable()" style="flex:1;min-width:150px">
+<select id="filterPlan" onchange="renderTable()">
+<option value="all">全部計劃</option><option value="free">免費版</option><option value="pro">Pro</option><option value="trial">試用</option>
+</select>
+<select id="filterStatus" onchange="renderTable()">
+<option value="all">全部狀態</option><option value="active">活躍</option><option value="expiring">7日內到期</option><option value="expired">已過期</option>
+</select>
+<button class="btn btn-gold" onclick="showAddModal()">+ 新增會員</button>
+<button class="btn btn-outline" onclick="exportMembers()">匯出名單</button>
+</div>
+
+<table>
+<thead><tr>
+<th>學生</th><th>年級</th><th>家長</th><th>電話</th><th>計劃</th><th>到期日</th><th>本月練習</th><th>流失風險</th><th>操作</th>
+</tr></thead>
+<tbody id="memberTable"><tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:30px">載入中...</td></tr></tbody>
+</table>
+</div>
+
+<!-- UPCOMING EXPIRY -->
+<div class="card">
+<h2>即將到期（30日內）</h2>
+<div id="expiryList"><p style="color:#9CA3AF;font-size:12px;text-align:center;padding:16px">沒有即將到期的會員</p></div>
+</div>
+
+</div>
+
+<!-- ADD MODAL -->
+<div class="modal" id="addModal">
+<div class="modal-content">
+<h3>新增會員</h3>
+<input type="text" id="addStudent" placeholder="學生姓名">
+<select id="addGrade"><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<input type="text" id="addParent" placeholder="家長姓名">
+<input type="tel" id="addPhone" placeholder="手機號碼">
+<select id="addPlan"><option value="free">免費版</option><option value="pro">Pro 月費 $199</option><option value="trial">試用 $99</option></select>
+<select id="addDuration"><option value="1">1個月</option><option value="3">3個月</option><option value="6">6個月</option><option value="12" selected>12個月</option></select>
+<button class="btn btn-green" onclick="addMember()" style="width:100%;margin-top:8px">新增</button>
+<button class="btn btn-outline" onclick="closeModal()" style="width:100%">取消</button>
+</div>
+</div>
+
+<script>
+var members=JSON.parse(localStorage.getItem('lf_members')||'[]');
+var leads=JSON.parse(localStorage.getItem('lf_leads')||'[]');
+
+// Merge leads into members if not already present
+leads.forEach(function(lead){
+var exists=members.find(function(m){return m.phone===lead.phone});
+if(!exists){
+members.push({
+student:lead.student,grade:lead.grade,parent:lead.parent,phone:lead.phone,
+plan:'free',activated:lead.time,expiry:null
+});
+}
+});
+// Also load from localStorage registrations
+for(var i=0;i<localStorage.length;i++){
+var k=localStorage.key(i);
+if(k.startsWith('lf_member_')){
+try{
+var m=JSON.parse(localStorage.getItem(k));
+var phone=k.replace('lf_member_','');
+var exists=members.find(function(x){return x.phone===phone});
+if(!exists){
+members.push({
+student:m.student,grade:m.grade,parent:m.parent,phone:phone,
+plan:m.plan||'free',activated:m.registered,expiry:m.expiry
+});
+}
+}catch(e){}
+}
+}
+
+function updateStats(){
+var now=new Date();
+var active=members.filter(function(m){return !m.expiry||new Date(m.expiry)>now});
+var free=members.filter(function(m){return m.plan==='free'||!m.plan});
+var pro=members.filter(function(m){return m.plan==='pro'||m.plan==='trial'});
+var expiring=members.filter(function(m){
+if(!m.expiry)return false;
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+return days<=7&&days>0;
+});
+document.getElementById('statActive').textContent=active.length;
+document.getElementById('statFree').textContent=free.length;
+document.getElementById('statPro').textContent=pro.length;
+document.getElementById('statExpiring').textContent=expiring.length;
+}
+
+function renderTable(){
+var q=(document.getElementById('searchInput').value||'').toLowerCase();
+var fp=document.getElementById('filterPlan').value;
+var fs=document.getElementById('filterStatus').value;
+var now=new Date();
+
+var filtered=members.filter(function(m){
+if(q&&!(m.student||'').toLowerCase().includes(q)&&!(m.parent||'').toLowerCase().includes(q)&&!(m.phone||'').includes(q))return false;
+if(fp!=='all'&&(m.plan||'free')!==fp)return false;
+if(fs==='active'&&m.expiry&&new Date(m.expiry)<=now)return false;
+if(fs==='expiring'){
+if(!m.expiry)return false;
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+if(days>7||days<=0)return false;
+}
+if(fs==='expired'&&(!m.expiry||new Date(m.expiry)>now))return false;
+return true;
+});
+
+var html='';
+if(!filtered.length){
+html='<tr><td colspan=8 style=text-align:center;color:#9CA3AF;padding:30px>沒有符合的會員</td></tr>';
+}else{
+filtered.forEach(function(m){
+var planName=m.plan==='pro'?'Pro':m.plan==='trial'?'試用':'免費';
+var planBadge=m.plan==='pro'?'badge-active':m.plan==='trial'?'badge-trial':'badge-free';
+var expiryText=m.expiry?new Date(m.expiry).toLocaleDateString('zh-HK'):'永久';
+var daysLeft='';
+if(m.expiry){
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+daysLeft=days>30?'✅':days>7?'⚠️ '+days+'日':days>0?'🔴 '+days+'日':'❌ 已過期';
+}
+// Get usage
+var q=JSON.parse(localStorage.getItem('lf_quota_'+(m.student||'unknown'))||'{}');
+var used=q.used||0;
+var thisMonth=new Date().toISOString().slice(0,7);
+if(q.month!==thisMonth)used=0;
+
+html+='<tr>';
+html+='<td><strong>'+(m.student||'-')+'</strong></td>';
+html+='<td>'+(m.grade||'-')+'</td>';
+html+='<td>'+(m.parent||'-')+'</td>';
+html+='<td style=font-size:10px>'+(m.phone||'-')+'</td>';
+html+='<td><span class=badge '+planBadge+'>'+planName+'</span></td>';
+html+='<td style=font-size:10px>'+expiryText+'<br>'+daysLeft+'</td>';
+html+='<td>'+used+'次</td>';
+html+='<td><button class=btn btn-outline style=font-size:10px;padding:4px 10px onclick=renewMember(\''+(m.phone||'')+'\')>續期</button> <button class=btn style=font-size:10px;padding:4px 10px;background:#DC2626;color:white onclick=deleteMember(\''+(m.phone||'')+'\')>刪除</button></td>';
+html+='</tr>';
+});
+}
+document.getElementById('memberTable').innerHTML=html;
+updateStats();
+renderExpiry();
+}
+
+function renderExpiry(){
+var now=new Date();
+var expiring=members.filter(function(m){
+if(!m.expiry)return false;
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+return days<=30&&days>0;
+}).sort(function(a,b){return new Date(a.expiry)-new Date(b.expiry)});
+
+if(!expiring.length){
+document.getElementById('expiryList').innerHTML='<p style=color:#9CA3AF;font-size:12px;text-align:center;padding:16px>沒有即將到期的會員 ✅</p>';
+return;
+}
+document.getElementById('expiryList').innerHTML=expiring.map(function(m){
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+return '<div style=display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #F3F4F6;font-size:12px><div><strong>'+(m.student||'-')+'</strong> · '+(m.parent||'-')+' · <span style=color:#6B7280>'+(m.phone||'-')+'</span></div><div style=text-align:right><span style=color:'+(days<=7?'#DC2626':'#D97706')+';font-weight:700>'+days+' 日</span><br><span style=font-size:10px;color:#6B7280>'+new Date(m.expiry).toLocaleDateString('zh-HK')+'</span></div><button class=btn btn-outline style=font-size:10px;padding:4px 10px;margin-left:8px onclick=renewMember(\''+(m.phone||'')+'\')>續期</button></div>';
+}).join('');
+}
+
+function showAddModal(){document.getElementById('addModal').classList.add('show')}
+function closeModal(){document.getElementById('addModal').classList.remove('show')}
+
+function addMember(){
+var s=document.getElementById('addStudent').value.trim();
+var p=document.getElementById('addPhone').value.trim();
+if(!s||!p)return alert('請輸入學生姓名和手機號碼');
+var plan=document.getElementById('addPlan').value;
+var dur=parseInt(document.getElementById('addDuration').value);
+var expiry=null;
+if(plan!=='free'){var e=new Date();e.setMonth(e.getMonth()+dur);expiry=e.toISOString()}
+members.push({
+student:s,grade:document.getElementById('addGrade').value,
+parent:document.getElementById('addParent').value||'家長',
+phone:p,plan:plan,activated:new Date().toISOString(),expiry:expiry
+});
+localStorage.setItem('lf_members',JSON.stringify(members));
+closeModal();renderTable();
+document.getElementById('addStudent').value='';document.getElementById('addPhone').value='';
+}
+
+function renewMember(phone){
+var m=members.find(function(x){return x.phone===phone});
+if(!m)return;
+var months=prompt('續期幾個月？','12');
+if(!months)return;
+var expiry=new Date();
+if(m.expiry&&new Date(m.expiry)>new Date()){expiry=new Date(m.expiry)}
+expiry.setMonth(expiry.getMonth()+parseInt(months));
+m.expiry=expiry.toISOString();m.plan='pro';
+localStorage.setItem('lf_members',JSON.stringify(members));
+renderTable();alert('已續期 '+months+' 個月 ✅');
+}
+
+function deleteMember(phone){
+if(!confirm('確定刪除此會員？此操作無法還原。'))return;
+members=members.filter(function(x){return x.phone!==phone});
+localStorage.setItem('lf_members',JSON.stringify(members));
+renderTable();
+}
+
+function exportMembers(){
+var csv='學生,年級,家長,電話,計劃,到期日\n';
+members.forEach(function(m){
+csv+=(m.student||'')+','+(m.grade||'')+','+(m.parent||'')+','+(m.phone||'')+','+(m.plan||'free')+','+(m.expiry||'永久')+'\n';
+});
+var blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');a.href=url;a.download='lamfung_members_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+
+renderTable();
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body>
+</html>

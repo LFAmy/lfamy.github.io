@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 成就牆</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;padding:30px 20px}
+.container{max-width:900px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;text-align:center;font-size:28px;color:#C9A84C;margin-bottom:4px}
+.sub{text-align:center;color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.badge-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;text-align:center;transition:all 0.3s}
+.badge-card.earned{background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.3)}
+.badge-card .icon{font-size:48px;margin-bottom:8px}
+.badge-card .name{font-weight:900;font-size:16px;color:#C9A84C;margin-bottom:4px}
+.badge-card .desc{font-size:11px;color:rgba(255,255,255,0.5)}
+.badge-card .earned-date{font-size:10px;color:#16A34A;margin-top:8px}
+.badge-card.locked{opacity:0.3}
+.stats-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.stat{text-align:center;background:rgba(255,255,255,0.05);border-radius:12px;padding:16px 24px}
+.stat .val{font-size:28px;font-weight:900;color:#C9A84C}
+.stat .lbl{font-size:11px;color:rgba(255,255,255,0.5)}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<h1>🏆 成就牆</h1>
+<div class="sub">每一次避開陷阱，都值得被記錄</div>
+
+<div class="stats-row">
+<div class="stat"><div class="val" id="totalBadges">0</div><div class="lbl">已解鎖徽章</div></div>
+<div class="stat"><div class="val" id="totalStreak">0</div><div class="lbl">最長連續天數</div></div>
+<div class="stat"><div class="val" id="totalTraps">0</div><div class="lbl">已避開陷阱</div></div>
+</div>
+
+<div class="grid" id="badgeGrid"></div>
+</div>
+
+<script>
+var badges=[
+{id:"first_test",name:"初次測驗",desc:"完成第一次陷阱診斷",icon:"🎯",condition:"完成1次測驗"},
+{id:"perfect",name:"完美之星",desc:"單次正確率達90%以上",icon:"⭐",condition:"單次90%+"},
+{id:"great",name:"優秀學者",desc:"單次正確率達80%以上",icon:"🌟",condition:"單次80%+"},
+{id:"fullmark",name:"滿分狀元",desc:"全部答對！",icon:"🏆",condition:"100%正確"},
+{id:"streak3",name:"連續達標",desc:"連續3次正確率70%以上",icon:"🔥",condition:"連續3次70%+"},
+{id:"streak5",name:"學習機器",desc:"連續5次正確率70%以上",icon:"🚀",condition:"連續5次70%+"},
+{id:"trap_master",name:"陷阱大師",desc:"某個陷阱正確率達80%以上",icon:"🎯",condition:"單陷阱80%+"},
+{id:"ten_tests",name:"勤奮獎",desc:"完成10次練習",icon:"💪",condition:"10次練習"},
+{id:"improver",name:"進步之星",desc:"正確率提升20%以上",icon:"📈",condition:"提升20%+"},
+{id:"speed",name:"快槍手",desc:"5分鐘內完成10題",icon:"⚡",condition:"速度挑戰"},
+];
+
+var earned=JSON.parse(localStorage.getItem("lf_badges")||"[]");
+document.getElementById("totalBadges").textContent=earned.length;
+
+var tests=JSON.parse(localStorage.getItem("online_tests")||"[]");
+var streak=0;for(var i=0;i<tests.length;i++){if(tests[i].pct>=70)streak++;else break}
+document.getElementById("totalStreak").textContent=streak;
+
+var grid="";
+badges.forEach(function(b){
+var isEarned=earned.includes(b.id);
+grid+='<div class="badge-card'+(isEarned?' earned':' locked')+'"><div class="icon">'+b.icon+'</div><div class="name">'+b.name+'</div><div class="desc">'+b.desc+'</div>'+(isEarned?'<div class="earned-date">✅ 已解鎖</div>':'<div style="font-size:10px;color:rgba(255,255,255,0.2);margin-top:8px">🔒 '+b.condition+'</div>')+'</div>';
+});
+document.getElementById("badgeGrid").innerHTML=grid;
+</script>
+</body></html>

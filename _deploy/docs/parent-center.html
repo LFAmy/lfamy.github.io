@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang=\"zh-HK\">
+<head>
+<meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">
+<title>霖楓學苑 · 家長中心</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:0 0 80px 0;line-height:1.7}
+.topbar{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;padding:24px;text-align:center}
+.topbar h1{font-size:20px}.topbar .sub{font-size:11px;opacity:0.6;margin-top:4px}
+.container{max-width:500px;margin:0 auto;padding:16px}
+.card{background:white;border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.card h2{font-size:14px;color:#1A3C6D;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.child-row{display:flex;align-items:center;gap:12px;padding:12px;background:#F9FAFB;border-radius:10px;margin:8px 0;cursor:pointer;transition:all 0.2s}
+.child-row:hover{background:#F0F7FF}
+.child-row .avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:white}
+.child-row .info{flex:1}.child-row .name{font-weight:900;font-size:14px}.child-row .grade{font-size:11px;color:#6B7280}
+.child-row .arrow{font-size:18px;color:#C9A84C}
+.stat-row{display:flex;gap:8px;margin-top:4px}
+.stat-pill{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700}
+.stat-pill.good{background:#D1FAE5;color:#065F46}
+.stat-pill.warn{background:#FEF3C7;color:#92400E}
+.stat-pill.bad{background:#FEE2E2;color:#991B1B}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quick-tile{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px;border-radius:10px;background:#F9FAFB;text-decoration:none;color:inherit;font-size:11px;font-weight:700;transition:all 0.2s;text-align:center;border:1px solid #E5E7EB}
+.quick-tile:hover{background:#F0F7FF;border-color:#1A3C6D;transform:translateY(-1px)}
+.quick-tile .icon{font-size:24px}
+.summary-item{display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px solid #F3F4F6}
+.summary-item .val{font-weight:900;color:#1A3C6D}
+.plan-badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:10px;font-weight:700;margin-left:6px}
+.plan-free{background:#DBEAFE;color:#1E40AF}
+.plan-pro{background:#D1FAE5;color:#065F46}
+.empty-state{text-align:center;padding:40px 20px;color:#9CA3AF}
+.empty-state .icon{font-size:48px;margin-bottom:12px}
+.empty-state h3{color:#6B7280;margin-bottom:8px}
+.empty-state .btn{display:inline-block;padding:12px 24px;background:#DC2626;color:white;border-radius:25px;text-decoration:none;font-weight:900;margin-top:12px;font-size:14px}
+.whatsapp-float{position:fixed;bottom:20px;right:20px;z-index:999}
+.whatsapp-float a{display:flex;align-items:center;gap:6px;background:#25D366;color:white;padding:12px 18px;border-radius:30px;text-decoration:none;font-size:13px;font-weight:700;box-shadow:0 4px 12px rgba(37,211,102,0.3)}
+.add-child-bar{text-align:center;padding:8px}
+.add-child-bar a{color:#1A3C6D;font-size:12px;font-weight:700;text-decoration:none}
+.bottom-nav{position:fixed;bottom:0;width:100%;background:white;border-top:1px solid #E5E7EB;display:flex;padding:8px 0;z-index:998}
+.bottom-nav a{flex:1;text-align:center;text-decoration:none;color:#9CA3AF;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bottom-nav a.active,.bottom-nav a:hover{color:#1A3C6D}
+.bottom-nav a .nav-icon{font-size:18px}
+</style>
+  <link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+
+<div class=\"topbar\">
+<h1><img src=\"logo.png\" alt=\"\" style=\"height:28px;vertical-align:middle;margin-right:6px\">家長中心</h1>
+<div class=\"sub\">實時追蹤子女學習進度</div>
+</div>
+
+<div class=\"container\">
+
+<!-- Children Overview -->
+<div class=\"card\">
+<h2>👶 我的子女</h2>
+<div id=\"childrenList\">
+<div class=\"empty-state\">
+<div class=\"icon\">📝</div>
+<h3>尚未添加子女</h3>
+<p style=\"font-size:12px\">幫小朋友註冊帳戶後，就可以喺呢度睇到佢哋嘅學習進度</p>
+<a href=\"login.html\" class=\"btn\">註冊 / 登入</a>
+</div>
+</div>
+<div class=\"add-child-bar\" id=\"addChildBar\" style=\"display:none\">
+<a href=\"login.html?action=register\">+ 添加子女帳戶</a>
+</div>
+</div>
+
+<!-- Quick Actions -->
+<div class=\"card\">
+<h2>⚡ 快速行動</h2>
+<div class=\"quick-grid\">
+<a href=\"/docs/trap-quiz.html\" class=\"quick-tile\"><span class=\"icon\">🧪</span>新陷阱診斷</a>
+<a href=\"/docs/online-test.html\" class=\"quick-tile\"><span class=\"icon\">💻</span>做練習</a>
+<a href=\"/docs/parent-report-gen.html\" class=\"quick-tile\"><span class=\"icon\">📊</span>生成報告</a>
+<a href=\"/docs/ocr-scan.html\" class=\"quick-tile\"><span class=\"icon\">📸</span>OCR 掃描</a>
+<a href=\"/docs/share-card.html\" class=\"quick-tile\"><span class=\"icon\">🎴</span>分享進度</a>
+<a href=\"/docs/pay.html\" class=\"quick-tile\"><span class=\"icon\">⭐</span>升級 Pro</a>
+<a href=\"/docs/data-backup.html\" class=\"quick-tile\"><span class=\"icon\">💾</span>備份資料</a>
+<a href=\"/docs/faq.html\" class=\"quick-tile\"><span class=\"icon\">💡</span>常見問題</a>
+</div>
+</div>
+
+<!-- This Week Summary -->
+<div class=\"card\">
+<h2>📊 本週摘要</h2>
+<div id=\"weeklySummary\">
+<div class=\"empty-state\" style=\"padding:20px\">
+<p style=\"font-size:12px\">完成練習後，呢度會顯示每週摘要</p>
+</div>
+</div>
+</div>
+
+<!-- Learning Tips -->
+<div class=\"card\" id=\"tipsCard\">
+<h2>💡 AI 學習建議</h2>
+<div id=\"aiTips\">
+<div class=\"summary-item\">
+<span>完成陷阱診斷後</span>
+<span class=\"val\">獲取個人化建議</span>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class=\"whatsapp-float\">
+<a href=\"https://wa.me/85294796459?text=我想查詢子女學習進度\" target=\"_blank\">💬 查詢進度</a>
+</div>
+
+<div class=\"bottom-nav\">
+<a href=\"/docs/student-platform.html\"><span class=\"nav-icon\">🎓</span>學生</a>
+<a href=\"/docs/parent-center.html\" class=\"active\"><span class=\"nav-icon\">👨‍👩‍👧</span>家長</a>
+<a href=\"/docs/trap-quiz.html\"><span class=\"nav-icon\">🧪</span>診斷</a>
+<a href=\"/docs/pay.html\"><span class=\"nav-icon\">⭐</span>升級</a>
+<a href=\"/docs/login.html\"><span class=\"nav-icon\">👤</span>帳戶</a>
+</div>
+
+<script>
+var avatarColors = ['#DC2626','#1A3C6D','#16A34A','#C9A84C','#8B5CF6','#EC4899','#F59E0B','#059669'];
+
+function loadChildren() {
+var children = [];
+// Try multiple sources
+try {
+var user = JSON.parse(localStorage.getItem('lf_current_user'));
+if (user) {
+children.push({
+name: user.student || '學生',
+grade: user.grade || 'P5',
+plan: user.plan || 'free',
+phone: user.phone
+});
+}
+} catch(e) {}
+
+// Also check for multiple kids stored
+try {
+var kids = JSON.parse(localStorage.getItem('lf_children') || '[]');
+kids.forEach(function(k) {
+if (!children.find(function(c){ return c.name === k.name; })) {
+children.push(k);
+}
+});
+} catch(e) {}
+
+// Also check member registrations
+for (var i = 0; i < localStorage.length; i++) {
+var key = localStorage.key(i);
+if (key.startsWith('lf_member_')) {
+try {
+var m = JSON.parse(localStorage.getItem(key));
+if (m && m.student) {
+if (!children.find(function(c){ return c.name === m.student; })) {
+children.push({
+name: m.student, grade: m.grade, plan: m.plan,
+phone: m.phone, parent: m.parent
+});
+}
+}
+} catch(e) {}
+}
+}
+
+return children;
+}
+
+function loadGamification() {
+try {
+return JSON.parse(localStorage.getItem('lf_gamification'));
+} catch(e) { return null; }
+}
+
+function renderChildren() {
+var children = loadChildren();
+var list = document.getElementById('childrenList');
+var addBar = document.getElementById('addChildBar');
+
+if (children.length === 0) {
+list.innerHTML = '<div class=\"empty-state\"><div class=\"icon\">📝</div><h3>尚未添加子女</h3><p style=\"font-size:12px\">幫小朋友註冊帳戶後，就可以喺呢度睇到佢哋嘅學習進度</p><a href=\"login.html\" class=\"btn\">註冊 / 登入</a></div>';
+addBar.style.display = 'none';
+return;
+}
+
+addBar.style.display = 'block';
+var g = loadGamification();
+var html = '';
+
+children.forEach(function(child, idx) {
+var acc = 0, streak = 0, total = 0;
+if (g) {
+total = g.totalQuestions || 0;
+acc = total > 0 ? Math.round((g.totalCorrect || 0) / total * 100) : 0;
+streak = g.currentStreak || 0;
+}
+
+var planBadge = child.plan === 'pro' ? '<span class=\"plan-badge plan-pro\">Pro</span>' : '<span class=\"plan-badge plan-free\">免費版</span>';
+var accClass = acc >= 80 ? 'good' : (acc >= 50 ? 'warn' : 'bad');
+var color = avatarColors[idx % avatarColors.length];
+
+html += '<div class=\"child-row\" onclick=\"viewChild(\'' + child.name + '\',\'' + (child.grade||'P5') + '\')\">';
+html += '<div class=\"avatar\" style=\"background:' + color + '\">' + (child.name||'?')[0] + '</div>';
+html += '<div class=\"info\">';
+html += '<div class=\"name\">' + (child.name || '學生') + planBadge + '</div>';
+html += '<div class=\"grade\">' + (child.grade || 'P5') + ' · 最近練習：' + (streak > 0 ? streak + '天前' : '未有') + '</div>';
+html += '<div class=\"stat-row\">';
+html += '<span class=\"stat-pill good\">正確率 ' + acc + '%</span>';
+html += '<span class=\"stat-pill warn\">' + total + ' 題</span>';
+html += '<span class=\"stat-pill good\">連續 ' + streak + ' 天</span>';
+html += '</div></div>';
+html += '<div class=\"arrow\">→</div></div>';
+});
+
+list.innerHTML = html;
+
+// Update weekly summary
+updateWeeklySummary(children, g);
+updateAITips(g);
+}
+
+function updateWeeklySummary(children, g) {
+var el = document.getElementById('weeklySummary');
+if (!g || !g.totalQuestions) {
+el.innerHTML = '<div class=\"empty-state\" style=\"padding:20px\"><p style=\"font-size:12px\">完成練習後，呢度會顯示每週摘要</p></div>';
+return;
+}
+
+var traps = g.trapDefeats || {};
+var topTrap = null, topCount = 0;
+for (var t in traps) {
+if (traps[t] > topCount) { topCount = traps[t]; topTrap = t; }
+}
+
+var trapNames = {T1:'進退位',T2:'單位換算',T3:'運算順序',T4:'漏寫0',T5:'分數',T6:'百分數',T7:'應用題',T8:'圖形',T9:'時間',T10:'餘數'};
+var trapName = topTrap ? trapNames[topTrap] || topTrap : '未知';
+
+el.innerHTML = 
+'<div class=\"summary-item\"><span>📝 總練習題數</span><span class=\"val\">' + (g.totalQuestions||0) + ' 題</span></div>' +
+'<div class=\"summary-item\"><span>✅ 總正確率</span><span class=\"val\">' + ((g.totalQuestions||0) > 0 ? Math.round((g.totalCorrect||0)/(g.totalQuestions||0)*100) : 0) + '%</span></div>' +
+'<div class=\"summary-item\"><span>🔥 連續練習</span><span class=\"val\">' + (g.currentStreak||0) + ' 天</span></div>' +
+'<div class=\"summary-item\"><span>🏆 已獲勳章</span><span class=\"val\">' + Object.keys(g.badges||{}).length + ' 個</span></div>' +
+'<div class=\"summary-item\"><span>⚠️ 最弱陷阱</span><span class=\"val\">' + trapName + '</span></div>' +
+'<div class=\"summary-item\"><span>🦊 已擊敗怪獸</span><span class=\"val\">' + Object.values(g.monsterStages||{}).filter(function(v){return v>=1}).length + '/10</span></div>';
+}
+
+function updateAITips(g) {
+var el = document.getElementById('aiTips');
+if (!g || !g.totalQuestions) {
+el.innerHTML = '<div class=\"summary-item\"><span>完成陷阱診斷後</span><span class=\"val\">獲取個人化建議</span></div>';
+return;
+}
+
+var tips = [];
+if ((g.currentStreak||0) < 3) tips.push('🔥 建議每日練習至少 10 題，建立連續習慣');
+if ((g.totalCorrect||0)/(g.totalQuestions||1) < 0.7) tips.push('🎯 正確率偏低，建議先做陷阱診斷找出弱點');
+if ((g.currentStreak||0) >= 7) tips.push('🌟 已連續練習 7+ 日！保持下去，升級 Pro 解鎖更多題目');
+if (Object.keys(g.badges||{}).length < 3) tips.push('🏅 嘗試解鎖更多勳章，例如「三日連擊」或「神射手」');
+
+if (tips.length === 0) tips.push('👍 學習進度良好！繼續保持');
+
+el.innerHTML = tips.map(function(t){ return '<div class=\"summary-item\"><span>' + t + '</span></div>'; }).join('');
+}
+
+function viewChild(name, grade) {
+localStorage.setItem('lf_selected_child', JSON.stringify({name:name, grade:grade}));
+window.location.href = 'student-platform.html';
+}
+
+// Load on page
+renderChildren();
+
+// Listen for storage changes from other tabs
+window.addEventListener('storage', function(e) {
+if (e.key && (e.key.startsWith('lf_') || e.key.startsWith('lf_gamification'))) {
+renderChildren();
+}
+});
+</script>
+  <script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+  <script src="/docs/data/lf-whatsapp.js"></script>
+  <script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+
+<div style="text-align:center;margin:20px 0"><a href="/docs/parent-smart-report.html" style="display:inline-block;background:#C9A84C;color:white;padding:12px 30px;border-radius:25px;text-decoration:none;font-weight:700">📊 智能報告 →</a></div>
+
+<div style="text-align:center;padding:20px;font-size:12px;color:#9CA3AF;border-top:1px solid #E5E7EB;margin-top:20px">
+<a href="/docs/app-v2.html" style="color:#1A3C6D;font-weight:700;text-decoration:none">🏠 霖楓 App 主控台</a> · 
+<a href="/docs/login.html" style="color:#6B7280;text-decoration:none">登入</a> · 
+<a href="/docs/faq.html" style="color:#6B7280;text-decoration:none">FAQ</a>
+</div>
+</body>
+</html>

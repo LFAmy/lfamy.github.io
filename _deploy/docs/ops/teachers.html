@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>導師管理 · 霖楓學苑 LF Academy</title>
+<style>
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans HK",sans-serif}
+:root {
+  --blue: #1A3C6D;
+  --gold: #C9A84C;
+  --red: #DC2626;
+  --green: #16A34A;
+  --bg: #F5F6F8;
+  --card: #FFFFFF;
+  --text: #1F2937;
+  --text-secondary: #6B7280;
+  --border: #E5E7EB;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; }
+
+.nav { background: var(--blue); color: #fff; padding: 0 20px; display: flex; align-items: center; height: 56px; gap: 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.nav-brand { font-weight: 700; font-size: 17px; margin-right: auto; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+.nav-brand span { color: var(--gold); }
+.nav a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+.nav a:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.nav a.active { color: #fff; background: rgba(255,255,255,0.18); font-weight: 600; }
+
+.page { max-width: 1100px; margin: 0 auto; padding: 20px; }
+.section-title { font-size: 15px; font-weight: 700; color: var(--blue); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--gold); display: flex; align-items: center; gap: 8px; }
+.card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+
+/* KPIs */
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+.kpi-card { background: var(--card); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); text-align: center; }
+.kpi-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
+.kpi-value { font-size: 26px; font-weight: 700; color: var(--blue); margin: 4px 0; }
+.kpi-sub { font-size: 11px; color: var(--text-secondary); }
+
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { background: #F9FAFB; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); font-size: 11px; color: var(--text-secondary); text-transform: uppercase; white-space: nowrap; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.data-table tr:hover td { background: #FAFBFC; }
+.data-table .num { text-align: right; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.badge-green { background: #DCFCE7; color: #15803D; }
+.badge-red { background: #FEE2E2; color: #B91C1C; }
+.badge-blue { background: #DBEAFE; color: #1D4ED8; }
+.badge-gold { background: #FEF9C3; color: #A16207; }
+
+/* UTILIZATION BAR */
+.util-bar-bg { width: 100%; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden; min-width: 60px; }
+.util-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+.util-bar-fill.low { background: var(--green); }
+.util-bar-fill.medium { background: var(--gold); }
+.util-bar-fill.high { background: var(--red); }
+
+/* GRADE TAGS */
+.grade-tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; margin: 1px; }
+.grade-p3 { background: #DCFCE7; color: #15803D; }
+.grade-p4 { background: #DBEAFE; color: #1D4ED8; }
+.grade-p5 { background: #FEF9C3; color: #A16207; }
+.grade-p6 { background: #FEE2E2; color: #B91C1C; }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: #152F54; }
+.btn-outline { background: var(--card); color: var(--blue); border: 1.5px solid var(--blue); }
+.btn-outline:hover { background: #EEF2F8; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #B91C1C; }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: #B8953A; }
+.btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 5px; }
+.btn-xs { padding: 3px 8px; font-size: 11px; border-radius: 4px; }
+.action-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--card); border-radius: 12px; padding: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
+.modal-title { font-size: 18px; font-weight: 700; margin-bottom: 18px; }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+.form-group input, .form-group select { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 14px; font-family: inherit; }
+.form-group input:focus, .form-group select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,60,109,0.1); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-check { display: flex; align-items: center; gap: 6px; padding: 3px 0; }
+.form-check input[type="checkbox"] { width: auto; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+/* PAYROLL */
+.payroll-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.payroll-row:last-child { border-bottom: none; }
+.payroll-name { font-weight: 600; font-size: 15px; }
+.payroll-hours { font-size: 13px; color: var(--text-secondary); }
+.payroll-amount { font-weight: 700; font-size: 16px; color: var(--blue); }
+.payroll-total { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 0; margin-top: 8px; border-top: 2px solid var(--text); font-size: 17px; font-weight: 700; }
+
+/* PRINT */
+@media print {
+  .nav, .btn, .action-btns { display: none !important; }
+  body { background: #fff; font-size: 12px; }
+  .card { box-shadow: none; border: 1px solid #ddd; }
+  .page { padding: 10px; }
+}
+
+@media (max-width: 768px) {
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .data-table { font-size: 11px; }
+  .data-table th, .data-table td { padding: 6px 8px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">霖楓學苑 <span>·</span> LF Academy <span style="font-size:11px;font-weight:400;opacity:0.7;">— 營運後台</span></div>
+  <a href="schedule.html">時間表</a>
+  <a href="revenue.html">收入計算</a>
+  <a href="teachers.html" class="active">導師管理</a>
+</nav>
+
+<div class="page">
+
+<!-- TOP KPIs -->
+<div class="grid-3" id="topKpis"></div>
+
+<!-- TEACHER ROSTER -->
+<div class="card">
+  <div class="section-title">
+    導師名單
+    <button class="btn btn-primary btn-sm" onclick="openAddTeacherModal()" style="margin-left:auto;">+ 新增導師</button>
+    <button class="btn btn-outline btn-sm" onclick="exportTeachersCSV()">匯出 CSV</button>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="data-table" id="teacherTable">
+      <thead>
+        <tr>
+          <th>導師</th>
+          <th>聯絡方式</th>
+          <th>時薪</th>
+          <th>年級</th>
+          <th>本週工時</th>
+          <th>使用率</th>
+          <th>ClassIn</th>
+          <th>本週薪資</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="teacherTableBody"></tbody>
+    </table>
+  </div>
+  <div id="noTeachers" style="display:none;text-align:center;padding:40px;color:var(--text-secondary);">
+    尚未新增導師。點擊「新增導師」以開始。
+  </div>
+</div>
+
+<!-- PAYROLL SUMMARY -->
+<div class="card">
+  <div class="section-title">本週薪資摘要</div>
+  <div id="payrollSummary"></div>
+</div>
+
+<!-- CLASSIN ACCOUNTS -->
+<div class="card">
+  <div class="section-title">ClassIn 帳號管理</div>
+  <div style="overflow-x:auto;">
+    <table class="data-table" id="classinTable">
+      <thead>
+        <tr><th>導師</th><th>ClassIn 帳號狀態</th><th>帳號電郵</th><th>備註</th></tr>
+      </thead>
+      <tbody id="classinTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+
+<!-- ADD/EDIT TEACHER MODAL -->
+<div class="modal-overlay" id="teacherModalOverlay">
+  <div class="modal" id="teacherModalContent"></div>
+</div>
+
+<script>
+const DAYS = ['', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+const TIME_SLOTS = [
+  { label: '16:00-17:05', block: 1 },
+  { label: '17:10-18:15', block: 2 },
+  { label: '18:20-19:25', block: 3 },
+  { label: '19:30-20:35', block: 4 },
+];
+const GRADES = ['P3', 'P4', 'P5', 'P6'];
+
+function loadData(key, fallback) {
+  try { const d = localStorage.getItem('lf_' + key); return d ? JSON.parse(d) : fallback; }
+  catch(e) { return fallback; }
+}
+function saveData(key, data) { localStorage.setItem('lf_' + key, JSON.stringify(data)); }
+
+function getDefaultTeachers() {
+  return [
+    { id: 't1', name: '陳老師', contact: '91234567', email: 'chan@example.com', hourlyRate: 250, maxHours: 15, grades: ['P3','P4'], hasClassIn: true, classinEmail: 'chan@classin.com', classinNote: '' },
+    { id: 't2', name: '李老師', contact: '92345678', email: 'lee@example.com', hourlyRate: 250, maxHours: 12, grades: ['P4','P5'], hasClassIn: true, classinEmail: 'lee@classin.com', classinNote: '' },
+    { id: 't3', name: '張老師', contact: '93456789', email: 'cheung@example.com', hourlyRate: 280, maxHours: 10, grades: ['P5','P6'], hasClassIn: false, classinEmail: '', classinNote: '待開通' },
+    { id: 't4', name: '黃老師', contact: '94567890', email: 'wong@example.com', hourlyRate: 220, maxHours: 8, grades: ['P3'], hasClassIn: true, classinEmail: 'wong@classin.com', classinNote: '' },
+  ];
+}
+
+function getDefaultStudents() {
+  const s = [];
+  const names = ['王小明','林小美','陳大文','李小花','張志強','劉天佑','黃小龍','何美玲','周子軒','吳俊傑','鄭小晴','馬志明','朱小燕','胡家豪','林心怡'];
+  for (let i = 0; i < 15; i++) {
+    s.push({ id: 's' + (i+1), name: names[i], grade: GRADES[i % 4], parentContact: '9' + String(Math.floor(Math.random()*90000000+10000000)) });
+  }
+  return s;
+}
+
+function getDefaultSchedule() {
+  // Generate some sample schedule data if none exists
+  const teachers = getDefaultTeachers();
+  const students = getDefaultStudents();
+  const schedule = [];
+  const configs = [
+    { day: 1, block: 1, ti: 0, grade: 'P3' },
+    { day: 1, block: 2, ti: 1, grade: 'P4' },
+    { day: 2, block: 1, ti: 2, grade: 'P5' },
+    { day: 2, block: 2, ti: 3, grade: 'P3' },
+    { day: 3, block: 1, ti: 0, grade: 'P4' },
+    { day: 3, block: 2, ti: 1, grade: 'P5' },
+    { day: 4, block: 1, ti: 2, grade: 'P6' },
+    { day: 4, block: 2, ti: 0, grade: 'P3' },
+    { day: 5, block: 1, ti: 1, grade: 'P4' },
+    { day: 5, block: 2, ti: 3, grade: 'P3' },
+    { day: 6, block: 1, ti: 0, grade: 'P5' },
+    { day: 6, block: 2, ti: 2, grade: 'P6' },
+  ];
+  configs.forEach((cfg, i) => {
+    const gradeStudents = students.filter(s => s.grade === cfg.grade).slice(0, 3);
+    schedule.push({
+      id: 'sc' + i,
+      day: cfg.day,
+      block: cfg.block,
+      teacherId: teachers[cfg.ti].id,
+      grade: cfg.grade,
+      studentIds: gradeStudents.map(s => s.id),
+      classinLink: 'https://www.classin.com/room/' + (1000 + i),
+      maxStudents: 3,
+    });
+  });
+  return schedule;
+}
+
+let teachers = loadData('teachers', getDefaultTeachers());
+let schedule = loadData('schedule', getDefaultSchedule());
+let students = loadData('students', getDefaultStudents());
+
+function getTeacherHours(teacherId) {
+  return schedule.filter(c => c.teacherId === teacherId).length * (65/60);
+}
+
+function getTeacherPay(teacherId) {
+  const t = teachers.find(t => t.id === teacherId);
+  if (!t) return 0;
+  return getTeacherHours(teacherId) * t.hourlyRate;
+}
+
+function renderAll() {
+  renderKPIs();
+  renderTeacherTable();
+  renderPayroll();
+  renderClassInTable();
+}
+
+function renderKPIs() {
+  let totalHours = 0, totalPay = 0;
+  teachers.forEach(t => {
+    const hrs = getTeacherHours(t.id);
+    totalHours += hrs;
+    totalPay += hrs * t.hourlyRate;
+  });
+  document.getElementById('topKpis').innerHTML =
+    '<div class="kpi-card"><div class="kpi-label">導師總數</div><div class="kpi-value">' + teachers.length + '</div><div class="kpi-sub">人</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">本週總工時</div><div class="kpi-value">' + totalHours.toFixed(1) + '</div><div class="kpi-sub">小時</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">本週總薪資</div><div class="kpi-value">$' + Math.round(totalPay).toLocaleString() + '</div><div class="kpi-sub">HKD</div></div>';
+}
+
+function renderTeacherTable() {
+  const tbody = document.getElementById('teacherTableBody');
+  if (teachers.length === 0) {
+    document.getElementById('noTeachers').style.display = 'block';
+    tbody.innerHTML = '';
+    return;
+  }
+  document.getElementById('noTeachers').style.display = 'none';
+
+  tbody.innerHTML = teachers.map(t => {
+    const hrs = getTeacherHours(t.id);
+    const pct = t.maxHours > 0 ? (hrs / t.maxHours * 100) : 0;
+    const barClass = pct > 90 ? 'high' : (pct > 70 ? 'medium' : 'low');
+    const pay = getTeacherPay(t.id);
+    const gradeTags = t.grades.map(g => '<span class="grade-tag grade-p' + g.toLowerCase() + '">' + g + '</span>').join('');
+
+    return '<tr>' +
+      '<td><strong>' + t.name + '</strong></td>' +
+      '<td><div>' + t.contact + '</div><div style="font-size:11px;color:var(--text-secondary);">' + (t.email || '') + '</div></td>' +
+      '<td class="num">$' + t.hourlyRate + '/hr</td>' +
+      '<td>' + gradeTags + '</td>' +
+      '<td class="num">' + hrs.toFixed(1) + ' / ' + t.maxHours + ' hrs</td>' +
+      '<td><div class="util-bar-bg"><div class="util-bar-fill ' + barClass + '" style="width:' + Math.min(pct, 100) + '%"></div></div><div style="font-size:10px;color:var(--text-secondary);margin-top:2px;">' + Math.round(pct) + '%</div></td>' +
+      '<td>' + (t.hasClassIn ? '<span class="badge badge-green">已開通</span>' : '<span class="badge badge-red">未開通</span>') + '</td>' +
+      '<td class="num"><strong>$' + Math.round(pay).toLocaleString() + '</strong></td>' +
+      '<td><div class="action-btns">' +
+        '<a class="btn btn-outline btn-xs" href="https://wa.me/852' + t.contact.replace(/\s/g,'') + '" target="_blank" title="WhatsApp">WhatsApp</a>' +
+        (t.email ? '<a class="btn btn-outline btn-xs" href="mailto:' + t.email + '" title="電郵">電郵</a>' : '') +
+        '<button class="btn btn-outline btn-xs" onclick="openEditTeacherModal(\'' + t.id + '\')">編輯</button>' +
+        '<button class="btn btn-danger btn-xs" onclick="deleteTeacher(\'' + t.id + '\')">刪除</button>' +
+      '</div></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function renderPayroll() {
+  const container = document.getElementById('payrollSummary');
+  if (teachers.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-secondary);">尚未新增導師</div>';
+    return;
+  }
+  let totalPay = 0, totalHours = 0;
+  let html = '';
+  teachers.forEach(t => {
+    const hrs = getTeacherHours(t.id);
+    const pay = hrs * t.hourlyRate;
+    totalPay += pay;
+    totalHours += hrs;
+    html += '<div class="payroll-row">' +
+      '<div><span class="payroll-name">' + t.name + '</span><br><span class="payroll-hours">' + hrs.toFixed(1) + ' 小時 × $' + t.hourlyRate + '/hr</span></div>' +
+      '<div class="payroll-amount">$' + Math.round(pay).toLocaleString() + '</div>' +
+      '</div>';
+  });
+  html += '<div class="payroll-total"><span>總計 (' + totalHours.toFixed(1) + ' 小時)</span><span>$' + Math.round(totalPay).toLocaleString() + '</span></div>';
+  container.innerHTML = html;
+}
+
+function renderClassInTable() {
+  const tbody = document.getElementById('classinTableBody');
+  if (teachers.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-secondary);">尚未新增導師</td></tr>';
+    return;
+  }
+  tbody.innerHTML = teachers.map(t =>
+    '<tr>' +
+    '<td><strong>' + t.name + '</strong></td>' +
+    '<td>' + (t.hasClassIn ? '<span class="badge badge-green">已開通</span>' : '<span class="badge badge-red">未開通</span>') + '</td>' +
+    '<td>' + (t.classinEmail || '—') + '</td>' +
+    '<td>' + (t.classinNote || '—') + '</td>' +
+    '</tr>'
+  ).join('');
+}
+
+// Teacher CRUD
+function openAddTeacherModal() {
+  const modal = document.getElementById('teacherModalContent');
+  const gradeChecks = GRADES.map(g =>
+    '<label class="form-check"><input type="checkbox" value="' + g + '" class="grade-check"> ' + g + ' 年級</label>'
+  ).join('');
+
+  modal.innerHTML =
+    '<div class="modal-title">新增導師</div>' +
+    '<div class="form-row"><div class="form-group"><label>姓名 *</label><input type="text" id="tName" placeholder="陳老師"></div>' +
+    '<div class="form-group"><label>聯絡電話 *</label><input type="text" id="tContact" placeholder="91234567"></div></div>' +
+    '<div class="form-group"><label>電郵</label><input type="email" id="tEmail" placeholder="teacher@example.com"></div>' +
+    '<div class="form-row"><div class="form-group"><label>時薪 (HKD) *</label><input type="number" id="tRate" min="0" max="2000" value="250"></div>' +
+    '<div class="form-group"><label>每週最高工時</label><input type="number" id="tMaxHours" min="1" max="40" value="12"></div></div>' +
+    '<div class="form-group"><label>任教年級</label><div style="display:flex;flex-wrap:wrap;gap:12px;padding:8px 0;">' + gradeChecks + '</div></div>' +
+    '<div class="form-row"><div class="form-group"><label>ClassIn 帳號</label><select id="tClassIn"><option value="1">已開通</option><option value="0">未開通</option></select></div>' +
+    '<div class="form-group"><label>ClassIn 電郵</label><input type="email" id="tClassInEmail" placeholder="teacher@classin.com"></div></div>' +
+    '<div class="form-group"><label>備註</label><input type="text" id="tNote" placeholder=""></div>' +
+    '<div class="modal-actions"><button class="btn btn-outline" onclick="closeTeacherModal()">取消</button><button class="btn btn-primary" onclick="saveNewTeacher()">儲存</button></div>';
+  document.getElementById('teacherModalOverlay').classList.add('active');
+}
+
+function openEditTeacherModal(id) {
+  const t = teachers.find(t => t.id === id);
+  if (!t) return;
+  const modal = document.getElementById('teacherModalContent');
+  const gradeChecks = GRADES.map(g =>
+    '<label class="form-check"><input type="checkbox" value="' + g + '" class="grade-check"' + (t.grades.includes(g) ? ' checked' : '') + '> ' + g + ' 年級</label>'
+  ).join('');
+
+  modal.innerHTML =
+    '<div class="modal-title">編輯導師</div>' +
+    '<div class="form-row"><div class="form-group"><label>姓名 *</label><input type="text" id="tName" value="' + t.name + '"></div>' +
+    '<div class="form-group"><label>聯絡電話 *</label><input type="text" id="tContact" value="' + t.contact + '"></div></div>' +
+    '<div class="form-group"><label>電郵</label><input type="email" id="tEmail" value="' + (t.email || '') + '"></div>' +
+    '<div class="form-row"><div class="form-group"><label>時薪 (HKD) *</label><input type="number" id="tRate" min="0" max="2000" value="' + t.hourlyRate + '"></div>' +
+    '<div class="form-group"><label>每週最高工時</label><input type="number" id="tMaxHours" min="1" max="40" value="' + t.maxHours + '"></div></div>' +
+    '<div class="form-group"><label>任教年級</label><div style="display:flex;flex-wrap:wrap;gap:12px;padding:8px 0;">' + gradeChecks + '</div></div>' +
+    '<div class="form-row"><div class="form-group"><label>ClassIn 帳號</label><select id="tClassIn"><option value="1"' + (t.hasClassIn ? ' selected' : '') + '>已開通</option><option value="0"' + (!t.hasClassIn ? ' selected' : '') + '>未開通</option></select></div>' +
+    '<div class="form-group"><label>ClassIn 電郵</label><input type="email" id="tClassInEmail" value="' + (t.classinEmail || '') + '"></div></div>' +
+    '<div class="form-group"><label>備註</label><input type="text" id="tNote" value="' + (t.classinNote || '') + '"></div>' +
+    '<div class="modal-actions"><button class="btn btn-danger" onclick="deleteTeacher(\'' + t.id + '\')">刪除導師</button><button class="btn btn-outline" onclick="closeTeacherModal()">取消</button><button class="btn btn-primary" onclick="saveEditTeacher(\'' + t.id + '\')">儲存變更</button></div>';
+  document.getElementById('teacherModalOverlay').classList.add('active');
+}
+
+function saveNewTeacher() {
+  const name = document.getElementById('tName').value.trim();
+  const contact = document.getElementById('tContact').value.trim();
+  if (!name || !contact) { alert('請填寫姓名和聯絡電話'); return; }
+  const grades = Array.from(document.querySelectorAll('.grade-check:checked')).map(cb => cb.value);
+  const teacher = {
+    id: 't' + Date.now(),
+    name, contact,
+    email: document.getElementById('tEmail').value.trim(),
+    hourlyRate: parseFloat(document.getElementById('tRate').value) || 250,
+    maxHours: parseInt(document.getElementById('tMaxHours').value) || 12,
+    grades: grades.length > 0 ? grades : ['P3'],
+    hasClassIn: document.getElementById('tClassIn').value === '1',
+    classinEmail: document.getElementById('tClassInEmail').value.trim(),
+    classinNote: document.getElementById('tNote').value.trim(),
+  };
+  teachers.push(teacher);
+  saveData('teachers', teachers);
+  closeTeacherModal();
+  renderAll();
+}
+
+function saveEditTeacher(id) {
+  const t = teachers.find(t => t.id === id);
+  if (!t) return;
+  const name = document.getElementById('tName').value.trim();
+  const contact = document.getElementById('tContact').value.trim();
+  if (!name || !contact) { alert('請填寫姓名和聯絡電話'); return; }
+  const grades = Array.from(document.querySelectorAll('.grade-check:checked')).map(cb => cb.value);
+  t.name = name;
+  t.contact = contact;
+  t.email = document.getElementById('tEmail').value.trim();
+  t.hourlyRate = parseFloat(document.getElementById('tRate').value) || 250;
+  t.maxHours = parseInt(document.getElementById('tMaxHours').value) || 12;
+  t.grades = grades.length > 0 ? grades : ['P3'];
+  t.hasClassIn = document.getElementById('tClassIn').value === '1';
+  t.classinEmail = document.getElementById('tClassInEmail').value.trim();
+  t.classinNote = document.getElementById('tNote').value.trim();
+  saveData('teachers', teachers);
+  closeTeacherModal();
+  renderAll();
+}
+
+function deleteTeacher(id) {
+  const t = teachers.find(t => t.id === id);
+  if (!t) return;
+  if (!confirm('確定要刪除導師「' + t.name + '」嗎？\n\n刪除後，相關課堂將不受影響但不會顯示導師名稱。')) return;
+  teachers = teachers.filter(t => t.id !== id);
+  saveData('teachers', teachers);
+  closeTeacherModal();
+  renderAll();
+}
+
+function closeTeacherModal() { document.getElementById('teacherModalOverlay').classList.remove('active'); }
+document.getElementById('teacherModalOverlay').addEventListener('click', function(e) { if (e.target === this) closeTeacherModal(); });
+
+function exportTeachersCSV() {
+  let csv = 'Name,Contact,Email,HourlyRate,MaxHours,Grades,HasClassIn,ClassInEmail,WeeklyHours,WeeklyPay\n';
+  teachers.forEach(t => {
+    const hrs = getTeacherHours(t.id);
+    const pay = hrs * t.hourlyRate;
+    csv += t.name + ',' + t.contact + ',' + (t.email||'') + ',' + t.hourlyRate + ',' + t.maxHours + ',"' + t.grades.join(';') + '",' + (t.hasClassIn?'Yes':'No') + ',' + (t.classinEmail||'') + ',' + hrs.toFixed(1) + ',' + Math.round(pay) + '\n';
+  });
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'teachers_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// Initialize
+renderAll();
+</script>
+</body>
+</html>

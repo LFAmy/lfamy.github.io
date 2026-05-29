@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 我的用量</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:600px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.quota-bar{margin:12px 0}
+.quota-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.quota-fill{height:12px;border-radius:6px;transition:width 0.5s}
+.quota-fill.green{background:#16A34A}.quota-fill.yellow{background:#F59E0B}.quota-fill.red{background:#DC2626}
+.quota-bg{background:#E5E7EB;height:12px;border-radius:6px;overflow:hidden}
+.upgrade-prompt{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:2px solid #F59E0B;border-radius:14px;padding:20px;text-align:center;margin:12px 0}
+.upgrade-prompt h3{color:#92400E;margin-bottom:6px}
+.upgrade-prompt p{font-size:12px;color:#78350F;margin-bottom:10px}
+.btn-upgrade{display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#C9A84C,#DFC06A);color:#1A3C6D;border-radius:25px;font-weight:900;font-size:14px;text-decoration:none}
+.plan-badge{display:inline-block;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700}
+.plan-free{background:#DBEAFE;color:#1E40AF}.plan-pro{background:#D1FAE5;color:#065F46}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>📊 我的用量</h1><p>目前計劃：<span class="plan-badge plan-free" id="currentPlan">免費版</span></p></div>
+
+<div class="card"><h2>本月用量</h2>
+<div class="quota-bar"><div class="quota-label"><span>AI 練習</span><span id="practiceUsed">8/15</span></div><div class="quota-bg"><div class="quota-fill green" id="practiceBar" style="width:53%"></div></div></div>
+<div class="quota-bar"><div class="quota-label"><span>OCR 掃描</span><span id="ocrUsed">1/1</span></div><div class="quota-bg"><div class="quota-fill red" id="ocrBar" style="width:100%"></div></div></div>
+<div class="quota-bar"><div class="quota-label"><span>試卷下載</span><span id="paperUsed">3/5</span></div><div class="quota-bg"><div class="quota-fill yellow" id="paperBar" style="width:60%"></div></div></div>
+</div>
+
+<div class="upgrade-prompt" id="ocrUpgrade" style="display:none"><h3>🔒 OCR 掃描次數已用完</h3><p>升級 Pro 解鎖無限 OCR 掃描 + AI 自動生成相似練習</p><a href="pricing.html" class="btn-upgrade">💰 升級 Pro $199/月 →</a></div>
+
+<div class="card"><h2>升級 Pro 後可解鎖</h2>
+<p style="font-size:12px;color:#6B7280;line-height:2">
+🔓 無限 AI 練習（目前 <span id="remainPractice">7</span> 次剩餘）<br>
+🔓 無限 OCR 掃描（已用完）<br>
+🔓 錯題管理+重做排程<br>
+🔓 WhatsApp 自動推送<br>
+🔓 50+ 試卷資源庫<br>
+🔓 AI 個人化出題（736題）
+</p></div>
+
+<div style="text-align:center;margin-top:8px"><a href="pricing.html" class="btn-upgrade">💰 升級 Pro →</a></div>
+</div>
+
+<script>
+var usage=JSON.parse(localStorage.getItem("lf_usage")||'{"practice":8,"ocr":1,"paper":3,"plan":"free","month":"2026-05"}');
+var month=new Date().toISOString().substring(0,7);
+if(usage.month!==month){usage={practice:0,ocr:0,paper:0,plan:usage.plan,month:month};localStorage.setItem("lf_usage",JSON.stringify(usage))}
+document.getElementById("practiceUsed").textContent=usage.practice+"/15";
+document.getElementById("ocrUsed").textContent=usage.ocr+"/1";
+document.getElementById("paperUsed").textContent=usage.paper+"/5";
+document.getElementById("remainPractice").textContent=Math.max(0,15-usage.practice);
+var pPct=Math.min(100,usage.practice/15*100);document.getElementById("practiceBar").style.width=pPct+"%";
+document.getElementById("practiceBar").className="quota-fill "+(pPct>=80?"red":pPct>=50?"yellow":"green");
+document.getElementById("ocrBar").style.width=(usage.ocr>=1?100:0)+"%";
+document.getElementById("paperBar").style.width=(usage.paper/5*100)+"%";
+if(usage.ocr>=1)document.getElementById("ocrUpgrade").style.display="block";
+if(usage.plan==="pro"){document.getElementById("currentPlan").textContent="Pro 會員";document.getElementById("currentPlan").className="plan-badge plan-pro"}
+</script>
+</body></html>

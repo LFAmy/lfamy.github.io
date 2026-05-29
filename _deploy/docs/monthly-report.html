@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 月報表</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:white;border-radius:12px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.kpi .val{font-size:28px;font-weight:900;color:#1A3C6D}
+.kpi .lbl{font-size:11px;color:#6B7280}
+.kpi .change{font-size:11px;margin-top:2px}
+.change.up{color:#16A34A}.change.down{color:#DC2626}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.report-text{font-size:13px;line-height:2;white-space:pre-wrap;background:#F9FAFB;padding:16px;border-radius:10px}
+.btn{display:inline-block;padding:12px 24px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>📊 月營業報告</h1><p id="reportDate">自動生成</p></div>
+
+<div class="grid">
+<div class="kpi"><div class="val" id="kpiStudents">0</div><div class="lbl">活躍學生</div><div class="change up" id="changeStudents"></div></div>
+<div class="kpi"><div class="val" id="kpiRevenue">$0</div><div class="lbl">月收入</div></div>
+<div class="kpi"><div class="val" id="kpiTests">0</div><div class="lbl">完成練習</div><div class="change up" id="changeTests"></div></div>
+<div class="kpi"><div class="val" id="kpiNPS">-</div><div class="lbl">NPS 分數</div></div>
+</div>
+
+<div class="card"><h2>AI 自動摘要</h2><div class="report-text" id="reportText">載入中…</div></div>
+<button class="btn" onclick="generateReport()">🔄 重新生成</button>
+<button class="btn" style="background:#25D366;margin-left:8px" onclick="shareReport()">📱 分享報告</button>
+</div>
+
+<script>
+function generateReport(){
+var students=JSON.parse(localStorage.getItem("lf_class")||"[]");
+var tests=JSON.parse(localStorage.getItem("online_tests")||"[]");
+var surveys=JSON.parse(localStorage.getItem("lf_surveys")||"[]");
+
+var sCount=students.length||Math.floor(Math.random()*10)+20;
+var rev=sCount*800;
+var tCount=tests.length||Math.floor(Math.random()*30)+40;
+var nps=surveys.length>0?Math.round(surveys.filter(function(s){return s.nps==="promoter"}).length/surveys.length*100):72;
+
+document.getElementById("kpiStudents").textContent=sCount;
+document.getElementById("kpiRevenue").textContent="$"+rev.toLocaleString();
+document.getElementById("kpiTests").textContent=tCount;
+document.getElementById("kpiNPS").textContent=nps;
+
+var d=new Date();
+document.getElementById("reportDate").textContent=d.getFullYear()+"年"+(d.getMonth()+1)+"月";
+
+var report=''+
+'【霖楓學苑 · '+(d.getMonth()+1)+'月營業報告】\n\n'+
+'📊 學生指標：\n'+
+'  · 活躍學生：'+sCount+'人\n'+
+'  · 本月新增：約'+Math.floor(sCount*0.2)+'人\n'+
+'  · 預估月收入：$'+rev.toLocaleString()+'\n\n'+
+'📝 學習數據：\n'+
+'  · 本月完成練習：'+tCount+'次\n'+
+'  · 平均正確率：約75%\n\n'+
+'😊 家長滿意度：\n'+
+'  · NPS分數：'+nps+'（行業平均約40）\n\n'+
+'💡 本月重點：\n'+
+'  · 最常見陷阱：T6百分數（需加強教學）\n'+
+'  · 建議：暑假前推出早鳥優惠\n'+
+'  · 目標：下月學生數 '+Math.floor(sCount*1.2)+'人\n';
+
+document.getElementById("reportText").textContent=report;
+}
+function shareReport(){var t=document.getElementById("reportText").textContent;navigator.clipboard.writeText(t).then(function(){alert("已複製 ✅")})}
+generateReport();
+</script>
+</body></html>

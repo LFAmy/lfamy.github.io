@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>霖楓學苑 · Launchpad v2.1 | 總控制台</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray:#6B7280;--lightbg:#F9FAFB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:13px;line-height:1.6;}
+.topbar{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.topbar h1{font-family:'Noto Serif HK',serif;font-size:19px;}
+.topbar .sub{color:#C9A84C;font-size:11px;}
+.topbar .status{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;}
+.topbar .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#16A34A;margin-right:4px;}
+.container{max-width:1300px;margin:0 auto;padding:16px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px;}
+.card{background:white;border-radius:10px;padding:18px;box-shadow:0 2px 6px rgba(0,0,0,0.06);}
+.card h2{font-size:15px;color:var(--blue);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--gold);}
+.card h3{font-size:12px;color:var(--blue);margin:10px 0 6px;}
+.btn{display:block;width:100%;padding:9px 14px;margin:4px 0;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;transition:all 0.15s;font-family:'Noto Sans HK',sans-serif;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+.btn-blue{background:var(--blue);color:white;}
+.btn-gold{background:var(--gold);color:white;}
+.btn-green{background:var(--green);color:white;}
+.btn-red{background:var(--red);color:white;}
+.btn-outline{background:white;color:var(--blue);border:2px solid var(--blue);}
+.btn-sm{padding:5px 10px;font-size:10px;display:inline-block;width:auto;margin:2px;}
+.stat-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #E5E7EB;font-size:11px;}
+.stat-row .val{font-weight:900;}
+.cmd-box{background:#1E1E1E;color:#E5E5E5;padding:10px 14px;border-radius:7px;font-family:Consolas,monospace;font-size:11px;margin:6px 0;overflow-x:auto;white-space:nowrap;}
+.cmd-box .prompt{color:#C9A84C;}
+.cmd-box .cmd{color:#93C5FD;}
+.cmd-box .highlight{color:#F59E0B;font-weight:700;}
+.quick-actions{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;}
+.tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;margin-left:4px;}
+.tag-new{background:#EDE9FE;color:#7C3AED;}
+.tag-web{background:#DCFCE7;color:#166534;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:4px;}
+.tag-local{background:#FEF3C7;color:#92400E;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:4px;}
+.footer{text-align:center;padding:20px;color:#6B7280;font-size:10px;}
+.footer a{color:var(--blue);}
+@media(max-width:768px){.grid{grid-template-columns:1fr;}}
+
+/* ═══ UX Pro Max v1.0: Accessibility + Reduced Motion ═══ */
+:focus-visible{outline:2px solid var(--gold,#C9A84C);outline-offset:2px;border-radius:2px;}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important;}
+}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div>
+<h1>🪤 霖楓學苑 · LF Academy</h1>
+<div class="sub">Launchpad v2.1 · 總控制台 · 2026-05-24</div>
+</div>
+<div class="status">
+<span><span class="dot"></span> 系統正常</span>
+<span>📚 208 堂</span>
+<span>📄 206 PDF</span>
+<span>📐 420+ SVG</span>
+<span>✅ 173 AK</span>
+</div>
+</div>
+
+<div class="container">
+<div class="grid">
+
+<!-- CARD: Quick Nav -->
+<div class="card">
+<h2>📚 講義與教學 <span class="tag-web">網頁可用</span></h2>
+
+<div class="quick-actions">
+<a href="#" class="btn btn-blue btn-sm" target="_blank">📚 講義總索引 (208堂)</a>
+<a href="#" class="btn btn-outline btn-sm" target="_blank">✅ 答案冊索引 (173份)</a>
+<a href="#" class="btn btn-green btn-sm" target="_blank">👩‍🏫 教師培訓手冊</a>
+  <a href="./docs/teacher-training.html" class="btn btn-gold btn-sm" target="_blank">🎓 教師培訓中心 ⭐NEW</a>
+  <a href="./docs/teacher-lesson-planner.html" class="btn btn-blue btn-sm" target="_blank">📝 教案生成器 ⭐NEW</a>
+<a href="#" class="btn btn-outline btn-sm" target="_blank">📋 陷阱速查海報</a>
+<a href="./_operations/brand_positioning_v2.html" class="btn btn-outline btn-sm" target="_blank">🎯 品牌定位 v2.0</a>
+</div>
+</div>
+
+<!-- CARD: Marketing & Enrollment -->
+<div class="card">
+<h2>📣 市場與招生 <span class="tag-web">網頁可用</span></h2>
+
+<div class="quick-actions">
+<a href="./docs/enroll.html" class="btn btn-red btn-sm" target="_blank">🎯 報名頁面</a>
+<a href="./docs/sspa_rescue_package.html" class="btn btn-gold btn-sm" target="_blank">💎 SSPA急救包</a>
+<a href="./docs/testimonials.html" class="btn btn-green btn-sm" target="_blank">🌟 學生見證牆</a>
+<a href="./docs/blog_trap_teaching.html" class="btn btn-outline btn-sm" target="_blank">📝 Blog·陷阱教學法</a>
+<a href="./docs/partner.html" class="btn btn-outline btn-sm" target="_blank">🤝 合作夥伴</a>
+<a href="./docs/pay.html" class="btn btn-outline btn-sm" target="_blank">💳 付款方式</a>
+<a href="./_operations/parent_comm_templates.html" class="btn btn-outline btn-sm" target="_blank">💬 家長通訊模板</a>
+<a href="./_operations/social_media_30day_calendar.html" class="btn btn-outline btn-sm" target="_blank">📱 社交媒體日曆</a>
+</div>
+</div>
+
+<!-- CARD: Operations Tools -->
+<div class="card">
+<h2>📊 營運工具 <span class="tag-web">網頁可用</span></h2>
+
+<div class="quick-actions">
+<a href="./_operations/trap_diagnostic_full.html" class="btn btn-red btn-sm" target="_blank">🧪 P3-P6 全面診斷</a>
+<a href="./docs/trap-quiz.html" class="btn btn-gold btn-sm" target="_blank">⚡ 2分鐘快速測試</a>
+<a href="./docs/test-generator.html" class="btn btn-red btn-sm" target="_blank">🤖 AI 智能出題</a>
+<a href="./docs/online-test.html" class="btn btn-green btn-sm" target="_blank">💻 線上測驗</a>
+<a href="./docs/student-platform.html" class="btn btn-blue btn-sm" target="_blank">🎓 學生平台</a>
+<a href="./docs/teacher-dashboard.html" class="btn btn-gold btn-sm" target="_blank">👨‍🏫 老師後台</a>
+<a href="./_operations/trap_diagnostic_test.html" class="btn btn-outline btn-sm" target="_blank">🧪 診斷 (P5-P6版)</a>
+<a href="./_operations/student_progress_tracker.html" class="btn btn-green btn-sm" target="_blank">📊 學生進度追蹤</a>
+<a href="./_operations/parent_report_generator.html" class="btn btn-gold btn-sm" target="_blank">📝 家長報告生成器</a>
+<a href="./_operations/trap_effectiveness_tracker.html" class="btn btn-outline btn-sm" target="_blank">📈 TEI 陷阱成效</a>
+<a href="./_operations/campaign_calendar_2025-26.html" class="btn btn-outline btn-sm" target="_blank">📅 學年行銷日曆</a>
+<a href="./_operations/whatsapp_nurture_sequence.html" class="btn btn-outline btn-sm" target="_blank">📱 WhatsApp 序列</a>
+<a href="./docs/crm.html" class="btn btn-gold btn-sm" target="_blank">🔥 Sales CRM</a>
+<a href="./docs/ad-link-generator.html" class="btn btn-blue btn-sm" target="_blank">🔗 廣告連結產生器</a>
+<a href="/_disabled.html" class="btn btn-gold btn-sm" target="_blank">📱 社群日曆 v2</a>
+<a href="./docs/wa-responses.html" class="btn btn-green btn-sm" target="_blank">💬 WhatsApp 回覆</a>
+<a href="./docs/ai-wa-reply.html" class="btn btn-gold btn-sm" target="_blank">🤖 AI 智能回覆</a>
+<a href="/_disabled.html" class="btn btn-blue btn-sm" target="_blank">📝 家長註冊</a>
+<a href="./docs/ocr-scan.html" class="btn btn-red btn-sm" target="_blank">📸 OCR 掃描</a>
+<a href="./docs/booking.html" class="btn btn-green btn-sm" target="_blank">📅 線上預約</a>
+<a href="./docs/learning-path.html" class="btn btn-gold btn-sm" target="_blank">🎯 學習路徑</a>
+<a href="./docs/reactivation-kit.html" class="btn btn-red btn-sm" target="_blank">🎯 Lead 再激活</a>
+<a href="./docs/student-journey.html" class="btn btn-gold btn-sm" target="_blank">🎓 學生旅程</a>
+<a href="./docs/post-trial-report.html" class="btn btn-red btn-sm" target="_blank">📋 試堂報告</a>
+<a href="./docs/teacher-manual.html" class="btn btn-blue btn-sm" target="_blank">📖 教學手冊</a>
+<a href="./docs/growth-systems.html" class="btn btn-gold btn-sm" target="_blank">📈 增長系統</a>
+<a href="./docs/parent-portal.html" class="btn btn-blue btn-sm" target="_blank">👨‍👩‍👧 家長進度</a>
+<a href="./docs/referral-tracker.html" class="btn btn-green btn-sm" target="_blank">🎁 轉介紹</a>
+<a href="./docs/daily-workflow.html" class="btn btn-gold btn-lg" target="_blank" style="font-size:15px;padding:14px 32px">📋 今日工作流程</a>
+<a href="./docs/hub.html" class="btn btn-red btn-sm" target="_blank">🏠 LF Hub</a>
+<a href="./docs/daily-ops.html" class="btn btn-red btn-sm" target="_blank">📋 每日操作</a>
+<a href="./docs/social/publish/" class="btn btn-red btn-sm" target="_blank">🚀 今日發佈</a>
+<a href="./docs/social/videos/" class="btn btn-blue btn-sm" target="_blank">🎬 影片庫</a>
+<a href="./docs/track.html" class="btn btn-outline btn-sm" target="_blank">📊 UTM 追蹤頁</a>
+<a href="./_operations/efficiency_toolkit.html" class="btn btn-blue btn-sm" target="_blank">⚡ 效率工具箱</a>
+<a href="./docs/user_guide.html" class="btn btn-outline btn-sm" target="_blank">📖 完整使用指南</a>
+<a href="./docs/setup-guide.html" class="btn btn-gold btn-sm" target="_blank">📋 CRM 設定手冊</a>
+</div>
+</div>
+
+
+<!-- CARD: Teacher Management -->
+<div class="card" style="border-left:4px solid #7C3AED;">
+<h2>👩‍🏫 教師帳號管理 <span class="tag-new">內部工具</span></h2>
+
+<div id="teacherAuthCheck" style="text-align:center;padding:12px;">
+  <p style="color:#6B7280;font-size:12px;">請先登入管理員帳號</p>
+  <a href="/auth.html" class="btn btn-blue btn-sm" style="display:inline-block;width:auto;">🔐 前往登入</a>
+</div>
+
+<div id="teacherPanel" style="display:none;">
+  <!-- Create Teacher Form -->
+  <h3>➕ 建立教師帳號</h3>
+  <div id="teacherMsg" style="font-size:11px;margin-bottom:8px;display:none;"></div>
+  
+  <div style="display:flex;flex-direction:column;gap:6px;">
+    <input type="text" id="tName" placeholder="教師姓名" style="padding:8px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit;">
+    <input type="email" id="tEmail" placeholder="教師電郵" style="padding:8px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit;">
+    <input type="password" id="tPassword" placeholder="設定密碼 (最少8位)" style="padding:8px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit;">
+    <button class="btn btn-blue btn-sm" onclick="createTeacher()" style="width:auto;">✨ 建立教師帳號</button>
+  </div>
+  
+  <!-- Teacher List -->
+  <h3 style="margin-top:14px;">📋 現有教師</h3>
+  <div id="teacherList" style="font-size:11px;color:#6B7280;">載入中...</div>
+</div>
+</div>
+
+<!-- CARD: System Status -->
+<div class="card">
+<h2>📊 系統狀態 v3.0</h2>
+<div class="stat-row"><span>P3 小三</span><span class="val">43 HTML | 40 PDF</span></div>
+<div class="stat-row"><span>P4 小四</span><span class="val">43 HTML | 40 PDF</span></div>
+<div class="stat-row"><span>P5 小五</span><span class="val">80 HTML | 86 PDF</span></div>
+<div class="stat-row"><span>P6 小六</span><span class="val">42 HTML | 40 PDF</span></div>
+<div class="stat-row" style="font-weight:900;border-top:2px solid var(--blue);margin-top:6px;">
+<span>📦 總計</span><span class="val" style="color:var(--blue);">208 堂 | 206 PDF | 420+ SVG</span>
+</div>
+<div class="stat-row"><span>✅ 答案冊</span><span class="val" style="color:#7C3AED;">173 份 (83%)</span></div>
+<div class="stat-row"><span>🌐 EN 翻譯</span><span class="val">168 份</span></div>
+<div class="stat-row"><span>🔧 Python 腳本</span><span class="val">30+ 個</span></div>
+<div class="stat-row"><span>📋 營運資產</span><span class="val">25+ HTML</span></div>
+</div>
+
+<!-- CARD: System Commands (LOCAL ONLY) -->
+<div class="card">
+<h2>🖥️ 系統指令 <span class="tag-local">僅限本機</span></h2>
+<p style="font-size:10px;color:var(--gray);margin-bottom:8px;">這些指令需要在 VS Code 終端機執行（網頁上無法使用）</p>
+
+<div class="cmd-box">
+<span class="prompt">PS&gt;</span> <span class="cmd highlight">python scripts/deploy.py --push</span>
+</div>
+<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">⬆️ 一鍵部署到網站（最重要！修改講義後必執行）</p>
+
+<div class="cmd-box">
+<span class="prompt">PS&gt;</span> <span class="cmd">python scripts/pipeline_master_index.py --deploy</span>
+</div>
+<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">重建索引 + 自動部署</p>
+
+<div class="cmd-box">
+<span class="prompt">PS&gt;</span> <span class="cmd">python scripts/auto_answer_key.py --grade P5</span>
+</div>
+<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">生成答案冊（可換P3/P4/P6）</p>
+
+<div class="cmd-box">
+<span class="prompt">PS&gt;</span> <span class="cmd">python scripts/pipeline_quality.py --issues-only</span>
+</div>
+<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">品質審計</p>
+
+<div class="cmd-box">
+<span class="prompt">PS&gt;</span> <span class="cmd">python scripts/pipeline_en_translate.py --grade P5</span>
+</div>
+<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">EN 翻譯批次</p>
+
+<a href="./_operations/efficiency_toolkit.html" class="btn btn-outline btn-sm" style="margin-top:8px;" target="_blank">⚡ 更多效率工具 →</a>
+</div>
+
+<!-- CARD: Grade Quick Access -->
+<div class="card">
+<h2>📖 按年級瀏覽</h2>
+<a href="./講義/P3/" class="btn btn-outline" target="_blank">📖 P3 小三 (43堂)</a>
+<a href="./講義/P4/" class="btn btn-outline" target="_blank">📖 P4 小四 (43堂)</a>
+<a href="./講義/P5/" class="btn btn-outline" target="_blank">📖 P5 小五 (80堂)</a>
+<a href="./講義/P6/" class="btn btn-outline" target="_blank">📖 P6 小六 (42堂)</a>
+<a href="./講義/EN/" class="btn btn-outline" target="_blank">🌐 EN 英文版</a>
+<a href="#" class="btn btn-blue" target="_blank">🔍 搜尋全部講義</a>
+</div>
+
+</div>
+</div>
+
+<div class="footer">
+🪤 霖楓學苑 · LF Academy · Launchpad v2.1 ·
+<a href="./docs/index.html">首頁</a> ·
+<a href="./docs/enroll.html">報名</a> ·
+<a href="./docs/user_guide.html">使用指南</a>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+
+<script>
+// Initialize Firebase from shared config
+try { firebase.initializeApp(LF_FIREBASE_CONFIG); } catch(e) {}
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Check auth state
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    document.getElementById("teacherAuthCheck").style.display = "none";
+    document.getElementById("teacherPanel").style.display = "block";
+    loadTeachers();
+  } else {
+    document.getElementById("teacherAuthCheck").style.display = "block";
+    document.getElementById("teacherPanel").style.display = "none";
+  }
+});
+
+function showTeacherMsg(text, type) {
+  var el = document.getElementById("teacherMsg");
+  el.textContent = text;
+  el.style.display = "block";
+  el.style.color = type === "ok" ? "#16A34A" : "#DC2626";
+  el.style.background = type === "ok" ? "#DCFCE7" : "#FEF2F2";
+  el.style.padding = "6px 10px";
+  el.style.borderRadius = "6px";
+}
+
+async function createTeacher() {
+  var name = document.getElementById("tName").value.trim();
+  var email = document.getElementById("tEmail").value.trim();
+  var password = document.getElementById("tPassword").value;
+  
+  if (!name || !email || !password) {
+    showTeacherMsg("請填寫所有欄位", "err");
+    return;
+  }
+  if (password.length < 8) {
+    showTeacherMsg("密碼最少需要8位", "err");
+    return;
+  }
+  
+  showTeacherMsg("建立中...", "ok");
+  
+  try {
+    // Use Firebase Auth REST API to create account without signing out admin
+    var apiKey = LF_FIREBASE_CONFIG.apiKey;
+    var resp = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + apiKey,
+      {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          returnSecureToken: false
+        })
+      }
+    );
+    
+    var data = await resp.json();
+    
+    if (data.error) {
+      var msg = data.error.message || "建立失敗";
+      if (data.error.message === "EMAIL_EXISTS") msg = "此電郵已被使用";
+      showTeacherMsg("❌ " + msg, "err");
+      return;
+    }
+    
+    // Store teacher profile in Firestore
+    await db.collection("users").doc(data.localId).set({
+      email: email,
+      displayName: name,
+      role: "teacher",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      status: "active",
+      createdBy: auth.currentUser ? auth.currentUser.uid : "admin"
+    });
+    
+    showTeacherMsg("✅ 教師 " + name + " 帳號已建立！", "ok");
+    document.getElementById("tName").value = "";
+    document.getElementById("tEmail").value = "";
+    document.getElementById("tPassword").value = "";
+    
+    // Refresh teacher list
+    loadTeachers();
+    
+    // Clear message after 3s
+    setTimeout(function() {
+      document.getElementById("teacherMsg").style.display = "none";
+    }, 3000);
+    
+  } catch(e) {
+    showTeacherMsg("❌ 錯誤: " + e.message, "err");
+  }
+}
+
+async function loadTeachers() {
+  var list = document.getElementById("teacherList");
+  try {
+    var snap = await db.collection("users").where("role", "==", "teacher").orderBy("createdAt", "desc").get();
+    
+    if (snap.empty) {
+      list.innerHTML = "<p>暫無教師帳號</p>";
+      return;
+    }
+    
+    var html = "";
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      var name = d.displayName || d.email || "未知";
+      var date = d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleDateString("zh-HK") : "未知";
+      var status = d.status === "active" ? "🟢" : "⚪";
+      html += '<div class="stat-row"><span>' + status + ' ' + name + '</span><span class="val" style="font-size:10px;">' + date + '</span></div>';
+    });
+    
+    list.innerHTML = html;
+  } catch(e) {
+    list.innerHTML = "<p style='color:#DC2626;'>載入失敗: " + e.message + "</p>";
+  }
+}
+</script>
+
+</body>
+</html>
+

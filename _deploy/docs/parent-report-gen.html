@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 家長報告生成器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+input,select,textarea{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+textarea{min-height:80px;resize:vertical}
+.form-row{display:flex;gap:10px;flex-wrap:wrap}
+.form-row>*{flex:1;min-width:120px}
+.btn{display:block;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white;margin-top:8px}
+.btn:hover{background:#1E4D8C}
+.btn-copy{background:#25D366}.btn-copy:hover{background:#1EBE5B}
+.report-preview{background:white;border:2px solid #C9A84C;border-radius:14px;padding:28px;margin-top:16px;font-size:13px;line-height:2;display:none}
+.report-preview h3{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;text-align:center;font-size:18px;color:#1A3C6D}
+.report-preview .section-title{font-weight:900;color:#1A3C6D;margin:12px 0 4px;padding-top:8px;border-top:1px solid #E5E7EB}
+.report-preview .highlight{color:#DC2626;font-weight:700}
+.report-preview .good{color:#16A34A;font-weight:700}
+.trap-bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:11px}
+.trap-bar .bar-bg{flex:1;background:#E5E7EB;height:16px;border-radius:8px;overflow:hidden}
+.trap-bar .bar-fill{height:100%;border-radius:8px;transition:width 0.5s}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>📊 家長報告生成器</h1><p>填寫資料 → 生成專業進度報告 → WhatsApp/列印 send俾家長</p></div>
+
+<div class="card">
+<h2>學生資料</h2>
+<div class="form-row">
+<input type="text" id="rpName" placeholder="學生名稱">
+<select id="rpGrade"><option value="">年級</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<select id="rpPeriod"><option>過去4堂</option><option selected>過去8堂</option><option>過去12堂</option></select>
+</div>
+</div>
+
+<div class="card">
+<h2>進度數據</h2>
+<div class="form-row">
+<input type="text" id="rpStartAcc" placeholder="初期正確率（例：62%）">
+<input type="text" id="rpCurrentAcc" placeholder="目前正確率（例：78%）">
+<input type="text" id="rpLessons" placeholder="已完成堂數（例：8）">
+</div>
+<textarea id="rpTrapsFixed" placeholder="已解決嘅陷阱（例：T4漏寫0、T2單位換算）"></textarea>
+<textarea id="rpFocus" placeholder="仍需專注嘅陷阱（例：T6百分數應用）"></textarea>
+<textarea id="rpTeacherNote" placeholder="老師評語（選填）"></textarea>
+</div>
+
+<button class="btn" onclick="generateReport()">📊 生成報告</button>
+
+<div class="report-preview" id="reportPreview"></div>
+<button class="btn btn-copy" id="btnCopy" style="display:none" onclick="copyReport()">📋 複製報告 → WhatsApp send俾家長</button>
+</div>
+
+<script>
+function generateReport(){
+var n=document.getElementById("rpName").value||"同學";
+var g=document.getElementById("rpGrade").value||"P5";
+var p=document.getElementById("rpPeriod").value;
+var sa=document.getElementById("rpStartAcc").value||"__";
+var ca=document.getElementById("rpCurrentAcc").value||"__";
+var l=document.getElementById("rpLessons").value||"__";
+var tf=document.getElementById("rpTrapsFixed").value||"持續進步中";
+var fc=document.getElementById("rpFocus").value||"繼續保持";
+var tn=document.getElementById("rpTeacherNote").value||"";
+
+var improvement=parseInt(ca)-parseInt(sa);
+var impText=improvement>0?'<span class="good">上升 '+improvement+'%</span>':improvement<0?'<span class="highlight">下降了 '+Math.abs(improvement)+'%</span>':'保持穩定';
+
+var report=''+
+'<h3>霖楓學苑 · 學習進度報告</h3>'+
+'<p style="text-align:center;color:#6B7280">'+n+' · '+g+' · '+p+'</p>'+
+
+'<div class="section-title">📊 關鍵數據</div>'+
+'<p>初期正確率：'+sa+' → 目前正確率：'+ca+'（'+impText+'）</p>'+
+'<p>已完成堂數：'+l+'堂</p>'+
+
+'<div class="section-title">✅ 已解決嘅陷阱</div>'+
+'<p>'+tf+'</p>'+
+
+'<div class="section-title">🎯 下階段重點</div>'+
+'<p>'+fc+'</p>'+
+(tn?'<div class="section-title">💬 老師評語</div><p>'+tn+'</p>':'')+
+
+'<div class="section-title">💡 給家長的建議</div>'+
+'<p>每日只需15分鐘練習，即可保持進步趨勢。建議每星期至少完成3次線上練習。</p>'+
+'<p>如有任何問題，歡迎隨時 WhatsApp 我哋：85294796459</p>'+
+'<p style="text-align:center;color:#9CA3AF;margin-top:12px">霖楓學苑 · 陷阱診斷教學法</p>';
+
+document.getElementById("reportPreview").innerHTML=report;
+document.getElementById("reportPreview").style.display="block";
+document.getElementById("btnCopy").style.display="block";
+document.getElementById("reportPreview").scrollIntoView({behavior:"smooth"});
+}
+function copyReport(){var t=document.getElementById("reportPreview").innerText;navigator.clipboard.writeText(t).then(function(){alert("已複製 ✅")})}
+</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body></html>

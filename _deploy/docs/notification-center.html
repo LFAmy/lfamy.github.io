@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 通知中心</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.trigger-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #F3F4F6}
+.trigger-info{flex:1}
+.trigger-name{font-weight:700;font-size:13px}
+.trigger-desc{font-size:11px;color:#6B7280}
+.toggle{position:relative;width:48px;height:28px;flex-shrink:0}
+.toggle input{display:none}
+.toggle .slider{position:absolute;inset:0;background:#E5E7EB;border-radius:14px;cursor:pointer;transition:0.3s}
+.toggle .slider::before{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;background:white;border-radius:50%;transition:0.3s}
+.toggle input:checked+.slider{background:#16A34A}
+.toggle input:checked+.slider::before{transform:translateX(20px)}
+.badge-status{display:inline-block;padding:2px 8px;border-radius:8px;font-size:9px;font-weight:700}
+.badge-status.active{background:#D1FAE5;color:#065F46}
+.badge-status.inactive{background:#F3F4F6;color:#9CA3AF}
+</style>
+</head>
+<body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
+<div class="container">
+<div class="header"><h1>🔔 智慧通知中心</h1><p>管理所有自動化 WhatsApp 通知觸發</p></div>
+
+<div class="card"><h2>家長通知觸發</h2>
+<div class="trigger-row"><div class="trigger-info"><div class="trigger-name">每次練習完成後</div><div class="trigger-desc">小朋友完成線上練習 → 即時 WhatsApp 通知家長成績</div></div><label class="toggle"><input type="checkbox" checked onchange="toggleTrigger(this,'practice_done')"><span class="slider"></span></label></div>
+<div class="trigger-row"><div class="trigger-info"><div class="trigger-name">連續3日冇練習</div><div class="trigger-desc">小朋友3日冇做練習 → WhatsApp 溫馨提醒</div></div><label class="toggle"><input type="checkbox" checked onchange="toggleTrigger(this,'inactive_3d')"><span class="slider"></span></label></div>
+<div class="trigger-row"><div class="trigger-info"><div class="trigger-name">陷阱突破通知</div><div class="trigger-desc">某陷阱正確率突破80% → 祝賀訊息</div></div><label class="toggle"><input type="checkbox" checked onchange="toggleTrigger(this,'trap_break')"><span class="slider"></span></label></div>
+<div class="trigger-row"><div class="trigger-info"><div class="trigger-name">每週進度總結</div><div class="trigger-desc">每星期日自動 send 本週練習總結</div></div><label class="toggle"><input type="checkbox" onchange="toggleTrigger(this,'weekly')"><span class="slider"></span></label></div>
+</div>
+
+<div class="card"><h2>軟性推銷觸發</h2>
+<div class="trigger-row"><div class="trigger-info"><div class="trigger-name">完成5次練習後</div><div class="trigger-desc">自然引導：「做咗5次練習，想唔想試下免費試堂？」</div></div><label class="toggle"><input type="checkbox" onchange="toggleTrigger(this,'upsell_5')"><span class="slider"></span></label></div>
+<div class="trigger-row"><div class="trigger-info"><div class="trigger-name">考試前30日</div><div class="trigger-desc">提醒呈分試/校內試倒數 + SSPA衝刺課程</div></div><label class="toggle"><input type="checkbox" onchange="toggleTrigger(this,'exam_30d')"><span class="slider"></span></label></div>
+<div class="trigger-row"><div class="trigger-info"><div class="trigger-name">暑假前推廣</div><div class="trigger-desc">暑期班早鳥優惠通知</div></div><label class="toggle"><input type="checkbox" onchange="toggleTrigger(this,'summer')"><span class="slider"></span></label></div>
+</div>
+</div>
+<script>
+function toggleTrigger(el,id){var s=JSON.parse(localStorage.getItem("lf_triggers")||"{}");s[id]=el.checked;localStorage.setItem("lf_triggers",JSON.stringify(s))}
+</script>
+</body></html>
