@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-上-L07 SSPA模擬1 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:12px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:10.5px; }
+    .pb { box-shadow:none; min-height:0; padding:20px 32px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qw { background: repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+    .qtxt { font-size:11px; }
+    h2 { font-size:13px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:32px 44px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .fb { display:inline-flex; align-items:baseline; vertical-align:middle; margin:0 2px; }
+  .fb .wh { font-size:inherit; }
+  .fb .fr { display:inline-flex; flex-direction:column; align-items:center; margin:0 1px; }
+  .fb .fr .n { font-size:inherit; line-height:1.15; }
+  .fb .fr .d { font-size:inherit; line-height:1.15; }
+  .fb .fr .b { width:100%; height:1.2px; background:currentColor; min-width:14px; }
+
+  /* ── EXAM HEADER ── */
+  .exam-header {
+    border:2px solid var(--blue);
+    padding:14px 18px;
+    margin-bottom:16px;
+    text-align:center;
+  }
+  .exam-header .school {
+    font-family:'Noto Serif HK',serif;
+    font-size:18px; font-weight:900; color:var(--blue); letter-spacing:5px;
+  }
+  .exam-header .title {
+    font-family:'Noto Serif HK',serif;
+    font-size:22px; font-weight:900; color:var(--blue); letter-spacing:3px;
+    margin:6px 0;
+    border-top:1px solid var(--gold); border-bottom:1px solid var(--gold);
+    padding:6px 0;
+  }
+  .exam-header .info {
+    font-size:12px; color:var(--gray);
+  }
+
+  .score-box {
+    display:flex; gap:8px; justify-content:center; margin:10px 0;
+  }
+  .score-box .sb {
+    border:1.5px solid var(--borderc); border-radius:6px;
+    padding:8px 14px; text-align:center; min-width:70px;
+  }
+  .score-box .sb .lbl { font-size:9px; color:var(--gray); }
+  .score-box .sb .val { font-size:18px; font-weight:900; color:var(--blue); }
+
+  .student-row {
+    display:flex; gap:18px; justify-content:center;
+    font-size:12px; margin:8px 0;
+  }
+  .student-row span { display:flex; align-items:center; gap:4px; }
+  .student-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTION HEADER ── */
+  .sec-hdr {
+    font-family:'Noto Serif HK',serif;
+    font-size:15px; font-weight:900; color:var(--blue);
+    border-left:4px solid var(--gold); background:#FFFBEB;
+    padding:6px 10px; margin:14px 0 8px;
+  }
+
+  /* ── MCQ ── */
+  .mcq { width:100%; border-collapse:collapse; margin:6px 0; font-size:11.5px; }
+  .mcq th { background:var(--blue); color:white; padding:5px 8px; font-size:10px; }
+  .mcq td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .mcq .qn { width:36px; text-align:center; font-weight:700; }
+  .mcq .opt { width:140px; font-size:10.5px; }
+  .mcq .qtxt { line-height:1.7; }
+  .mcq .qw { min-height:55px; background: repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+
+  /* ── LONG FORM ── */
+  .lq { width:100%; border-collapse:collapse; margin:6px 0; font-size:11.5px; }
+  .lq th { background:var(--blue); color:white; padding:5px 8px; font-size:10px; }
+  .lq td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .lq .qn { width:36px; text-align:center; font-weight:700; }
+  .lq .sc { width:50px; text-align:center; font-size:10px; font-weight:700; }
+  .lq .qtxt { line-height:1.7; }
+  .lq .qw { min-height:80px; background: repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+
+  .end-exam {
+    text-align:center; margin-top:20px; padding-top:14px;
+    border-top:2px solid var(--blue);
+    font-family:'Noto Serif HK',serif;
+    font-size:15px; font-weight:900; color:var(--blue);
+    letter-spacing:3px;
+  }
+
+  .page-footer {
+    display:flex; justify-content:space-between;
+    font-size:9px; color:var(--gray);
+    border-top:1px solid var(--borderc);
+    padding-top:8px; margin-top:20px;
+  }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: EXAM COVER ═══════════════ -->
+<div class="pb cover-page">
+  <div class="exam-header">
+    <div class="school">霖楓學苑 · LF Academy</div>
+    <div class="title">第二次呈分試模擬考試（一）</div>
+    <div class="info">數學科 · 50分鐘 · 滿分 100分 · P6 上學期 L01-L06 考核範圍</div>
+  </div>
+
+  <div class="score-box">
+    <div class="sb"><div class="lbl">甲部 MC</div><div class="val">/30</div></div>
+    <div class="sb"><div class="lbl">乙部 計算</div><div class="val">/40</div></div>
+    <div class="sb"><div class="lbl">丙部 應用</div><div class="val">/30</div></div>
+    <div class="sb" style="border-color:var(--gold);background:#FFFBEB;"><div class="lbl">總分</div><div class="val">/100</div></div>
+  </div>
+
+  <div class="student-row">
+    <span>考生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+  </div>
+  <div class="student-row">
+    <span>考試日期：<span class="ln"></span></span>
+    <span>用時：<span class="ln"></span></span>
+    <span>得分：<span class="ln"></span></span>
+  </div>
+
+  <div style="margin:16px 0;font-size:12px;line-height:1.8;background:var(--lightbg);border:1px solid var(--borderc);border-radius:6px;padding:12px 16px;">
+    <strong style="color:var(--blue);">考試範圍：</strong>L01 小數乘法 · L02 分數乘法 · L03 小數除法 · L04 分數除法 · L05 四則混合 · L06 圓周與圓面積<br>
+    <strong style="color:var(--blue);">注意事項：</strong>
+    ❶ 全部答案寫在預留作答位置上<br>
+    ❷ 甲部選擇題 — 選出正確答案，將字母圈出<br>
+    ❸ 乙部必須寫出完整計算步驟，無步驟不給分<br>
+    ❹ 丙部應用題必須寫完整答句，漏答句扣步驟分<br>
+    ❺ 取 π = 3.14（除特別說明可用 <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）<br>
+    ❻ 所有分數答案必須約簡至最簡
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: SECTION A ═══════════════ -->
+<div class="pb">
+  <div class="sec-hdr">甲部：多項選擇題（共 10 題，每題 3 分，共 30 分）</div>
+  <div class="warn">⚠️ 選出正確答案，在對應字母上畫圈 ○。每題只有一個正確答案。</div>
+
+  <table class="mcq">
+    <tr><th class="qn">題號</th><th>題目</th><th>選項</th><th>答案</th></tr>
+    <tr>
+      <td class="qn">1</td>
+      <td class="qtxt">計算 3.14 × 0.6 = ？</td>
+      <td class="opt">A. 0.1884<br>B. 1.884<br>C. 18.84<br>D. 188.4</td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">2</td>
+      <td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> × <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</td>
+      <td class="opt">A. <span class="f"><span class="n">5</span><span class="b"></span><span class="d">8</span></span><br>B. <span class="f"><span class="n">6</span><span class="b"></span><span class="d">15</span></span><br>C. <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span><br>D. <span class="f"><span class="n">5</span><span class="b"></span><span class="d">15</span></span></td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">3</td>
+      <td class="qtxt">4.8 ÷ 0.6 = ？</td>
+      <td class="opt">A. 0.8<br>B. 8<br>C. 80<br>D. 800</td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">4</td>
+      <td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> ÷ <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td>
+      <td class="opt">A. <span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span><br>B. <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span><br>C. 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span><br>D. 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span></td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">5</td>
+      <td class="qtxt">計算 1.5 × 2.4 ÷ 0.6 = ？</td>
+      <td class="opt">A. 0.6<br>B. 6<br>C. 3.6<br>D. 9.6</td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">6</td>
+      <td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓：半徑5cm（C=2πr）</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 150" width="170" height="150"><circle cx="85" cy="65" r="55" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="85" cy="65" r="3" fill="#1A3C6D"/><text x="85" y="58" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="85" y1="65" x2="140" y2="65" stroke="#1A3C6D" stroke-width="2"/><text x="112" y="58" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="73" x2="140" y2="73" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="85" y="87" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+一個圓的半徑是 5 cm，圓周是多少？（π = 3.14）</td>
+      <td class="opt">A. 15.7 cm<br>B. 31.4 cm<br>C. 78.5 cm<br>D. 157 cm</td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">7</td>
+      <td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓：直徑10cm（r=5·A=πr²）</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 150" width="170" height="150"><circle cx="85" cy="65" r="55" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="85" cy="65" r="3" fill="#1A3C6D"/><text x="85" y="58" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="85" y1="65" x2="140" y2="65" stroke="#1A3C6D" stroke-width="2"/><text x="112" y="58" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="73" x2="140" y2="73" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="85" y="87" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+一個圓的直徑是 10 cm，圓面積是多少？（π = 3.14）</td>
+      <td class="opt">A. 31.4 cm²<br>B. 62.8 cm²<br>C. 78.5 cm²<br>D. 314 cm²</td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">8</td>
+      <td class="qtxt">計算 <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td>
+      <td class="opt">A. <span class="f"><span class="n">3</span><span class="b"></span><span class="d">7</span></span><br>B. <span class="f"><span class="n">11</span><span class="b"></span><span class="d">12</span></span><br>C. <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span><br>D. <span class="f"><span class="n">7</span><span class="b"></span><span class="d">12</span></span></td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">9</td>
+      <td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 半圓：r=6cm（周界=πr+2r！）</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 150" width="170" height="150"><circle cx="85" cy="65" r="55" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="85" cy="65" r="3" fill="#1A3C6D"/><text x="85" y="58" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="85" y1="65" x2="140" y2="65" stroke="#1A3C6D" stroke-width="2"/><text x="112" y="58" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="73" x2="140" y2="73" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="85" y="87" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+一個半圓，半徑 = 6 cm。半圓周長 = ？（π = 3.14）</td>
+      <td class="opt">A. 18.84 cm<br>B. 30.84 cm<br>C. 37.68 cm<br>D. 49.68 cm</td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+    <tr>
+      <td class="qn">10</td>
+      <td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> <div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 1/4圓扇形：r=4cm</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 150" width="170" height="150"><circle cx="85" cy="65" r="55" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="85" cy="65" r="3" fill="#1A3C6D"/><text x="85" y="58" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="85" y1="65" x2="140" y2="65" stroke="#1A3C6D" stroke-width="2"/><text x="112" y="58" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="73" x2="140" y2="73" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="85" y="87" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+圓扇形，r = 4 cm。扇形周長 = ？（π = 3.14）</td>
+      <td class="opt">A. 6.28 cm<br>B. 14.28 cm<br>C. 12.56 cm<br>D. 20.56 cm</td>
+      <td class="qw" style="min-height:52px;text-align:center;vertical-align:middle;">A B C D</td>
+    </tr>
+  </table>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy · SSPA模擬1</span>
+    <span>P6 上學期 · 甲部（續下頁）</span>
+    <span>第 1 頁</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 3: SECTION B ═══════════════ -->
+<div class="pb">
+  <div class="sec-hdr">乙部：計算題（共 8 題，每題 5 分，共 40 分）</div>
+  <div class="warn">⚠️ 必須寫出完整計算步驟。無步驟、無約簡或漏單位均扣分。</div>
+
+  <table class="lq">
+    <tr><th class="qn">題號</th><th>題目</th><th class="sc">分數</th><th>作答區</th></tr>
+    <tr>
+      <td class="qn">11</td>
+      <td class="qtxt">計算：2.56 × 3.5 = ？（列直式計算）</td>
+      <td class="sc" style="background:#FEF3C7;color:#92400E;font-weight:900;">5分</td>
+      <td class="qw" style="min-height:65px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">12</td>
+      <td class="qtxt">計算：<span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> × <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？（先約簡再乘）</td>
+      <td class="sc" style="background:#FEF3C7;color:#92400E;font-weight:900;">5分</td>
+      <td class="qw" style="min-height:65px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">13</td>
+      <td class="qtxt">計算：7.2 ÷ 0.08 = ？（寫出除數變整數的過程）</td>
+      <td class="sc" style="background:#FEF3C7;color:#92400E;font-weight:900;">5分</td>
+      <td class="qw" style="min-height:65px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">14</td>
+      <td class="qtxt">計算：<span class="fd"><span class="n">7</span><span class="b"></span><span class="d">10</span></span> ÷ <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = ？（倒數→約簡→相乘）</td>
+      <td class="sc" style="background:#FEF3C7;color:#92400E;font-weight:900;">5分</td>
+      <td class="qw" style="min-height:65px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">15</td>
+      <td class="qtxt">計算：3<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> ÷ <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> = ？（帶分數→假分數→倒數相乘→化簡）</td>
+      <td class="sc" style="background:#FEF3C7;color:#92400E;font-weight:900;">5分</td>
+      <td class="qw" style="min-height:72px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">16</td>
+      <td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓：半徑7cm（π=22/7）</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 160" width="180" height="160"><circle cx="90" cy="70" r="60" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="90" cy="70" r="3" fill="#1A3C6D"/><text x="90" y="63" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="90" y1="70" x2="150" y2="70" stroke="#1A3C6D" stroke-width="2"/><text x="120" y="63" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="78" x2="150" y2="78" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="90" y="92" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+一個圓的半徑 = 7 cm。求 (a) 圓周 (b) 圓面積。（取 π = <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</td>
+      <td class="sc" style="background:#FEF3C7;color:#92400E;font-weight:900;">5分</td>
+      <td class="qw" style="min-height:72px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">17</td>
+      <td class="qtxt">計算：2.4 × 1.5 + 3.6 ÷ 1.2 = ？（先乘除、後加減）</td>
+      <td class="sc" style="background:#FEF3C7;color:#92400E;font-weight:900;">5分</td>
+      <td class="qw" style="min-height:65px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">18</td>
+      <td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 半圓：直徑20cm·r=10cm</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 150" width="170" height="150"><circle cx="85" cy="65" r="55" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="85" cy="65" r="3" fill="#1A3C6D"/><text x="85" y="58" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="85" y1="65" x2="140" y2="65" stroke="#1A3C6D" stroke-width="2"/><text x="112" y="58" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="73" x2="140" y2="73" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="85" y="87" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+一個半圓的直徑是 20 cm。求它的周長。（π = 3.14）</td>
+      <td class="sc" style="background:#FEF3C7;color:#92400E;font-weight:900;">5分</td>
+      <td class="qw" style="min-height:68px;"></td>
+    </tr>
+  </table>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy · SSPA模擬1</span>
+    <span>P6 上學期 · 乙部（續下頁）</span>
+    <span>第 2 頁</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 4: SECTION C ═══════════════ -->
+<div class="pb">
+  <div class="sec-hdr">丙部：應用題（共 3 題，每題 10 分，共 30 分）</div>
+  <div class="warn">⚠️ 必須寫完整答句（連單位）。只列式不答句最多給 6 分。</div>
+
+  <table class="lq">
+    <tr><th class="qn">題號</th><th>題目</th><th class="sc">分數</th><th>作答區</th></tr>
+    <tr>
+      <td class="qn">19</td>
+      <td class="qtxt">
+        爸爸買了一塊長方形地氈，長 3.6 m，闊 2.5 m。<br>
+        (a) 求地氈的面積。（4分）<br>
+        (b) 如果每平方米售價 $48.5，爸爸要付多少元？（答案取至小數點後一位）（6分）
+      </td>
+      <td class="sc" style="background:#DCFCE7;color:#166534;font-weight:900;">10分</td>
+      <td class="qw" style="min-height:120px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">20</td>
+      <td class="qtxt">
+        <div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓形噴水池：直徑14m + 環形小徑闊1m</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 180" width="200" height="180"><circle cx="100" cy="80" r="70" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="100" cy="80" r="3" fill="#1A3C6D"/><text x="100" y="73" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="100" y1="80" x2="170" y2="80" stroke="#1A3C6D" stroke-width="2"/><text x="135" y="73" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="88" x2="170" y2="88" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="100" y="102" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+一個圓形噴水池的直徑是 14 m。工人要在噴水池周圍鋪一條闊 1 m 的環形小徑。<br>
+        (a) 求噴水池的面積。（4分）<br>
+        (b) 求連同小徑的整個大圓的面積。（3分）<br>
+        (c) 求小徑的面積。（3分）<br>
+        （取 π = <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）
+      </td>
+      <td class="sc" style="background:#DCFCE7;color:#166534;font-weight:900;">10分</td>
+      <td class="qw" style="min-height:140px;"></td>
+    </tr>
+    <tr>
+      <td class="qn">21</td>
+      <td class="qtxt">
+        哥哥買了一箱蘋果，第一天吃了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> 箱，第二天比第一天多吃了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">10</span></span> 箱。<br>
+        (a) 第二天吃了多少箱？（3分）<br>
+        (b) 兩天一共吃了多少箱？（3分）<br>
+        (c) 還餘下多少箱？（4分）
+      </td>
+      <td class="sc" style="background:#DCFCE7;color:#166534;font-weight:900;">10分</td>
+      <td class="qw" style="min-height:140px;"></td>
+    </tr>
+  </table>
+
+  <div class="end-exam">— 全卷完 —</div>
+
+  <div style="text-align:center;margin-top:16px;padding:12px;background:var(--lightbg);border:1px solid var(--borderc);border-radius:6px;font-size:11px;color:var(--gray);">
+    🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。<br>
+    檢查清單：□ 每題有作答 □ 分數已約簡 □ 答句有單位 □ 計算步驟完整
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy · SSPA模擬1</span>
+    <span>P6 上學期 · 丙部</span>
+    <span>第 3 頁（完）</span>
+  </div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  🖨️ Ctrl+P 列印 PDF &nbsp;|&nbsp; 4頁 · 21題(10MC+8計+3應用) &nbsp;|&nbsp; LF-P6-上-L07 v6
+</div>
+
+</body>
+</html>

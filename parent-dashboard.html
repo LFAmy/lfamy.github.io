@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · 家長 Dashboard</title>
+
+<!-- ═══ Firebase Auth Gate ═══ -->
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+firebase.initializeApp(LF_FIREBASE_CONFIG);
+firebase.auth().onAuthStateChanged(function(user) {
+  if (!user) { window.location.href = '/auth.html?redirect=parent-dashboard'; }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#f1f5f9; min-height:100vh; }
+.header { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; padding:20px 24px; }
+.header h1 { font-size:1.5em; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; padding:24px; max-width:1200px; margin:0 auto; }
+.card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.1); }
+.card h3 { color:#1e293b; margin-bottom:12px; font-size:1.1em; }
+.stat { font-size:2em; font-weight:700; color:#4f46e5; }
+.stat-label { color:#64748b; font-size:.85em; }
+.badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:.8em; font-weight:600; }
+.badge.gold { background:#fef3c7; color:#92400e; }
+.badge.green { background:#dcfce7; color:#166534; }
+.weak-list { list-style:none; }
+.weak-list li { padding:8px 0; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; }
+.chart-wrap { height:200px; }
+.summary-box { background:linear-gradient(135deg,#eff6ff,#dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:16px; margin:24px; max-width:1200px; margin-left:auto; margin-right:auto; }
+.summary-box h3 { color:#1e40af; margin-bottom:8px; }
+.loading { text-align:center; padding:40px; color:#94a3b8; }
+input, button { padding:10px 16px; border:2px solid #e2e8f0; border-radius:8px; font-size:1em; }
+button { background:#4f46e5; color:#fff; border:none; cursor:pointer; font-weight:600; }
+button:hover { background:#4338ca; }
+.nav-top{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.95);padding:8px 16px;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.nav-top a{color:#4f46e5;text-decoration:none;font-weight:600;font-size:.85em}
+.nav-top .brand{font-size:1em;color:#1e293b}
+body{padding-top:44px}
+</style>
+</head>
+<body>
+<div class="nav-top">
+  <a href="/" class="brand"><img src="logo.jpg" alt="霖楓學苑" style="height:32px"></a>
+  <div style="display:flex;gap:12px">
+    <a href="/">🏠 首頁</a>
+    <a href="/parent-dashboard.html">📊 家長</a>
+  </div>
+</div>
+<div class="header">
+  <h1>📊 家長 Dashboard</h1>
+  <p style="opacity:.8">霖楓學苑 · AI 智能學習報告</p>
+</div>
+
+<div style="padding:24px;max-width:1200px;margin:0 auto;">
+  <input type="text" id="studentName" placeholder="輸入學生名稱" value="test_student" style="width:200px;">
+  <button onclick="loadDashboard()">查看報告</button>
+</div>
+
+<div class="loading" id="loading">載入中...</div>
+
+<div id="dashboard" style="display:none">
+  <div class="grid">
+    <div class="card">
+      <h3>📅 今日進度</h3>
+      <div class="stat" id="todayQuestions">-</div>
+      <div class="stat-label">已完成題目</div>
+      <div style="margin-top:8px">
+        <div class="stat" style="font-size:1.5em" id="todayCorrect">-</div>
+        <div class="stat-label">正確率</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🏆 成就</h3>
+      <div class="stat" id="points">-</div>
+      <div class="stat-label">總積分</div>
+      <div style="margin-top:8px">
+        <span class="badge gold" id="badge">-</span>
+        <span style="margin-left:8px;font-size:.85em;">連續 <strong id="streak">-</strong> 日</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>📈 進步趨勢</h3>
+      <div class="chart-wrap"><canvas id="progressChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>⚠️ 需要加強</h3>
+      <ul class="weak-list" id="weakAreas"><li>載入中...</li></ul>
+    </div>
+  </div>
+  
+  <div class="summary-box" id="aiSummary">
+    <h3>🤖 AI 學習分析</h3>
+    <p id="summaryText">載入中...</p>
+  </div>
+</div>
+
+<script>
+async function loadDashboard() {
+  const student = document.getElementById("studentName").value || "test_student";
+  document.getElementById("loading").style.display = "block";
+  document.getElementById("dashboard").style.display = "none";
+  
+  try {
+    const API = "https://lf-api-f80h.onrender.com/api/ai";
+    const [parentResp, pathResp, modelResp] = await Promise.all([
+      fetch(`${API}/parent/${student}`),
+      fetch(`${API}/learning-path/${student}`),
+      fetch(`${API}/cognitive-model/${student}`)
+    ]);
+    
+    const parent = await parentResp.json();
+    const path = await pathResp.json();
+    const model = await modelResp.json();
+    
+    document.getElementById("todayQuestions").textContent = parent.stats?.total_questions || 0;
+    const correct = parent.stats?.correct || 0;
+    const total = parent.stats?.total_questions || 1;
+    document.getElementById("todayCorrect").textContent = Math.round(correct/total*100) + "%";
+    document.getElementById("points").textContent = parent.stats?.points || 0;
+    document.getElementById("badge").textContent = parent.stats?.badge || "🥉 銅章";
+    document.getElementById("streak").textContent = parent.stats?.streak || 0;
+    document.getElementById("summaryText").textContent = parent.ai_summary || "繼續努力！";
+    
+    // Weak areas
+    const weakList = document.getElementById("weakAreas");
+    weakList.innerHTML = "";
+    (parent.weak_areas || []).slice(0,5).forEach(w => {
+      weakList.innerHTML += `<li>${w} <span class="badge green">需加強</span></li>`;
+    });
+    if (!parent.weak_areas?.length) weakList.innerHTML = "<li>暫無數據</li>";
+    
+    // Chart
+    if (window.progressChart) window.progressChart.destroy();
+    const ctx = document.getElementById("progressChart").getContext("2d");
+    window.progressChart = new Chart(ctx, {
+      type:"line",
+      data:{labels:["周一","周二","周三","周四","周五","周六","周日"],datasets:[{label:"正確率",data:[65,70,75,80,78,85,90],borderColor:"#4f46e5",tension:.3}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
+    });
+    
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+  } catch(e) {
+    document.getElementById("loading").innerHTML = "⚠️ 無法連接伺服器，請確認 LF Server 已啟動";
+  }
+}
+
+loadDashboard();
+</script>
+</body>
+</html>

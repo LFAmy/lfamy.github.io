@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<title>霖楓學苑 · AI 個人化練習</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;padding:20px}
+.container{max-width:600px;margin:0 auto}
+.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:24px;margin-bottom:14px;text-align:center}
+h1{font-size:22px;margin-bottom:4px}.sub{font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:14px}
+h2{font-size:15px;color:#C9A84C;margin-bottom:10px}
+.grade-row{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.grade-btn{padding:10px 16px;border-radius:20px;border:2px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.04);color:white;cursor:pointer;font-size:13px;font-weight:700}
+.grade-btn:hover,.grade-btn.on{border-color:#C9A84C;background:rgba(201,168,76,0.15)}
+.q-num{font-size:11px;color:#C9A84C;margin-bottom:6px}
+.q-text{font-size:18px;font-weight:700;margin-bottom:16px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt-btn{background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.12);border-radius:12px;padding:13px 15px;text-align:left;font-size:15px;color:white;cursor:pointer}
+.opt-btn:hover{border-color:#C9A84C;background:rgba(201,168,76,0.08)}
+.opt-btn.pick{border-color:#C9A84C;background:rgba(201,168,76,0.18)}
+.opt-btn.right{border-color:#16A34A;background:rgba(22,163,74,0.15)}
+.opt-btn.wrong{border-color:#DC2626;background:rgba(220,38,38,0.15)}
+.progress-wrap{background:rgba(255,255,255,0.08);height:5px;border-radius:3px;margin-bottom:16px;overflow:hidden}
+.progress-inner{background:linear-gradient(90deg,#C9A84C,#DFC06A);height:100%;width:0;transition:width 0.3s}
+.btn{display:inline-block;padding:12px 28px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;text-decoration:none;margin:6px;transition:all 0.15s}
+.btn-gold{background:linear-gradient(135deg,#C9A84C,#DFC06A);color:#1A3C6D;font-size:17px;padding:15px 36px}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white}
+.btn-green{background:#16A34A;color:white}.btn-red{background:#DC2626;color:white}
+.result-box{background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;margin:10px 0;text-align:left}
+.result-box .stat{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.quota-bar{background:rgba(255,255,255,0.08);border-radius:6px;height:8px;margin:8px 0;overflow:hidden}
+.quota-inner{background:#C9A84C;height:100%;transition:width 0.3s}
+input,select{padding:10px 14px;border:2px solid rgba(255,255,255,0.12);border-radius:8px;font-size:13px;background:rgba(255,255,255,0.04);color:white;width:100%;margin-bottom:8px}
+input:focus,select:focus{border-color:#C9A84C;outline:none}
+label{display:block;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:3px}
+</style>
+  <link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+
+<div class="container">
+
+<div id="register" class="card">
+<h1>AI 個人化練習</h1>
+<div class="sub">針對你嘅陷阱指紋 · 自適應難度 · 即時批改</div>
+<div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:14px">
+免費版每月 15 次練習 · 請先登記開始使用
+</div>
+<label>學生姓名</label><input type="text" id="regName" placeholder="例如：陳小明">
+<label>年級</label>
+<select id="regGrade"><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<label>家長姓名</label><input type="text" id="regParent" placeholder="你的稱呼">
+<label>家長手機號碼（用作登入）</label><input type="tel" id="regPhone" placeholder="852 後輸入 8 位數字">
+<button class="btn btn-gold" onclick="doRegister()" style="width:100%">註冊 · 開始免費練習</button>
+<div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:8px">必須註冊 · 手機號碼用作綁定練習記錄</div>
+</div>
+
+<div id="practice" class="card" style="display:none">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<div style="font-size:13px;font-weight:700" id="studentLabel"></div>
+<div style="font-size:11px;color:rgba(255,255,255,0.4)" id="quotaLabel"></div>
+</div>
+<div class="progress-wrap"><div class="progress-inner" id="bar"></div></div>
+<div class="q-num" id="qn"></div>
+<div class="q-text" id="qt"></div>
+<div class="opts" id="op"></div>
+<button class="btn btn-gold" id="nx" disabled onclick="nextQ()">下一題</button>
+</div>
+
+<div id="result" class="card" style="display:none">
+<h2 id="rt"></h2>
+<div class="result-box" id="rb"></div>
+<div class="quota-bar"><div class="quota-inner" id="quotaBar" style="width:0%"></div></div>
+<div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px" id="quotaText"></div>
+<button class="btn btn-gold" onclick="startPractice()">再做一組</button>
+<a href="enroll.html" class="btn btn-outline">升級 Pro · 無限次</a>
+<button class="btn btn-outline" onclick="location.reload()">更換學生</button>
+</div>
+
+</div>
+
+<script>
+var studentName='',studentGrade='P5';
+var quota={used:0,max:15};
+
+function doRegister(){
+var n=document.getElementById('regName').value.trim();
+var p=document.getElementById('regPhone').value.trim();
+if(!n)return alert('請輸入學生姓名');
+if(!p)return alert('請輸入家長手機號碼');
+studentName=n;
+studentGrade=document.getElementById('regGrade').value;
+localStorage.setItem('lf_student_name',studentName);
+localStorage.setItem('lf_student_grade',studentGrade);
+localStorage.setItem('lf_parent_phone',p);
+// Also save in unified member format for login system
+localStorage.setItem('lf_member_'+p, JSON.stringify({
+student:n, grade:studentGrade, parent:'', phone:p,
+password:'', plan:'free', registered:new Date().toISOString(), expiry:null
+}));
+localStorage.setItem('lf_current_user', JSON.stringify({
+phone:p, student:n, grade:studentGrade, plan:'free'
+}));
+var q=JSON.parse(localStorage.getItem('lf_quota_'+studentName)||'{}');
+var thisMonth=new Date().toISOString().slice(0,7);
+if(q.month!==thisMonth){q={month:thisMonth,used:0}}
+quota=q;
+startPractice();
+}
+
+function startPractice(){
+if(quota.used>=quota.max){
+document.getElementById('register').style.display='none';
+document.getElementById('practice').style.display='none';
+document.getElementById('result').style.display='block';
+document.getElementById('rt').textContent='本月已用晒 15 次免費練習';
+document.getElementById('rb').innerHTML='<div class=stat><span>已使用</span><span>'+quota.used+'/'+quota.max+' 次</span></div><div class=stat><span>下個月</span><span>自動重置</span></div>';
+document.getElementById('quotaBar').style.width='100%';
+document.getElementById('quotaText').textContent='升級Pro無限次 · $199/月';
+return;
+}
+document.getElementById('register').style.display='none';
+document.getElementById('practice').style.display='block';
+document.getElementById('result').style.display='none';
+document.getElementById('studentLabel').textContent=studentName+' · '+studentGrade;
+document.getElementById('quotaLabel').textContent='本月: '+(quota.used)+'/'+quota.max+' 次';
+buildQuiz();
+}
+
+
+// LF Live Question Generator — creates unlimited unique math questions on-the-fly
+// Uses parameterized templates with random values
+
+var LFGen = {
+  _bankCache: {},
+
+  // Load grade bank
+  loadBank: function(grade) {
+    var self = this;
+    if (this._bankCache[grade]) {
+      return Promise.resolve(this._bankCache[grade]);
+    }
+    return fetch('/docs/data/question_bank_' + grade + '.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        self._bankCache[grade] = data;
+        return data;
+      })
+      .catch(function() { return []; });
+  },
+
+  // Get random questions from bank
+  getQuestions: function(grade, count) {
+    var pool = this._bankCache[grade] || [];
+    if (pool.length < 5) {
+      // Generate on-the-fly instead
+      return this.generateQuestions(grade, count);
+    }
+    var shuffled = pool.slice();
+    for (var i = shuffled.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = t;
+    }
+    return shuffled.slice(0, Math.min(count, shuffled.length));
+  },
+
+  // Generate fresh questions on-the-fly (client side AI)
+  generateQuestions: function(grade, count) {
+    var qs = [];
+    var trapTypes = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+    for (var n = 0; n < count; n++) {
+      var trap = trapTypes[Math.floor(Math.random() * trapTypes.length)];
+      var q = this._generateOne(grade, trap);
+      if (q) qs.push(q);
+    }
+    return qs;
+  },
+
+  _generateOne: function(grade, trap) {
+    var a, b, c, name, item, correct, wrongs, opts, unit;
+    var names = ['小明','小美','家豪','Chloe','婷婷','志偉','詠詩'];
+
+    if (trap === 'T1' && grade === 'P3') {
+      a = rand(20,200); b = rand(10,150);
+      correct = a + b; wrongs = [correct+1, correct-1, correct+10];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T1' && grade === 'P4') {
+      a = rand(1000,8000); b = rand(500,3000);
+      correct = a + b; wrongs = [correct+1, correct-10, correct+100];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T1' && (grade === 'P5' || grade === 'P6')) {
+      a = rand(10000,50000); b = rand(5000,20000);
+      correct = a + b; wrongs = [correct+10, correct-100, correct+1000];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T2') {
+      var units = {P3:[['米','厘米',100]],P4:[['公里','米',1000]],P5:[['平方米','平方厘米',10000]],P6:[['公里','米',1000]]};
+      var u = (units[grade]||units.P5)[0];
+      a = rand(1,10); correct = a * u[2]; wrongs = [correct*10, correct/10, correct*2];
+      return makeQ(a + ' ' + u[0] + ' = ? ' + u[1], correct, wrongs, 'T2', grade);
+    }
+    if (trap === 'T3') {
+      a = rand(2,20); b = rand(2,10); c = rand(2,8);
+      var patterns = [
+        [a + ' + ' + b + ' × ' + c, a + b * c],
+        ['(' + a + ' + ' + b + ') × ' + c, (a + b) * c]
+      ];
+      var p = patterns[Math.floor(Math.random() * 2)];
+      correct = p[1]; wrongs = [correct+4, correct-3, correct*2];
+      return makeQ(p[0] + ' = ?', correct, wrongs, 'T3', grade);
+    }
+    if (trap === 'T4') {
+      if (grade === 'P3' || grade === 'P4') {
+        var pairs = [[408,2],[306,3],[804,2],[1020,4],[1500,5]];
+        var p2 = pairs[Math.floor(Math.random()*pairs.length)];
+        correct = Math.floor(p2[0] / p2[1]); wrongs = [correct*10, correct/10, correct+1];
+        return makeQ(p2[0] + ' ÷ ' + p2[1] + ' = ?', correct, wrongs, 'T4', grade);
+      } else {
+        a = round(rand(1,50)/10, 1); b = round(rand(2,9)/10, 1);
+        correct = round(a / b, 2); wrongs = [round(correct*10,1), round(correct/10,2), round(correct+1,1)];
+        return makeQ(a + ' ÷ ' + b + ' = ?', correct, wrongs, 'T4', grade);
+      }
+    }
+    if (trap === 'T5') {
+      var den = [2,3,4,5,6,8][Math.floor(Math.random()*6)];
+      var n1 = rand(1,den-1); var n2 = rand(1,den-1);
+      correct = n1 + n2; wrongs = [correct+1, correct-1, den];
+      if (correct >= den) { n1 = rand(1,Math.floor(den/2)); correct = n1 + 1; }
+      return makeQ(n1 + '/' + den + ' + 1/' + den + ' = ?', correct + '/' + den, wrongs.map(function(w){return w+'/'+den}), 'T5', grade);
+    }
+    if (trap === 'T6') {
+      var pairs6 = [[200,15],[400,20],[500,25],[800,10],[300,30]];
+      var p6 = pairs6[Math.floor(Math.random()*pairs6.length)];
+      correct = Math.floor(p6[0] * p6[1] / 100);
+      wrongs = [correct*2, correct + p6[0]/10, correct + 5];
+      return makeQ('$' + p6[0] + ' 的 ' + p6[1] + '% 是多少？', correct, wrongs, 'T6', grade);
+    }
+    if (trap === 'T7') {
+      name = names[Math.floor(Math.random()*names.length)];
+      a = rand(10,50); b = rand(2,10);
+      return makeQ(name + '有' + a + '粒糖，食咗' + b + '粒，仲有幾多？', a - b, [a, b, a+b], 'T7', grade);
+    }
+    if (trap === 'T8') {
+      var w8 = rand(3,12); var h8 = rand(2,8);
+      if (Math.random() > 0.5) {
+        return makeQ('長方形長' + w8 + 'cm闊' + h8 + 'cm，面積？', w8*h8 + 'cm²', [2*(w8+h8)+'cm', w8+h8+'cm', w8*h8*2+'cm²'], 'T8', grade);
+      } else {
+        return makeQ('正方形邊長' + w8 + 'cm，面積？', w8*w8 + 'cm²', [w8*4+'cm', w8*2+'cm', w8*w8*2+'cm²'], 'T8', grade);
+      }
+    }
+    if (trap === 'T9') {
+      a = rand(1,4); b = rand(1,59);
+      correct = a * 60 + b;
+      wrongs = [a * 100 + b, a * 60, correct + 60];
+      return makeQ(a + '小時' + b + '分鐘 = ? 分鐘', correct, wrongs, 'T9', grade);
+    }
+    if (trap === 'T10') {
+      var div = rand(10,200); var div2 = [3,4,5,6][Math.floor(Math.random()*4)];
+      var q10 = Math.floor(div / div2); var r10 = div % div2;
+      if (r10 === 0) { div++; r10 = div % div2; }
+      correct = q10 + '餘' + r10;
+      wrongs = [(q10+1)+'餘'+Math.max(0,r10-1), q10+'餘'+(r10+1), (q10+Math.floor(Math.random()*2)+1)+'餘'+r10];
+      return makeQ(div + ' ÷ ' + div2 + ' = ?', correct, wrongs, 'T10', grade);
+    }
+    return null;
+  }
+};
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function round(v, d) { var m = Math.pow(10, d); return Math.round(v * m) / m; }
+function makeQ(text, answer, wrongs, trap, grade) {
+  var correctStr = String(answer);
+  var wrongStrs = wrongs.map(function(w) { return String(w).replace('NaN','0'); });
+  var all = [correctStr].concat(wrongStrs.slice(0,3));
+  // Deduplicate
+  var clean = []; var seen = {};
+  all.forEach(function(o) { if (!seen[o] && o && o.length > 0) { clean.push(o); seen[o] = true; } });
+  if (clean.length < 3) {
+    // Pad with fake options
+    for (var i = 0; i < 10; i++) {
+      var fake = String(rand(1, 99));
+      if (!seen[fake]) { clean.push(fake); seen[fake] = true; if (clean.length >= 4) break; }
+    }
+  }
+  // Shuffle
+  for (var i = clean.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = clean[i]; clean[i] = clean[j]; clean[j] = t;
+  }
+  var ansIdx = clean.indexOf(correctStr);
+  if (ansIdx < 0) { clean[0] = correctStr; clean = clean.slice(0,4); ansIdx = 0; }
+  return { q: text, opts: clean.slice(0,4), ans: ansIdx, trap: trap, grade: grade, source: 'live_gen' };
+}
+
+var POOL={
+P3:{T1:[{q:"235+148=?",o:["373","383","483","363"],c:1},{q:"500-237=?",o:["263","273","373","163"],c:0},{q:"125+367=?",o:["492","482","502","592"],c:0}],T2:[{q:"1米=?厘米",o:["10","100","1000","1"],c:1},{q:"1公斤=?克",o:["10","100","1000","10000"],c:2},{q:"1元=?角",o:["1","10","100","5"],c:1}],T3:[{q:"8×7=?",o:["54","56","64","48"],c:1},{q:"3+5×2=?",o:["16","13","11","10"],c:1},{q:"10-3×2=?",o:["14","4","7","16"],c:1}],T5:[{q:"1/4+2/4=?",o:["3/8","3/4","1/2","2/8"],c:1},{q:"3/5-1/5=?",o:["2/5","2/10","4/5","1/5"],c:0}],T7:[{q:"小明有24粒糖食8粒剩?",o:["16","32","14","18"],c:0},{q:"一盒鉛筆12支買3盒?",o:["15","36","24","48"],c:1}],T8:[{q:"正方形邊長4cm周界?",o:["8cm","12cm","16cm","20cm"],c:2},{q:"長方形長6cm闊4cm周界?",o:["10cm","20cm","24cm","12cm"],c:1}]},
+P4:{T1:[{q:"1256+3789=?",o:["5045","4945","5035","5145"],c:0},{q:"8000-3456=?",o:["4544","4644","4444","4554"],c:0}],T2:[{q:"2公里=?米",o:["20","200","2000","20000"],c:2},{q:"3升=?毫升",o:["30","300","3000","30000"],c:2}],T3:[{q:"12+8×3=?",o:["60","36","44","28"],c:1},{q:"(12+8)×3=?",o:["60","36","44","28"],c:0}],T4:[{q:"806÷2=?",o:["43","403","430","4003"],c:1},{q:"906÷3=?",o:["32","302","320","3002"],c:1}],T5:[{q:"2/3-1/3=?",o:["1/3","1/6","1","3/3"],c:0},{q:"3/8+5/8=?",o:["8/16","1","8/8","2/8"],c:1}],T7:[{q:"一盒蛋12隻買5盒送1盒共?",o:["60","72","66","48"],c:1},{q:"$50買3本書每本$12找?",o:["$14","$26","$38","$2"],c:0}],T8:[{q:"長方形長8cm闊5cm面積?",o:["13cm²","26cm²","40cm²","20cm²"],c:2},{q:"長方形長8cm闊5cm周界?",o:["13cm","40cm","26cm","20cm"],c:2}]},
+P5:{T1:[{q:"356+278=?",o:["534","634","624","524"],c:1},{q:"5000-2345=?",o:["2655","2755","2555","2665"],c:0}],T2:[{q:"1m²=?cm²",o:["100","1000","10000","100000"],c:2},{q:"3.5公里=?米",o:["35","350","3500","35000"],c:2}],T3:[{q:"6+4×2=?",o:["20","14","16","10"],c:1},{q:"(6+4)×(3-1)=?",o:["20","16","10","8"],c:0}],T4:[{q:"408÷2=?",o:["24","204","240","402"],c:1},{q:"3060÷5=?",o:["612","62","6120","602"],c:0}],T5:[{q:"1/2+1/3=?",o:["2/5","5/6","1/6","2/6"],c:1},{q:"2/3×3/4=?",o:["6/12","1/2","5/7","8/9"],c:1}],T6:[{q:"$200的15%=?",o:["$15","$30","$25","$215"],c:1},{q:"$400加價25%=?",o:["$425","$500","$300","$100"],c:1}],T7:[{q:"小明有12粒糖俾1/3妹妹剩?",o:["4","8","3","9"],c:1},{q:"原價$500八折再九折=?",o:["$400","$360","$450","$340"],c:1}],T8:[{q:"長方形長5cm闊3cm面積?",o:["16cm²","15cm²","8cm²","16cm"],c:1},{q:"三角形底8cm高5cm面積?",o:["40cm²","20cm²","13cm²","26cm²"],c:1}]},
+P6:{T1:[{q:"38456+27829=?",o:["66285","65285","67285","66385"],c:0},{q:"100000-67845=?",o:["32155","33155","32255","32165"],c:0}],T2:[{q:"3.5公里=?米",o:["35","350","3500","35000"],c:2},{q:"4500毫升=?升",o:["0.45","4.5","45","450"],c:1}],T3:[{q:"3x+7=22,x=?",o:["3","5","7","8"],c:1},{q:"5²+4×3=?",o:["37","27","75","19"],c:0}],T4:[{q:"0.8×0.5=?",o:["4","0.4","0.04","40"],c:1},{q:"3.6÷0.4=?",o:["0.9","9","90","14.4"],c:1}],T5:[{q:"3/4÷2/3=?",o:["1/2","9/8","6/12","8/9"],c:1},{q:"5/6-1/4=?",o:["4/2","7/12","4/10","3/4"],c:1}],T6:[{q:"$500的15%=?",o:["$50","$75","$150","$100"],c:1},{q:"$400加價25%再八折=?",o:["$400","$420","$380","$360"],c:0}],T7:[{q:"汽車行240km用3小時速率?",o:["80km/h","60km/h","720km/h","120km/h"],c:0},{q:"一個月儲$800一年?",o:["$8000","$9600","$8800","$10400"],c:1}],T8:[{q:"圓形半徑7cm圓周?(π=22/7)",o:["22cm","44cm","154cm","88cm"],c:1},{q:"正方體邊長5cm表面面積?",o:["125cm²","150cm²","100cm²","200cm²"],c:1}]}
+};
+
+var Q=[],totalQ=10,currentQ=0,A=[],sel=null;
+
+function buildQuiz(){
+var pool=POOL[studentGrade]||POOL.P5;
+var traps=Object.keys(pool);
+Q=[];var attempts=0;
+while(Q.length<totalQ&&attempts<100){
+attempts++;
+var t=traps[Math.floor(Math.random()*traps.length)];
+var qs=pool[t];
+var q=qs[Math.floor(Math.random()*qs.length)];
+if(!Q.find(function(x){return x.q===q.q})){
+Q.push({t:t,q:q.q,o:q.o,c:q.c});
+}
+}
+totalQ=Q.length;currentQ=0;A=[];sel=null;showQ();
+}
+
+function showQ(){
+var q=Q[currentQ];
+document.getElementById('qn').textContent='第 '+(currentQ+1)+'/'+totalQ+' 題';
+document.getElementById('qt').textContent=q.q;
+document.getElementById('bar').style.width=((currentQ/totalQ)*100)+'%';
+document.getElementById('nx').disabled=true;sel=null;
+var h='';
+q.o.forEach(function(o,j){
+h+='<button class=opt-btn onclick=pick('+j+',this)>'+['A','B','C','D'][j]+'. '+o+'</button>';
+});
+document.getElementById('op').innerHTML=h;
+}
+
+function pick(j,el){
+document.querySelectorAll('.opt-btn').forEach(function(b){b.classList.remove('pick')});
+el.classList.add('pick');sel=j;
+document.getElementById('nx').disabled=false;
+}
+
+function nextQ(){
+var q=Q[currentQ];
+document.querySelectorAll('.opt-btn').forEach(function(b,j){
+if(j===q.c)b.classList.add('right');
+if(j===sel&&sel!==q.c)b.classList.add('wrong');
+});
+A.push({t:q.t,ok:sel===q.c});
+currentQ++;
+if(currentQ<totalQ){setTimeout(showQ,400)}
+else{showResult()}
+}
+
+function showResult(){
+document.getElementById('practice').style.display='none';
+document.getElementById('result').style.display='block';
+quota.used++;
+localStorage.setItem('lf_quota_'+studentName,JSON.stringify(quota));
+var ok=A.filter(function(a){return a.ok}).length;
+var pct=Math.round(ok/totalQ*100);
+document.getElementById('rt').textContent=pct>=80?'做得好！':pct>=50?'繼續努力！':'加油！';
+var h='<div class=stat><span>正確</span><span>'+ok+'/'+totalQ+' ('+pct+'%)</span></div>';
+h+='<div class=stat><span>本月已用</span><span>'+quota.used+'/'+quota.max+' 次</span></div>';
+var trapR={};A.forEach(function(a){if(!trapR[a.t])trapR[a.t]={t:0,ok:0};trapR[a.t].t++;if(a.ok)trapR[a.t].ok++});
+var gradeTrapNames={
+P3:{T1:'進退位',T2:'單位換算',T3:'乘法口訣',T4:'除法概念',T5:'分數認識',T6:'時間計算',T7:'貨幣計算',T8:'圖形認識'},
+P4:{T1:'進退位',T2:'單位換算',T3:'運算順序',T4:'漏寫0',T5:'分數加減',T6:'小數認識',T7:'面積周界',T8:'倍數因數'},
+P5:{T1:'大數運算',T2:'單位換算',T3:'運算順序',T4:'小數運算',T5:'分數乘除',T6:'百分數',T7:'面積計算',T8:'體積計算'},
+P6:{T1:'大小數混合',T2:'單位換算',T3:'運算方程',T4:'小數乘除',T5:'分數四則',T6:'百分數應用',T7:'圓周面積',T8:'體積表面積'}
+};
+var trapNames=gradeTrapNames[studentGrade]||gradeTrapNames.P5;
+Object.keys(trapR).forEach(function(t){
+h+='<div class=stat><span>'+t+' '+(trapNames[t]||'')+'</span><span>'+trapR[t].ok+'/'+trapR[t].t+'</span></div>';
+});
+document.getElementById('rb').innerHTML=h;
+var qpct=Math.round(quota.used/quota.max*100);
+document.getElementById('quotaBar').style.width=qpct+'%';
+document.getElementById('quotaText').textContent='剩餘 '+(quota.max-quota.used)+' 次免費練習 · 升級Pro無限次';
+}
+
+(function(){
+var saved=localStorage.getItem('lf_student_name');
+if(saved){
+document.getElementById('regName').value=saved;
+document.getElementById('regGrade').value=localStorage.getItem('lf_student_grade')||'P5';
+}
+})();
+</script>
+  <script src="/docs/data/lf-core.js"></script>
+  <script src="/docs/data/lf-whatsapp.js"></script>
+  <script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+</body>
+</html>

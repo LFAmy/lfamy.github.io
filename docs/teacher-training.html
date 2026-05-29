@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LF Academy Teacher Training v2.0</title>
+<style>
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--pink:#EC4899;--white:#FFF;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-600:#6B7280;--gray-800:#374151;--gray-900:#1A1A1A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK","PingFang SC","Microsoft YaHei","SimHei",sans-serif;background:#F3F4F6;color:var(--gray-900);font-size:14px;line-height:1.75}
+.topbar{background:linear-gradient(135deg,#0A1A35,#1A3C6D,#1E4D8C);color:white;padding:24px}
+.topbar h1{font-size:20px}.topbar .sub{font-size:11px;opacity:0.5;margin-top:4px;letter-spacing:1px}
+.container{max-width:750px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:2px;background:white;border-radius:12px;padding:4px;margin-bottom:16px;position:sticky;top:8px;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.08);overflow-x:auto}
+.tab-btn{flex:1;min-width:fit-content;padding:10px 8px;border:none;background:transparent;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;color:var(--gray-600);transition:all 0.2s;text-align:center;white-space:nowrap}
+.tab-btn.active{background:var(--blue);color:white}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.card h2{font-size:16px;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:2px solid var(--gray-100)}
+.card h3{font-size:14px;color:var(--blue);margin:20px 0 10px;padding-top:12px;border-top:1px solid var(--gray-100)}
+.card h4{font-size:13px;color:var(--gray-800)}
+.training-day-header{background:linear-gradient(135deg,var(--blue),#0F2440);color:white;border-radius:14px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+.training-day-header::after{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;border:2px solid rgba(201,168,76,0.12);border-radius:50%}
+.training-day-header h2{font-size:20px;color:var(--gold);margin-bottom:4px;border:none;padding:0}
+.training-day-header .meta{font-size:11px;opacity:0.6;margin-top:6px;display:flex;gap:16px;flex-wrap:wrap}
+.timeline{margin:12px 0}
+.timeline-item{display:flex;gap:12px;padding:12px 0;border-left:2px solid var(--gray-200);margin-left:12px;padding-left:16px;position:relative}
+.timeline-item::before{content:"";position:absolute;left:-6px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.timeline-item .time{font-size:10px;color:var(--gray-400);min-width:70px;font-weight:700;flex-shrink:0}
+.timeline-item .content{flex:1;font-size:13px}
+.timeline-item .content strong{color:var(--blue)}
+.story-box{background:linear-gradient(135deg,#FFFDF5,#FFF7ED);border-left:4px solid var(--gold);padding:16px;margin:12px 0;border-radius:0 10px 10px 0;font-size:13px;line-height:1.9}
+.story-box .story-title{font-weight:900;color:#92400E;margin-bottom:4px;font-size:14px}
+.story-box .story-emoji{font-size:20px;margin-right:4px}
+.script-box{background:#1E1E1E;color:#E5E5E5;padding:18px;border-radius:10px;font-size:12px;line-height:2;margin:10px 0;overflow-x:auto;font-family:"Consolas","Courier New",monospace}
+.script-box .stage{color:var(--gold);font-weight:700;font-size:13px}
+.script-box .say{color:#93C5FD}
+.script-box .do{color:#86EFAC}
+.script-box .tip{color:#FDE68A}
+.script-box .warn{color:#FCA5A5}
+.script-box .note{color:#C4B5FD}
+.trap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}
+.trap-chip{padding:10px 4px;text-align:center;border-radius:10px;font-size:9px;font-weight:700;cursor:pointer;transition:all 0.2s;border:2px solid var(--gray-200);background:white}
+.trap-chip:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.trap-chip.selected{border-color:var(--red);background:#FEF2F2}
+.trap-chip .trap-num{font-size:18px;font-weight:900}
+.trap-card{background:var(--gray-50);border-radius:10px;padding:16px;margin:8px 0;display:none}
+.trap-card.show{display:block}
+.trap-card h4{font-size:14px}
+.trap-card .ex{font-size:12px;color:var(--gray-600);margin:4px 0}
+.trap-card .fix{font-size:12px;color:var(--green);font-weight:700;background:#F0FDF4;padding:8px;border-radius:6px;margin:6px 0}
+.trap-card .hk-note{font-size:11px;color:#92400E;background:#FEF3C7;padding:6px 10px;border-radius:6px;margin:6px 0}
+.checklist-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;font-size:13px;cursor:pointer}
+.checklist-item .box{width:20px;height:20px;border:2px solid var(--gray-400);border-radius:5px;flex-shrink:0;margin-top:1px;transition:all 0.2s}
+.checklist-item .box.checked{background:var(--green);border-color:var(--green)}
+.checklist-item .box.checked::after{content:"+";color:white;font-size:12px;display:flex;align-items:center;justify-content:center;height:100%;font-weight:900}
+.quick-ref{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin:8px 0}
+.ref-card{background:var(--gray-50);border-radius:10px;padding:14px;text-align:center;font-size:11px;border:1px solid var(--gray-200);transition:all 0.2s}
+.ref-card:hover{border-color:var(--gold)}
+.ref-card .big{font-size:28px;margin-bottom:6px}
+.ref-card .title{font-weight:900;color:var(--blue);margin-bottom:3px;font-size:12px}
+.ref-card .detail{color:var(--gray-600);font-size:10px}
+.sop-step{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--gray-100)}
+.sop-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;flex-shrink:0;color:white}
+.sop-content{flex:1;font-size:13px}
+.sop-content strong{color:var(--blue)}
+.sop-content .sub{font-size:11px;color:var(--gray-600);margin-top:2px}
+.parent-template{background:var(--gray-50);border-left:4px solid var(--gold);padding:16px;margin:10px 0;border-radius:0 10px 10px 0;font-size:12px;line-height:1.9;position:relative}
+.parent-template .pt-title{font-weight:900;color:var(--blue);margin-bottom:6px;font-size:13px}
+.affinity-tip{background:#FDF2F8;border:2px solid #FBCFE8;border-radius:10px;padding:14px;margin:6px 0;font-size:12px}
+.affinity-tip .tip-title{font-weight:900;color:var(--pink);margin-bottom:4px}
+.interaction-card{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:8px 0}
+.interaction-item{background:var(--gray-50);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--gray-200);transition:all 0.2s}
+.interaction-item:hover{border-color:var(--blue)}
+.interaction-item .int-icon{font-size:28px;margin-bottom:4px}
+.interaction-item .int-name{font-weight:900;font-size:12px;color:var(--blue);margin-bottom:2px}
+.interaction-item .int-desc{font-size:10px;color:var(--gray-600)}
+.btn{display:inline-block;padding:8px 20px;border-radius:25px;font-weight:700;font-size:12px;cursor:pointer;border:none;text-decoration:none;transition:all 0.15s}
+.btn-blue{background:var(--blue);color:white}
+.btn-gold{background:var(--gold);color:var(--blue)}
+.btn-outline{border:2px solid var(--blue);color:var(--blue);background:white}
+.copy-btn{background:var(--gray-100);border:none;padding:4px 12px;border-radius:6px;font-size:10px;cursor:pointer;color:var(--gray-600)}
+.copy-btn:hover{background:var(--blue);color:white}
+.hk-highlight{background:#FEF3C7;padding:2px 6px;border-radius:4px;font-weight:700;color:#92400E;font-size:inherit}
+.cantonese-term{color:var(--pink);font-weight:700}
+.sspa-tag{display:inline-block;background:#DC2626;color:white;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900;margin-left:4px;vertical-align:middle}
+.grade-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900;margin-left:4px}
+.grade-p3{background:#DBEAFE;color:#1E40AF}.grade-p4{background:#D1FAE5;color:#065F46}
+.grade-p5{background:#FEF3C7;color:#92400E}.grade-p6{background:#FEE2E2;color:#991B1B}
+@media(max-width:500px){.trap-grid{grid-template-columns:repeat(3,1fr)}.tabs{-webkit-overflow-scrolling:touch}.quick-ref{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="topbar"><h1>TEACHER TRAINING v2.0</h1><div class="sub">3-Day Program | 65min Lessons | HK Localized</div></div><div class="container">
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab('day1',this)">Day 1 · 陷阱系統</button>
+<button class="tab-btn" onclick="switchTab('day2',this)">Day 2 · 互動親切</button>
+<button class="tab-btn" onclick="switchTab('day3',this)">Day 3 · 家長溝通</button>
+</div>
+
+<div id="tab-day1" class="tab-content">
+<div class="training-day-header"><h2>Day 1: HK Trap System（香港陷阱系統）</h2><div class="meta"><span>⏱ 65分鐘</span><span>📚 10大陷阱</span><span>🎯 平台實操</span></div></div>
+<div class="card"><h2>🔍 10 Traps: Hong Kong Edition</h2>
+<p>香港小學數學最常見的10大陷阱類型：<b>T1</b> 進退位 · <b>T2</b> 小數點 · T3 運算順序 · T4 面積公式 · T5 單位換算 · T6 百分數 · T7 應用題讀題 · T8 圖表閱讀 · T9 時間計算 · T10 數據分析</p>
+<div class="story-box"><strong>📖 親切故事：</strong>「陳小明每次考試都話識做，但次次都錯同一樣嘢⋯⋯原來佢唔係唔識，係踩咗陷阱！」用學生真實故事建立親切感，讓老師理解陷阱教學的重要性。</div>
+</div>
+</div>
+
+<div id="tab-day2" class="tab-content" style="display:none">
+<div class="training-day-header"><h2>Day 2: 互動技巧 + 親切感培訓</h2><div class="meta"><span>⏱ 65分鐘</span><span>🎯 互動教學法</span><span>💛 建立關係</span></div></div>
+<div class="card"><h2>🎯 課堂互動技巧</h2><p><b>3-2-1 互動法：</b>3分鐘老師講解 → 2分鐘學生獨立練習 → 1分鐘輪流解說。確保每個學生都有發言機會，避免一人主導。</p></div>
+<div class="card"><h2>💛 親切感建立（Affinity Building）</h2><p>用香港本地化的故事和例子建立師生連結。例如：用茶餐廳找錢教小數點、用海洋公園排隊教時間計算。</p></div>
+</div>
+
+<div id="tab-day3" class="tab-content" style="display:none">
+<div class="training-day-header"><h2>Day 3: 家長溝通 + 模擬課堂</h2><div class="meta"><span>⏱ 65分鐘</span><span>📱 WhatsApp溝通</span><span>🎭 模擬教學</span></div></div>
+<div class="card"><h2>📱 家長溝通（Parent Communication）</h2><p>每堂課後 WhatsApp 發送 3 句話：<b>1.</b> 今日學咗咩 <b>2.</b> 小朋友邊度做得好 <b>3.</b> 有咩要繼續改善。保持家長參與度。</p></div>
+</div>
+</div>
+
+<script>
+function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+    btn.classList.add('active');
+    document.getElementById('tab-' + tabId).style.display = 'block';
+}
+</script>
+<script>console.log("LFA Teacher Training v2 loaded")</script>
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LF Academy Teacher Training v3.0 | HK Localized | 65min</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--p:#EC4899;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151;--g900:#1A1A1A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK","PingFang SC","Microsoft YaHei","SimHei",sans-serif;background:#F3F4F6;color:var(--g900);font-size:14px;line-height:1.75}
+.topbar{background:linear-gradient(135deg,#0A1A35,var(--b),#1E4D8C);color:white;padding:24px}
+.topbar h1{font-size:20px}.topbar .sub{font-size:11px;opacity:0.5;margin-top:4px}
+.container{max-width:750px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:2px;background:white;border-radius:12px;padding:4px;margin-bottom:16px;position:sticky;top:8px;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.08);overflow-x:auto}
+.tab-btn{flex:1;min-width:fit-content;padding:10px 8px;border:none;background:transparent;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;color:var(--g600);transition:all 0.2s;text-align:center;white-space:nowrap}
+.tab-btn.active{background:var(--b);color:white}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.card h2{font-size:16px;color:var(--b);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--g100);display:flex;align-items:center;gap:8px}
+.card h3{font-size:14px;color:var(--b);margin:20px 0 10px;padding-top:12px;border-top:1px solid var(--g100)}
+.day-header{background:linear-gradient(135deg,var(--b),#0F2440);color:white;border-radius:14px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+.day-header::after{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;border:2px solid rgba(201,168,76,0.12);border-radius:50%}
+.day-header h2{font-size:20px;color:var(--g);border:none;padding:0;margin-bottom:4px}
+.day-header .meta{font-size:11px;opacity:0.6;margin-top:6px;display:flex;gap:16px;flex-wrap:wrap}
+.timeline-item{display:flex;gap:12px;padding:12px 0;border-left:2px solid var(--g200);margin-left:12px;padding-left:16px;position:relative}
+.timeline-item::before{content:"";position:absolute;left:-6px;top:18px;width:10px;height:10px;border-radius:50%;background:var(--g)}
+.timeline-item .time{font-size:10px;color:var(--g400);min-width:70px;font-weight:700;flex-shrink:0}
+.timeline-item .content{flex:1;font-size:13px}
+.timeline-item .content strong{color:var(--b)}
+.story-box{background:linear-gradient(135deg,#FFFDF5,#FFF7ED);border-left:4px solid var(--g);padding:16px;margin:12px 0;border-radius:0 10px 10px 0;font-size:13px;line-height:1.9}
+.story-box .s-title{font-weight:900;color:#92400E;margin-bottom:4px;font-size:14px}
+.script-box{background:#1E1E1E;color:#E5E5E5;padding:18px;border-radius:10px;font-size:12px;line-height:2;margin:10px 0;overflow-x:auto;font-family:Consolas,monospace}
+.script-box .stg{color:var(--g);font-weight:700}
+.script-box .say{color:#93C5FD}
+.script-box .do{color:#86EFAC}
+.script-box .tip{color:#FDE68A}
+.script-box .warn{color:#FCA5A5}
+.script-box .note{color:#C4B5FD}
+.trap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}
+.trap-chip{padding:10px 4px;text-align:center;border-radius:10px;font-size:9px;font-weight:700;cursor:pointer;border:2px solid var(--g200);background:white;transition:all 0.2s}
+.trap-chip:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.trap-card{background:var(--g50);border-radius:10px;padding:16px;margin:8px 0;display:none}
+.trap-card.show{display:block}
+.trap-card h4{font-size:14px}
+.trap-card .ex{font-size:12px;color:var(--g600);margin:4px 0}
+.trap-card .fix{font-size:12px;color:var(--gr);font-weight:700;background:#F0FDF4;padding:8px;border-radius:6px;margin:6px 0}
+.trap-card .hk-note{font-size:11px;color:#92400E;background:#FEF3C7;padding:6px 10px;border-radius:6px;margin:6px 0}
+.checklist-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;font-size:13px;cursor:pointer}
+.checklist-item .box{width:20px;height:20px;border:2px solid var(--g400);border-radius:5px;flex-shrink:0;margin-top:1px;transition:all 0.2s}
+.checklist-item .box.checked{background:var(--gr);border-color:var(--gr)}
+.checklist-item .box.checked::after{content:"+";color:white;font-size:12px;display:flex;align-items:center;justify-content:center;height:100%;font-weight:900}
+.quick-ref{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin:8px 0}
+.ref-card{background:var(--g50);border-radius:10px;padding:14px;text-align:center;font-size:11px;border:1px solid var(--g200)}
+.ref-card .big{font-size:28px;margin-bottom:6px}
+.ref-card .title{font-weight:900;color:var(--b);margin-bottom:3px;font-size:12px}
+.ref-card .detail{color:var(--g600);font-size:10px}
+.sop-step{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--g100)}
+.sop-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;flex-shrink:0;color:white}
+.sop-content{flex:1;font-size:13px}
+.sop-content strong{color:var(--b)}
+.sop-content .sub{font-size:11px;color:var(--g600);margin-top:2px}
+.parent-tpl{background:var(--g50);border-left:4px solid var(--g);padding:16px;margin:10px 0;border-radius:0 10px 10px 0;font-size:12px;line-height:1.9}
+.parent-tpl .pt-title{font-weight:900;color:var(--b);margin-bottom:6px;font-size:13px}
+.affinity-tip{background:#FDF2F8;border:2px solid #FBCFE8;border-radius:10px;padding:14px;margin:6px 0;font-size:12px}
+.affinity-tip .at-title{font-weight:900;color:var(--p);margin-bottom:4px}
+.int-card{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:8px 0}
+.int-item{background:var(--g50);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--g200)}
+.int-item .ii{font-size:28px;margin-bottom:4px}
+.int-item .in{font-weight:900;font-size:12px;color:var(--b);margin-bottom:2px}
+.int-item .id{font-size:10px;color:var(--g600)}
+.btn{display:inline-block;padding:8px 20px;border-radius:25px;font-weight:700;font-size:12px;cursor:pointer;border:none;text-decoration:none}
+.btn-blue{background:var(--b);color:white}
+.btn-gold{background:var(--g);color:var(--b)}
+.copy-btn{background:var(--g100);border:none;padding:4px 12px;border-radius:6px;font-size:10px;cursor:pointer;color:var(--g600)}
+.copy-btn:hover{background:var(--b);color:white}
+.hk{background:#FEF3C7;padding:2px 6px;border-radius:4px;font-weight:700;color:#92400E}
+.ct{color:var(--p);font-weight:700}
+.sspa{display:inline-block;background:#DC2626;color:white;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900;margin-left:4px}
+.gtag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:9px;font-weight:900;margin-left:4px}
+.gp3{background:#DBEAFE;color:#1E40AF}.gp4{background:#D1FAE5;color:#065F46}
+.gp5{background:#FEF3C7;color:#92400E}.gp6{background:#FEE2E2;color:#991B1B}
+@media(max-width:500px){.trap-grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<h1>LF Academy Teacher Training v3.0</h1>
+<div class="sub">HK Primary Math | Trap Method | 3-Day Onboarding | 65min Lessons | Parent Satisfaction Up</div>
+</div>
+
+<div class="container">
+
+<div class="tabs">
+<button class="tab-btn active" onclick="switchTab(&apos;overview&apos;)">Overview</button>
+<button class="tab-btn" onclick="switchTab(&apos;day1&apos;)">Day 1</button>
+<button class="tab-btn" onclick="switchTab(&apos;day2&apos;)">Day 2</button>
+<button class="tab-btn" onclick="switchTab(&apos;day3&apos;)">Day 3</button>
+<button class="tab-btn" onclick="switchTab(&apos;hkguide&apos;)">HK Guide</button>
+<button class="tab-btn" onclick="switchTab(&apos;scripts&apos;)">Scripts</button>
+<button class="tab-btn" onclick="switchTab(&apos;tools&apos;)">Tools</button>
+<button class="tab-btn" onclick="switchTab(&apos;revenue&apos;)">Revenue</button>
+</div>
+
+
+<div id="tab-overview">
+<div class="day-header"><h2>LF Teacher Training System v2.0</h2><div class="meta"><span>3 Days x 1.5hr/day</span><span>65min per class</span><span>HK Localized</span><span>Ready to teach</span></div></div>
+
+<div class="card">
+<h2>Post-Training Competencies</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+<div style="background:#F0FDF4;padding:14px;border-radius:10px"><b>+</b> Teach math clearly in <span class="ct">Cantonese</span></div>
+<div style="background:#F0FDF4;padding:14px;border-radius:10px"><b>+</b> Identify which <span class="hk">trap</span> a student fell into instantly</div>
+<div style="background:#F0FDF4;padding:14px;border-radius:10px"><b>+</b> Use <span class="hk">HK mnemonics</span> to lock in solutions</div>
+<div style="background:#F0FDF4;padding:14px;border-radius:10px"><b>+</b> Execute a full <span class="hk">65min 4P</span> standardized lesson</div>
+<div style="background:#DBEAFE;padding:14px;border-radius:10px"><b>+</b> Manage <span class="hk">1v3 small groups</span> with differentiation</div>
+<div style="background:#DBEAFE;padding:14px;border-radius:10px"><b>+</b> Handle <span class="hk">HK parents</span>: WhatsApp + retention</div>
+<div style="background:#FEF3C7;padding:14px;border-radius:10px"><b>+</b> Align with <span class="hk">EDB curriculum</span> + TSA + SSPA</div>
+<div style="background:#FEF3C7;padding:14px;border-radius:10px"><b>+</b> Maintain <span class="hk">affinity</span>: students love class = retention</div>
+</div></div>
+
+<div class="card">
+<h2>65-Minute Lesson 4P Model (Optimized for HK)</h2>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;margin:12px 0">
+<div style="background:#FEE2E2;border-radius:12px;padding:16px"><div style="font-size:28px">P1</div><div style="font-weight:900;color:#DC2626;margin:6px 0;font-size:14px">Probe</div><div style="font-size:10px;color:#991B1B">Diagnose<br><b>5 min</b></div></div>
+<div style="background:#FEF3C7;border-radius:12px;padding:16px"><div style="font-size:28px">P2</div><div style="font-weight:900;color:#92400E;margin:6px 0;font-size:14px">Present</div><div style="font-size:10px;color:#92400E">HK-style Teach<br><b>22 min</b></div></div>
+<div style="background:#DBEAFE;border-radius:12px;padding:16px"><div style="font-size:28px">P3</div><div style="font-weight:900;color:#1E40AF;margin:6px 0;font-size:14px">Practice</div><div style="font-size:10px;color:#1E40AF">Tiered Drills<br><b>30 min</b></div></div>
+<div style="background:#D1FAE5;border-radius:12px;padding:16px"><div style="font-size:28px">P4</div><div style="font-weight:900;color:#065F46;margin:6px 0;font-size:14px">Post</div><div style="font-size:10px;color:#065F46">Consolidate<br><b>8 min</b></div></div>
+</div></div>
+
+<div class="card">
+<h2>Pre-Training Self-Check</h2>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div>I can explain math concepts in Cantonese</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div>I know P3-P6 math scope (multi-digit to algebra to geometry)</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div>I understand SSPA importance and pressure for HK parents</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div>I am willing to follow standardized teaching flow</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div>I have patience with primary students</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div>I can use basic computer operations</div>
+</div>
+</div><!-- end tab-overview -->
+
+
+<div id="tab-day1" style="display:none">
+<div class="day-header"><h2>Day 1: HK Trap System + Platform Hands-on (1.5hr)</h2><div class="meta"><span>Goal: Master 10-traps + use all platform tools</span><span>Output: Generate a HK-style practice paper</span></div></div>
+
+<div class="story-box"><div class="s-title">The Origin Story (Must Tell!)</div>
+"In 2018, I took on a P5 student named Ho Lam. His mom said: he is not dumb, but every exam he gets 70-something, never reaches 85. I gave Ho Lam a trap diagnostic. Result shocked his mom - Ho Lam was not bad at math, but <b>fell for the same trap every single time: T6 Percentage Successive Changes.</b> $100 +20% -20%, he always answered $100. But correct answer is <b>$96</b>. We spent <b>3 lessons</b> just attacking this one trap. Next exam: Ho Lam scored <b>91 points</b>, class rank Top 15%. <b>This is Lam Fung core: You are not here to teach all of math. You are here to help students avoid the traps they keep falling into.</b>"
+</div>
+
+<div class="card"><h2>Day 1 Timeline</h2>
+<div class="timeline-item"><div class="time">0-20min</div><div class="content"><strong>Ice-break Story + Lam Fung Philosophy</strong><br>Ho Lam story -> "We do not teach math, we teach trap avoidance" -> Why trap method is 3x more effective</div></div>
+<div class="timeline-item"><div class="time">20-45min</div><div class="content"><strong>10 Traps Deep Dive (HK Edition)</strong><br>Each trap with <span class="hk">real HK example</span> + <span class="hk">HK mnemonic</span> + <span class="hk">SSPA appearance rate</span></div></div>
+<div class="timeline-item"><div class="time">45-65min</div><div class="content"><strong>Platform Tools Full Tour</strong><br>teacher-dashboard -> teacher-live -> smart-test-gen -> test-generator -> question bank browser</div></div>
+<div class="timeline-item"><div class="time">65-80min</div><div class="content"><strong>Hands-on: Generate HK-style Practice Paper</strong><br>Select grade -> select traps -> generate -> read aloud in <span class="ct">Cantonese</span> -> check answers</div></div>
+<div class="timeline-item"><div class="time">80-90min</div><div class="content"><strong>Day 1 Assessment + Q and A</strong></div></div>
+</div>
+
+<div class="card"><h2>10 Traps: Hong Kong Edition</h2>
+<div class="trap-grid">
+<div class="trap-chip" style="background:#FEE2E2" onclick="showTrap(\'T1\')"><div class="trap-num">T1</div>Carry/Borrow<span class="gtag gp3">P3</span></div>
+<div class="trap-chip" style="background:#FEF3C7" onclick="showTrap(\'T2\')"><div class="trap-num">T2</div>Unit Conv.<span class="sspa">SSPA</span></div>
+<div class="trap-chip" style="background:#DBEAFE" onclick="showTrap(\'T3\')"><div class="trap-num">T3</div>Order of Ops<span class="sspa">SSPA</span></div>
+<div class="trap-chip" style="background:#EDE9FE" onclick="showTrap(\'T4\')"><div class="trap-num">T4</div>Missing 0<span class="gtag gp5">P5</span></div>
+<div class="trap-chip" style="background:#FCE7F3" onclick="showTrap(\'T5\')"><div class="trap-num">T5</div>Fractions<span class="sspa">SSPA</span></div>
+<div class="trap-chip" style="background:#D1FAE5" onclick="showTrap(\'T6\')"><div class="trap-num">T6</div>Percent<span class="sspa">Critical</span></div>
+<div class="trap-chip" style="background:#FFEDD5" onclick="showTrap(\'T7\')"><div class="trap-num">T7</div>Word Prob.<span class="sspa">Critical</span></div>
+<div class="trap-chip" style="background:#E0E7FF" onclick="showTrap(\'T8\')"><div class="trap-num">T8</div>Geometry<span class="gtag gp4">P4+</span></div>
+<div class="trap-chip" style="background:#FEE2E2" onclick="showTrap(\'T9\')"><div class="trap-num">T9</div>Time Conv.<span class="gtag gp3">P3+</span></div>
+<div class="trap-chip" style="background:#ECFDF5" onclick="showTrap(\'T10\')"><div class="trap-num">T10</div>Remainder<span class="gtag gp4">P4+</span></div>
+</div>
+<div class="trap-card" id="trapDetail"><h4>Click a trap above to see details (with HK exam data)</h4></div>
+</div>
+
+<div class="card"><h2>Day 1 Pass Tasks</h2>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Recite all 10 trap names + SSPA rates</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Open teacher-dashboard, simulate creating P5 class</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Generate "P5: T6+T5 mixed trap practice paper" via smart-test-gen</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Generate 10-question SSPA mock paper via test-generator</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Recite 5 HK-style mnemonics</div>
+</div>
+</div><!-- end tab-day1 -->
+
+<div id="tab-day2" style="display:none">
+<div class="day-header"><h2>Day 2: HK Problem-Solving + Interaction + Affinity (1.5hr)</h2><div class="meta"><span>Goal: Master HK Problem-Solving + Classroom Engagement + Student Affinity</span><span>Output: Complete 65min lesson plan</span></div></div>
+
+<div class="story-box"><div class="s-title">The Case of Miss Chan (Must Tell!)</div>
+"Last year we had Miss Chan. Strong math, DSE 5**. But first month, <b>2 out of 3 students quit.</b> Not because she taught poorly. Because -- <b>she was too serious.</b> She used tone like: 'Now we do Question 3. Find common denominator.' Students: 'So boring. Same as school.' We taught her: <b>Insert humor every 10 minutes.</b> E.g.: 'Denominators are pizza boxes of different sizes. Same size box first!' One month later: <b>100% retention</b>. Student: 'Miss Chan is so funny, I love coming!' <b>Remember: Learn + Like = Retention. Lose either = they leave.</b>"
+</div>
+
+<div class="card"><h2>Day 2 Timeline</h2>
+<div class="timeline-item"><div class="time">0-20min</div><div class="content"><strong>HK 4-Step Problem-Solving: Circle, Draw, List, Check</strong><br>Systematic framework used in HK exams</div></div>
+<div class="timeline-item"><div class="time">20-35min</div><div class="content"><strong>8 Classroom Interaction Techniques</strong><br>Score Battle, Trap Detective, Little Teacher, Speed Quiz, Lucky Wheel, Sniper Mode, Story Immersion, Flipped Class</div></div>
+<div class="timeline-item"><div class="time">35-50min</div><div class="content"><strong>Affinity Training (Core!)</strong><br>5 rapport techniques + 3 HK student archetypes + storytelling skills</div></div>
+<div class="timeline-item"><div class="time">50-70min</div><div class="content"><strong>1v3 Group Dynamics (HK Edition)</strong><br>3 HK student profiles + seating + attention distribution + cooperation</div></div>
+<div class="timeline-item"><div class="time">70-90min</div><div class="content"><strong>65min Lesson Plan Hands-on</strong><br>Lesson planner + peer review</div></div>
+</div>
+
+<div class="card"><h2>HK 4-Step: Circle, Draw, List, Check</h2>
+<div class="sop-step"><div class="sop-num" style="background:#DC2626">1</div><div class="sop-content"><strong>Circle Keywords</strong> - Circle key numbers and question words<br><span class="sub">HK method: Find what the question asks! Circle: total, remaining, difference!</span></div></div>
+<div class="sop-step"><div class="sop-num" style="background:#F59E0B">2</div><div class="sop-content"><strong>Draw Diagram</strong> - Convert text to picture or number line<br><span class="sub">HK method: Draw it out! Words lie, pictures do not. Rectangle? Draw one!</span></div></div>
+<div class="sop-step"><div class="sop-num" style="background:#1E40AF">3</div><div class="sop-content"><strong>List Calculation</strong> - Step by step, vertical or horizontal<br><span class="sub">HK method: Line up working! Every step clear, no skipping. Messy = wrong!</span></div></div>
+<div class="sop-step"><div class="sop-num" style="background:#16A34A">4</div><div class="sop-content"><strong>Check Answer</strong> - Reverse calculation / estimation<br><span class="sub">HK method: Check! Does it make sense? Person volume is not 1000 cubic meters!</span></div></div>
+</div>
+
+<div class="card"><h2>8 Classroom Interaction Techniques（課堂互動技巧）</h2>
+<div class="int-card">
+<div class="int-item"><div class="ii">Score</div><div class="in">Score Battle</div><div class="id">+1 per correct,<br>winner gets prize</div></div>
+<div class="int-item"><div class="ii">Detective</div><div class="in">Trap Detective</div><div class="id">Teacher makes mistake,<br>students find trap</div></div>
+<div class="int-item"><div class="ii">Teacher</div><div class="in">Little Teacher</div><div class="id">Fast finisher<br>teaches slower peer</div></div>
+<div class="int-item"><div class="ii">Speed</div><div class="in">Speed Quiz</div><div class="id">30-sec rapid fire,<br>trains reaction</div></div>
+<div class="int-item"><div class="ii">Wheel</div><div class="in">Lucky Wheel</div><div class="id">Spin to decide<br>who answers next</div></div>
+<div class="int-item"><div class="ii">Sniper</div><div class="in">Sniper Mode</div><div class="id">Lock one trap,<br>attack 10 times</div></div>
+<div class="int-item"><div class="ii">Story</div><div class="in">Story Immersion</div><div class="id">"If you were the boss<br>how to calculate?"</div></div>
+<div class="int-item"><div class="ii">Flip</div><div class="in">Flipped Class</div><div class="id">Student tests teacher,<br>teacher loses points</div></div>
+</div></div>
+
+<div class="card"><h2>Affinity Training 親切感培訓 (Most Important!)</h2>
+<h3>5 Rapport Techniques（親切故事建立法）</h3>
+<div class="affinity-tip"><div class="at-title">1: 30-Second Pre-Class Icebreaker</div>First 30 sec every lesson: ask non-math question. "What lunch today?" "Watch TV yesterday?" Students need: "This teacher is human, not machine."</div>
+<div class="affinity-tip"><div class="at-title">2: Name + Praise</div>Call every student by name: "Xiao Ming, give it a try! I know you can." When correct: "Brilliant! You avoided T6 trap!" Children need to feel seen.</div>
+<div class="affinity-tip"><div class="at-title">3: Share Your Own Failures</div>Once per lesson: "I used to fall for T4 trap too! 408/2 I answered 24!" Teacher vulnerability = "mistakes not a big deal."</div>
+<div class="affinity-tip"><div class="at-title">4: Use Student Language</div>Not "numerator/denominator" but "top number, bottom number". Enter their world: "This question is like a Boss fight!" Children think in concrete language.</div>
+<div class="affinity-tip"><div class="at-title">5: One Humor Moment Every 10 Minutes</div>Exaggerated expressions, funny analogies, deliberate mistakes. Laughter = relaxation = more willing to try = better learning.</div>
+
+<h3>3 HK Student Archetypes</h3>
+<div class="int-card">
+<div class="int-item" style="background:#FEE2E2"><div class="ii">Shy</div><div class="in">No-Confidence</div><div class="id">Always "I cannot"<br>Start super-easy<br>Heavy praise<br>Never rush</div></div>
+<div class="int-item" style="background:#FEF3C7"><div class="ii">Cool</div><div class="in">Overconfident</div><div class="id">Thinks genius<br>Give challenge<br>Show traps<br>Make Little Teacher</div></div>
+<div class="int-item" style="background:#DBEAFE"><div class="ii">Bored</div><div class="in">Low-Motivation</div><div class="id">Unfocused<br>Gamification<br>Instant rewards<br>Connect interests</div></div>
+</div></div>
+</div><!-- end tab-day2 -->
+
+<div id="tab-day3" style="display:none">
+<div class="day-header"><h2>Day 3: 65min Mock Lesson + HK Parent Communication (1.5hr)</h2><div class="meta"><span>Goal: Score 80+ on Assessment + Deploy to Real Students</span><span>Output: Score 80+ + parent templates complete</span></div></div>
+
+<div class="card"><h2>Day 3 Timeline</h2>
+<div class="timeline-item"><div class="time">0-35min</div><div class="content"><strong>35min Full 65-Minute Mock Lesson</strong><br>Trainer plays 3 students (no-confidence, overconfident, low-motivation). Teacher executes full 4P flow.</div></div>
+<div class="timeline-item"><div class="time">35-50min</div><div class="content"><strong>Assessment Feedback (25-item Rubric)</strong><br>Score each item + specific improvements + demonstrate correct approach</div></div>
+<div class="timeline-item"><div class="time">50-70min</div><div class="content"><strong>HK Parent Communication Practice</strong><br>3 WhatsApp templates + simulate complaint handling + retention conversation</div></div>
+<div class="timeline-item"><div class="time">70-90min</div><div class="content"><strong>Deployment Confirmation</strong><br>Sign agreement -> assign students -> set first lesson</div></div>
+</div>
+
+<div class="card"><h2>Assessment Rubric (25 items x 4pts = 100)</h2>
+<div class="quick-ref">
+<div class="ref-card"><div class="title">Probe (12pts)</div><div class="detail">Self-intro smile<br>Icebreaker<br>Review last<br>Preview today</div></div>
+<div class="ref-card"><div class="title">Present (24pts)</div><div class="detail">Cantonese clear<br>Concept+formula<br>HK mnemonic<br>2 life examples<br>Mistake demo<br>Use CDLC</div></div>
+<div class="ref-card"><div class="title">Practice (32pts)</div><div class="detail">Teacher demo 1<br>3 rotate 1 each<br>Each solo 2<br>Check+guide each<br>Praise+trap name<br>Guide not answer<br>Challenge for fast<br>Time +/-2min</div></div>
+<div class="ref-card"><div class="title">Post (12pts)</div><div class="detail">Each summarizes<br>Homework clear<br>Next preview</div></div>
+<div class="ref-card"><div class="title">Affinity (20pts)</div><div class="detail">Good pace<br>Smile whole time<br>2+ humor<br>Names 10+ times<br>1 failure story<br>Positive tone</div></div>
+</div></div>
+
+<div class="card"><h2>HK Parent: 3 WhatsApp Templates</h2>
+<div class="parent-tpl"><div class="pt-title">Pre-Class (1 day before, 8PM)</div>
+<div style="color:#1A3C6D">
+Hi [Parent]! Tomorrow [Time] is [Student] math lesson.<br>
+Topic: [Topic] | Trap: [TX] [Trap]<br>
+SSPA freq: [X]% -- one of the highest!<br>
+Prep: stable WiFi + blank paper + pencil + ruler<br>
+See you! [Teacher] Lam Fung Academy
+</div><button class="copy-btn" onclick="copyParentText(this)">Copy</button></div>
+
+<div class="parent-tpl"><div class="pt-title">Post-Class (within 30min)</div>
+<div style="color:#1A3C6D">
+Hi [Parent]! Just finished with [Student].<br>
+Topic: [Topic] | Traps cracked: [X]<br>
+Questions: [X] (accuracy [X]%)<br>
+Highlight: [specific praise!]<br>
+Watch: [gentle suggestion]<br>
+Homework (5-10min): [assignment]<br>
+Next: [Date] [Time]<br>
+[Teacher] Lam Fung Academy
+</div><button class="copy-btn" onclick="copyParentText(this)">Copy</button></div>
+
+<div class="parent-tpl"><div class="pt-title">Monthly Review + Renewal (7 days before)</div>
+<div style="color:#1A3C6D">
+Hi [Parent]! [Student] monthly review:<br>
+Lessons: [X] | Traps mastered: [X]<br>
+Practice: [X] questions<br>
+Accuracy: [X]% -> [X]% (+[X]%)<br>
+Strongest: [Topic]<br>
+Next focus: [Weak Topic]<br>
+Fee: $[Amount]<br>
+FPS/PayMe: [Info]<br>
+Thank you! [Teacher] Lam Fung Academy
+</div><button class="copy-btn" onclick="copyParentText(this)">Copy</button></div>
+</div>
+</div>
+<div id="assessmentResult"></div>
+<button onclick="scoreAssessment()" style="display:block;width:100%;padding:14px;background:var(--b);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px">Score My Assessment</button>
+<!-- end tab-day3 -->
+
+
+<div id="tab-hkguide" style="display:none">
+<div class="day-header"><h2>HK Localization Teaching Guide</h2><div class="meta"><span>Cantonese Terms</span><span>EDB Curriculum</span><span>TSA + SSPA</span><span>HK Methods</span></div></div>
+
+<div class="card"><h2>HK Math Terminology (Must Use Cantonese!)</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px">
+<div style="background:#FEE2E2;padding:8px;border-radius:8px">Do NOT say "numerator/denominator"<br>Say <span class="ct">"top number, bottom number"</span></div>
+<div style="background:#FEE2E2;padding:8px;border-radius:8px">Do NOT say "simplify"<br>Say <span class="ct">"make the fraction smaller"</span></div>
+<div style="background:#FEF3C7;padding:8px;border-radius:8px">Do NOT say "vertical"<br>Say <span class="ct">"standing up"</span></div>
+<div style="background:#FEF3C7;padding:8px;border-radius:8px">Do NOT say "horizontal"<br>Say <span class="ct">"lying flat"</span></div>
+<div style="background:#DBEAFE;padding:8px;border-radius:8px">Do NOT say "multiply by"<br>Say <span class="ct">"times"</span></div>
+<div style="background:#DBEAFE;padding:8px;border-radius:8px">Do NOT say "divide by"<br>Say <span class="ct">"divide"</span></div>
+</div></div>
+
+<div class="card"><h2>HK Exam System Quick Reference</h2>
+<div class="quick-ref">
+<div class="ref-card"><div class="big">TSA</div><div class="title">TSA Territory-wide</div><div class="detail">P3+P6 every June<br>Chi/Eng/Math<br>HK-wide assessment</div></div>
+<div class="ref-card"><div class="big">SSPA</div><div class="title">SSPA Exam</div><div class="detail">P5T2 + P6T1<br>Determines Band<br>Parents most anxious!</div></div>
+<div class="ref-card"><div class="big">HKAT</div><div class="title">Pre-S1 HKAT</div><div class="detail">Summer before F1<br>Class allocation<br>Covers all P6</div></div>
+<div class="ref-card"><div class="big">School</div><div class="title">School Exams</div><div class="detail">1-2 per term<br>Ranking = confidence<br>Monthly updates needed</div></div>
+</div></div>
+
+<div class="card"><h2>HK Calculation Methods (Must Teach!)</h2>
+<div class="sop-step"><div class="sop-num" style="background:#DC2626">1</div><div class="sop-content"><strong>Vertical Form</strong><br>Standard HK primary format. All 4 operations use vertical.<br><span class="sub">"Write in vertical form! Align units/tens/hundreds! Misaligned = wrong!"</span></div></div>
+<div class="sop-step"><div class="sop-num" style="background:#F59E0B">2</div><div class="sop-content"><strong>Short Division (LCM/HCF)</strong><br>Standard method for LCM and HCF.<br><span class="sub">"Use short division! Divide together until no common factor!"</span></div></div>
+<div class="sop-step"><div class="sop-num" style="background:#1E40AF">3</div><div class="sop-content"><strong>Cross Multiplication</strong><br>For fraction comparison and common denominators.<br><span class="sub">"Cross multiply! TLxBR, TRxBL. Bigger result = bigger fraction!"</span></div></div>
+<div class="sop-step"><div class="sop-num" style="background:#16A34A">4</div><div class="sop-content"><strong>Estimation Check</strong><br>HK exams require estimation.<br><span class="sub">"After calculating, estimate! 398x51~400x50=20000. Way off? Wrong!"</span></div></div>
+</div>
+
+<div class="card"><h2>HK Tutoring Culture: Key Knowledge</h2>
+<div style="font-size:12px;line-height:2">
+<b>SSPA = Parents Lifeblood:</b> P5T2+P6T1 (3 exams) determine Band. Parents extremely anxious.<br>
+<b>Drilling Culture:</b> HK parents believe "doing more = improving". Explain: "Targeted practice is 3x more effective than blind drilling."<br>
+<b>Band 1 Goal:</b> Ultimate goal is Band 1 secondary. Say: "This trap appears in 80% SSPA. Avoiding it = 3 marks = possibly one Band higher!"<br>
+<b>2000+ Competitors:</b> Your differentiation: Trap Teaching Method -- not drilling, precision striking weaknesses.<br>
+<b>XES Comparison:</b> "XES teaches mainland curriculum. We teach HK curriculum in Cantonese, aligned to your child school."
+</div></div>
+</div><!-- end tab-hkguide -->
+
+<div id="tab-scripts" style="display:none">
+<div class="card"><h2>65-Minute Complete Lesson Script (HK Cantonese Style)</h2>
+<h3>PROBE: Ice-Break Diagnosis (0:00-5:00)</h3>
+<div class="script-box">
+<span class="stg">=== PROBE Phase (0:00-5:00) ===</span><br><br>
+<span class="do">0:00-1:00 Greeting + Icebreaker</span><br>
+<span class="say">"Hello Xiao Ming, Xiao Mei, Xiao Keung! I am [Teacher]!"</span><br>
+<span class="say">"Xiao Ming, what lunch today? ... Chicken rice! Nice!"</span><br>
+<span class="tip">> Call all 3 names + one life question</span><br><br>
+<span class="do">1:00-3:00 Review Last Lesson</span><br>
+<span class="say">"Last time: [topic]. Who remembers the key trap?"</span><br>
+<span class="tip">> 3 students answer, 30sec each. Praise if correct.</span><br><br>
+<span class="do">3:00-5:00 Preview Today</span><br>
+<span class="say">"Today: [Topic]. Appears in <span class="warn">80% of SSPA</span>!"</span><br>
+<span class="say">"Scariest trap: [TX] [Trap] -- <span class="warn">7/10 students fall</span>!"</span><br>
+<span class="do">> Show exaggerated wrong example. Spark curiosity.</span>
+</div>
+
+<h3>PRESENT: HK-Style Teaching (5:00-27:00)</h3>
+<div class="script-box">
+<span class="stg">=== PRESENT Phase (5:00-27:00) ===</span><br><br>
+<span class="do">5:00-9:00 Show Core Concept</span><br>
+<span class="say">"Today: [Topic]. Formula: [Formula]"</span><br>
+<span class="do">> Display large. <span class="warn">Red box</span> on error-prone part.</span><br><br>
+<span class="do">9:00-15:00 Life Example 1 (HK Scene)</span><br>
+<span class="say">"At Wellcome: 3 boxes chocolate, each $12.50..."</span><br>
+<span class="do">> Use HK-familiar scenes! Step-by-step together.</span><br><br>
+<span class="do">15:00-22:00 Trap Detonation (Core!)</span><br>
+<span class="say">"Now look at this..."</span><br>
+<span class="do">> Deliberately show WRONG method</span><br>
+<span class="say">"See! WRONG! You fell for [TX] trap!"</span><br>
+<span class="do">> Show correct vs incorrect comparison</span><br>
+<span class="say">"Mnemonic: <span class="warn">[HK Mnemonic]</span>"</span><br>
+<span class="tip">> Chant mnemonic 3 times loudly!</span><br><br>
+<span class="do">22:00-27:00 Life Example 2 + Counter-Example</span>
+</div>
+
+<h3>PRACTICE: Tiered Drills (27:00-57:00)</h3>
+<div class="script-box">
+<span class="stg">=== PRACTICE Phase (27:00-57:00) ===</span><br><br>
+<span class="do">27:00-32:00 Round 1: Teacher Demo (Think Aloud)</span><br>
+<span class="say">"I do first. Watch me avoid the trap."</span><br>
+<span class="do">> Use Circle-Draw-List-Check 4-step</span><br><br>
+<span class="do">32:00-40:00 Round 2: Guided (1 each, rotate)</span><br>
+<span class="say">"Your turn. Xiao Ming, question 2."</span><br>
+<span class="say">"What to watch? ... Yes! [Trap]! Brilliant!"</span><br><br>
+<span class="do">40:00-52:00 Round 3: Independent (2+ each)</span><br>
+<span class="say">"Now 2 on your own. I check in 5 minutes."</span><br>
+<span class="note">> Do NOT give answers. Guide to self-correct.</span><br>
+<span class="note">"You hit [Trap]. Try mnemonic, do again."</span><br><br>
+<span class="do">52:00-57:00 Round 4: Challenge</span><br>
+<span class="say">"Fast finishers: <span class="warn">SSPA-level challenge!</span>"</span>
+</div>
+
+<h3>POST: Consolidate (57:00-65:00)</h3>
+<div class="script-box">
+<span class="stg">=== POST Phase (57:00-65:00) ===</span><br><br>
+<span class="do">57:00-60:00 Each Student Summarizes</span><br>
+<span class="say">"What did we learn? Everyone share one!"</span><br><br>
+<span class="do">60:00-63:00 Homework + Next Preview</span><br>
+<span class="say">"Homework: 3 questions. Remember: [Mnemonic]"</span><br>
+<span class="say">"Next: [Topic]. Today mnemonic will help!"</span><br><br>
+<span class="do">63:00-65:00 Closing + Individual Praise</span><br>
+<span class="say">"Great work! Xiao Ming spotted trap on own!"</span><br>
+<span class="say">"Xiao Mei did challenge! Xiao Keung improved!"</span><br>
+<span class="note">> MUST name each student + praise! EVERYONE seen!</span>
+</div>
+</div>
+</div><!-- end tab-scripts -->
+
+<div id="tab-tools" style="display:none">
+<div class="card"><h2>Teacher Toolbox</h2>
+<div class="quick-ref">
+<a href="/docs/teacher-dashboard.html" target="_blank" class="ref-card" style="text-decoration:none;color:inherit"><div class="big">DB</div><div class="title">Teacher Dashboard</div><div class="detail">Class overview</div></a>
+<a href="/docs/teacher-live.html" target="_blank" class="ref-card" style="text-decoration:none;color:inherit"><div class="big">Live</div><div class="title">Class Control</div><div class="detail">Projector+monitor</div></a>
+<a href="/docs/smart-test-gen.html" target="_blank" class="ref-card" style="text-decoration:none;color:inherit"><div class="big">AI</div><div class="title">AI Smart Gen</div><div class="detail">30-sec paper</div></a>
+<a href="/docs/test-generator.html" target="_blank" class="ref-card" style="text-decoration:none;color:inherit"><div class="big">Gen</div><div class="title">Test Generator</div><div class="detail">Manual/auto</div></a>
+<a href="/docs/teacher-lesson-planner.html" target="_blank" class="ref-card" style="text-decoration:none;color:inherit"><div class="big">Plan</div><div class="title">Lesson Planner</div><div class="detail">1-click plans</div></a>
+<a href="/docs/teacher-bank-browser.html" target="_blank" class="ref-card" style="text-decoration:none;color:inherit"><div class="big">Bank</div><div class="title">Q Bank</div><div class="detail">11,671 Qs</div></a>
+<a href="/docs/class-weakness.html" target="_blank" class="ref-card" style="text-decoration:none;color:inherit"><div class="big">Weak</div><div class="title">Weakness Analysis</div><div class="detail">Class diagnosis</div></a>
+<a href="/docs/teacher-class-monitor.html" target="_blank" class="ref-card" style="text-decoration:none;color:inherit"><div class="big">Mon</div><div class="title">Class Monitor</div><div class="detail">Real-time status</div></a>
+</div></div>
+
+<div class="card"><h2>HK Mnemonic Bank (10 Must-Remember)</h2>
+<div style="font-size:12px;line-height:2.5">
+<div>T1 Carry/Borrow: <span class="hk">"When hit 10, carry 1. Not enough, borrow 1."</span></div>
+<div>T2 Unit Conversion: <span class="hk">"Length x10, Area x100, Volume x1000."</span></div>
+<div>T3 Order of Ops: <span class="hk">"Multiply/divide first, add/subtract after. Brackets highest."</span></div>
+<div>T4 Missing Zero: <span class="hk">"Divisor has zero in middle? Quotient needs zero too!"</span></div>
+<div>T5 Fraction Traps: <span class="hk">"Different bottom? Common bottom first. Top follows."</span></div>
+<div>T6 Percentage: <span class="hk">"Each change uses new base. Do not add/subtract %."</span></div>
+<div>T7 Word Problems: <span class="hk">"Circle, Draw, List, Check -- 4 steps never skip."</span></div>
+<div>T8 Geometry: <span class="hk">"Area = base x height. Perimeter = add all sides."</span></div>
+<div>T9 Time Conversion: <span class="hk">"1hr = 65min, not 100. Multiply by 60."</span></div>
+<div>T10 Remainder: <span class="hk">"Divide fully or write remainder. Remainder < divisor."</span></div>
+</div></div>
+
+<div class="card"><h2>Pre-Lesson Checklist</h2>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Practice paper generated</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>3 HK life examples ready</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>1 HK mnemonic (7-14 chars)</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Zoom/ClassIn link working</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Pre-class notice sent to 3 parents</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Last homework checked</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Challenge question ready</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Backup questions ready</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Paper+pen ready for demo</div>
+<div class="checklist-item" onclick="this.querySelector(\'.box\').classList.toggle(\'checked\')"><div class="box"></div>Humor moments designed (2+)</div>
+</div>
+
+<div class="card"><h2>Emergency Contacts</h2>
+<div style="font-size:13px;line-height:2.2">
+Tech Support WhatsApp: <b>9479 6459</b><br>
+In-class tech failure: <b>WhatsApp tech support + switch to WhatsApp call</b><br>
+Parent complaint: <b>Record -> Report to supervisor -> Reply within 24hr -> Follow through</b><br>
+Late/Absent: <b>Wait 5min -> WhatsApp parent -> Arrange makeup</b>
+</div></div>
+</div>
+<div class="card"><h2>Trap Drill Mode</h2><p style="font-size:12px;color:var(--g600);margin-bottom:10px">Test your trap knowledge: 10 random traps, name the fix for each.</p><button onclick="startTrapDrill()" style="display:block;width:100%;padding:14px;background:var(--r);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer">Start Trap Drill (10 Questions)</button></div>
+<!-- end tab-tools -->
+
+
+<div id="tab-revenue" style="display:none">
+<div class="day-header"><h2>Revenue Model: HK/Year Molecular Breakdown</h2><div class="meta"><span>1-on-3 Model</span><span>65min/Lesson</span><span>Monthly Recurring</span><span>Target: 2027</span></div></div>
+
+<div class="revenue-grid">
+<div class="rev-card highlight"><div class="rev-num">HK</div><div class="rev-label">Annual Revenue Target</div></div>
+<div class="rev-card"><div class="rev-num">HK</div><div class="rev-label">Monthly Revenue Needed</div></div>
+<div class="rev-card"><div class="rev-num">~140</div><div class="rev-label">Active Students Needed</div></div>
+<div class="rev-card"><div class="rev-num">~10</div><div class="rev-label">Teachers Required</div></div>
+</div>
+
+<div class="card"><h2>Unit Economics: Per Class Slot</h2>
+<table class="grade-table">
+<tr><th>Metric</th><th>Value</th><th>Notes</th></tr>
+<tr><td>Students per class</td><td>3</td><td>1-on-3 model</td></tr>
+<tr><td>Lesson duration</td><td>65 minutes</td><td>Premium positioning</td></tr>
+<tr><td>Price per student/month</td><td>HK</td><td>4 lessons/month</td></tr>
+<tr><td>Revenue per class slot/month</td><td>HK,400</td><td>3 x </td></tr>
+<tr><td>Teacher cost/lesson</td><td>~HK</td><td>Target: 25% of revenue</td></tr>
+<tr><td>Teacher cost/month</td><td>~HK</td><td>Per class slot</td></tr>
+<tr><td>Gross margin per slot</td><td>~HK,680</td><td>70% margin</td></tr>
+<tr><td>Platform/ops cost</td><td>~HK/month</td><td>Per slot allocation</td></tr>
+<tr><td>Net margin per slot</td><td>~HK,380</td><td>57.5% net margin</td></tr>
+</table>
+</div>
+
+<div class="card"><h2>Scaling Path to HK</h2>
+<div class="timeline-item"><div class="time">Phase 1</div><div class="content"><strong>Launch (Month 1-3): 4 teachers, 6 slots each = 24 slots</strong><br>24 slots x HK,380 net = HK,120/month<br>Focus: Teacher training + quality assurance + parent satisfaction</div></div>
+<div class="timeline-item"><div class="time">Phase 2</div><div class="content"><strong>Growth (Month 4-6): 7 teachers, 7 slots each = 49 slots</strong><br>49 slots x HK,380 = HK,620/month<br>Focus: Referral program + KOL partnerships + WhatsApp community</div></div>
+<div class="timeline-item"><div class="time">Phase 3</div><div class="content"><strong>Scale (Month 7-9): 10 teachers, 8 slots each = 80 slots</strong><br>80 slots x HK,380 = HK,400/month<br>Focus: Brand recognition + school partnerships + seasonal campaigns</div></div>
+<div class="timeline-item"><div class="time">Phase 4</div><div class="content"><strong>Optimize (Month 10-12): 12 teachers, 10+ slots each = 120+ slots</strong><br>120 slots x HK,380 = HK,600/month = HK.99M/year<br>Focus: Premium tier + exam season surges + retention optimization</div></div>
+</div>
+
+<div class="card"><h2>Key Revenue Drivers (Molecular Level)</h2>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div><strong>Teacher Quality:</strong> Each teacher = 8-10 class slots = HK,600-HK,800 net/month. Teacher retention IS revenue retention.</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div><strong>Student Retention:</strong> From 70% to 85% retention = +21% revenue. Every 1% retention = ~HK,670/month.</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div><strong>Referral Rate:</strong> 20% referral rate = +24 students/year = +HK/year. Referral reward: 1 free lesson.</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div><strong>Seasonal Peaks:</strong> Pre-exam (May-June, Oct-Nov) = 40% demand surge. Flex teacher scheduling critical.</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div><strong>Premium Upsell:</strong> 10% of students at HK,200/month (1-on-1 hybrid) = +HK/year.</div>
+<div class="checklist-item" onclick="this.querySelector('.box').classList.toggle('checked')"><div class="box"></div><strong>CAC Optimization:</strong> WhatsApp community CAC = HK. KOL CAC = HK. Target blended CAC < HK.</div>
+</div>
+
+<div class="card"><h2>Pricing Tiers</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center">
+<div style="background:var(--g50);border-radius:12px;padding:16px;border:2px solid var(--g200)">
+<div style="font-size:11px;color:var(--g600)">Trial</div>
+<div style="font-size:24px;font-weight:900;color:var(--g)">HK</div>
+<div style="font-size:10px;color:var(--g600);margin-top:4px">First Month<br>4 Lessons</div>
+<div style="font-size:11px;margin-top:6px">Acquisition funnel<br>CAC: HK-30</div>
+</div>
+<div style="background:linear-gradient(135deg,#FFFDF5,#FFF7ED);border-radius:12px;padding:16px;border:2px solid var(--g)">
+<div style="font-size:11px;color:var(--g600)">Monthly</div>
+<div style="font-size:24px;font-weight:900;color:var(--b)">HK</div>
+<div style="font-size:10px;color:var(--g600);margin-top:4px">Per Month<br>4 Lessons x 65min</div>
+<div style="font-size:11px;margin-top:6px">Core revenue<br>80% of students</div>
+</div>
+<div style="background:var(--g50);border-radius:12px;padding:16px;border:2px solid var(--g200)">
+<div style="font-size:11px;color:var(--g600)">Package</div>
+<div style="font-size:24px;font-weight:900;color:var(--gr)">HK,080</div>
+<div style="font-size:10px;color:var(--g600);margin-top:4px">12 Lessons<br>Save HK</div>
+<div style="font-size:11px;margin-top:6px">Retention anchor<br>Lock-in 3 months</div>
+</div>
+</div>
+</div>
+
+<div class="success-box"><div class="suc-title">Bottom Line: Teacher Quality = Revenue Engine</div>
+Every teacher trained through this program who achieves 85%+ parent satisfaction = HK,800/month net contribution. Your training quality directly determines whether we hit HK/year.</div>
+</div><!-- end tab-revenue -->
+</div>
+
+<script>
+// ============================================================
+// LF Academy Teacher Training Engine v3.0
+// ============================================================
+
+// Tab switching
+function switchTab(tabId, btn) {
+    document.querySelectorAll('[id^="tab-"]').forEach(function(el) {
+        el.style.display = 'none';
+    });
+    document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.classList.remove('active');
+    });
+    // Support both short names (day1) and full IDs (tab-day1)
+    var shortName = tabId.replace('tab-', '');
+    var fullId = tabId.indexOf('tab-') === 0 ? tabId : 'tab-' + tabId;
+    var tab = document.getElementById(fullId);
+    if (tab) tab.style.display = 'block';
+    // Highlight active button
+    if (btn) {
+        btn.classList.add('active');
+    } else {
+        var btns = document.querySelectorAll('.tab-btn');
+        for (var i = 0; i < btns.length; i++) {
+            if (btns[i].getAttribute('onclick') && btns[i].getAttribute('onclick').indexOf(shortName) >= 0) {
+                btns[i].classList.add('active');
+                break;
+            }
+        }
+    }
+}
+
+// Trap detail system (10 traps with HK exam data)
+var trapData = {
+    T1: {name:'Carry/Borrow Error', rate:'P3: 35%, P5: 18%', icon:'1', desc:'Forgetting to carry or borrow in multi-digit operations', ex:'38+27=55 (missed carry: should be 65)', fix:'Check each column: if sum 10+, carry 1 to next column', hk:'HK method: Draw small dots above each column as carry markers', sspa:'P3 TSA: appears in 22% of MC questions'},
+    T2: {name:'Unit Conversion', rate:'P4: 45%, P6: 28%', icon:'2', desc:'Confusing length/area/volume conversion factors', ex:'1m2=100cm2 (should be 10,000cm2)', fix:'Length x10, Area x100, Volume x1000', hk:'HK mnemonic: "長度乘10，面積乘100，體積乘1000"', sspa:'P6 SSPA: appears in 35% of exams'},
+    T3: {name:'Order of Operations', rate:'P4: 40%, P5: 32%', icon:'3', desc:'Ignoring BODMAS/PEMDAS rules', ex:'6+4x2=20 (multiply first: 6+8=14)', fix:'Multiply/divide first, then add/subtract. Brackets always first.', hk:'HK method: Draw brackets around multiplication/division portions first', sspa:'SSPA: 60% error rate on mixed-operation questions'},
+    T4: {name:'Missing Zero in Quotient', rate:'P4: 55%, P5: 30%', icon:'4', desc:'Forgetting to write 0 in quotient when divisor has zero', ex:'408/2=24 (should be 204)', fix:'Check if divisor middle digit is 0, quotient needs 0 too', hk:'HK method: Cover digits one at a time, write result for each', sspa:'P5 internal exam: most common careless error'},
+    T5: {name:'Fraction Errors', rate:'P5: 50%, P6: 35%', icon:'5', desc:'Adding fractions without common denominator', ex:'1/2+1/3=2/5 (need common denominator 6: 3/6+2/6=5/6)', fix:'Different denominators? Find LCM, convert both, then add/subtract', hk:'HK mnemonic: "分母唔同要先通分，分子跟住改"', sspa:'SSPA: appears in 70% of P6 exams'},
+    T6: {name:'Percentage Traps', rate:'P6: 45%', icon:'6', desc:'Applying percentage changes to wrong base', ex:'+20% then -20% = original (actually = 96% of original)', fix:'Each percentage change uses NEW base. Never add/subtract percentages.', hk:'HK mnemonic: "每次變化用新基數，唔好就咁加減%"', sspa:'SSPA Critical: 80%+ appearance rate'},
+    T7: {name:'Word Problem Misreading', rate:'All: 40%', icon:'7', desc:'Answering the wrong question or missing conditions', ex:'"How many LEFT?" answered as total amount', fix:'Circle keywords, draw diagram, list given info, check question word', hk:'HK 4-Step: 圈關鍵詞 -> 畫圖 -> 列式 -> 檢查', sspa:'SSPA: 50% of word problem errors are misreading'},
+    T8: {name:'Geometry Formula Swap', rate:'P5: 48%, P6: 38%', icon:'8', desc:'Confusing area/perimeter/volume formulas', ex:'Triangle area without dividing by 2', fix:'Area=base x height / 2 for triangle. Surface area SUM of all faces.', hk:'HK mnemonic: "面積底乘高，三角要除二，周界加晒邊"', sspa:'P6 SSPA: geometry = 25% of exam'},
+    T9: {name:'Time Conversion', rate:'P3: 50%, P4: 35%', icon:'9', desc:'Treating time as base-100 instead of base-60', ex:'1.5 hours = 150 minutes (should be 90)', fix:'1 hour = 60 minutes. Multiply hours by 60, never by 100.', hk:'HK mnemonic: "1小時等於60分鐘，乘60唔係乘100"', sspa:'P3 TSA: time questions in 90% of papers'},
+    T10:{name:'Remainder Errors', rate:'P4: 35%, P3: 40%', icon:'10', desc:'Forgetting remainder or remainder > divisor', ex:'23/5=4 (forgetting remainder 3)', fix:'Divide until remainder < divisor. Write remainder clearly.', hk:'HK method: "除到盡或寫餘數，餘數一定要細過除數"', sspa:'P4 internal: remainder questions = 15% of marks'}
+};
+
+function showTrap(tid) {
+    var d = trapData[tid];
+    if (!d) return;
+    var detail = document.getElementById('trapDetail');
+    if (!detail) return;
+    detail.className = 'trap-card-detail show';
+    detail.innerHTML = '<h4>T' + d.icon + ': ' + d.name + ' <span class="score-badge score-low">Error Rate: ' + d.rate + '</span></h4>' +
+        '<div class="ex">Example Error: ' + d.ex + '</div>' +
+        '<div class="fix">Fix: ' + d.fix + '</div>' +
+        '<div class="hk-note">HK Note: ' + d.hk + '</div>' +
+        '<div style="font-size:10px;color:#DC2626;margin-top:6px">SSPA/TSA: ' + d.sspa + '</div>';
+}
+
+// Checklist toggle
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize first tab
+    switchTab('tab-day1', document.querySelector('.tab-btn.active'));
+});
+
+// Copy parent text helper
+function copyParentText(templateId) {
+    var templates = {
+        'pre': '家長你好！聽日 [日期] [時間] 上數學堂。今堂會教 [課題]，重點避開 [陷阱] 陷阱。上堂連結：[連結]。提提小朋友帶齊文具，準時上堂！',
+        'post': '家長你好！今日課堂完成 [課題]。[學生名] 今日表現 [評語]。特別要留意 [陷阱] 呢個陷阱。家課：[家課內容]。下次上堂：[日期時間]。有任何問題隨時WhatsApp我！',
+        'monthly': '[學生名] 本月學習總結：完成 [X] 堂，練習 [Y] 題。進步亮點：[Z]。下月重點：避開 [陷阱] 陷阱。續報連結：[連結]。多謝支持！',
+        'complaint': '多謝你嘅反映。我已經記錄低你提出嘅 [問題]，會喺24小時內跟進同回覆你。霖楓學苑好重視每位家長嘅意見。'
+    };
+    var text = templates[templateId] || '';
+    if (text) {
+        navigator.clipboard.writeText(text).then(function() {
+            alert('Copied! Paste into WhatsApp.');
+        });
+    }
+}
+
+// Assessment scorer
+function scoreAssessment() {
+    var checks = document.querySelectorAll('#tab-day3 .checklist-item .box.checked');
+    var total = document.querySelectorAll('#tab-day3 .checklist-item .box').length;
+    var score = Math.round((checks.length / (total || 25)) * 100);
+    var result = document.getElementById('assessmentResult');
+    if (!result) return;
+    var grade = score >= 80 ? '<span class="score-badge score-high">PASS - Ready to Teach!</span>' :
+                score >= 60 ? '<span class="score-badge score-mid">CONDITIONAL - Needs Review</span>' :
+                '<span class="score-badge score-low">RETAKE - More Practice Needed</span>';
+    result.innerHTML = '<div class="training-score-panel"><div class="ts-title">Assessment Score: ' + score + '/100</div><div class="progress-bar"><div class="fill" style="width:' + score + '%"></div></div>' + grade + '<div style="margin-top:10px;font-size:12px;color:var(--g600)">' + checks.length + ' of ' + (total || 25) + ' items complete</div></div>';
+    result.scrollIntoView({behavior:'smooth'});
+    return score;
+}
+
+// Progress tracker
+function updateProgress() {
+    var allChecks = document.querySelectorAll('.checklist-item .box.checked').length;
+    var allTotal = document.querySelectorAll('.checklist-item .box').length;
+    var pct = allTotal > 0 ? Math.round((allChecks / allTotal) * 100) : 0;
+    var bar = document.getElementById('globalProgress');
+    if (bar) {
+        bar.style.width = pct + '%';
+        bar.textContent = pct + '%';
+    }
+}
+
+// Trap drill mode
+function startTrapDrill() {
+    var traps = Object.keys(trapData);
+    var shuffled = traps.sort(function() { return Math.random() - 0.5; });
+    var current = 0;
+    var score = 0;
+    
+    function showNext() {
+        if (current >= shuffled.length) {
+            alert('Drill Complete! Score: ' + score + '/' + shuffled.length);
+            return;
+        }
+        var t = trapData[shuffled[current]];
+        var answer = prompt('Trap ' + (current+1) + '/' + shuffled.length + ': ' + t.name + '\n\nWhat is the fix?');
+        if (answer && answer.toLowerCase().indexOf(t.fix.substring(0,10).toLowerCase()) >= 0) {
+            score++;
+            alert('Correct! ' + t.fix);
+        } else {
+            alert('The fix is: ' + t.fix + '\n\nHK Note: ' + t.hk);
+        }
+        current++;
+        showNext();
+    }
+    showNext();
+}
+</script>
+
+</body>
+</html>

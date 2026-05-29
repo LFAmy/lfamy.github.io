@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 微信通訊中心</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:700px;margin:0 auto}
+.header{background:linear-gradient(135deg,#07C160,#06AD56);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:#F3F4F6;border-radius:10px;padding:4px}
+.tab{padding:10px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:transparent;color:#6B7280;flex:1;text-align:center}
+.tab.active{background:white;color:#07C160;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+.template-card{background:#F9FAFB;border-radius:10px;padding:16px;margin:10px 0;border-left:3px solid #07C160}
+.template-card h3{font-size:13px;color:#1A3C6D;margin-bottom:6px}
+.template-card .msg{font-size:12px;color:#374151;line-height:1.8;white-space:pre-wrap;margin-bottom:8px}
+.template-card .meta{font-size:10px;color:#9CA3AF}
+.btn{display:inline-block;padding:8px 18px;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-wechat{background:#07C160;color:white}
+.btn-copy{background:#1A3C6D;color:white}
+input,select,textarea{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+textarea{height:100px;resize:vertical}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:12px;font-size:12px;margin:8px 0;line-height:1.8}
+.access-badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.access-ok{background:#D1FAE5;color:#065F46}
+.access-blocked{background:#FEF2F2;color:#991B1B}
+.access-slow{background:#FEF3C7;color:#92400E}
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>微信通訊中心</h1><p>內地老師用微信 · 香港家長用 WhatsApp · 雙通道管理</p></div>
+
+<div class="tabs">
+<button class="tab active" onclick="switchTab('notify')">通知模板</button>
+<button class="tab" onclick="switchTab('custom')">自訂訊息</button>
+<button class="tab" onclick="switchTab('access')">中國訪問</button>
+</div>
+
+<!-- NOTIFY TEMPLATES -->
+<div id="tab-notify">
+<div class="card"><h2>家長通知模板（微信版）</h2>
+
+<div class="template-card">
+<h3>首次診斷結果通知</h3>
+<div class="msg">【霖楓學苑】{家长姓名}您好！
+{学生姓名}的数学陷阱诊断已完成 📊
+主要陷阱：{trap_types}
+建议：每周3次针对性练习
+👉 查看报告：{report_link}</div>
+<div class="meta">触发时机：学生完成陷阱诊断后 | 渠道：微信</div>
+<button class="btn btn-copy" onclick="copyMsg(this)">复制消息</button>
+</div>
+
+<div class="template-card">
+<h3>每周进度报告</h3>
+<div class="msg">【霖楓學苑】{学生姓名}本周学习报告 📊
+练习次数：{practice_count}次
+正确率：{accuracy}%（{trend}）
+已避开陷阱：{traps_avoided}个
+连续天数：{streak}天 🔥
+👉 详细报告：{report_link}</div>
+<div class="meta">触发时机：每周一自动发送 | 渠道：微信</div>
+<button class="btn btn-copy" onclick="copyMsg(this)">复制消息</button>
+</div>
+
+<div class="template-card">
+<h3>会员到期提醒</h3>
+<div class="msg">【霖楓學苑】{家长姓名}您好！
+{学生姓名}的Pro会员将于{expiry_date}到期 ⏰
+剩余{remaining_days}天
+续费链接：{renew_link}
+如有疑问请回复此消息</div>
+<div class="meta">触发时机：到期前7天、3天、1天 | 渠道：微信</div>
+<button class="btn btn-copy" onclick="copyMsg(this)">复制消息</button>
+</div>
+
+<div class="template-card">
+<h3>课堂摘要通知</h3>
+<div class="msg">【霖楓學苑】今日课堂摘要（{class_date}）
+📊 课堂重点：{topic}
+✅ 全班平均正确率：{avg_accuracy}%
+⚠️ 最常错陷阱：{worst_trap}
+📝 功课：{homework}
+💡 家长小贴士：{tip}</div>
+<div class="meta">触发时机：老师下课点击「生成摘要」| 渠道：微信群</div>
+<button class="btn btn-copy" onclick="copyMsg(this)">复制消息</button>
+</div>
+
+<div class="template-card">
+<h3>7天跟进序列</h3>
+<div class="msg">Day 1: 首次诊断结果分析 📊
+Day 3: 练习进度更新 + 小贴士 💡
+Day 5: 陷阱改善报告 🌟
+Day 7: 一周总结 + Pro升级邀请 ⭐</div>
+<div class="meta">触发时机：家长注册后自动启动 | 渠道：微信</div>
+<button class="btn btn-copy" onclick="copyMsg(this)">复制序列</button>
+</div>
+</div></div>
+
+<!-- CUSTOM MESSAGE -->
+<div id="tab-custom" style="display:none">
+<div class="card"><h2>自訂訊息</h2>
+<label>收件人</label><input type="text" id="recipient" placeholder="家长姓名">
+<label>学生</label><input type="text" id="studentForMsg" placeholder="学生姓名">
+<label>模板</label><select id="templateSelect" onchange="fillTemplate()">
+<option value="">自订内容</option>
+<option value="diagnosis">诊断结果通知</option>
+<option value="weekly">每周进度报告</option>
+<option value="expiry">会员到期提醒</option>
+<option value="class">课堂摘要</option>
+</select>
+<label>消息内容</label>
+<textarea id="customMsg" placeholder="输入要发送的消息…"></textarea>
+<button class="btn btn-wechat" onclick="sendWechat()">微信发送</button>
+<button class="btn btn-copy" onclick="copyCustom()">复制内容</button>
+</div></div>
+
+<!-- CHINA ACCESS -->
+<div id="tab-access" style="display:none">
+<div class="card"><h2>中國內地訪問狀態</h2>
+<div style="line-height:2.5;font-size:12px">
+<div><strong>平台主站</strong> lfamy.github.io <span class="access-badge access-slow">可能偏慢</span></div>
+<div><strong>Google Fonts</strong> fonts.googleapis.com <span class="access-badge access-blocked">被封鎖</span></div>
+<div><strong>Google Sheets</strong> sheets.googleapis.com <span class="access-badge access-blocked">被封鎖</span></div>
+<div><strong>WhatsApp</strong> web.whatsapp.com <span class="access-badge access-blocked">被封鎖</span></div>
+<div><strong>微信</strong> weixin.qq.com <span class="access-badge access-ok">正常</span></div>
+<div><strong>GitHub Pages</strong> *.github.io <span class="access-badge access-slow">可能偏慢</span></div>
+</div>
+</div>
+
+<div class="card"><h2>內地訪問解決方案</h2>
+<div class="note">
+<strong>即刻可用：</strong><br>
+✅ 字體已設系統字體降級（PingFang SC / Microsoft YaHei）<br>
+✅ 微信模板已就緒（本頁面）<br>
+✅ 雲端後端可改用國內 Sheets 替代（WPS/騰訊文檔）<br>
+<br>
+<strong>建議部署：</strong><br>
+📌 同時部署到 Gitee Pages（gitee.io）做國內鏡像<br>
+📌 使用 Cloudflare CDN 加速 GitHub Pages<br>
+📌 申請微信公眾號做自動推送<br>
+📌 替換 Google Analytics → 百度統計
+</div></div></div>
+</div>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  event.target.classList.add('active');
+  ['notify','custom','access'].forEach(function(t){
+    document.getElementById('tab-'+t).style.display = (t===tab) ? 'block' : 'none';
+  });
+}
+
+function copyMsg(btn) {
+  var msg = btn.parentElement.querySelector('.msg').textContent;
+  navigator.clipboard.writeText(msg).then(function(){alert('已复制 ✅')});
+}
+
+function copyCustom() {
+  var msg = document.getElementById('customMsg').value;
+  if (!msg) return alert('请先输入消息');
+  navigator.clipboard.writeText(msg).then(function(){alert('已复制 ✅')});
+}
+
+function fillTemplate() {
+  var sel = document.getElementById('templateSelect').value;
+  var templates = {
+    diagnosis: '【霖楓學苑】家长您好！\n学生数学陷阱诊断已完成 📊\n主要陷阱：需要重点练习\n建议：每周3次针对性练习\n👉 查看报告链接',
+    weekly: '【霖楓學苑】本周学习报告 📊\n练习次数：次\n正确率：%\n已避开陷阱：个\n连续天数：天 🔥',
+    expiry: '【霖楓學苑】家长您好！\nPro会员将于到期 ⏰\n剩余天\n续费请联系老师',
+    class: '【霖楓學苑】今日课堂摘要\n📊 课堂重点：\n✅ 全班平均正确率：%\n📝 功课：'
+  };
+  if (templates[sel]) document.getElementById('customMsg').value = templates[sel];
+}
+
+function sendWechat() {
+  var msg = document.getElementById('customMsg').value;
+  if (!msg) return alert('请先输入消息');
+  // In production: send via WeChat Official Account API
+  // For now: copy to clipboard for manual send
+  navigator.clipboard.writeText(msg).then(function(){
+    alert('消息已复制到剪贴板 ✅\n请打开微信粘贴发送');
+  });
+}
+</script>
+</body></html>

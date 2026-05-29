@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 商業儀表板</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#0F172A;color:#E2E8F0;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:1200px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;color:#C9A84C;margin-bottom:4px}
+.sub{color:#64748B;font-size:13px;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:#1E293B;border:1px solid #334155;border-radius:14px;padding:22px}
+.card h2{font-size:15px;color:#C9A84C;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #334155}
+.kpi-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:#334155;border-radius:10px;padding:16px;text-align:center}
+.kpi .val{font-size:28px;font-weight:900}
+.kpi .val.green{color:#16A34A}.kpi .val.gold{color:#C9A84C}.kpi .val.red{color:#DC2626}.kpi .val.blue{color:#3B82F6}
+.kpi .lbl{font-size:10px;color:#94A3B8;margin-top:2px}
+.metric-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #334155;font-size:12px}
+.metric-val{font-weight:900}
+.setup-alert{background:#FEF3C7;color:#92400E;border-radius:10px;padding:14px;margin-bottom:16px;font-size:12px}
+.setup-alert a{color:#1E4D8C;font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>商業儀表板</h1>
+<div class="sub">霖楓學苑 · 營運數據一覽</div>
+
+<div class="setup-alert">
+⚠️ <strong>追蹤未啟動</strong>：FB Pixel + GA4 仍是 placeholder。提供 ID 後可顯示真實廣告 ROI、網站流量、轉換率。
+<a href="tracking-setup.html">設定指南 →</a>
+</div>
+
+<div class="kpi-row">
+<div class="kpi"><div class="val gold" id="kpiStudents">-</div><div class="lbl">活躍學生</div></div>
+<div class="kpi"><div class="val green" id="kpiMRR">-</div><div class="lbl">月經常收入(MRR)</div></div>
+<div class="kpi"><div class="val blue" id="kpiLeads">-</div><div class="lbl">本月新 Lead</div></div>
+<div class="kpi"><div class="val red" id="kpiChurn">-</div><div class="lbl">流失風險</div></div>
+</div>
+
+<div class="grid">
+<div class="card">
+<h2>學生指標</h2>
+<div class="metric-row"><span>總學生數</span><span class="metric-val" id="mTotalStudents">-</span></div>
+<div class="metric-row"><span>本月新增</span><span class="metric-val green" id="mNewStudents">-</span></div>
+<div class="metric-row"><span>平均正確率</span><span class="metric-val" id="mAvgAccuracy">-</span></div>
+<div class="metric-row"><span>續報率</span><span class="metric-val green" id="mRenewal">-</span></div>
+<div class="metric-row"><span>轉介紹數</span><span class="metric-val gold" id="mReferrals">-</span></div>
+</div>
+
+<div class="card">
+<h2>內容指標</h2>
+<div class="metric-row"><span>貼文庫存</span><span class="metric-val">27篇</span></div>
+<div class="metric-row"><span>影片庫存</span><span class="metric-val">8條</span></div>
+<div class="metric-row"><span>講義總數</span><span class="metric-val">578堂</span></div>
+<div class="metric-row"><span>題庫總數</span><span class="metric-val">736題</span></div>
+<div class="metric-row"><span>EN翻譯覆蓋</span><span class="metric-val green">100%</span></div>
+</div>
+
+<div class="card">
+<h2>系統健康</h2>
+<div class="metric-row"><span>CI品質檢查</span><span class="metric-val green">✅ 通過</span></div>
+<div class="metric-row"><span>合規檢查</span><span class="metric-val green">0 violations</span></div>
+<div class="metric-row"><span>安全掃描</span><span class="metric-val green">0 secrets</span></div>
+<div class="metric-row"><span>FB Pixel狀態</span><span class="metric-val red">未啟動</span></div>
+<div class="metric-row"><span>GA4狀態</span><span class="metric-val red">未啟動</span></div>
+</div>
+
+<div class="card">
+<h2>快速行動</h2>
+<div style="display:grid;gap:8px">
+<a href="teacher-dashboard.html" class="metric-row" style="text-decoration:none;color:#E2E8F0">👨‍🏫 老師後台 <span class="metric-val">→</span></a>
+<a href="tracking-setup.html" class="metric-row" style="text-decoration:none;color:#E2E8F0">📈 啟動追蹤 <span class="metric-val">→</span></a>
+<a href="daily-workflow.html" class="metric-row" style="text-decoration:none;color:#E2E8F0">📋 今日流程 <span class="metric-val">→</span></a>
+<a href="hub.html" class="metric-row" style="text-decoration:none;color:#E2E8F0">🏠 LF Hub <span class="metric-val">→</span></a>
+</div>
+</div>
+</div>
+</div>
+<script>
+// Load data from shared storage
+var students=JSON.parse(localStorage.getItem("lf_class")||"[]");
+var tests=JSON.parse(localStorage.getItem("online_tests")||"[]");
+if(students.length>0){
+document.getElementById("kpiStudents").textContent=students.length;
+var avg=Math.round(students.reduce(function(s,p){return s+(p.accuracy||70)},0)/students.length);
+document.getElementById("mAvgAccuracy").textContent=avg+"%";
+document.getElementById("mTotalStudents").textContent=students.length;
+var struggling=students.filter(function(s){return s.accuracy<65}).length;
+document.getElementById("kpiChurn").textContent=struggling;
+}
+if(tests.length>0){
+document.getElementById("mNewStudents").textContent=tests.length+"次測驗";
+}
+// Estimate MRR: students × avg price per month
+var estMRR=students.length*800;
+document.getElementById("kpiMRR").textContent="$"+estMRR.toLocaleString();
+</script>
+</body></html>

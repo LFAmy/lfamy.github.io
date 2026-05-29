@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-上-L16 容量與體積進階 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* FRACTIONS */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* COVER */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* SECTIONS */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* KP */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* EXAMPLE */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* WARN */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* MNEMONIC */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* TABLES */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* TRAP COMPARE */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .svg-center { text-align:center; margin:10px 0; }
+  .svg-center svg { max-width:100%; height:auto; }
+  .svg-inline { display:inline-block; vertical-align:middle; margin:0 4px; }
+  .svg-inline svg { height:80px; width:auto; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ══════ PAGE 1: COVER ══════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 16 堂 · 學生版講義</div>
+  <div class="cv-title">容量與體積進階</div>
+  <div class="cv-sub">排水法 · 溢出問題 · 多重物體 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6上A冊 單元六 ＋ 現代教育 6上 單元7<br>
+    <b>核心陷阱：</b>T8 排水法 — 用水面高度計算體積（而非高度差） · 忽略溢出條件<br>
+    <b>SSPA 關聯：</b><span class="ss sh">高頻</span> 呈分試幾何應用題，佔卷一約 8-12%<br>
+    <b>前置知識：</b>長方體/正方體體積公式 · 容量單位（L/mL）· 底面積概念<br>
+    <b>本堂目標：</b>排水法求不規則物體體積 · 溢出條件判斷 · 多重物體情境 · 單位換算
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 2: WARM-UP + KP1 ══════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">一個長方體長 8 cm、闊 5 cm、高 4 cm，體積是多少 cm<sup>3</sup>？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">8000 cm<sup>3</sup> = ？L（複習）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">容器的底面積是 200 cm<sup>2</sup>。水的高度上升了 3 cm。水的體積增加了多少 cm<sup>3</sup>？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">一個正方體的邊長是 10 cm，體積是多少？表面積是多少？（複習）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">2.5 L = ？cm<sup>3</sup>（單位換算複習）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：體積公式重溫 — 長方體與正方體<span class="ss sm">複習</span></div>
+    <div class="kp-rules">
+      <strong>長方體體積：</strong>V = l &times; w &times; h（長 &times; 闊 &times; 高）<br>
+      <strong>正方體體積：</strong>V = a<sup>3</sup>（邊長 &times; 邊長 &times; 邊長）<br>
+      <strong>底面積：</strong>A<sub>底</sub> = l &times; w（長方形底面）<br>
+      <strong>容量換算：</strong>1 L = 1000 mL = 1000 cm<sup>3</sup>；1 m<sup>3</sup> = 1,000,000 cm<sup>3</sup> = 1000 L
+    </div>
+  </div>
+
+  <div class="svg-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 170" width="200" height="148"><rect x="25" y="35" width="120" height="70" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polygon points="25,35 45,15 165,15 145,35" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polygon points="145,35 165,15 165,85 145,105" fill="#BFDBFE" stroke="#1A3C6D" stroke-width="3"/><text x="85" y="121" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">長 (l)</text><text x="135" y="88" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">高</text><text x="50" y="88" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">闊</text></svg>
+    <p style="font-size:11px;color:var(--gray);margin-top:4px;">長方體：V = l &times; w &times; h</p>
+  </div>
+
+  <div class="warn">常見錯誤：底面積計算時長和闊的數值調轉（在排水法中極常見）</div>
+
+  <div class="h2">知識點一 例題練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">例1</td><td class="qtxt">一個長方體魚缸長 30 cm、闊 20 cm、高 25 cm。求魚缸的容量（以L為單位）。</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">例2</td><td class="qtxt">一個正方體水箱邊長 40 cm，可盛水多少L？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：排水法 — 不規則物體體積<span class="ss sh">SSPA 核心</span></div>
+    <div class="kp-rules">
+      <strong>核心原理：</strong>完全浸沒的物體所排開的水的體積 = 物體的體積<br>
+      <strong>排水法公式：</strong>V<sub>物體</sub> = 容器底面積 &times; 水面上升高度<br>
+      <strong>關鍵條件：</strong>
+      <ol>
+        <li>物體必須<strong>完全浸沒</strong>在水中</li>
+        <li>水面上升高度 = 投入後水面 − 投入前水面（<strong>高度差</strong>）</li>
+        <li>水的體積增加 = 物體的體積</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="svg-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 185" width="360" height="180"><rect x="15" y="15" width="140" height="80" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="15" y="70" width="140" height="25" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="7" y1="70" x2="163" y2="70" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="169" y="74" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">25cm</text><text x="85" y="115" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入前</text><rect x="215" y="15" width="140" height="80" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="215" y="45" width="140" height="50" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="207" y1="45" x2="363" y2="45" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="369" y="49" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">50cm</text><rect x="264" y="55" width="40" height="40" fill="#93C5FD" stroke="#1A3C6D" stroke-width="2.5"/><text x="284" y="75" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">石頭</text><text x="285" y="115" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入後（完全浸沒）</text><line x1="167" y1="70" x2="167" y2="45" stroke="#DC2626" stroke-width="2.5"/><polygon points="163,49 171,49 167,43" fill="#DC2626"/><text x="181" y="58" text-anchor="start" font-size="13" fill="#DC2626" font-weight="700">+25cm</text><text x="185" y="150" text-anchor="middle" font-size="14" fill="#16A34A" font-weight="700">水面上升 = 物體體積 ÷ 底面積</text></svg>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題（排水法第一陷阱）</div>
+    <div class="ex-q">一個長方體水箱底面積 400 cm<sup>2</sup>，原有水深 15 cm。放入一塊石頭後，水深變成 18 cm。求石頭的體積。</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">世紀陷阱（50% 學生答錯）</div><div class="eq">400 &times; 18 = 7200 cm<sup>3</sup></div><div class="why">用了投入後水深 18 cm<br>但石頭體積 = 上升的水體積<br>不是整個水柱！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">400 &times; (18 − 15) = 1200 cm<sup>3</sup></div><div class="why">水面上升 = 18 − 15 = 3 cm<br>石頭體積 = 400 &times; 3 = 1200 cm<sup>3</sup><br>必須用高度差！</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「排開水量等體積，底面積乘上升高；唔好用新水位計，高度差先係關鍵」</div>
+  <div class="warn">最高頻錯誤：用水面新高度直接乘底面積做物體體積。必須用高度差（&Delta;h = h<sub>後</sub> − h<sub>前</sub>）！</div>
+  <div class="warn">第二高頻錯誤：忘記檢查物體是否完全浸沒。不完全浸沒則公式不成立！</div>
+
+  <div class="h2">知識點二 例題練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">例3</td><td class="qtxt">水箱底面積 300 cm<sup>2</sup>，原有水深 12 cm。放入石頭完全浸沒後，水深升至 16 cm。求石頭體積。</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">例4</td><td class="qtxt">一個正方體水箱邊長 20 cm，原有水深 10 cm。放入一金屬塊後，水深變成 14 cm。金屬塊的體積是多少？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">例5</td><td class="qtxt">一個長方體容器長 25 cm、闊 16 cm，內有水。放入一塊石頭後，水面上升 3.5 cm。石頭的體積是多少 cm<sup>3</sup>？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">例6</td><td class="qtxt">水箱底面積 250 cm<sup>2</sup>。放入石頭前水深 20 cm，放入後水深 20 cm（石頭未完全浸沒）。能否直接用排水法求體積？</td><td class="qd d3"></td><td class="qw" style="min-height:56px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 3: KP3 + EXERCISES ══════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：溢出問題 — 判斷水會否溢出<span class="ss sh">SSPA 進階</span></div>
+    <div class="kp-rules">
+      <strong>溢出判斷步驟：</strong>
+      <ol>
+        <li>計算容器的<strong>剩餘空間</strong>：剩餘空間 = 容器總容量 − 現有水量</li>
+        <li>比較物體體積 V<sub>物</sub> 和剩餘空間 V<sub>剩</sub>：</li>
+      </ol>
+      <strong>若 V<sub>物</sub> &le; V<sub>剩</sub>：</strong>不溢出，水面上升 = V<sub>物</sub> &divide; 底面積<br>
+      <strong>若 V<sub>物</sub> &gt; V<sub>剩</sub>：</strong>溢出，溢出體積 = V<sub>物</sub> − V<sub>剩</sub><br>
+      <strong>溢出後水面 = 容器高度</strong>（已滿）
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題（溢出陷阱）</div>
+    <div class="ex-q">一個長方體水箱長 30 cm、闊 20 cm、高 25 cm。現有水高 22 cm。放入一塊 2500 cm<sup>3</sup> 的石頭完全浸沒。水會溢出嗎？如果溢出，溢出多少？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">世紀陷阱</div><div class="eq">水面上升 = 2500 &divide; 600 = 4.17 cm<br>新水面 = 22 + 4.17 = 26.17 cm（超頂！）</div><div class="why">直接加算水面忘記檢查溢出<br>水面不能超過容器高度 25 cm！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">剩餘空間 = 600 &times; (25−22) = 1800 cm<sup>3</sup><br>2500 &gt; 1800，會溢出！<br>溢出 = 2500 − 1800 = 700 cm<sup>3</sup></div><div class="why">先計剩餘空間，再比較體積<br>溢出 = 物體體積 − 剩餘空間</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「剩餘空間先計算，物體體積要比較；大過剩餘會溢出，溢出體積計差額」</div>
+  <div class="warn">溢出關鍵陷阱：必須先計算剩餘空間，不能直接用水面上升公式。水面不能超越容器高度！</div>
+
+  <div class="h2">知識點三 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">7</td><td class="qtxt">長方體容器長 25 cm、闊 18 cm、高 20 cm。現有水高 16 cm。放入一塊 1200 cm<sup>3</sup> 的石頭，水會溢出嗎？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">容器底面積 360 cm<sup>2</sup>，高 30 cm。現有水高 25 cm。放入物體體積 2000 cm<sup>3</sup>。溢出多少 cm<sup>3</sup> 的水？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">水箱長 40 cm、闊 25 cm、高 30 cm，裝滿了水。放入一塊石頭後，溢出 800 cm<sup>3</sup> 的水。石頭的體積至少是多少？</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">一個正方體水箱邊長 15 cm，盛了 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 滿的水。放入一塊 600 cm<sup>3</sup> 的石頭。水會溢出嗎？（提示：先計現有水量）</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點四：多重物體情境 — 先取出A再放入B<span class="ss sh">SSPA 殺手題</span></div>
+    <div class="kp-rules">
+      <strong>情境一：先取出物體A（水面下降）</strong><br>
+      水面下降高度 = V<sub>A</sub> &divide; 底面積<br>
+      下降後水深 = 原水深 − 下降高度<br>
+      <br>
+      <strong>情境二：取出A後再放入B</strong><br>
+      新的水面變化 = (V<sub>B</sub> − V<sub>A</sub>) &divide; 底面積<br>
+      <strong>若 V<sub>B</sub> &gt; V<sub>A</sub>：</strong>水面淨上升<br>
+      <strong>若 V<sub>B</sub> &lt; V<sub>A</sub>：</strong>水面淨下降<br>
+      <br>
+      <strong>情境三：放入多個相同物體</strong><br>
+      總上升高度 = (n &times; V<sub>每個</sub>) &divide; 底面積
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例7：水箱底面積 500 cm<sup>2</sup>，原有水深 18 cm。先放入一塊 3000 cm<sup>3</sup> 的鐵塊，再放入一塊 1500 cm<sup>3</sup> 的銅塊。求最終水深。（容器高 40 cm）</div></div>
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例8：水箱底面積 200 cm<sup>2</sup>，原有水深 25 cm，內有一塊 1000 cm<sup>3</sup> 的石頭。先取出石頭，再放入一塊 1600 cm<sup>3</sup> 的鐵塊。最終水深是多少？</div></div>
+
+  <div class="h2">知識點四 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">水箱底面積 480 cm<sup>2</sup>，原有水深 15 cm。先放入一塊 1440 cm<sup>3</sup> 的物體A，再放入一塊 960 cm<sup>3</sup> 的物體B。最終水深是多少？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">水箱底面積 300 cm<sup>2</sup>，原有水深 20 cm，內有石頭一塊（體積 900 cm<sup>3</sup>）。先取出石頭，水面變為多少cm？再放入一塊 1200 cm<sup>3</sup> 的金屬，最終水深是多少？</td><td class="qd d3"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">水箱底面積 250 cm<sup>2</sup>，原有水深 30 cm。放入5個完全相同的小球後，水面上升了 4 cm。每個小球的體積是多少？</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 4: TIERED PRACTICE ══════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">14</td><td class="qtxt">水箱底面積 400 cm<sup>2</sup>。放入石頭前水深 10 cm，放入後水深 13 cm。石頭體積是多少？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">一個正方體容器邊長 12 cm，原有水深 8 cm。放入一個鐵球完全浸沒後，水面上升 3 cm。鐵球體積是多少？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">長方體魚缸長 50 cm、闊 30 cm、高 40 cm。現有水高 30 cm。魚缸還有多少cm<sup>3</sup> 的剩餘空間？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">17</td><td class="qtxt">容器長 30 cm、闊 20 cm、高 25 cm。現有水高 18 cm。放入一塊體積 3500 cm<sup>3</sup> 的石頭。問水會否溢出？如果溢出，溢出多少 mL？</td><td class="qd d2"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">水箱底面積 600 cm<sup>2</sup>，原有水深 15 cm。先取出一個 1800 cm<sup>3</sup> 的石頭，再放入一個 2400 cm<sup>3</sup> 的金屬塊。最終水深比原來上升還是下降？變化了多少cm？</td><td class="qd d2"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">一個長方體容器長 24 cm、闊 15 cm。放入10個相同大小的波子後，水面上升了 5 cm。每粒波子的體積是多少？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">20</td><td class="qtxt">水箱底面積 500 cm<sup>2</sup>，高 35 cm。原有水深 28 cm，內有一塊體積未知的石頭A。取出石頭A後，水面下降至 24 cm。問：(a) 石頭A的體積是多少？(b) 若放入一塊體積為 5000 cm<sup>3</sup> 的物體B，水會否溢出？</td><td class="qd d3"></td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">容器A（長30cm闊20cm高25cm）原有水深18cm。容器B（長25cm闊20cm高30cm）原有水深22cm。將容器A裡的一塊石頭（體積1500cm<sup>3</sup>）取出，放入容器B。容器B的水會溢出嗎？</td><td class="qd d3"></td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">一個長方體水箱底面積 800 cm<sup>2</sup>，原有水高 20 cm。放入一塊長方體磚（長 15 cm、闊 10 cm、高 8 cm）完全浸沒。水面上升了多少？若磚的高度改為 12 cm 且不能完全浸沒（水深不夠），有什麼不同？</td><td class="qd d4"></td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 終極挑戰（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">23</td><td class="qtxt">一個圓柱形水箱（底面積 314 cm<sup>2</sup>）原有水深 15 cm。放入一塊不規則石頭完全浸沒後，水深變為 19 cm。石頭體積是多少？（&pi; 取 3.14）</td><td class="qd d4"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">水箱長 40 cm、闊 30 cm、高 50 cm，原有水深 35 cm。依次放入A、B、C三塊石頭（體積分別為 3000、2500、4500 cm<sup>3</sup>）。問放入第幾塊石頭時開始溢水？最終共溢出多少 cm<sup>3</sup> 的水？</td><td class="qd d4"></td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 5: APPLICATION + ERROR TABLE ══════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（呈分試排水法應用題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">25</td><td class="qtxt">一個長方體魚缸長 60 cm、闊 40 cm、高 50 cm，原有水高 35 cm。小明放入一塊大石頭（完全浸沒），水面上升至 42 cm。石頭的體積是多少 cm<sup>3</sup>？是多少 L？</td><td class="qd d2"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">一個正方體水箱邊長 30 cm，裝滿了水。放入一塊石頭後，溢出 2.7 L 的水。問石頭的體積至少是多少 cm<sup>3</sup>？石頭有沒有完全浸沒？（試繪圖解釋）</td><td class="qd d3"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">27</td><td class="qtxt">一個長方體儲水箱長 80 cm、闊 50 cm、高 60 cm，原有水高 45 cm。大雨後，雨水令水面再升高 8 cm（不溢出）。雨水增加了多少 L？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">一個容器長 45 cm、闊 30 cm、高 35 cm。現有水深 25 cm。放入一個長方體鐵塊（長 15 cm、闊 10 cm、高 12 cm）完全浸沒。(a) 鐵塊的體積是多少？(b) 水面上升了多少cm？(c) 水會溢出嗎？</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">水箱A（底面積 600 cm<sup>2</sup>）有水深 30 cm。水箱B（底面積 400 cm<sup>2</sup>）有水深 15 cm。從水箱A取出一塊石頭（體積 3000 cm<sup>3</sup>）放入水箱B。問：(a) 水箱A的水面下降了多少？(b) 水箱B的水面上升了多少？(c) 水箱B的水會溢出嗎？（水箱B高 25 cm）</td><td class="qd d4"></td><td class="qw" style="min-height:92px;"></td></tr>
+  </table>
+
+  <div class="h1">五、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>用水面新高度直接計體積：</strong>V = 底面積 &times; 新水深</td><td>必須用高度差：V = 底面積 &times; (h<sub>後</sub> − h<sub>前</sub>)</td></tr>
+    <tr><td>2</td><td><strong>忘記檢查溢出條件：</strong>直接用上升公式不檢查是否超容器高度</td><td>先計算剩餘空間，若體積超過剩餘空間則會溢出</td></tr>
+    <tr><td>3</td><td><strong>底面積計算錯誤（長×闊調轉）：</strong>用錯的底面積導致全題錯</td><td>底面積 = 長 &times; 闊，仔細核對長和闊的數值</td></tr>
+    <tr><td>4</td><td><strong>單位混淆（mL vs cm<sup>3</sup> vs L）：</strong>不加換算直接比較</td><td>1 mL = 1 cm<sup>3</sup>，1 L = 1000 cm<sup>3</sup>，換算後才計算</td></tr>
+    <tr><td>5</td><td><strong>取出A放B時只用單一體積：</strong>忘記水面先下降再上升</td><td>水面淨變化 = (V<sub>B</sub> − V<sub>A</sub>) &divide; 底面積</td></tr>
+    <tr><td>6</td><td><strong>物體未完全浸沒仍用排水法：</strong>部分浸沒的排水量 ≠ 物體體積</td><td>必須確認完全浸沒；部分浸沒時公式不適用</td></tr>
+    <tr><td>7</td><td><strong>正方體容器底面積計錯：</strong>只用了邊長而非 a&sup2;</td><td>正方體底面積 = 邊長 &times; 邊長 = a&sup2;</td></tr>
+  </table>
+
+  <div class="mn">本堂核心口訣：「排水體積靠上升，高度差來最要緊；溢出先計剩餘位，單位統一再比拼」</div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">計底面積</div><div class="d">長 &times; 闊 = 容器底面積</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">算高度差</div><div class="d">新水深 − 原水深 = 上升高度</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">乘出體積</div><div class="d">底面積 &times; 高度差 = 物體體積</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">檢查溢出</div><div class="d">比較V<sub>物</sub>與剩餘空間</div></div>
+  </div>
+</div>
+
+<!-- ══════ PAGE 6: HOMEWORK ══════ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">水箱底面積 350 cm<sup>2</sup>，放入石頭前水深 12 cm，放入後水深 16 cm。石頭體積是多少？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">正方體容器邊長 18 cm，原有水深 10 cm。放入金屬塊後水面升至 15 cm。金屬塊體積是多少？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">容器長 35 cm、闊 25 cm、高 30 cm，原有水深 22 cm。放入 1800 cm<sup>3</sup> 的石頭，水會溢出嗎？</td><td class="qd d2"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">水箱底面積 450 cm<sup>2</sup>，原有水深 18 cm。先取出一個 1350 cm<sup>3</sup> 的物體，再放入一個 2250 cm<sup>3</sup> 的物體。最終水深是多少？</td><td class="qd d2"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">2500 mL = ？cm<sup>3</sup> = ？L（單位換算）</td><td class="qd d1"></td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">水箱長 50 cm、闊 40 cm、高 35 cm，原有水深 28 cm。放入一塊 6000 cm<sup>3</sup> 的石頭。(a) 水會溢出嗎？(b) 如果溢出，溢出多少 L？</td><td class="qd d3"></td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">有兩個水箱：A（底面積 500 cm<sup>2</sup>，水深 20 cm）和 B（底面積 300 cm<sup>2</sup>，水深 10 cm）。從A取出一塊石頭（體積 2500 cm<sup>3</sup>）放入B。問B的水面上升了多少cm？若B高 22 cm，B會溢出嗎？</td><td class="qd d4"></td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">一個長方體水箱，長是闊的2倍，高是闊的1.5倍。若闊為 20 cm，水箱裝了 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> 滿的水。放入一塊石頭後，水面升至離箱頂 2 cm。石頭體積是多少？</td><td class="qd d4"></td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱 · LF-P6-上-L16</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF &nbsp;|&nbsp; 6頁 · 48題 &nbsp;|&nbsp; LF-P6-上-L16 v6
+</div>
+
+</body>
+</html>

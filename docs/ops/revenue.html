@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>收入與利潤計算 · 霖楓學苑 LF Academy</title>
+<style>
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans HK",sans-serif}
+:root {
+  --blue: #1A3C6D;
+  --gold: #C9A84C;
+  --red: #DC2626;
+  --green: #16A34A;
+  --bg: #F5F6F8;
+  --card: #FFFFFF;
+  --text: #1F2937;
+  --text-secondary: #6B7280;
+  --border: #E5E7EB;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; }
+
+.nav { background: var(--blue); color: #fff; padding: 0 20px; display: flex; align-items: center; height: 56px; gap: 8px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.nav-brand { font-weight: 700; font-size: 17px; margin-right: auto; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+.nav-brand span { color: var(--gold); }
+.nav a { color: rgba(255,255,255,0.8); text-decoration: none; padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: 500; transition: all 0.15s; }
+.nav a:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.nav a.active { color: #fff; background: rgba(255,255,255,0.18); font-weight: 600; }
+
+.page { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+/* SECTION HEADERS */
+.section-title { font-size: 15px; font-weight: 700; color: var(--blue); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--gold); display: flex; align-items: center; gap: 8px; }
+
+/* GRID LAYOUT */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+
+.card { background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+
+/* KPI CARDS */
+.kpi-card { background: var(--card); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); text-align: center; }
+.kpi-label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
+.kpi-value { font-size: 28px; font-weight: 700; margin: 4px 0; }
+.kpi-value.positive { color: var(--green); }
+.kpi-value.negative { color: var(--red); }
+.kpi-value.neutral { color: var(--blue); }
+.kpi-sub { font-size: 11px; color: var(--text-secondary); }
+
+/* FORM */
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.form-group input { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 14px; font-family: inherit; }
+.form-group input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,60,109,0.1); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.input-suffix { position: relative; }
+.input-suffix input { padding-right: 50px; }
+.input-suffix .suffix { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 13px; font-weight: 500; pointer-events: none; }
+.grade-inputs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.grade-input { text-align: center; }
+.grade-input .grade-label { text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.p3-label { color: var(--green); }
+.p4-label { color: #2563EB; }
+.p5-label { color: var(--gold); }
+.p6-label { color: var(--red); }
+
+/* SLIDER */
+input[type="range"] { -webkit-appearance: none; width: 100%; height: 8px; border-radius: 4px; background: #E5E7EB; outline: none; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--blue); cursor: pointer; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+.slider-value { font-weight: 700; color: var(--blue); font-size: 18px; }
+.slider-row { display: flex; align-items: center; gap: 12px; }
+
+/* COST BREAKDOWN */
+.cost-line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.cost-line.total { font-weight: 700; font-size: 16px; border-bottom: 2px solid var(--text); padding-top: 12px; }
+.cost-line .amount { font-weight: 600; }
+.cost-line .amount.positive { color: var(--green); }
+
+/* TABLE */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { background: #F9FAFB; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); font-size: 12px; color: var(--text-secondary); text-transform: uppercase; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.data-table .num { text-align: right; font-variant-numeric: tabular-nums; font-family: 'Noto Sans HK', monospace; }
+
+/* PRINT */
+@media print {
+  .nav { display: none !important; }
+  body { background: #fff; font-size: 12px; }
+  .card { box-shadow: none; border: 1px solid #ddd; }
+  .page { padding: 10px; }
+}
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
+  .grade-inputs { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">霖楓學苑 <span>·</span> LF Academy <span style="font-size:11px;font-weight:400;opacity:0.7;">— 營運後台</span></div>
+  <a href="schedule.html">時間表</a>
+  <a href="revenue.html" class="active">收入計算</a>
+  <a href="teachers.html">導師管理</a>
+</nav>
+
+<div class="page">
+
+<!-- TOP KPIs -->
+<div class="grid-4" id="topKpis"></div>
+
+<!-- MAIN INPUTS -->
+<div class="grid-2">
+  <div class="card">
+    <div class="section-title">收入設定</div>
+    <div style="margin-bottom:8px;font-size:13px;color:var(--text-secondary);">每堂課收費：<strong>$220 HKD</strong> / 每名學生 / 每堂 (65分鐘)</div>
+    <div class="grade-inputs">
+      <div class="grade-input"><div class="grade-label p3-label">P3</div><input type="number" id="studentsP3" min="0" max="100" value="4" onchange="recalc()"></div>
+      <div class="grade-input"><div class="grade-label p4-label">P4</div><input type="number" id="studentsP4" min="0" max="100" value="4" onchange="recalc()"></div>
+      <div class="grade-input"><div class="grade-label p5-label">P5</div><input type="number" id="studentsP5" min="0" max="100" value="4" onchange="recalc()"></div>
+      <div class="grade-input"><div class="grade-label p6-label">P6</div><input type="number" id="studentsP6" min="0" max="100" value="3" onchange="recalc()"></div>
+    </div>
+    <div class="form-row" style="margin-top:14px;">
+      <div class="form-group"><label>每週課堂總數</label><input type="number" id="lessonsPerWeek" min="0" max="100" value="8" onchange="recalc()"></div>
+      <div class="form-group"><label>每月上課週數</label><input type="number" id="weeksPerMonth" min="1" max="5" value="4" onchange="recalc()"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>每堂時長 (分鐘)</label><input type="number" id="lessonMinutes" min="30" max="180" value="65" onchange="recalc()"></div>
+      <div class="form-group"><label>每堂ClassIn費用</label><input type="number" id="classinCostPerLesson" min="0" max="500" value="0" onchange="recalc()"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">導師成本設定</div>
+    <div class="form-row">
+      <div class="form-group"><label>每小時平均工資</label><div class="input-suffix"><input type="number" id="avgHourlyRate" min="0" max="1000" value="250" onchange="recalc()"><span class="suffix">HKD</span></div></div>
+      <div class="form-group"><label>導師每週總工時</label><div class="input-suffix"><input type="number" id="teacherHoursPerWeek" min="0" max="200" value="12" step="0.5" onchange="recalc()"><span class="suffix">hrs</span></div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>ClassIn 每月費用</label><div class="input-suffix"><input type="number" id="classinMonthly" min="0" max="50000" value="0" onchange="recalc()"><span class="suffix">HKD</span></div></div>
+      <div class="form-group"><label>其他每月營運開支</label><div class="input-suffix"><input type="number" id="otherMonthlyCost" min="0" max="100000" value="0" onchange="recalc()"><span class="suffix">HKD</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LIVE CALCULATION -->
+<div class="grid-3" id="liveCalc"></div>
+
+<!-- BREAK-EVEN -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">收支平衡分析</div>
+  <div id="breakEven"></div>
+</div>
+
+<!-- WHAT-IF -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">「如果...會怎樣？」模擬器</div>
+  <div style="margin-bottom:14px;font-size:14px;color:var(--text-secondary);">拖動滑桿來模擬新增學生對利潤的影響：</div>
+  <div class="slider-row" style="margin-bottom:14px;">
+    <span style="font-weight:600;min-width:120px;">新增學生：</span>
+    <input type="range" id="whatifStudents" min="0" max="30" value="5" oninput="document.getElementById('whatifVal').textContent=this.value;recalcWhatIf();">
+    <span class="slider-value" id="whatifVal">5</span><span>人</span>
+  </div>
+  <div class="slider-row" style="margin-bottom:14px;">
+    <span style="font-weight:600;min-width:120px;">調整時薪：</span>
+    <input type="range" id="whatifRate" min="150" max="500" step="10" value="250" oninput="document.getElementById('whatifRateVal').textContent='$'+this.value;recalcWhatIf();">
+    <span class="slider-value" id="whatifRateVal">$250</span>
+  </div>
+  <div id="whatifResult" style="margin-top:14px;"></div>
+</div>
+
+<!-- 3-MONTH PROJECTION -->
+<div class="card">
+  <div class="section-title">未來三個月預測</div>
+  <div style="overflow-x:auto;">
+    <table class="data-table" id="projectionTable">
+      <thead><tr><th>項目</th><th>本月</th><th>第2個月</th><th>第3個月</th></tr></thead>
+      <tbody id="projectionBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div style="text-align:right;padding:16px 0;">
+  <button class="btn btn-outline btn-sm" onclick="exportRevenueCSV()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;border:1.5px solid var(--blue);background:var(--card);color:var(--blue);font-family:inherit;">匯出 CSV 報告</button>
+  <button class="btn btn-outline btn-sm" onclick="window.print()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;border:1.5px solid var(--blue);background:var(--card);color:var(--blue);font-family:inherit;margin-left:8px;">列印</button>
+</div>
+
+</div>
+
+<script>
+function loadData(key, fallback) {
+  try { const d = localStorage.getItem('lf_' + key); return d ? JSON.parse(d) : fallback; }
+  catch(e) { return fallback; }
+}
+function saveData(key, data) { localStorage.setItem('lf_' + key, JSON.stringify(data)); }
+
+const CONFIG_KEY = 'revenue_config';
+let config = loadData(CONFIG_KEY, {});
+
+// Restore saved values or use defaults
+function restoreConfig() {
+  if (config.studentsP3 !== undefined) document.getElementById('studentsP3').value = config.studentsP3;
+  if (config.studentsP4 !== undefined) document.getElementById('studentsP4').value = config.studentsP4;
+  if (config.studentsP5 !== undefined) document.getElementById('studentsP5').value = config.studentsP5;
+  if (config.studentsP6 !== undefined) document.getElementById('studentsP6').value = config.studentsP6;
+  if (config.lessonsPerWeek !== undefined) document.getElementById('lessonsPerWeek').value = config.lessonsPerWeek;
+  if (config.weeksPerMonth !== undefined) document.getElementById('weeksPerMonth').value = config.weeksPerMonth;
+  if (config.lessonMinutes !== undefined) document.getElementById('lessonMinutes').value = config.lessonMinutes;
+  if (config.classinCostPerLesson !== undefined) document.getElementById('classinCostPerLesson').value = config.classinCostPerLesson;
+  if (config.avgHourlyRate !== undefined) document.getElementById('avgHourlyRate').value = config.avgHourlyRate;
+  if (config.teacherHoursPerWeek !== undefined) document.getElementById('teacherHoursPerWeek').value = config.teacherHoursPerWeek;
+  if (config.classinMonthly !== undefined) document.getElementById('classinMonthly').value = config.classinMonthly;
+  if (config.otherMonthlyCost !== undefined) document.getElementById('otherMonthlyCost').value = config.otherMonthlyCost;
+}
+
+function saveConfig() {
+  config = {
+    studentsP3: parseInt(document.getElementById('studentsP3').value) || 0,
+    studentsP4: parseInt(document.getElementById('studentsP4').value) || 0,
+    studentsP5: parseInt(document.getElementById('studentsP5').value) || 0,
+    studentsP6: parseInt(document.getElementById('studentsP6').value) || 0,
+    lessonsPerWeek: parseInt(document.getElementById('lessonsPerWeek').value) || 0,
+    weeksPerMonth: parseInt(document.getElementById('weeksPerMonth').value) || 4,
+    lessonMinutes: parseInt(document.getElementById('lessonMinutes').value) || 65,
+    classinCostPerLesson: parseFloat(document.getElementById('classinCostPerLesson').value) || 0,
+    avgHourlyRate: parseFloat(document.getElementById('avgHourlyRate').value) || 0,
+    teacherHoursPerWeek: parseFloat(document.getElementById('teacherHoursPerWeek').value) || 0,
+    classinMonthly: parseFloat(document.getElementById('classinMonthly').value) || 0,
+    otherMonthlyCost: parseFloat(document.getElementById('otherMonthlyCost').value) || 0,
+  };
+  saveData(CONFIG_KEY, config);
+}
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function fmtDecimal(n) { return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+function recalc() {
+  saveConfig();
+  const totalStudents = config.studentsP3 + config.studentsP4 + config.studentsP5 + config.studentsP6;
+  const lessonsPerWeek = config.lessonsPerWeek;
+  const weeksPerMonth = config.weeksPerMonth;
+  const teacherHrsPerWeek = config.teacherHoursPerWeek;
+
+  // Per week
+  const weeklyRevenue = totalStudents * lessonsPerWeek * 220;
+  const weeklyTeacherCost = teacherHrsPerWeek * config.avgHourlyRate;
+  const weeklyClassinCost = lessonsPerWeek * config.classinCostPerLesson;
+  const weeklyProfit = weeklyRevenue - weeklyTeacherCost - weeklyClassinCost;
+
+  // Per month
+  const monthlyRevenue = weeklyRevenue * weeksPerMonth;
+  const monthlyTeacherCost = weeklyTeacherCost * weeksPerMonth;
+  const monthlyClassinCost = (weeklyClassinCost * weeksPerMonth) + config.classinMonthly;
+  const monthlyOther = config.otherMonthlyCost;
+  const monthlyTotalCost = monthlyTeacherCost + monthlyClassinCost + monthlyOther;
+  const monthlyProfit = monthlyRevenue - monthlyTotalCost;
+
+  // Margin
+  const margin = monthlyRevenue > 0 ? (monthlyProfit / monthlyRevenue * 100) : 0;
+  const profitPerStudent = totalStudents > 0 ? monthlyProfit / totalStudents : 0;
+
+  // TOP KPIs
+  document.getElementById('topKpis').innerHTML =
+    '<div class="kpi-card"><div class="kpi-label">學生總數</div><div class="kpi-value neutral">' + totalStudents + '</div><div class="kpi-sub">P3: ' + config.studentsP3 + ' | P4: ' + config.studentsP4 + ' | P5: ' + config.studentsP5 + ' | P6: ' + config.studentsP6 + '</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">每月總收入</div><div class="kpi-value neutral">' + fmt(monthlyRevenue) + '</div><div class="kpi-sub">每週 ' + fmt(weeklyRevenue) + '</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">每月利潤</div><div class="kpi-value ' + (monthlyProfit >= 0 ? 'positive' : 'negative') + '">' + fmt(monthlyProfit) + '</div><div class="kpi-sub">利潤率 ' + margin.toFixed(1) + '%</div></div>' +
+    '<div class="kpi-card"><div class="kpi-label">每名學生利潤</div><div class="kpi-value ' + (profitPerStudent >= 0 ? 'positive' : 'negative') + '">' + fmtDecimal(profitPerStudent) + '</div><div class="kpi-sub">每月</div></div>';
+
+  // Live Calculation detail
+  document.getElementById('liveCalc').innerHTML =
+    '<div class="card"><div class="section-title">每週</div>' +
+    '<div class="cost-line"><span>總收入</span><span class="amount">' + fmt(weeklyRevenue) + '</span></div>' +
+    '<div class="cost-line"><span>導師成本</span><span class="amount" style="color:var(--red)">- ' + fmt(weeklyTeacherCost) + '</span></div>' +
+    '<div class="cost-line"><span>ClassIn 堂費</span><span class="amount" style="color:var(--red)">- ' + fmt(weeklyClassinCost) + '</span></div>' +
+    '<div class="cost-line total"><span>每週利潤</span><span class="amount ' + (weeklyProfit >= 0 ? 'positive' : '') + '">' + fmt(weeklyProfit) + '</span></div></div>' +
+
+    '<div class="card"><div class="section-title">每月</div>' +
+    '<div class="cost-line"><span>總收入</span><span class="amount">' + fmt(monthlyRevenue) + '</span></div>' +
+    '<div class="cost-line"><span>導師成本</span><span class="amount" style="color:var(--red)">- ' + fmt(monthlyTeacherCost) + '</span></div>' +
+    '<div class="cost-line"><span>ClassIn 費用</span><span class="amount" style="color:var(--red)">- ' + fmt(monthlyClassinCost) + '</span></div>' +
+    '<div class="cost-line"><span>其他開支</span><span class="amount" style="color:var(--red)">- ' + fmt(monthlyOther) + '</span></div>' +
+    '<div class="cost-line total"><span>每月利潤</span><span class="amount ' + (monthlyProfit >= 0 ? 'positive' : '') + '">' + fmt(monthlyProfit) + '</span></div></div>' +
+
+    '<div class="card"><div class="section-title">效率指標</div>' +
+    '<div class="cost-line"><span>利潤率</span><span class="amount">' + margin.toFixed(1) + '%</span></div>' +
+    '<div class="cost-line"><span>每學生每月利潤</span><span class="amount">' + fmtDecimal(profitPerStudent) + '</span></div>' +
+    '<div class="cost-line"><span>每學生每月收入</span><span class="amount">' + fmtDecimal(totalStudents > 0 ? monthlyRevenue / totalStudents : 0) + '</span></div>' +
+    '<div class="cost-line"><span>每學生每月成本</span><span class="amount" style="color:var(--red)">' + fmtDecimal(totalStudents > 0 ? monthlyTotalCost / totalStudents : 0) + '</span></div>' +
+    '</div>';
+
+  // Break-even
+  const costPerStudentPerLesson = config.avgHourlyRate * (65/60) / 3 + config.classinCostPerLesson;
+  const breakEvenStudents = monthlyTotalCost > 0 ? Math.ceil(monthlyTotalCost / (220 * lessonsPerWeek * weeksPerMonth)) : 0;
+  document.getElementById('breakEven').innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center;">' +
+    '<div><div style="font-size:24px;font-weight:700;color:var(--blue);">' + breakEvenStudents + '</div><div style="font-size:12px;color:var(--text-secondary);">收支平衡所需學生數</div></div>' +
+    '<div><div style="font-size:24px;font-weight:700;color:var(--text);">' + fmtDecimal(costPerStudentPerLesson) + '</div><div style="font-size:12px;color:var(--text-secondary);">每名學生每堂成本</div></div>' +
+    '<div><div style="font-size:24px;font-weight:700;color:' + (totalStudents >= breakEvenStudents ? 'var(--green)' : 'var(--red)') + ';">' + (totalStudents >= breakEvenStudents ? '已達標' : '尚欠 ' + (breakEvenStudents - totalStudents) + ' 人') + '</div><div style="font-size:12px;color:var(--text-secondary);">現狀</div></div>' +
+    '</div>';
+
+  // 3-month projection
+  const growthRate = 1.05; // assume 5% growth
+  let proj = '';
+  for (const month of [1, 2, 3]) {
+    const factor = Math.pow(growthRate, month - 1);
+    const projStudents = Math.round(totalStudents * factor);
+    const projRevenue = Math.round(monthlyRevenue * factor);
+    const projTeacherCost = Math.round(monthlyTeacherCost * factor);
+    const projOther = month === 1 ? monthlyOther : Math.round(monthlyOther * factor);
+    const projClassinCost = Math.round(monthlyClassinCost * factor);
+    const projProfit = projRevenue - projTeacherCost - projClassinCost - projOther;
+    proj += '<tr><td>預測學生數</td><td class="num">' + projStudents + '</td><td class="num">' + Math.round(totalStudents * Math.pow(growthRate, month)) + '</td><td class="num">' + Math.round(totalStudents * Math.pow(growthRate, month+1)) + '</td></tr>';
+    proj += '<tr><td>預測收入</td><td class="num">' + fmt(projRevenue) + '</td><td class="num">' + fmt(Math.round(monthlyRevenue * Math.pow(growthRate, month))) + '</td><td class="num">' + fmt(Math.round(monthlyRevenue * Math.pow(growthRate, month+1))) + '</td></tr>';
+    proj += '<tr><td>預測利潤</td><td class="num" style="color:' + (projProfit >= 0 ? 'var(--green)' : 'var(--red)') + '">' + fmt(projProfit) + '</td><td class="num" style="color:var(--green)">' + fmt(Math.round(monthlyRevenue * Math.pow(growthRate, month) - monthlyTeacherCost * Math.pow(growthRate, month) - monthlyClassinCost * Math.pow(growthRate, month) - monthlyOther * Math.pow(growthRate, month))) + '</td><td class="num" style="color:var(--green)">' + fmt(Math.round(monthlyRevenue * Math.pow(growthRate, month+1) - monthlyTeacherCost * Math.pow(growthRate, month+1) - monthlyClassinCost * Math.pow(growthRate, month+1) - monthlyOther * Math.pow(growthRate, month+1))) + '</td></tr>';
+    if (month === 1) break;
+  }
+  // Simplify: just show 3 month columns
+  document.getElementById('projectionBody').innerHTML = (function() {
+    let rows = '';
+    const months = [1, 2, 3];
+    const rates = months.map(m => Math.pow(1.05, m - 1));
+    const cols = months.map(m => {
+      const f = Math.pow(1.05, m - 1);
+      return {
+        students: Math.round(totalStudents * f),
+        revenue: Math.round(monthlyRevenue * f),
+        tCost: Math.round(monthlyTeacherCost * f),
+        cCost: Math.round(monthlyClassinCost * f),
+        other: Math.round(monthlyOther * (m === 1 ? 1 : Math.pow(1.05, m - 1))),
+      };
+    });
+    rows += '<tr><td><strong>學生數</strong></td>' + cols.map(c => '<td class="num">' + c.students + '</td>').join('') + '</tr>';
+    rows += '<tr><td>總收入</td>' + cols.map(c => '<td class="num">' + fmt(c.revenue) + '</td>').join('') + '</tr>';
+    rows += '<tr><td>導師成本</td>' + cols.map(c => '<td class="num" style="color:var(--red)">' + fmt(c.tCost) + '</td>').join('') + '</tr>';
+    rows += '<tr><td>ClassIn + 其他</td>' + cols.map(c => '<td class="num" style="color:var(--red)">' + fmt(c.cCost + c.other) + '</td>').join('') + '</tr>';
+    rows += '<tr><td><strong>利潤</strong></td>' + cols.map(c => {
+      const p = c.revenue - c.tCost - c.cCost - c.other;
+      return '<td class="num"><strong style="color:' + (p >= 0 ? 'var(--green)' : 'var(--red)') + '">' + fmt(p) + '</strong></td>';
+    }).join('') + '</tr>';
+    return rows;
+  })();
+
+  recalcWhatIf();
+}
+
+function recalcWhatIf() {
+  const extraStudents = parseInt(document.getElementById('whatifStudents').value) || 0;
+  const newRate = parseInt(document.getElementById('whatifRate').value) || 250;
+  const totalStudents = config.studentsP3 + config.studentsP4 + config.studentsP5 + config.studentsP6;
+  const newTotal = totalStudents + extraStudents;
+  const lessonsPerWeek = config.lessonsPerWeek;
+  const weeksPerMonth = config.weeksPerMonth;
+  const teacherHrsPerWeek = config.teacherHoursPerWeek;
+
+  // Assume extra students need proportional extra teacher hours
+  const extraHours = totalStudents > 0 ? (extraStudents / totalStudents) * teacherHrsPerWeek : (extraStudents > 0 ? extraStudents * (65/60) / 3 : 0);
+  const newTeacherHrs = teacherHrsPerWeek + extraHours;
+
+  const newWeeklyRevenue = newTotal * lessonsPerWeek * 220;
+  const newWeeklyTeacherCost = newTeacherHrs * newRate;
+  const weeklyClassinCost = lessonsPerWeek * config.classinCostPerLesson;
+  const newWeeklyProfit = newWeeklyRevenue - newWeeklyTeacherCost - weeklyClassinCost;
+
+  const newMonthlyRevenue = newWeeklyRevenue * weeksPerMonth;
+  const newMonthlyTeacherCost = newWeeklyTeacherCost * weeksPerMonth;
+  const newMonthlyClassinCost = (weeklyClassinCost * weeksPerMonth) + config.classinMonthly;
+  const newMonthlyProfit = newMonthlyRevenue - newMonthlyTeacherCost - newMonthlyClassinCost - config.otherMonthlyCost;
+
+  const curTotal = totalStudents;
+  const curMonthlyProfit = (function() {
+    const wr = curTotal * lessonsPerWeek * 220;
+    const wtc = teacherHrsPerWeek * config.avgHourlyRate;
+    const wcc = lessonsPerWeek * config.classinCostPerLesson;
+    return (wr - wtc - wcc) * weeksPerMonth - config.classinMonthly - config.otherMonthlyCost;
+  })();
+
+  const profitDelta = newMonthlyProfit - curMonthlyProfit;
+
+  document.getElementById('whatifResult').innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;text-align:center;">' +
+    '<div><div style="font-size:12px;color:var(--text-secondary);">新學生總數</div><div style="font-size:22px;font-weight:700;">' + newTotal + '</div></div>' +
+    '<div><div style="font-size:12px;color:var(--text-secondary);">新月收入</div><div style="font-size:22px;font-weight:700;color:var(--blue);">' + fmt(newMonthlyRevenue) + '</div></div>' +
+    '<div><div style="font-size:12px;color:var(--text-secondary);">新月利潤</div><div style="font-size:22px;font-weight:700;color:' + (newMonthlyProfit >= 0 ? 'var(--green)' : 'var(--red)') + ';">' + fmt(newMonthlyProfit) + '</div></div>' +
+    '<div><div style="font-size:12px;color:var(--text-secondary);">利潤變化</div><div style="font-size:22px;font-weight:700;color:' + (profitDelta >= 0 ? 'var(--green)' : 'var(--red)') + ';">' + (profitDelta >= 0 ? '+' : '') + fmt(profitDelta) + '</div></div>' +
+    '</div>';
+}
+
+function exportRevenueCSV() {
+  const totalStudents = config.studentsP3 + config.studentsP4 + config.studentsP5 + config.studentsP6;
+  const monthlyRevenue = totalStudents * config.lessonsPerWeek * 220 * config.weeksPerMonth;
+  const monthlyTeacherCost = config.teacherHoursPerWeek * config.avgHourlyRate * config.weeksPerMonth;
+  const monthlyClassinCost = (config.lessonsPerWeek * config.classinCostPerLesson * config.weeksPerMonth) + config.classinMonthly;
+  const monthlyProfit = monthlyRevenue - monthlyTeacherCost - monthlyClassinCost - config.otherMonthlyCost;
+
+  let csv = 'Item,Amount (HKD)\n';
+  csv += 'Students (P3),' + config.studentsP3 + '\n';
+  csv += 'Students (P4),' + config.studentsP4 + '\n';
+  csv += 'Students (P5),' + config.studentsP5 + '\n';
+  csv += 'Students (P6),' + config.studentsP6 + '\n';
+  csv += 'Total Students,' + totalStudents + '\n';
+  csv += 'Lessons per Week,' + config.lessonsPerWeek + '\n';
+  csv += 'Weeks per Month,' + config.weeksPerMonth + '\n';
+  csv += 'Monthly Revenue,' + monthlyRevenue + '\n';
+  csv += 'Teacher Cost,' + monthlyTeacherCost + '\n';
+  csv += 'ClassIn Cost,' + monthlyClassinCost + '\n';
+  csv += 'Other Cost,' + config.otherMonthlyCost + '\n';
+  csv += 'Monthly Profit,' + monthlyProfit + '\n';
+
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'revenue_report_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+restoreConfig();
+recalc();
+</script>
+</body>
+</html>

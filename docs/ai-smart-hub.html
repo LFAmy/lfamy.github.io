@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>霖楓學苑 · AI 智能學習中心 | Smart Learning Hub</title>
+<meta name="description" content="AI智能推薦引擎+家長儀表板 — 個人化學習路徑、弱項分析、進度追蹤、自動報告生成">
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:var(--g100);color:var(--g800);min-height:100vh}
+.container{max-width:800px;margin:0 auto;padding:20px}
+
+/* Header */
+.hub-header{background:linear-gradient(135deg,#0A1A35,var(--b),#1E4D8C);color:white;border-radius:20px;padding:28px 24px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
+.hub-header::after{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;border:2px solid rgba(201,168,76,0.12);border-radius:50%}
+.hub-header h1{font-size:20px;position:relative;margin-bottom:4px}
+.hub-header .sub{font-size:12px;opacity:0.7;position:relative}
+
+/* Quick Actions */
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.qa-btn{background:white;border-radius:14px;padding:16px 8px;text-align:center;text-decoration:none;color:var(--g800);box-shadow:0 1px 4px rgba(0,0,0,0.05);transition:all 0.2s;border:2px solid transparent}
+.qa-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.1);border-color:var(--g)}
+.qa-btn .qa-icon{font-size:30px;display:block;margin-bottom:6px}
+.qa-btn .qa-label{font-size:11px;font-weight:700;color:var(--b)}
+.qa-btn.new{border-color:var(--r);position:relative}
+.qa-btn.new::after{content:'NEW';position:absolute;top:-6px;right:8px;background:var(--r);color:white;font-size:8px;padding:2px 6px;border-radius:8px;font-weight:900}
+
+/* Cards */
+.card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.card h2{font-size:16px;color:var(--b);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h2 .icon{font-size:22px}
+
+/* AI Recommendation Card */
+.rec-card{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--g200);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.15s;text-decoration:none;color:inherit}
+.rec-card:hover{border-color:var(--g);background:#FFFDF5}
+.rec-card .rec-icon{font-size:32px;flex-shrink:0}
+.rec-card .rec-body{flex:1}
+.rec-card .rec-body h4{font-size:14px;color:var(--b);margin-bottom:2px}
+.rec-card .rec-body p{font-size:11px;color:var(--g600)}
+.rec-card .rec-badge{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:700;flex-shrink:0}
+.rec-badge.urgent{background:#FEF2F2;color:var(--r)}
+.rec-badge.recommend{background:#F0FDF4;color:var(--gr)}
+.rec-badge.optional{background:var(--g100);color:var(--g600)}
+
+/* Progress Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat-box{text-align:center;padding:16px 8px;background:var(--g50);border-radius:12px}
+.stat-box .stat-num{font-size:28px;font-weight:900;color:var(--b)}
+.stat-box .stat-label{font-size:10px;color:var(--g600);margin-top:2px}
+.stat-box.up .stat-num{color:var(--gr)}
+.stat-box.down .stat-num{color:var(--r)}
+
+/* Learning Path Timeline */
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--g200)}
+.tl-item{position:relative;padding:12px 0;padding-left:20px}
+.tl-item::before{content:'';position:absolute;left:-20px;top:16px;width:12px;height:12px;border-radius:50%;border:3px solid var(--b);background:white}
+.tl-item.done::before{background:var(--gr);border-color:var(--gr)}
+.tl-item.current::before{background:var(--g);border-color:var(--g);box-shadow:0 0 0 4px rgba(201,168,76,0.2)}
+.tl-item h4{font-size:13px;color:var(--b);margin-bottom:2px}
+.tl-item p{font-size:11px;color:var(--g600)}
+
+/* AI Report */
+.ai-report{background:linear-gradient(135deg,#F0F5FF,#FFFDF5);border:1px solid #BFDBFE;border-radius:14px;padding:20px}
+.ai-report h3{font-size:14px;color:var(--b);margin-bottom:8px}
+.ai-report .report-text{font-size:13px;line-height:1.8;color:var(--g800)}
+.ai-report .report-highlight{background:#FEF3C7;padding:2px 6px;border-radius:4px;font-weight:700}
+
+/* Grade selector */
+.grade-tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--g200);border-radius:10px;padding:3px}
+.grade-tab{flex:1;padding:8px;text-align:center;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;border:none;font-family:inherit;background:transparent;transition:all 0.2s}
+.grade-tab.active{background:white;color:var(--b);box-shadow:0 1px 2px rgba(0,0,0,0.1)}
+.grade-tab:hover:not(.active){color:var(--b)}
+
+/* FAB */
+.fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:var(--r);color:white;border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 20px rgba(220,38,38,0.3);z-index:50;transition:all 0.2s}
+.fab:hover{transform:scale(1.1)}
+
+/* AI Feature Nav */
+.ai-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.ai-nav-item{background:white;border-radius:14px;padding:16px 10px;text-align:center;text-decoration:none;color:var(--g800);box-shadow:0 1px 4px rgba(0,0,0,0.05);transition:all 0.2s}
+.ai-nav-item:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.ai-nav-item .nav-icon{font-size:28px;display:block;margin-bottom:6px}
+.ai-nav-item .nav-label{font-size:11px;font-weight:700;color:var(--b)}
+
+@media(max-width:480px){
+  .quick-actions{grid-template-columns:repeat(2,1fr)}
+  .ai-nav{grid-template-columns:repeat(2,1fr)}
+  .stats-grid{grid-template-columns:repeat(3,1fr);gap:6px}
+}
+</style>
+<link rel="manifest" href="/manifest.json">
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══ HEADER ═══ -->
+<div class="hub-header">
+  <h1>🤖 AI 智能學習中心</h1>
+  <div class="sub">個人化推薦 · 弱項分析 · 進度追蹤 · 智能報告</div>
+</div>
+
+<!-- ═══ AI FEATURE NAV ═══ -->
+<div class="ai-nav">
+  <a href="ai-diagnostic.html" class="ai-nav-item"><span class="nav-icon">🔬</span><span class="nav-label">AI診斷</span></a>
+  <a href="ai-study-buddy.html" class="ai-nav-item"><span class="nav-icon">🦊</span><span class="nav-label">AI啊狐</span></a>
+  <a href="whatsapp-ai-fox.html" class="ai-nav-item"><span class="nav-icon">💬</span><span class="nav-label">WA Bot</span></a>
+  <a href="class-battle.html" class="ai-nav-item"><span class="nav-icon">⚔️</span><span class="nav-label">班級對戰</span></a>
+  <a href="ai-variant-generator.html" class="ai-nav-item"><span class="nav-icon">🔄</span><span class="nav-label">AI變體</span></a>
+  <a href="parent-academy.html" class="ai-nav-item"><span class="nav-icon">👨‍👩‍👧</span><span class="nav-label">家長學院</span></a>
+  <a href="video-script-gen.html" class="ai-nav-item"><span class="nav-icon">🎬</span><span class="nav-label">影片腳本</span></a>
+  <a href="lf-math-cup.html" class="ai-nav-item"><span class="nav-icon">🏆</span><span class="nav-label">數學盃</span></a>
+  <a href="ar-math-viewer.html" class="ai-nav-item"><span class="nav-icon">🎮</span><span class="nav-label">AR 3D</span></a>
+  <a href="english-track.html" class="ai-nav-item"><span class="nav-icon">🌍</span><span class="nav-label">ENG版</span></a>
+  <a href="white-label.html" class="ai-nav-item"><span class="nav-icon">💎</span><span class="nav-label">白標SaaS</span></a>
+    <a href="school-analytics.html" class="ai-nav-item"><span class="nav-icon">🏫</span><span class="nav-label">學校數據</span></a>
+  <a href="wa-marketing-dashboard.html" class="ai-nav-item new-item"><span class="nav-icon">📱</span><span class="nav-label">WA營銷</span></a>
+  <a href="edu-installment.html" class="ai-nav-item new-item"><span class="nav-icon">💳</span><span class="nav-label">分期付款</span></a>
+  <a href="ai-voice-tutor.html" class="ai-nav-item new-item"><span class="nav-icon">🎙️</span><span class="nav-label">語音家教</span></a>
+  <a href="teacher-simulator.html" class="ai-nav-item new-item"><span class="nav-icon">👩‍🏫</span><span class="nav-label">模擬課堂</span></a>
+  <a href="auto-ai-teacher.html" class="ai-nav-item new-item"><span class="nav-icon">🤖</span><span class="nav-label">AI教師</span></a>
+  <a href="ar-handwriting-grading.html" class="ai-nav-item new-item"><span class="nav-icon">📸</span><span class="nav-label">AR批改</span></a>
+  <a href="interactive-geometry.html" class="ai-nav-item new-item"><span class="nav-icon">🎮</span><span class="nav-label">互動幾何</span></a>
+  <a href="graphics-engine.html" class="ai-nav-item new-item"><span class="nav-icon">📐</span><span class="nav-label">圖形引擎</span></a>
+  <a href="parent-smart-report.html" class="ai-nav-item new-item"><span class="nav-icon">📊</span><span class="nav-label">智能報告</span></a>
+  <a href="sea-market.html" class="ai-nav-item new-item"><span class="nav-icon">🌏</span><span class="nav-label">SEA市場</span></a>
+  <a href="student-creator.html" class="ai-nav-item new-item"><span class="nav-icon">✏️</span><span class="nav-label">學生創作</span></a>
+  <a href="tutor-alliance.html" class="ai-nav-item new-item"><span class="nav-icon">🤝</span><span class="nav-label">導師聯盟</span></a>
+  <a href="math-media.html" class="ai-nav-item new-item"><span class="nav-icon">📺</span><span class="nav-label">數學媒體</span></a>
+  <a href="trap-workbook.html" class="ai-nav-item new-item"><span class="nav-icon">📚</span><span class="nav-label">陷阱練習冊</span></a>
+  <a href="lf-pad.html" class="ai-nav-item new-item"><span class="nav-icon">📱</span><span class="nav-label">霖楓平板</span></a>
+</div>
+
+<!-- ═══ QUICK ACTIONS ═══ -->
+<div class="quick-actions">
+  <a href="ai-diagnostic.html" class="qa-btn new">
+    <span class="qa-icon">🔬</span><span class="qa-label">AI診斷2.0</span>
+  </a>
+  <a href="ai-study-buddy.html" class="qa-btn new">
+    <span class="qa-icon">🦊</span><span class="qa-label">問啊狐</span>
+  </a>
+  <a href="kids-boss-battle.html" class="qa-btn">
+    <span class="qa-icon">⚔️</span><span class="qa-label">打Boss</span>
+  </a>
+  <a href="trap-quiz.html" class="qa-btn">
+    <span class="qa-icon">🎯</span><span class="qa-label">練陷阱</span>
+  </a>
+</div>
+
+<!-- ═══ STUDENT PROGRESS ═══ -->
+<div class="card" id="progressCard">
+  <h2><span class="icon">📊</span>學習進度概覽 <span style="font-size:11px;color:var(--g400);font-weight:400;margin-left:auto" id="lastUpdate"></span></h2>
+  <div class="grade-tabs" id="gradeTabs">
+    <button class="grade-tab active" onclick="switchGrade('P3')">P3</button>
+    <button class="grade-tab" onclick="switchGrade('P4')">P4</button>
+    <button class="grade-tab" onclick="switchGrade('P5')">P5</button>
+    <button class="grade-tab" onclick="switchGrade('P6')">P6</button>
+  </div>
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-box"><div class="stat-num">--</div><div class="stat-label">總練習題</div></div>
+    <div class="stat-box up"><div class="stat-num">--</div><div class="stat-label">正確率</div></div>
+    <div class="stat-box"><div class="stat-num">--</div><div class="stat-label">連續天數</div></div>
+  </div>
+</div>
+
+<!-- ═══ AI RECOMMENDATIONS ═══ -->
+<div class="card">
+  <h2><span class="icon">💡</span>AI 個人化推薦</h2>
+  <p style="font-size:11px;color:var(--g600);margin-bottom:12px">基於你嘅學習數據，AI為你推薦以下學習路徑</p>
+  <div id="recommendations">
+    <div class="rec-card" onclick="location.href='ai-diagnostic.html'">
+      <span class="rec-icon">🔬</span>
+      <div class="rec-body"><h4>先做AI診斷</h4><p>完成10題診斷，AI精準定位你最弱嘅3個課題</p></div>
+      <span class="rec-badge urgent">優先</span>
+    </div>
+    <div class="rec-card" onclick="location.href='trap-quiz.html'">
+      <span class="rec-icon">🎯</span>
+      <div class="rec-body"><h4>陷阱專項練習</h4><p>針對診斷出嘅弱項，進行靶向練習</p></div>
+      <span class="rec-badge recommend">推薦</span>
+    </div>
+    <div class="rec-card" onclick="location.href='kids-boss-battle.html'">
+      <span class="rec-icon">⚔️</span>
+      <div class="rec-body"><h4>Boss挑戰鞏固</h4><p>遊戲化練習 — 打敗10大陷阱Boss</p></div>
+      <span class="rec-badge optional">可選</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AI LEARNING PATH ═══ -->
+<div class="card">
+  <h2><span class="icon">🗺️</span>AI 學習路徑</h2>
+  <p style="font-size:11px;color:var(--g600);margin-bottom:12px">建議的學習順序 — 完成每一步解鎖下一步</p>
+  <div class="timeline">
+    <div class="tl-item current">
+      <h4>① AI陷阱診斷（10分鐘）</h4>
+      <p>完成10題自適應診斷 → 獲得個人化弱項報告</p>
+    </div>
+    <div class="tl-item">
+      <h4>② 陷阱專項練習（15-20分鐘）</h4>
+      <p>針對診斷出嘅弱項進行靶向練習</p>
+    </div>
+    <div class="tl-item">
+      <h4>③ 講義複習（10分鐘）</h4>
+      <p>閱讀相關課題嘅霖楓陷阱教學講義</p>
+    </div>
+    <div class="tl-item">
+      <h4>④ Boss挑戰（10分鐘）</h4>
+      <p>打敗對應陷阱嘅Boss，驗證掌握程度</p>
+    </div>
+    <div class="tl-item">
+      <h4>⑤ 重新診斷（10分鐘）</h4>
+      <p>再測一次睇進步 — AI會自動調整難度</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AI PARENT REPORT ═══ -->
+<div class="card">
+  <h2><span class="icon">📋</span>AI 家長報告生成器</h2>
+  <p style="font-size:11px;color:var(--g600);margin-bottom:12px">一鍵生成自然語言學習總結，可直接發送給家長</p>
+  <div class="ai-report" id="parentReport">
+    <h3>🤖 AI自動生成 · 學習總結</h3>
+    <div class="report-text" id="reportContent">
+      <p>👋 尚未有足夠嘅學習數據。</p>
+      <p>請先完成 <span class="report-highlight">AI陷阱診斷</span> 同至少一次練習，AI就可以為你生成詳細嘅學習報告！</p>
+    </div>
+    <button onclick="generateReport()" class="btn" style="margin-top:12px;width:100%;padding:12px;border:none;border-radius:25px;background:var(--b);color:white;font-size:14px;font-weight:700;cursor:pointer">🪄 生成AI報告</button>
+    <button onclick="copyReport()" class="btn" style="margin-top:8px;width:100%;padding:10px;border:2px solid var(--g200);border-radius:25px;background:white;color:var(--b);font-size:13px;cursor:pointer">📋 複製報告（發送畀家長）</button>
+  </div>
+</div>
+
+</div>
+
+<a href="ai-diagnostic.html" class="fab" title="開始AI診斷">🔬</a>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<script src="/docs/data/lf-whatsapp.js"></script>
+<script>
+// ═══════════════════════════════════════
+// AI SMART LEARNING HUB ENGINE
+// ═══════════════════════════════════════
+
+var currentGrade = 'P5';
+
+function switchGrade(g){
+  currentGrade = g;
+  document.querySelectorAll('.grade-tab').forEach(function(t){t.classList.remove('active');});
+  event.target.classList.add('active');
+  loadProgress();
+}
+
+function loadProgress(){
+  // Load from gamification engine
+  var saved = null;
+  try{ saved = JSON.parse(localStorage.getItem('lf_gamification')); }catch(e){}
+  
+  var stats = document.getElementById('statsGrid');
+  var totalQ = saved?.(saved.totalQuestions||0):0;
+  var accuracy = saved&&saved.totalQuestions>0?Math.round(saved.totalCorrect/saved.totalQuestions*100):0;
+  var streak = saved?.(saved.currentStreak||0):0;
+  var bossDefeats = saved?Object.keys(saved.bossDefeats||{}).length:0;
+  var trapDefeats = saved?Object.values(saved.trapDefeats||{}).reduce(function(a,b){return a+b;},0):0;
+  
+  stats.innerHTML = 
+    '<div class="stat-box"><div class="stat-num">'+totalQ+'</div><div class="stat-label">總練習題</div></div>'+
+    '<div class="stat-box '+(accuracy>=70?'up':accuracy<40?'down':'')+'"><div class="stat-num">'+accuracy+'%</div><div class="stat-label">正確率</div></div>'+
+    '<div class="stat-box up"><div class="stat-num">'+streak+'</div><div class="stat-label">連續天數</div></div>';
+  
+  document.getElementById('lastUpdate').textContent = 
+    saved?.lastActiveDate?'更新：'+new Date(saved.lastActiveDate).toLocaleDateString('zh-HK'):'';
+  
+  // Update recommendations based on data
+  updateRecommendations(saved);
+}
+
+function updateRecommendations(data){
+  var recs = document.getElementById('recommendations');
+  if(!data || !data.totalQuestions || data.totalQuestions<5){
+    // Default: guide to diagnosis first
+    return; // Keep default HTML
+  }
+  
+  // Find weakest traps
+  var trapDefeats = data.trapDefeats || {};
+  var weakest = null, weakestVal = 999;
+  var trapNames = {T1:'進退位',T2:'單位換算',T3:'運算順序',T4:'漏寫0',T5:'分數',T6:'百分數',T7:'應用題',T8:'圖形',T9:'時間',T10:'方程'};
+  
+  for(var t in trapDefeats){
+    if(trapDefeats[t] < weakestVal){weakestVal=trapDefeats[t];weakest=t;}
+  }
+  
+  var weakName = weakest?trapNames[weakest]||weakest:'';
+  
+  recs.innerHTML = 
+    '<div class="rec-card" onclick="location.href=\'trap-quiz.html?trap='+weakest+'&grade='+currentGrade+'\'">'+
+    '<span class="rec-icon">🎯</span>'+
+    '<div class="rec-body"><h4>最弱課題：'+weakName+'陷阱</h4><p>AI建議優先練習呢個課題</p></div>'+
+    '<span class="rec-badge urgent">優先改善</span></div>'+
+    '<div class="rec-card" onclick="location.href=\'kids-boss-battle.html\'">'+
+    '<span class="rec-icon">⚔️</span>'+
+    '<div class="rec-body"><h4>已打敗 '+Object.keys(data.bossDefeats||{}).length+'/10 Boss</h4><p>繼續挑戰解鎖新技能！</p></div>'+
+    '<span class="rec-badge recommend">推薦</span></div>'+
+    '<div class="rec-card" onclick="location.href=\'ai-diagnostic.html\'">'+
+    '<span class="rec-icon">🔬</span>'+
+    '<div class="rec-body"><h4>重新AI診斷</h4><p>上次診斷後已做'+data.totalQuestions+'題，重新測試睇進步</p></div>'+
+    '<span class="rec-badge recommend">推薦</span></div>';
+}
+
+function generateReport(){
+  var saved = null;
+  try{ saved = JSON.parse(localStorage.getItem('lf_gamification')); }catch(e){}
+  
+  var report = document.getElementById('reportContent');
+  
+  if(!saved || !saved.totalQuestions || saved.totalQuestions<5){
+    report.innerHTML = 
+      '<p>⚠️ 數據不足，未能生成完整報告。</p>'+
+      '<p>請先完成 <span class="report-highlight">AI陷阱診斷</span>（10題）同至少一次練習。</p>'+
+      '<p>做完之後再返嚟，AI就會自動生成詳細報告！</p>';
+    return;
+  }
+  
+  var totalQ = saved.totalQuestions||0;
+  var accuracy = saved.totalQuestions>0?Math.round(saved.totalCorrect/saved.totalQuestions*100):0;
+  var streak = saved.currentStreak||0;
+  var bossDefeats = Object.keys(saved.bossDefeats||{}).length;
+  var level = saved.level||1;
+  var trapDefeats = saved.trapDefeats||{};
+  var totalTrapKills = Object.values(trapDefeats).reduce(function(a,b){return a+b;},0);
+  
+  var levelDesc = accuracy>=85?'非常好 👍':accuracy>=70?'唔錯 🙂':accuracy>=55?'需要努力 💪':'需要重點改善 🎯';
+  var streakMsg = streak>=7?'連續學習表現優異！':streak>=3?'保持良好學習習慣。':'建議建立每日練習習慣。';
+  var bossMsg = bossDefeats>=5?'已掌握多個課題，表現出色！':bossDefeats>=2?'穩步進步中，繼續努力！':'建議多挑戰Boss以鞏固所學。';
+  
+  var now = new Date();
+  var dateStr = now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日';
+  
+  report.innerHTML = 
+    '<p>📅 報告生成日期：<b>'+dateStr+'</b></p>'+
+    '<p>━━━━━━━━━━━━━━━━</p>'+
+    '<p>📊 <b>總練習量：</b>'+totalQ+'題 | <b>正確率：</b>'+accuracy+'% | <b>等級：</b>Lv.'+level+'</p>'+
+    '<p>🔥 <b>連續學習：</b>'+streak+'天 — '+streakMsg+'</p>'+
+    '<p>⚔️ <b>Boss擊敗：</b>'+bossDefeats+'/10 — '+bossMsg+'</p>'+
+    '<p>🪤 <b>陷阱迴避：</b>共避開 '+totalTrapKills+' 次陷阱</p>'+
+    '<p>━━━━━━━━━━━━━━━━</p>'+
+    '<p>💡 <b>AI綜合評估：</b>'+levelDesc+'</p>'+
+    '<p style="font-size:11px;color:var(--g600);margin-top:8px">🤖 此報告由霖楓AI自動生成 · 基於遊戲化引擎數據</p>';
+}
+
+function copyReport(){
+  var content = document.getElementById('reportContent').innerText;
+  navigator.clipboard.writeText(content).then(function(){
+    alert('✅ 報告已複製！可以貼上WhatsApp發送畀家長。');
+  }).catch(function(){
+    prompt('手動複製：', content);
+  });
+}
+
+// Init
+loadProgress();
+if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js")}
+</script>
+</body>
+</html>
+
+
+
+

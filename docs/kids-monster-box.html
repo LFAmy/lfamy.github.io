@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 怪獸圖鑑</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(180deg,#0A1A35 0%,#1A3C6D 40%,#1E4D8C 100%);color:white;min-height:100vh;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{text-align:center;padding:30px 20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:28px;margin-bottom:4px}
+.header .sub{font-size:13px;color:rgba(255,255,255,0.5)}
+.stats-row{display:flex;justify-content:center;gap:20px;margin:16px 0;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-item .val{font-size:28px;font-weight:900;color:#C9A84C}
+.stat-item .label{font-size:10px;color:rgba(255,255,255,0.4)}
+.monster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:16px}
+.monster-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px;text-align:center;transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden}
+.monster-card:hover{transform:translateY(-4px);background:rgba(255,255,255,0.08)}
+.monster-card.captured{border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.08)}
+.monster-card.evolved{border-color:rgba(201,168,76,0.7);background:rgba(201,168,76,0.12);box-shadow:0 0 20px rgba(201,168,76,0.2)}
+.monster-card.locked{opacity:0.35;filter:grayscale(1)}
+.monster-card .emoji{font-size:48px;margin-bottom:6px;transition:all 0.3s}
+.monster-card.captured .emoji{animation:float 2s ease-in-out infinite}
+.monster-card .name{font-weight:900;font-size:11px;margin-bottom:2px}
+.monster-card .stage{font-size:9px;color:#C9A84C;margin-bottom:4px}
+.monster-card .count{font-size:9px;color:rgba(255,255,255,0.3)}
+.monster-card .evo-bar{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:8px;overflow:hidden}
+.monster-card .evo-fill{height:100%;background:#C9A84C;transition:width 0.5s;border-radius:2px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.evo-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center}
+.evo-modal.show{display:flex}
+.evo-content{background:#1A3C6D;border:2px solid #C9A84C;border-radius:20px;padding:30px;text-align:center;max-width:360px;width:90%}
+.evo-content .big-emoji{font-size:80px;animation:bounce 0.5s ease-out}
+.evo-content h2{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:20px;color:#C9A84C;margin:12px 0}
+.evo-content .evo-text{font-size:13px;line-height:1.8;margin:8px 0}
+@keyframes bounce{0%{transform:scale(0);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.btn{display:inline-block;padding:10px 24px;border-radius:20px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;background:#C9A84C;color:#1A3C6D;margin:6px}
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>怪獸圖鑑</h1>
+<div class="sub" id="collectionStats"></div>
+<div class="stats-row">
+<div class="stat-item"><div class="val" id="statMonsters">0</div><div class="label">已收集</div></div>
+<div class="stat-item"><div class="val" id="statEvolved">0</div><div class="label">完全體</div></div>
+<div class="stat-item"><div class="val" id="statDefeats">0</div><div class="label">總擊敗數</div></div>
+</div>
+</div>
+<div class="monster-grid" id="monsterGrid"></div>
+<div style="text-align:center;margin:16px 0">
+<button class="btn" onclick="window.location.href="kids-mode.html"">← 返回冒險</button>
+</div>
+</div>
+
+<div class="evo-modal" id="evoModal"><div class="evo-content" id="evoContent"></div></div>
+
+<script src="/docs/data/gamification-engine.js"></script>
+<script>
+LFG.init();
+
+function renderMonsters(){
+  var grid = document.getElementById('monsterGrid');
+  var html = '';
+  var captured = 0, evolved = 0, totalDefeats = 0;
+  var traps = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+
+  traps.forEach(function(t) {
+    var def = LFG.monsters[t];
+    var stage = LFG._state.monsterStages[t] || 0;
+    var defeats = LFG._state.trapDefeats[t] || 0;
+    totalDefeats += defeats;
+    var locked = stage < 1;
+    if (stage >= 1) captured++;
+    if (stage >= 3) evolved++;
+
+    var thresholds = [10, 30, 50];
+    var nextThresh = thresholds[stage] || 50;
+    var progress = Math.min(1, defeats / nextThresh);
+    var emoji = stage > 0 ? def.stages[Math.min(stage - 1, 2)] : '❓';
+
+    html += '<div class="monster-card' + (stage >= 3 ? ' evolved' : stage >= 1 ? ' captured' : ' locked') + '" onclick="showMonster(\'' + t + '\')">';
+    html += '<div class="emoji">' + emoji + '</div>';
+    html += '<div class="name">' + (locked ? '???' : def.name) + '</div>';
+    html += '<div class="stage">' + (stage === 0 ? '未發現' : stage === 1 ? '幼體' : stage === 2 ? '成長體' : '完全體 ⭐') + '</div>';
+    html += '<div class="count">擊敗 ' + defeats + ' 次</div>';
+    html += '<div class="evo-bar"><div class="evo-fill" style="width:' + (progress * 100) + '%"></div></div>';
+    html += '</div>';
+  });
+
+  grid.innerHTML = html;
+  document.getElementById('statMonsters').textContent = captured + '/10';
+  document.getElementById('statEvolved').textContent = evolved;
+  document.getElementById('statDefeats').textContent = totalDefeats;
+  document.getElementById('collectionStats').textContent = (captured >= 10 ? '🏆 全集齊！陷阱大師！' : '擊敗陷阱怪獸收集佢哋！');
+}
+
+function showMonster(trapType) {
+  var def = LFG.monsters[trapType];
+  var stage = LFG._state.monsterStages[trapType] || 0;
+  var defeats = LFG._state.trapDefeats[trapType] || 0;
+  var emoji = stage > 0 ? def.stages[Math.min(stage - 1, 2)] : '❓';
+  var stageName = stage === 0 ? '未發現' : stage === 1 ? '幼體' : stage === 2 ? '成長體' : '完全體 ⭐';
+  var nextThresh = [10, 30, 50][Math.min(stage, 2)];
+
+  var html = '<div class="big-emoji">' + emoji + '</div>';
+  html += '<h2>' + (stage > 0 ? def.name : '???') + '</h2>';
+  html += '<div class="evo-text">';
+  html += '階段：<b>' + stageName + '</b><br>';
+  html += '已擊敗：<b>' + defeats + ' 次</b><br>';
+  if (stage < 3) {
+    html += '下次進化：擊敗 <b>' + nextThresh + '</b> 次<br>';
+    html += '進度：' + Math.round(Math.min(1, defeats / nextThresh) * 100) + '%';
+  } else {
+    html += '🏆 已達完全體！';
+  }
+  html += '</div>';
+  html += '<button class="btn" onclick="document.getElementById(\'evoModal\').classList.remove(\'show\')">關閉</button>';
+
+  document.getElementById('evoContent').innerHTML = html;
+  document.getElementById('evoModal').classList.add('show');
+}
+
+renderMonsters();
+// Listen for evolution events
+LFG.on('monster_evolve', function(data) {
+  showEvolutionAnimation(data.trap, data.stage);
+  setTimeout(renderMonsters, 1500);
+});
+
+function showEvolutionAnimation(trap, stage) {
+  var def = LFG.monsters[trap];
+  var emoji = def.stages[stage - 1];
+  var modal = document.getElementById('evoModal');
+  var html = '<div class="big-emoji" style="animation:bounce 1s ease-out">' + emoji + '</div>';
+  html += '<h2>怪獸進化！</h2>';
+  html += '<div class="evo-text"><b>' + def.name + '</b> 進化到 <b>' + (stage===1?'幼體':stage===2?'成長體':'完全體⭐') + '</b>！</div>';
+  html += '<button class="btn" onclick="document.getElementById(\'evoModal\').classList.remove(\'show\')">太棒了！</button>';
+  document.getElementById('evoContent').innerHTML = html;
+  modal.classList.add('show');
+  setTimeout(function() { modal.classList.remove('show'); }, 3000);
+}
+</script>
+</body></html>

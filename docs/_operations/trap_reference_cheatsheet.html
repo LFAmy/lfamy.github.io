@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · T1-T10 陷阱參考速查表 | Trap Reference Cheatsheet</title>
+<style>
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans HK",sans-serif}
+  :root {
+    --blue: #1A3C6D;
+    --gold: #C9A84C;
+    --red: #DC2626;
+    --green: #16A34A;
+    --bg: #FFFDF7;
+    --card: #FFFFFF;
+    --text: #1A1A1A;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --t1: #3B82F6;
+    --t2: #8B5CF6;
+    --t3: #EC4899;
+    --t4: #F59E0B;
+    --t5: #10B981;
+    --t6: #6366F1;
+    --t7: #EF4444;
+    --t8: #14B8A6;
+    --t9: #F97316;
+    --t10: #84CC16;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Noto Sans HK', 'Microsoft JhengHei', sans-serif;
+    background: #F5F5F5;
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 13px;
+  }
+
+  .page {
+    width: 297mm; /* A4 landscape */
+    min-height: 210mm;
+    margin: 15px auto;
+    background: white;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+    padding: 0;
+    page-break-after: always;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: linear-gradient(160deg, var(--blue) 0%, #0D2447 60%, #0A1A35 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30mm 40mm;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 350px; height: 350px;
+    border: 3px solid rgba(201,168,76,0.15);
+    border-radius: 50%;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    border: 3px solid rgba(201,168,76,0.1);
+    border-radius: 50%;
+  }
+  .cover-academy {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .cover-title {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.25;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-subtitle {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    margin: 12px 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-tagline {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--blue);
+    padding: 7px 24px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .cover-trap-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px 16px;
+    margin-top: 30px;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+    font-size: 11px;
+  }
+  .cover-trap-grid div {
+    padding: 6px 10px;
+    border-left: 2px solid var(--gold);
+  }
+
+  /* ── TRAP PAGE (Landscape) ── */
+  .trap-page {
+    padding: 10mm 14mm;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .trap-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--blue);
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+  }
+  .trap-page-header .brand {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--blue);
+  }
+  .trap-page-header .brand span {
+    color: var(--gold);
+    font-size: 11px;
+    margin-left: 8px;
+  }
+  .trap-page-header .tagline-header {
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ── TRAP CONTENT ── */
+  .trap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+    flex: 1;
+  }
+  .trap-card {
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: white;
+  }
+  .trap-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .trap-icon-box {
+    width: 42px; height: 42px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .trap-card-header h3 {
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  .trap-card-header .sspa-badge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+  .sspa-high { background: #FEE2E2; color: #991B1B; }
+  .sspa-mid { background: #FEF3C7; color: #92400E; }
+
+  .trap-error-box {
+    background: #FEF2F2;
+    border-left: 3px solid var(--red);
+    padding: 6px 10px;
+    border-radius: 0 4px 4px 0;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .trap-error-box strong { color: var(--red); }
+
+  .trap-correct-box {
+    background: #F0FDF4;
+    border-left: 3px solid var(--green);
+    padding: 6px 10px;
+    border-radius: 0 4px 4px 0;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .trap-correct-box strong { color: var(--green); }
+
+  .trap-example {
+    display: flex;
+    gap: 10px;
+    font-size: 11px;
+  }
+  .trap-example .wrong {
+    flex: 1;
+    padding: 6px 8px;
+    border-radius: 4px;
+    background: #FEF2F2;
+    border: 1px dashed var(--red);
+  }
+  .trap-example .right {
+    flex: 1;
+    padding: 6px 8px;
+    border-radius: 4px;
+    background: #F0FDF4;
+    border: 1px dashed var(--green);
+  }
+  .trap-example .label {
+    font-size: 9px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .trap-example .label.wrong-label { color: var(--red); }
+  .trap-example .label.right-label { color: var(--green); }
+
+  .trap-mantra {
+    background: var(--blue);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: auto;
+  }
+
+  .qr-placeholder {
+    width: 36px; height: 36px;
+    background: #F3F4F6;
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7px;
+    color: var(--muted);
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* ── 2-PAGE CONDENSED (all 10 on 1 double-sided) ── */
+  .condensed-page {
+    padding: 8mm 10mm;
+  }
+  .condensed-header {
+    text-align: center;
+    margin-bottom: 6px;
+    border-bottom: 2px solid var(--blue);
+    padding-bottom: 4px;
+  }
+  .condensed-header h2 {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--blue);
+  }
+  .condensed-header .sub {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .condensed-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px 10px;
+  }
+  .condensed-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 10px;
+    background: white;
+    page-break-inside: avoid;
+  }
+  .condensed-card h4 {
+    font-size: 10.5px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  .condensed-card .dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .condensed-card .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 9.5px;
+    line-height: 1.5;
+  }
+  .condensed-card .row .err { color: var(--red); min-width: 80px; }
+  .condensed-card .row .fix { color: var(--green); }
+  .condensed-card .motto {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-top: 3px;
+    padding-top: 3px;
+    border-top: 1px dotted var(--border);
+    text-align: center;
+  }
+
+  /* ── BACK PAGE (condensed all 10) ── */
+  .back-cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20mm;
+    text-align: center;
+  }
+
+  @media print {
+    body { background: white; margin: 0; }
+    .page {
+      width: 297mm;
+      min-height: 210mm;
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+  }
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ COVER PAGE ═══════════ -->
+<div class="page cover">
+  <div class="cover-academy">霖楓學苑 · LF Academy</div>
+  <div class="cover-title">T1-T10<br>陷阱參考速查表</div>
+  <div class="cover-subtitle">Trap Reference Cheatsheet &middot; P3-P6 SSPA</div>
+  <div class="cover-tagline">不教數學，教避開陷阱。</div>
+  <div class="cover-trap-grid">
+    <div><strong>T1</strong> 單位與進位</div>
+    <div><strong>T2</strong> 小數點</div>
+    <div><strong>T3</strong> 運算次序</div>
+    <div><strong>T4</strong> 面積公式混淆</div>
+    <div><strong>T5</strong> 幾何圖形混淆</div>
+    <div><strong>T6</strong> 分數陷阱</div>
+    <div><strong>T7</strong> 百分數陷阱</div>
+    <div><strong>T8</strong> 速率陷阱</div>
+    <div><strong>T9</strong> 方程陷阱</div>
+    <div><strong>T10</strong> 統計圖表陷阱</div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 1: T1-T6 (6 traps, 3x2 grid) ═══════════ -->
+<div class="page">
+  <div class="trap-page">
+    <div class="trap-page-header">
+      <div class="brand">🪤 T1-T6 陷阱速查 <span>霖楓學苑</span></div>
+      <div class="tagline-header">不教數學，教避開陷阱。&nbsp; &nbsp; 打印張貼 · 課室/書枱適用</div>
+    </div>
+
+    <div class="trap-grid" style="grid-template-columns:1fr 1fr 1fr;">
+
+      <!-- T1 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t1);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t1);">T1</div>
+          <div>
+            <h3>單位與進位</h3>
+            <span class="sspa-badge sspa-high">🔴 SSPA 高頻</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>唔同單位直接加減乘除。見到「公里」同「米」一齊出現冇轉換就計。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>先統一單位（全部轉成同一單位），然後先開始計算。
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            1.2 km × 800 m<br>= 960<br>❌ 單位混亂
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            1.2 km × 0.8 km<br>= 0.96 km²<br>✅ 統一為 km
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「先轉單位後計算，唔轉單位必錯硬！」</div>
+      </div>
+
+      <!-- T2 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t2);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t2);">T2</div>
+          <div>
+            <h3>小數點</h3>
+            <span class="sspa-badge sspa-high">🔴 SSPA 高頻</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>小數乘法/除法後點錯小數位。0.5 × 0.4 以為等於 2。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>乘法：先當整數計，再數總小數位數點返。除法：將除數變成整數，被除數同時移位。
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            0.5 × 0.4<br>= 2<br>❌ 當成 5×4=20 點錯
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            5 × 4 = 20<br>兩個數共 2 個小數位<br>= 0.20 = 0.2 ✅
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「小數相乘數位數，小數相除移小數！」</div>
+      </div>
+
+      <!-- T3 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t3);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t3);">T3</div>
+          <div>
+            <h3>運算次序</h3>
+            <span class="sspa-badge sspa-high">🔴 SSPA 高頻</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>由左至右順序計，忽略咗「乘除優先於加減」嘅規則。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>（括號）→ 指數 → 乘除（左至右）→ 加減（左至右）。
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            8 + 4 × 3<br>= 12 × 3 = 36<br>❌ 先加後乘
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            8 + 4 × 3<br>= 8 + 12<br>= 20 ✅
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「先乘除後加減，有括號最優先！」</div>
+      </div>
+
+      <!-- T4 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t4);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t4);">T4</div>
+          <div>
+            <h3>面積公式混淆</h3>
+            <span class="sspa-badge sspa-high">🔴 SSPA 必考</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>三角形唔記得÷2；梯形用咗斜邊當高；平行四邊形用咗斜邊。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>
+          正方形/長方形 = 長×闊<br>
+          平行四邊形 = 底×高<br>
+          三角形 = 底×高÷2<br>
+          梯形 = (上底+下底)×高÷2
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            ▲ 底8高5<br>= 8×5 = 40 cm²<br>❌ 唔記得÷2
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            ▲ 底8高5<br>= 8×5÷2<br>= 20 cm² ✅
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「底乘高係平行四邊，底乘高除二係三角！」</div>
+      </div>
+
+      <!-- T5 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t5);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t5);">T5</div>
+          <div>
+            <h3>幾何圖形混淆</h3>
+            <span class="sspa-badge sspa-mid">🟡 SSPA 中高頻</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>混淆正方形/菱形/長方形/平行四邊形嘅從屬關係。以為所有菱形都係正方形。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>
+          正方形 ⊂ 菱形 ⊂ 平行四邊形<br>
+          正方形 ⊂ 長方形 ⊂ 平行四邊形<br>
+          菱形 = 四邊相等；正方形 = 菱形 + 直角
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            「所有菱形都係正方形」<br>❌ 錯！菱形可以冇直角
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            正方形一定係菱形<br>
+            菱形唔一定係正方形<br>
+            ✅ 關鍵：有冇直角？
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「正方形係菱形加直角，長方形係平行四邊加直角！」</div>
+      </div>
+
+      <!-- T6 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t6);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t6);">T6</div>
+          <div>
+            <h3>分數陷阱</h3>
+            <span class="sspa-badge sspa-high">🔴 SSPA 高頻</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>分子分母各自加；分數乘法當加法做；「剩餘」計錯基準量。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>
+          加減 → 先通分母<br>
+          乘 → 分子×分子 / 分母×分母<br>
+          文字題 → 搵出「基準量」
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            1/2 + 1/3<br>= 2/5<br>❌ 分子分母各自加
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            1/2 + 1/3<br>= 3/6 + 2/6<br>= 5/6 ✅
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「加減先通分，乘除直接計，文字題搵基準！」</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 2: T7-T10 + condensed all 10 ═══════════ -->
+<div class="page">
+  <div class="trap-page">
+    <div class="trap-page-header">
+      <div class="brand">🪤 T7-T10 陷阱速查 <span>霖楓學苑</span></div>
+      <div class="tagline-header">不教數學，教避開陷阱。&nbsp; &nbsp; 打印張貼 · 課室/書枱適用</div>
+    </div>
+
+    <div class="trap-grid" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+
+      <!-- T7 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t7);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t7);">T7</div>
+          <div>
+            <h3>百分數陷阱</h3>
+            <span class="sspa-badge sspa-high">🔴 SSPA 必考</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>折扣計錯（八折 = ×0.8 唔係 ÷0.8）；加減百分數用錯基準量；連續折扣以為可以相加。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>
+          原價 × 折扣 = 售價<br>
+          加價後再折扣 → 用新價計<br>
+          還原 → 除返對應百分數
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            加價20%後$360<br>九折 = $360×0.9<br>❌ 等於原價$300打九折？錯！
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            加價20%後 = $360<br>九折 = $360×0.9<br>= $324 ✅
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「原價乘折扣等於售價，加價後折扣用新價！」</div>
+      </div>
+
+      <!-- T8 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t8);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t8);">T8</div>
+          <div>
+            <h3>速率陷阱</h3>
+            <span class="sspa-badge sspa-mid">🟡 SSPA 中高頻</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>平均速率 = 速率嘅平均值（錯！）。來回唔同速率，直接加埋÷2。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>
+          平均速率 = 總距離 ÷ 總時間<br>
+          來回題：假設距離 d，去程時間+回程時間 = 總時間
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            去4km/h 回6km/h<br>平均=(4+6)÷2<br>= 5 km/h ❌ 錯！
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            設距離=d<br>總時間=d/4+d/6<br>平均=2d÷(d/4+d/6)<br>= 4.8 km/h ✅
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「平均速率唔係平均，總距離除總時間！」</div>
+      </div>
+
+      <!-- T9 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t9);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t9);">T9</div>
+          <div>
+            <h3>方程陷阱</h3>
+            <span class="sspa-badge sspa-mid">🟡 SSPA 中高頻</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>移項時正負號搞錯；展開括號漏乘；逆運算次序混亂（應由最後一步開始反做）。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>
+          1. 先拆括號<br>
+          2. 同類項放同一邊（移項要變號）<br>
+          3. 文字題：由最後一步開始逆運算
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            3(x−4) = 2x+2<br>3x−4 = 2x+2<br>❌ 展開漏乘第二項
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            3(x−4) = 2x+2<br>3x−12 = 2x+2<br>3x−2x = 2+12<br>x = 14 ✅
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「移項要變號，展開要乘晒，逆運算倒轉做！」</div>
+      </div>
+
+      <!-- T10 -->
+      <div class="trap-card" style="border-top: 4px solid var(--t10);">
+        <div class="trap-card-header">
+          <div class="trap-icon-box" style="background:var(--t10);">T10</div>
+          <div>
+            <h3>統計圖表陷阱</h3>
+            <span class="sspa-badge sspa-mid">🟡 SSPA 中高頻</span>
+          </div>
+          <div class="qr-placeholder">掃碼睇<br>動畫</div>
+        </div>
+        <div class="trap-error-box">
+          <strong>❌ 最常見錯誤：</strong>睇錯刻度/軸嘅起點；計咗平均數當成中位數；圓形圖剩餘計錯。
+        </div>
+        <div class="trap-correct-box">
+          <strong>✅ 正確做法：</strong>
+          1. 先睇圖例/標籤 → 確認每個數據代表咩<br>
+          2. 對準刻度 → 唔好假設一格 = 1<br>
+          3. 中位數 = 排序後中間嗰個（唔係平均數！）
+        </div>
+        <div class="trap-example">
+          <div class="wrong">
+            <div class="label wrong-label">❌ 常見錯誤</div>
+            數據:10,8,14,12,20,18<br>中位數 = 加晒÷6<br>= 13.7 ❌ 呢個係平均數！
+          </div>
+          <div class="right">
+            <div class="label right-label">✅ 正確做法</div>
+            排序:8,10,12,14,18,20<br>6個數→取第3&4平均<br>= (12+14)÷2<br>= 13 ✅
+          </div>
+        </div>
+        <div class="trap-mantra">🧠「先睇圖例辨花紋，再搵月份對位置，水平拉線讀刻度！」</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 3: CONDENSED ALL 10 (double-sided reference) ═══════════ -->
+<div class="page">
+  <div class="trap-page">
+    <div class="trap-page-header">
+      <div class="brand">📋 T1-T10 全部陷阱一覽（雙面打印版）<span>霖楓學苑</span></div>
+      <div class="tagline-header">不教數學，教避開陷阱。&nbsp; &nbsp; 適合：學生書枱墊板 · 快速查閱</div>
+    </div>
+
+    <div class="condensed-grid" style="grid-template-columns: repeat(2, 1fr);">
+
+      <div class="condensed-card" style="border-left:4px solid var(--t1);">
+        <h4><span class="dot" style="background:var(--t1);"></span> T1 單位與進位 🔴 SSPA 高頻</h4>
+        <div class="row">
+          <div class="err">❌ 唔同單位直接計</div>
+          <div class="fix">✅ 先統一單位，然後先開始計算</div>
+        </div>
+        <div class="motto">🧠「先轉單位後計算，唔轉單位必錯硬！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t2);">
+        <h4><span class="dot" style="background:var(--t2);"></span> T2 小數點 🔴 SSPA 高頻</h4>
+        <div class="row">
+          <div class="err">❌ 小數乘除後點錯位</div>
+          <div class="fix">✅ 乘：先當整數，再數總小數位。除：除數變整數</div>
+        </div>
+        <div class="motto">🧠「小數相乘數位數，小數相除移小數！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t3);">
+        <h4><span class="dot" style="background:var(--t3);"></span> T3 運算次序 🔴 SSPA 高頻</h4>
+        <div class="row">
+          <div class="err">❌ 由左至右順序計</div>
+          <div class="fix">✅ 括號→指數→乘除→加減</div>
+        </div>
+        <div class="motto">🧠「先乘除後加減，有括號最優先！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t4);">
+        <h4><span class="dot" style="background:var(--t4);"></span> T4 面積公式混淆 🔴 SSPA 必考</h4>
+        <div class="row">
+          <div class="err">❌ ▲忘÷2 / 梯形用斜邊</div>
+          <div class="fix">✅ ▲=底×高÷2 / 梯形=(上+下)×高÷2</div>
+        </div>
+        <div class="motto">🧠「底乘高係平行四邊，底乘高除二係三角！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t5);">
+        <h4><span class="dot" style="background:var(--t5);"></span> T5 幾何圖形混淆 🟡 SSPA 中高頻</h4>
+        <div class="row">
+          <div class="err">❌ 混淆圖形從屬關係</div>
+          <div class="fix">✅ 正方形⊂菱形⊂平行四邊形。關鍵：直角？等邊？</div>
+        </div>
+        <div class="motto">🧠「正方形係菱形加直角，長方形係平行四邊加直角！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t6);">
+        <h4><span class="dot" style="background:var(--t6);"></span> T6 分數陷阱 🔴 SSPA 高頻</h4>
+        <div class="row">
+          <div class="err">❌ 分子分母各自加 / 基準量錯</div>
+          <div class="fix">✅ 加減先通分。文字題搵出「基準量」先計</div>
+        </div>
+        <div class="motto">🧠「加減先通分，乘除直接計，文字題搵基準！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t7);">
+        <h4><span class="dot" style="background:var(--t7);"></span> T7 百分數陷阱 🔴 SSPA 必考</h4>
+        <div class="row">
+          <div class="err">❌ 折扣計錯 / 基準量混亂</div>
+          <div class="fix">✅ 原價×折扣=售價。連續%→每次用新基準</div>
+        </div>
+        <div class="motto">🧠「原價乘折扣等於售價，加價後折扣用新價！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t8);">
+        <h4><span class="dot" style="background:var(--t8);"></span> T8 速率陷阱 🟡 SSPA 中高頻</h4>
+        <div class="row">
+          <div class="err">❌ 平均速率≠速率平均</div>
+          <div class="fix">✅ 平均速率=總距離÷總時間</div>
+        </div>
+        <div class="motto">🧠「平均速率唔係平均，總距離除總時間！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t9);">
+        <h4><span class="dot" style="background:var(--t9);"></span> T9 方程陷阱 🟡 SSPA 中高頻</h4>
+        <div class="row">
+          <div class="err">❌ 移項正負號錯 / 展開漏乘</div>
+          <div class="fix">✅ 移項要變號。展開括號要乘晒每一項</div>
+        </div>
+        <div class="motto">🧠「移項要變號，展開要乘晒，逆運算倒轉做！」</div>
+      </div>
+
+      <div class="condensed-card" style="border-left:4px solid var(--t10);">
+        <h4><span class="dot" style="background:var(--t10);"></span> T10 統計圖表陷阱 🟡 SSPA 中高頻</h4>
+        <div class="row">
+          <div class="err">❌ 睇錯刻度 / 中位數當平均</div>
+          <div class="fix">✅ 先對刻度。中位數=排序中間值（非平均數）</div>
+        </div>
+        <div class="motto">🧠「先睇圖例辨花紋，再搵月份對位置，水平拉線讀刻度！」</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ BACK PAGE ═══════════ -->
+<div class="page back-cover" style="background:var(--blue);color:white;">
+  <div style="font-size:28px;font-weight:900;margin-bottom:8px;">霖楓學苑</div>
+  <div style="font-size:14px;color:var(--gold);margin-bottom:20px;">LF Academy &middot; 不教數學，教避開陷阱。</div>
+  <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:2;">
+    呢份速查表涵蓋 P3-P6 SSPA 最常見嘅 T1-T10 陷阱類型。<br>
+    建議打印貼喺書枱前面，每次做功課前望一望 —<br>
+    習慣咗就唔會再中招。
+  </div>
+  <div style="margin-top:24px;font-size:10px;color:rgba(255,255,255,0.4);line-height:2;">
+    &copy; 2026 霖楓學苑 · LF Academy &nbsp;|&nbsp; www.lamfung.edu.hk<br>
+    掃碼睇每種陷阱嘅動畫解說 &nbsp;|&nbsp; 查詢/報名：WhatsApp +852 9479 6459
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang=\"zh-HK\">
+<head>
+<meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">
+<title>霖楓學苑 · 教案模板</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:13px;line-height:1.7;padding:20px}
+.container{max-width:700px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.header h1{font-size:20px}.header .sub{font-size:11px;opacity:0.6}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px}
+label{display:block;font-size:11px;color:#6B7280;font-weight:700;margin:10px 0 4px}
+input,select,textarea{padding:10px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;width:100%;font-family:inherit}
+textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#1A3C6D;outline:none}
+.btn{display:block;width:100%;padding:14px;border-radius:25px;font-weight:900;font-size:15px;cursor:pointer;border:none;text-align:center;margin:12px 0;transition:all 0.15s}
+.btn-primary{background:#1A3C6D;color:white}.btn-primary:hover{background:#1E4D8C}
+.btn-green{background:#16A34A;color:white}
+.btn-outline{background:white;border:2px solid #E5E7EB;color:#1A3C6D}
+.trap-select{display:flex;gap:6px;flex-wrap:wrap}
+.trap-tag{padding:6px 12px;border:2px solid #E5E7EB;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.trap-tag.selected{background:#FEE2E2;border-color:#DC2626;color:#DC2626}
+.preview-box{background:#F9FAFB;border-radius:10px;padding:16px;margin:12px 0;font-size:12px;line-height:2}
+.success-msg{background:#D1FAE5;color:#065F46;padding:16px;border-radius:10px;text-align:center;display:none}
+.success-msg.show{display:block}
+.template-list{margin:8px 0}
+.template-item{padding:10px;background:#F9FAFB;border-radius:8px;margin:6px 0;cursor:pointer;transition:all 0.2s;border:1px solid #E5E7EB}
+.template-item:hover{border-color:#C9A84C;background:#FFFDF5}
+.template-item .t-name{font-weight:900;color:#1A3C6D}
+.template-item .t-desc{font-size:11px;color:#6B7280}
+@media(max-width:500px){.trap-select{gap:4px}.trap-tag{padding:4px 8px;font-size:10px}}
+</style>
+</head>
+<body>
+
+<div class=\"container\">
+
+<div class=\"header\">
+<h1>📝 霖楓學苑 · 教案生成器</h1>
+<div class=\"sub\">填入資料 → 一鍵生成標準化教案</div>
+</div>
+
+<div id=\"formArea\">
+
+<div class=\"card\">
+<h2>📋 基本資料</h2>
+<label>教師姓名</label><input type=\"text\" id=\"teacherName\" placeholder=\"例如：陳Sir\">
+
+<label>學生年級</label>
+<select id=\"grade\"><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+
+<label>課堂主題</label><input type=\"text\" id=\"topic\" placeholder=\"例如：分數加減法\">
+
+<label>對應陷阱類型</label>
+<div class=\"trap-select\" id=\"trapSelect\">
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T1\">T1 進退位</div>
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T2\">T2 單位換算</div>
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T3\">T3 運算順序</div>
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T4\">T4 漏寫0</div>
+<div class=\"trap-tag selected\" onclick=\"toggleTrap(this)\" data-trap=\"T5\">T5 分數</div>
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T6\">T6 百分數</div>
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T7\">T7 應用題</div>
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T8\">T8 圖形</div>
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T9\">T9 時間</div>
+<div class=\"trap-tag\" onclick=\"toggleTrap(this)\" data-trap=\"T10\">T10 餘數</div>
+</div>
+</div>
+
+<div class=\"card\">
+<h2>📖 教學內容</h2>
+<label>今日核心知識點（一句話總結）</label><input type=\"text\" id=\"coreConcept\" placeholder=\"例如：異分母分數相加要先通分\">
+
+<label>關鍵口訣</label><input type=\"text\" id=\"slogan\" placeholder=\"例如：分母唔同要先通分，分子跟住變\">
+
+<label>生活化例子 1</label><textarea id=\"example1\" placeholder=\"例如：半個pizza(1/2) + 1/3個pizza = ?\"></textarea>
+
+<label>生活化例子 2</label><textarea id=\"example2\" placeholder=\"例如：飲咗1/4杯水 + 飲咗2/5杯水 = 總共飲咗幾多？\"></textarea>
+
+<label>常見錯誤示範（展示學生最易犯的錯）</label><textarea id=\"commonMistake\" placeholder=\"例如：1/2 + 1/3 = 2/5 ❌ （直接加分子分母）\"></textarea>
+
+<label>家課（3-5 題）</label><textarea id=\"homework\" placeholder=\"例如：計算 1/4 + 2/5, 2/3 + 1/6, 3/8 + 1/4\"></textarea>
+
+<label>挑戰題（給進度快的學生）</label><textarea id=\"challenge\" placeholder=\"例如：一杯果汁先飲咗1/3，再飲咗剩餘嘅2/5，總共飲咗幾多？\"></textarea>
+</div>
+
+<div class=\"card\">
+<h2>🎯 課堂目標</h2>
+<label>學生下課時應該能夠...</label>
+<input type=\"text\" id=\"objective\" placeholder=\"例如：獨立完成異分母分數加法，正確率達80%\">
+</div>
+
+<button class=\"btn btn-primary\" onclick=\"generatePlan()\">🪄 生成教案</button>
+
+<div class=\"template-list\">
+<div class=\"template-item\" onclick=\"loadTemplate('fraction')\">
+<div class=\"t-name\">📐 快速模板：分數加減法 (P5)</div>
+<div class=\"t-desc\">T5 陷阱 · 含完整例子</div>
+</div>
+<div class=\"template-item\" onclick=\"loadTemplate('percentage')\">
+<div class=\"t-name\">💰 快速模板：百分數連續變化 (P6)</div>
+<div class=\"t-desc\">T6 陷阱 · 含完整例子</div>
+</div>
+<div class=\"template-item\" onclick=\"loadTemplate('area')\">
+<div class=\"t-name\">📏 快速模板：面積與周界 (P4-P5)</div>
+<div class=\"t-desc\">T8 陷阱 · 含完整例子</div>
+</div>
+</div>
+
+</div>
+
+<!-- Preview -->
+<div id=\"previewArea\" style=\"display:none\">
+<div class=\"card\">
+<h2>📄 教案預覽</h2>
+<div class=\"preview-box\" id=\"previewContent\"></div>
+<button class=\"btn btn-primary\" onclick=\"savePlan()\">💾 儲存教案</button>
+<button class=\"btn btn-outline\" onclick=\"editPlan()\">← 返回修改</button>
+</div>
+</div>
+
+<div class=\"success-msg\" id=\"successMsg\">
+<h3>✅ 教案已儲存！</h3>
+<p style=\"font-size:12px;margin-top:4px\">已儲存到你的本地裝置。可以在「我的教案」查看所有已儲存教案。</p>
+<button class=\"btn btn-green\" onclick=\"viewAllPlans()\">📚 查看我的教案</button>
+<button class=\"btn btn-outline\" onclick=\"newPlan()\">📝 創建新教案</button>
+</div>
+
+<div id=\"savedPlans\" style=\"display:none\">
+<div class=\"card\">
+<h2>📚 我的教案</h2>
+<div id=\"planList\"></div>
+<button class=\"btn btn-outline\" onclick=\"newPlan()\">📝 創建新教案</button>
+</div>
+</div>
+
+</div>
+
+<script>
+var currentPlan = null;
+
+function toggleTrap(el) {
+el.classList.toggle('selected');
+}
+
+function getSelectedTraps() {
+var traps = [];
+document.querySelectorAll('.trap-tag.selected').forEach(function(el){
+traps.push(el.dataset.trap);
+});
+return traps;
+}
+
+function generatePlan() {
+var teacher = document.getElementById('teacherName').value.trim() || '[教師名]';
+var grade = document.getElementById('grade').value;
+var topic = document.getElementById('topic').value.trim() || '[課題]';
+var traps = getSelectedTraps();
+var trapStr = traps.length > 0 ? traps.join(', ') : '[T?]';
+var core = document.getElementById('coreConcept').value.trim() || '[核心知識點]';
+var slogan = document.getElementById('slogan').value.trim() || '[口訣]';
+var ex1 = document.getElementById('example1').value.trim() || '[生活例子1]';
+var ex2 = document.getElementById('example2').value.trim() || '[生活例子2]';
+var mistake = document.getElementById('commonMistake').value.trim() || '[常見錯誤]';
+var hw = document.getElementById('homework').value.trim() || '[家課題目]';
+var challenge = document.getElementById('challenge').value.trim() || '[挑戰題]';
+var obj = document.getElementById('objective').value.trim() || '[課堂目標]';
+
+currentPlan = {teacher:teacher, grade:grade, topic:topic, traps:trapStr, core:core, slogan:slogan, ex1:ex1, ex2:ex2, mistake:mistake, hw:hw, challenge:challenge, objective:obj};
+
+var html = '<div style=\"text-align:center;margin-bottom:16px\"><h3 style=\"color:#1A3C6D\">霖楓學苑 · ' + grade + ' 數學教案</h3><div style=\"font-size:11px;color:#6B7280\">' + teacher + ' · ' + new Date().toLocaleDateString('zh-HK') + '</div></div>';
+
+html += '<div style=\"background:#FEE2E2;padding:10px;border-radius:8px;margin:8px 0;font-size:11px\"><strong>🎯 課堂目標：</strong>' + obj + '</div>';
+html += '<div style=\"background:#FEF3C7;padding:10px;border-radius:8px;margin:8px 0;font-size:11px\"><strong>⚠️ 對應陷阱：</strong>' + trapStr + '</div>';
+
+html += '<hr style=\"border-color:#E5E7EB;margin:12px 0\">';
+
+html += '<h4 style=\"color:#DC2626\">🔍 PROBE (0:00-3:00) — 診斷</h4>';
+html += '<div>👋 打招呼 + 回顧上次：<br><em>「上堂學咗咩陷阱？邊個記得？」</em></div>';
+html += '<div style=\"margin-top:4px\">📢 預告今日：<br><em>「今日學 ' + topic + '，最恐怖嘅陷阱係 ' + trapStr + '！」</em></div>';
+
+html += '<h4 style=\"color:#92400E;margin-top:12px\">📖 PRESENT (3:00-25:00) — 講解</h4>';
+html += '<div>🔑 核心知識點：<strong>' + core + '</strong></div>';
+html += '<div style=\"margin-top:4px\">📢 口訣：<strong>' + slogan + '</strong></div>';
+html += '<div style=\"margin-top:4px\">🏠 例子 1：' + ex1 + '</div>';
+html += '<div style=\"margin-top:4px\">🏠 例子 2：' + ex2 + '</div>';
+html += '<div style=\"margin-top:4px;color:#DC2626\">⚠️ 常見錯誤：' + mistake + '</div>';
+
+html += '<h4 style=\"color:#1E40AF;margin-top:12px\">✏️ PRACTICE (25:00-53:00) — 練習</h4>';
+html += '<div>第1輪：教師示範 1 題（邊做邊說思考過程）</div>';
+html += '<div>第2輪：每人輪流做 1 題（教師引導）</div>';
+html += '<div>第3輪：每人獨立做 3 題（教師檢查 + 引導）</div>';
+html += '<div>挑戰題：' + challenge + '</div>';
+
+html += '<h4 style=\"color:#065F46;margin-top:12px\">📊 POST (53:00-60:00) — 總結</h4>';
+html += '<div>🗣 每人總結：「今日學咗咩？」</div>';
+html += '<div>📝 家課：' + hw + '</div>';
+html += '<div>📅 下一堂預告：[下堂課題]</div>';
+
+html += '<hr style=\"border-color:#E5E7EB;margin:12px 0\">';
+html += '<div style=\"font-size:10px;color:#9CA3AF\">備註：' + traps.length + '個陷阱 · 口訣「' + slogan + '」</div>';
+
+document.getElementById('previewContent').innerHTML = html;
+document.getElementById('formArea').style.display = 'none';
+document.getElementById('previewArea').style.display = 'block';
+document.getElementById('successMsg').classList.remove('show');
+document.getElementById('savedPlans').style.display = 'none';
+
+window.scrollTo(0,0);
+}
+
+function editPlan() {
+document.getElementById('formArea').style.display = 'block';
+document.getElementById('previewArea').style.display = 'none';
+document.getElementById('successMsg').classList.remove('show');
+}
+
+function savePlan() {
+if (!currentPlan) return;
+currentPlan.savedAt = new Date().toISOString();
+var plans = JSON.parse(localStorage.getItem('lf_lesson_plans') || '[]');
+plans.push(currentPlan);
+localStorage.setItem('lf_lesson_plans', JSON.stringify(plans));
+document.getElementById('formArea').style.display = 'none';
+document.getElementById('previewArea').style.display = 'none';
+document.getElementById('successMsg').classList.add('show');
+}
+
+function viewAllPlans() {
+var plans = JSON.parse(localStorage.getItem('lf_lesson_plans') || '[]');
+if (plans.length === 0) {
+alert('未有已儲存教案');
+return;
+}
+var html = '<div style=\"font-size:12px;color:#6B7280;margin-bottom:8px\">共 ' + plans.length + ' 份教案</div>';
+plans.reverse().forEach(function(p, i){
+html += '<div class=\"template-item\" style=\"cursor:default\"><div class=\"t-name\">' + p.topic + ' (' + p.grade + ')</div><div class=\"t-desc\">' + p.teacher + ' · 陷阱: ' + p.traps + ' · ' + new Date(p.savedAt).toLocaleDateString('zh-HK') + '</div></div>';
+});
+document.getElementById('planList').innerHTML = html;
+document.getElementById('formArea').style.display = 'none';
+document.getElementById('previewArea').style.display = 'none';
+document.getElementById('successMsg').classList.remove('show');
+document.getElementById('savedPlans').style.display = 'block';
+}
+
+function newPlan() {
+document.getElementById('formArea').style.display = 'block';
+document.getElementById('previewArea').style.display = 'none';
+document.getElementById('successMsg').classList.remove('show');
+document.getElementById('savedPlans').style.display = 'none';
+window.scrollTo(0,0);
+}
+
+function loadTemplate(type) {
+var templates = {
+fraction: {
+topic:'異分母分數加法', grade:'P5',
+coreConcept:'異分母分數相加要先通分，找到兩個分母的 LCM',
+slogan:'分母唔同要先通分，分子跟住同步變',
+example1:'1/2 個 pizza + 1/3 個 pizza = ? \n→ LCM(2,3)=6 → 3/6 + 2/6 = 5/6',
+example2:'飲咗 1/4 杯水 + 2/5 杯水 = ? \n→ LCM(4,5)=20 → 5/20 + 8/20 = 13/20',
+commonMistake:'1/2 + 1/3 = 2/5 ❌（直接加分子和分母，忘記通分）',
+homework:'計算：1/4 + 2/5, 2/3 + 1/6, 3/8 + 1/4, 1/3 + 3/10, 2/7 + 1/2',
+challenge:'小明有 1/3 個蛋糕，小美有 2/5 個蛋糕，加埋有幾多？如果佢哋食咗 1/4，仲剩幾多？',
+objective:'獨立完成異分母分數加法，正確率達 80%'
+},
+percentage: {
+topic:'百分數連續變化', grade:'P6',
+coreConcept:'每次百分數變化都要用新的基數，不能直接加減百分點',
+slogan:'每次變化用新基數，唔好就咁加減%',
+example1:' +20% -20% = ? \n→ ×1.2= → ×0.8= (唔係 )',
+example2:'一件衫原價 ，先減 25%，再減 10%，最後幾錢？\n→ ×0.75= → ×0.9=',
+commonMistake:' +20% -20% =  ❌（以為加減可以抵消）',
+homework:'1.  +30% -10% = ?  2.  -15% +20% = ?  3. 原價，連續減20%兩次 = ?',
+challenge:'股票第一日升 50%，第二日跌 50%，最終賺定蝕？蝕幾多%？',
+objective:'理解百分數連續變化的非對稱性，正確率達 85%'
+},
+area: {
+topic:'面積 vs 周界', grade:'P4',
+coreConcept:'面積=底×高（平方單位），周界=所有邊長相加（長度單位）',
+slogan:'面積=底×高，周界=邊長加晒，單位唔同唔好亂',
+example1:'長方形長 5cm 闊 3cm：\n面積=5×3=15cm²，周界=(5+3)×2=16cm',
+example2:'正方形邊長 4m：\n面積=4×4=16m²，周界=4×4=16m',
+commonMistake:'將 cm² 當作 cm 用 / 問面積但用了周界公式 / 1m²=100cm² ?',
+homework:'求以下圖形面積和周界：1. 長方形 8cm×3cm  2. 正方形邊長 6m  3. 長方形 12m×5m',
+challenge:'一個長方形花園，周界是 36m，長是 12m，求面積。',
+objective:'能正確區分面積和周界公式，正確率達 90%'
+}
+};
+
+var t = templates[type];
+if (!t) return;
+
+document.getElementById('topic').value = t.topic;
+document.getElementById('grade').value = t.grade;
+document.getElementById('coreConcept').value = t.coreConcept;
+document.getElementById('slogan').value = t.slogan;
+document.getElementById('example1').value = t.example1;
+document.getElementById('example2').value = t.example2;
+document.getElementById('commonMistake').value = t.commonMistake;
+document.getElementById('homework').value = t.homework;
+document.getElementById('challenge').value = t.challenge;
+document.getElementById('objective').value = t.objective;
+
+// Set appropriate trap
+document.querySelectorAll('.trap-tag').forEach(function(el){ el.classList.remove('selected'); });
+if (type === 'fraction') document.querySelector('.trap-tag[data-trap=\"T5\"]').classList.add('selected');
+if (type === 'percentage') document.querySelector('.trap-tag[data-trap=\"T6\"]').classList.add('selected');
+if (type === 'area') document.querySelector('.trap-tag[data-trap=\"T8\"]').classList.add('selected');
+
+window.scrollTo(0,0);
+}
+</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body>
+</html>

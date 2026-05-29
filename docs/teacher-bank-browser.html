@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 題庫瀏覽器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:1000px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.stats-row{display:flex;justify-content:center;gap:16px;margin-top:12px;flex-wrap:wrap}
+.stat-chip{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:6px 14px;font-size:11px}
+.stat-chip strong{color:#C9A84C}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;align-items:center}
+select,input{padding:8px 12px;border:2px solid #E5E7EB;border-radius:8px;font-size:12px;font-family:inherit}
+select:focus,input:focus{border-color:#1A3C6D;outline:none}
+.btn{display:inline-block;padding:8px 16px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-outline{background:white;border:2px solid #E5E7EB}
+.q-table{width:100%;border-collapse:collapse;font-size:12px;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.q-table th{background:#F9FAFB;text-align:left;padding:10px 12px;font-size:10px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+.q-table td{padding:10px 12px;border-bottom:1px solid #F3F4F6;vertical-align:top}
+.q-table tr:hover{background:#F0F7FF}
+.trap-badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700}
+.trap-T1{background:#FEF2F2;color:#991B1B}.trap-T2{background:#F0FDF4;color:#065F46}
+.trap-T3{background:#EFF6FF;color:#1E40AF}.trap-T4{background:#FEF3C7;color:#92400E}
+.trap-T5{background:#FDF2F8;color:#831843}.trap-T6{background:#FEF2F2;color:#991B1B}
+.trap-T7{background:#F5F3FF;color:#5B21B6}.trap-T8{background:#ECFDF5;color:#065F46}
+.trap-T9{background:#FFF7ED;color:#9A3412}.trap-T10{background:#F0F9FF;color:#0C4A6E}
+.diff-easy{color:#16A34A}.diff-medium{color:#F59E0B}.diff-hard{color:#DC2626}
+.pagination{display:flex;gap:6px;justify-content:center;margin:16px 0}
+.page-btn{padding:6px 12px;border-radius:6px;border:1px solid #E5E7EB;background:white;cursor:pointer;font-size:11px;font-weight:700;font-family:inherit}
+.page-btn.active{background:#1A3C6D;color:white;border-color:#1A3C6D}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.copy-btn{padding:2px 8px;border-radius:4px;font-size:9px;cursor:pointer;border:1px solid #E5E7EB;background:white}
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>題庫瀏覽器</h1>
+<p style="font-size:13px;color:rgba(255,255,255,0.6)">3,083 題 · P3-P6 · 10 種陷阱類型</p>
+<div class="stats-row" id="bankStats"></div>
+</div>
+
+<div class="card">
+<div class="filters">
+<select id="filterGrade" onchange="applyFilters()">
+<option value="all">全部年級</option><option value="P3">P3</option><option value="P4">P4</option><option value="P5">P5</option><option value="P6">P6</option>
+</select>
+<select id="filterTrap" onchange="applyFilters()">
+<option value="all">全部陷阱</option>
+<option value="T1">T1 進退位</option><option value="T2">T2 單位換算</option><option value="T3">T3 運算順序</option>
+<option value="T4">T4 漏寫0</option><option value="T5">T5 分數</option><option value="T6">T6 百分數</option>
+<option value="T7">T7 應用題</option><option value="T8">T8 圖形</option><option value="T9">T9 時間</option><option value="T10">T10 餘數</option>
+</select>
+<select id="filterDiff" onchange="applyFilters()">
+<option value="all">全部難度</option><option value="easy">🌱 基礎</option><option value="medium">🌿 中等</option><option value="hard">🌳 挑戰</option>
+</select>
+<input type="text" id="filterSearch" placeholder="搜尋題目..." oninput="applyFilters()">
+<button class="btn btn-outline" onclick="exportFiltered()">匯出所選</button>
+</div>
+
+<table class="q-table">
+<thead><tr><th style="width:40px">#</th><th style="width:50%">題目</th><th>陷阱</th><th>年級</th><th>難度</th><th style="width:30px"></th></tr></thead>
+<tbody id="qTableBody"></tbody>
+</table>
+
+<div class="pagination" id="pagination"></div>
+</div>
+</div>
+
+<script>
+var bank = [];
+var filtered = [];
+var page = 0;
+var perPage = 20;
+
+async function loadBank() {
+  try {
+    var resp = await fetch('/docs/data/question_bank_zh.json');
+    bank = await resp.json();
+  } catch(e) {
+    bank = [];
+    document.getElementById('qTableBody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px">題庫載入中，請確保 question_bank_zh.json 存在</td></tr>';
+    return;
+  }
+  filtered = bank;
+  updateStats();
+  applyFilters();
+}
+
+function updateStats() {
+  var stats = document.getElementById('bankStats');
+  var byGrade = {};
+  bank.forEach(function(q) { byGrade[q.grade] = (byGrade[q.grade] || 0) + 1; });
+  stats.innerHTML = '<span class="stat-chip">總題數 <strong>' + bank.length + '</strong></span>' +
+    Object.keys(byGrade).sort().map(function(g) {
+      return '<span class="stat-chip">' + g + ' <strong>' + byGrade[g] + '</strong></span>';
+    }).join('');
+}
+
+function applyFilters() {
+  var grade = document.getElementById('filterGrade').value;
+  var trap = document.getElementById('filterTrap').value;
+  var diff = document.getElementById('filterDiff').value;
+  var search = document.getElementById('filterSearch').value.toLowerCase();
+
+  filtered = bank.filter(function(q) {
+    if (grade !== 'all' && q.grade !== grade) return false;
+    if (trap !== 'all' && q.trap !== trap) return false;
+    if (diff !== 'all' && q.difficulty !== diff) return false;
+    if (search && q.q.toLowerCase().indexOf(search) === -1) return false;
+    return true;
+  });
+  page = 0;
+  renderPage();
+}
+
+function renderPage() {
+  var start = page * perPage;
+  var slice = filtered.slice(start, start + perPage);
+  var html = '';
+
+  if (slice.length === 0) {
+    html = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#9CA3AF">沒有符合的題目</td></tr>';
+  } else {
+    slice.forEach(function(q, i) {
+      html += '<tr>';
+      html += '<td>' + (start + i + 1) + '</td>';
+      html += '<td>' + q.q + '</td>';
+      html += '<td><span class="trap-badge trap-' + q.trap + '">' + q.trap + '</span></td>';
+      html += '<td>' + q.grade + '</td>';
+      html += '<td class="diff-' + q.difficulty + '">' + {easy:'🌱',medium:'🌿',hard:'🌳'}[q.difficulty] + '</td>';
+      html += '<td><button class="copy-btn" onclick="copyQuestion(' + (start + i) + ')">複製</button></td>';
+      html += '</tr>';
+    });
+  }
+  document.getElementById('qTableBody').innerHTML = html;
+
+  // Pagination
+  var totalPages = Math.ceil(filtered.length / perPage);
+  var pag = '';
+  for (var p = 0; p < totalPages && p < 20; p++) {
+    pag += '<button class="page-btn' + (p === page ? ' active' : '') + '" onclick="page=' + p + ';renderPage()">' + (p + 1) + '</button>';
+  }
+  document.getElementById('pagination').innerHTML = pag;
+}
+
+function copyQuestion(idx) {
+  var q = filtered[idx];
+  var text = q.q + '\n' + q.opts.map(function(o,i){return ['A','B','C','D'][i]+'. '+o}).join('\n') + '\n答案: ' + ['A','B','C','D'][q.ans];
+  navigator.clipboard.writeText(text).then(function() { alert('已複製 ✅') });
+}
+
+function exportFiltered() {
+  var data = JSON.stringify(filtered, null, 2);
+  var blob = new Blob([data], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href = url;
+  a.download = 'lamfung_filtered_questions_' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+}
+
+loadBank();
+</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body></html>

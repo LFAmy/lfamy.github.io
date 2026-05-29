@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>霖楓學苑 · Sales CRM</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:13px;line-height:1.6}
+.topbar{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.topbar h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:18px;font-weight:900}
+.topbar .meta{font-size:11px;opacity:0.7}
+.container{max-width:1400px;margin:0 auto;padding:20px}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:white;border-radius:12px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center}
+.stat-card .label{font-size:11px;color:#6B7280;text-transform:uppercase;letter-spacing:1px}
+.stat-card .value{font-size:28px;font-weight:900}
+.stat-card .value.red{color:#DC2626}
+.stat-card .value.green{color:#16A34A}
+.stat-card .value.blue{color:#1A3C6D}
+.stat-card .value.gold{color:#C9A84C}
+/* Pipeline columns */
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.stage{background:white;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06);min-height:300px}
+.stage-header{font-weight:900;font-size:13px;padding:8px 12px;border-radius:8px;margin-bottom:10px;text-align:center;color:white}
+.stage-header.new{background:#6B7280}
+.stage-header.contacted{background:#2563EB}
+.stage-header.trial{background:#C9A84C}
+.stage-header.enrolled{background:#16A34A}
+.stage-header.lost{background:#DC2626}
+.lead-card{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:12px}
+.lead-card .name{font-weight:700;margin-bottom:2px}
+.lead-card .detail{color:#6B7280;font-size:11px}
+.lead-card .source{display:inline-block;background:#E5E7EB;padding:1px 6px;border-radius:4px;font-size:10px;margin-top:4px}
+.lead-card .overdue{border-left:3px solid #DC2626;padding-left:8px}
+.lead-card.urgent{background:#FEF2F2;border-color:#FECACA}
+.empty{color:#9CA3AF;text-align:center;padding:40px 0;font-size:13px}
+/* Quick add form */
+.quick-add{background:white;border-radius:12px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-bottom:20px;display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.quick-add input,.quick-add select{padding:8px 12px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit}
+.quick-add button{background:#1A3C6D;color:white;border:none;padding:8px 20px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px}
+.quick-add button:hover{background:#1E4D8C}
+.btn-refresh{background:white;color:#1A3C6D;border:1px solid #1A3C6D;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700}
+@media(max-width:900px){.pipeline{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+// Using unified config from lf-firebase-config.js
+const firebaseConfig = LF_FIREBASE_CONFIG || {
+  apiKey: LF_FIREBASE_CONFIG?.apiKey || "YOUR_API_KEY",
+  authDomain: "lam-fung-academy.firebaseapp.com",
+  projectId: "lam-fung-academy",
+  storageBucket: "lam-fung-academy.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Auth guard - redirect to login if not authenticated
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    var currentPage = window.location.pathname;
+    if (!currentPage.includes("login.html") && !currentPage.includes("index.html") && !currentPage.includes("ai-diagnostic") && !currentPage.includes("enroll")) {
+      window.location.href = "/docs/login.html";
+    }
+  } else {
+    window.currentUser = user;
+    console.log("Logged in as:", user.email);
+  }
+});
+</script>
+
+</head>
+<body>
+<div class="topbar">
+<div><h1>霖楓學苑 · Sales CRM</h1><div class="meta" id="updateTime">載入中…</div></div>
+<div style="display:flex;gap:10px;align-items:center">
+<button class="btn-refresh" onclick="loadData()">🔄 重新整理</button>
+<a href="/launchpad.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:12px">← Launchpad</a>
+</div>
+</div>
+<div class="container">
+
+<!-- Quick Stats -->
+<div class="stats">
+<div class="stat-card"><div><div class="label">總 Leads</div><div class="value blue" id="statTotal">-</div></div></div>
+<div class="stat-card"><div><div class="label">新客 (未跟)</div><div class="value red" id="statNew">-</div></div></div>
+<div class="stat-card"><div><div class="label">已報名</div><div class="value green" id="statEnrolled">-</div></div></div>
+<div class="stat-card"><div><div class="label">轉換率</div><div class="value gold" id="statRate">-</div></div></div>
+</div>
+
+<!-- Quick Add (manual entry for non-ad leads) -->
+<div class="quick-add">
+<input type="text" id="addName" placeholder="家長/學生名稱" style="width:140px">
+<select id="addGrade"><option value="">年級</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option></select>
+<input type="text" id="addPhone" placeholder="WhatsApp" style="width:140px">
+<input type="text" id="addSource" placeholder="來源 (optional)" style="width:120px">
+<button onclick="addLead()">+ 新增 Lead</button>
+</div>
+
+<!-- Pipeline -->
+<div class="pipeline" id="pipeline">
+<div class="stage"><div class="stage-header new">🆕 新客</div><div id="colNew"></div></div>
+<div class="stage"><div class="stage-header contacted">💬 已聯繫</div><div id="colContacted"></div></div>
+<div class="stage"><div class="stage-header trial">🎯 試堂</div><div id="colTrial"></div></div>
+<div class="stage"><div class="stage-header enrolled">✅ 報名</div><div id="colEnrolled"></div></div>
+<div class="stage"><div class="stage-header lost">❌ 流失</div><div id="colLost"></div></div>
+</div>
+</div>
+
+<script>
+var API_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL";
+var leads = [];
+
+function loadData(){
+    document.getElementById("updateTime").textContent = "載入中…";
+    if(API_URL.indexOf("YOUR_")!==-1){
+        showDemoData();
+        return;
+    }
+    fetch(API_URL)
+        .then(r=>r.json())
+        .then(data=>{
+            leads = data.leads||[];
+            render();
+            document.getElementById("updateTime").textContent = "最後更新: "+new Date().toLocaleString("zh-HK");
+        })
+        .catch(e=>{
+            document.getElementById("updateTime").textContent = "無法連接 (使用示範數據)";
+            showDemoData();
+        });
+}
+
+function showDemoData(){
+    var now = new Date().toISOString();
+    leads = [
+        {Timestamp:now,Source:"fb",Campaign:"P5-呈分試急補-v1",Grade:"P5",Status:"New",Notes:"想了解價錢"},
+        {Timestamp:now,Source:"ig",Campaign:"P3-基礎打底",Grade:"P3",Status:"Contacted",Notes:"考慮中"},
+        {Timestamp:now,Source:"fb",Campaign:"P6-SSPA衝刺",Grade:"P6",Status:"Trial",Notes:"約咗下星期一試堂"},
+        {Timestamp:now,Source:"referral",Campaign:"",Grade:"P4",Status:"Enrolled",Notes:"已付4堂"},
+        {Timestamp:now,Source:"fb",Campaign:"P5-呈分試急補-v2",Grade:"P5",Status:"Lost",Notes:"話太貴"},
+    ];
+    render();
+    document.getElementById("updateTime").textContent = "示範數據 — 請設定 API URL";
+}
+
+function getLeadsByStatus(status){ return leads.filter(l=>(l.Status||"New")===status); }
+
+function renderCard(l){
+    var days = l.Timestamp ? Math.floor((new Date()-new Date(l.Timestamp))/(1000*60*60*24)) : 0;
+    var cls = (l.Status==="New" && days>=1) ? "lead-card urgent" : "lead-card";
+    var name = l.Notes||l.Grade||"無名";
+    return '<div class="'+cls+'">'
+        +'<div class="name">'+(l.Grade||"?")+' • '+name+'</div>'
+        +'<div class="detail">'+(l.Campaign||l.Source||"手動")+' • '+(days>0?days+"日前":"今日")+'</div>'
+        +(l.Notes&&l.Grade?'<div class="detail">'+l.Notes.substring(0,30)+'</div>':'')
+        +'</div>';
+}
+
+function render(){
+    var stages = ["New","Contacted","Trial","Enrolled","Lost"];
+    stages.forEach(function(s){
+        var ls = getLeadsByStatus(s);
+        var el = document.getElementById("col"+s);
+        if(ls.length===0){ el.innerHTML='<div class="empty">— 暫無 —</div>'; return; }
+        el.innerHTML = ls.map(renderCard).join("");
+    });
+    document.getElementById("statTotal").textContent = leads.length;
+    document.getElementById("statNew").textContent = getLeadsByStatus("New").length;
+    document.getElementById("statEnrolled").textContent = getLeadsByStatus("Enrolled").length;
+    var rate = leads.length>0 ? Math.round(getLeadsByStatus("Enrolled").length/leads.length*100) : 0;
+    document.getElementById("statRate").textContent = rate+"%";
+}
+
+function addLead(){
+    var name = document.getElementById("addName").value;
+    var grade = document.getElementById("addGrade").value;
+    var phone = document.getElementById("addPhone").value;
+    var source = document.getElementById("addSource").value;
+    if(!name||!grade){alert("請填寫名稱和年級");return;}
+
+    var now = new Date().toISOString();
+    leads.unshift({
+        Timestamp:now, Source:"manual", Campaign:source||"手動輸入",
+        Grade:grade, Status:"New", Notes:name+" | "+phone
+    });
+
+    // Clear form
+    ["addName","addPhone","addSource"].forEach(function(id){document.getElementById(id).value="";});
+    document.getElementById("addGrade").value="";
+    render();
+
+    // If API configured, post to Sheets
+    if(API_URL.indexOf("YOUR_")===-1){
+        fetch(API_URL,{
+            method:"POST",mode:"no-cors",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({timestamp:now,grade:grade,utm_source:"manual",utm_campaign:source||"手動輸入"})
+        });
+    }
+}
+
+loadData();
+setInterval(loadData, 60000); // Auto-refresh every 60s
+</script>
+</body>
+</html>

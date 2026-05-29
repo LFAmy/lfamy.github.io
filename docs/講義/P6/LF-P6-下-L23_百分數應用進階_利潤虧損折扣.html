@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L23 百分數應用進階（利潤+虧損+折扣進階）</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  @media print { body { background:white; font-size:11px; } .pb { box-shadow:none; min-height:0; padding:24px 36px; } .pb.cover-page { page-break-after:always; } .page-break { page-break-before:always; } .qt .qw { background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border:1px dashed #9CA3AF; } .qt td { padding:4px 6px; } .qt { font-size:10.5px; } .qt .qtxt { font-size:11.5px; } .h1 { font-size:14px; } .h2 { font-size:12px; } .kp { padding:7px 10px; } .ex { padding:7px 10px; } .ex-q { font-size:12px; } .warn { font-size:10.5px; } .mn { font-size:12px; } .sc { gap:6px; } .sc-i { padding:10px; } .sc-i .n { width:26px;height:26px;font-size:14px; } .sc-i .t { font-size:11px; } .et { font-size:10px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:36px 48px; display:flex; flex-direction:column; }
+  .f { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; } .f .n { font-size:inherit; line-height:1.15; } .f .d { font-size:inherit; line-height:1.15; } .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; } .fd .n { font-size:16px; font-weight:700; line-height:1.15; } .fd .d { font-size:16px; font-weight:700; line-height:1.15; } .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; } .fi .n { font-size:inherit; line-height:1; } .fi .d { font-size:inherit; line-height:1; } .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+  .cover { justify-content:center; align-items:center; text-align:center; }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:16px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:28px; font-weight:900; color:var(--blue); letter-spacing:2px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:18px 24px; font-size:12px; line-height:2; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:17px; font-weight:900; color:var(--blue); padding:7px 12px; margin:18px 0 10px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:14px; font-weight:700; color:var(--blue); margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px); }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; } .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; } .sm { background:#FEF3C7; color:#92400E; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); } .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; } .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; } .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; } .et td { padding:5px 8px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 下學期 第 23 堂 · 學生版講義</div>
+  <div class="cv-title">百分數應用進階（利潤 + 虧損 + 折扣進階）</div>
+  <div class="cv-sub">單元十三 · 百分數應用 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6下B冊 單元十三 ＋ 現代教育 6下B 單元10<br>
+    <b>核心陷阱：</b>T18 折上折直接相加 · T19 利潤%基準混淆（成本vs售價）· T20 連續變化乘除次序顛倒<br>
+    <b>SSPA 關聯：</b><span class="ss sh">極高頻</span> 呈分試百分數應用題佔卷一約 15-20%<br>
+    <b>前置知識：</b>百分數基礎互換（L02）· 百分數增減（L04）· 折扣基礎（L05）<br>
+    <b>本堂目標：</b>利潤% 虧損% 折上折 複合百分數變化 連續增減
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">一件衫標價 $500，八折後售多少元？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">把 25% 寫成分數和小數。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">一件貨品成本 $200，售 $250。賺了多少元？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">一瓶汽水原價 $8，加價 25% 後售多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">一條褲減價 30% 後售 $140。原價是多少？（P5 複習）</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 + 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：利潤與虧損百分比<span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>核心公式（必定要背）：</strong><br>
+      利潤 = 售價(SP) − 成本(CP)<br>
+      虧損 = 成本(CP) − 售價(SP)<br>
+      <strong>利潤百分比 = (利潤 ÷ 成本) × 100%</strong><br>
+      <strong>虧損百分比 = (虧損 ÷ 成本) × 100%</strong><br>
+      <strong>終極關鍵：利潤%和虧損%的基準永遠是成本(CP)，唔係售價(SP)！</strong><br>
+      呢個係全港 70% 小六學生都會錯嘅位！
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題 — 世紀災難級</div>
+    <div class="ex-q">例1：一件衫成本 $200，售 $280。利潤率是多少？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">世紀災難（70% 學生錯）</div><div class="eq">利潤% = (80÷280)×100%<br>= 28.6%</div><div class="why">用咗售價做分母！利潤率永遠以成本為基準！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">利潤 = 280−200 = $80<br>利潤% = 80÷200×100% = 40%</div><div class="why">分母 = 成本 $200，唔係售價 $280</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「利潤虧損計百分比，成本放分母永遠啱；售價係分子減成本，記住成本係阿媽！」</div>
+  <div class="warn">致命陷阱：利潤% = 利潤÷成本×100%，唔係 ÷售價！呢個錯 = 全題 0 分！</div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q1</td><td class="qtxt">一本書成本 $80，售 $100。求利潤率。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">Q2</td><td class="qtxt">一個書包成本 $150，售 $120。求虧損率。</td><td class="qd d2">進階</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">Q3</td><td class="qtxt">一件貨品以 25% 利潤出售，成本 $400。售價是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">Q4</td><td class="qtxt">一件貨品虧損 15% 出售，售價 $340。成本是多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：折上折（Multiple Discounts）<span class="ss sh">SSPA 終極陷阱</span></div>
+    <div class="kp-rules">
+      <strong>折上折 ≠ 折扣相加！</strong><br>
+      例：八折再九折 ≠ 七折（80%+90%-100%=70%? 錯！）<br>
+      正確：八折再九折 = 原價 × 80% × 90% = 原價 × 72%（即 七二折）<br>
+      <strong>公式：</strong>最終售價 = 原價 × (1−d₁) × (1−d₂) × ...<br>
+      <strong>關鍵：</strong>每次折扣都是在上次折後價的基礎上再打折！<br>
+      <strong>驗證法：</strong>用 $100 測試 → 八折 = $80 → 再九折 = $72 → 總折扣 = 28% off，不是 30% off！
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆：折上折</div>
+    <div class="ex-q">例2：一件外套標價 $800，先八折，再額外九折。最終售價是多少？總折扣是幾多？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤（80% 學生）</div><div class="eq">總折扣 = 20%+10% = 30%<br>售價 = 800×0.7 = $560</div><div class="why">折扣率唔可以就咁相加！每次折扣基準唔同！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">$800×0.8×0.9 = $800×0.72 = $576<br>總折扣 = (800−576)÷800 = 28%</div><div class="why">乘法關係：80% × 90% = 72%</div></div>
+    </div>
+  </div>
+
+  <div class="warn">世紀災難：折扣率不可直接相加！20%+10% ≠ 30%！做一百次錯一百次嘅陷阱！</div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q5</td><td class="qtxt">一條裙原價 $600，先減 30%，再減 20%。最終售價是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">Q6</td><td class="qtxt">一件貨品標價 $500，會員九折，生日月再額外八五折。最終付多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">Q7</td><td class="qtxt">比較：A店七折 vs B店先八折再八五折。邊間平 d？平幾多%（以 A 店為基準）？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">Q8</td><td class="qtxt">一件貨品經過三次折扣：九折 → 八折 → 七折。最終是原價的百分之幾？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：複合百分數變化（Compound Percentage Change）<span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>連續變化 = 乘法，唔係加法！</strong><br>
+      先加 a% 再減 b%：最終值 = 原值 × (1+a%) × (1−b%)<br>
+      <strong>關鍵判斷：</strong>加 10% 再減 10% ≠ 回復原值！<br>
+      例：$100 + 10% = $110 → $110 − 10% = $99 → 最終少咗 $1！<br>
+      <strong>順序有影響嗎？</strong>無！加 a% 再減 b% = 減 b% 再加 a%（乘法交換律）<br>
+      但最終結果 ≠ 原值 × (a% − b%)！
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-q">例3：一件衫的成本是 $300。老闆先加價 40% 做標價，再八折賣出。老闆最終賺定蝕？賺/蝕多少？利潤率是多少？</div>
+  </div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q9</td><td class="qtxt">$200 先加 25%，再減 20%。最終值是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">Q10</td><td class="qtxt">一件貨品成本 $500。標價比成本高 60%，再以八折出售。求：(a) 售價；(b) 利潤率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">Q11</td><td class="qtxt">股票 $80 一股，第一日升 15%，第二日跌 10%，第三日升 5%。最終一股值多少？相比原價升定跌咗幾多%？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">Q12</td><td class="qtxt">加價 20% 後再打折，要回復原價，應該打幾折？</td><td class="qd d4">極限</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B1</td><td class="qtxt">一個籃球成本 $120，以 25% 利潤出售。售價是多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">B2</td><td class="qtxt">一部相機標價 $2000，八折後再九五折。最終售價？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">B3</td><td class="qtxt">一件衫成本 $300，虧損 10% 出售。售價是多少？虧了多少元？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">一對鞋以 $450 出售，利潤率是 25%。求成本。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">一部手機標價 $4800。A 店：直接八折。B 店：先九折再額外減 $200。邊間平 d？相差多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">一件貨品成本 $600。若以 30% 利潤定標價，再以標價的 85% 出售。求實際利潤率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C1</td><td class="qtxt">陳先生買入一件古董 $5000，一年後升值 40%，再過一年貶值 25%。陳先生最終賺定蝕？賺/蝕率是多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">C2</td><td class="qtxt">一件貨品標價為成本的 150%。若以八折出售，利潤率是多少？若要虧損 10%，應打幾折？</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">C3</td><td class="qtxt">三件貨品成本相同。第一件賺 20%，第二件蝕 10%，第三件賺 15%。整體利潤率是多少？</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 極限題（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">E1</td><td class="qtxt">某商店的所有貨品先加價 25%，在聖誕節全場八折。之後新年再全場九折。一件貨品成本 $400，商店最終賺定蝕？賺/蝕率？</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">E2</td><td class="qtxt">股票 $100 買入。每日變化：+10%、-8%、+5%、-12%、+15%。五日後的價值是多少？總回報率多少%？</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（SSPA 文字題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">P1</td><td class="qtxt">媽媽用 $240 買了一個手袋，比原價便宜了 20%。原價是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">P2</td><td class="qtxt">一部電腦標價 $6000。大減價：先減 30%，用會員卡再減 10%。小明付了多少錢？總折扣率是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P3</td><td class="qtxt">店主以每件 $80 的批發價買入一批 T-shirt，以標價 $128 出售。賣出 50 件後，剩餘 10 件以六折清貨。整體利潤率是多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">P4</td><td class="qtxt">一件衫標價 $500。顧客 A 用八折優惠券，顧客 B 先享受會員九折再用 $30 現金券。哪個顧客付得少？少付多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">P5</td><td class="qtxt">某店推出「買三送一」優惠。每件貨品成本 $45。若原價每件售 $75，賣出 4 件的整體利潤率是多少？（顧客付 3 件的錢拿 4 件）</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h1">五、終極挑戰專區</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">EC1</td><td class="qtxt">一件珠寶的成本是 $8000。店主先提高 50% 作標價。若以標價的 (100−x)% 出售後，利潤率恰好為 20%。求 x。</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">EC2</td><td class="qtxt">小明有 $1000 預算。他想買的波鞋標價 $850，店舖今天全場八折，明天全場七五折但只限首 50 名。小明今天去買定聽日去博？解釋。</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: HOMEWORK ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">一本書成本 $60，以 20% 利潤出售。售價是多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">一個筆袋成本 $25，虧損 20% 出售。售價是多少？虧了多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">標價 $480，先九折再八折。最終售價？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">一件貨品成本 $320，標價比成本高 50%，再以八折出售。求：(a) 售價 (b) 利潤率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">$500 先加 20%，再減 15%，最後再加 10%。最終值？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">一件衫以 $270 出售，虧損率是 10%。求成本。若要以 15% 利潤出售，售價應是多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">商店 A：七五折。商店 B：買二送一。買 3 件相同貨品，哪間商店的單件平均價格更低？低多少%？</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">一件貨品先加價 x%，再減價 (x+5)%，最終比原價低 2%。求 x。</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>利潤%以售價做分母：</strong>利潤÷售價×100%</td><td>利潤% = 利潤÷成本×100%，分母永遠是成本</td></tr>
+    <tr><td>2</td><td><strong>折上折直接相加：</strong>八折+九折=七折</td><td>乘法：0.8×0.9=0.72=七二折</td></tr>
+    <tr><td>3</td><td><strong>連續增減直接抵消：</strong>+10%再−10%=冇變</td><td>1.1×0.9=0.99，最終少咗1%</td></tr>
+    <tr><td>4</td><td><strong>標價和成本混淆：</strong>以標價計算利潤%</td><td>利潤率永遠以成本為基準</td></tr>
+    <tr><td>5</td><td><strong>求原價時方向錯：</strong>減30%後售$140，原價=140×1.3</td><td>原價=140÷0.7（因為是減完之後的70%）</td></tr>
+    <tr><td>6</td><td><strong>減價幅度=利潤率減少：</strong>減20%→利潤率跌20%</td><td>要重新計算（售價−成本）÷成本</td></tr>
+    <tr><td>7</td><td><strong>多件貨品利潤率直接平均：</strong>三件利潤率直接加埋÷3</td><td>要計總利潤÷總成本×100%</td></tr>
+  </table>
+
+  <div class="mn">口訣：<br>「利潤虧損睇成本，折上折係乘法唔係加法；加完再減唔還原，小心每一步基準！」</div>
+
+  <div class="h1">八、解題策略卡（4 步法）</div>
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">分清成本定售價</div><div class="d">CP vs SP：題目俾邊個？求邊個？</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">確認基準（分母）</div><div class="d">利潤%/虧損%：分母=成本；折扣：分母=原價</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">寫乘法式（折上折）</div><div class="d">每次折扣 = ×(1−r)，不可相加</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">驗算 + 答句</div><div class="d">用$100測試法檢驗折上折結果</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L23</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L02 分數小數百分數互換 · L04 百分數佔比 · L05 百分數增減</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 6頁 · 52題 | LF-P6-下-L23 v6
+</div>
+</body>
+</html>

@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 雲端管理中心</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:900px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:10px;font-size:10px;font-weight:700}
+.status-ok{background:#D1FAE5;color:#065F46}
+.status-warn{background:#FEF3C7;color:#92400E}
+.status-off{background:#FEF2F2;color:#991B1B}
+input,select{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+.btn{display:inline-block;padding:10px 22px;border-radius:22px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-green{background:#16A34A;color:white}
+.btn-red{background:#DC2626;color:white}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.data-tile{text-align:center;padding:14px;background:#F9FAFB;border-radius:10px}
+.data-tile .val{font-size:24px;font-weight:900;color:#1A3C6D}
+.data-tile .label{font-size:10px;color:#6B7280}
+.sync-log{font-size:11px;max-height:200px;overflow-y:auto;background:#F9FAFB;border-radius:8px;padding:12px;font-family:monospace;line-height:1.8}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:14px;font-size:12px;margin:8px 0;line-height:1.8}
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>雲端管理中心</h1><p>Google Sheets 後端 · 所有數據跨裝置即時同步</p></div>
+
+<div class="card"><h2>連線狀態 <span class="status-badge" id="cloudStatus" style="margin-left:8px">未設定</span></h2>
+<div id="configSection">
+<label style="font-size:12px;color:#6B7280">Google Apps Script Web App URL</label>
+<input type="text" id="cloudURL" placeholder="https://script.google.com/macros/s/XXXXX/exec">
+<label style="font-size:12px;color:#6B7280">學生 ID</label>
+<input type="text" id="studentId" placeholder="自動生成">
+<button class="btn btn-primary" onclick="saveConfig()">儲存並連接</button>
+<button class="btn" onclick="testConnection()" style="background:#E5E7EB">測試連接</button>
+</div>
+<div id="statusSection" style="display:none">
+<div class="data-grid">
+<div class="data-tile"><div class="val" id="syncStudents">-</div><div class="label">雲端學生</div></div>
+<div class="data-tile"><div class="val" id="syncPractices">-</div><div class="label">練習記錄</div></div>
+<div class="data-tile"><div class="val" id="syncLast">-</div><div class="label">上次同步</div></div>
+<div class="data-tile"><div class="val" id="syncPending">-</div><div class="label">待同步</div></div>
+</div>
+</div>
+</div>
+
+<div class="card"><h2>手動操作</h2>
+<button class="btn btn-green" onclick="fullSync()">立即同步全部數據</button>
+<button class="btn btn-primary" onclick="pullData()">從雲端拉取數據</button>
+<button class="btn btn-red" onclick="resetConfig()">重設連線</button>
+</div>
+
+<div class="card"><h2>同步記錄</h2>
+<div class="sync-log" id="syncLog">未有同步記錄</div>
+</div>
+
+<div class="note"><strong>設定步驟：</strong><br>
+1. 打開 <a href="https://script.google.com" target="_blank">script.google.com</a><br>
+2. 新建專案 → 貼上 <code>scripts/cloud-backend.gs</code> 代碼<br>
+3. 執行一次 <code>testSetup()</code> 初始化工作表<br>
+4. 部署 → 網路應用程式 → 存取權限設為「所有人」<br>
+5. 複製 Web App URL → 貼到上方輸入框<br>
+6. 詳細圖文教學：<a href="setup-cloud.html">setup-cloud.html</a></div>
+</div>
+
+<script src="/docs/data/cloud-sync.js"></script>
+<script>
+function updateUI() {
+  var s = LFCloud.getStatus();
+  var statusEl = document.getElementById('cloudStatus');
+
+  if (s.configured) {
+    document.getElementById('configSection').style.display = 'none';
+    document.getElementById('statusSection').style.display = 'block';
+    statusEl.textContent = s.pending > 0 ? '待同步' : '已連接';
+    statusEl.className = 'status-badge ' + (s.pending > 0 ? 'status-warn' : 'status-ok');
+
+    document.getElementById('syncLast').textContent = s.lastSync ? new Date(s.lastSync).toLocaleTimeString('zh-HK') : '從未';
+    document.getElementById('syncPending').textContent = s.pending;
+
+    // Show URL preview
+    if (s.url) document.getElementById('cloudURL').value = s.url + '…';
+  } else {
+    statusEl.textContent = '未設定';
+    statusEl.className = 'status-badge status-off';
+    document.getElementById('configSection').style.display = 'block';
+    document.getElementById('statusSection').style.display = 'none';
+  }
+}
+
+function saveConfig() {
+  var url = document.getElementById('cloudURL').value.trim();
+  var sid = document.getElementById('studentId').value.trim() || 'student_' + Date.now().toString(36);
+  if (!url) return alert('請輸入 Google Apps Script Web App URL');
+  LFCloud.configure(url, sid);
+  LFCloud.syncAll();
+  updateUI();
+  addLog('已連接雲端: ' + url.substring(0, 40) + '…');
+}
+
+function testConnection() {
+  var url = document.getElementById('cloudURL').value.trim();
+  if (!url) return alert('請先輸入 URL');
+  addLog('測試連線中…');
+  fetch(url + '?action=status')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.status === 'ok') {
+        addLog('連線成功！學生: ' + (data.students || '?') + ' 練習: ' + (data.practices || '?'));
+        document.getElementById('syncStudents').textContent = data.students || '0';
+        document.getElementById('syncPractices').textContent = data.practices || '0';
+      }
+    })
+    .catch(function() { addLog('連線失敗，請檢查 URL 是否正確'); });
+}
+
+function fullSync() {
+  var url = localStorage.getItem('lf_cloud_url');
+  if (!url) return alert('請先設定雲端 URL');
+
+  // Collect all local data
+  var records = [];
+  var members = JSON.parse(localStorage.getItem('lf_members') || '[]');
+  var codes = JSON.parse(localStorage.getItem('lf_activation_codes') || '[]');
+  var gam = JSON.parse(localStorage.getItem('lf_gamification') || '{}');
+  var results = JSON.parse(localStorage.getItem('lf_test_results') || '[]');
+  var leads = JSON.parse(localStorage.getItem('lf_leads') || '[]');
+
+  // Send members
+  members.forEach(function(m) {
+    records.push({type: 'student', student_id: m.phone || 'unknown', data: {
+      student_id: m.phone || 'unknown', name: m.student || '', grade: m.grade || '',
+      parent_name: m.parent || '', parent_phone: m.phone || '',
+      enrolled_date: m.activated || '', status: m.plan || 'free', notes: ''
+    }});
+  });
+
+  // Send membership records
+  members.forEach(function(m) {
+    if (m.plan && m.plan !== 'free') {
+      records.push({type: 'membership', student_id: m.phone || 'unknown', data: {
+        student_id: m.phone || 'unknown', plan: m.plan,
+        activated_date: m.activated || '', expiry_date: m.expiry || '', code: '', status: 'active'
+      }});
+    }
+  });
+
+  // Send practice results
+  results.forEach(function(r) {
+    records.push({type: 'practice', student_id: r.student_id || 'unknown', data: {
+      id: r.id || ('r_'+Date.now()), student_id: r.student_id || 'unknown',
+      date: (r.date || r.time || '').slice(0,10), questions: r.total || 10,
+      correct: r.correct || 0, accuracy: r.total ? Math.round(r.correct/r.total*100) : 0,
+      trap_type: r.trap || '', duration_sec: r.duration_sec || 0, xp_earned: 0
+    }});
+  });
+
+  if (records.length === 0) return alert('沒有數據可同步。請先使用平台產生一些數據。');
+
+  addLog('正在同步 ' + records.length + ' 條記錄...');
+
+  fetch(url, {
+    method: 'POST', mode: 'no-cors',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({action: 'batch_sync', student_id: 'admin', records: records})
+  }).then(function() {
+    localStorage.setItem('lf_cloud_last_sync', new Date().toISOString());
+    addLog('同步完成！' + records.length + ' 條記錄已發送到 Google Sheets');
+    updateUI();
+  }).catch(function(err) {
+    addLog('同步失敗: ' + err);
+  });
+
+  updateUI();
+}
+
+function pullData() {
+  LFCloud.pull();
+  addLog('已從雲端拉取數據');
+  updateUI();
+}
+
+function resetConfig() {
+  if (!confirm('確定要重設雲端連線嗎？')) return;
+  localStorage.removeItem('lf_cloud_url');
+  localStorage.removeItem('lf_cloud_last_sync');
+  LFCloud._url = null;
+  LFCloud._pending = [];
+  updateUI();
+  addLog('已重設連線');
+}
+
+function addLog(msg) {
+  var el = document.getElementById('syncLog');
+  var time = new Date().toLocaleTimeString('zh-HK');
+  el.innerHTML = '<div>' + time + ' — ' + msg + '</div>' + el.innerHTML;
+  if (el.children.length > 50) el.removeChild(el.lastChild);
+}
+
+updateUI();
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body></html>

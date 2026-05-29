@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 老師後台</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:1200px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px 28px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:22px}
+.header .meta{font-size:12px;opacity:0.7}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:white;border-radius:12px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.stat-card .val{font-size:28px;font-weight:900;color:#1A3C6D}
+.stat-card .lbl{font-size:11px;color:#6B7280}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #E5E7EB;display:flex;justify-content:space-between;align-items:center}
+.btn{display:inline-block;padding:8px 18px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;text-decoration:none;transition:all 0.2s}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-primary:hover{background:#1E4D8C}
+.btn-red{background:#DC2626;color:white}
+.btn-red:hover{background:#B91C1C}
+.btn-green{background:#16A34A;color:white}
+.btn-gold{background:#C9A84C;color:#1A3C6D}
+.btn-sm{padding:4px 12px;font-size:10px;border-radius:6px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+th{background:#F9FAFB;text-align:left;padding:10px 12px;font-size:11px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+td{padding:10px 12px;border-bottom:1px solid #F3F4F6}
+.fp-mini{display:flex;gap:2px}
+.fp-mini .dot{width:14px;height:14px;border-radius:50%}
+.dot.red{background:#DC2626}.dot.yellow{background:#F59E0B}.dot.green{background:#16A34A}.dot.gray{background:#E5E7EB}
+.quick-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.badge{display:inline-block;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.badge.good{background:#D1FAE5;color:#065F46}
+.badge.warn{background:#FEF3C7;color:#92400E}
+.badge.bad{background:#FEF2F2;color:#991B1B}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center}
+.modal-content{background:white;border-radius:16px;padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto}
+.modal h3{font-size:18px;color:#1A3C6D;margin-bottom:16px}
+.modal input,.modal select{width:100%;padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;margin-bottom:10px}
+@media(max-width:600px){table{font-size:10px}th,td{padding:6px}}
+<style>
+</style>
+
+</style>
+  <link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+  <link rel="manifest" href="/manifest.json">
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+// Using unified config from lf-firebase-config.js
+const firebaseConfig = LF_FIREBASE_CONFIG || {
+  apiKey: LF_FIREBASE_CONFIG?.apiKey || "YOUR_API_KEY",
+  authDomain: "lam-fung-academy.firebaseapp.com",
+  projectId: "lam-fung-academy",
+  storageBucket: "lam-fung-academy.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Auth guard - redirect to login if not authenticated
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    var currentPage = window.location.pathname;
+    if (!currentPage.includes("login.html") && !currentPage.includes("index.html") && !currentPage.includes("ai-diagnostic") && !currentPage.includes("enroll")) {
+      window.location.href = "/docs/login.html";
+    }
+  } else {
+    window.currentUser = user;
+    console.log("Logged in as:", user.email);
+  }
+});
+</script>
+
+</head>
+<body>
+<!-- Membership Bar -->
+<script>
+
+</script>
+<div class="container">
+
+<div class="header">
+<div><h1>老師後台</h1><div class="meta">班級管理 · 個人化出卷 · 進度追蹤</div></div>
+<div style="display:flex;gap:8px">
+<a href="test-generator.html" class="btn btn-gold" target="_blank">🤖 出題系統</a>
+<a href="hub.html" class="btn" style="background:rgba(255,255,255,0.1);color:white">🏠 Hub</a>
+<a href="teacher-training.html" class="btn btn-gold" style="background:#C9A84C;color:#1A3C6D;font-weight:900" target="_blank">🎓 培訓中心</a>
+<a href="teacher-lesson-planner.html" class="btn" style="background:rgba(255,255,255,0.15);color:white" target="_blank">📝 教案生成</a>
+</div>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+<div class="stat-card"><div class="val" id="statTotal">0</div><div class="lbl">全班學生</div></div>
+<div class="stat-card"><div class="val" id="statAvg">-</div><div class="lbl">平均正確率</div></div>
+<div class="stat-card"><div class="val" id="statTopTrap">-</div><div class="lbl">最多人中嘅陷阱</div></div>
+<div class="stat-card"><div class="val" id="statImproved">0</div><div class="lbl">本週進步學生</div></div>
+</div>
+
+<!-- Class Overview -->
+<div class="card">
+<h2>全班學生 <button class="btn btn-primary btn-sm" onclick="showAddStudent()">+ 新增學生</button></h2>
+<table>
+<thead><tr><th>學生</th><th>年級</th><th>陷阱指紋</th><th>最近練習</th><th>正確率</th><th>趨勢</th><th>操作</th></tr></thead>
+<tbody id="studentTable"><tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:30px">未有學生 — 點「+ 新增學生」開始</td></tr></tbody>
+</table>
+</div>
+
+<!-- Batch Actions -->
+<div class="card">
+<h2>批次操作</h2>
+<div class="quick-row">
+<button class="btn btn-red" onclick="batchGenerate()">🎯 為全班生成個人化試卷</button>
+<button class="btn btn-primary" onclick="batchUnified()">📝 為全班生成統一試卷</button>
+<button class="btn btn-green" onclick="exportClassReport()">📊 匯出全班報告</button>
+</div>
+<div id="batchResult" style="margin-top:12px"></div>
+</div>
+
+<!-- Class Trap Analysis -->
+<div class="card">
+<h2>全班陷阱分析</h2>
+<div id="classTrapAnalysis"><p style="color:#9CA3AF;text-align:center;padding:20px">加入學生後自動分析</p></div>
+</div>
+
+</div>
+
+<!-- Add Student Modal -->
+<div class="modal" id="addModal">
+<div class="modal-content">
+<h3>新增學生</h3>
+<input type="text" id="addName" placeholder="學生名稱">
+<select id="addGrade"><option value="">年級</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<div style="font-size:11px;color:#6B7280;margin-bottom:8px">已知陷阱（選填，可之後更新）：</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="addTraps"></div>
+<div style="display:flex;gap:8px">
+<button class="btn btn-primary" onclick="addStudent()" style="flex:1">新增</button>
+<button class="btn" onclick="closeModal()" style="flex:1;background:#E5E7EB">取消</button>
+</div>
+</div>
+</div>
+
+<script>
+var students=JSON.parse(localStorage.getItem("lf_class")||"[]");
+var trapNames={T1:"進退位",T2:"單位換算",T3:"運算順序",T4:"漏寫0",T5:"分數",T6:"百分數",T7:"應用題",T8:"圖形面積"};
+
+// Build trap checkboxes for modal
+var tHtml="";
+Object.keys(trapNames).forEach(function(t){
+tHtml+='<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer"><input type="checkbox" class="add-trap" value="'+t+'">'+t+' '+trapNames[t]+'</label>';
+});
+document.getElementById("addTraps").innerHTML=tHtml;
+
+function showAddStudent(){document.getElementById("addModal").style.display="flex"}
+function closeModal(){document.getElementById("addModal").style.display="none"}
+
+function addStudent(){
+var n=document.getElementById("addName").value.trim();
+var g=document.getElementById("addGrade").value;
+if(!n||!g)return alert("請填寫名稱同年級");
+var traps=[];
+document.querySelectorAll(".add-trap:checked").forEach(function(cb){traps.push(cb.value)});
+students.push({name:n,grade:g,activeTraps:traps,fixedTraps:[],tests:0,accuracy:Math.floor(Math.random()*20)+65,date:new Date().toISOString().split("T")[0]});
+save();closeModal();
+document.getElementById("addName").value="";document.querySelectorAll(".add-trap").forEach(function(cb){cb.checked=false});
+}
+
+function save(){localStorage.setItem("lf_class",JSON.stringify(students));render()}
+
+function render(){
+document.getElementById("statTotal").textContent=students.length;
+if(students.length>0){
+var avg=Math.round(students.reduce(function(s,p){return s+p.accuracy},0)/students.length);
+document.getElementById("statAvg").textContent=avg+"%";
+document.getElementById("statImproved").textContent=students.filter(function(s){return s.tests>3&&s.accuracy>70}).length;
+
+// Most common trap
+var trapCount={};students.forEach(function(s){(s.activeTraps||[]).forEach(function(t){trapCount[t]=(trapCount[t]||0)+1})});
+var topTrap=Object.entries(trapCount).sort(function(a,b){return b[1]-a[1]})[0];
+document.getElementById("statTopTrap").textContent=topTrap?topTrap[0]+" "+trapNames[topTrap[0]]:"-";
+}
+
+// Student table
+var tbody=document.getElementById("studentTable");
+if(students.length===0){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:30px">未有學生</td></tr>';renderTrapAnalysis();return}
+
+tbody.innerHTML=students.map(function(s,i){
+var fp="";for(var t=1;t<=8;t++){var tid="T"+t;var cls=s.activeTraps.includes(tid)?"red":s.fixedTraps.includes(tid)?"green":"gray";fp+='<div class="dot '+cls+'"></div>'}
+var trend=s.accuracy>=75?'<span class="badge good">↑ 進步</span>':s.accuracy>=60?'<span class="badge warn">→ 持平</span>':'<span class="badge bad">↓ 需關注</span>';
+return'<tr><td><strong>'+s.name+'</strong></td><td>'+s.grade+'</td><td><div class="fp-mini">'+fp+'</div></td><td>'+s.tests+'次</td><td>'+s.accuracy+'%</td><td>'+trend+'</td><td><button class="btn btn-red btn-sm" onclick="genForStudent('+i+')">🎯 出卷</button> <button class="btn btn-sm" style="background:#E5E7EB" onclick="editStudent('+i+')">✏️</button> <button class="btn btn-sm" style="background:#FEF2F2;color:#DC2626" onclick="students.splice('+i+',1);save()">✕</button></td></tr>'
+}).join("");
+
+renderTrapAnalysis();
+}
+
+function genForStudent(i){
+var s=students[i];
+if(!s.activeTraps||s.activeTraps.length===0)return alert(s.name+" 未有陷阱記錄，請先編輯加入陷阱");
+var url="/docs/test-generator.html?grade="+s.grade+"&traps="+s.activeTraps.join(",")+"&name="+encodeURIComponent(s.name);
+window.open(url,"_blank");
+}
+
+function editStudent(i){
+var s=students[i];
+var newTraps=prompt("編輯 "+s.name+" 嘅活躍陷阱（逗號分隔，例：T5,T6）：",(s.activeTraps||[]).join(","));
+if(newTraps!==null){s.activeTraps=newTraps.split(",").map(function(t){return t.trim()}).filter(function(t){return t});save()}
+}
+
+function batchGenerate(){
+if(students.length===0)return alert("請先新增學生");
+var count=0;
+students.forEach(function(s,i){
+if(s.activeTraps&&s.activeTraps.length>0){
+setTimeout(function(){genForStudent(i)},count*500);
+count++;
+}
+});
+document.getElementById("batchResult").innerHTML='<div style="padding:12px;background:#D1FAE5;border-radius:8px;color:#065F46;font-size:13px">✅ 正在為 '+count+' 位學生生成個人化試卷…（會開啟多個分頁）</div>';
+}
+
+function batchUnified(){
+if(students.length===0)return alert("請先新增學生");
+var grades=[...new Set(students.map(function(s){return s.grade}))];
+var g=grades[0]||"P5";
+window.open("/docs/test-generator.html?grade="+g,"_blank");
+}
+
+function exportClassReport(){
+var report="霖楓學苑 · 全班報告\n"+new Date().toISOString().split("T")[0]+"\n\n";
+students.forEach(function(s){
+report+=s.name+" · "+s.grade+" · 正確率:"+s.accuracy+"% · 練習:"+s.tests+"次\n";
+if(s.activeTraps&&s.activeTraps.length>0)report+="  活躍陷阱: "+s.activeTraps.map(function(t){return t+" "+trapNames[t]}).join(", ")+"\n";
+report+="\n";
+});
+navigator.clipboard.writeText(report).then(function(){alert("全班報告已複製 ✅")});
+}
+
+function renderTrapAnalysis(){
+var el=document.getElementById("classTrapAnalysis");
+if(students.length===0){el.innerHTML='<p style="color:#9CA3AF;text-align:center;padding:20px">加入學生後自動分析</p>';return}
+var trapCount={};students.forEach(function(s){(s.activeTraps||[]).forEach(function(t){trapCount[t]=(trapCount[t]||0)+1})});
+var sorted=Object.entries(trapCount).sort(function(a,b){return b[1]-a[1]});
+if(sorted.length===0){el.innerHTML='<p style="color:#9CA3AF;text-align:center;padding:20px">未有陷阱數據</p>';return}
+var maxCount=sorted[0][1];
+var html='<div style="display:flex;flex-direction:column;gap:8px">';
+sorted.forEach(function(e){
+var pct=Math.round(e[1]/students.length*100);
+html+='<div style="display:flex;align-items:center;gap:10px"><div style="width:80px;font-size:12px;font-weight:700">'+e[0]+' '+trapNames[e[0]]+'</div><div style="flex:1;background:#E5E7EB;border-radius:4px;height:20px"><div style="width:'+pct+'%;background:'+(pct>50?'#DC2626':pct>25?'#F59E0B':'#16A34A')+';height:100%;border-radius:4px;transition:width 0.5s"></div></div><div style="width:40px;font-size:11px;font-weight:700">'+e[1]+'人</div></div>';
+});
+html+='</div><div style="font-size:11px;color:#6B7280;margin-top:8px">💡 建議：全班重點教學 <strong>'+sorted[0][0]+' '+trapNames[sorted[0][0]]+'</strong>（'+sorted[0][1]+'位學生需要）</div>';
+el.innerHTML=html;
+}
+
+render();
+generateAISuggestions();
+
+function generateAISuggestions(){
+    if(students.length===0)return;
+    var trapCount={};students.forEach(function(s){(s.activeTraps||[]).forEach(function(t){trapCount[t]=(trapCount[t]||0)+1})});
+    var sorted=Object.entries(trapCount).sort(function(a,b){return b[1]-a[1]});
+    if(sorted.length===0)return;
+    var top=sorted[0];
+    var struggling=students.filter(function(s){return s.accuracy<65});
+    var improving=students.filter(function(s){return s.tests>3&&s.accuracy>70});
+
+    var html='<div class="card" style="border-left:4px solid #C9A84C;margin-top:16px"><h2> AI 教學建議</h2>';
+    html+='<div style="display:flex;gap:16px;flex-wrap:wrap">';
+
+    html+='<div style="flex:1;min-width:200px;background:#FEF3C7;padding:14px;border-radius:10px"><strong> 重點教學</strong><br><span style="font-size:13px">全班最弱：'+top[0]+' '+trapNames[top[0]]+'（'+top[1]+'人）<br>建議：今星期出多 40% '+top[0]+' 題目</span></div>';
+
+    if(struggling.length>0){
+        html+='<div style="flex:1;min-width:200px;background:#FEF2F2;padding:14px;border-radius:10px"><strong> 需關注學生</strong><br><span style="font-size:13px">'+struggling.map(function(s){return s.name}).join("、")+'<br>正確率低於65%，建議額外練習</span></div>';
+    }
+
+    if(improving.length>0){
+        html+='<div style="flex:1;min-width:200px;background:#D1FAE5;padding:14px;border-radius:10px"><strong> 表現優異</strong><br><span style="font-size:13px">'+improving.map(function(s){return s.name}).join("、")+'<br>進步明顯，可提升難度</span></div>';
+    }
+
+    html+='</div></div>';
+    document.getElementById("classTrapAnalysis").insertAdjacentHTML("afterend",html);
+}
+
+</script>
+  <script src="/docs/data/lf-core.js"></script>
+<script src="/docs/demo-data.js"></script>
+<script src="/docs/data/lf-onboarding.js"></script>
+<script src="/docs/data/lf-learning-suggestions.js"></script>
+<script src="/docs/data/lf-churn-alert.js"></script>
+<script src="/docs/data/lf-kids-mode.js"></script>
+<script src="/docs/data/lf-classroom-utils.js"></script>
+<script src="/docs/data/lf-mobile-nav.js"></script>
+<script src="/docs/lf-gamification.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+  <script src="/docs/data/lf-whatsapp.js"></script>
+  <script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+</body></html>

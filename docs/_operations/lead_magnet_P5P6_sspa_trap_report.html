@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P5-P6 呈分試數學 10 大致命陷阱 — SSPA 高分秘密 | 霖楓學苑</title>
+<style>
+:root {
+  --blue: #1A3C6D;
+  --gold: #C9A84C;
+  --red: #DC2626;
+  --green: #16A34A;
+  --bg: #FFFDF7;
+  --card: #FFFFFF;
+  --text: #1A1A1A;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --light-blue: #EEF2F7;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans HK', 'Microsoft JhengHei', sans-serif;
+  background: #E8E8E8;
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12px auto;
+  background: white;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+  padding: 0;
+  page-break-after: always;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── COVER PAGE ── */
+.cover {
+  background: linear-gradient(155deg, #7F1D1D 0%, #991B1B 30%, #DC2626 60%, #991B1B 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 18mm 18mm;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -140px; right: -140px;
+  width: 550px; height: 550px;
+  border: 3px solid rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -180px; left: -160px;
+  width: 650px; height: 650px;
+  border: 2px solid rgba(255,255,255,0.05);
+  border-radius: 50%;
+}
+.cover-urgent {
+  display: inline-block;
+  background: #FEE2E2;
+  color: #991B1B;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 6px 20px;
+  border-radius: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: none;
+}
+.cover-academy {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: #FCA5A5;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+.cover-title {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.3;
+  position: relative;
+  z-index: 1;
+  max-width: 90%;
+}
+.cover-title .highlight {
+  color: #FCA5A5;
+}
+.cover-subtitle {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.7);
+  margin: 14px 0 26px;
+  position: relative;
+  z-index: 1;
+}
+.cover-divider {
+  width: 80px;
+  height: 3px;
+  background: #FCA5A5;
+  margin: 0 auto 26px;
+  position: relative;
+  z-index: 1;
+}
+.cover-meta {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  position: relative;
+  z-index: 1;
+  line-height: 1.6;
+}
+.cover-wave {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 0;
+}
+
+/* ── SECTION PAGES ── */
+.section-page {
+  padding: 16mm 20mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.section-page.alt-bg { background: var(--light-blue); }
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.section-heading {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--blue);
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+.section-body {
+  font-size: 13px;
+  line-height: 1.9;
+  color: #374151;
+}
+.section-body strong { color: var(--blue); }
+
+.stat-row {
+  display: flex;
+  gap: 14px;
+  margin: 18px 0;
+}
+.stat-box {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.stat-number {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--blue);
+}
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ── TRAP PAGE LAYOUT ── */
+.trap-page {
+  padding: 13mm 18mm;
+}
+.trap-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--gold);
+}
+.trap-number {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 17px;
+  color: white;
+  flex-shrink: 0;
+}
+.trap-number.t1{background:#3B82F6}.trap-number.t2{background:#8B5CF6}
+.trap-number.t3{background:#EC4899}.trap-number.t4{background:#F59E0B}
+.trap-number.t5{background:#10B981}.trap-number.t6{background:#6366F1}
+.trap-number.t7{background:#EF4444}.trap-number.t8{background:#14B8A6}
+.trap-number.t9{background:#F97316}.trap-number.t10{background:#84CC16}
+
+.trap-title-block h2 {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--blue);
+  margin: 0;
+}
+.trap-meta-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 4px;
+  font-size: 10px;
+}
+.sspa-freq {
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 10px;
+}
+.freq-red { background: #FEE2E2; color: #991B1B; }
+.freq-yellow { background: #FEF3C7; color: #92400E; }
+.freq-green { background: #DCFCE7; color: #166534; }
+
+.lesson-tag {
+  font-size: 9px;
+  background: #EEF2F7;
+  color: var(--blue);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.error-box, .correct-box {
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 10px 0;
+}
+.error-box {
+  background: #FEF2F2;
+  border: 2px solid #FECACA;
+  border-left: 5px solid var(--red);
+}
+.correct-box {
+  background: #F0FDF4;
+  border: 2px solid #BBF7D0;
+  border-left: 5px solid var(--green);
+}
+.error-box .label {
+  font-weight: 900;
+  font-size: 12px;
+  color: var(--red);
+  margin-bottom: 4px;
+}
+.correct-box .label {
+  font-weight: 900;
+  font-size: 12px;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+
+.math-formula {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 8px 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.parent-checklist {
+  background: #FFF7ED;
+  border: 1px solid #FED7AA;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 12px;
+}
+.parent-checklist .check-title {
+  font-weight: 900;
+  color: #C2410C;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+.checklist { list-style: none; }
+.checklist li {
+  padding: 4px 0 4px 20px;
+  position: relative;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.checklist li::before {
+  content: '☐';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.trap-diagram {
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* ── EXAM STRUCTURE ── */
+.exam-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 11.5px;
+}
+.exam-table th {
+  background: var(--blue);
+  color: white;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+}
+.exam-table td {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+}
+.exam-table tr:nth-child(even) td {
+  background: var(--light-blue);
+}
+
+/* ── 4-WEEK PLAN ── */
+.week-plan {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 14px 0;
+}
+.week-card {
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+}
+.week-card.w1 { background: #FEF2F2; border-color: #FECACA; }
+.week-card.w2 { background: #FFF7ED; border-color: #FED7AA; }
+.week-card.w3 { background: #EFF6FF; border-color: #BFDBFE; }
+.week-card.w4 { background: #F0FDF4; border-color: #BBF7D0; }
+.week-card h4 {
+  font-weight: 900;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.week-card.w1 h4 { color: #991B1B; }
+.week-card.w2 h4 { color: #C2410C; }
+.week-card.w3 h4 { color: #1E40AF; }
+.week-card.w4 h4 { color: #166534; }
+.week-card p { font-size: 10.5px; line-height: 1.6; }
+
+/* ── SUCCESS STORY ── */
+.success-card {
+  background: linear-gradient(135deg, #EEF2F7, #EFF6FF);
+  border: 2px solid #BFDBFE;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 16px 0;
+}
+.success-card h3 {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 18px;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+.score-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+.score-label {
+  font-weight: 700;
+  font-size: 11px;
+  width: 60px;
+}
+.score-bar {
+  flex: 1;
+  height: 16px;
+  background: #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.score-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+}
+.score-val {
+  font-weight: 900;
+  font-size: 13px;
+  width: 50px;
+  text-align: right;
+}
+
+/* ── CTA ── */
+.cta-page {
+  padding: 16mm 20mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.cta-highlight-box {
+  background: linear-gradient(135deg, #0A1A35, var(--blue));
+  color: white;
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin: 18px 0;
+  text-align: center;
+}
+.cta-highlight-box h3 {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.cta-highlight-box p { font-size: 12.5px; opacity: 0.9; line-height: 1.7; }
+
+.qr-placeholder {
+  width: 110px; height: 110px;
+  background: #E5E7EB;
+  border: 2px dashed #9CA3AF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 14px auto;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.value-badge {
+  display: inline-block;
+  background: #FEE2E2;
+  color: #991B1B;
+  font-weight: 900;
+  font-size: 12px;
+  padding: 4px 14px;
+  border-radius: 12px;
+  margin: 8px 0;
+}
+
+/* ── FOOTER ── */
+.page-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 18mm;
+  right: 18mm;
+  display: flex;
+  justify-content: space-between;
+  font-size: 7.5px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 5px;
+}
+
+/* ── BIG QUOTE ── */
+.big-quote {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue);
+  border-left: 4px solid var(--gold);
+  padding-left: 14px;
+  margin: 14px 0;
+  line-height: 1.6;
+}
+
+/* ── Numbered list ── */
+.num-list { list-style: none; counter-reset: item; }
+.num-list li {
+  counter-increment: item;
+  padding: 4px 0 4px 22px;
+  position: relative;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.num-list li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  width: 16px; height: 16px;
+  background: var(--blue);
+  color: white;
+  border-radius: 50%;
+  font-size: 8.5px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── PRINT STYLES ── */
+@media print {
+  body { background: white; }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="page cover">
+  <div class="cover-urgent">呈分試倒數 — 你小朋友準備好未？</div>
+  <div class="cover-academy">霖楓學苑 · LF Academy</div>
+  <div class="cover-title">
+    P5-P6 呈分試數學<br>
+    <span class="highlight">10 大致命陷阱</span><br>
+    SSPA 高分秘密
+  </div>
+  <div class="cover-subtitle">免費家長指南 · 近5年真題分析 · 不教數學，教避開陷阱</div>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">
+    適合小五至小六家長<br>
+    2026 年最新版 · 可列印
+  </div>
+  <svg class="cover-wave" viewBox="0 0 800 120" preserveAspectRatio="none">
+    <path d="M0,40 C200,100 400,0 800,60 L800,120 L0,120 Z" fill="rgba(255,255,255,0.06)"/>
+    <path d="M0,70 C300,20 500,100 800,50 L800,120 L0,120 Z" fill="rgba(255,255,255,0.04)"/>
+  </svg>
+</div>
+
+<!-- ═══════════════ PAGE 2: THE REAL ENEMY ═══════════════ -->
+<div class="page section-page">
+  <div class="section-label">第 1 章</div>
+  <div class="section-heading">呈分試數學嘅真正敵人：唔係唔識，係陷阱</div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">73%</div>
+      <div class="stat-label">呈分試失分來自陷阱題</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">60%</div>
+      <div class="stat-label">學生喺同一陷阱重複出錯</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">3次</div>
+      <div class="stat-label">呈分試機會，冇得重考</div>
+    </div>
+  </div>
+
+  <div class="big-quote">
+    「呈分試卷一好多題目，個個學生都識計。但係點解得少數人攞高分？因為大部分人踩中咗設計好嘅陷阱。」
+  </div>
+
+  <div class="section-body">
+    <p>近 5 年 SSPA 數學卷有一個明顯趨勢：<strong>直接計算題減少，陷阱題增加。</strong>考評局嘅目標唔係測試「識唔識計」，而係測試「識唔識睇清楚先計」。</p>
+    <p style="margin-top:8px;">霖楓學苑分析咗 2019-2025 年 SSPA 數學卷，歸納出 <strong>T1-T10 十大陷阱分類</strong>。每一個陷阱都喺過去 5 年呈分試入面反覆出現，每次都有超過一半學生中招。</p>
+    <p style="margin-top:8px;">以下報告逐一揭示呢 10 大陷阱嘅真面目：</p>
+    <ul style="margin-top:8px;padding-left:18px;font-size:12.5px;line-height:1.9;">
+      <li>每個陷阱標明 <strong>SSPA 出現頻率</strong>（🔴 每年必出 / 🟡 隔年出現）</li>
+      <li>附有 <strong>近5年真題例子</strong>（改寫版，保障版權）</li>
+      <li>揭示 <strong>60% 學生嘅常見錯誤</strong> 同正確解法</li>
+      <li>提供 <strong>家長檢查清單</strong> — 喺屋企都可以幫小朋友檢查</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.2</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 3: SSPA EXAM STRUCTURE ═══════════════ -->
+<div class="page section-page">
+  <div class="section-label">第 2 章</div>
+  <div class="section-heading">呈分試數學 — 你必須知道嘅考試結構</div>
+
+  <div class="section-body">
+    <p>呈分試（SSPA）係小五下學期 + 小六上下學期共 <strong>三次</strong>校內考試，成績直接影響升中派位組別（Band 1/2/3）。</p>
+  </div>
+
+  <table class="exam-table">
+    <tr><th>項目</th><th>詳情</th></tr>
+    <tr><td><strong>考試次數</strong></td><td>共 3 次（P5 下學期、P6 上學期、P6 下學期）</td></tr>
+    <tr><td><strong>卷別</strong></td><td>卷一（計算 + 應用題，60-75 分鐘） + 卷二（MC 選擇題，25-35 分鐘）</td></tr>
+    <tr><td><strong>滿分</strong></td><td>卷一約 80-100 分 + 卷二約 20-40 分（各校不同）</td></tr>
+    <tr><td><strong>題型分佈</strong></td><td>計算題 25% · 應用題 40% · 幾何題 20% · 統計圖表 15%</td></tr>
+    <tr><td><strong>陷阱密度</strong></td><td>卷一平均每 5 題有 1 題含陷阱設計 · 卷二每 3 題有 1 題</td></tr>
+    <tr><td><strong>步驟分</strong></td><td>應用題列式正確但答案錯 = 仍可取 2-4 分步驟分（好多學生唔知！）</td></tr>
+    <tr><td><strong>時間壓力</strong></td><td>卷一平均每題得 3-4 分鐘 · 卷二每題約 1 分鐘</td></tr>
+  </table>
+
+  <div class="section-body" style="margin-top:12px;">
+    <p><strong>關鍵數據：</strong>P5 第一次呈分試佔總評分最少（約 20-25%），但係最重要 —— 因為佢設定咗學生嘅 <strong>起始 Banding 錨點</strong>。P6 兩次佔比更重（各約 35-40%），但係心理壓力更大。</p>
+    <p style="margin-top:8px;font-weight:700;color:var(--blue);">一個陷阱 = 扣 3-4 分 = 可能跌落一個 Grade = Band 1 變 Band 2。</p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.3</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 4: T1 多位數 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t1">T1</div>
+    <div class="trap-title-block">
+      <h2>多位數與單位陷阱 —「數字變形怪」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-red">🔴 SSPA 每年必出</span>
+        <span class="lesson-tag">霖楓 P5 第1-2堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：多位數讀寫0的規則 · 四捨五入進位 · 單位換算（m↔cm↔mm, kg↔g, L↔mL）</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 60% 學生錯誤</div>
+    <p><strong>題目：</strong>將 3,499,999 四捨五入至萬位。</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：3,500,000 ❌（錯！呢個係千位四捨五入）</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：冇睇清楚「萬位」。3,499,999 嘅萬位係 9（349萬），千位係 9 → 進位 → 350萬 = <strong>3,500,000</strong>。但好多學生直接將最後四個位變0就算。</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法</div>
+    <p>3,4<strong>9</strong>9,999 → 萬位係 9 → 睇千位（下一位）係 9 ≥ 5 → 進位</p>
+    <p>349 萬 + 1 萬 = 350 萬 → <strong>3,500,000</strong> ✅</p>
+    <p style="font-size:10px;color:var(--green);">關鍵：搞清楚「邊個位」做四捨五入，睇佢「右邊嗰位」決定進唔進位。</p>
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T1？</div>
+    <ul class="checklist">
+      <li>小朋友識唔識「四位一撇」法（3,499,999）？</li>
+      <li>叫小朋友解釋「四捨五入至萬位」即係睇邊個位？</li>
+      <li>出題：4,950,000 四捨五入至萬位 = ? （答案：4,950,000 → 萬位 5，千位 0 唔進 → 495 萬 = 4,950,000）</li>
+      <li>單位換算：3.6 km = ? m（答案：3600 m）。1.5 公升 = ? 毫升（答案：1500 mL）</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.4 | T1 多位數與單位陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 5: T2 小數點 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t2">T2</div>
+    <div class="trap-title-block">
+      <h2>小數點定位陷阱 —「幽靈移位」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-red">🔴 SSPA 每年必出</span>
+        <span class="lesson-tag">霖楓 P5 第12-13堂 · P6 第1-3堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：小數乘法點錯小數點 · 小數除法餘數定位 · 小數近似值取位錯誤</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 55% 學生錯誤</div>
+    <p><strong>題目：</strong>0.3 × 0.4 = ?</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：1.2 ❌ 或 0.12（但小數點數錯）❌</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：0.3×0.4 → 先計 3×4=12 → 兩個因數共有 2 個小數位 → 從右往左數 2 位 → <strong>0.12</strong>。但 60% 學生會忘記「從右往左數」而寫成 1.2 或 0.012。</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法</div>
+    <p><strong>Step 1:</strong> 當整數計：3 × 4 = 12</p>
+    <p><strong>Step 2:</strong> 數總小數位：0.3（1位）+ 0.4（1位）= 2 位</p>
+    <p><strong>Step 3:</strong> 從右往左數 2 位加小數點：<strong>0.12</strong> ✅</p>
+  </div>
+
+  <div class="math-formula">
+    🧠 <strong>霖楓口訣：</strong>「先當整數乘乾淨，數完小數位加點。從右往左慢慢數，數完先至寫答案。」
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T2？</div>
+    <ul class="checklist">
+      <li>每日 3 題小數乘法（0.5×0.6, 0.12×0.3, 2.5×0.4）</li>
+      <li>要求小朋友大聲講出「Step 1-2-3」流程，唔准跳步驟</li>
+      <li>檢查小數除法：6.4 ÷ 0.8 = 64 ÷ 8 = 8（同步移位）</li>
+      <li>注意：0.3×0.4=0.12 唔係 1.2。結果永遠比因數小（當因數都 < 1）</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.5 | T2 小數點定位陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 6: T3 逆向文字 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t3">T3</div>
+    <div class="trap-title-block">
+      <h2>逆向文字陷阱 —「方向迷宮」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-red">🔴 SSPA 每年必出</span>
+        <span class="lesson-tag">霖楓 P5 第11,15,18堂 · P6 第21-23堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：方程移項方向反轉 · 逆向應用題搞錯運算方向 · 「剩下幾分之幾」基準量判斷錯誤</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 58% 學生錯誤</div>
+    <p><strong>題目：</strong>小明用咗一盒糖嘅 2/5，剩下 18 粒。盒糖原有幾多粒？</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：18 × 2/5 = 7.2，18 + 7.2 ≈ 25 粒 ❌</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：將「剩下的量」當成「原量的 2/5」。正確：剩下 = 原量 × (1 - 2/5) = 原量 × 3/5。所以 18 = 原量 × 3/5 → 原量 = 18 ÷ (3/5) = 18 × 5/3 = 30 粒。</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法（畫圖法）</div>
+    <p>原量：|---|---|---|---|---|（5 份）</p>
+    <p>用咗 2/5 = 2 份 | 剩下 3/5 = 3 份 = 18 粒</p>
+    <p>1 份 = 18 ÷ 3 = 6 粒</p>
+    <p>原量 = 5 份 × 6 = <strong>30 粒</strong> ✅</p>
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T3？</div>
+    <ul class="checklist">
+      <li>每次遇到文字題，要求小朋友先用「棒形圖」畫出題目結構</li>
+      <li>關鍵問題：「題目畀你嘅數字係『全部』定『部分』？」</li>
+      <li>逆向驗證：代答案入去，睇下係咪符合題目畀嘅數字</li>
+      <li>訓練：「剩下嘅幾分之幾」→ 基準量係「剩下嘅量」，唔係「原量」</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.6 | T3 逆向文字陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 7: T4 面積公式 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t4">T4</div>
+    <div class="trap-title-block">
+      <h2>面積公式陷阱 —「公式亂葬崗」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-red">🔴 SSPA 每年必出</span>
+        <span class="lesson-tag">霖楓 P5 第3-6堂 · P6 第6,24堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：三角形面積忘記÷2 · 梯形面積忘記÷2 · 用錯高（斜邊vs垂直高度）· 半圓周長忘記加直徑</p>
+
+  <div class="trap-diagram">
+    <svg width="340" height="110" viewBox="0 0 340 110">
+      <!-- Triangle -->
+      <polygon points="20,85 80,20 140,85" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+      <line x1="80" y1="20" x2="80" y2="85" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="88" y="55" font-size="9" fill="#DC2626" font-weight="700">高</text>
+      <text x="80" y="100" text-anchor="middle" font-size="9" fill="#1E40AF">底=12cm</text>
+      <text x="80" y="13" text-anchor="middle" font-size="9" fill="#DC2626">高=5cm</text>
+
+      <text x="160" y="58" text-anchor="middle" font-size="16">→</text>
+
+      <!-- Calc -->
+      <rect x="185" y="25" width="140" height="60" rx="8" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+      <text x="255" y="45" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">面積 = 12×5÷2</text>
+      <text x="255" y="62" text-anchor="middle" font-size="10" font-weight="900" fill="#16A34A">= 30 cm² ✅</text>
+      <text x="255" y="78" text-anchor="middle" font-size="8" fill="#DC2626">唔係 12×5=60 ❌</text>
+    </svg>
+  </div>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 65% 學生錯誤</div>
+    <p><strong>題目：</strong>三角形底 12 cm，高 5 cm，求面積。</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：12 × 5 = 60 cm² ❌</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：三角形面積 = 底×高÷<strong>2</strong>。但 65% 學生一見到兩個數字就乘埋，忘記除 2。</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法</div>
+    <p>三角形面積 = 底 × 高 ÷ 2 = 12 × 5 ÷ 2 = <strong>30 cm²</strong> ✅</p>
+  </div>
+
+  <div class="math-formula">
+    🧠 <strong>霖楓口訣：</strong>「底乘高係平行四邊，底乘高除二係三角。梯形上底加下底，乘高除二咪忘記。」
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T4？</div>
+    <ul class="checklist">
+      <li>畫唔同形狀（三角形、梯形、平行四邊形），叫小朋友寫出公式</li>
+      <li>重點檢查：除 2 咗未？高係垂直距離定斜邊？</li>
+      <li>半圓周長 = πr + 2r（60% 學生只寫 πr 忘記加直徑！）</li>
+      <li>扇形面積 = πr² × (角度/360°)，唔係 πr² × 角度</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.7 | T4 面積公式陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 8: T5 幾何陷阱 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t5">T5</div>
+    <div class="trap-title-block">
+      <h2>幾何圖形辨識陷阱 —「變形怪家族」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-red">🔴 SSPA 每年必出</span>
+        <span class="lesson-tag">霖楓 P5 第3-6,26-28堂 · P6 第6,16,24堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：鈍角三角形高在外面 · 菱形vs正方形vs平行四邊形條件混淆 · 圓面積vs周長公式混用</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 62% 學生錯誤</div>
+    <p><strong>題目：</strong>一個圓形花圃，半徑 7 m，求圓周。（取 π = 22/7）</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：π × 7² = 22/7 × 49 = 154 ❌（計咗面積！）</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：圓周 = 2πr，面積 = πr²。62% 學生見到「圓」同「半徑」就直接用 πr²。</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法</div>
+    <p><strong>圓周 = 2 × π × r</strong> = 2 × 22/7 × 7 = <strong>44 m</strong> ✅</p>
+    <p><strong>面積 = π × r²</strong> = 22/7 × 7² = 154 m²（係另一條問題嘅答案）</p>
+  </div>
+
+  <div class="math-formula">
+    🧠 <strong>霖楓口訣：</strong>「圓周 2πr 係圍圈，面積 πr² 係鋪滿。見到圓形先睇題，問周界定面積。」
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T5？</div>
+    <ul class="checklist">
+      <li>用「圓周 = 圍住個圈嘅長度」vs「面積 = 鋪滿個圈」實物解釋</li>
+      <li>菱形四邊相等但角唔一定係直角（好多小朋友以為菱形 = 打斜嘅正方形）</li>
+      <li>鈍角三角形：畫出嚟！高喺三角形外面</li>
+      <li>對稱軸數量：正方形 4 條、長方形 2 條、等邊三角形 3 條</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.8 | T5 幾何圖形辨識陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 9: T6 運算次序 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t6">T6</div>
+    <div class="trap-title-block">
+      <h2>四則運算次序陷阱 —「次序迷宮」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-red">🔴 SSPA 每年必出</span>
+        <span class="lesson-tag">霖楓 P5 第8,22-23堂 · P6 全學年</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：分數四則混算次序錯誤 · 去括號符號搞錯 · 先乘除後加減被忽略</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 57% 學生錯誤</div>
+    <p><strong>題目：</strong>18 - 12 ÷ 3 × 2 + 5 = ?</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：18 - 12 = 6，6 ÷ 3 = 2，2 × 2 = 4，4 + 5 = 9 ❌</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：從左到右順序計！正確：先計 ÷ 同 ×（從左到右），再計 + 同 -（從左到右）。</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法</div>
+    <p>12 ÷ 3 = 4 → 4 × 2 = 8</p>
+    <p>18 - 8 + 5 = 10 + 5 = <strong>15</strong> ✅</p>
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T6？</div>
+    <ul class="checklist">
+      <li>每日 2 題混合運算，要求先圈出「最先計嘅部分」</li>
+      <li>分數混合：÷ 分數 = × 倒數。得除號後面嗰個要反轉</li>
+      <li>去括號：括號前面係減號 → 裡面全部變號</li>
+      <li>口訣：「先乘除後加減，有括號就括號先，冇括號乘除優先」</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.9 | T6 四則運算次序陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 10: T7 百分數 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t7">T7</div>
+    <div class="trap-title-block">
+      <h2>百分數應用陷阱 —「基準量幻覺」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-red">🔴 SSPA 每年必出</span>
+        <span class="lesson-tag">霖楓 P5 第11,15,24堂 · P6 第4-5,21-22堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：折扣連續變化基準量改變 · 盈利/虧損計錯基準 · 「比...多X%」vs「係...嘅X%」混淆</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 70% 學生錯誤（SSPA 最高頻陷阱）</div>
+    <p><strong>題目：</strong>一件衫原價 $200，先加價 20%，再八折出售。最終售價係幾多？</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：+20% -20% = 0% → $200 ❌</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：加 20% 嘅基準係 $200，八折嘅基準係 $240！兩個基準量唔同！</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法</div>
+    <p>Step 1: 加價 20% → $200 × 1.2 = $240</p>
+    <p>Step 2: 八折 → $240 × 0.8 = <strong>$192</strong> ✅</p>
+    <p style="font-size:10px;color:var(--green);">最終係平咗 $8，唔係冇變！連續百分數變化 ≠ 百分數加減。</p>
+  </div>
+
+  <div class="math-formula">
+    🧠 <strong>霖楓口訣：</strong>「加完再折唔係打和，基準改變要逐個追。先加 20% 乘 1.2，再打八折乘 0.8。」
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T7？</div>
+    <ul class="checklist">
+      <li>日常生活練習：八折再九折 = 0.8 × 0.9 = 0.72（七二折），唔係七折</li>
+      <li>利息 = 本金 × 利率 × 時間（年）</li>
+      <li>「增減後求原價」要逆向：折扣價 ÷ 折扣率 = 原價</li>
+      <li>考試必出：折上折、連續加價、盈利計算</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.10 | T7 百分數應用陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 11: T8 速率時間 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t8">T8</div>
+    <div class="trap-title-block">
+      <h2>速率與時間陷阱 —「時空錯亂」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-yellow">🟡 SSPA 隔年出現（P6 必出）</span>
+        <span class="lesson-tag">霖楓 P5 第8堂 · P6 第8-10,14,26堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：平均速率 ≠ 速率平均 · km/h↔m/s 單位換算 · 相遇/追及問題搞錯方向</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 63% 學生錯誤</div>
+    <p><strong>題目：</strong>小明去程速率 60 km/h，回程速率 40 km/h。全程平均速率係幾多？</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：(60 + 40) ÷ 2 = 50 km/h ❌</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：平均速率 = 總距離 ÷ 總時間，唔係速率嘅平均數！設單程距離 = 120 km，去程時間 = 2h，回程時間 = 3h，總時間 = 5h，總距離 = 240 km，平均速率 = 240÷5 = 48 km/h。</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法</div>
+    <p>平均速率 = 總距離 ÷ 總時間（唔係速率加埋除二！）</p>
+    <p>設單程 = d km → 總距離 = 2d → 去程時間 = d/60，回程時間 = d/40</p>
+    <p>總時間 = d/60 + d/40 = 5d/120 = d/24</p>
+    <p>平均速率 = 2d ÷ (d/24) = <strong>48 km/h</strong> ✅</p>
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T8？</div>
+    <ul class="checklist">
+      <li>速率三公式：速率 = 距離 ÷ 時間（S = D/T）</li>
+      <li>km/h → m/s：÷ 3.6。m/s → km/h：× 3.6</li>
+      <li>相向而行 → 速度和。同向而行 → 速度差</li>
+      <li>平均速率永遠唔係速率嘅簡單平均！</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.11 | T8 速率與時間陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 12: T9 分數陷阱 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t9">T9</div>
+    <div class="trap-title-block">
+      <h2>分數運算陷阱 —「分母消失術」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-red">🔴 SSPA 每年必出</span>
+        <span class="lesson-tag">霖楓 P5 第7-10,23,30堂 · P6 第2-3堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：異分母加減唔通分直接加 · 分數除法只反轉除號前面 · 帶分數乘除忘記轉假分數</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 52% 學生錯誤</div>
+    <p><strong>題目：</strong>3/4 ÷ 2/3 = ?</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：3/4 ÷ 2/3 = 3/4 × 3/2 = 9/8 ✅（呢個啱）但有人寫成：3/4 × 2/3 = 6/12 = 1/2 ❌</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：÷ 分數 = × 該分數嘅<strong>倒數</strong>。只反轉除號後面嗰個，唔係反轉前面！</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法</div>
+    <p>3/4 ÷ 2/3 = 3/4 × 3/2 = <strong>9/8</strong>（即 1 又 1/8）✅</p>
+    <p style="font-size:10px;color:var(--green);">規則：只有除號<strong>後面</strong>嘅分數要取倒數。</p>
+  </div>
+
+  <div class="math-formula">
+    🧠 <strong>霖楓口訣：</strong>「除號後面取倒數，乘號前面唔准郁。帶分數要先轉假，乘完先約簡。」<br>
+    🧠 <strong>異分母加減：</strong>「分母唔同要先通分，通分搵 LCM。分子分母同步擴，答案一定要約簡。」
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T9？</div>
+    <ul class="checklist">
+      <li>每日 3 題分數四則：1 題加減 + 1 題乘法 + 1 題除法</li>
+      <li>檢查：通分係咪搵 LCM？約簡咗未？帶分數轉咗假分數未？</li>
+      <li>常見錯誤：1/2 + 1/3 = 2/5 ❌（冇通分直接加）</li>
+      <li>SSPA 必考：分數、小數、百分數互換（1/4 = 0.25 = 25%）</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.12 | T9 分數運算陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 13: T10 統計圖表 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t10">T10</div>
+    <div class="trap-title-block">
+      <h2>統計圖表陷阱 —「刻度幻覺」</h2>
+      <div class="trap-meta-row">
+        <span class="sspa-freq freq-yellow">🟡 SSPA 隔年出現 · P6 折線圖必出</span>
+        <span class="lesson-tag">霖楓 P5 第32-33堂 · P6 第15,18堂</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">🪤 陷阱類型：棒形圖一格≠1 · 複合棒形圖睇錯圖例 · 折線圖斜率解讀錯誤 · 平均數計算忽略0</p>
+
+  <div class="error-box">
+    <div class="label">❌ 近5年真題例子（改寫）— 55% 學生錯誤</div>
+    <p><strong>題目：</strong>折線圖顯示一月氣溫 18°C，二月 15°C，三月 16°C，四月 20°C，五月 22°C，六月 28°C。邊兩個月之間嘅氣溫升幅最大？</p>
+    <p style="color:var(--red);font-weight:700;">常見錯誤答案：四月至五月 ❌（睇錯斜率）</p>
+    <p style="font-size:10px;color:var(--muted);">致命原因：學生用眼睇邊段線最斜就算，但冇實際計數字！正確要逐段計升幅：一月→二月 = -3°C，二月→三月 = +1°C，三月→四月 = +4°C，四月→五月 = +2°C，五月→六月 = +6°C → 最大升幅係五月至六月。</p>
+  </div>
+
+  <div class="correct-box">
+    <div class="label">✅ 正確解法三步</div>
+    <p><strong>1.</strong> 確認一格代表幾多（睇刻度標籤！）</p>
+    <p><strong>2.</strong> 讀取每個數據點嘅實際數值</p>
+    <p><strong>3.</strong> 用「實際數值差」判斷升跌幅，唔係用肉眼睇斜率</p>
+  </div>
+
+  <div class="parent-checklist">
+    <div class="check-title">📋 家長 Checklist：點樣喺屋企幫小朋友檢查 T10？</div>
+    <ul class="checklist">
+      <li>打開報紙財經版，搵真實折線圖練習（恆指、溫度）</li>
+      <li>每次先問：「一格代表幾多？」答唔出就唔准繼續</li>
+      <li>複合棒形圖：一定要睇圖例！深色同淺色代表唔同嘢</li>
+      <li>平均數：總和 ÷ 個數。小心有冇 0 值要計入去</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.13 | T10 統計圖表陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 14: 4-WEEK SPRINT PLAN ═══════════════ -->
+<div class="page section-page">
+  <div class="section-label">Bonus</div>
+  <div class="section-heading">SSPA 最後衝刺 4 週計劃</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">呈分試前一個月，每日 45 分鐘，針對最高頻陷阱訓練</p>
+
+  <div class="week-plan">
+    <div class="week-card w1">
+      <h4>第 1 週：診斷週</h4>
+      <p><strong>目標：</strong>搵出弱項陷阱<br>
+      ✅ 做 1 份完整模擬卷（計時）<br>
+      ✅ 批改 + 分類每個錯誤屬於 T1-T10 邊個陷阱<br>
+      ✅ 列出「個人 Top 5 弱項陷阱」<br>
+      ✅ 唔好急住操數，先搞清楚錯咩</p>
+    </div>
+    <div class="week-card w2">
+      <h4>第 2 週：補底週</h4>
+      <p><strong>目標：</strong>消滅 Top 3 弱項<br>
+      ✅ 每日 1 個陷阱，做 5 題針對練習<br>
+      ✅ 每題做完大聲講出口訣<br>
+      ✅ 錯題重做，直到完全正確<br>
+      ✅ 週末重測 Top 3 陷阱</p>
+    </div>
+    <div class="week-card w3">
+      <h4>第 3 週：綜合週</h4>
+      <p><strong>目標：</strong>跨陷阱混合訓練<br>
+      ✅ 做跨課題綜合卷（混合 T1-T10）<br>
+      ✅ 每次做完檢討陷阱觸發點<br>
+      ✅ 訓練「掃描→計算→檢查」三步流程<br>
+      ✅ 時間控制訓練：每題限時</p>
+    </div>
+    <div class="week-card w4">
+      <h4>第 4 週：全真週</h4>
+      <p><strong>目標：</strong>模擬實戰<br>
+      ✅ 2 份 75 分鐘全真模擬卷<br>
+      ✅ 嚴格計時，模擬考試環境<br>
+      ✅ 考後陷阱檢討（唔係對答案）<br>
+      ✅ 最後 3 日：只做輕量複習，保持信心</p>
+    </div>
+  </div>
+
+  <div class="big-quote" style="margin-top:16px;">
+    「最後 4 週唔係學新嘢嘅時候。係將你識嘅嘢，確保唔會踩陷阱失分嘅時候。」
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.14</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 15: SUCCESS STORY ═══════════════ -->
+<div class="page section-page">
+  <div class="section-label">真實案例</div>
+  <div class="section-heading">P5 小明：由 65 分到 88 分嘅陷阱之旅</div>
+
+  <div class="success-card">
+    <h3>小明 · 小五 · 2024-2025 學年</h3>
+
+    <div style="margin:14px 0;">
+      <p style="font-weight:700;color:var(--blue);margin-bottom:8px;">入學時（2024年9月）：學校數學卷 65/100 分</p>
+      <div class="score-bar-wrap">
+        <span class="score-label">入學</span>
+        <div class="score-bar"><div class="score-fill" style="width:65%;background:#DC2626;"></div></div>
+        <span class="score-val" style="color:#DC2626;">65</span>
+      </div>
+
+      <p style="font-weight:700;color:var(--blue);margin:12px 0 8px;">第一次呈分試（2025年6月）：88/100 分</p>
+      <div class="score-bar-wrap">
+        <span class="score-label">呈分試</span>
+        <div class="score-bar"><div class="score-fill" style="width:88%;background:linear-gradient(90deg,#F59E0B,#16A34A);"></div></div>
+        <span class="score-val" style="color:#16A34A;">88</span>
+      </div>
+    </div>
+
+    <p style="font-size:12px;line-height:1.8;margin-top:12px;"><strong>診斷發現：</strong>小明嘅主要弱項係 T3（逆向文字題）同 T7（百分數基準量）。佢唔係唔識計數，而係次次踩中「剩下嘅幾分之幾」同「折扣連續變化」呢兩個陷阱。</p>
+
+    <p style="font-size:12px;line-height:1.8;"><strong>霖楓方案：</strong>前 8 堂集中 T3+T7 專項訓練，用畫圖法解決逆向文字題，用「基準量追蹤法」解決連續百分數。之後每堂保持 1-2 題陷阱複習。</p>
+
+    <p style="font-size:12px;line-height:1.8;"><strong>結果：</strong>呈分試應用題部分由入學嘅 18/40 分 → 34/40 分。總分 65 → 88（+23 分），Band 2 邊緣升至穩固 Band 1。</p>
+
+    <div style="background:#FEFCE8;border:1px solid #FDE68A;border-radius:8px;padding:10px 14px;margin-top:12px;">
+      <p style="font-size:10px;font-style:italic;color:#92400E;">「我以前覺得自己一世都唔會識計文字題。原來只係冇人話我知啲題目有陷阱。而家我見到文字題會先諗：呢題係 T3 定 T7？」—— 小明，P5</p>
+    </div>
+  </div>
+
+  <p style="font-size:10px;color:var(--muted);text-align:center;margin-top:8px;">* 學生姓名已更改保障私隱。成績數據來自霖楓內部紀錄。</p>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.15</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 16: CTA ═══════════════ -->
+<div class="page cta-page">
+  <div class="section-label">限時行動</div>
+  <div class="section-heading" style="text-align:center;">免費 SSPA 陷阱診斷<br>+ 1 對 1 分析報告</div>
+
+  <div class="value-badge">價值 $500 · 限時免費</div>
+
+  <div class="cta-highlight-box">
+    <h3>你嘅下一步：免費 SSPA 陷阱診斷</h3>
+    <p style="margin-top:8px;">✅ <strong>60 分鐘一對一診斷</strong>（線上/面授）<br>
+    ✅ 覆蓋 T1-T10 全部陷阱類型 + SSPA 模擬題<br>
+    ✅ <strong>即日獲得個人陷阱弱項分析報告</strong><br>
+    ✅ 報告包括：弱項陷阱排名、SSPA 高頻對應題型、建議學習路徑<br>
+    ✅ 1 對 1 家長講解（15 分鐘）：你小朋友嘅專屬陷阱地圖<br>
+    ✅ 完全免費，零壓力，純診斷</p>
+  </div>
+
+  <div class="big-quote" style="text-align:center;margin:16px 0;">
+    「呈分試只有 3 次機會。知道你小朋友嘅陷阱弱點，係最有效嘅備戰方式。」
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">
+    做完診斷你會知道：<br>
+    邊啲陷阱你小朋友必定會避開 ✅<br>
+    邊啲陷阱係 SSPA 扣分黑點 💣<br>
+    最後階段應該點樣分配溫習時間 🎯
+  </p>
+
+  <div class="qr-placeholder">QR Code</div>
+  <p style="font-size:10px;color:var(--muted);">掃描 QR Code 或 WhatsApp 預約免費診斷</p>
+
+  <p style="font-size:12px;font-weight:700;color:var(--blue);margin-top:12px;">
+    WhatsApp: [預約號碼] &nbsp;|&nbsp; 網站: [霖楓學苑官網]
+  </p>
+
+  <div style="margin-top:18px;padding:12px 18px;background:#FEF2F2;border:2px solid #FECACA;border-radius:10px;max-width:440px;">
+    <p style="font-size:11px;font-weight:900;color:#991B1B;">⚠️ 呈分試診斷名額有限（每週只開放 8 個時段）</p>
+    <p style="font-size:10px;color:#991B1B;">因涉及一對一分析，每位學生需預留 75 分鐘（60 分鐘診斷 + 15 分鐘家長講解）。額滿即止。</p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.16</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 17: BACK COVER ═══════════════ -->
+<div class="page cover" style="background:linear-gradient(155deg,#991B1B 0%,#7F1D1D 50%,#0A1A35 100%);">
+  <div class="cover-academy">霖楓學苑 · LF Academy</div>
+  <div style="font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:20px;font-weight:900;position:relative;z-index:1;margin:14px 0;text-align:center;">
+    不教數學<br><span style="color:#FCA5A5;">教避開陷阱</span>
+  </div>
+  <div class="cover-divider"></div>
+  <p style="font-size:12px;color:rgba(255,255,255,0.7);position:relative;z-index:1;text-align:center;max-width:70%;line-height:1.8;">
+    呈分試嘅真正敵人唔係難題，<br>
+    係你小朋友次次都踩中嘅同一個陷阱。<br>
+    俾我哋 60 分鐘，我哋話你知個陷阱喺邊。
+  </p>
+  <p style="font-size:11px;color:rgba(255,255,255,0.5);position:relative;z-index:1;text-align:center;max-width:70%;line-height:1.7;margin-top:12px;">
+    「你唔係數學渣，你只係未學識睇陷阱。」<br>
+    —— 霖楓學苑 v2.0
+  </p>
+  <p style="font-size:10px;color:rgba(255,255,255,0.35);position:relative;z-index:1;text-align:center;margin-top:18px;">
+    WhatsApp: [預約號碼] &nbsp;|&nbsp; [網站網址]
+  </p>
+  <svg class="cover-wave" viewBox="0 0 800 120" preserveAspectRatio="none">
+    <path d="M0,40 C200,100 400,0 800,60 L800,120 L0,120 Z" fill="rgba(255,255,255,0.06)"/>
+    <path d="M0,70 C300,20 500,100 800,50 L800,120 L0,120 Z" fill="rgba(255,255,255,0.04)"/>
+  </svg>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L36 中一預習：不等式入門+坐標系進階 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:26px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:80px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .bridge-note { background:linear-gradient(135deg,#EFF6FF,#DBEAFE); border:2px solid var(--blue); border-radius:8px; padding:12px; margin:8px 0; text-align:center; font-size:12px; color:var(--blue); font-weight:700; }
+
+  .svg-wrap { text-align:center; margin:10px 0; }
+  .svg-wrap svg { max-width:100%; height:auto; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 36 堂 · 學生版講義</div>
+  <div class="cv-title">中一預習：不等式入門 + 坐標系進階</div>
+  <div class="cv-sub">下學期 · 中學橋樑課程 · 75 分鐘 · 一對三線上課程 · 程度：高於SSPA</div>
+
+  <div class="cv-info">
+    <b>本堂定位：</b>中一數學預習 — 不等式（新概念）+ 坐標系（深化）<br>
+    <b>兩大課題：</b>① 不等式符號、解不等式、數線表示 ② 直角坐標平面、象限、描點、直線圖像<br>
+    <b>核心陷阱：</b>⚠️ 不等式乘/除負數要反轉符號 &nbsp;|&nbsp; ⚠️ (x,y)次序不能調轉<br>
+    <b>SSPA 關聯：</b><span class="ss sm">中學預習</span> 不等式為中一全新課題，坐標系為中一深化課題，提早掌握可領先全級<br>
+    <b>前置知識：</b>L35 負數與代數式化簡、方程進階<br>
+    <b>本堂目標：</b>① 掌握不等式符號和數線表示 ② 掌握不等式乘除負數要反號 ③ 坐標系描點讀點
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="bridge-note">🌉 不等式係小學完全冇見過嘅新概念。坐標系你小學可能學過基本版，中一會大幅深化。掌握得好的話，升中後呢兩個課題會係你嘅優勢區。</div>
+
+  <div class="h1">一、熱身啟動（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">比大小（用 &lt; 或 &gt;）：−5 ___ −2</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">解不等式（照方程咁解就得）：x + 3 &lt; 8</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">寫出點(3, 5)中，x坐標和y坐標分別是甚麼？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">解不等式：2x &gt; 10</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">點(−3, 4)在哪個象限？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：不等式符號與基本解法</div>
+    <div class="kp-rules">
+      ① <strong>四大符號</strong>：&lt;（小於）、&gt;（大於）、&le;（小於或等於）、&ge;（大於或等於）<br>
+      ② <strong>基本解法 = 方程解法</strong>：x+3 &lt; 8 → x &lt; 5（移項變號同樣適用）<br>
+      ③ <strong>數線表示</strong>：x &gt; 4 → 用空心圓 ○ 在4的位置，向右畫箭咀<br>
+      ④ <strong>x &ge; 4</strong>：用實心圓 ●，代表「4都係答案」<br>
+      ⑤ <strong>留意</strong>：不等式答案係一個範圍，唔係一個數！x &lt; 5 代表 x 可以是 4, 3, 0, −100...
+    </div>
+  </div>
+
+  <div class="svg-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 110" width="580" height="110"><line x1="30" y1="55" x2="550" y2="55" stroke="#1A3C6D" stroke-width="2.5"/><polygon points="550,55 540,49 540,61" fill="#1A3C6D"/><line x1="40" y1="43" x2="40" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="40" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">0</text><line x1="90" y1="43" x2="90" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="90" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">1</text><line x1="140" y1="43" x2="140" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="140" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">2</text><line x1="190" y1="43" x2="190" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="190" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">3</text><line x1="240" y1="43" x2="240" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="240" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">4</text><line x1="290" y1="43" x2="290" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="290" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">5</text><line x1="340" y1="43" x2="340" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="340" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">6</text><line x1="390" y1="43" x2="390" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="390" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">7</text><line x1="440" y1="43" x2="440" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="440" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">8</text><line x1="490" y1="43" x2="490" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="490" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">9</text><line x1="540" y1="43" x2="540" y2="67" stroke="#1A3C6D" stroke-width="1.2"/><text x="540" y="81" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">10</text><line x1="240" y1="55" x2="550" y2="55" stroke="#DC2626" stroke-width="4"/><circle cx="240" cy="55" r="5" fill="white" stroke="#DC2626" stroke-width="2.5"/><text x="240" y="35" text-anchor="middle" font-size="13" fill="#DC2626" font-weight="700">x &gt; 4</text><text x="240" y="93" text-anchor="middle" font-size="9" fill="#DC2626" font-weight="700">○=開放(不含)</text></svg></div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 不等式乘除負數必須反號！</div>
+    <div class="ex-q">解不等式：−2x &gt; 6</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 致命錯誤（80%人中招！）</div><div class="eq">−2x &gt; 6 → x &gt; −3</div><div class="why">兩邊除以−2時冇反轉不等式符號！呢個係不等式最陰濕嘅陷阱</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">−2x &gt; 6 → x <strong>&lt;</strong> −3</div><div class="why">乘/除負數 → &gt; 變 &lt;，&lt; 變 &gt;（符號反轉！）</div></div>
+    </div>
+  </div>
+
+  <div class="warn">⚠️ 不等式終極陷阱：乘或除負數時，不等式符號必須反轉！呢個係全中一最多人錯嘅位，記住呢個規則你已經贏咗80%嘅同學。</div>
+
+  <div class="mn">口訣：「不等式照方程咁解，但乘除負數要反胎；大於變小於，小於變大於，記住呢個唔會敗。」</div>
+
+  <div class="h2">KP1 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">解不等式並畫數線：x + 5 &lt; 12</td><td class="qd d1">基礎</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">解不等式：3x &ge; 15</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">解不等式：−3x &lt; 12</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">解不等式：−5x &ge; 20</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">解不等式：2x − 3 &lt; 5x + 6</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：直角坐標平面 — 象限、描點、讀點 <span class="ss sh">中一核心</span></div>
+    <div class="kp-rules">
+      ① <strong>坐標系組成</strong>：x軸（橫）、y軸（縱）、原點O(0,0)<br>
+      ② <strong>四個象限</strong>：I (+,+) &nbsp; II (−,+) &nbsp; III (−,−) &nbsp; IV (+,−)<br>
+      ③ <strong>點的表達</strong>：(x, y) — x坐標在前，y坐標在後（<strong>次序不可調轉！</strong>）<br>
+      ④ (3, 5) ≠ (5, 3)！兩個係完全唔同嘅點！<br>
+      ⑤ <strong>描點方法</strong>：由原點出發 → 沿x軸移x格 → 再沿y方向移y格
+    </div>
+  </div>
+
+  <div class="svg-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="460" height="460"><line x1="30" y1="30" x2="30" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="30" x2="450" y2="30" stroke="#D1D5DB" stroke-width="0.6"/><line x1="65" y1="30" x2="65" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="65" x2="450" y2="65" stroke="#D1D5DB" stroke-width="0.6"/><line x1="100" y1="30" x2="100" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="100" x2="450" y2="100" stroke="#D1D5DB" stroke-width="0.6"/><line x1="135" y1="30" x2="135" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="135" x2="450" y2="135" stroke="#D1D5DB" stroke-width="0.6"/><line x1="170" y1="30" x2="170" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="170" x2="450" y2="170" stroke="#D1D5DB" stroke-width="0.6"/><line x1="205" y1="30" x2="205" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="205" x2="450" y2="205" stroke="#D1D5DB" stroke-width="0.6"/><line x1="240" y1="30" x2="240" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="240" x2="450" y2="240" stroke="#D1D5DB" stroke-width="0.6"/><line x1="275" y1="30" x2="275" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="275" x2="450" y2="275" stroke="#D1D5DB" stroke-width="0.6"/><line x1="310" y1="30" x2="310" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="310" x2="450" y2="310" stroke="#D1D5DB" stroke-width="0.6"/><line x1="345" y1="30" x2="345" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="345" x2="450" y2="345" stroke="#D1D5DB" stroke-width="0.6"/><line x1="380" y1="30" x2="380" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="380" x2="450" y2="380" stroke="#D1D5DB" stroke-width="0.6"/><line x1="415" y1="30" x2="415" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="415" x2="450" y2="415" stroke="#D1D5DB" stroke-width="0.6"/><line x1="450" y1="30" x2="450" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="30" y1="450" x2="450" y2="450" stroke="#D1D5DB" stroke-width="0.6"/><line x1="12.5" y1="240" x2="467.5" y2="240" stroke="#1A3C6D" stroke-width="2.5"/><line x1="240" y1="32.5" x2="240" y2="467.5" stroke="#1A3C6D" stroke-width="2.5"/><polygon points="467.5,240 459.5,235 459.5,245" fill="#1A3C6D"/><polygon points="240,32.5 235,40.5 245,40.5" fill="#1A3C6D"/><text x="479.5" y="245" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">x</text><text x="245" y="20" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">y</text><text x="65" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">-5</text><text x="100" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">-4</text><text x="135" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">-3</text><text x="170" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">-2</text><text x="205" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">-1</text><text x="275" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">1</text><text x="310" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">2</text><text x="345" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">3</text><text x="380" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">4</text><text x="415" y="256" text-anchor="middle" font-size="9" fill="#6B7280" font-weight="700">5</text><text x="226" y="419" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">-5</text><text x="226" y="384" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">-4</text><text x="226" y="349" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">-3</text><text x="226" y="314" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">-2</text><text x="226" y="279" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">-1</text><text x="226" y="209" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">1</text><text x="226" y="174" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">2</text><text x="226" y="139" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">3</text><text x="226" y="104" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">4</text><text x="226" y="69" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">5</text><text x="230" y="256" text-anchor="middle" font-size="13" fill="#DC2626" font-weight="700">O</text><text x="400" y="80" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">I</text><text x="80" y="80" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">II</text><text x="80" y="410" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">III</text><text x="400" y="410" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">IV</text><circle cx="345" cy="170" r="5" fill="#DC2626"/><text x="357" y="162" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">(3,2)</text><line x1="345" y1="170" x2="345" y2="240" stroke="#DC2626" stroke-width="1" stroke-dasharray="3,2"/><line x1="345" y1="170" x2="240" y2="170" stroke="#DC2626" stroke-width="1" stroke-dasharray="3,2"/></svg></div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — (x,y) vs (y,x)</div>
+    <div class="ex-q">點A(2, 5)和點B(5, 2)是否同一點？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 方向盲錯誤</div><div class="eq">(2,5) = (5,2) （同一點）</div><div class="why">x坐標和y坐標次序不能調！(2,5)係x=2,y=5; (5,2)係x=5,y=2，完全唔同位置</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確答案</div><div class="eq">不是同一點！(2,5)在第一象限偏左上，(5,2)在第一象限偏右下</div><div class="why">記住：(x,y) = (向右移, 向上移)。x係橫，y係縱，次序絕對不能亂</div></div>
+    </div>
+  </div>
+
+  <div class="h2">KP2 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">寫出以下各點在哪個象限：A(3,4) B(−2,5) C(−1,−3) D(4,−2) E(0,3)</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">在坐標平面上描出以下各點（自行畫坐標網格）：P(2,3), Q(−4,1), R(0,−2), S(−3,−4)</td><td class="qd d2">進階</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">A(2,3)和B(2,−1)兩點。AB的距離是多少？AB線段是垂直還是水平？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">已知長方形三個頂點：(1,2)、(5,2)、(1,5)。求第四個頂點的坐標。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：直線圖像 y = mx + c 入門 <span class="ss sh">中一核心</span></div>
+    <div class="kp-rules">
+      ① <strong>y = mx + c</strong> 是一條直線的方程<br>
+      ② m = 斜率（斜度），c = y軸截距（直線與y軸相交的y值）<br>
+      ③ <strong>畫直線方法</strong>：代入兩個不同x值 → 計出y → 描兩點 → 連線<br>
+      ④ 例：y = 2x + 1，當x=0, y=1; 當x=2, y=5。描(0,1)和(2,5)，連線<br>
+      ⑤ 這是中一最重要的圖像基礎，中二三四都要用！
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">例題示範</div>
+    <div class="ex-q">畫出直線 y = 3x − 2 的圖像。</div>
+    <div style="margin:8px 0;font-size:12px;">
+      <strong>步驟：</strong><br>
+      當 x = 0：y = 3(0) − 2 = −2 → 點(0, −2)<br>
+      當 x = 1：y = 3(1) − 2 = 1 → 點(1, 1)<br>
+      當 x = 2：y = 3(2) − 2 = 4 → 點(2, 4)<br>
+      描出這三個點 → 用直尺連成一條直線
+    </div>
+  </div>
+
+  <div class="h2">KP3 同步練習（直線圖像）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">15</td><td class="qtxt">對於 y = 2x + 3，填表：x=0時y=?, x=1時y=?, x=2時y=? 然後描點連線。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">對於 y = −x + 4，填表並描出三個點。（提示：留意負號！）</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">直線 y = 2x + c 經過點(3, 10)。求c的值。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h1">三、不等式與坐標綜合練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">解不等式並在數線上表示：3x − 4 &le; 2x + 5</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">解不等式：<span class="f"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> + 2 &gt; 5</td><td class="qd d2">進階</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">三角形頂點：A(1,2), B(5,2), C(3,6)。求AB的長度。點C在AB的上方還是下方？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">下列哪些點在直線 y = x + 3 上？A(0,3) B(2,5) C(4,6) D(−1,2)</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">四、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 5 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">22</td><td class="qtxt">解不等式：x − 3 &lt; 7</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">寫出P(5, −2)在哪個象限。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">對於y = x + 2，x=3時y=?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">解不等式：2x &ge; 8</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">點(0, 0)叫甚麼？點(0, 5)在哪條軸上？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 5 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">27</td><td class="qtxt">解不等式：−4x &lt; 20（小心反號！）</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">點A(a, 3)在第二象限。a是正數還是負數？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">直線y = 2x + b經過(2, 9)。求b。</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">30</td><td class="qtxt">解不等式並畫數線：5 − 2x &gt; 1</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">正方形四個頂點：(1,1), (4,1), (4,4), (1,4)。求對角線長度（用坐標計）。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">32</td><td class="qtxt">解不等式：3(x − 2) &le; 2(x + 1) + 1</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">33</td><td class="qtxt">A(−2, 4), B(3, 4)。AB的長度=？AB的中點坐標=？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">34</td><td class="qtxt">已知等腰三角形兩頂點：(1,1)和(5,1)，第三頂點在y軸上。求第三頂點的坐標。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 極限挑戰（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">35</td><td class="qtxt">解不等式：−2(3x − 1) &gt; 4 − (x + 2)（注意：展開括號、反號）</td><td class="qd d4">極限</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">36</td><td class="qtxt">直線L：y = 3x − 1。點P(2, a)在L上，點Q(b, 5)也在L上。求a和b的值。</td><td class="qd d4">極限</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="h1">五、中一風格應用題（5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">小明有$x，買了一支筆用了$5後，餘下的錢多過$12。用不等式表示並求解。</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">一個數的3倍減7，不大於這個數加5。求這個數的範圍。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">長方形三個頂點：(0,0), (6,0), (0,4)。求第四頂點坐標和長方形面積。</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">A4</td><td class="qtxt">點A的x坐標和y坐標相同，都在直線y = 2x − 4上。求點A的坐標。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">A5</td><td class="qtxt">一個三角形頂點為(1,1), (5,1), (3,5)。（a）求底邊長度。（b）求高。（c）求面積。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">解不等式：x + 6 &gt; 10</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">解不等式：4x &le; 20</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">Q(4, −3)在哪個象限？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">對於y = 2x − 1，填表：x=−1, 0, 2時y分別=?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">哪個象限的點x坐標是正、y坐標是負？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">解不等式：−3x + 5 &gt; 20</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">長方形頂點：(0,0), (a,0), (a,b), (0,b)。若面積=24，a=6，求b。</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">直線y = mx + 2經過(4, 14)。求m。</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>不等式乘除負數不反號</strong>：−2x&gt;6 → x&gt;−3</td><td>乘/除負數 → 反轉符號：−2x&gt;6 → x&lt;−3</td></tr>
+    <tr><td>2</td><td><strong>(x,y)次序調轉</strong>：(2,5)當成(5,2)</td><td>x坐標永遠在前（橫向），y坐標永遠在後（縱向）</td></tr>
+    <tr><td>3</td><td><strong>象限符號記錯</strong>：以為II係(+,−)</td><td>I(+,+) II(−,+) III(−,−) IV(+,−)</td></tr>
+    <tr><td>4</td><td><strong>直線代入x計y時計錯負數</strong></td><td>小心負號：y=−x+4, x=3 → y=−3+4=1</td></tr>
+    <tr><td>5</td><td><strong>不等式答案寫成一個數</strong>：x&gt;5寫成x=5</td><td>不等式答案係範圍，不是單一數值</td></tr>
+    <tr><td>6</td><td><strong>數線上空心和實心圓混淆</strong></td><td>○ 不含（&lt;或&gt;）、● 包含（&le;或&ge;）</td></tr>
+    <tr><td>7</td><td><strong>坐標軸上點的象限判斷</strong>：(0,3)唔屬於任何象限</td><td>在軸上的點不屬於任何象限（x=0或y=0）</td></tr>
+  </table>
+
+  <div class="mn">口訣：「不等式乘除負數符號反轉，(x,y)次序一定橫先縱後；象限記口訣：一正正 二負正 三負負 四正負。」</div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">反號警報</div><div class="d">乘除負數必反不等式符號</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">橫先縱後</div><div class="d">(x,y)：x坐標永遠在前</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">象限定位</div><div class="d">睇正負號→判斷象限</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">代入驗證</div><div class="d">將點代入方程確認</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L36</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P PDF | 6頁 · 50題 | LF-P6-下-L36 v6
+</div>
+
+</body>
+</html>

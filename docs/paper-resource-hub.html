@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 試卷資源中心</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:900px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.btn{display:inline-block;padding:10px 22px;border-radius:22px;font-weight:900;font-size:13px;cursor:pointer;border:none;font-family:inherit;text-decoration:none;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-gold{background:#C9A84C;color:#1A3C6D}
+.btn-outline{background:white;border:2px solid #E5E7EB;color:#1A3C6D}
+.resource-list{font-size:12px;line-height:2.2}
+.resource-list a{color:#1A3C6D;text-decoration:none;font-weight:700}
+.resource-list a:hover{color:#C9A84C}
+.grade-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.grade-tab{padding:8px 16px;border-radius:20px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit;transition:all 0.2s}
+.grade-tab.active,.grade-tab:hover{background:#1A3C6D;color:white;border-color:#1A3C6D}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:14px;font-size:12px;margin:8px 0;line-height:1.8}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#F9FAFB;text-align:left;padding:10px 12px;font-size:11px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+td{padding:10px 12px;border-bottom:1px solid #F3F4F6}
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>試卷資源中心</h1><p>官方 TSA 試卷 · 校內模擬卷 · 會員專屬資源庫</p></div>
+
+<div class="grade-tabs">
+<button class="grade-tab active" onclick="filterGrade('all',this)">全部</button>
+<button class="grade-tab" onclick="filterGrade('P3',this)">P3</button>
+<button class="grade-tab" onclick="filterGrade('P4',this)">P4</button>
+<button class="grade-tab" onclick="filterGrade('P5',this)">P5</button>
+<button class="grade-tab" onclick="filterGrade('P6',this)">P6</button>
+</div>
+
+<div class="card"><h2>官方 TSA 全港系統評估試卷</h2>
+<p style="font-size:12px;color:#6B7280;margin-bottom:12px">來源：香港考試及評核局 (HKEAA) · 完全免費 · 2005-2025 歷屆試題</p>
+<table id="tsaTable">
+<thead><tr><th>年份</th><th>年級</th><th>試卷</th><th>來源</th><th>操作</th></tr></thead>
+<tbody id="tsaBody"></tbody>
+</table>
+</div>
+
+<div class="card"><h2>霖楓原創模擬卷</h2>
+<p style="font-size:12px;color:#6B7280;margin-bottom:12px">由霖楓教研團隊編寫 · 貼近校內試及呈分試格式</p>
+<div class="resource-list" id="lfPapers">
+<span style="color:#9CA3AF">載入中…</span>
+</div>
+</div>
+
+<div class="card"><h2>網上免費資源索引</h2>
+<div class="resource-list">
+• <a href="https://www.bca.hkeaa.edu.hk/web/TSA/en/PriPaperSchema.html" target="_blank">HKEAA TSA 歷屆試卷官方頁面</a> — P3/P6 數學、中英文<br>
+• <a href="https://band1.org/?area=HK&subject=Maths" target="_blank">Band1.org 中小學數學試卷</a> — 各年級校內試卷<br>
+• <a href="https://www.edb.gov.hk/tc/curriculum-development/major-level-of-edu/primary/materials/index.html" target="_blank">教育局學與教資源</a> — 官方教材及工作紙<br>
+• <a href="https://www.hkmo.com.hk/contest/SASMOPP.html" target="_blank">SASMO 數學奧林匹克歷屆試題</a> — P2-P6 挑戰題<br>
+</div></div>
+
+<div class="note"><strong>會員專屬：</strong>升級 Pro 會員可下載全部 50+ 份霖楓原創模擬卷（含答案及解題步驟）。<br>免費版會員可下載 5 份試卷。TSA 官方試卷全部免費。</div>
+</div>
+
+<script>
+// TSA papers list
+var tsaPapers = [];
+for (var year = 2025; year >= 2005; year--) {
+  // P6 papers
+  for (var n = 1; n <= 4; n++) {
+    tsaPapers.push({
+      year: year, grade: 'P6', paper: '6MC' + n,
+      url: 'https://www.bca.hkeaa.edu.hk/web/Common/res/' + year + 'priPaper/P6Math/TSA' + year + '_6MC' + n + '.pdf',
+      source: 'HKEAA TSA'
+    });
+  }
+  // P3 papers (started 2006)
+  if (year >= 2006) {
+    for (var m = 1; m <= 2; m++) {
+      tsaPapers.push({
+        year: year, grade: 'P3', paper: '3ME' + m,
+        url: 'https://www.bca.hkeaa.edu.hk/web/Common/res/' + year + 'priPaper/P3Math/TSA' + year + '_3ME' + m + '.pdf',
+        source: 'HKEAA TSA'
+      });
+    }
+  }
+}
+
+var currentFilter = 'all';
+
+function filterGrade(grade, el) {
+  currentFilter = grade;
+  document.querySelectorAll('.grade-tab').forEach(function(t){t.classList.remove('active')});
+  el.classList.add('active');
+  renderTSATable();
+}
+
+function renderTSATable() {
+  var filtered = currentFilter === 'all' ? tsaPapers : tsaPapers.filter(function(p){return p.grade === currentFilter});
+  // Show recent years first, limit to 50
+  filtered = filtered.filter(function(p){return p.year >= 2015}).slice(0, 60);
+
+  document.getElementById('tsaBody').innerHTML = filtered.map(function(p){
+    return '<tr><td>' + p.year + '</td><td>' + p.grade + '</td><td>' + p.paper + '</td><td>' + p.source + '</td>' +
+      '<td><a href="' + p.url + '" target="_blank" class="btn btn-outline" style="font-size:10px;padding:4px 10px">下載 PDF</a></td></tr>';
+  }).join('');
+}
+
+renderTSATable();
+</script>
+</body></html>

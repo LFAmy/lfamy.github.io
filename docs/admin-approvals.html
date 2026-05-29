@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 審批管理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.approval-card{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:12px;padding:16px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.approval-card .info{flex:1;min-width:200px}
+.approval-card .name{font-weight:900;font-size:14px}
+.approval-card .detail{font-size:11px;color:#6B7280;line-height:1.7}
+.approval-card .amount{font-weight:900;font-size:18px;color:#16A34A;text-align:right;min-width:80px}
+.btn{display:inline-block;padding:10px 20px;border-radius:20px;font-weight:900;font-size:12px;cursor:pointer;border:none;font-family:inherit}
+.btn-approve{background:#16A34A;color:white}.btn-reject{background:#DC2626;color:white}
+.code-box{background:#1A1A1A;color:#25D366;font-family:monospace;font-size:14px;padding:8px 14px;border-radius:8px;letter-spacing:2px}
+.badge-count{display:inline-block;background:#DC2626;color:white;border-radius:50%;width:22px;height:22px;text-align:center;font-size:11px;font-weight:900;line-height:22px}
+.empty-state{text-align:center;padding:40px;color:#9CA3AF}
+.empty-state .icon{font-size:48px;margin-bottom:8px}
+</style>
+
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "lam-fung-academy.firebaseapp.com",
+  projectId: "lam-fung-academy",
+  storageBucket: "lam-fung-academy.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Auth guard - redirect to login if not authenticated
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    var currentPage = window.location.pathname;
+    if (!currentPage.includes("login.html") && !currentPage.includes("index.html") && !currentPage.includes("ai-diagnostic") && !currentPage.includes("enroll")) {
+      window.location.href = "/docs/login.html";
+    }
+  } else {
+    window.currentUser = user;
+    console.log("Logged in as:", user.email);
+  }
+});
+</script>
+
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>審批管理</h1><p>確認付款 → 自動生成激活碼 → WhatsApp 通知家長</p></div>
+
+<div class="card"><h2>待審批 <span class="badge-count" id="pendingCount">0</span></h2>
+<div id="pendingList"><div class="empty-state"><div class="icon">✅</div><p>冇待審批嘅報名</p></div></div></div>
+
+<div class="card"><h2>今日已審批</h2>
+<div id="approvedList"><div class="empty-state"><div class="icon">📋</div><p>今日未有審批記錄</p></div></div></div>
+</div>
+
+<script>
+function renderApprovals() {
+  var approvals = JSON.parse(localStorage.getItem('lf_pending_approvals') || '[]');
+  var codes = JSON.parse(localStorage.getItem('lf_activation_codes') || '[]');
+
+  document.getElementById('pendingCount').textContent = approvals.length;
+
+  if (approvals.length === 0) {
+    document.getElementById('pendingList').innerHTML = '<div class="empty-state"><div class="icon">✅</div><p>冇待審批嘅報名</p></div>';
+  } else {
+    var html = '';
+    approvals.forEach(function(a, i) {
+      html += '<div class="approval-card">';
+      html += '<div class="info"><div class="name">' + a.reg.student + ' <span style="font-size:11px;color:#6B7280">' + a.reg.grade + '</span></div>';
+      html += '<div class="detail">家長: ' + a.reg.parent + ' · WhatsApp: ' + a.reg.phone + '<br>方案: ' + {trial:'首月試用',monthly:'Pro月費',annual:'Pro年費'}[a.reg.plan] + ' · 提交: ' + new Date(a.time).toLocaleString('zh-HK') + '<br>付款參考: ' + (a.reg.ref || '冇提供') + '</div></div>';
+      html += '<div class="amount">HK$' + a.reg.amount + '</div>';
+      html += '<div><button class="btn btn-approve" onclick="approve(' + i + ')">確認收款</button>';
+      html += '<button class="btn btn-reject" style="margin-top:6px" onclick="reject(' + i + ')">✕</button></div>';
+      html += '</div>';
+    });
+    document.getElementById('pendingList').innerHTML = html;
+  }
+
+  // Show approved today
+  var today = new Date().toISOString().split('T')[0];
+  var approved = codes.filter(function(c) { return c.status === 'active' && c.approved_date && c.approved_date.startsWith(today); });
+  if (approved.length === 0) {
+    document.getElementById('approvedList').innerHTML = '<div class="empty-state"><div class="icon">📋</div><p>今日未有審批記錄</p></div>';
+  } else {
+    document.getElementById('approvedList').innerHTML = approved.map(function(c) {
+      return '<div class="approval-card" style="border-left:3px solid #16A34A"><div class="info"><div class="name">' + c.student + ' ✅</div><div class="detail">家長: ' + c.parent + ' · 方案: ' + {trial:'試用',monthly:'月費',annual:'年費'}[c.plan] + '<br><span class="code-box" style="font-size:11px">' + c.code + '</span></div></div><div style="text-align:right"><button class="btn" style="background:#25D366;color:white" onclick="sendWA(\'' + c.code + '\',\'' + (c.parent||'') + '\')">WhatsApp 通知</button></div></div>';
+    }).join('');
+  }
+}
+
+function approve(i) {
+  if (!confirm('確定已收到款項？確認後會自動生成激活碼。')) return;
+
+  var approvals = JSON.parse(localStorage.getItem('lf_pending_approvals') || '[]');
+  var a = approvals[i];
+  approvals.splice(i, 1);
+  localStorage.setItem('lf_pending_approvals', JSON.stringify(approvals));
+
+  // Activate the code
+  var codes = JSON.parse(localStorage.getItem('lf_activation_codes') || '[]');
+  var found = codes.find(function(c) { return c.code === a.code; });
+  if (found) {
+    found.status = 'active';
+    found.approved_date = new Date().toISOString();
+
+    // Set expiry based on plan
+    var months = found.plan === 'annual' ? 12 : 1;
+    var expiry = new Date();
+    expiry.setMonth(expiry.getMonth() + months);
+    found.expiry = expiry.toISOString();
+
+    localStorage.setItem('lf_activation_codes', JSON.stringify(codes));
+
+    // Add to members
+    var members = JSON.parse(localStorage.getItem('lf_members') || '[]');
+    members.push({
+      student: found.student, grade: found.grade,
+      parent: found.parent, plan: found.plan,
+      activated: new Date().toISOString(), expiry: expiry.toISOString(), code: found.code
+    });
+    localStorage.setItem('lf_members', JSON.stringify(members));
+  }
+
+  renderApprovals();
+  alert('已確認！激活碼: ' + a.code + '\n\nWhatsApp 通知家長？');
+}
+
+function reject(i) {
+  if (!confirm('確定要拒絕？')) return;
+  var approvals = JSON.parse(localStorage.getItem('lf_pending_approvals') || '[]');
+  approvals.splice(i, 1);
+  localStorage.setItem('lf_pending_approvals', JSON.stringify(approvals));
+  renderApprovals();
+}
+
+function sendWA(code, parent) {
+  var planInfo = 'Pro 會員（月費 $199）';
+  window.open('https://wa.me/?text=' + encodeURIComponent(parent + '你好！你嘅霖楓學苑會員已開通 ✅\n\n激活碼：' + code + '\n方案：' + planInfo + '\n\n激活步驟：\n1. 打開 lfamy.github.io/docs/activate.html\n2. 輸入激活碼\n3. 即時開通會員\n\n歡迎加入！有任何問題隨時問我 😊'), '_blank');
+}
+
+renderApprovals();
+setInterval(renderApprovals, 30000); // Auto-refresh every 30s
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body></html>

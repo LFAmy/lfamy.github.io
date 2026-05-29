@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 學生歷史數據</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:16px}
+.container{max-width:900px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
+.header h1{font-size:22px}.header p{font-size:11px;opacity:0.6}
+.card{background:white;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.st{background:#F9FAFB;border-radius:10px;padding:14px;text-align:center}
+.st .v{font-size:24px;font-weight:900;color:#1A3C6D}.st .l{font-size:10px;color:#6B7280;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:8px;background:#F9FAFB;color:#6B7280;font-size:10px;border-bottom:2px solid #E5E7EB}
+td{padding:8px;border-bottom:1px solid #F3F4F6}
+.trend-up{color:#16A34A}.trend-down{color:#DC2626}.trend-flat{color:#F59E0B}
+.bar-wrap{background:#E5E7EB;height:20px;border-radius:10px;overflow:hidden;margin:4px 0}
+.bar-inner{height:100%;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;min-width:30px}
+button,select,input{padding:8px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:12px;font-family:inherit}
+button{background:#1A3C6D;color:white;border:none;cursor:pointer;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>學生歷史數據查詢</h1>
+<p>深度追蹤超過30天嘅練習記錄 · 導師用</p>
+</div>
+
+<div class="card">
+<select id="studentSelect" onchange="loadHistory()"><option>選擇學生...</option></select>
+<input type="date" id="dateFrom" onchange="loadHistory()" style="margin-left:8px">
+<span style="font-size:11px;color:#6B7280">至</span>
+<input type="date" id="dateTo" onchange="loadHistory()">
+</div>
+
+<div class="stats">
+<div class="st"><div class="v" id="totalPractices">-</div><div class="l">總練習次數</div></div>
+<div class="st"><div class="v" id="avgAccuracy">-</div><div class="l">平均正確率</div></div>
+<div class="st"><div class="v" id="totalQuestions">-</div><div class="l">總題數</div></div>
+<div class="st"><div class="v" id="bestStreak">-</div><div class="l">最長連續天</div></div>
+</div>
+
+<div class="card">
+<h2>練習記錄</h2>
+<table><thead><tr><th>日期</th><th>題數</th><th>正確率</th><th>陷阱</th><th>用時</th><th>趨勢</th></tr></thead>
+<tbody id="historyTable"><tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:30px">選擇學生查看記錄</td></tr></tbody></table>
+</div>
+
+<div class="card">
+<h2>陷阱改善趨勢</h2>
+<div id="trapTrends"><p style="color:#9CA3AF;font-size:12px;text-align:center;padding:20px">選擇學生查看趨勢</p></div>
+</div>
+
+<div class="card">
+<h2>AI 建議</h2>
+<div id="aiSuggestions"><p style="color:#9CA3AF;font-size:12px;text-align:center;padding:20px">選擇學生生成建議</p></div>
+</div>
+
+</div>
+
+<script>
+// Load all known students from localStorage
+var students = [];
+for(var i=0;i<localStorage.length;i++){
+var k=localStorage.key(i);
+if(k.startsWith('lf_member_')){
+try{
+var m=JSON.parse(localStorage.getItem(k));
+students.push({name:m.student||k.replace('lf_member_',''), phone:k.replace('lf_member_',''), grade:m.grade||'?'});
+}catch(e){}
+}
+}
+// Also from current_user
+var cu=JSON.parse(localStorage.getItem('lf_current_user')||'null');
+if(cu&&!students.find(function(s){return s.phone===cu.phone})){
+students.push({name:cu.student||'?', phone:cu.phone, grade:cu.grade||'?'});
+}
+
+var sel=document.getElementById('studentSelect');
+sel.innerHTML='<option value=\"\">選擇學生...</option>'+students.map(function(s){
+return '<option value=\"'+s.phone+'\">'+s.name+' ('+s.grade+')</option>';
+}).join('');
+
+function loadHistory(){
+var phone=document.getElementById('studentSelect').value;
+if(!phone)return;
+
+var from=document.getElementById('dateFrom').value;
+var to=document.getElementById('dateTo').value;
+
+// Get practice results
+var results=JSON.parse(localStorage.getItem('lf_test_results')||'[]');
+if(from)results=results.filter(function(r){return (r.date||r.time||'').slice(0,10)>=from});
+if(to)results=results.filter(function(r){return (r.date||r.time||'').slice(0,10)<=to});
+
+// Get gamification data
+var gam=JSON.parse(localStorage.getItem('lf_gamification')||'{}');
+
+// Stats
+var totalPractices=results.length;
+var totalQ=results.reduce(function(s,r){return s+(r.total||r.questions||0)},0);
+var totalCorrect=results.reduce(function(s,r){return s+(r.correct||0)},0);
+var avgAcc=totalQ>0?Math.round(totalCorrect/totalQ*100):0;
+
+document.getElementById('totalPractices').textContent=totalPractices||'-';
+document.getElementById('avgAccuracy').textContent=(avgAcc||'-')+(avgAcc?'%':'');
+document.getElementById('totalQuestions').textContent=totalQ||'-';
+document.getElementById('bestStreak').textContent=(gam.bestStreak||'-')+'天';
+
+// History table
+var tableHtml='';
+results.slice(-20).reverse().forEach(function(r){
+var date=(r.date||r.time||'').slice(0,10);
+var qs=r.total||r.questions||'?';
+var acc=r.total?Math.round(r.correct/r.total*100):'-';
+var trap=r.trap||r.trap_type||'多種';
+var time=r.duration_sec?Math.floor(r.duration_sec/60)+'分':'-';
+var trend=acc>=80?'trend-up':acc>=50?'trend-flat':'trend-down';
+var trendIcon=acc>=80?'↑':acc>=50?'→':'↓';
+tableHtml+='<tr><td>'+date+'</td><td>'+qs+'</td><td>'+acc+'%</td><td>'+trap+'</td><td>'+time+'</td><td class=\"'+trend+'\">'+trendIcon+'</td></tr>';
+});
+document.getElementById('historyTable').innerHTML=tableHtml||'<tr><td colspan=6 style=text-align:center;color:#9CA3AF;padding:20px>沒有記錄</td></tr>';
+
+// Trap trends
+var trapNames={T1:'進退位',T2:'單位換算',T3:'運算順序',T4:'漏寫0/小數',T5:'分數',T6:'百分數',T7:'應用題',T8:'圖形',T9:'體積/時間',T10:'餘數/因倍'};
+var trapHtml='';
+Object.keys(trapNames).forEach(function(t){
+var defeats=gam.trapDefeats?.[t]||0;
+var stage=gam.monsterStages?.[t]||0;
+var pct=Math.min(100,defeats*2);
+var color=pct>60?'#16A34A':pct>30?'#F59E0B':'#DC2626';
+trapHtml+='<div style=display:flex;align-items:center;gap:10px;margin:4px 0>';
+trapHtml+='<span style=width:80px;font-size:11px>'+t+' '+trapNames[t]+'</span>';
+trapHtml+='<div class=bar-wrap style=flex:1><div class=bar-inner style=width:'+pct+'%;background:'+color+'>'+defeats+'次</div></div>';
+trapHtml+='<span style=font-size:10px;color:#6B7280>Lv.'+stage+'</span></div>';
+});
+document.getElementById('trapTrends').innerHTML=trapHtml||'<p style=text-align:center;color:#9CA3AF>沒有數據</p>';
+
+// AI suggestions
+var weakest=[];
+Object.keys(trapNames).forEach(function(t){
+var d=gam.trapDefeats?.[t]||0;
+weakest.push({t:t,name:trapNames[t],defeats:d});
+});
+weakest.sort(function(a,b){return a.defeats-b.defeats});
+var weak3=weakest.slice(0,3);
+var sugHtml='<p style=font-size:12px;line-height:2;color:#374151>';
+sugHtml+='<b>最需要改善的3個陷阱：</b><br>';
+weak3.forEach(function(w,i){
+sugHtml+=(i+1)+'. '+w.name+' — 只擊敗過'+w.defeats+'次<br>';
+});
+sugHtml+='<br><b>建議：</b>每週集中練習最弱嘅1-2個陷阱，4-6週後重新評估。';
+sugHtml+='</p>';
+document.getElementById('aiSuggestions').innerHTML=sugHtml;
+}
+</script>
+</body>
+</html>

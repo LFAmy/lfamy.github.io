@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 自動通訊</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.event-card{display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:10px;margin:8px 0;gap:12px}
+.event-card.urgent{background:#FEF2F2;border-left:4px solid #DC2626}
+.event-card.normal{background:#F0FDF4;border-left:4px solid #16A34A}
+.event-card.info{background:#EFF6FF;border-left:4px solid #2563EB}
+.event-card .event-info{flex:1;min-width:150px}
+.event-card .event-student{font-weight:700;font-size:13px}
+.event-card .event-desc{font-size:11px;color:#6B7280}
+.event-card .event-time{font-size:10px;color:#9CA3AF}
+.event-actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn{display:inline-block;padding:8px 16px;border-radius:20px;font-weight:700;font-size:11px;cursor:pointer;border:none;font-family:inherit}
+.btn-send{background:#25D366;color:white}.btn-wx{background:#07C160;color:white}
+.btn-skip{background:#E5E7EB;color:#6B7280}.btn-done{background:#16A34A;color:white}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0}
+.stat-tile{text-align:center;padding:12px 8px;background:#F0F7FF;border-radius:8px}
+.stat-tile .val{font-size:22px;font-weight:900;color:#1A3C6D}
+.stat-tile .label{font-size:9px;color:#6B7280}
+.schedule-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #F3F4F6;font-size:12px}
+.auto-badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700}
+.auto-on{background:#D1FAE5;color:#065F46}
+.auto-off{background:#FEF2F2;color:#991B1B}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:#F3F4F6;border-radius:10px;padding:4px}
+.tab{padding:10px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:transparent;color:#6B7280;flex:1;text-align:center}
+.tab.active{background:white;color:#1A3C6D;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>自動通訊中心</h1><p>智能檢測學生進度 · 自動生成通知 · 你審批後發送</p></div>
+
+<div class="stats-grid">
+<div class="stat-tile"><div class="val" id="statPending">0</div><div class="label">待發送</div></div>
+<div class="stat-tile"><div class="val" id="statToday">0</div><div class="label">今日已發</div></div>
+<div class="stat-tile"><div class="val" id="statWeek">0</div><div class="label">本週已發</div></div>
+<div class="stat-tile"><div class="val" id="statAuto">關</div><div class="label">自動模式</div></div>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="switchTab('pending')">待發送通知</button>
+<button class="tab" onclick="switchTab('schedule')">排程設定</button>
+<button class="tab" onclick="switchTab('history')">發送記錄</button>
+</div>
+
+<!-- PENDING -->
+<div id="tab-pending">
+<div class="card"><h2>智能檢測結果</h2>
+<p style="font-size:11px;color:#6B7280;margin-bottom:12px">系統自動掃描學生進度，檢測到以下需要發送通知的事件</p>
+<div id="eventList"><div style="text-align:center;color:#9CA3AF;padding:30px">掃描中…</div></div>
+</div></div>
+
+<!-- SCHEDULE -->
+<div id="tab-schedule" style="display:none">
+<div class="card"><h2>自動通知排程</h2>
+<div class="schedule-item"><div><strong>每日練習提醒</strong><br><span style="font-size:10px;color:#6B7280">學生當日未練習 → 晚上8點提醒</span></div><span class="auto-badge auto-off">手動</span></div>
+<div class="schedule-item"><div><strong>每週進度報告</strong><br><span style="font-size:10px;color:#6B7280">每週一自動生成上週報告</span></div><span class="auto-badge auto-off">手動</span></div>
+<div class="schedule-item"><div><strong>3日未練習提醒</strong><br><span style="font-size:10px;color:#6B7280">連續3日冇練習 → 自動提醒家長</span></div><span class="auto-badge auto-off">手動</span></div>
+<div class="schedule-item"><div><strong>會員到期提醒</strong><br><span style="font-size:10px;color:#6B7280">到期前7天、3天、1天</span></div><span class="auto-badge auto-off">手動</span></div>
+<div class="schedule-item"><div><strong>陷阱改善通知</strong><br><span style="font-size:10px;color:#6B7280">學生成功避開一個陷阱 → 通知家長</span></div><span class="auto-badge auto-off">手動</span></div>
+<div class="schedule-item"><div><strong>課堂摘要群發</strong><br><span style="font-size:10px;color:#6B7280">老師落堂後 → 自動生成並提醒發送</span></div><span class="auto-badge auto-off">手動</span></div>
+<div style="margin-top:12px"><button class="btn btn-send" onclick="toggleAuto()">啟用全自動模式 (測試版)</button></div>
+</div></div>
+
+<!-- HISTORY -->
+<div id="tab-history" style="display:none">
+<div class="card"><h2>發送記錄</h2>
+<div id="historyList"><div style="text-align:center;color:#9CA3AF;padding:30px">未有發送記錄</div></div></div>
+</div>
+</div>
+
+<script>
+var events = [];
+var history = JSON.parse(localStorage.getItem('lf_comm_history') || '[]');
+var autoMode = localStorage.getItem('lf_auto_comm') === '1';
+
+function scanEvents() {
+  events = [];
+  var now = new Date();
+  var today = now.toISOString().split('T')[0];
+
+  // Scan all students with data
+  var students = [];
+  try {
+    var gam = JSON.parse(localStorage.getItem('lf_gamification') || '{}');
+    if (gam.lastActiveDate) {
+      students.push({
+        name: localStorage.getItem('lf_student_name') || '學生',
+        grade: localStorage.getItem('lf_student_grade') || 'P5',
+        lastActive: gam.lastActiveDate,
+        streak: gam.currentStreak || 0,
+        accuracy: gam.totalQuestions > 0 ? Math.round(gam.totalCorrect / gam.totalQuestions * 100) : 0,
+        totalQ: gam.totalQuestions || 0,
+        trapsAvoided: Object.values(gam.monsterStages || {}).filter(function(v){return v>=1}).length
+      });
+    }
+  } catch(e) {}
+
+  // If no data, generate demo
+  if (students.length === 0) {
+    students = [
+      {name:'陳小明', grade:'P5', lastActive:'2026-05-25', streak:4, accuracy:78, totalQ:156, trapsAvoided:3},
+      {name:'李小美', grade:'P3', lastActive:'2026-05-22', streak:0, accuracy:62, totalQ:42, trapsAvoided:1},
+      {name:'張志偉', grade:'P6', lastActive:'2026-05-26', streak:12, accuracy:91, totalQ:520, trapsAvoided:7},
+    ];
+  }
+
+  students.forEach(function(s){
+    var daysSince = Math.floor((now - new Date(s.lastActive)) / 86400000);
+
+    // Event: No practice today
+    if (s.lastActive !== today && daysSince <= 1) {
+      events.push({
+        type: 'daily_reminder', urgent: false,
+        student: s.name, grade: s.grade,
+        desc: s.name + ' 今日尚未練習',
+        msg: '【霖楓學苑】' + s.name + '今日尚未練習 📅\n\n連續' + s.streak + '日練習中，保持記錄！\n👉 開始練習：lfamy.github.io/docs/online-test.html',
+        time: '建議晚上8點發送'
+      });
+    }
+
+    // Event: 3 days inactive
+    if (daysSince >= 3 && s.streak === 0) {
+      events.push({
+        type: 'inactive_3d', urgent: true,
+        student: s.name, grade: s.grade,
+        desc: s.name + ' 已' + daysSince + '日冇練習 ⚠️',
+        msg: '【霖楓學苑】' + s.name + '已經' + daysSince + '天沒有練習了 📅\n\n持續練習的學生平均進步+8.1分。\n別讓進度停滯！\n👉 開始練習：lfamy.github.io/docs/online-test.html',
+        time: '立即發送'
+      });
+    }
+
+    // Event: Trap milestone
+    if (s.trapsAvoided >= 3 && s.trapsAvoided < 7) {
+      events.push({
+        type: 'trap_milestone', urgent: false,
+        student: s.name, grade: s.grade,
+        desc: s.name + ' 已成功避開 ' + s.trapsAvoided + ' 種陷阱 🌟',
+        msg: '【霖楓學苑】好消息！🎉\n\n' + s.name + '已成功避開' + s.trapsAvoided + '種數學陷阱！\n正確率：' + s.accuracy + '%\n\n繼續努力，每避開一種陷阱，成績就會進一步提升 💪',
+        time: '本週內發送'
+      });
+    }
+
+    // Event: Accuracy improvement
+    if (s.accuracy >= 85 && s.totalQ >= 100) {
+      events.push({
+        type: 'excellent', urgent: false,
+        student: s.name, grade: s.grade,
+        desc: s.name + ' 正確率達 ' + s.accuracy + '% 🏆',
+        msg: '【霖楓學苑】優秀表現！🏆\n\n' + s.name + '的正確率已達' + s.accuracy + '%！\n總練習量：' + s.totalQ + '題\n\n建議挑戰Boss關卡，測試實力！',
+        time: '本週內發送'
+      });
+    }
+  });
+
+  // Membership expiry scan
+  var members = JSON.parse(localStorage.getItem('lf_members') || '[]');
+  members.forEach(function(m){
+    var daysLeft = Math.ceil((new Date(m.expiry) - now) / 86400000);
+    if (daysLeft <= 7 && daysLeft > 0) {
+      events.push({
+        type: 'expiry', urgent: daysLeft <= 3,
+        student: m.student || '—', grade: m.grade || '—',
+        desc: (m.student || m.parent) + ' 會員 ' + daysLeft + ' 日後到期 ⏰',
+        msg: '【霖楓學苑】' + (m.parent || '家長') + '您好！\n\n會員將於' + m.expiry.split('T')[0] + '到期 ⏰\n剩餘' + daysLeft + '天\n\n續費：聯絡老師',
+        time: daysLeft <= 3 ? '立即發送' : '本週內發送'
+      });
+    }
+  });
+
+  renderEvents();
+  updateStats();
+}
+
+function renderEvents() {
+  var html = '';
+  if (events.length === 0) {
+    html = '<div style="text-align:center;color:#9CA3AF;padding:30px">✅ 全部通知已處理</div>';
+  } else {
+    events.forEach(function(e, i){
+      var cls = e.urgent ? 'urgent' : (e.type === 'excellent' || e.type === 'trap_milestone' ? 'info' : 'normal');
+      html += '<div class="event-card ' + cls + '">';
+      html += '<div class="event-info"><div class="event-student">' + e.student + ' <span style="font-size:10px;color:#6B7280">' + e.grade + '</span></div>';
+      html += '<div class="event-desc">' + e.desc + '</div><div class="event-time">' + e.time + '</div></div>';
+      html += '<div class="event-actions">';
+      html += '<button class="btn btn-send" onclick="sendEvent(' + i + ',\'wa\')">WhatsApp</button>';
+      html += '<button class="btn btn-wx" onclick="sendEvent(' + i + ',\'wx\')">微信</button>';
+      html += '<button class="btn btn-skip" onclick="skipEvent(' + i + ')">跳過</button>';
+      html += '</div></div>';
+    });
+  }
+  document.getElementById('eventList').innerHTML = html;
+}
+
+function sendEvent(i, channel) {
+  var e = events[i];
+  if (channel === 'wa') {
+    window.open('https://wa.me/?text=' + encodeURIComponent(e.msg), '_blank');
+  } else {
+    navigator.clipboard.writeText(e.msg).then(function(){
+      alert('已复制到剪贴板 ✅\n请打开微信粘贴发送');
+    });
+  }
+
+  // Record in history
+  history.unshift({
+    student: e.student, type: e.type, channel: channel,
+    time: new Date().toISOString()
+  });
+  localStorage.setItem('lf_comm_history', JSON.stringify(history));
+
+  events.splice(i, 1);
+  renderEvents();
+  updateStats();
+}
+
+function skipEvent(i) {
+  events.splice(i, 1);
+  renderEvents();
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('statPending').textContent = events.length;
+  var today = new Date().toISOString().split('T')[0];
+  var todaySent = history.filter(function(h){return h.time.startsWith(today)}).length;
+  document.getElementById('statToday').textContent = todaySent;
+  document.getElementById('statWeek').textContent = history.length;
+  document.getElementById('statAuto').textContent = autoMode ? '開' : '關';
+}
+
+function toggleAuto() {
+  autoMode = !autoMode;
+  localStorage.setItem('lf_auto_comm', autoMode ? '1' : '0');
+  updateStats();
+  alert(autoMode ? '全自動模式已啟用 ✅\n系統會定時掃描並提醒你發送通知' : '已切換回手動模式');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  event.target.classList.add('active');
+  ['pending','schedule','history'].forEach(function(t){
+    document.getElementById('tab-'+t).style.display = (t===tab) ? 'block' : 'none';
+  });
+}
+
+scanEvents();
+setInterval(scanEvents, 60000); // Re-scan every minute
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body></html>

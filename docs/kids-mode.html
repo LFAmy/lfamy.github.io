@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 兒童冒險模式 v2</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:linear-gradient(180deg,#0A1A35,#1A3C6D,#1E4D8C);color:white;min-height:100vh;text-align:center;padding:16px}
+.fox{font-size:72px;animation:float 2s ease-in-out infinite;margin:16px 0}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+h1{font-size:22px;margin:8px 0}.sub{font-size:12px;opacity:0.5}
+.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:24px 18px;margin:12px 0;max-width:500px;margin-left:auto;margin-right:auto}
+.monster{font-size:64px;display:block;margin:8px}
+.q-num{font-size:12px;color:#C9A84C;margin-bottom:4px}.q-tag{font-size:10px;opacity:0.4}
+.q-text{font-size:20px;font-weight:700;margin:12px 0;line-height:1.4}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.opt{background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.12);border-radius:14px;padding:14px 10px;font-size:16px;color:white;cursor:pointer;transition:all 0.15s}
+.opt:hover{background:rgba(201,168,76,0.1);border-color:#C9A84C;transform:scale(1.03)}
+.opt.right{background:rgba(22,163,74,0.2);border-color:#16A34A}.opt.wrong{background:rgba(220,38,38,0.2);border-color:#DC2626}
+.opt.retry{border-color:#F59E0B;background:rgba(245,158,11,0.1)}
+.progress-wrap{background:rgba(255,255,255,0.08);height:8px;border-radius:4px;margin:12px 0;overflow:hidden}
+.progress-inner{background:#C9A84C;height:100%;width:0;transition:width 0.3s;border-radius:4px}
+.hp-bar{background:rgba(255,255,255,0.08);border-radius:8px;height:14px;margin:8px 0;overflow:hidden}
+.hp-inner{background:linear-gradient(90deg,#DC2626,#EF4444);height:100%;transition:width 0.3s}
+.streak{display:inline-block;background:rgba(201,168,76,0.2);color:#C9A84C;padding:4px 12px;border-radius:15px;font-size:12px;font-weight:700;margin:8px 0}
+.btn{display:inline-block;padding:14px 36px;border-radius:30px;font-weight:900;font-size:16px;cursor:pointer;border:none;margin:8px;transition:all 0.15s;font-family:inherit}
+.btn-start{background:#C9A84C;color:#1A3C6D;font-size:20px;padding:18px 48px}
+.btn-next{background:#C9A84C;color:#1A3C6D}.btn-next:disabled{opacity:0.3}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,0.2);color:white}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;max-width:400px;margin:12px auto}
+.menu-item{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 8px;text-decoration:none;color:white;font-size:11px;font-weight:700;transition:all 0.15s}
+.menu-item:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px)}.menu-item .icon{font-size:28px;display:block;margin-bottom:4px}
+.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
+.confetti-piece{position:absolute;width:12px;height:12px;animation:fall 2s ease-out forwards}
+@keyframes fall{0%{transform:translateY(-100px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.fox-msg{background:rgba(255,255,255,0.08);border-radius:15px;padding:10px 16px;display:inline-block;font-size:13px;margin:8px 0;animation:pop 0.3s}
+@keyframes pop{0%{transform:scale(0.8)}100%{transform:scale(1)}}
+.review-badge{display:inline-block;background:rgba(245,158,11,0.2);color:#FCD34D;padding:4px 10px;border-radius:10px;font-size:10px;margin-left:4px}
+.mode-switch{display:flex;gap:6px;justify-content:center;margin:8px 0}
+.mode-btn{padding:8px 16px;border-radius:20px;border:2px solid rgba(255,255,255,0.15);background:transparent;color:white;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit}
+.mode-btn.on{border-color:#C9A84C;background:rgba(201,168,76,0.15);color:#C9A84C}
+</style>
+
+<script src="lf-gamification.js"></script>
+</head>
+<body>
+
+<div id="menu">
+<div class="fox">🦊</div>
+<h1>Trap Fox 冒險模式 v2</h1>
+<div class="sub">每次全新題目 · 錯題自動記錄 · 智能重測</div>
+<div class="card">
+<p style="font-size:14px;opacity:0.7;margin-bottom:8px">選擇年級開始冒險：</p>
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+<button class="opt" style="width:auto;padding:10px 20px" onclick="pickGrade('P3',this)">P3</button>
+<button class="opt" style="width:auto;padding:10px 20px" onclick="pickGrade('P4',this)">P4</button>
+<button class="opt" style="width:auto;padding:10px 20px;border-color:#C9A84C;background:rgba(201,168,76,0.15)" onclick="pickGrade('P5',this)">P5</button>
+<button class="opt" style="width:auto;padding:10px 20px" onclick="pickGrade('P6',this)">P6</button>
+</div>
+<div class="mode-switch">
+<button class="mode-btn on" onclick="setMode('normal',this)">普通模式</button>
+<button class="mode-btn" onclick="setMode('review',this)">錯題重測 <span class="review-badge" id="reviewCount">0</span></button>
+</div>
+<button class="btn btn-start" onclick="start()">開始冒險！</button>
+</div>
+<div class="menu-grid">
+<a href="kids-boss-battle.html" class="menu-item"><span class="icon">💀</span>Boss 挑戰</a>
+<a href="kids-monster-box.html" class="menu-item"><span class="icon">🐲</span>怪獸圖鑑</a>
+<a href="kids-badges.html" class="menu-item"><span class="icon">🏅</span>勳章</a>
+<a href="kids-quests.html" class="menu-item"><span class="icon">📋</span>每日任務</a>
+<a href="kids-leaderboard.html" class="menu-item"><span class="icon">🏆</span>排行榜</a>
+<a href="student-platform.html" class="menu-item"><span class="icon">🎓</span>學生平台</a>
+</div>
+</div>
+
+<div id="game" style="display:none">
+<div class="fox" id="fox">🦊</div>
+<div class="fox-msg" id="foxMsg">加油！你可以嘅！</div>
+<div class="monster" id="monster">👾</div>
+<div class="streak" id="streak">🔥 連續 0 題</div>
+<div style="font-size:10px;opacity:0.3" id="modeLabel"></div>
+<div class="hp-bar"><div class="hp-inner" id="hpBar" style="width:100%"></div></div>
+<div class="progress-wrap"><div class="progress-inner" id="bar"></div></div>
+<div class="q-num" id="qn"></div>
+<div class="q-tag" id="qtg"></div>
+<div class="q-text" id="qt"></div>
+<div class="opts" id="op"></div>
+<button class="btn btn-next" id="nx" disabled onclick="nextQ()">下一題 →</button>
+</div>
+
+<div id="win" style="display:none">
+<div class="fox">🦊</div>
+<h1 id="winTitle">做得好！</h1>
+<div class="sub" id="winMsg"></div>
+<div class="confetti" id="confetti"></div>
+<button class="btn btn-start" onclick="start()">再玩一次！</button>
+<button class="btn btn-outline" onclick="setMode('review');start()">重做錯題</button>
+<a href="kids-boss-battle.html" class="btn btn-outline">挑戰 Boss</a>
+</div>
+
+<script>
+var grade='P5',Q=[],totalQ=0,currentQ=0,streak=0,hp=5,sel=null,mode='normal';
+var monsters=['👾','🐉','🤖','👻','🍕','💯','📖','📐','⏰','🔮'];
+var foxMsgs=['加油！你可以嘅！','小心陷阱呀！','睇清楚題目！','你做得到㗎！','Fox 相信你！','唔好急，慢慢諗！'];
+var trapNames={T1:'進退位',T2:'單位換算',T3:'運算',T4:'漏寫0',T5:'分數',T6:'百分數',T7:'應用題',T8:'圖形',T9:'時間/體積',T10:'餘數'};
+
+// Expanded question pools (25+ per grade for variety)
+
+// LF Live Question Generator — creates unlimited unique math questions on-the-fly
+// Uses parameterized templates with random values
+
+var LFGen = {
+  _bankCache: {},
+
+  // Load grade bank
+  loadBank: function(grade) {
+    var self = this;
+    if (this._bankCache[grade]) {
+      return Promise.resolve(this._bankCache[grade]);
+    }
+    return fetch('/docs/data/question_bank_' + grade + '.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        self._bankCache[grade] = data;
+        return data;
+      })
+      .catch(function() { return []; });
+  },
+
+  // Get random questions from bank
+  getQuestions: function(grade, count) {
+    var pool = this._bankCache[grade] || [];
+    if (pool.length < 5) {
+      // Generate on-the-fly instead
+      return this.generateQuestions(grade, count);
+    }
+    var shuffled = pool.slice();
+    for (var i = shuffled.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = t;
+    }
+    return shuffled.slice(0, Math.min(count, shuffled.length));
+  },
+
+  // Generate fresh questions on-the-fly (client side AI)
+  generateQuestions: function(grade, count) {
+    var qs = [];
+    var trapTypes = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+    for (var n = 0; n < count; n++) {
+      var trap = trapTypes[Math.floor(Math.random() * trapTypes.length)];
+      var q = this._generateOne(grade, trap);
+      if (q) qs.push(q);
+    }
+    return qs;
+  },
+
+  _generateOne: function(grade, trap) {
+    var a, b, c, name, item, correct, wrongs, opts, unit;
+    var names = ['小明','小美','家豪','Chloe','婷婷','志偉','詠詩'];
+
+    if (trap === 'T1' && grade === 'P3') {
+      a = rand(20,200); b = rand(10,150);
+      correct = a + b; wrongs = [correct+1, correct-1, correct+10];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T1' && grade === 'P4') {
+      a = rand(1000,8000); b = rand(500,3000);
+      correct = a + b; wrongs = [correct+1, correct-10, correct+100];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T1' && (grade === 'P5' || grade === 'P6')) {
+      a = rand(10000,50000); b = rand(5000,20000);
+      correct = a + b; wrongs = [correct+10, correct-100, correct+1000];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T2') {
+      var units = {P3:[['米','厘米',100]],P4:[['公里','米',1000]],P5:[['平方米','平方厘米',10000]],P6:[['公里','米',1000]]};
+      var u = (units[grade]||units.P5)[0];
+      a = rand(1,10); correct = a * u[2]; wrongs = [correct*10, correct/10, correct*2];
+      return makeQ(a + ' ' + u[0] + ' = ? ' + u[1], correct, wrongs, 'T2', grade);
+    }
+    if (trap === 'T3') {
+      a = rand(2,20); b = rand(2,10); c = rand(2,8);
+      var patterns = [
+        [a + ' + ' + b + ' × ' + c, a + b * c],
+        ['(' + a + ' + ' + b + ') × ' + c, (a + b) * c]
+      ];
+      var p = patterns[Math.floor(Math.random() * 2)];
+      correct = p[1]; wrongs = [correct+4, correct-3, correct*2];
+      return makeQ(p[0] + ' = ?', correct, wrongs, 'T3', grade);
+    }
+    if (trap === 'T4') {
+      if (grade === 'P3' || grade === 'P4') {
+        var pairs = [[408,2],[306,3],[804,2],[1020,4],[1500,5]];
+        var p2 = pairs[Math.floor(Math.random()*pairs.length)];
+        correct = Math.floor(p2[0] / p2[1]); wrongs = [correct*10, correct/10, correct+1];
+        return makeQ(p2[0] + ' ÷ ' + p2[1] + ' = ?', correct, wrongs, 'T4', grade);
+      } else {
+        a = round(rand(1,50)/10, 1); b = round(rand(2,9)/10, 1);
+        correct = round(a / b, 2); wrongs = [round(correct*10,1), round(correct/10,2), round(correct+1,1)];
+        return makeQ(a + ' ÷ ' + b + ' = ?', correct, wrongs, 'T4', grade);
+      }
+    }
+    if (trap === 'T5') {
+      var den = [2,3,4,5,6,8][Math.floor(Math.random()*6)];
+      var n1 = rand(1,den-1); var n2 = rand(1,den-1);
+      correct = n1 + n2; wrongs = [correct+1, correct-1, den];
+      if (correct >= den) { n1 = rand(1,Math.floor(den/2)); correct = n1 + 1; }
+      return makeQ(n1 + '/' + den + ' + 1/' + den + ' = ?', correct + '/' + den, wrongs.map(function(w){return w+'/'+den}), 'T5', grade);
+    }
+    if (trap === 'T6') {
+      var pairs6 = [[200,15],[400,20],[500,25],[800,10],[300,30]];
+      var p6 = pairs6[Math.floor(Math.random()*pairs6.length)];
+      correct = Math.floor(p6[0] * p6[1] / 100);
+      wrongs = [correct*2, correct + p6[0]/10, correct + 5];
+      return makeQ('$' + p6[0] + ' 的 ' + p6[1] + '% 是多少？', correct, wrongs, 'T6', grade);
+    }
+    if (trap === 'T7') {
+      name = names[Math.floor(Math.random()*names.length)];
+      a = rand(10,50); b = rand(2,10);
+      return makeQ(name + '有' + a + '粒糖，食咗' + b + '粒，仲有幾多？', a - b, [a, b, a+b], 'T7', grade);
+    }
+    if (trap === 'T8') {
+      var w8 = rand(3,12); var h8 = rand(2,8);
+      if (Math.random() > 0.5) {
+        return makeQ('長方形長' + w8 + 'cm闊' + h8 + 'cm，面積？', w8*h8 + 'cm²', [2*(w8+h8)+'cm', w8+h8+'cm', w8*h8*2+'cm²'], 'T8', grade);
+      } else {
+        return makeQ('正方形邊長' + w8 + 'cm，面積？', w8*w8 + 'cm²', [w8*4+'cm', w8*2+'cm', w8*w8*2+'cm²'], 'T8', grade);
+      }
+    }
+    if (trap === 'T9') {
+      a = rand(1,4); b = rand(1,59);
+      correct = a * 60 + b;
+      wrongs = [a * 100 + b, a * 60, correct + 60];
+      return makeQ(a + '小時' + b + '分鐘 = ? 分鐘', correct, wrongs, 'T9', grade);
+    }
+    if (trap === 'T10') {
+      var div = rand(10,200); var div2 = [3,4,5,6][Math.floor(Math.random()*4)];
+      var q10 = Math.floor(div / div2); var r10 = div % div2;
+      if (r10 === 0) { div++; r10 = div % div2; }
+      correct = q10 + '餘' + r10;
+      wrongs = [(q10+1)+'餘'+Math.max(0,r10-1), q10+'餘'+(r10+1), (q10+Math.floor(Math.random()*2)+1)+'餘'+r10];
+      return makeQ(div + ' ÷ ' + div2 + ' = ?', correct, wrongs, 'T10', grade);
+    }
+    return null;
+  }
+};
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function round(v, d) { var m = Math.pow(10, d); return Math.round(v * m) / m; }
+function makeQ(text, answer, wrongs, trap, grade) {
+  var correctStr = String(answer);
+  var wrongStrs = wrongs.map(function(w) { return String(w).replace('NaN','0'); });
+  var all = [correctStr].concat(wrongStrs.slice(0,3));
+  // Deduplicate
+  var clean = []; var seen = {};
+  all.forEach(function(o) { if (!seen[o] && o && o.length > 0) { clean.push(o); seen[o] = true; } });
+  if (clean.length < 3) {
+    // Pad with fake options
+    for (var i = 0; i < 10; i++) {
+      var fake = String(rand(1, 99));
+      if (!seen[fake]) { clean.push(fake); seen[fake] = true; if (clean.length >= 4) break; }
+    }
+  }
+  // Shuffle
+  for (var i = clean.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = clean[i]; clean[i] = clean[j]; clean[j] = t;
+  }
+  var ansIdx = clean.indexOf(correctStr);
+  if (ansIdx < 0) { clean[0] = correctStr; clean = clean.slice(0,4); ansIdx = 0; }
+  return { q: text, opts: clean.slice(0,4), ans: ansIdx, trap: trap, grade: grade, source: 'live_gen' };
+}
+
+var POOL={P3:[],P4:[],P5:[],P6:[]};
+
+// Build pools dynamically
+function buildPools(){
+var qs={
+P3:[
+["125+48=?",["163","173","183","153"],1,"T1"],["300-156=?",["144","154","134","164"],0,"T1"],["67+29=?",["86","96","106","76"],1,"T1"],["500-238=?",["262","272","252","282"],0,"T1"],["45+38=?",["73","83","93","63"],1,"T1"],
+["1米=?厘米",["10","100","1000","1"],1,"T2"],["1公斤=?克",["10","100","1000","10000"],2,"T2"],["1元=?角",["1","10","100","5"],1,"T2"],["1星期=?日",["5","6","7","10"],2,"T2"],["1小時=?分鐘",["10","60","100","30"],1,"T2"],
+["8×7=?",["54","56","64","48"],1,"T3"],["6×9=?",["54","56","63","48"],0,"T3"],["3+5×2=?",["16","13","11","10"],1,"T3"],["10-3×2=?",["14","4","7","16"],1,"T3"],["20÷4=?",["4","5","6","3"],1,"T3"],
+["1/4+2/4=?",["3/8","3/4","1/2","2/8"],1,"T5"],["3/5-1/5=?",["2/5","2/10","4/5","1/5"],0,"T5"],["1/2+1/2=?",["2/4","1","1/4","2/2"],1,"T5"],
+["小明有15粒糖食7粒剩?",["8","22","9","7"],0,"T7"],["一盒鉛筆12支買3盒?",["15","36","24","48"],1,"T7"],["$10買$3.5零食找?",["$6.5","$7.5","$13.5","$5.5"],0,"T7"],
+["正方形邊長4cm周界?",["8cm","12cm","16cm","20cm"],2,"T8"],["長方形長6cm闊4cm周界?",["10cm","20cm","24cm","12cm"],1,"T8"],
+["下午2時過3小時?",["下午5時","下午4時","下午6時","下午3時"],0,"T9"],["半小時=?分鐘",["15","30","50","60"],1,"T9"],["1小時30分=?分鐘",["60","90","130","100"],1,"T9"],
+],
+P4:[
+["1256+3789=?",["5045","4945","5035","5145"],0,"T1"],["8000-3456=?",["4544","4644","4444","4554"],0,"T1"],["4567+2389=?",["6956","6856","7056","6946"],0,"T1"],
+["2公里=?米",["20","200","2000","20000"],2,"T2"],["3升=?毫升",["30","300","3000","30000"],2,"T2"],["4公斤=?克",["40","400","4000","40000"],2,"T2"],
+["12+8×3=?",["60","36","44","28"],1,"T3"],["(12+8)×3=?",["60","36","44","28"],0,"T3"],["24÷6+2=?",["3","6","8","4"],1,"T3"],["5×6-4×2=?",["52","22","18","28"],1,"T3"],
+["806÷2=?",["43","403","430","4003"],1,"T4"],["906÷3=?",["32","302","320","3002"],1,"T4"],["408÷4=?",["12","102","120","1002"],1,"T4"],
+["2/3-1/3=?",["1/3","1/6","1","3/3"],0,"T5"],["3/8+5/8=?",["8/16","1","8/8","2/8"],1,"T5"],["1-1/4=?",["3/4","1/4","4/4","2/4"],0,"T5"],
+["一盒蛋12隻買5盒送1盒共?",["60","72","66","48"],1,"T7"],["$50買3本書每本$12找?",["$14","$26","$38","$2"],0,"T7"],["180粒糖分9人每人?",["10","20","30","15"],1,"T7"],
+["長方形長8cm闊5cm面積?",["13cm²","26cm²","40cm²","20cm²"],2,"T8"],["正方形邊長6cm面積?",["24cm²","36cm²","12cm²","18cm²"],1,"T8"],["長方形長8cm闊5cm周界?",["13cm","40cm","26cm","20cm"],2,"T8"],
+["1小時45分=?分鐘",["95","105","85","115"],1,"T9"],["120分鐘=?小時",["1","1.5","2","2.5"],2,"T9"],
+["17÷5=?",["3餘2","2餘3","3餘3","4餘1"],0,"T10"],["23÷4=?",["5餘3","6餘1","5餘2","4餘7"],0,"T10"],
+],
+P5:[
+["356+278=?",["534","634","624","524"],1,"T1"],["5000-2345=?",["2655","2755","2555","2665"],0,"T1"],["4567+2389=?",["6956","6856","7056","6946"],0,"T1"],
+["1m²=?cm²",["100","1000","10000","100000"],2,"T2"],["3.5公里=?米",["35","350","3500","35000"],2,"T2"],["2.5小時=?分鐘",["120","150","180","250"],1,"T2"],["0.75公斤=?克",["75","750","7500","7.5"],1,"T2"],
+["6+4×2=?",["20","14","16","10"],1,"T3"],["(6+4)×(3-1)=?",["20","16","10","8"],0,"T3"],["36÷4+2×3=?",["15","33","9","7"],0,"T3"],["5²+4×3=?",["37","27","75","19"],0,"T3"],
+["408÷2=?",["24","204","240","402"],1,"T4"],["3060÷5=?",["612","62","6120","602"],0,"T4"],["3.5×0.4=?",["14","1.4","0.14","140"],1,"T4"],
+["1/2+1/3=?",["2/5","5/6","1/6","2/6"],1,"T5"],["2/3×3/4=?",["6/12","1/2","5/7","8/9"],1,"T5"],["3/4÷1/2=?",["3/8","3/2","1.5","B和C"],3,"T5"],
+["$200的15%=?",["$15","$30","$25","$215"],1,"T6"],["$400加價25%=?",["$425","$500","$300","$100"],1,"T6"],["80的20%=?",["16","20","8","100"],0,"T6"],
+["小明有12粒糖俾1/3妹妹剩?",["4","8","3","9"],1,"T7"],["原價$500八折再九折=?",["$400","$360","$450","$340"],1,"T7"],
+["長方形長5cm闊3cm面積?",["16cm²","15cm²","8cm²","16cm"],1,"T8"],["三角形底8cm高5cm面積?",["40cm²","20cm²","13cm²","26cm²"],1,"T8"],["梯形上底4下底6高5面積?",["25cm²","30cm²","50cm²","20cm²"],0,"T8"],
+["正方體邊長3cm體積?",["9cm³","27cm³","12cm³","18cm³"],1,"T9"],["長方體4×3×2cm體積?",["9cm³","24cm³","12cm³","20cm³"],1,"T9"],
+],
+P6:[
+["38456+27829=?",["66285","65285","67285","66385"],0,"T1"],["100000-67845=?",["32155","33155","32255","32165"],0,"T1"],
+["3.5公里=?米",["35","350","3500","35000"],2,"T2"],["4500毫升=?升",["0.45","4.5","45","450"],1,"T2"],["0.25公斤=?克",["25","250","2500","2.5"],1,"T2"],
+["3x+7=22,x=?",["3","5","7","8"],1,"T3"],["5²+4×3=?",["37","27","75","19"],0,"T3"],["48÷(8-4)×2=?",["3","24","12","6"],1,"T3"],
+["0.8×0.5=?",["4","0.4","0.04","40"],1,"T4"],["3.6÷0.4=?",["0.9","9","90","14.4"],1,"T4"],["0.25×0.4=?",["1","0.1","0.01","10"],1,"T4"],
+["3/4÷2/3=?",["1/2","9/8","6/12","8/9"],1,"T5"],["5/6-1/4=?",["4/2","7/12","4/10","3/4"],1,"T5"],["1又2/3×3/5=?",["1","5/8","10/15","2/5"],0,"T5"],
+["$500的15%=?",["$50","$75","$150","$100"],1,"T6"],["$400加價25%再八折=?",["$400","$420","$380","$360"],0,"T6"],["200減少15%=?",["185","170","30","215"],1,"T6"],
+["汽車行240km用3小時速率?",["80km/h","60km/h","720km/h","120km/h"],0,"T7"],["地圖比例1:50000,5cm代表?",["250m","2500m","25km","2.5km"],1,"T7"],
+["圓形半徑7cm圓周π=22/7?",["22cm","44cm","154cm","88cm"],1,"T8"],["正方體邊長5cm表面面積?",["125cm²","150cm²","100cm²","200cm²"],1,"T8"],["圓形直徑10cm圓周π=3.14?",["15.7cm","31.4cm","78.5cm","314cm"],1,"T8"],
+["正方體邊長4cm體積?",["12cm³","16cm³","64cm³","48cm³"],2,"T9"],
+["48和72的HCF?",["12","24","6","8"],0,"T10"],["48和72的LCM?",["48","72","144","96"],2,"T10"],
+]};
+for(var g in qs){
+POOL[g]=qs[g].map(function(q){return {q:q[0],o:q[1],c:q[2],w:0,t:q[3]}});
+}
+}
+buildPools();
+
+function pickGrade(g,el){grade=g;document.querySelectorAll('#menu .opt').forEach(function(b){b.style.borderColor='rgba(255,255,255,0.12)';b.style.background='rgba(255,255,255,0.08)'});el.style.borderColor='#C9A84C';el.style.background='rgba(201,168,76,0.15)';updateReviewCount()}
+
+function setMode(m,el){mode=m;document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('on')});if(el)el.classList.add('on')}
+
+function updateReviewCount(){
+var wrongs=JSON.parse(localStorage.getItem('lf_kids_wrong_'+grade)||'[]');
+document.getElementById('reviewCount').textContent=wrongs.length;
+}
+
+function start(){
+if(mode==='review'){
+var wrongs=JSON.parse(localStorage.getItem('lf_kids_wrong_'+grade)||'[]');
+if(wrongs.length===0){alert('冇錯題記錄！做一次普通模式先啦～');mode='normal'}
+Q=wrongs.slice();
+if(Q.length===0){mode='normal'}
+}
+if(mode==='normal'){
+// Try loading from full bank first
+var pool=POOL[grade];
+if(pool&&pool.length>20){
+// Already loaded from bank — use it
+shuffleAndGo(pool);
+}else{
+// First time: try loading from grade bank JSON
+document.getElementById('menu').style.display='none';
+document.getElementById('game').style.display='block';
+document.getElementById('foxMsg').textContent='Fox 正在準備全新題目...';
+document.getElementById('qt').textContent='載入題庫中 🦊';
+fetch('/docs/data/question_bank_'+grade+'.json')
+.then(function(r){return r.json()})
+.then(function(data){
+if(data&&data.length>10){
+POOL[grade]=data.map(function(q){return {q:q.q,o:q.opts,c:q.ans,w:0,t:q.trap||'T7'}});
+shuffleAndGo(POOL[grade]);
+}else{shuffleAndGo(POOL[grade])}
+})
+.catch(function(){shuffleAndGo(POOL[grade])});
+return;
+}
+}
+if(Q.length===0){mode='normal';return}
+totalQ=Q.length;currentQ=0;streak=0;hp=5;sel=null;
+document.getElementById('menu').style.display='none';document.getElementById('game').style.display='block';document.getElementById('win').style.display='none';
+document.getElementById('streak').textContent='🔥 連續 0 題';document.getElementById('hpBar').style.width='100%';
+document.getElementById('modeLabel').textContent=mode==='review'?'錯題重測模式':'';
+document.getElementById('monster').textContent=monsters[Math.floor(Math.random()*monsters.length)];showQ();
+}
+
+function shuffleAndGo(pool){
+var shuffled=pool.slice();
+for(var i=shuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=t}
+Q=shuffled.slice(0,8);
+totalQ=Q.length;currentQ=0;streak=0;hp=5;sel=null;
+document.getElementById('menu').style.display='none';document.getElementById('game').style.display='block';document.getElementById('win').style.display='none';
+document.getElementById('streak').textContent='🔥 連續 0 題';document.getElementById('hpBar').style.width='100%';
+document.getElementById('modeLabel').textContent='';
+document.getElementById('monster').textContent=monsters[Math.floor(Math.random()*monsters.length)];showQ();
+}
+
+function showQ(){
+var q=Q[currentQ];
+document.getElementById('qn').textContent='第 '+(currentQ+1)+'/'+totalQ+' 題';
+document.getElementById('qt').textContent=q.q;
+document.getElementById('qtg').textContent='陷阱: '+(trapNames[q.t]||q.t);
+document.getElementById('bar').style.width=((currentQ/totalQ)*100)+'%';
+document.getElementById('nx').disabled=true;sel=null;
+var h='';q.o.forEach(function(o,j){h+='<button class=\"opt\" onclick=\"pick('+j+',this)\">'+['A','B','C','D'][j]+'. '+o+'</button>'});
+document.getElementById('op').innerHTML=h;
+document.getElementById('foxMsg').textContent=foxMsgs[Math.floor(Math.random()*foxMsgs.length)];
+if(mode==='review'){document.getElementById('foxMsg').textContent='Fox：上次呢題錯咗，再試一次！💪'}
+}
+
+function pick(j,el){document.querySelectorAll('#game .opt').forEach(function(b){b.classList.remove('right','wrong')});el.style.borderColor='#C9A84C';el.style.background='rgba(201,168,76,0.18)';sel=j;document.getElementById('nx').disabled=false}
+
+function nextQ(){
+var q=Q[currentQ];
+document.querySelectorAll('#game .opt').forEach(function(b,j){
+if(j===q.c)b.classList.add('right');if(j===sel&&sel!==q.c)b.classList.add('wrong')
+});
+if(sel===q.c){
+streak++;hp=Math.min(5,hp+1);
+document.getElementById('foxMsg').textContent='答啱了！好叻呀！🎉';
+document.getElementById('monster').textContent='💥';
+setTimeout(function(){document.getElementById('monster').textContent=monsters[Math.floor(Math.random()*monsters.length)]},500);
+// If this was a review question and answered correctly, remove from wrong list
+if(mode==='review'){
+var wrongs=JSON.parse(localStorage.getItem('lf_kids_wrong_'+grade)||'[]');
+wrongs=wrongs.filter(function(w){return w.q!==q.q});
+localStorage.setItem('lf_kids_wrong_'+grade,JSON.stringify(wrongs));
+}
+}else{
+streak=0;hp--;
+document.getElementById('foxMsg').textContent='唔緊要！再試下！💪';
+// Save wrong answer for review
+if(mode==='normal'){
+var wrongs=JSON.parse(localStorage.getItem('lf_kids_wrong_'+grade)||'[]');
+if(!wrongs.find(function(w){return w.q===q.q})){
+wrongs.push(q);
+localStorage.setItem('lf_kids_wrong_'+grade,JSON.stringify(wrongs));
+}
+}
+}
+document.getElementById('streak').textContent='🔥 連續 '+streak+' 題';
+document.getElementById('hpBar').style.width=(hp/5*100)+'%';
+currentQ++;
+if(currentQ<totalQ&&hp>0){setTimeout(showQ,600)}else{showWin()}
+}
+
+function showWin(){
+document.getElementById('game').style.display='none';document.getElementById('win').style.display='block';
+var won=hp>0;
+document.getElementById('winTitle').textContent=won?'🎉 做得好！':'💪 繼續努力！';
+document.getElementById('winMsg').textContent=won?'你打敗晒啲怪獸喇！連續答對 '+streak+' 題！':'HP 用完喇！答對 '+streak+' 題。再試一次！';
+if(won&&streak>=3)spawnConfetti();
+updateReviewCount();
+}
+
+function spawnConfetti(){
+var c=document.getElementById('confetti');var colors=['#DC2626','#C9A84C','#16A34A','#58A6FF','#F59E0B','#EC4899'];
+for(var i=0;i<40;i++){var p=document.createElement('div');p.className='confetti-piece';p.style.left=Math.random()*100+'%';p.style.top=-(Math.random()*50)+'px';p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.animationDelay=Math.random()*1+'s';p.style.width=(8+Math.random()*12)+'px';p.style.height=(8+Math.random()*12)+'px';c.appendChild(p);setTimeout(function(){p.remove()},2500)}
+}
+
+updateReviewCount();
+</script>
+</body>
+</html>

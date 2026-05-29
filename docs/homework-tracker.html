@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 功課追蹤</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px}
+.container{max-width:900px;margin:0 auto;padding:20px}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.header h1{font-size:20px}
+.header .sub{font-size:11px;opacity:0.7}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:14px}
+.form-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:8px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:10px;color:#6B7280;font-weight:700}
+input,select,textarea{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit}
+input:focus,select:focus{border-color:#1A3C6D;outline:none}
+.btn{display:inline-block;padding:8px 18px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;transition:all 0.15s}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-red{background:#DC2626;color:white}
+.btn-green{background:#16A34A;color:white}
+.btn-outline{background:white;color:#1A3C6D;border:2px solid #1A3C6D}
+.btn-sm{padding:4px 10px;font-size:10px}
+.tab-bar{display:flex;gap:4px;margin-bottom:16px}
+.tab-btn{padding:8px 18px;border-radius:8px 8px 0 0;font-size:12px;font-weight:700;cursor:pointer;border:none;background:#E5E7EB;color:#6B7280;font-family:inherit}
+.tab-btn.active{background:#1A3C6D;color:white}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat-card{background:white;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.stat-card .num{font-size:24px;font-weight:900}
+.stat-card .label{font-size:10px;color:#6B7280;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#F9FAFB;text-align:left;padding:10px 8px;font-size:10px;color:#6B7280;border-bottom:2px solid #E5E7EB;white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid #F3F4F6;vertical-align:middle}
+.badge{display:inline-block;padding:3px 10px;border-radius:10px;font-size:9px;font-weight:700}
+.badge-done{background:#D1FAE5;color:#065F46}
+.badge-pending{background:#FEF3C7;color:#92400E}
+.badge-overdue{background:#FEF2F2;color:#991B1B}
+.badge-soon{background:#E0F2FE;color:#075985}
+.empty-state{text-align:center;color:#9CA3AF;padding:30px;font-size:13px}
+.roster-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;font-size:11px;cursor:pointer;margin:2px}
+.roster-chip.selected{background:#1A3C6D;color:white;border-color:#1A3C6D}
+@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr}.form-row{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+	<div>
+		<h1>功課追蹤器</h1>
+		<div class="sub">指派練習 → 追蹤完成 → 自動提醒 → 數據分析</div>
+	</div>
+	<div style="display:flex;gap:8px">
+		<select id="viewGrade" onchange="renderAll()" style="padding:6px 12px;border-radius:8px;font-size:12px">
+			<option value="P3">P3</option><option value="P4">P4</option>
+			<option value="P5" selected>P5</option><option value="P6">P6</option>
+		</select>
+		<button class="btn btn-outline btn-sm" onclick="exportCSV()">匯出 CSV</button>
+	</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-row" id="statsRow"></div>
+
+<!-- Tabs -->
+<div class="tab-bar">
+	<button class="tab-btn active" onclick="switchTab('assign')">指派功課</button>
+	<button class="tab-btn" onclick="switchTab('list')">功課列表</button>
+	<button class="tab-btn" onclick="switchTab('roster')">學生名冊</button>
+</div>
+
+<!-- ASSIGN TAB -->
+<div id="tab-assign" style="display:block">
+	<div class="card">
+		<h2>指派新功課</h2>
+		<div class="form-row">
+			<div class="form-group">
+				<label>學生 (可多選)</label>
+				<div id="studentChips" style="max-width:300px;line-height:1.8"></div>
+			</div>
+		</div>
+		<div class="form-row" style="margin-top:8px">
+			<div class="form-group" style="flex:1;min-width:100px">
+				<label>類型</label>
+				<select id="hwType" style="width:100%">
+					<option value="練習卷">練習卷</option>
+					<option value="工作紙">工作紙</option>
+					<option value="線上測驗">線上測驗</option>
+					<option value="錯題重做">錯題重做</option>
+					<option value="Boss挑戰">Boss 挑戰</option>
+					<option value="陷阱專練">陷阱專練</option>
+				</select>
+			</div>
+			<div class="form-group" style="flex:1;min-width:100px">
+				<label>重點陷阱</label>
+				<select id="hwTrap" style="width:100%">
+					<option value="">不指定</option>
+					<option value="T1">T1 進退位</option><option value="T2">T2 單位換算</option>
+					<option value="T3">T3 運算順序</option><option value="T4">T4 漏寫0</option>
+					<option value="T5">T5 分數</option><option value="T6">T6 百分數</option>
+					<option value="T7">T7 應用題</option><option value="T8">T8 圖形</option>
+					<option value="T9">T9 時間換算</option><option value="T10">T10 餘數</option>
+				</select>
+			</div>
+			<div class="form-group" style="flex:1;min-width:100px">
+				<label>題數</label>
+				<select id="hwCount" style="width:100%">
+					<option value="5">5 題</option><option value="10" selected>10 題</option>
+					<option value="15">15 題</option><option value="20">20 題</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-row" style="margin-top:8px">
+			<div class="form-group" style="flex:2">
+				<label>描述/備註</label>
+				<input type="text" id="hwDesc" placeholder="例如：做完第1-10題，注意進退位" style="width:100%">
+			</div>
+			<div class="form-group" style="flex:1">
+				<label>期限</label>
+				<input type="date" id="hwDue" style="width:100%">
+			</div>
+			<div class="form-group" style="flex:0">
+				<label>&nbsp;</label>
+				<button class="btn btn-primary" onclick="assignHomework()" style="white-space:nowrap">+ 指派功課</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- LIST TAB -->
+<div id="tab-list" style="display:none">
+	<div class="card">
+		<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+			<h2 style="margin:0">功課列表</h2>
+			<div style="display:flex;gap:6px">
+				<button class="btn btn-sm btn-outline" onclick="filterHW('all')">全部</button>
+				<button class="btn btn-sm btn-outline" onclick="filterHW('pending')">待做</button>
+				<button class="btn btn-sm btn-outline" onclick="filterHW('overdue')">逾期</button>
+				<button class="btn btn-sm btn-outline" onclick="filterHW('done')">已完成</button>
+			</div>
+		</div>
+		<div style="overflow-x:auto">
+			<table>
+				<thead><tr><th>學生</th><th>類型</th><th>描述</th><th>陷阱</th><th>題數</th><th>期限</th><th>狀態</th><th>操作</th></tr></thead>
+				<tbody id="hwTable"><tr><td colspan="8"><div class="empty-state">未有功課 — 切換到「指派功課」新增</div></td></tr></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- ROSTER TAB -->
+<div id="tab-roster" style="display:none">
+	<div class="card">
+		<h2>學生名冊</h2>
+		<div style="display:flex;gap:8px;margin-bottom:12px">
+			<input type="text" id="newStudentName" placeholder="新學生名稱" style="flex:1">
+			<button class="btn btn-primary" onclick="addStudent()">+ 新增學生</button>
+		</div>
+		<div id="rosterList"></div>
+	</div>
+</div>
+
+</div>
+
+<script>
+var currentGrade = 'P5';
+var hwList = [];
+var roster = [];
+var selectedStudents = [];
+var currentFilter = 'all';
+
+function init() {
+	loadData();
+	renderAll();
+}
+
+function loadData() {
+	currentGrade = document.getElementById('viewGrade').value;
+	try { hwList = JSON.parse(localStorage.getItem('lf_homework_' + currentGrade) || '[]'); } catch(e) { hwList = []; }
+	try { roster = JSON.parse(localStorage.getItem('lf_roster_' + currentGrade) || '[]'); } catch(e) { roster = []; }
+
+	// Default roster if empty
+	if (roster.length === 0) {
+		roster = ['陳小明','李小美','張志偉','王家豪','林小婷','黃俊傑','周詠詩','吳嘉欣'];
+		saveRoster();
+	}
+}
+
+function saveData() {
+	localStorage.setItem('lf_homework_' + currentGrade, JSON.stringify(hwList));
+}
+
+function saveRoster() {
+	localStorage.setItem('lf_roster_' + currentGrade, JSON.stringify(roster));
+}
+
+function renderAll() {
+	renderStats();
+	renderStudentChips();
+	renderHWTable();
+	renderRoster();
+}
+
+function renderStats() {
+	var total = hwList.length;
+	var done = hwList.filter(function(h) { return h.status === 'done'; }).length;
+	var pending = hwList.filter(function(h) { return h.status === 'pending' && !isOverdue(h); }).length;
+	var overdue = hwList.filter(function(h) { return h.status !== 'done' && isOverdue(h); }).length;
+
+	document.getElementById('statsRow').innerHTML =
+		'<div class="stat-card"><div class="num">' + total + '</div><div class="label">總功課</div></div>' +
+		'<div class="stat-card"><div class="num" style="color:#16A34A">' + done + '</div><div class="label">已完成</div></div>' +
+		'<div class="stat-card"><div class="num" style="color:#D97706">' + pending + '</div><div class="label">待完成</div></div>' +
+		'<div class="stat-card"><div class="num" style="color:#DC2626">' + overdue + '</div><div class="label">已逾期</div></div>';
+}
+
+function renderStudentChips() {
+	var html = '';
+	roster.forEach(function(name) {
+		var sel = selectedStudents.indexOf(name) >= 0;
+		html += '<span class="roster-chip' + (sel ? ' selected' : '') + '" onclick="toggleStudent(\'' + name.replace(/'/g, "\\'") + '\')">' + (sel ? '✓ ' : '') + name + '</span>';
+	});
+	document.getElementById('studentChips').innerHTML = html;
+}
+
+function toggleStudent(name) {
+	var idx = selectedStudents.indexOf(name);
+	if (idx >= 0) selectedStudents.splice(idx, 1);
+	else selectedStudents.push(name);
+	renderStudentChips();
+}
+
+function assignHomework() {
+	if (selectedStudents.length === 0) return alert('請選擇至少一位學生');
+
+	var type = document.getElementById('hwType').value;
+	var trap = document.getElementById('hwTrap').value;
+	var count = parseInt(document.getElementById('hwCount').value);
+	var desc = document.getElementById('hwDesc').value.trim() || (type + (trap ? ' (' + trap + ')' : ''));
+	var due = document.getElementById('hwDue').value || new Date(Date.now() + 7*86400000).toISOString().split('T')[0];
+
+	selectedStudents.forEach(function(name) {
+		hwList.push({
+			student: name,
+			type: type,
+			trap: trap,
+			count: count,
+			desc: desc,
+			due: due,
+			status: 'pending',
+			assignedDate: new Date().toISOString().split('T')[0],
+			completedDate: null
+		});
+	});
+
+	saveData();
+	selectedStudents = [];
+	document.getElementById('hwDesc').value = '';
+	renderAll();
+	switchTab('list');
+}
+
+function isOverdue(hw) {
+	return hw.due && hw.due !== '未設定' && new Date(hw.due) < new Date() && hw.status !== 'done';
+}
+
+function isSoon(hw) {
+	if (!hw.due || hw.due === '未設定' || hw.status === 'done') return false;
+	var days = Math.ceil((new Date(hw.due) - new Date()) / 86400000);
+	return days >= 0 && days <= 2;
+}
+
+function toggleHWStatus(idx) {
+	var realIdx = getFilteredIndex(idx);
+	if (realIdx < 0) return;
+	hwList[realIdx].status = hwList[realIdx].status === 'done' ? 'pending' : 'done';
+	hwList[realIdx].completedDate = hwList[realIdx].status === 'done' ? new Date().toISOString().split('T')[0] : null;
+	saveData();
+	renderHWTable();
+	renderStats();
+}
+
+function deleteHW(idx) {
+	var realIdx = getFilteredIndex(idx);
+	if (realIdx < 0) return;
+	if (!confirm('刪除 ' + hwList[realIdx].student + ' 的功課？')) return;
+	hwList.splice(realIdx, 1);
+	saveData();
+	renderAll();
+}
+
+function getFilteredIndex(displayIdx) {
+	var filtered = getFilteredList();
+	return hwList.indexOf(filtered[displayIdx]);
+}
+
+function getFilteredList() {
+	if (currentFilter === 'all') return hwList;
+	if (currentFilter === 'done') return hwList.filter(function(h) { return h.status === 'done'; });
+	if (currentFilter === 'overdue') return hwList.filter(function(h) { return h.status !== 'done' && isOverdue(h); });
+	if (currentFilter === 'pending') return hwList.filter(function(h) { return h.status === 'pending' && !isOverdue(h); });
+	return hwList;
+}
+
+function filterHW(f) {
+	currentFilter = f;
+	renderHWTable();
+}
+
+function renderHWTable() {
+	var filtered = getFilteredList();
+	if (filtered.length === 0) {
+		document.getElementById('hwTable').innerHTML = '<tr><td colspan="8"><div class="empty-state">未有功課</div></td></tr>';
+		return;
+	}
+
+	var trapNames = {T1:'進退位',T2:'單位換算',T3:'運算順序',T4:'漏寫0',T5:'分數',T6:'百分數',T7:'應用題',T8:'圖形',T9:'時間換算',T10:'餘數'};
+
+	var html = filtered.map(function(h, i) {
+		var overdue = isOverdue(h);
+		var soon = isSoon(h);
+		var statusCls = h.status === 'done' ? 'badge-done' : overdue ? 'badge-overdue' : soon ? 'badge-soon' : 'badge-pending';
+		var statusText = h.status === 'done' ? '✅ 完成' : overdue ? '⚠️ 逾期' : soon ? '⏰ 即將到期' : '⏳ 待做';
+		var realIdx = hwList.indexOf(h);
+
+		return '<tr>' +
+			'<td><strong>' + h.student + '</strong></td>' +
+			'<td>' + h.type + '</td>' +
+			'<td>' + h.desc + '</td>' +
+			'<td>' + (h.trap ? (trapNames[h.trap] || h.trap) : '-') + '</td>' +
+			'<td>' + (h.count || '-') + ' 題</td>' +
+			'<td style="color:' + (overdue ? '#DC2626' : soon ? '#D97706' : 'inherit') + '">' + (h.due || '未設定') + '</td>' +
+			'<td><span class="badge ' + statusCls + '">' + statusText + '</span></td>' +
+			'<td style="white-space:nowrap">' +
+				'<button class="btn btn-sm ' + (h.status === 'done' ? 'btn-outline' : 'btn-green') + '" onclick="toggleHWStatus(' + i + ')">' + (h.status === 'done' ? '↩' : '✓') + '</button> ' +
+				'<span onclick="deleteHW(' + i + ')" style="cursor:pointer;color:#DC2626;font-size:14px">✕</span>' +
+			'</td>' +
+			'</tr>';
+	}).reverse().join('');
+
+	document.getElementById('hwTable').innerHTML = html;
+}
+
+function renderRoster() {
+	var html = roster.map(function(name) {
+		var hwCount = hwList.filter(function(h) { return h.student === name; }).length;
+		var doneCount = hwList.filter(function(h) { return h.student === name && h.status === 'done'; }).length;
+		return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#F9FAFB;border-radius:8px;margin-bottom:4px">' +
+			'<div><strong>' + name + '</strong> <span style="font-size:10px;color:#6B7280">' + doneCount + '/' + hwCount + ' 完成</span></div>' +
+			'<span onclick="removeStudent(\'' + name.replace(/'/g, "\\'") + '\')" style="cursor:pointer;color:#DC2626;font-size:11px">移除</span>' +
+			'</div>';
+	}).join('');
+	document.getElementById('rosterList').innerHTML = html || '<div class="empty-state">未有學生</div>';
+}
+
+function addStudent() {
+	var name = document.getElementById('newStudentName').value.trim();
+	if (!name) return;
+	if (roster.indexOf(name) >= 0) return alert('學生已存在');
+	roster.push(name);
+	saveRoster();
+	document.getElementById('newStudentName').value = '';
+	renderRoster();
+	renderStudentChips();
+}
+
+function removeStudent(name) {
+	if (!confirm('移除 ' + name + '？功課記錄會保留。')) return;
+	roster = roster.filter(function(n) { return n !== name; });
+	saveRoster();
+	renderAll();
+}
+
+function switchTab(tab) {
+	document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+	document.getElementById('tab-assign').style.display = 'none';
+	document.getElementById('tab-list').style.display = 'none';
+	document.getElementById('tab-roster').style.display = 'none';
+	event.target.classList.add('active');
+	document.getElementById('tab-' + tab).style.display = 'block';
+}
+
+function exportCSV() {
+	var rows = ['學生,類型,描述,陷阱,題數,期限,狀態,指派日期,完成日期'];
+	hwList.forEach(function(h) {
+		rows.push([h.student, h.type, h.desc, h.trap || '', h.count || '', h.due || '', h.status, h.assignedDate || '', h.completedDate || ''].join(','));
+	});
+	var blob = new Blob(['﻿' + rows.join('\n')], {type: 'text/csv;charset=utf-8'});
+	var a = document.createElement('a');
+	a.href = URL.createObjectURL(blob);
+	a.download = 'homework_' + currentGrade + '_' + new Date().toISOString().split('T')[0] + '.csv';
+	a.click();
+}
+
+// Watch for grade changes
+document.getElementById('viewGrade').addEventListener('change', function() {
+	currentGrade = this.value;
+	loadData();
+	renderAll();
+});
+
+init();
+</script>
+</body>
+</html>

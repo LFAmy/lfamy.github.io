@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="霖楓學苑 — 香港小學數學陷阱診斷專家。免費3分鐘診斷，找出你小朋友最常中的數學陷阱。">
+<title>免費數學陷阱診斷 · 霖楓學苑</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--w:#FFF;--g50:#F9FAFB;--g600:#6B7280;--g800:#374151;--g900:#1A1A1A;--r:14px;--rs:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;color:var(--g900);background:white;line-height:1.8}
+.hero{background:linear-gradient(135deg,#0F2440,#1A3C6D,#1E4D8C);color:white;padding:50px 20px 40px;text-align:center}
+.hero h1{font-family:'Noto Serif HK',serif;font-size:clamp(22px,5vw,36px);margin-bottom:8px}
+.hero .sub{font-size:16px;opacity:0.9;margin-bottom:20px}
+.hero .cta{display:inline-block;background:var(--red);color:white;padding:14px 36px;border-radius:28px;font-size:17px;font-weight:900;text-decoration:none;margin:8px}
+.hero .cta2{display:inline-block;background:var(--gold);color:var(--blue);padding:14px 36px;border-radius:28px;font-size:17px;font-weight:900;text-decoration:none;margin:8px}
+.container{max-width:700px;margin:20px auto;padding:0 16px}
+.card{background:var(--g50);border-radius:var(--r);padding:20px;margin:12px 0}
+.card h2{font-size:17px;color:var(--blue)}
+.trap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.trap-item{background:white;padding:12px;border-radius:var(--rs);border-left:3px solid var(--red);font-size:13px}
+.fg{margin:10px 0}
+.fg input,.fg select{width:100%;padding:10px;border:2px solid #E5E7EB;border-radius:var(--rs);font-size:14px;font-family:'Noto Sans HK',sans-serif}
+.btn{width:100%;padding:12px;background:var(--red);color:white;border:none;border-radius:22px;font-weight:700;font-size:15px;cursor:pointer;font-family:'Noto Sans HK',sans-serif}
+.msg{padding:8px;border-radius:var(--rs);font-size:13px;margin:8px 0;display:none}
+.msg.show{display:block}.msg.ok{background:#F0FDF4;color:var(--green)}.msg.err{background:#FEF2F2;color:var(--red)}
+.nav-bottom{text-align:center;padding:20px;font-size:12px}
+.nav-bottom a{color:var(--blue);margin:0 8px;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="hero">
+<div style="background:rgba(0,0,0,0.2);display:inline-block;padding:4px 14px;border-radius:16px;font-size:12px;margin-bottom:12px">🔥 全港呈分試 23% 失分來自陷阱</div>
+<h1>你小朋友數學唔係渣<br>佢只係<strong style="color:var(--gold)">未學識睇陷阱</strong></h1>
+<div class="sub">3分鐘免費診斷 → 即時知你小朋友最常中邊種陷阱</div>
+<a href="#form" class="cta">🎯 免費診斷</a>
+<a href="/docs/pricing.html" class="cta2">💰 查看定價</a>
+</div>
+
+<div class="container">
+<div class="card">
+<h2>🎯 10大香港數學陷阱</h2>
+<div class="trap-grid">
+<div class="trap-item"><strong>01</strong> 單位轉換陷阱</div>
+<div class="trap-item"><strong>02</strong> 文字陷阱</div>
+<div class="trap-item"><strong>03</strong> 圖形重疊陷阱</div>
+<div class="trap-item"><strong>04</strong> 時間計算陷阱</div>
+<div class="trap-item"><strong>05</strong> 折扣陷阱</div>
+<div class="trap-item"><strong>06</strong> 餘數處理陷阱</div>
+</div>
+</div>
+
+<div class="card" id="form">
+<h2>📋 免費陷阱診斷</h2>
+<div class="msg" id="msg"></div>
+<div class="fg"><label>子女年級</label><select id="grade"><option>P3</option><option>P4</option><option selected>P5 🔥</option><option>P6 🔥</option></select></div>
+<div class="fg"><label>WhatsApp 號碼</label><input type="tel" id="phone" placeholder="852 98765432"></div>
+<div class="fg"><label>家長稱呼</label><input type="text" id="name" placeholder="陳太"></div>
+<button class="btn" onclick="submit()">🎯 立即免費診斷</button>
+</div>
+</div>
+
+<div class="nav-bottom">
+<a href="/docs/pricing.html">定價</a> ·
+<a href="/docs/faq.html">FAQ</a> ·
+<a href="/docs/login.html">登入</a> ·
+<a href="/docs/app-v2.html">App</a>
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+try{firebase.initializeApp({apiKey:"AIzaSyBQ4hOnWoSXECEQBhL8Y0MLbc9_lCu02Ws",projectId:"lfady-b1761"});}catch(e){}
+function show(m,t){var e=document.getElementById('msg');e.textContent=m;e.className='msg show '+t}
+async function submit(){
+    var g=document.getElementById('grade').value,p=document.getElementById('phone').value.trim(),n=document.getElementById('name').value.trim();
+    if(!p||!n){show('請填寫所有欄位','err');return}
+    show('⏳ 處理中...','ok');
+    var lead={grade:g,phone:p,name:n,source:'funnel',createdAt:new Date().toISOString()};
+    LFCore.setData('lf_lead',lead);
+    try{firebase.firestore().collection('leads').add(lead)}catch(e){}
+    LFEventBus.track('funnel_lead',{grade:g});
+    setTimeout(function(){
+        show('✅ 已收到！15分鐘內WhatsApp收到診斷報告','ok');
+        window.open('https://wa.me/'+p.replace(/[^0-9]/g,'')+'?text='+encodeURIComponent('你好！我係'+n+'，想幫'+g+'嘅小朋友預約免費陷阱診斷'),'_blank');
+    },500);
+}
+</script>
+</body>
+</html>

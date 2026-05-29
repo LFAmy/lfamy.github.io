@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="霖楓學苑 — 香港小學數學陷阱診斷專家。P3-P6呈分試，10大陷阱分類法。免費體驗，不教數學，教避開陷阱。">
+<title>霖楓學苑 · 你唔係數學渣，你只係未學識睇陷阱</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-600:#6B7280;--gray-800:#374151;--gray-900:#1A1A1A;--radius:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans HK',sans-serif;color:var(--gray-900);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.4)}50%{box-shadow:0 0 0 20px rgba(220,38,38,0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* Hero */
+.hero{position:relative;padding:clamp(80px,15vh,140px) 24px clamp(60px,10vh,100px);text-align:center;overflow:hidden;background:linear-gradient(170deg,#0A1A35 0%,#1A3C6D 40%,#1E4D8C 100%)}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border:2px solid rgba(201,168,76,0.06);border-radius:50%;animation:float 6s ease-in-out infinite}
+.hero-content{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(201,168,76,0.15);color:var(--gold);padding:6px 20px;border-radius:25px;font-size:13px;font-weight:700;margin-bottom:20px;border:1px solid rgba(201,168,76,0.25)}
+.hero h1{font-family:'Noto Serif HK',serif;font-size:clamp(26px,5vw,46px);font-weight:900;color:white;line-height:1.2;margin-bottom:12px}
+.hero .highlight{background:linear-gradient(180deg,transparent 60%,rgba(201,168,76,0.3) 60%);padding:0 4px}
+.hero-sub{font-size:clamp(14px,2vw,18px);color:rgba(255,255,255,0.75);margin-bottom:32px}
+.hero-cta{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn-hero{background:var(--red);color:white;padding:16px 36px;border-radius:30px;font-size:17px;font-weight:900;text-decoration:none;animation:pulse 2.5s infinite}
+.btn-hero:hover{transform:translateY(-2px)}
+.btn-outline{border:2px solid var(--gold);color:var(--gold);padding:16px 36px;border-radius:30px;font-size:17px;font-weight:700;text-decoration:none}
+.btn-outline:hover{background:var(--gold);color:var(--blue)}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:40px;flex-wrap:wrap}
+.hero-stat{text-align:center}.hero-stat .n{font-size:32px;font-weight:900;color:var(--gold)}.hero-stat .l{font-size:11px;color:rgba(255,255,255,0.5)}
+
+/* Sections */
+.section{padding:70px 24px}.section-inner{max-width:1000px;margin:0 auto}
+.section-label{color:var(--red);font-weight:700;font-size:12px;letter-spacing:2px;margin-bottom:8px;text-transform:uppercase}
+.section-title{font-family:'Noto Serif HK',serif;font-size:clamp(20px,4vw,32px);font-weight:900;color:var(--blue);margin-bottom:8px}
+.section-sub{font-size:15px;color:var(--gray-600);max-width:550px;margin-bottom:36px}
+
+/* Problem Grid */
+.problems{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.problem{background:var(--white);border:2px solid var(--gray-200);border-radius:var(--radius);padding:24px;transition:all 0.3s}
+.problem:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.problem .icon{font-size:28px;margin-bottom:10px}
+.problem h3{font-size:15px;color:var(--blue);margin-bottom:6px}
+.problem p{font-size:13px;color:var(--gray-600);line-height:1.6}
+
+/* How it works */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.step{text-align:center;padding:24px}
+.step .num{display:inline-flex;width:48px;height:48px;border-radius:50%;background:var(--blue);color:white;align-items:center;justify-content:center;font-size:20px;font-weight:900;margin-bottom:12px}
+.step h3{font-size:15px;color:var(--blue);margin-bottom:4px}
+.step p{font-size:12px;color:var(--gray-600)}
+
+/* Testimonial */
+.testimonial{background:var(--gray-50);border-radius:var(--radius);padding:32px;text-align:center;max-width:600px;margin:0 auto}
+.testimonial .quote{font-size:16px;color:var(--gray-800);font-style:italic;line-height:1.8;margin-bottom:12px}
+.testimonial .author{font-size:13px;color:var(--gray-600);font-weight:700}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.pricing-card{background:white;border:2px solid var(--gray-200);border-radius:var(--radius);padding:28px;text-align:center;transition:all 0.3s}
+.pricing-card.featured{border-color:var(--gold);background:#FFFDF5;transform:scale(1.03)}
+.pricing-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.pricing-card.featured:hover{transform:scale(1.03) translateY(-4px)}
+.pricing-card h3{font-size:16px;color:var(--blue)}
+.pricing-card .price{font-size:36px;font-weight:900;color:var(--blue);margin:8px 0}
+.pricing-card .price small{font-size:13px;color:var(--gray-600);font-weight:400}
+.pricing-card .features{font-size:12px;color:var(--gray-600);margin:16px 0;line-height:2}
+.pricing-card .btn{display:block;width:100%;padding:12px;border-radius:25px;font-weight:700;font-size:14px;text-decoration:none}
+.btn-primary{background:var(--blue);color:white}.btn-gold{background:var(--gold);color:var(--blue)}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid var(--gray-200);padding:16px 0;cursor:pointer}
+.faq-item summary{font-weight:700;font-size:14px;color:var(--blue);list-style:none;display:flex;justify-content:space-between}
+.faq-item summary::after{content:'+'}.faq-item[open] summary::after{content:'−'}
+.faq-item p{font-size:13px;color:var(--gray-600);margin-top:8px}
+
+/* CTA Bar */
+.cta-bar{background:linear-gradient(135deg,var(--red),#B91C1C);color:white;text-align:center;padding:48px 24px}
+.cta-bar h2{font-family:'Noto Serif HK',serif;font-size:clamp(20px,4vw,30px);font-weight:900;margin-bottom:8px}
+.cta-bar .btn{display:inline-block;background:white;color:var(--red);padding:14px 36px;border-radius:30px;font-weight:900;font-size:16px;text-decoration:none;margin-top:16px}
+.cta-bar .btn:hover{transform:scale(1.05)}
+
+@media(max-width:768px){.hero-stats{gap:20px}.pricing-card.featured{transform:none}}
+</style>
+<link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-content">
+<div class="hero-badge">🏆 香港小學數學陷阱診斷專家</div>
+<h1>你唔係<span class="highlight">數學渣</span>，<br>你只係未學識<span class="highlight">睇陷阱</span></h1>
+<div class="hero-sub">P3-P6 呈分試 · 10大陷阱分類法 · 210堂專業講義</div>
+<div class="hero-cta">
+<a href="signup.html" class="btn-hero">🎯 免費陷阱診斷 →</a>
+<a href="#how" class="btn-outline">了解運作方式</a>
+</div>
+<div class="hero-stats">
+<div class="hero-stat"><div class="n">210+</div><div class="l">專業講義</div></div>
+<div class="hero-stat"><div class="n">10</div><div class="l">陷阱分類</div></div>
+<div class="hero-stat"><div class="n">85%</div><div class="l">學生進步率</div></div>
+<div class="hero-stat"><div class="n">4.9★</div><div class="l">家長評分</div></div>
+</div>
+</div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="section" style="background:var(--gray-50)">
+<div class="section-inner">
+<div class="section-label">你的小朋友是否...</div>
+<div class="section-title">明明識做，考試就係錯？</div>
+<div class="section-sub">唔係小朋友唔夠聰明，而係考試題目設計咗陷阱等你踩。</div>
+<div class="problems">
+<div class="problem"><div class="icon">📐</div><h3>面積公式混淆</h3><p>平行四邊形定係三角形？60%學生直接用錯公式。我哋教你用「關鍵詞搜尋法」3秒分辨。</p></div>
+<div class="problem"><div class="icon">🔢</div><h3>分數加減陷阱</h3><p>分母唔同就直接加減？呢個係最常見嘅致命錯誤。我哋嘅「分數陷阱地圖」幫你一眼睇穿。</p></div>
+<div class="problem"><div class="icon">📊</div><h3>統計圖表誤讀</h3><p>棒形圖、折線圖、圓形圖...樣樣都有專屬陷阱。我哋用「圖表解碼器」10秒拆解。</p></div>
+<div class="problem"><div class="icon">⏱️</div><h3>速率單位混亂</h3><p>km/h 定 m/s？分鐘定小時？考試就係專登混淆單位等你中招。我哋嘅「單位轉換口訣」一勞永逸。</p></div>
+</div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+<div class="section-inner">
+<div class="section-label">點樣運作</div>
+<div class="section-title">3步開始避開陷阱</div>
+<div class="steps">
+<div class="step"><div class="num">1</div><h3>免費診斷</h3><p>做10題陷阱診斷題，5分鐘知晒邊啲陷阱最易中招</p></div>
+<div class="step"><div class="num">2</div><h3>AI 分析</h3><p>智能系統自動分析強弱項，生成個人化學習路徑</p></div>
+<div class="step"><div class="num">3</div><h3>針對練習</h3><p>每日5題針對性陷阱練習，2星期見到明顯進步</p></div>
+</div>
+</div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="section" style="background:var(--gray-50)">
+<div class="section-inner">
+<div class="testimonial">
+<div class="quote">「阿仔之前數學長期60幾分，做咗兩個月陷阱訓練，呈分試攞到89分！原來佢唔係唔識，而係成日踩陷阱。多謝霖楓！」</div>
+<div class="author">— 陳太 · P5學生家長</div>
+</div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+<div class="section-inner">
+<div class="section-label">收費方案</div>
+<div class="section-title">簡單透明 · 無隱藏收費</div>
+<div class="pricing-grid">
+<div class="pricing-card">
+<h3>🎓 免費體驗</h3><div class="price">$0</div>
+<div class="features">✅ 完整陷阱診斷<br>✅ 10題練習<br>✅ AI基礎分析<br>✅ 7日有限使用</div>
+<a href="signup.html" class="btn btn-primary">免費開始</a>
+</div>
+<div class="pricing-card featured">
+<h3>⭐ 8堂方案 · 最受歡迎</h3><div class="price">$1,760<small>/8堂</small></div>
+<div class="features">✅ 全部免費版功能<br>✅ 每週2堂 · 每堂65分鐘<br>✅ 無限AI練習生成<br>✅ 每月家長學情報告<br>✅ WhatsApp 導師支援</div>
+<a href="pay.html" class="btn btn-gold">立即報名</a>
+</div>
+<div class="pricing-card">
+<h3>🚀 12堂進階</h3><div class="price">$2,400<small>/12堂</small></div>
+<div class="features">✅ 全部8堂方案功能<br>✅ 呈分試模擬考試x2<br>✅ 優先預約時段<br>✅ 個人化學習計劃<br>✅ 雙語講義 (中/英)</div>
+<a href="pay.html" class="btn btn-primary">立即報名</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:var(--gray-50)">
+<div class="section-inner">
+<div class="section-title">常見問題</div>
+<details class="faq-item"><summary>小朋友完全唔鍾意數學，有用嗎？</summary><p>我哋唔係傳統補習。透過陷阱診斷 + 遊戲化練習，大部分學生喺第一堂就會發現「原來數學可以咁好玩」。重點係建立信心，唔係死操。</p></details>
+<details class="faq-item"><summary>同一般補習社有咩分別？</summary><p>一般補習教「點樣計」，我哋教「點樣唔好錯」。我哋有專利嘅10大陷阱分類法，針對 SSPA 呈分試常見陷阱設計。唔係操卷，而係教你睇穿題目嘅陷阱。</p></details>
+<details class="faq-item"><summary>幾耐會見到進步？</summary><p>大部分學生喺2-4星期內會見到明顯進步（正確率提升10-15%）。我哋每星期都會畀家長學情報告，清楚睇到進度。</p></details>
+<details class="faq-item"><summary>上堂地點喺邊？</summary><p>旺角彌敦道 · 交通方便。亦支援網上上堂（Zoom），效果一樣。</p></details>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-bar">
+<h2>唔好再俾陷阱偷走你小朋友嘅分數</h2>
+<div style="font-size:14px;opacity:0.8;margin-bottom:4px">免費陷阱診斷 · 5分鐘知結果</div>
+<a href="signup.html" class="btn">🎯 免費開始診斷 →</a>
+</section>
+
+</body>
+</html>

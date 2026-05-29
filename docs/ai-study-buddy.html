@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>霖楓學苑 · AI 學習夥伴 | 數學問答</title>
+<meta name="description" content="AI學習夥伴 — 唔係直接畀答案，而係引導你思考。香港小學數學專用。">
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g600:#6B7280;--g800:#374151}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:var(--g100);color:var(--g800);height:100vh;display:flex;flex-direction:column}
+
+/* Header */
+.chat-header{background:linear-gradient(135deg,#0A1A35,var(--b));color:white;padding:16px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,0.1);z-index:10}
+.chat-header .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--g),#DFC06A);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.chat-header .info{flex:1}
+.chat-header .info h1{font-size:16px;margin-bottom:2px}
+.chat-header .info .status{font-size:11px;opacity:0.7;display:flex;align-items:center;gap:4px}
+.chat-header .info .status .dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;animation:pulse 2s infinite}
+.chat-header .actions{display:flex;gap:8px}
+.chat-header .actions button{background:rgba(255,255,255,0.15);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;transition:all 0.15s}
+.chat-header .actions button:hover{background:rgba(255,255,255,0.25)}
+
+/* Chat Area */
+.chat-area{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.chat-area::-webkit-scrollbar{width:6px}
+.chat-area::-webkit-scrollbar-thumb{background:var(--g200);border-radius:3px}
+
+/* Messages */
+.msg{max-width:85%;padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.6;animation:fadeIn 0.3s ease}
+.msg.bot{align-self:flex-start;background:white;border-bottom-left-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.msg.user{align-self:flex-end;background:var(--b);color:white;border-bottom-right-radius:4px}
+.msg .time{font-size:10px;opacity:0.5;margin-top:4px}
+.msg.bot .time{text-align:left}
+.msg.user .time{text-align:right}
+
+/* Quick Replies */
+.quick-replies{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 8px}
+.quick-reply{padding:8px 16px;background:white;border:1px solid var(--g200);border-radius:20px;font-size:12px;cursor:pointer;transition:all 0.15s;font-family:inherit;white-space:nowrap}
+.quick-reply:hover{border-color:var(--b);background:#F0F5FF;color:var(--b)}
+
+/* Math display */
+.math-block{background:#F0F5FF;border-radius:10px;padding:12px;margin:8px 0;font-family:'Courier New',monospace;font-size:14px;overflow-x:auto}
+.step{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:13px}
+.step .num{width:22px;height:22px;border-radius:50%;background:var(--g);color:var(--b);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
+
+/* Input */
+.chat-input-wrap{background:white;padding:12px 16px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--g200);box-shadow:0 -2px 8px rgba(0,0,0,0.04)}
+.chat-input-wrap input{flex:1;padding:12px 16px;border:2px solid var(--g200);border-radius:25px;font-size:14px;font-family:inherit;outline:none;transition:border-color 0.2s}
+.chat-input-wrap input:focus{border-color:var(--b)}
+.chat-input-wrap button{width:44px;height:44px;border-radius:50%;background:var(--b);color:white;border:none;font-size:18px;cursor:pointer;flex-shrink:0;transition:all 0.15s}
+.chat-input-wrap button:hover{transform:scale(1.05);background:#1E4D8C}
+.chat-input-wrap button:disabled{opacity:0.5;cursor:not-allowed}
+
+/* Typing indicator */
+.typing-indicator{display:flex;gap:4px;padding:8px 12px}
+.typing-indicator span{width:6px;height:6px;border-radius:50%;background:var(--g400);animation:typing 1.4s infinite}
+.typing-indicator span:nth-child(2){animation-delay:0.2s}
+.typing-indicator span:nth-child(3){animation-delay:0.4s}
+
+/* Topic Selector Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:flex;align-items:flex-end;justify-content:center}
+.modal-sheet{background:white;border-radius:20px 20px 0 0;width:100%;max-width:600px;max-height:70vh;overflow-y:auto;padding:24px;animation:slideUp 0.3s ease}
+.modal-sheet h3{font-size:16px;color:var(--b);margin-bottom:16px}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.topic-btn{padding:14px;border:2px solid var(--g200);border-radius:14px;background:white;cursor:pointer;font-size:13px;text-align:center;transition:all 0.15s;font-family:inherit}
+.topic-btn:hover{border-color:var(--g);background:#FFFDF5}
+.topic-btn .ticon{font-size:28px;display:block;margin-bottom:4px}
+
+/* Banner */
+.ai-banner{background:linear-gradient(135deg,#FEF3C7,#FEF2F2);border:1px solid #FDE68A;border-radius:12px;padding:12px 16px;margin:0 16px 8px;font-size:11px;text-align:center}
+.ai-banner strong{color:var(--r)}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-6px);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+</style>
+<link rel="manifest" href="/manifest.json">
+<script src="/docs/data/lf-cloud-sync.js"></script>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="chat-header">
+  <div class="avatar">🦊</div>
+  <div class="info">
+    <h1>AI 學習夥伴 · 啊狐</h1>
+    <div class="status"><span class="dot"></span>在線 · 隨時幫到你</div>
+  </div>
+  <div class="actions">
+    <button onclick="showTopics()" title="揀課題">📚</button>
+    <button onclick="clearChat()" title="新對話">🔄</button>
+  </div>
+</div>
+
+<!-- Banner -->
+<div class="ai-banner">
+  <strong>🦊 啊狐唔會直接畀答案你㗎！</strong> 我會引導你思考，等你真正明白。試下問我數學問題啦～
+</div>
+
+<!-- Chat -->
+<div class="chat-area" id="chatArea"></div>
+
+<!-- Quick Replies -->
+<div class="quick-replies" id="quickReplies">
+  <button class="quick-reply" onclick="sendQuick('三角形面積點計？')">📐 三角形面積</button>
+  <button class="quick-reply" onclick="sendQuick('分數加法點通分？')">🍕 分數通分</button>
+  <button class="quick-reply" onclick="sendQuick('咩係方程？')">🔣 咩係方程</button>
+  <button class="quick-reply" onclick="sendQuick('小數乘法有咩陷阱？')">⚠️ 小數陷阱</button>
+</div>
+
+<!-- Input -->
+<div class="chat-input-wrap">
+  <input type="text" id="chatInput" placeholder="輸入數學問題... 例如：梯形面積點計？" onkeydown="if(event.key==='Enter')sendMessage()">
+  <button onclick="sendMessage()" id="sendBtn">➤</button>
+</div>
+
+<!-- Topics Modal -->
+<div class="modal-overlay" id="topicModal" style="display:none" onclick="if(event.target===this)hideTopics()">
+  <div class="modal-sheet">
+    <h3>📚 揀一個課題問啊狐</h3>
+    <div class="topic-grid" id="topicGrid"></div>
+    <button class="btn" style="width:100%;margin-top:16px;padding:12px;border:2px solid var(--g200);border-radius:25px;background:white;font-size:14px;cursor:pointer" onclick="hideTopics()">取消</button>
+  </div>
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<script src="/docs/data/lf-whatsapp.js"></script>
+<script>
+// ═══════════════════════════════════════
+// AI STUDY BUDDY — 啊狐 (Socratic Tutor)
+// ═══════════════════════════════════════
+
+var AIFox = {
+  history: [],
+  
+  // ── KNOWLEDGE BASE ──
+  knowledge: {
+    // Area formulas
+    '三角形面積': {
+      keywords: ['三角形','面積','triangle','area'],
+      steps: [
+        '首先，你記唔記得三角形面積嘅公式係咩？',
+        '公式係：<b>底 × 高 ÷ 2</b>',
+        '點解要÷2？因為兩個一樣嘅三角形可以拼成一個平行四邊形/長方形',
+        '例如：底10cm，高6cm → 10×6÷2 = <b>30cm²</b>',
+        '⚠️ <b>最多人錯嘅陷阱：</b>記住要寫「÷2」！唔寫就直接錯！'
+      ],
+      tip: '口訣：「底乘高，除以二；唔除二，就玩完！」'
+    },
+    '梯形面積': {
+      keywords: ['梯形','面積','trapezoid','trapezium'],
+      steps: [
+        '梯形面積公式：<b>(上底 + 下底) × 高 ÷ 2</b>',
+        '點解要加埋上底同下底？因為梯形可以當做平均闊度嘅長方形',
+        '例如：上底5cm，下底9cm，高4cm → (5+9)×4÷2 = <b>28cm²</b>',
+        '⚠️ 陷阱：好多人會唔記得加括號！一定要(上+下)咗先乘高！'
+      ]
+    },
+    '平行四邊形面積': {
+      keywords: ['平行四邊形','面積','parallelogram'],
+      steps: [
+        '平行四邊形面積：<b>底 × 高</b>（唔使÷2！）',
+        '點解唔使÷2？因為平行四邊形可以切割變成長方形',
+        '⚠️ 注意：高係垂直高度，唔係斜邊長度！呢個係最常見嘅陷阱'
+      ]
+    },
+    '長方形面積': {
+      keywords: ['長方形','面積','rectangle'],
+      steps: ['長方形面積：<b>長 × 闊</b>（香港叫「闊」，唔係「寬」）']
+    },
+    '正方形面積': {
+      keywords: ['正方形','面積','square'],
+      steps: ['正方形面積：<b>邊長 × 邊長</b>（四條邊一樣長）']
+    },
+    
+    // Fractions
+    '分數加法': {
+      keywords: ['分數','加法','通分','fraction','add'],
+      steps: [
+        '分數加法要<b>通分</b>先！咩係通分？就係將兩個分母變做相同嘅數',
+        '例如 1/3 + 1/4：LCM of 3 and 4 = 12',
+        '1/3 = 4/12，1/4 = 3/12',
+        '4/12 + 3/12 = <b>7/12</b>',
+        '⚠️ 陷阱：唔可以就咁分子加分子分母加分母！1/3+1/4 ≠ 2/7！'
+      ]
+    },
+    '分數乘法': {
+      keywords: ['分數','乘法','fraction','multiply'],
+      steps: [
+        '分數乘法最簡單：<b>分子乘分子，分母乘分母</b>',
+        '例如 2/3 × 3/4 = 6/12 = <b>1/2</b>（記得約簡！）'
+      ]
+    },
+    '分數除法': {
+      keywords: ['分數','除法','fraction','divide'],
+      steps: [
+        '分數除法：<b>÷ 分數 = × 倒數</b>',
+        '例如 2/3 ÷ 3/4 = 2/3 × 4/3 = 8/9',
+        '⚠️ 陷阱：記得係將第二個分數倒轉，唔係第一個！'
+      ]
+    },
+    
+    // Equations
+    '方程': {
+      keywords: ['方程','代數','equation','algebra','x'],
+      steps: [
+        '方程即係一個有未知數（通常用x）嘅等式',
+        '例如 3x + 5 = 20：目標係搵出x',
+        '步驟①：移走+5 → 3x = 20-5 = 15',
+        '步驟②：3x=15，兩邊÷3 → x = 5',
+        '⚠️ 陷阱：移項要變符號！+5移去右邊變-5！'
+      ]
+    },
+    
+    // Decimal
+    '小數乘法': {
+      keywords: ['小數','乘法','decimal','multiply','點'],
+      steps: [
+        '小數乘法步驟：',
+        '① 先當做整數乘（唔理小數點）',
+        '② 數下兩個數共有幾多個小數位',
+        '③ 喺答案度數返咁多個位加小數點',
+        '例如 1.2 × 0.5：12×5=60，小數位1+1=2位 → <b>0.60 = 0.6</b>',
+        '⚠️ 陷阱：小數點位置！1.2×0.5=0.6，唔係6！'
+      ]
+    },
+    
+    // Volume
+    '體積': {
+      keywords: ['體積','volume','長方體','立方'],
+      steps: [
+        '長方體體積：<b>長 × 闊 × 高</b>',
+        '正方體體積：<b>邊長 × 邊長 × 邊長</b>',
+        '單位係 cm³（立方厘米）／ m³（立方米）',
+        '⚠️ 陷阱：體積單位係³，面積單位係²，唔好搞錯！'
+      ]
+    },
+    
+    // Speed
+    '速率': {
+      keywords: ['速率','速度','speed','km','hour'],
+      steps: [
+        '速率 = <b>距離 ÷ 時間</b>',
+        '例如：150公里÷2.5小時 = <b>60 km/h</b>',
+        '⚠️ P6先會分速率同速度，小學一般叫速率'
+      ]
+    },
+    
+    // Percentage
+    '百分數': {
+      keywords: ['百分數','percentage','折扣','discount','%'],
+      steps: [
+        '百分數 = <b>分數×100%</b>',
+        '折扣：原價×折扣率 = 售價',
+        '例如 八折 = ×0.8，九折 = ×0.9',
+        '⚠️ 陷阱①：八折後再九折 ≠ 七折！係 ×0.8×0.9=×0.72',
+        '⚠️ 陷阱②：加20%再減20% ≠ 原價！'
+      ]
+    },
+    
+    // General
+    '周界': {
+      keywords: ['周界','周長','perimeter'],
+      steps: ['周界 = <b>所有邊長加埋</b>（香港叫「周界」，唔係「周長」）']
+    },
+    '答句': {
+      keywords: ['答句','答案句','步驟'],
+      steps: [
+        '香港數學要有<b>完整步驟+答句</b>：',
+        '① 寫公式 → ② 代數字 → ③ 計答案 → ④ 寫單位 → ⑤ 寫答句',
+        '答句例如：「∴ 三角形面積是30平方厘米。」'
+      ]
+    }
+  },
+  
+  
+  // ── SMART FOLLOW-UP ENGINE v2 ──
+  getFollowUp: function(lastTopic){
+    var followUps = {
+      '三角形面積': [
+        {q:'如果三角形底加倍，高不變，面積點變？', hint:'試下用數字代入：原本底6高4，新底12高4...'},
+        {q:'直角三角形同普通三角形嘅面積公式一樣嗎？', hint:'諗下：兩個一樣嘅三角形可以拼成咩圖形？'}
+      ],
+      '梯形面積': [
+        {q:'如果梯形上底=0，會變成咩圖形？面積公式仲啱唔啱？', hint:'試下將上底=0代入公式'},
+        {q:'點樣將梯形切割成一個長方形+兩個三角形？', hint:'由兩個上角垂直畫線落底邊'}
+      ],
+      '分數加法': [
+        {q:'1/2 + 1/3 = ? 試下用畫圖嘅方法（圓形分格）去理解', hint:'畫一個圓，分成2份同3份'},
+        {q:'點解唔可以直接分子加分子？試下用Pizza例子解釋', hint:'半個Pizza + 1/3個Pizza = 幾多？'}
+      ],
+      '分數乘法': [
+        {q:'2/3 × 3 同 2/3 × 1/3 有咩分別？', hint:'×整數同×分數嘅意義唔同'},
+      ],
+      '方程': [
+        {q:'如果題目變成 2(x+3)=14 點解？', hint:'先拆括號：2x+6=14'},
+        {q:'點樣check你嘅答案啱唔啱？', hint:'將答案代入返原方程睇下左右相唔相等'}
+      ],
+      '小數乘法': [
+        {q:'0.1 × 0.1 = ? 點解答案會越乘越細？', hint:'畫一個正方形，將邊長分成10份'},
+      ],
+      '百分數': [
+        {q:'點解加20%再減20%唔等於原價？', hint:'因為第二次係基於新價錢計，唔係原價'}
+      ],
+      '速率': [
+        {q:'如果距離不變，速率快一倍，時間會點變？', hint:'唔係減半咁簡單，諗下公式'}
+      ]
+    };
+    return followUps[lastTopic] || [
+      {q:'你覺得呢個課題最難嘅地方係咩？', hint:'講出嚟我先幫到你'},
+      {q:'可唔可以自己出返條題目考返我？', hint:'做老師係最好嘅學習方法'}
+    ];
+  },
+  
+  // ── MORE KNOWLEDGE TOPICS v2 ──
+  
+  
+  respond: function(userMsg){
+    var msg = userMsg.toLowerCase().replace(/[？?！!。，,、\s]+/g,'');
+    var response = null;
+    var matched = null;
+    
+    // Check against knowledge base
+    for(var topic in this.knowledge){
+      var k = this.knowledge[topic];
+      for(var i=0;i<k.keywords.length;i++){
+        if(msg.indexOf(k.keywords[i].toLowerCase())>=0){
+          matched = k;
+          break;
+        }
+      }
+      if(matched) break;
+    }
+    
+    if(matched){
+      response = this.buildTeachingResponse(matched);
+    } else {
+      response = this.buildFallbackResponse(userMsg);
+    }
+    
+    return response;
+  },
+  
+  buildTeachingResponse: function(knowledge){
+    var html = '';
+    
+    // Don't give all steps at once — Socratic method
+    if(knowledge.steps.length <= 3){
+      // Short topics: show all
+      for(var i=0;i<knowledge.steps.length;i++){
+        html += '<div class="step"><span class="num">'+(i+1)+'</span>'+knowledge.steps[i]+'</div>';
+      }
+    } else {
+      // Long topics: first 2 steps + "can you try?"
+      html += '<div class="step"><span class="num">1</span>'+knowledge.steps[0]+'</div>';
+      html += '<div class="step"><span class="num">2</span>'+knowledge.steps[1]+'</div>';
+      html += '<p style="margin-top:8px;font-size:13px;color:var(--b)">💡 <b>你試下用呢個方法計一次，然後話我知答案，我幫你check！</b></p>';
+    }
+    
+    if(knowledge.tip){
+      html += '<div style="margin-top:8px;padding:8px 12px;background:#FFFDF5;border-radius:8px;font-size:12px;color:var(--g)">🪄 <b>記憶口訣：</b>'+knowledge.tip+'</div>';
+    }
+    
+    return html;
+  },
+  
+  buildFallbackResponse: function(userMsg){
+    var greetings = ['你好','hi','hello','喂','嗨','早晨','午安'];
+    var thanks = ['多謝','唔該','thank','thx','thanks'];
+    var farewells = ['拜拜','bye','再見','88'];
+    var confused = ['唔明','唔識','help','幫','救命','點算'];
+    
+    var msgLower = userMsg.toLowerCase();
+    
+    if(greetings.some(function(g){return msgLower.indexOf(g)>=0;})){
+      return '👋 你好呀！我係啊狐，你嘅AI學習夥伴！有咩數學問題想問我？面積？分數？方程？定係你想知多啲關於呈分試嘅陷阱？';
+    }
+    
+    if(thanks.some(function(g){return msgLower.indexOf(g)>=0;})){
+      return '😊 唔使客氣！記住啊：<b>數學唔係背，係明！明咗一世都記得。</b>有需要再搵我～';
+    }
+    
+    if(farewells.some(function(g){return msgLower.indexOf(g)>=0;})){
+      return '👋 拜拜！加油呀～ 下次再一齊學數學！';
+    }
+    
+    if(confused.some(function(g){return msgLower.indexOf(g)>=0;})){
+      return '唔使驚！慢慢嚟～ <br><br>你可以試下：<br>📐 問我面積公式<br>🍕 問我分數運算<br>🔣 問我方程點解<br>📏 問我單位換算<br><br>或者㩒下面啲快捷鍵直接問！';
+    }
+    
+    // Default: guide to ask better
+    return '我暫時未識答呢個問題 🙈<br><br>你可以試下問：<br>• 「三角形面積點計？」<br>• 「分數點通分？」<br>• 「小數乘法有咩陷阱？」<br>• 「方程3x+5=20點解？」<br><br>或者㩒下面啲掣～我會引導你思考！';
+  },
+  
+  // ── TOPICS ──
+  getTopics: function(){
+    return [
+      {icon:'📐',name:'三角形面積',q:'三角形面積點計？'},
+      {icon:'🔷',name:'梯形面積',q:'梯形面積公式係咩？'},
+      {icon:'📏',name:'平行四邊形',q:'平行四邊形面積點計？'},
+      {icon:'🍕',name:'分數加法',q:'分數加法點通分？'},
+      {icon:'✖️',name:'分數乘法',q:'分數乘法點計？'},
+      {icon:'➗',name:'分數除法',q:'分數除法點計？'},
+      {icon:'🔣',name:'方程',q:'咩係方程？點解？'},
+      {icon:'💯',name:'百分數折扣',q:'八折即係幾多？'},
+      {icon:'📦',name:'體積',q:'長方體體積點計？'},
+      {icon:'🚗',name:'速率',q:'速率點計？'},
+      {icon:'0️⃣',name:'小數乘法',q:'小數乘法點計？'},
+      {icon:'📝',name:'答句步驟',q:'香港數學答題步驟係點？'}
+    ];
+  }
+};
+
+// ═══════════════════════════════════════
+// UI
+// ═══════════════════════════════════════
+
+function initChat(){
+  var chatArea = document.getElementById('chatArea');
+  chatArea.innerHTML = 
+    '<div class="msg bot">'+
+    '<div>👋 你好！我係<b>啊狐</b>，你嘅AI數學學習夥伴！🦊</div>'+
+    '<div style="margin-top:8px;font-size:13px">我唔會直接畀答案你㗎 — 我會<b>引導你思考</b>，等你真正明白～</div>'+
+    '<div style="margin-top:8px;font-size:12px;color:var(--g600)">試下問我數學問題，或者㩒下面啲掣 👇</div>'+
+    '<div class="time">剛剛</div></div>';
+  
+  // Load history
+  var saved = localStorage.getItem('lf_aifox_history');
+  if(saved){
+    try{
+      AIFox.history = JSON.parse(saved);
+      for(var i=0;i<AIFox.history.length;i++){
+        var h = AIFox.history[i];
+        appendMessage(h.role, h.content, false);
+      }
+    }catch(e){}
+  }
+  
+  // Topic grid
+  var grid = document.getElementById('topicGrid');
+  var topics = AIFox.getTopics();
+  var gridHtml = '';
+  for(var i=0;i<topics.length;i++){
+    gridHtml += '<button class="topic-btn" onclick="sendQuick(\''+topics[i].q+'\');hideTopics()"><span class="ticon">'+topics[i].icon+'</span>'+topics[i].name+'</button>';
+  }
+  grid.innerHTML = gridHtml;
+}
+
+function appendMessage(role, content, save){
+  var chatArea = document.getElementById('chatArea');
+  var div = document.createElement('div');
+  div.className = 'msg '+role;
+  var now = new Date();
+  var time = now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
+  div.innerHTML = '<div>'+content+'</div><div class="time">'+time+'</div>';
+  chatArea.appendChild(div);
+  chatArea.scrollTop = chatArea.scrollHeight;
+  
+  if(save!==false){
+    AIFox.history.push({role:role, content:content, time:now.toISOString()});
+    if(AIFox.history.length>50) AIFox.history.shift();
+    localStorage.setItem('lf_aifox_history', JSON.stringify(AIFox.history));
+  }
+}
+
+function sendMessage(){
+  var input = document.getElementById('chatInput');
+  var msg = input.value.trim();
+  if(!msg) return;
+  
+  appendMessage('user', msg);
+  input.value = '';
+  document.getElementById('sendBtn').disabled = true;
+  
+  // Show typing
+  var chatArea = document.getElementById('chatArea');
+  var typing = document.createElement('div');
+  typing.className = 'msg bot';
+  typing.id = 'typingIndicator';
+  typing.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+  chatArea.appendChild(typing);
+  chatArea.scrollTop = chatArea.scrollHeight;
+  
+  // AI response with realistic delay
+  setTimeout(function(){
+    typing.remove();
+    var response = AIFox.respond(msg);
+    appendMessage('bot', response);
+    document.getElementById('sendBtn').disabled = false;
+  }, 800+Math.random()*1200);
+}
+
+function sendQuick(msg){
+  document.getElementById('chatInput').value = msg;
+  sendMessage();
+}
+
+function showTopics(){
+  document.getElementById('topicModal').style.display = 'flex';
+}
+
+function hideTopics(){
+  document.getElementById('topicModal').style.display = 'none';
+}
+
+function clearChat(){
+  if(confirm('確定要清除對話記錄？')){
+    AIFox.history = [];
+    localStorage.removeItem('lf_aifox_history');
+    document.getElementById('chatArea').innerHTML = '';
+    initChat();
+  }
+}
+
+// Init
+initChat();
+if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js")}
+</script>
+</body>
+</html>
+

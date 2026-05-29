@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF Academy · P5-上-L05 面積陷阱專項突破 — 學生版講義</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  @media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; min-height:0; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; margin:10px 0 6px; } .h2 { font-size:11px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex { padding:6px 9px; } .ex-q { font-size:11px; } .warn { font-size:10px; padding:4px 7px; } .mn { font-size:11px; padding:7px 9px; } .et { font-size:9.5px; } .fig-label { font-size:9px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+  .cover { justify-content:center; align-items:center; text-align:center; }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+  .cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+  .ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+  .ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+  .qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; text-align:left; }
+  .qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:32px; text-align:center; font-weight:700; }
+  .qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:72px; }
+  .qt .qtxt { font-size:12.5px; line-height:1.65; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:7px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:12px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:12px; text-align:center; }
+  .tc-w .lbl { font-size:13px; font-weight:900; color:var(--red); margin-bottom:3px; }
+  .tc-r .lbl { font-size:13px; font-weight:900; color:var(--green); margin-bottom:3px; }
+  .tc-w .eq { font-size:15px; color:var(--red); }
+  .tc-r .eq { font-size:15px; color:var(--green); }
+  .et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+  .et th { background:var(--red); color:white; padding:4px 7px; }
+  .et td { padding:4px 7px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+  .fig-row { display:flex; gap:18px; align-items:flex-start; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+  .fig-card { text-align:center; }
+  .fig-title { font-size:12px; font-weight:700; color:var(--blue); margin-bottom:4px; }
+  .fig-inline { display:inline-flex; align-items:center; gap:10px; vertical-align:middle; margin:3px 6px; }
+  .cmp-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:11px; }
+  .cmp-table th { background:var(--blue); color:white; padding:5px 8px; font-size:10px; }
+  .cmp-table td { padding:5px 8px; border:1px solid var(--borderc); text-align:center; }
+  .cmp-table .hl { background:#FFFBEB; font-weight:700; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ══ COVER ══ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+  <div class="cv-badge">小五 · 第 5 堂 · 學生版講義</div>
+  <div class="cv-title">面積陷阱專項突破</div>
+  <div class="cv-sub">公式總複習 · SSPA高頻陷阱 · 綜合解題策略 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》5上A冊 ＋ 現代教育 5上A 單元1-4（綜合複習）<br>
+    <b>核心陷阱：</b>T4 多餘資訊 + T5 圖形錯覺 — 所有面積陷阱的綜合密集訓練<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;÷2遺忘 · 單位換算坑 · 組合圖形分割錯 · 反求時運算倒置<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🔴 高頻</span> 呈分試面積題失分重災區，本堂針對性殲滅所有常見陷阱<br>
+    <b>前置知識：</b>P4-P5 全部面積公式（正方/長方/平行四邊形/三角形/梯形）<br>
+    <b>本堂目標：</b>❶ 三種形狀公式對比記憶 ❷ SSPA常見陷阱逐一破解 ❸ 建立解題策略流程 ❹ 達到陷阱零失誤
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ══ PAGE 2: WARM-UP + KP1 ══ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）— 混合形狀快速判斷</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">平行四邊形底 9 cm，高 6 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">三角形底 12 cm，高 5 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">梯形上底 5 cm，下底 9 cm，高 4 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">長方形長 11 cm，闊 6 cm。它的面積 = ？周界 = ？<br><span style="font-size:10px;color:var(--gray);">（注意：面積和周界要分開寫！）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">正方形邊長 7 cm。面積 = ？<br><span style="font-size:10px;color:var(--gray);">（有人答 28 cm²— 錯在哪？）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：面積公式總複習 — 三種形狀對比<span class="ss sh">🔴 SSPA 必考</span></div>
+    <div class="kp-rules">
+      ① 以下三種形狀 <strong>底和高都相同</strong>時，面積關係是固定的<br>
+      ② 記憶口訣：「平四完整乘，三角要一半，梯形兩底和乘高再一半」<br>
+      ③ 單位必寫 cm² / m²，漏寫 ² 在呈分試中必定扣分
+    </div>
+  </div>
+
+  <table class="cmp-table">
+    <tr><th>形狀</th><th>圖示</th><th>面積公式</th><th>關鍵陷阱</th></tr>
+    <tr>
+      <td class="hl">平行四邊形</td>
+      <td>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60" width="120" height="60"><rect x="35" y="15" width="50" height="20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polyline points="45,15 45,25 35,25" fill="none" stroke="#1A3C6D" stroke-width="2"/><text x="60" y="53" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">l</text><text x="21" y="25" text-anchor="end" font-size="13" fill="#1A3C6D" font-weight="700">w</text></svg>
+      </td>
+      <td style="font-weight:900;color:#1E40AF;">底 × 高</td>
+      <td style="font-size:10px;color:#DC2626;">高是垂直距離，不是斜邊</td>
+    </tr>
+    <tr>
+      <td class="hl">三角形</td>
+      <td>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 95" width="120" height="95"><polygon points="35,45 85,45 60,20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><line x1="60" y1="20" x2="60" y2="45" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/><text x="72" y="33" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">h</text><text x="60" y="67" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">b</text></svg>
+      </td>
+      <td style="font-weight:900;color:#166534;">底 × 高 <span style="color:#DC2626;">÷ 2</span></td>
+      <td style="font-size:10px;color:#DC2626;">最容易忘記÷2！</td>
+    </tr>
+    <tr>
+      <td class="hl">梯形</td>
+      <td>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 80" width="110" height="80"><polygon points="35,40 75,40 68,20 42,20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><line x1="42" y1="20" x2="42" y2="40" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/><text x="54" y="30" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">h</text><text x="55" y="62" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">b₂</text><text x="54" y="12" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">b₁</text></svg>
+      </td>
+      <td style="font-weight:900;color:#92400E;">(上底+下底) × 高 <span style="color:#DC2626;">÷ 2</span></td>
+      <td style="font-size:10px;color:#DC2626;">忘÷2、用錯斜邊當高、上底下底取反</td>
+    </tr>
+  </table>
+
+  <div class="fig-row">
+    <div class="fig-card">
+      <div class="fig-title">同一底和高下，三個形狀的面積關係</div>
+      <div class="fig-row"><div class="fig-card"><div class="fig-title">平行四邊形</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 120" width="210" height="120"><rect x="35" y="15" width="140" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polyline points="45,15 45,25 35,25" fill="none" stroke="#1A3C6D" stroke-width="2"/><text x="105" y="113" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">l</text><text x="21" y="55" text-anchor="end" font-size="13" fill="#1A3C6D" font-weight="700">w</text></svg><div style="font-size:10px;color:#1E40AF;font-weight:700;">底x高 = 最大</div></div><div class="fig-card"><div class="fig-title">三角形</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 150" width="210" height="150"><polygon points="35,100 175,100 105,20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><line x1="105" y1="20" x2="105" y2="100" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/><text x="117" y="60" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">h</text><text x="105" y="122" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">b</text></svg><div style="font-size:10px;color:#166534;font-weight:700;">底x高/2 = 一半</div></div><div class="fig-card"><div class="fig-title">梯形</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 135" width="210" height="135"><polygon points="35,95 175,95 145,20 65,20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><line x1="65" y1="20" x2="65" y2="95" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/><text x="77" y="58" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">h</text><text x="105" y="117" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">b₂</text><text x="105" y="12" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">b₁</text></svg><div style="font-size:10px;color:#92400E;font-weight:700;">(a+b)xh/2</div></div></div><div style="text-align:center;margin-top:0;font-size:10px;color:#DC2626;font-weight:600;">三者的底和高都相同！</div>
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題 1</div><div class="ex-q">
+    平行四邊形、三角形、梯形的底都是 10 cm，高都是 6 cm（梯形上底 4 cm 下底 6 cm）。分別求面積，並比較大小。
+  </div></div>
+  <div class="ex"><div class="ex-title">例題 2</div><div class="ex-q">
+    一個平行四邊形和一個三角形，底相同、高相同。平行四邊形面積是 48 cm²。三角形面積 = ？
+    <br><span style="font-size:10px;color:var(--gray);">（同底同高時，三角形面積是平行四邊形的一半）</span>
+  </div></div>
+</div>
+
+<!-- ══ PAGE 3: KP1續 + KP2 ══ -->
+<div class="pb">
+  <div class="ex"><div class="ex-title">例題 3</div><div class="ex-q">
+    有一個梯形和一個平行四邊形，它們的高相等。梯形上底+下底的和等於平行四邊形的底。平行四邊形面積是 60 cm²。梯形面積 = ？
+    <br><span style="font-size:10px;color:var(--gray);">（上底+下底=底 且 高相等 → 梯形面積是平行四邊形的一半）</span>
+  </div></div>
+
+  <div class="kp" style="margin-top:10px;">
+    <div class="kp-title">知識點二：SSPA 常見面積陷阱<span class="ss sh">🔴 高頻失分點</span></div>
+    <div class="kp-rules">
+      <ol>
+        <li><strong>單位換算陷阱（T5）</strong>：題目給 m 但答案要 cm² → 1 m² = 10,000 cm²（不是 100！）</li>
+        <li><strong>組合圖形陷阱（T4+T5）</strong>：分割後尺寸要從原圖推算，可能給多餘斜邊長度干擾</li>
+        <li><strong>反求題型陷阱（T4）</strong>：給面積求底/高，運算方向容易搞反</li>
+        <li><strong>÷2遺忘陷阱（T5）</strong>：三角形和梯形公式必須÷2，與平行四邊形混淆</li>
+        <li><strong>周界面積混淆（T5）</strong>：題目問面積，學生用周界公式作答</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="tc">
+    <div class="tc-w">
+      <div class="lbl">T4 多餘資訊陷阱</div>
+      <div class="eq">梯形：上底5 下底9 高4<br>斜邊長6 → <span style="color:#DC2626;">多餘！</span></div>
+      <div style="font-size:10px;margin-top:4px;">斜邊長度不用於面積公式</div>
+    </div>
+    <div class="tc-r">
+      <div class="lbl">T5 圖形錯覺陷阱</div>
+      <div class="eq">三角形面積 = 底×高<br><span style="color:#DC2626;">→ 漏÷2！</span></div>
+      <div style="font-size:10px;margin-top:4px;">公式必須寫完整：底×高÷2</div>
+    </div>
+  </div>
+
+  <div class="fig-row">
+    <div class="fig-card">
+      <div class="fig-title">🪤 陷阱對比圖 — 單位換算坑</div>
+      <svg width="280" height="130" viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="30" width="100" height="70" fill="#FEF2F2" stroke="#DC2626" stroke-width="2.5"/><text x="70" y="55" text-anchor="middle" font-size="9" fill="#DC2626" font-weight="700">2 m = 200 cm</text><text x="70" y="70" text-anchor="middle" font-size="9" fill="#DC2626" font-weight="700">面積=?</text><text x="70" y="88" text-anchor="middle" font-size="8" fill="#991B1B">有人計2x200=400</text><text x="70" y="100" text-anchor="middle" font-size="8" fill="#991B1B">錯！單位不一致</text><text x="180" y="55" text-anchor="middle" font-size="9" fill="#16A34A" font-weight="700">正確：</text><text x="180" y="70" text-anchor="middle" font-size="9" fill="#16A34A">2 m = 200 cm</text><text x="180" y="82" text-anchor="middle" font-size="9" fill="#16A34A">200x200</text><text x="180" y="94" text-anchor="middle" font-size="9" fill="#16A34A" font-weight="700">= 40,000 cm2</text><text x="140" y="122" text-anchor="middle" font-size="9" fill="#6B7280">或 2x2 = 4 m2 = 40,000 cm2</text></svg>
+    </div>
+    <div class="fig-card">
+      <div class="fig-title">🪤 組合圖形 — 尺寸推算</div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 130" width="220" height="130"><rect x="30" y="15" width="70" height="90" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><text x="65" y="121" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">70</text><rect x="100" y="65" width="90" height="40" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="3"/><text x="145" y="121" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">90</text><line x1="100" y1="15" x2="100" y2="105" stroke="#6B7280" stroke-width="1" stroke-dasharray="5,2"/></svg>
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題 4</div><div class="ex-q">
+    梯形上底 5 cm，下底 8 cm，斜邊 7 cm，高 4 cm。面積 = ？<br>
+    <span style="font-size:10px;color:var(--gray);">（題目多給了斜邊7cm—那是T4陷阱，不需要用！）</span>
+  </div></div>
+  <div class="ex"><div class="ex-title">例題 5</div><div class="ex-q">
+    一個長方形長 2 m，闊 150 cm。面積 = ？cm²<br>
+    <span style="font-size:10px;color:var(--gray);">（先統一單位：2 m = 200 cm → 200×150）</span>
+  </div></div>
+</div>
+
+<!-- ══ PAGE 4: KP3 + 分層🌱 ══ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：面積解題策略 — 四步通關法<span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      <strong>第一步：判斷形狀</strong> — 正方/長方/平行四邊形/三角形/梯形/組合形？<br>
+      <strong>第二步：選對公式</strong> — 不同形狀不同公式，寫在旁邊再代入<br>
+      <strong>第三步：小心代入</strong> — 確認所有單位一致，排除多餘資訊<br>
+      <strong>第四步：檢查單位</strong> — 面積必須有 ²（cm²、m²），答句完整
+    </div>
+  </div>
+
+  <div class="mn">解題口訣：「一判形狀二選式，三代入四查單位。先寫公式再代數，答案必定有 ²。」</div>
+
+  <div class="ex"><div class="ex-title">例題 6</div><div class="ex-q">
+    正方形周界 32 cm。面積 = ？<br>
+    <span style="font-size:10px;color:var(--gray);">（陷阱！不能直接用 32 計面積。先求邊長=32÷4=8，再計面積=8×8=64 cm²）</span>
+  </div></div>
+
+  <div class="warn">綜合陷阱警報：題目可能混合 T4（多餘資訊）+ T5（圖形錯覺），例如梯形題目給斜邊、給周界、又混了單位，必須逐層剝開！</div>
+
+  <div class="h1">三、課堂分層同步練習</div>
+  <div class="h2">🌱 基礎層（全體必做，共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">平行四邊形底 10 cm，高 5 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">三角形底 14 cm，高 6 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">梯形上底 6 cm，下底 12 cm，高 5 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">正方形邊長 9 cm。分別寫出它的<strong>周界</strong>和<strong>面積</strong>。哪個有²？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">長方形長 9 cm，闊 5 cm。面積 = ？周界 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══ PAGE 5: 🌿 + 🌳 ══ -->
+<div class="pb">
+  <div class="h2">🌿 進階層（🚶🚀 選做，共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">
+      梯形：上底 5 cm，下底 9 cm，斜邊 8 cm，高 4 cm。面積 = ？<br>
+      <span style="font-size:10px;color:var(--gray);">（哪個數據不需要？）</span>
+    </td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">三角形面積 36 cm²，底 9 cm。高 = ？<br><span style="font-size:10px;color:var(--gray);">（反求：高 = 面積×2÷底）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">一個長方形長 3 m，闊 2 m。面積 = ？cm²<br><span style="font-size:10px;color:var(--gray);">（陷阱：單位換算！3m=300cm, 2m=200cm）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">正方形周界 36 cm。它的面積 = ？<br><span style="font-size:10px;color:var(--gray);">（不能直接代 36！先求邊長）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">
+      L形組合圖形：可分成兩個長方形 A（10×4 cm）和 B（6×5 cm）。總面積 = ？
+    </td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（🚀 選做，共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">16</td><td class="qtxt">
+      <div class="fig-row" style="margin:0;"><div class="fig-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 100" width="180" height="100"><polygon points="25,70 125,70 155,20 55,20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><line x1="55" y1="20" x2="55" y2="70" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/><text x="67" y="45" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">h=5</text><text x="90" y="90" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">底=12</text><text x="140" y="55" font-size="10" fill="#991B1B" font-weight="700">斜邊=8</text><text x="148" y="65" font-size="10" fill="#991B1B">(不是高!)</text></svg></div></div>平行四邊形底 12 cm，相鄰斜邊 8 cm，高 5 cm。面積 = ？周界 = ？<br>
+      <span style="font-size:10px;color:var(--gray);">（面積用底×高；周界用(底+斜邊)×2—注意兩者用不同邊！）</span>
+    </td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">
+      梯形上底 6 cm，下底 10 cm，高 5 cm。一個平行四邊形的底等於梯形上底+下底，高與梯形相同。平行四邊形面積是梯形面積的幾倍？<br>
+      <span style="font-size:10px;color:var(--gray);">（平行四邊形=16×5=80, 梯形=(6+10)×5÷2=40 → 2倍）</span>
+    </td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">
+      三角形底 8 cm，高 6 cm。若底不變、高增加 2 cm，新面積比原面積多多少？<br>
+      <span style="font-size:10px;color:var(--gray);">（原=24, 新=8×8÷2=32, 多8 cm²）</span>
+    </td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">
+      梯形面積 72 cm²，高 8 cm。上底是下底的 1/2。上底和下底各是多少？<br>
+      <span style="font-size:10px;color:var(--gray);">（上底+下底=72×2÷8=18, 設下底=x 上底=0.5x → 1.5x=18）</span>
+    </td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">
+      一個平行四邊形用 28 cm 鐵線圍成（每邊長度均為整數 cm，鄰邊不相等）。面積最大可能是多少？<br>
+      <span style="font-size:10px;color:var(--gray);">（周界=28→底+斜邊=14，面積=底×高，需考慮不同底高的組合）</span>
+    </td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══ PAGE 6: 應用題 ══ -->
+<div class="pb">
+  <div class="h1">四、面積應用題 — SSPA 綜合陷阱訓練（共 8 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">21</td><td class="qtxt">三角形花圃底 12 m，高 8 m。面積 = ？m²</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">梯形田地上底 15 m，下底 25 m，高 10 m。面積 = ？m²</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">一幅平行四邊形牆壁底 6 m，相鄰邊 5 m，高 4 m。要髹油漆，每 m² 用 0.25 L。共需多少升？<br><span style="font-size:10px;color:var(--gray);">（5m是斜邊—多餘資訊！面積=6×4=24 m²）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">正方形花圃周界 48 m。每 m² 種 5 棵花，共可種多少棵？<br><span style="font-size:10px;color:var(--gray);">（先求邊長=48÷4=12, 面積=144 m²）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">一個 L 形公園分成：長方形 A（20 m × 15 m）和長方形 B（12 m × 8 m）。公園總面積 = ？m²</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">梯形停車場上底 30 m，下底 50 m，高 20 m。每輛車佔地 25 m²，最多可停多少輛？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">27</td><td class="qtxt">一個三角形和一個平行四邊形底相同、高相同。三角形面積 25 m²。平行四邊形面積 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt"><div class="fig-row" style="margin:0;"><div class="fig-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 120" width="180" height="120"><polygon points="30,55 150,55 90,35" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="3"/><text x="90" y="32" text-anchor="middle" font-size="9" fill="#1A3C6D" font-weight="700">h=1.5m</text><rect x="30" y="55" width="120" height="40" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><text x="90" y="113" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">底=2m</text></svg></div></div>一幅組合壁畫：三角形部分（底 2 m 高 1.5 m）下方接長方形（2 m × 3 m）。總面積 = ？m²</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="h1">五、🏔️ 終極挑戰專區（共 3 題，🚀 選做，呈分試壓軸＋競賽級別）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">🏔️1</td><td class="qtxt">
+      <div class="fig-row" style="margin:0;"><div class="fig-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 120" width="120" height="96"><polygon points="35,70 115,70 95,20 55,20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><line x1="55" y1="20" x2="55" y2="70" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/><text x="67" y="45" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">h=8</text><text x="75" y="90" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">b₂</text><text x="75" y="12" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">b₁</text></svg></div></div>梯形面積 144 cm²，高 8 cm。上底是下底的 3 倍。上底和下底各是多少？<br>
+      <span style="font-size:10px;color:var(--gray);">（上底+下底=144×2÷8=36, 設下底=x 上底=3x → 4x=36 → x=9, 上=27）</span>
+    </td><td class="qd d4">🏔️</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">🏔️2</td><td class="qtxt">
+      一個多邊形可分成：三角形（底 8 cm 高 5 cm）+ 長方形（8 cm × 6 cm）+ 梯形（上底 4 cm 下底 8 cm 高 3 cm）。總面積 = ？<br>
+      <svg width="240" height="120" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:4px 0;"><text x="120" y="30" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">分成三部分計算：</text><text x="120" y="50" text-anchor="middle" font-size="10" fill="#D97706">三角形 A = 底x高/2</text><text x="120" y="70" text-anchor="middle" font-size="10" fill="#1A3C6D">長方形 B = 長x闊</text><text x="120" y="90" text-anchor="middle" font-size="10" fill="#16A34A">梯形 C = (a+b)xh/2</text><text x="120" y="112" text-anchor="middle" font-size="10" fill="#DC2626">總面積 = A + B + C</text></svg>
+    </td><td class="qd d4">🏔️</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">🏔️3</td><td class="qtxt">
+      正方形邊長增加 3 cm 後，新正方形比原正方形面積多 57 cm²。原正方形的邊長 = ？<br>
+      <span style="font-size:10px;color:var(--gray);">（設原邊長=x → (x+3)²−x²=57 → x²+6x+9−x²=57 → 6x=48 → x=8）</span>
+    </td><td class="qd d4">🏔️</td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══ PAGE 7: 功課 + 易錯點 ══ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">平行四邊形底 11 cm，高 6 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">三角形底 16 cm，高 5 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">梯形上底 7 cm，下底 15 cm，高 6 cm。面積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">正方形周界 28 cm。面積 = ？<br><span style="font-size:10px;color:var(--gray);">（不能直接代28！先求邊長=28÷4=7）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">長方形長 4 m，闊 250 cm。面積 = ？m²<br><span style="font-size:10px;color:var(--gray);">（250 cm = 2.5 m）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做（共 3 題，🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">梯形面積 84 cm²，高 7 cm，下底是上底的 2 倍。上底和下底各是多少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個三角形和一個平行四邊形等高。三角形底 10 cm，平行四邊形底 5 cm。三角形面積是平行四邊形的幾倍？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">一個長方形，長是闊的 2 倍。若周界是 36 cm，面積 = ？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:64px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>三角/梯形忘記÷2</strong>（T5圖形錯覺）</td><td>三角形=底×高<span style="color:#DC2626;font-weight:900;">÷2</span>；梯形=(上底+下底)×高<span style="color:#DC2626;font-weight:900;">÷2</span></td></tr>
+    <tr><td>2</td><td><strong>周界公式當面積用</strong>（T5混淆）</td><td>面積是「乘積」，周界是「加總」，兩者完全不同</td></tr>
+    <tr><td>3</td><td><strong>高用錯斜邊</strong>（T5圖形錯覺）</td><td>高＝底邊的<span style="color:#DC2626;font-weight:900;">垂直距離</span>，不是傾斜的邊長</td></tr>
+    <tr><td>4</td><td><strong>單位換算錯誤</strong>（T5）</td><td>1 m² = <span style="color:#DC2626;font-weight:900;">10,000</span> cm²（不是 100！因為 100×100）</td></tr>
+    <tr><td>5</td><td><strong>給周界求面積時直接代入</strong>（T4多餘資訊）</td><td>先從周界求邊長/底高 → 再求面積（必須分兩步！）</td></tr>
+    <tr><td>6</td><td><strong>反求時運算方向倒置</strong>（T4）</td><td>面積×2÷底=高（三角）；面積×2÷(上底+下底)=高（梯形）</td></tr>
+    <tr><td>7</td><td><strong>面積單位漏寫²</strong></td><td>面積答案必須寫 cm² / m²，呈分試漏²必定扣分！</td></tr>
+  </table>
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P5-上-L05</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L03 平行四邊形與三角形面積 · L04 梯形多邊形面積 · L05 面積陷阱專項</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | LF-P5-上-L05 | 45題 · 10 SVG圖形
+</div>
+</body>
+</html>

@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P3-P4 數學 10 大必死陷阱 — 霖楓學苑 · 免費家長指南</title>
+<style>
+:root {
+  --blue: #1A3C6D;
+  --gold: #C9A84C;
+  --red: #DC2626;
+  --green: #16A34A;
+  --bg: #FFFDF7;
+  --card: #FFFFFF;
+  --text: #1A1A1A;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+  --light-blue: #EEF2F7;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans HK', 'Microsoft JhengHei', sans-serif;
+  background: #E8E8E8;
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12px auto;
+  background: white;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+  padding: 0;
+  page-break-after: always;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── COVER PAGE ── */
+.cover {
+  background: linear-gradient(155deg, #0A1A35 0%, #1A3C6D 40%, #1E4D8C 70%, #1A3C6D 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20mm 18mm;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 500px; height: 500px;
+  border: 3px solid rgba(201,168,76,0.12);
+  border-radius: 50%;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -160px; left: -140px;
+  width: 600px; height: 600px;
+  border: 2px solid rgba(201,168,76,0.08);
+  border-radius: 50%;
+}
+.cover-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: #1A3C6D;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 6px 20px;
+  border-radius: 20px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.cover-academy {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--gold);
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+.cover-title {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.3;
+  position: relative;
+  z-index: 1;
+  max-width: 90%;
+}
+.cover-title .highlight {
+  color: var(--gold);
+}
+.cover-subtitle {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.7);
+  margin: 16px 0 28px;
+  position: relative;
+  z-index: 1;
+}
+.cover-divider {
+  width: 80px;
+  height: 3px;
+  background: var(--gold);
+  margin: 0 auto 28px;
+  position: relative;
+  z-index: 1;
+}
+.cover-meta {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  position: relative;
+  z-index: 1;
+}
+.cover-wave {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 0;
+}
+
+/* ── SECTION PAGES ── */
+.section-page {
+  padding: 18mm 20mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.section-page.alt-bg { background: var(--light-blue); }
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.section-heading {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--blue);
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+.section-body {
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: #374151;
+}
+.section-body strong { color: var(--blue); }
+
+.stat-row {
+  display: flex;
+  gap: 16px;
+  margin: 20px 0;
+}
+.stat-box {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.stat-number {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--blue);
+}
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ── TRAP PAGE LAYOUT ── */
+.trap-page {
+  padding: 14mm 18mm;
+}
+.trap-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--gold);
+}
+.trap-number {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 18px;
+  color: white;
+  flex-shrink: 0;
+}
+.trap-number.t1{background:#3B82F6}.trap-number.t2{background:#8B5CF6}
+.trap-number.t3{background:#EC4899}.trap-number.t4{background:#F59E0B}
+.trap-number.t5{background:#10B981}.trap-number.t6{background:#6366F1}
+.trap-number.t7{background:#EF4444}.trap-number.t8{background:#14B8A6}
+.trap-number.t9{background:#F97316}.trap-number.t10{background:#84CC16}
+
+.trap-title-block h2 {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--blue);
+  margin: 0;
+}
+.trap-title-block .level-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 4px;
+}
+.badge-p3 { background: #DBEAFE; color: #1E40AF; }
+.badge-p4 { background: #EDE9FE; color: #6D28D9; }
+.badge-p3p4 { background: #FEF3C7; color: #92400E; }
+
+.error-box, .correct-box {
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 12px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.error-box {
+  background: #FEF2F2;
+  border: 2px solid #FECACA;
+  border-left: 5px solid var(--red);
+}
+.correct-box {
+  background: #F0FDF4;
+  border: 2px solid #BBF7D0;
+  border-left: 5px solid var(--green);
+}
+.box-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.box-content { flex: 1; }
+.box-content .label {
+  font-weight: 900;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.error-box .label { color: var(--red); }
+.correct-box .label { color: var(--green); }
+
+.math-formula {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin: 10px 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.parent-tip {
+  background: #FFF7ED;
+  border: 1px solid #FED7AA;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+.parent-tip .tip-title {
+  font-weight: 900;
+  color: #C2410C;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.trap-diagram {
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* ── SERVICE / CTA PAGES ── */
+.cta-page {
+  padding: 18mm 20mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.cta-highlight-box {
+  background: linear-gradient(135deg, var(--blue), #1E4D8C);
+  color: white;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin: 20px 0;
+  text-align: center;
+}
+.cta-highlight-box h3 {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.cta-highlight-box p { font-size: 13px; opacity: 0.9; line-height: 1.7; }
+
+.qr-placeholder {
+  width: 120px; height: 120px;
+  background: #E5E7EB;
+  border: 2px dashed #9CA3AF;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px auto;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--gold);
+  color: #1A3C6D;
+  font-weight: 900;
+  font-size: 14px;
+  padding: 12px 32px;
+  border-radius: 30px;
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin: 12px 0;
+}
+
+/* ── FOOTER ── */
+.page-footer {
+  position: absolute;
+  bottom: 10mm;
+  left: 18mm;
+  right: 18mm;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 6px;
+}
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; }
+.checklist li {
+  padding: 6px 0;
+  padding-left: 24px;
+  position: relative;
+  font-size: 12px;
+}
+.checklist li::before {
+  content: '☐';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* Numbered list */
+.num-list { list-style: none; counter-reset: item; }
+.num-list li {
+  counter-increment: item;
+  padding: 5px 0 5px 24px;
+  position: relative;
+  font-size: 12.5px;
+}
+.num-list li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  width: 18px; height: 18px;
+  background: var(--blue);
+  color: white;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.big-quote {
+  font-family: 'Noto Serif HK', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--blue);
+  border-left: 4px solid var(--gold);
+  padding-left: 16px;
+  margin: 16px 0;
+  line-height: 1.6;
+}
+
+.inline-stat {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+/* ── PRINT STYLES ── */
+@media print {
+  body { background: white; }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="page cover">
+  <div class="cover-badge">免費下載</div>
+  <div class="cover-academy">霖楓學苑 · LF Academy</div>
+  <div class="cover-title">
+    P3-P4 數學<br>
+    <span class="highlight">10 大必死陷阱</span><br>
+    你小朋友避開咗幾個？
+  </div>
+  <div class="cover-subtitle">免費家長指南 · 不教數學，教避開陷阱</div>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">適合小三至小四家長 · 2026 年版 · 可列印</div>
+  <svg class="cover-wave" viewBox="0 0 800 120" preserveAspectRatio="none">
+    <path d="M0,40 C200,100 400,0 800,60 L800,120 L0,120 Z" fill="rgba(201,168,76,0.15)"/>
+    <path d="M0,70 C300,20 500,100 800,50 L800,120 L0,120 Z" fill="rgba(201,168,76,0.08)"/>
+  </svg>
+</div>
+
+<!-- ═══════════════ PAGE 2: WHY TRAPS ═══════════════ -->
+<div class="page section-page">
+  <div class="section-label">第 1 章</div>
+  <div class="section-heading">點解小朋友數學分數停滯不前？</div>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-number">87%</div>
+      <div class="stat-label">P3-P4 家長覺得小朋友「明明識但考試就錯」</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">70%</div>
+      <div class="stat-label">考試失分來自陷阱題，唔係唔識</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-number">+12.4</div>
+      <div class="stat-label">霖楓學生平均分數提升（陷阱訓練後）</div>
+    </div>
+  </div>
+
+  <div class="big-quote">
+    「你小朋友唔係數學渣，佢只係未學識睇陷阱。」
+  </div>
+
+  <div class="section-body">
+    <p>我哋分析過近 500 份 P3-P4 數學卷，發現一個規律：<strong>70% 嘅失分唔係因為唔識，而係踩中咗設計好嘅陷阱。</strong></p>
+    <p style="margin-top:10px;">考試卷入面嘅陷阱題，係專登設計出嚟區分「識計」同「真係明白」嘅學生。你小朋友明明識加減乘除，點解每次都係嗰幾個位錯？</p>
+    <p style="margin-top:10px;"><strong>答案：佢冇學過點樣「睇」陷阱。</strong></p>
+    <p style="margin-top:10px;">霖楓學苑用 <strong>10 大陷阱分類法（T1-T10）</strong>，幫 P3-P4 小朋友建立「陷阱敏感度」——未計之前先掃描陷阱，計完之後再檢查陷阱。呢個流程，學校唔會教，普通補習社唔會教。</p>
+    <p style="margin-top:14px;font-weight:700;color:var(--blue);">以下係 P3-P4 最常見嘅 10 大必死陷阱。每一頁揭示一個陷阱，配有真實例子同家長輔導貼士。</p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.2</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 3: T1 單位進位 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t1">T1</div>
+    <div class="trap-title-block">
+      <h2>單位轉換陷阱 —「變形怪」</h2>
+      <span class="level-badge badge-p3">P3 重點</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：單位進位／退位混淆 · 單位換算出錯</p>
+
+  <div class="trap-diagram">
+    <svg width="340" height="110" viewBox="0 0 340 110">
+      <rect x="10" y="10" width="80" height="40" rx="6" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+      <text x="50" y="36" text-anchor="middle" font-size="14" font-weight="900" fill="#1E40AF">1 km</text>
+      <text x="50" y="62" text-anchor="middle" font-size="9" fill="#6B7280">= 1000 m</text>
+
+      <line x1="105" y1="30" x2="140" y2="30" stroke="#3B82F6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+      <rect x="155" y="10" width="80" height="40" rx="6" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+      <text x="195" y="36" text-anchor="middle" font-size="14" font-weight="900" fill="#1E40AF">1 kg</text>
+      <text x="195" y="62" text-anchor="middle" font-size="9" fill="#6B7280">= 1000 g</text>
+
+      <rect x="250" y="10" width="80" height="40" rx="6" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+      <text x="290" y="36" text-anchor="middle" font-size="14" font-weight="900" fill="#1E40AF">1 L</text>
+      <text x="290" y="62" text-anchor="middle" font-size="9" fill="#6B7280">= 1000 mL</text>
+
+      <defs>
+        <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L8,3 L0,6 Z" fill="#3B82F6"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">60% 學生嘅錯誤做法</div>
+      <p><strong>題目：</strong>操場一圈 400 m，小明跑咗 5 圈，即係跑咗幾多 km？</p>
+      <p style="color:var(--red);font-weight:700;">錯誤答案：400 × 5 = 2000 km ❌</p>
+      <p style="font-size:10px;color:var(--muted);">致命原因：計完 2000 之後忘記單位係「m」，要將 m 轉做 km → ÷1000</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法</div>
+      <p>總距離 = 400 × 5 = <strong>2000 m</strong></p>
+      <p>2000 m = 2000 ÷ 1000 = <strong>2 km</strong> ✅</p>
+      <p style="font-size:10px;color:var(--green);">關鍵：計算後必須檢查單位！答案問 km 就要將 m 轉 km。</p>
+    </div>
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>每次做完應用題，問小朋友三條問題：<br>
+    <strong>1.</strong> 題目畀咗咩單位？ <strong>2.</strong> 答案要求咩單位？ <strong>3.</strong> 兩個單位一唔一樣？唔一樣就要轉！<br>
+    口訣：<strong>「計完唔好走，單位望多眼。m變km要除1000，kg變g要乘1000。」</strong></p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.3 | T1 單位進位陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 4: T2 小數點 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t2">T2</div>
+    <div class="trap-title-block">
+      <h2>小數點陷阱 —「幽靈移位」</h2>
+      <span class="level-badge badge-p4">P4 重點</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：小數點對錯位 · 比較小數時被位數欺騙</p>
+
+  <div class="trap-diagram">
+    <svg width="340" height="90" viewBox="0 0 340 90">
+      <rect x="30" y="15" width="120" height="55" rx="10" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+      <text x="90" y="42" text-anchor="middle" font-size="16" font-weight="900" fill="#DC2626">0.8 > 0.12 ?</text>
+      <text x="90" y="60" text-anchor="middle" font-size="9" fill="#991B1B">錯誤思維：12 > 8，所以 0.12 大啲</text>
+
+      <text x="165" y="48" text-anchor="middle" font-size="20" fill="#1A3C6D">→</text>
+
+      <rect x="190" y="15" width="120" height="55" rx="10" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+      <text x="250" y="42" text-anchor="middle" font-size="16" font-weight="900" fill="#16A34A">0.80 > 0.12 ✓</text>
+      <text x="250" y="60" text-anchor="middle" font-size="9" fill="#166534">補 0 對齊：0.80 vs 0.12 → 80 > 12</text>
+    </svg>
+  </div>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">55% 學生嘅錯誤做法</div>
+      <p><strong>題目：</strong>比較 0.8 同 0.12，邊個大？</p>
+      <p style="color:var(--red);font-weight:700;">錯誤答案：0.12 > 0.8 ❌</p>
+      <p style="font-size:10px;color:var(--muted);">致命原因：小朋友睇到 12 > 8，以為 0.12 大啲。佢哋忽略咗小數位值——十分位 vs 百分位！</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法</div>
+      <p><strong>方法：補 0 對齊法</strong></p>
+      <p>0.8 = 0.80（8 個十分之一 + 0 個百分之一）</p>
+      <p>0.12 = 0.12（1 個十分之一 + 2 個百分之一）</p>
+      <p>0.80 vs 0.12 → 80 > 12 → <strong>0.8 > 0.12</strong> ✅</p>
+    </div>
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>屋企可以用「格仔紙」畫小數：一格 = 0.1，一條 = 1。0.8 = 8 格（幾乎成條），0.12 = 1 格多少少。小朋友一睇就明。<br>
+    🧠 口訣：<strong>「小數比大小，補零對齊先。格仔畫出嚟，邊個多啲一眼見。」</strong></p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.4 | T2 小數點陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 5: T3 運算次序 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t3">T3</div>
+    <div class="trap-title-block">
+      <h2>運算次序陷阱 —「次序迷宮」</h2>
+      <span class="level-badge badge-p3p4">P3-P4 重點</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：先乘除後加減被忽略 · 括號優先被遺忘</p>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">65% 學生嘅錯誤做法</div>
+      <p><strong>題目：</strong>8 + 4 × 3 = ?</p>
+      <p style="color:var(--red);font-weight:700;">錯誤答案：8 + 4 = 12，12 × 3 = 36 ❌</p>
+      <p style="font-size:10px;color:var(--muted);">致命原因：從左到右亂計！唔記得「先乘除，後加減」。</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法</div>
+      <p><strong>先乘除，後加減</strong></p>
+      <p>4 × 3 = 12（先計乘法）</p>
+      <p>8 + 12 = <strong>20</strong> ✅</p>
+      <p style="font-size:10px;color:var(--green);">驗算：20 - 4×3 = 20 - 12 = 8 ✓</p>
+    </div>
+  </div>
+
+  <div class="trap-diagram">
+    <svg width="340" height="70" viewBox="0 0 340 70">
+      <rect x="15" y="10" width="70" height="45" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+      <text x="50" y="38" text-anchor="middle" font-size="12" font-weight="700" fill="#DC2626">❌ 左→右</text>
+
+      <text x="110" y="38" text-anchor="middle" font-size="16">→</text>
+
+      <rect x="135" y="10" width="80" height="45" rx="8" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+      <text x="175" y="38" text-anchor="middle" font-size="12" font-weight="700" fill="#16A34A">✅ ×÷ 優先</text>
+
+      <text x="240" y="38" text-anchor="middle" font-size="16">→</text>
+
+      <rect x="255" y="10" width="70" height="45" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+      <text x="290" y="38" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">🧠 口訣</text>
+    </svg>
+  </div>
+
+  <div class="math-formula">
+    🧠 <strong>口訣：</strong>「加減乘除混一起，先計乘除後加減。有括號就括號先，冇括號就跟次序。」
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>每日出 3 題混合運算（例：12 - 6 ÷ 2、5 + 3 × 4、(8-3) × 2），要求小朋友先 <strong>圈出要最先計嘅部分</strong>，然後先落筆。重點係「圈先於計」呢個習慣。</p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.5 | T3 運算次序陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 6: T4 面積公式 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t4">T4</div>
+    <div class="trap-title-block">
+      <h2>面積公式陷阱 —「公式亂葬崗」</h2>
+      <span class="level-badge badge-p4">P4 重點</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：周界同面積混淆 · 長方形正方形公式撈亂 · 單位寫錯</p>
+
+  <div class="trap-diagram">
+    <svg width="340" height="120" viewBox="0 0 340 120">
+      <!-- Rectangle -->
+      <rect x="20" y="15" width="100" height="65" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2.5" rx="2"/>
+      <text x="70" y="38" text-anchor="middle" font-size="10" fill="#1E40AF">長 8 cm</text>
+      <text x="70" y="55" text-anchor="middle" font-size="10" fill="#1E40AF">闊 5 cm</text>
+      <text x="70" y="73" text-anchor="middle" font-size="9" fill="#6B7280">面積 = ?</text>
+
+      <!-- Arrow -->
+      <text x="135" y="52" text-anchor="middle" font-size="18" fill="#1A3C6D">→</text>
+
+      <!-- Area calc -->
+      <rect x="155" y="15" width="85" height="65" fill="#F0FDF4" stroke="#16A34A" stroke-width="2" rx="6"/>
+      <text x="197" y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#166534">面積</text>
+      <text x="197" y="55" text-anchor="middle" font-size="11" font-weight="900" fill="#16A34A">8 × 5 = 40</text>
+      <text x="197" y="72" text-anchor="middle" font-size="9" fill="#6B7280">40 cm² ✅</text>
+
+      <!-- Perimeter -->
+      <rect x="255" y="15" width="75" height="65" fill="#FEF2F2" stroke="#DC2626" stroke-width="2" rx="6"/>
+      <text x="292" y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#991B1B">周界</text>
+      <text x="292" y="55" text-anchor="middle" font-size="11" font-weight="900" fill="#DC2626">(8+5)×2</text>
+      <text x="292" y="72" text-anchor="middle" font-size="9" fill="#6B7280">26 cm ❌≠面積</text>
+    </svg>
+  </div>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">50% 學生嘅錯誤做法</div>
+      <p><strong>題目：</strong>長方形長 8 cm，闊 5 cm，求面積。</p>
+      <p style="color:var(--red);font-weight:700;">錯誤答案：(8 + 5) × 2 = 26 ❌（計咗周界！）</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法</div>
+      <p><strong>長方形面積 = 長 × 闊</strong></p>
+      <p>面積 = 8 × 5 = <strong>40 cm²</strong> ✅</p>
+      <p>周界 = (8 + 5) × 2 = 26 cm（係另一樣嘢！）</p>
+    </div>
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>用實物教！拎張 A4 紙：「面積係成張紙有幾大（鋪滿），周界係四條邊加埋有幾長（圍起）。」<br>
+    🧠 口訣：<strong>「面積鋪滿單位係平方，周界圍起單位唔平方。長乘闊係面積，(長加闊)乘二係周界。」</strong></p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.6 | T4 面積公式陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 7: T5 幾何混淆 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t5">T5</div>
+    <div class="trap-title-block">
+      <h2>幾何圖形混淆陷阱 —「變形怪2號」</h2>
+      <span class="level-badge badge-p3p4">P3-P4 重點</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：正方形vs長方形vs平行四邊形撈亂 · 對稱軸數錯 · 立體vs平面混淆</p>
+
+  <div class="trap-diagram">
+    <svg width="340" height="130" viewBox="0 0 340 130">
+      <!-- Square -->
+      <rect x="20" y="25" width="55" height="55" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+      <text x="47" y="100" text-anchor="middle" font-size="9" fill="#1E40AF">正方形</text>
+      <text x="47" y="112" text-anchor="middle" font-size="8" fill="#6B7280">4邊等+4直角</text>
+
+      <!-- Rectangle -->
+      <rect x="100" y="30" width="80" height="45" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/>
+      <text x="140" y="90" text-anchor="middle" font-size="9" fill="#6D28D9">長方形</text>
+      <text x="140" y="102" text-anchor="middle" font-size="8" fill="#6B7280">對邊等+4直角</text>
+
+      <!-- Parallelogram -->
+      <polygon points="210,55 270,55 250,85 190,85" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+      <text x="230" y="100" text-anchor="middle" font-size="9" fill="#92400E">平行四邊形</text>
+      <text x="230" y="112" text-anchor="middle" font-size="8" fill="#6B7280">對邊平行·冇直角</text>
+
+      <!-- Family tree arrow -->
+      <text x="300" y="28" font-size="8" fill="#6B7280">正方形</text>
+      <text x="300" y="40" font-size="8" fill="#6B7280">  ⊂ 長方形</text>
+      <text x="300" y="52" font-size="8" fill="#6B7280">    ⊂ 平行四邊形</text>
+    </svg>
+  </div>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">常見錯誤</div>
+      <p><strong>題目：</strong>一個四邊形，四條邊全部相等，四個角都係直角，呢個係咩圖形？</p>
+      <p style="color:var(--red);font-weight:700;">常見錯誤答案：長方形 ❌</p>
+      <p style="font-size:10px;color:var(--muted);">原因：冇留意「四條邊全部相等」呢個關鍵條件。長方形得對邊相等咋！</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法</div>
+      <p>四邊相等 + 四直角 = <strong>正方形</strong> ✅</p>
+      <p>正方形係長方形嘅特殊情況（所有正方形都係長方形，反轉唔成立）</p>
+    </div>
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>玩「圖形家族樹」遊戲：畫一棵樹，最頂係「四邊形」→下一層「平行四邊形」→再下一層「長方形」→最底層「正方形」。愈向下條件愈嚴格。每次見到圖形題，問：「佢屬於家族樹邊一層？」</p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.7 | T5 幾何混淆陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 8: T6 分數陷阱 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t6">T6</div>
+    <div class="trap-title-block">
+      <h2>分數陷阱 —「分母消失術」</h2>
+      <span class="level-badge badge-p3p4">P3-P4 重點</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：同分母相加連分母都加埋 · 1/4 vs 1/3 比大小判斷錯誤</p>
+
+  <div class="trap-diagram">
+    <svg width="340" height="120" viewBox="0 0 340 120">
+      <!-- Pizza 1/4 -->
+      <circle cx="60" cy="45" r="30" fill="none" stroke="#6366F1" stroke-width="2"/>
+      <line x1="60" y1="15" x2="60" y2="75" stroke="#6366F1" stroke-width="1.5"/>
+      <line x1="30" y1="45" x2="90" y2="45" stroke="#6366F1" stroke-width="1.5"/>
+      <text x="48" y="38" font-size="10" fill="#6366F1" font-weight="700">1/4</text>
+      <text x="60" y="93" text-anchor="middle" font-size="9" fill="#6B7280">1 份</text>
+
+      <text x="110" y="48" text-anchor="middle" font-size="16">+</text>
+
+      <!-- Pizza 2/4 -->
+      <circle cx="165" cy="45" r="30" fill="none" stroke="#6366F1" stroke-width="2"/>
+      <line x1="165" y1="15" x2="165" y2="75" stroke="#6366F1" stroke-width="1.5"/>
+      <line x1="135" y1="45" x2="195" y2="45" stroke="#6366F1" stroke-width="1.5"/>
+      <text x="148" y="36" font-size="10" fill="#6366F1" font-weight="700">2/4</text>
+      <text x="165" y="93" text-anchor="middle" font-size="9" fill="#6B7280">2 份</text>
+
+      <text x="215" y="48" text-anchor="middle" font-size="16">=</text>
+
+      <!-- Result -->
+      <circle cx="275" cy="45" r="30" fill="none" stroke="#16A34A" stroke-width="2.5"/>
+      <line x1="275" y1="15" x2="275" y2="75" stroke="#16A34A" stroke-width="1.5"/>
+      <line x1="245" y1="45" x2="305" y2="45" stroke="#16A34A" stroke-width="1.5"/>
+      <text x="258" y="36" font-size="10" fill="#16A34A" font-weight="700">3/4</text>
+      <text x="275" y="93" text-anchor="middle" font-size="9" fill="#166534">3 份 ✅</text>
+    </svg>
+  </div>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">致命錯誤（70% 初學者會錯）</div>
+      <p><strong>題目：</strong>1/4 + 2/4 = ?</p>
+      <p style="color:var(--red);font-weight:700;">錯誤答案：1/4 + 2/4 = 3/8 ❌</p>
+      <p style="font-size:10px;color:var(--muted);">致命原因：分子加分子（1+2=3），分母加分母（4+4=8）——完全錯晒！</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法</div>
+      <p><strong>同分母相加：分母不變，分子相加</strong></p>
+      <p>1/4 + 2/4 = (1+2)/4 = <strong>3/4</strong> ✅</p>
+      <p style="font-size:10px;color:var(--green);">用 Pizza 解釋：1 塊 + 2 塊 = 3 塊，每塊仍然係 1/4 個 Pizza。Pizza 冇變大！</p>
+    </div>
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>切真實嘅食物！蛋糕、Pizza、甚至方包。切 4 份，拎 1 份 + 2 份 = 3 份（仍然係四分幾塊）→ 3/4。小朋友摸到實物就永遠唔會再加分母。<br>
+    🧠 口訣：<strong>「同分母相加減，分母瞓覺唔准郁，分子起身做加減。」</strong></p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.8 | T6 分數陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 9: T7 百分數入門 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t7">T7</div>
+    <div class="trap-title-block">
+      <h2>百分數／倍數陷阱 —「基準量幻覺」</h2>
+      <span class="level-badge badge-p3p4">P3-P4 入門</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：「3倍」vs「多3倍」傻傻分不清 · 折扣概念混淆</p>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">常見錯誤</div>
+      <p><strong>題目：</strong>小明有 5 粒糖，小強嘅糖係小明嘅 <strong>3 倍</strong>，小強有幾多粒？vs 小強嘅糖<strong>比小明多 3 倍</strong>，小強有幾多粒？</p>
+      <p style="color:var(--red);font-weight:700;">好多小朋友兩題都答 15 粒 ❌</p>
+      <p style="font-size:10px;color:var(--muted);">致命原因：「A 係 B 嘅 3 倍」≠「A 比 B 多 3 倍」！前者 = B×3，後者 = B×(1+3) = B×4</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法</div>
+      <p><strong>「係...嘅 N 倍」</strong>→ 直接乘 N：5 × 3 = <strong>15 粒</strong> ✅</p>
+      <p><strong>「比...多 N 倍」</strong>→ 乘 (N+1)：5 × 4 = <strong>20 粒</strong> ✅</p>
+    </div>
+  </div>
+
+  <div class="math-formula">
+    🧠 <strong>口訣：</strong>「『係幾倍』直接乘，『多幾倍』加一乘。『係3倍』×3，『多3倍』×4。」
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>用日常生活例子：<br>
+    「今日買餸用咗 $100，聽日係今日嘅 2 倍 = $200。聽日比今日多 1 倍 = $200（一樣！因為多 1 倍 = ×2）。」<br>
+    關鍵係幫小朋友分辨「係」同「多」嘅分別。每次見到文字題，要求佢哋先用熒光筆圈出「係」定「多」。</p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.9 | T7 百分數/倍數陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 10: T8 時間陷阱 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t8">T8</div>
+    <div class="trap-title-block">
+      <h2>時間計算陷阱 —「時鐘魔法」</h2>
+      <span class="level-badge badge-p3">P3 重點</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：1.5小時≠1小時50分 · 跨12:00時間計算 · 24小時制轉換</p>
+
+  <div class="trap-diagram">
+    <svg width="340" height="110" viewBox="0 0 340 110">
+      <!-- Clock face -->
+      <circle cx="80" cy="55" r="40" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+      <text x="80" y="40" text-anchor="middle" font-size="10" fill="#C2410C">09:30</text>
+      <text x="80" y="55" text-anchor="middle" font-size="9" fill="#6B7280">+ 1.5 h</text>
+      <text x="80" y="70" text-anchor="middle" font-size="9" fill="#DC2626">= 11:00 ✅</text>
+
+      <text x="135" y="58" text-anchor="middle" font-size="18">≠</text>
+
+      <rect x="155" y="25" width="75" height="55" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
+      <text x="192" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#DC2626">1.5 h</text>
+      <text x="192" y="65" text-anchor="middle" font-size="9" fill="#991B1B">≠ 1h50m ❌</text>
+
+      <rect x="250" y="25" width="75" height="55" rx="8" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+      <text x="287" y="48" text-anchor="middle" font-size="10" font-weight="700" fill="#16A34A">1.5 h</text>
+      <text x="287" y="65" text-anchor="middle" font-size="9" fill="#166534">= 1h30m ✅</text>
+    </svg>
+  </div>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">P3 最致命錯誤</div>
+      <p><strong>題目：</strong>電影 9:30 開始，片長 1.5 小時，幾點完？</p>
+      <p style="color:var(--red);font-weight:700;">錯誤：1.5 h = 1 小時 50 分鐘 → 11:20 ❌</p>
+      <p style="font-size:10px;color:var(--muted);">致命原因：將小數嘅 0.5 當成 50 分鐘！正確：0.5 小時 = 30 分鐘。</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法</div>
+      <p>1.5 小時 = 1 小時 + 0.5 × 60 分鐘 = 1 小時 30 分鐘</p>
+      <p>09:30 + 1h30m = <strong>11:00</strong> ✅</p>
+    </div>
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>喺屋企擺個指針鐘。問：「而家 3:15，1.5 小時之後幾點？」要求小朋友先轉 1.5h → 1h30m，再撥鐘。實物操作 10 次，呢個錯誤就會消失。<br>
+    🧠 口訣：<strong>「小數鐘要小心，0.5 只係 30 分。唔係 50 唔係 5，乘 60 先至真。」</strong></p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.10 | T8 時間計算陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 11: T9 方程入門 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t9">T9</div>
+    <div class="trap-title-block">
+      <h2>簡易方程陷阱 —「方向反轉」</h2>
+      <span class="level-badge badge-p3p4">P3-P4 入門</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：未知數移項方向錯誤 · 加變減／減變加搞亂</p>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">常見錯誤</div>
+      <p><strong>題目：</strong>? + 5 = 12，? = ?</p>
+      <p style="color:var(--red);font-weight:700;">錯誤答案：? = 12 + 5 = 17 ❌</p>
+      <p style="font-size:10px;color:var(--muted);">致命原因：見到「+5」搬去右邊仍然係「+5」。正確：+5 搬去右邊變 -5。</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確解法（天平原理）</div>
+      <p>? + 5 = 12</p>
+      <p>? + 5 <strong>- 5</strong> = 12 <strong>- 5</strong>（兩邊一齊減 5，天平平衡）</p>
+      <p>? = <strong>7</strong> ✅</p>
+      <p style="font-size:10px;color:var(--green);">驗算：7 + 5 = 12 ✓</p>
+    </div>
+  </div>
+
+  <div class="trap-diagram">
+    <svg width="300" height="80" viewBox="0 0 300 80">
+      <!-- Balance scale -->
+      <line x1="150" y1="10" x2="150" y2="30" stroke="#6B7280" stroke-width="3"/>
+      <line x1="60" y1="30" x2="240" y2="30" stroke="#6B7280" stroke-width="3"/>
+      <!-- Left pan -->
+      <rect x="55" y="28" width="50" height="8" rx="2" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+      <text x="80" y="55" text-anchor="middle" font-size="10" fill="#1E40AF" font-weight="700">? + 5</text>
+      <!-- Right pan -->
+      <rect x="195" y="28" width="50" height="8" rx="2" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+      <text x="220" y="55" text-anchor="middle" font-size="10" fill="#166534" font-weight="700">12</text>
+      <!-- Equal sign -->
+      <text x="150" y="75" text-anchor="middle" font-size="16" fill="#1A3C6D">⚖️ 天平原理</text>
+    </svg>
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>用真實嘅天平（或者自製衣架天平）教方程。左邊擺 ?+5 粒糖，右邊擺 12 粒糖。問：「我要喺左邊拎走 5 粒，右邊要點先平衡？」→ 右邊都要拎走 5 粒 → ? = 7。摸過實物就唔會再錯方向。<br>
+    🧠 口訣：<strong>「天平兩邊要公平，左邊做咩右邊跟。加變減，減變加，乘變除，除變乘。」</strong></p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.11 | T9 方程陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 12: T10 統計圖表 ═══════════════ -->
+<div class="page trap-page">
+  <div class="trap-header">
+    <div class="trap-number t10">T10</div>
+    <div class="trap-title-block">
+      <h2>統計圖表陷阱 —「刻度幻覺」</h2>
+      <span class="level-badge badge-p3p4">P3-P4 重點</span>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">🪤 陷阱類型：棒形圖一格未必等於 1 · 直接讀棒高度而唔睇刻度</p>
+
+  <div class="trap-diagram">
+    <svg width="340" height="120" viewBox="0 0 340 120">
+      <!-- Y axis -->
+      <line x1="60" y1="15" x2="60" y2="100" stroke="#374151" stroke-width="2"/>
+      <line x1="55" y1="100" x2="340" y2="100" stroke="#374151" stroke-width="2"/>
+
+      <!-- Y labels -->
+      <text x="50" y="102" text-anchor="end" font-size="8" fill="#6B7280">0</text>
+      <text x="50" y="82" text-anchor="end" font-size="8" fill="#6B7280">10</text>
+      <text x="50" y="62" text-anchor="end" font-size="8" fill="#6B7280">20</text>
+      <text x="50" y="42" text-anchor="end" font-size="8" fill="#6B7280">30</text>
+      <text x="50" y="22" text-anchor="end" font-size="8" fill="#6B7280">40</text>
+
+      <!-- Grid lines -->
+      <line x1="60" y1="80" x2="320" y2="80" stroke="#E5E7EB" stroke-width="0.5" stroke-dasharray="3,3"/>
+      <line x1="60" y1="60" x2="320" y2="60" stroke="#E5E7EB" stroke-width="0.5" stroke-dasharray="3,3"/>
+      <line x1="60" y1="40" x2="320" y2="40" stroke="#E5E7EB" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+      <!-- Scale warning -->
+      <text x="34" y="52" text-anchor="end" font-size="7" fill="#DC2626" font-weight="700">⚠️</text>
+      <text x="36" y="62" text-anchor="end" font-size="7" fill="#DC2626">一格</text>
+      <text x="36" y="72" text-anchor="end" font-size="7" fill="#DC2626">=10</text>
+
+      <!-- Bars -->
+      <rect x="80" y="40" width="35" height="60" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+      <text x="97" y="35" text-anchor="middle" font-size="8" fill="#6B7280">A</text>
+
+      <rect x="145" y="60" width="35" height="40" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+      <text x="162" y="55" text-anchor="middle" font-size="8" fill="#6B7280">B</text>
+
+      <rect x="210" y="20" width="35" height="80" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+      <text x="227" y="15" text-anchor="middle" font-size="8" fill="#6B7280">C</text>
+
+      <rect x="275" y="80" width="35" height="20" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+      <text x="292" y="75" text-anchor="middle" font-size="8" fill="#6B7280">D</text>
+    </svg>
+  </div>
+
+  <div class="error-box">
+    <div class="box-icon">❌</div>
+    <div class="box-content">
+      <div class="label">常見錯誤</div>
+      <p><strong>情境：</strong>棒形圖一格 = 10 本書。A 棒有 4 格高。</p>
+      <p style="color:var(--red);font-weight:700;">錯誤答案：A = 4 本書 ❌</p>
+      <p style="font-size:10px;color:var(--muted);">致命原因：小朋友直接數格數，忽略咗一格代表 10。正確：4 格 × 10 = 40 本書。</p>
+    </div>
+  </div>
+
+  <div class="correct-box">
+    <div class="box-icon">✅</div>
+    <div class="box-content">
+      <div class="label">正確三步法</div>
+      <p><strong>1.</strong> 先搵「一格代表幾多」（睇刻度標籤）</p>
+      <p><strong>2.</strong> 數格數（棒有幾格高）</p>
+      <p><strong>3.</strong> 格數 × 一格代表值 = 答案</p>
+    </div>
+  </div>
+
+  <div class="parent-tip">
+    <div class="tip-title">👨‍👩‍👧 點樣幫小朋友？</div>
+    <p>每日用報紙或網上嘅真實棒形圖練習。先問：「呢一格代表幾多？」——呢條問題永遠係第一條。答到先繼續。答唔到就唔准計。<br>
+    🧠 口訣：<strong>「睇圖先睇刻度值，一格代表要清楚。格數乘代表值，唔係齋數有幾格。」</strong></p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.12 | T10 統計圖表陷阱</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 13: SERVICE INTRO ═══════════════ -->
+<div class="page section-page">
+  <div class="section-label">霖楓學苑</div>
+  <div class="section-heading">霖楓學苑點樣幫到你小朋友？</div>
+
+  <div class="section-body">
+    <p><strong>我哋唔係普通補習社。</strong>霖楓學苑係全港唯一用「陷阱分類法」教數學嘅教育機構。</p>
+
+    <div style="margin:16px 0;">
+      <div class="big-quote">「學校教知識，霖楓教陷阱。知識可以自己溫，陷阱一定要有人教。」</div>
+    </div>
+
+    <p style="margin-bottom:12px;"><strong>我哋嘅 P3-P4 課程特色：</strong></p>
+    <ul class="num-list">
+      <li><strong>陷阱遊戲化教學</strong> — 將 T1-T10 陷阱變成遊戲關卡，小朋友喺玩嘅過程中建立陷阱敏感度</li>
+      <li><strong>每堂 1-2 個口訣</strong> — 粵語押韻口訣幫助記憶，返到屋企都識用</li>
+      <li><strong>個人化陷阱弱項報告</strong> — 每學期一次診斷評估，清楚列出邊啲陷阱已掌握、邊啲要加強</li>
+      <li><strong>小班教學（最多 6 人）</strong> — 確保每個小朋友都被睇到</li>
+      <li><strong>家長每月溝通</strong> — 唔係一年見一次，係每個月話你知進度</li>
+    </ul>
+
+    <div class="stat-row" style="margin-top:18px;">
+      <div class="stat-box">
+        <div class="stat-number">80:20</div>
+        <div class="stat-label">P3-P4 趣味:成績比例</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">+12.4</div>
+        <div class="stat-label">平均分數提升</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">40堂</div>
+        <div class="stat-label">完整學年課程</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.13</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 14: CTA ═══════════════ -->
+<div class="page cta-page">
+  <div class="section-label">立即行動</div>
+  <div class="section-heading" style="text-align:center;">免費陷阱診斷測驗<br>30 分鐘找出你小朋友嘅陷阱弱點</div>
+
+  <div class="cta-highlight-box">
+    <h3>你嘅下一步</h3>
+    <p>每位新學生可享 <strong>一次免費陷阱診斷測驗（價值 $300）</strong>：</p>
+    <p style="margin-top:8px;">✅ 30 分鐘一對一診斷（線上/面授）<br>
+    ✅ 覆蓋 T1-T10 全部陷阱類型<br>
+    ✅ 即時得出個人陷阱弱項報告<br>
+    ✅ 專人解釋報告 + 建議學習路徑<br>
+    ✅ 完全免費，零壓力，純診斷</p>
+  </div>
+
+  <div class="big-quote" style="text-align:center;margin:16px 0;">
+    「你唔需要即刻報名。你只需要知道你小朋友嘅陷阱弱點係咩。」
+  </div>
+
+  <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">做完診斷，你會清楚知道：<br>
+  邊啲陷阱你小朋友已經避開咗 ✅<br>
+  邊啲陷阱仍然係計時炸彈 💣<br>
+  下一個考試前要優先處理邊幾個陷阱 🎯</p>
+
+  <div class="qr-placeholder">QR Code</div>
+  <p style="font-size:10px;color:var(--muted);">掃描 QR Code 或 WhatsApp 我哋預約免費診斷</p>
+
+  <p style="font-size:12px;font-weight:700;color:var(--blue);margin-top:12px;">
+    WhatsApp: [預約號碼] &nbsp;|&nbsp; 網站: [霖楓學苑官網]
+  </p>
+
+  <div style="margin-top:20px;padding:14px 20px;background:#FEFCE8;border:1px solid #FDE68A;border-radius:10px;max-width:440px;">
+    <p style="font-size:11px;font-weight:900;color:#92400E;">🎯 限時優惠：完成免費診斷後 7 日內報名常規課程，免首次教材費（價值 $200）</p>
+  </div>
+
+  <div class="page-footer">
+    <span>霖楓學苑 · LF Academy — 不教數學，教避開陷阱</span>
+    <span>P.14</span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 15: BACK COVER ═══════════════ -->
+<div class="page cover" style="background:linear-gradient(155deg,#1A3C6D 0%,#0D2447 50%,#0A1A35 100%);">
+  <div class="cover-academy">霖楓學苑 · LF Academy</div>
+  <div style="font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:22px;font-weight:900;position:relative;z-index:1;margin:16px 0;text-align:center;">
+    不教數學<br><span style="color:var(--gold);">教避開陷阱</span>
+  </div>
+  <div class="cover-divider"></div>
+  <p style="font-size:13px;color:rgba(255,255,255,0.7);position:relative;z-index:1;text-align:center;max-width:70%;line-height:1.8;">
+    你小朋友唔係數學渣。<br>
+    佢只係未學識睇陷阱。<br>
+    俾我哋 30 分鐘，我哋話你知佢嘅陷阱地圖。
+  </p>
+  <p style="font-size:11px;color:rgba(255,255,255,0.4);position:relative;z-index:1;text-align:center;margin-top:24px;">
+    WhatsApp: [預約號碼] &nbsp;|&nbsp; [網站網址]
+  </p>
+  <svg class="cover-wave" viewBox="0 0 800 120" preserveAspectRatio="none">
+    <path d="M0,40 C200,100 400,0 800,60 L800,120 L0,120 Z" fill="rgba(201,168,76,0.15)"/>
+    <path d="M0,70 C300,20 500,100 800,50 L800,120 L0,120 Z" fill="rgba(201,168,76,0.08)"/>
+  </svg>
+</div>
+
+</body>
+</html>

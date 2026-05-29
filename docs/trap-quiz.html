@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<title>霖楓學苑 · 數學陷阱診斷</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:rgba(255,255,255,0.08);border-radius:20px;padding:32px 24px;border:1px solid rgba(255,255,255,0.12);text-align:center;max-width:500px;width:100%}
+h1{font-size:22px;margin-bottom:4px}
+.sub{color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:20px}
+.grade-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.grade-btn{padding:12px 20px;border-radius:25px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:white;cursor:pointer;font-size:15px;font-weight:700;transition:all 0.2s}
+.grade-btn:hover,.grade-btn.on{border-color:#C9A84C;background:rgba(201,168,76,0.2)}
+.start-btn{display:block;width:100%;padding:16px;border-radius:30px;font-size:18px;font-weight:900;border:none;cursor:pointer;background:#C9A84C;color:#1A3C6D;margin-top:16px}
+.progress-wrap{background:rgba(255,255,255,0.1);height:4px;border-radius:2px;margin-bottom:20px;overflow:hidden}
+.progress-inner{background:#C9A84C;height:100%;width:0;transition:width 0.3s}
+.q-num{font-size:12px;color:#C9A84C;font-weight:700;margin-bottom:8px}
+.q-text{font-size:20px;font-weight:700;margin-bottom:20px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt-btn{background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;text-align:left;font-size:15px;color:white;cursor:pointer;transition:all 0.15s}
+.opt-btn:hover{border-color:#C9A84C;background:rgba(201,168,76,0.1)}
+.opt-btn.pick{border-color:#C9A84C;background:rgba(201,168,76,0.2)}
+.opt-btn.right{border-color:#16A34A;background:rgba(22,163,74,0.2)}
+.opt-btn.wrong{border-color:#DC2626;background:rgba(220,38,38,0.2)}
+.btn-next{display:inline-block;background:#C9A84C;color:#1A3C6D;padding:12px 36px;border-radius:25px;font-size:15px;font-weight:900;border:none;cursor:pointer;margin-top:16px}
+.btn-next:disabled{opacity:0.3;cursor:not-allowed}
+.fp-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.fp-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+.fp-dot.risk{background:#DC2626}.fp-dot.mid{background:#F59E0B;color:#1A1A1A}.fp-dot.safe{background:rgba(255,255,255,0.1)}
+.cta-box{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:16px;margin-top:16px}
+.cta-box h3{color:#C9A84C;margin-bottom:6px;font-size:14px}
+.cta-btn{display:inline-block;padding:10px 24px;border-radius:25px;text-decoration:none;font-weight:900;font-size:13px;margin:4px}
+.cta-green{background:#16A34A;color:white}.cta-red{background:#DC2626;color:white}
+
+.quiz-timer {
+  position: fixed; top: 10px; right: 20px; 
+  background: #1A3C6D; color: white; padding: 8px 18px;
+  border-radius: 25px; font-size: 18px; font-weight: 900;
+  z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.quiz-timer.warning { background: #DC2626; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+</style>
+  <link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+  <link rel="manifest" href="/manifest.json">
+
+<script src="lf-gamification.js"></script>
+
+<script src="data/lf-offline.js"></script>
+</head>
+<body>
+<div class="quiz-timer" id="quizTimer">⏱ 05:00</div>
+
+<div class="card" id="app">
+
+<!-- START -->
+<div id="start">
+<h1>數學陷阱診斷</h1>
+<div class="sub">10 題 · 2 分鐘 · 搵出你嘅陷阱指紋</div>
+<div style="color:rgba(255,255,255,0.6);font-size:13px;margin-bottom:8px">選擇年級：</div>
+<div class="grade-row">
+<button class="grade-btn on" onclick="pickGrade('P3',this)">P3 小三</button>
+<button class="grade-btn" onclick="pickGrade('P4',this)">P4 小四</button>
+<button class="grade-btn" onclick="pickGrade('P5',this)">P5 小五</button>
+<button class="grade-btn" onclick="pickGrade('P6',this)">P6 小六</button>
+</div>
+<button class="start-btn" onclick="start()">開始診斷</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" style="display:none">
+<div class="progress-wrap"><div class="progress-inner" id="bar"></div></div>
+<div class="q-num" id="qn"></div>
+<div class="q-text" id="qt"></div>
+<div class="opts" id="op"></div>
+<button class="btn-next" id="nx" disabled onclick="nextQ()">下一題</button>
+</div>
+
+<!-- RESULT -->
+<div id="result" style="display:none">
+<div style="font-size:16px;font-weight:900;color:#C9A84C;margin-bottom:6px" id="rg"></div>
+<h2 id="rt"></h2>
+<div style="color:rgba(255,255,255,0.5);font-size:13px;margin:8px 0 16px" id="rs"></div>
+<div class="fp-row" id="fp"></div>
+<div id="tl"></div>
+<div class="cta-box">
+<h3>想針對性解決陷阱？</h3>
+<a href="online-test.html" class="cta-btn cta-green">AI 個人化練習</a>
+<a href="enroll.html" class="cta-btn cta-red">升級 Pro</a>
+</div>
+<button class="btn-next" onclick="location.reload()" style="margin-top:12px;background:rgba(255,255,255,0.1);color:white">重做錯題</button>
+</div>
+
+</div>
+
+<script>
+var trapNames={
+P3:{T1:'進退位',T2:'單位換算',T3:'乘法口訣',T4:'除法概念',T5:'分數認識',T6:'時間計算',T7:'貨幣計算',T8:'圖形認識',T9:'棒形圖',T10:'應用題'},
+P4:{T1:'進退位',T2:'單位換算',T3:'運算順序',T4:'漏寫0',T5:'分數加減',T6:'小數認識',T7:'面積周界',T8:'倍數因數',T9:'方向位置',T10:'應用題'},
+P5:{T1:'大數運算',T2:'單位換算',T3:'運算順序',T4:'小數運算',T5:'分數乘除',T6:'百分數',T7:'面積計算',T8:'體積計算',T9:'代數入門',T10:'應用題'},
+P6:{T1:'大小數混合',T2:'單位換算',T3:'運算方程',T4:'小數乘除',T5:'分數四則',T6:'百分數應用',T7:'圓周面積',T8:'體積表面積',T9:'速率',T10:'統計圖表'}
+};
+
+// LF Live Question Generator — creates unlimited unique math questions on-the-fly
+// Uses parameterized templates with random values
+
+var LFGen = {
+  _bankCache: {},
+
+  // Load grade bank
+  loadBank: function(grade) {
+    var self = this;
+    if (this._bankCache[grade]) {
+      return Promise.resolve(this._bankCache[grade]);
+    }
+    return fetch('/docs/data/question_bank_' + grade + '.json')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        self._bankCache[grade] = data;
+        return data;
+      })
+      .catch(function() { return []; });
+  },
+
+  // Get random questions from bank
+  getQuestions: function(grade, count) {
+    var pool = this._bankCache[grade] || [];
+    if (pool.length < 5) {
+      // Generate on-the-fly instead
+      return this.generateQuestions(grade, count);
+    }
+    var shuffled = pool.slice();
+    for (var i = shuffled.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = t;
+    }
+    return shuffled.slice(0, Math.min(count, shuffled.length));
+  },
+
+  // Generate fresh questions on-the-fly (client side AI)
+  generateQuestions: function(grade, count) {
+    var qs = [];
+    var trapTypes = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+    for (var n = 0; n < count; n++) {
+      var trap = trapTypes[Math.floor(Math.random() * trapTypes.length)];
+      var q = this._generateOne(grade, trap);
+      if (q) qs.push(q);
+    }
+    return qs;
+  },
+
+  _generateOne: function(grade, trap) {
+    var a, b, c, name, item, correct, wrongs, opts, unit;
+    var names = ['小明','小美','家豪','Chloe','婷婷','志偉','詠詩'];
+
+    if (trap === 'T1' && grade === 'P3') {
+      a = rand(20,200); b = rand(10,150);
+      correct = a + b; wrongs = [correct+1, correct-1, correct+10];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T1' && grade === 'P4') {
+      a = rand(1000,8000); b = rand(500,3000);
+      correct = a + b; wrongs = [correct+1, correct-10, correct+100];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T1' && (grade === 'P5' || grade === 'P6')) {
+      a = rand(10000,50000); b = rand(5000,20000);
+      correct = a + b; wrongs = [correct+10, correct-100, correct+1000];
+      return makeQ(a + ' + ' + b + ' = ?', correct, wrongs, 'T1', grade);
+    }
+    if (trap === 'T2') {
+      var units = {P3:[['米','厘米',100]],P4:[['公里','米',1000]],P5:[['平方米','平方厘米',10000]],P6:[['公里','米',1000]]};
+      var u = (units[grade]||units.P5)[0];
+      a = rand(1,10); correct = a * u[2]; wrongs = [correct*10, correct/10, correct*2];
+      return makeQ(a + ' ' + u[0] + ' = ? ' + u[1], correct, wrongs, 'T2', grade);
+    }
+    if (trap === 'T3') {
+      a = rand(2,20); b = rand(2,10); c = rand(2,8);
+      var patterns = [
+        [a + ' + ' + b + ' × ' + c, a + b * c],
+        ['(' + a + ' + ' + b + ') × ' + c, (a + b) * c]
+      ];
+      var p = patterns[Math.floor(Math.random() * 2)];
+      correct = p[1]; wrongs = [correct+4, correct-3, correct*2];
+      return makeQ(p[0] + ' = ?', correct, wrongs, 'T3', grade);
+    }
+    if (trap === 'T4') {
+      if (grade === 'P3' || grade === 'P4') {
+        var pairs = [[408,2],[306,3],[804,2],[1020,4],[1500,5]];
+        var p2 = pairs[Math.floor(Math.random()*pairs.length)];
+        correct = Math.floor(p2[0] / p2[1]); wrongs = [correct*10, correct/10, correct+1];
+        return makeQ(p2[0] + ' ÷ ' + p2[1] + ' = ?', correct, wrongs, 'T4', grade);
+      } else {
+        a = round(rand(1,50)/10, 1); b = round(rand(2,9)/10, 1);
+        correct = round(a / b, 2); wrongs = [round(correct*10,1), round(correct/10,2), round(correct+1,1)];
+        return makeQ(a + ' ÷ ' + b + ' = ?', correct, wrongs, 'T4', grade);
+      }
+    }
+    if (trap === 'T5') {
+      var den = [2,3,4,5,6,8][Math.floor(Math.random()*6)];
+      var n1 = rand(1,den-1); var n2 = rand(1,den-1);
+      correct = n1 + n2; wrongs = [correct+1, correct-1, den];
+      if (correct >= den) { n1 = rand(1,Math.floor(den/2)); correct = n1 + 1; }
+      return makeQ(n1 + '/' + den + ' + 1/' + den + ' = ?', correct + '/' + den, wrongs.map(function(w){return w+'/'+den}), 'T5', grade);
+    }
+    if (trap === 'T6') {
+      var pairs6 = [[200,15],[400,20],[500,25],[800,10],[300,30]];
+      var p6 = pairs6[Math.floor(Math.random()*pairs6.length)];
+      correct = Math.floor(p6[0] * p6[1] / 100);
+      wrongs = [correct*2, correct + p6[0]/10, correct + 5];
+      return makeQ('$' + p6[0] + ' 的 ' + p6[1] + '% 是多少？', correct, wrongs, 'T6', grade);
+    }
+    if (trap === 'T7') {
+      name = names[Math.floor(Math.random()*names.length)];
+      a = rand(10,50); b = rand(2,10);
+      return makeQ(name + '有' + a + '粒糖，食咗' + b + '粒，仲有幾多？', a - b, [a, b, a+b], 'T7', grade);
+    }
+    if (trap === 'T8') {
+      var w8 = rand(3,12); var h8 = rand(2,8);
+      if (Math.random() > 0.5) {
+        return makeQ('長方形長' + w8 + 'cm闊' + h8 + 'cm，面積？', w8*h8 + 'cm²', [2*(w8+h8)+'cm', w8+h8+'cm', w8*h8*2+'cm²'], 'T8', grade);
+      } else {
+        return makeQ('正方形邊長' + w8 + 'cm，面積？', w8*w8 + 'cm²', [w8*4+'cm', w8*2+'cm', w8*w8*2+'cm²'], 'T8', grade);
+      }
+    }
+    if (trap === 'T9') {
+      a = rand(1,4); b = rand(1,59);
+      correct = a * 60 + b;
+      wrongs = [a * 100 + b, a * 60, correct + 60];
+      return makeQ(a + '小時' + b + '分鐘 = ? 分鐘', correct, wrongs, 'T9', grade);
+    }
+    if (trap === 'T10') {
+      var div = rand(10,200); var div2 = [3,4,5,6][Math.floor(Math.random()*4)];
+      var q10 = Math.floor(div / div2); var r10 = div % div2;
+      if (r10 === 0) { div++; r10 = div % div2; }
+      correct = q10 + '餘' + r10;
+      wrongs = [(q10+1)+'餘'+Math.max(0,r10-1), q10+'餘'+(r10+1), (q10+Math.floor(Math.random()*2)+1)+'餘'+r10];
+      return makeQ(div + ' ÷ ' + div2 + ' = ?', correct, wrongs, 'T10', grade);
+    }
+    return null;
+  }
+};
+
+function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function round(v, d) { var m = Math.pow(10, d); return Math.round(v * m) / m; }
+function makeQ(text, answer, wrongs, trap, grade) {
+  var correctStr = String(answer);
+  var wrongStrs = wrongs.map(function(w) { return String(w).replace('NaN','0'); });
+  var all = [correctStr].concat(wrongStrs.slice(0,3));
+  // Deduplicate
+  var clean = []; var seen = {};
+  all.forEach(function(o) { if (!seen[o] && o && o.length > 0) { clean.push(o); seen[o] = true; } });
+  if (clean.length < 3) {
+    // Pad with fake options
+    for (var i = 0; i < 10; i++) {
+      var fake = String(rand(1, 99));
+      if (!seen[fake]) { clean.push(fake); seen[fake] = true; if (clean.length >= 4) break; }
+    }
+  }
+  // Shuffle
+  for (var i = clean.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = clean[i]; clean[i] = clean[j]; clean[j] = t;
+  }
+  var ansIdx = clean.indexOf(correctStr);
+  if (ansIdx < 0) { clean[0] = correctStr; clean = clean.slice(0,4); ansIdx = 0; }
+  return { q: text, opts: clean.slice(0,4), ans: ansIdx, trap: trap, grade: grade, source: 'live_gen' };
+}
+
+var B={
+P3:[
+{q:"235 + 148 = ?",o:["373","383","483","363"],c:1,w:0,t:"T1",n:"進退位陷阱",d:"加法進位時出錯"},
+{q:"500 - 237 = ?",o:["263","273","373","163"],c:0,w:1,t:"T1",n:"進退位陷阱",d:"減法退位時出錯"},
+{q:"1米 = 幾多厘米？",o:["10","100","1000","1"],c:1,w:0,t:"T2",n:"單位換算陷阱",d:"長度單位換算出錯"},
+{q:"1公斤 = 幾多克？",o:["10","100","1000","10000"],c:2,w:1,t:"T2",n:"單位換算陷阱",d:"重量單位換算出錯"},
+{q:"8 × 7 = ?",o:["54","56","64","48"],c:1,w:0,t:"T3",n:"運算順序陷阱",d:"乘法口訣錯誤"},
+{q:"3 + 5 × 2 = ?",o:["16","13","11","10"],c:1,w:0,t:"T3",n:"運算順序陷阱",d:"忘記先乘除後加減"},
+{q:"1/4 + 2/4 = ?",o:["3/8","3/4","1/2","2/8"],c:1,w:0,t:"T5",n:"分數陷阱",d:"同分母分數加法出錯"},
+{q:"小明有24粒糖，食咗8粒，仲有幾多？",o:["16","32","14","18"],c:0,w:2,t:"T7",n:"應用題陷阱",d:"加減應用題理解錯誤"},
+{q:"下午2時過咗3小時係幾時？",o:["下午5時","下午4時","下午6時","下午3時"],c:0,w:1,t:"T9",n:"時間陷阱",d:"時間計算出錯"},
+{q:"正方形邊長4cm，周界係？",o:["8cm","12cm","16cm","20cm"],c:2,w:0,t:"T8",n:"圖形陷阱",d:"周界公式混淆"},
+{q:"$10買$3.5零食，找幾多？",o:["$6.5","$7.5","$5.5","$13.5"],c:0,w:2,t:"T7",n:"貨幣陷阱",d:"貨幣找續錯誤"},
+{q:"6 × 9 = ?",o:["54","56","63","48"],c:0,w:1,t:"T3",n:"運算順序陷阱",d:"乘法口訣錯誤"},
+{q:"100 - 45 = ?",o:["55","65","45","75"],c:0,w:1,t:"T1",n:"進退位陷阱",d:"減法退位錯誤"},
+{q:"1元 = ?角",o:["1","10","100","5"],c:1,w:2,t:"T2",n:"單位換算陷阱",d:"貨幣單位換算出錯"},
+{q:"1/2 + 1/2 = ?",o:["2/4","1","1/4","2/2"],c:1,w:0,t:"T5",n:"分數陷阱",d:"分數概念混淆"}
+],
+P4:[
+{q:"1256 + 3789 = ?",o:["5045","4945","5035","5145"],c:0,w:1,t:"T1",n:"進退位陷阱",d:"大數加法進位錯誤"},
+{q:"2公里 = 幾多米？",o:["20","200","2000","20000"],c:2,w:1,t:"T2",n:"單位換算陷阱",d:"公里換米出錯"},
+{q:"12 + 8 x 3 = ?",o:["60","36","44","28"],c:1,w:0,t:"T3",n:"運算順序陷阱",d:"先乘除後加減錯誤"},
+{q:"806 ÷ 2 = ?",o:["43","403","430","4003"],c:1,w:0,t:"T4",n:"漏寫0陷阱",d:"除法商中間0漏寫"},
+{q:"2/3 - 1/3 = ?",o:["1/3","1/6","1","3/3"],c:0,w:1,t:"T5",n:"分數陷阱",d:"同分母分數減法錯誤"},
+{q:"長方形長8cm闊5cm，面積係？",o:["13cm²","26cm²","40cm²","20cm²"],c:2,w:0,t:"T8",n:"圖形面積陷阱",d:"面積與周界公式混淆"},
+{q:"長方形長8cm闊5cm，周界係？",o:["13cm","40cm","26cm","20cm"],c:2,w:1,t:"T8",n:"圖形面積陷阱",d:"周界公式錯誤"},
+{q:"1小時45分鐘 = 幾多分鐘？",o:["95","105","85","115"],c:1,w:0,t:"T9",n:"時間陷阱",d:"時分換算錯誤"},
+{q:"25 x 4 = ?",o:["100","90","110","80"],c:0,w:1,t:"T3",n:"運算順序陷阱",d:"乘法計算錯誤"},
+{q:"一班有38人，操場有5班學生，共有幾多人？",o:["190","43","185","195"],c:0,w:2,t:"T7",n:"應用題陷阱",d:"乘數應用題錯誤"}
+],
+P5:[
+{q:"356 + 278 = ?",o:["534","634","624","524"],c:1,w:0,t:"T1",n:"進退位陷阱",d:"進位退位時出錯"},
+{q:"1m² = 幾多cm²？",o:["100","1,000","10,000","100,000"],c:2,w:0,t:"T2",n:"單位換算陷阱",d:"面積單位換算出錯"},
+{q:"6 + 4 x 2 = ?",o:["20","14","16","10"],c:1,w:0,t:"T3",n:"運算順序陷阱",d:"忘記先乘除後加減"},
+{q:"408 ÷ 2 = ?",o:["24","204","240","402"],c:1,w:0,t:"T4",n:"漏寫0陷阱",d:"除法中間有0時漏寫"},
+{q:"1/2 + 1/3 = ?",o:["2/5","5/6","1/6","2/6"],c:1,w:0,t:"T5",n:"分數陷阱",d:"異分母分數加法出錯"},
+{q:"$200 加價20%再減價20% = ?",o:["$200","$192","$208","$160"],c:1,w:0,t:"T6",n:"百分數陷阱",d:"百分比連續變化基數混淆"},
+{q:"小明有12粒糖，俾咗1/3俾妹妹，仲有幾多？",o:["4","8","3","9"],c:1,w:0,t:"T7",n:"應用題陷阱",d:"分數應用題理解錯誤"},
+{q:"長方形長5cm闊3cm，面積係？",o:["16cm²","15cm²","8cm²","16cm"],c:1,w:0,t:"T8",n:"圖形面積陷阱",d:"面積與周界公式混淆"},
+{q:"正方體邊長3cm，體積係？",o:["9cm³","27cm³","12cm³","18cm³"],c:1,w:0,t:"T9",n:"體積陷阱",d:"體積計算概念混淆"},
+{q:"梯形上底4cm下底6cm高5cm，面積？",o:["25cm²","30cm²","50cm²","20cm²"],c:0,w:1,t:"T8",n:"圖形面積陷阱",d:"梯形面積公式錯誤"}
+],
+P6:[
+{q:"$500 的 15% 是多少？",o:["$50","$75","$150","$100"],c:1,w:0,t:"T6",n:"百分數陷阱",d:"百分數計算錯誤"},
+{q:"$400 加價25%後再八折 = ?",o:["$400","$420","$380","$360"],c:0,w:1,t:"T6",n:"百分數陷阱",d:"折扣連續變化錯誤"},
+{q:"3/4 ÷ 2/3 = ?",o:["1/2","9/8","6/12","8/9"],c:1,w:0,t:"T5",n:"分數陷阱",d:"分數除法概念混淆"},
+{q:"圓形半徑7cm，圓周約？(π=22/7)",o:["22cm","44cm","154cm","88cm"],c:1,w:0,t:"T8",n:"圖形陷阱",d:"圓周=2πr，與面積混淆"},
+{q:"圓形直徑10cm，圓周係？(π=3.14)",o:["15.7cm","31.4cm","78.5cm","314cm"],c:1,w:0,t:"T8",n:"圖形陷阱",d:"圓周公式πd出錯"},
+{q:"0.8 x 0.5 = ?",o:["4","0.4","0.04","40"],c:1,w:0,t:"T4",n:"小數陷阱",d:"小數乘法小數點位置錯誤"},
+{q:"3.6 ÷ 0.4 = ?",o:["0.9","9","90","14.4"],c:1,w:0,t:"T4",n:"小數陷阱",d:"小數除法小數點位置錯誤"},
+{q:"3x + 7 = 22，x = ?",o:["3","5","7","8"],c:1,w:0,t:"T3",n:"運算順序陷阱",d:"解簡易方程錯誤"},
+{q:"正方體邊長5cm，表面面積？",o:["125cm²","150cm²","100cm²","200cm²"],c:1,w:0,t:"T8",n:"圖形面積陷阱",d:"表面面積公式混淆"},
+{q:"48和72的HCF是？",o:["12","24","6","8"],c:1,w:0,t:"T3",n:"運算順序陷阱",d:"最大公因數計算錯誤"}
+]};
+var D=B[g]||B.P5;
+var g="P3",i=0,A=[],sel=null;
+
+function pickGrade(v,el){g=v;document.querySelectorAll('.grade-btn').forEach(function(b){b.classList.remove('on')});el.classList.add('on');D=B[g]||B.P5}
+
+function start(){
+// Load from question bank for maximum variety
+var pool=B[g];
+if(!pool||pool.length===0){
+// Fallback: try loading from grade bank JSON
+loadFromBank(g);
+return
+}
+shuffleAndStart(pool);
+}
+
+function loadFromBank(grade){
+document.getElementById('start').innerHTML='<h1>載入題庫中...</h1><div class=sub>正在為你準備 '+grade+' 嘅全新題目</div>';
+fetch('/docs/data/question_bank_'+grade+'.json')
+.then(function(r){return r.json()})
+.then(function(data){
+if(data&&data.length>10){
+// Cache in B for future use
+B[grade]=data.map(function(q){return {q:q.q,o:q.opts,c:q.ans,w:0,t:q.trap,n:(q.trap||'T7'),d:''}});
+pool=B[grade];
+shuffleAndStart(pool);
+}else{
+// Fallback to embedded pool
+shuffleAndStart(B[grade]||B.P5);
+}
+})
+.catch(function(){
+shuffleAndStart(B[grade]||B.P5);
+});
+}
+
+function shuffleAndStart(pool){
+var shuffled=pool.slice();
+for(var j=shuffled.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var t=shuffled[j];shuffled[j]=shuffled[k];shuffled[k]=t}
+D=shuffled.slice(0,Math.min(10,shuffled.length));
+totalQ=D.length;i=0;A=[];sel=null;
+document.getElementById('start').style.display='none';
+document.getElementById('quiz').style.display='block';
+document.getElementById('result').style.display='none';
+showQ();
+}
+
+function showQ(){
+var q=D[i];
+document.getElementById('qn').textContent='第 '+(i+1)+'/'+D.length+' 題';
+document.getElementById('qt').textContent=q.q;
+document.getElementById('bar').style.width=((i/D.length)*100)+'%';
+document.getElementById('nx').disabled=true;sel=null;
+var h='';
+q.o.forEach(function(o,j){
+h+='<button class=\"opt-btn\" onclick=\"pick('+j+',this)\">'+['A','B','C','D'][j]+'. '+o+'</button>';
+});
+document.getElementById('op').innerHTML=h;
+}
+
+function pick(j,el){
+document.querySelectorAll('.opt-btn').forEach(function(b){b.classList.remove('pick')});
+el.classList.add('pick');sel=j;
+document.getElementById('nx').disabled=false;
+}
+
+function nextQ(){
+var q=D[i];
+document.querySelectorAll('.opt-btn').forEach(function(b,j){
+if(j===q.c)b.classList.add('right');
+if(j===sel&&sel!==q.c)b.classList.add('wrong');
+});
+A.push({t:q.t,ok:sel===q.c});
+i++;
+if(i<D.length){setTimeout(showQ,500)}
+else{document.getElementById('bar').style.width='100%';setTimeout(showR,600)}
+}
+
+function showR(){
+document.getElementById('quiz').style.display='none';
+document.getElementById('result').style.display='block';
+
+var ts={};A.forEach(function(a){if(!ts[a.t])ts[a.t]=0;if(!a.ok)ts[a.t]++});
+var sorted=Object.entries(ts).sort(function(a,b){return b[1]-a[1]});
+var ok=A.filter(function(a){return a.ok}).length;
+var pct=Math.round(ok/D.length*100);
+
+var gt,tt,st;
+if(pct>=80){gt='優秀';tt='你數學根基好好！';st='答對 '+ok+'/'+D.length+' 題';}
+else if(pct>=50){gt='中等';tt='你有固定陷阱位';st='答對 '+ok+'/'+D.length+' 題';}
+else{gt='需要幫助';tt='陷阱盲點比較多';st='答對 '+ok+'/'+D.length+' 題。唔使擔心！';}
+document.getElementById('rg').textContent=gt;
+document.getElementById('rt').textContent=tt;
+document.getElementById('rs').textContent=st;
+
+var fp='',trapMap={};D.forEach(function(d){trapMap[d.t]={n:d.n}});
+Object.entries(ts).sort(function(a,b){return parseInt(a[0].slice(1))-parseInt(b[0].slice(1))}).forEach(function(e){
+var cls=e[1]>=2?'risk':e[1]>=1?'mid':'safe';
+fp+='<div class=\"fp-dot '+cls+'\" title=\"'+trapMap[e[0]].n+'\">'+e[0].slice(1)+'</div>';
+});
+document.getElementById('fp').innerHTML=fp;
+
+var tl='';
+sorted.forEach(function(e){
+var score=e[1];var cls=score>=2?'🔴':score>=1?'⚠️':'✅';
+tl+='<div style=\"display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.05);border-radius:10px;padding:10px 14px;margin:6px 0;text-align:left\"><span style=\"font-size:20px\">'+cls+'</span><div style=\"flex:1\"><div style=\"font-weight:700;font-size:13px\">'+trapMap[e[0]].n+'</div></div><span style=\"font-weight:900\">'+e[1]+'次</span></div>';
+});
+document.getElementById('tl').innerHTML=tl;
+
+// Save
+try{localStorage.setItem('lf_diag',JSON.stringify({date:new Date().toISOString(),grade:g,ok:ok,total:D.length,pct:pct}))}catch(e){}
+}
+</script>
+<div style=text-align:center;padding:8px><a href=login.html style=color:rgba(255,255,255,0.3);font-size:10px;text-decoration:none>已有帳戶？登入</a></div>
+  <script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+  <script src="/docs/data/lf-whatsapp.js"></script>
+  <script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+<script>
+
+// Quiz Timer
+var quizTimeLeft = 300; // 5 minutes default
+var quizTimerInterval = null;
+
+function startQuizTimer(seconds) {
+  quizTimeLeft = seconds || 300;
+  updateTimerDisplay();
+  quizTimerInterval = setInterval(function() {
+    quizTimeLeft--;
+    updateTimerDisplay();
+    if (quizTimeLeft <= 60) {
+      document.getElementById("quizTimer").classList.add("warning");
+    }
+    if (quizTimeLeft <= 0) {
+      clearInterval(quizTimerInterval);
+      alert("時間到！系統會自動提交你的答案。");
+      submitQuiz();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  var mins = Math.floor(quizTimeLeft / 60);
+  var secs = quizTimeLeft % 60;
+  document.getElementById("quizTimer").textContent = "\u23F1 " + 
+    String(mins).padStart(2,"0") + ":" + String(secs).padStart(2,"0");
+}
+
+function submitQuiz() {
+  if (quizTimerInterval) clearInterval(quizTimerInterval);
+  console.log("Quiz submitted!");
+  // Calculate and save final score
+}
+
+
+window.addEventListener('DOMContentLoaded', function() { startQuizTimer(300); });
+</script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P4-下-L26 小數認識 — 學生版講義</title>
+<style>
+<link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; }
+@media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex-q { font-size:11px; } .warn { font-size:10px; } .mn { font-size:11px; } .et { font-size:9.5px; } }
+.container { max-width:1000px; margin:0 auto; }
+.pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+.cover { justify-content:center; align-items:center; text-align:center; }
+.cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+.cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+.cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+.cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+.cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+.cv-info b { color:var(--blue); }
+.cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+.cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+.h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+.h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+.kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+.kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+.kp-rules { font-size:12px; line-height:1.7; }
+.ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+.ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+.ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+.warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+.mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+.qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+.qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; }
+.qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+.qt tr:nth-child(even) td { background:#FAFBFC; }
+.qt .qn { width:32px; text-align:center; font-weight:700; }
+.qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+.qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+.qt .qtxt { font-size:12.5px; line-height:1.65; }
+.d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+.d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+.ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+.sh { background:#FEE2E2; color:#991B1B; }
+.tc { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:7px 0; }
+.tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:12px; text-align:center; }
+.tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:12px; text-align:center; }
+.et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+.et th { background:var(--red); color:white; padding:4px 7px; }
+.et td { padding:4px 7px; border:1px solid var(--borderc); }
+.end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+.sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+.sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+.sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+.sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+.sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+.fig-row { display:flex; gap:18px; align-items:flex-start; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+.fig-card { text-align:center; }
+.game-box { background:#FFFBEB; border:2px dashed var(--gold); border-radius:10px; padding:12px; margin:8px 0; text-align:center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小四 · 第 26 堂 · 學生版講義</div>
+  <div class="cv-title">小數認識</div>
+  <div class="cv-sub">十分位 · 百分位 · 分數↔小數互換 · 65 分鐘</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》4下C冊 單元一<br>
+    <b>核心陷阱：</b>🪤 0.1 同 0.01 混淆 · 小數點位置 · 十分位vs百分位<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🔴 高頻</span> 小數係全學年重點，P5-P6延伸至乘除<br>
+    <b>前置知識：</b>L21 分數認知 · 位值概念（個、十、百）<br>
+    <b>本堂目標：</b>❶ 認識十分位和百分位 ❷ 0.1=1/10, 0.01=1/100 ❸ 分數↔小數互換 ❹ 小數讀寫
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">1 元 = 幾多個 1 毫？（1 毫 = $0.1）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:38px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">把一個正方形平均分成 10 份，1 份係幾分之幾？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:38px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">$2.50 即係幾多個 1 元 + 幾多個 1 毫？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">1/10 = ？用小數表示（提示：0.1）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:38px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">下面邊個最大？0.3 · 0.03 · 0.33（估下！）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：小數點後的世界 — 十分位 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>小數點 "." </b>係整數同小數嘅分界線<br>
+      ② <b>小數點後第一位 = 十分位（1/10）</b><br>
+      &nbsp;&nbsp;例：0.3 = 3 個 1/10 = 3/10。讀作「零點三」<br>
+      ③ <b>十分位嘅值：</b>1 個十分位 = 0.1 = 1/10。10 個 0.1 = 1.0<br>
+      ④ 0.5 = 一半。0.5 = 5/10 = 1/2（約簡後）
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:8px 0;">
+    <svg width="460" height="130" viewBox="0 0 460 130">
+      <text x="230" y="18" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="900">十分位：將 1 分成 10 等份</text>
+      <!-- Full bar = 1 -->
+      <rect x="20" y="30" width="400" height="28" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2" rx="3"/>
+      <text x="220" y="50" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">1 = 10/10 = 1.0</text>
+      <!-- 0.3 example -->
+      <rect x="20" y="68" width="120" height="28" fill="#DCFCE7" stroke="#16A34A" stroke-width="2" rx="3"/>
+      <text x="80" y="87" text-anchor="middle" font-size="11" fill="#16A34A" font-weight="700">0.3 = 3/10</text>
+      <text x="155" y="87" font-size="20" fill="#1A3C6D">→</text>
+      <text x="230" y="87" font-size="13" fill="#1A3C6D" font-weight="700">3 個十分之一</text>
+      <!-- 0.7 example -->
+      <rect x="20" y="103" width="280" height="20" fill="#FEF3C7" stroke="#C9A84C" stroke-width="2" rx="3"/>
+      <text x="160" y="117" text-anchor="middle" font-size="10" fill="#C9A84C" font-weight="700">0.7 = 7/10（7個十分之一）</text>
+    </svg>
+  </div>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：百分位 — 小數點後第二位 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>小數點後第二位 = 百分位（1/100）</b><br>
+      &nbsp;&nbsp;例：0.03 = 3 個 1/100 = 3/100<br>
+      ② <b>百分位嘅值：</b>1 個百分位 = 0.01 = 1/100。100 個 0.01 = 1.0<br>
+      ③ <b>十份位和百分位嘅關係：</b>0.1 = 0.10（十分位=10個百分位）<br>
+      ④ 0.25 = 25/100 = 1/4（約簡後）
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例1</div><div class="ex-q">在 0.47 中，4 在哪個位？7 在哪個位？各代表多少？</div></div>
+  <div class="ex"><div class="ex-title">例2</div><div class="ex-q">寫出小數：3 個 0.1 + 5 個 0.01 = ？</div></div>
+
+  <div class="tc">
+    <div class="tc-w"><div class="lbl">❌ 陷阱：0.1 vs 0.01 混淆</div><div class="eq">以為 0.1 = 1/100（❌）<br>0.5 > 0.05？分唔清！</div></div>
+    <div class="tc-r"><div class="lbl">✅ 正確</div><div class="eq">0.1 = 1/10（小數點後第1位=十分位）<br>0.01 = 1/100（第2位=百分位）</div></div>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：分數 ↔ 小數互換 <span class="ss sh">🔴 SSPA 必考</span></div>
+    <div class="kp-rules">
+      ① <b>分母10的分數 → 小數：</b>分子放十分位。3/10 = 0.3<br>
+      ② <b>分母100的分數 → 小數：</b>分子放十+百分位。25/100 = 0.25<br>
+      ③ <b>小數 → 分數：</b>0.7 = 7/10（可約簡）。0.45 = 45/100 = 9/20（約簡）<br>
+      ④ <b>常用記住：</b>0.5=1/2, 0.25=1/4, 0.75=3/4, 0.2=1/5, 0.1=1/10
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例3</div><div class="ex-q">3/10 = ？(小數) · 0.08 = ？(分數) · 0.5 = ？(最簡分數)</div></div>
+
+  <div class="kp" style="margin-top:12px;">
+    <div class="kp-title">知識點四：小數位值表 — 擴展整數位值概念 <span class="ss sh">🟡 SSPA</span></div>
+    <div class="kp-rules">
+      ① 小數點左邊 = 整數部分（個、十、百...）。右邊 = 小數部分（十分、百分...）<br>
+      ② <b>小數點後可以有多位：</b>0.1（1位）、0.01（2位）、0.001（3位=千分位）<br>
+      ③ P4 重點：1-2 位小數。P5 會學 3 位。
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:8px 0;">
+    <svg width="480" height="110" viewBox="0 0 480 110">
+      <rect x="20" y="10" width="100" height="40" fill="#1A3C6D" rx="4"/><text x="70" y="35" text-anchor="middle" font-size="13" fill="white" font-weight="700">十位</text>
+      <rect x="124" y="10" width="100" height="40" fill="#1A3C6D" rx="4"/><text x="174" y="35" text-anchor="middle" font-size="13" fill="white" font-weight="700">個位</text>
+      <rect x="258" y="10" width="24" height="40" fill="#DC2626" rx="4"/><text x="270" y="35" text-anchor="middle" font-size="16" fill="white" font-weight="900">.</text>
+      <rect x="286" y="10" width="100" height="40" fill="#16A34A" rx="4"/><text x="336" y="35" text-anchor="middle" font-size="12" fill="white" font-weight="700">十分位 1/10</text>
+      <rect x="390" y="10" width="100" height="40" fill="#16A34A" rx="4"/><text x="440" y="35" text-anchor="middle" font-size="12" fill="white" font-weight="700">百分位 1/100</text>
+      <!-- Value row -->
+      <rect x="20" y="55" width="100" height="42" fill="#F0F9FF" stroke="#1A3C6D" stroke-width="2"/>
+      <text x="70" y="82" text-anchor="middle" font-size="18" fill="#1A3C6D" font-weight="700">2</text>
+      <rect x="124" y="55" width="100" height="42" fill="#F0F9FF" stroke="#1A3C6D" stroke-width="2"/>
+      <text x="174" y="82" text-anchor="middle" font-size="18" fill="#1A3C6D" font-weight="700">3</text>
+      <rect x="258" y="55" width="24" height="42" fill="#FFF"/>
+      <text x="270" y="82" text-anchor="middle" font-size="18" fill="#DC2626" font-weight="900">.</text>
+      <rect x="286" y="55" width="100" height="42" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+      <text x="336" y="82" text-anchor="middle" font-size="18" fill="#DC2626" font-weight="700">4</text>
+      <rect x="390" y="55" width="100" height="42" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+      <text x="440" y="82" text-anchor="middle" font-size="18" fill="#DC2626" font-weight="700">7</text>
+      <text x="245" y="108" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">23.47 = 2個十+3個一+4個十分之一+7個百分之一</text>
+    </svg>
+  </div>
+
+  <div class="game-box">
+    <div class="gtitle">🎮 遊戲：分數小數配對王</div>
+    <div class="grule">老師出一張分數卡（如 3/10），學生鬥快舉起對應嘅小數卡（0.3）！</div>
+  </div>
+
+  <div class="h2">知識點一至四 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">在 0.38 中：十分位=？百分位=？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">5/10 = ？(小數) · 7/100 = ？(小數)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">0.6 = ？(分數，約至最簡) · 0.75 = ？(分數)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（全體必做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">9</td><td class="qtxt">寫出小數：2/10 = ？· 9/100 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">讀出小數 0.08 和 0.37。寫出佢哋嘅分數形式。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">下面邊個小數係正確寫法？A.0.5 B..5 C.05 D.0.50（可選多個）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（🚶🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">12</td><td class="qtxt">0.5 和 0.50 是否相等？點解？（提示：5/10 = 50/100）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">把 0.75 化成最簡分數。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">寫出小數：3個0.1 + 2個0.01 + 5個0.1 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">15</td><td class="qtxt">在 5.07 中，十分位是幾？為什麼是 0 不是 7？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">把下面的分數由大至小排列（先化小數）：3/5, 7/10, 17/20, 2/5</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">0.33 = 33/100 = ？。但 33/100 可以約簡嗎？如果不能，解釋點解。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 終極挑戰（🚀 選做，共 1 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">一個兩位小數，十分位比百分位大 3，兩個位之和是 9。這個小數是？寫出它的最簡分數形式。</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:65px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">四、應用題（SSPA 文字題，共 5 題）</div>
+  <div class="ex"><div class="ex-title">例4</div><div class="ex-q">媽媽去街市買菜用了 $12.50，買魚用了 $8.30。她用了十分位的概念去記帳。$12.50 中的 5 是什麼意思？</div></div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">19</td><td class="qtxt">一枝鉛筆長 0.15 米。即係幾多厘米？（1米=100厘米）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">一杯水有 0.3 升，另一杯有 0.25 升。哪杯較多？用分數證明。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">弟弟用了 0.5 小時做功課，妹妹用了 3/4 小時。誰用的時間較長？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">一條繩長 1 米。小明用了 0.35 米，即係用了全條繩的幾分之幾？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">三個容器分別有 0.4 升、3/10 升、0.25 升水。哪個最多？哪個最少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="h1">五、課後功課</div>
+  <div class="h2">基礎必做（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">寫出小數：4/10 = ？· 6/100 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">寫成分數：0.2 = ？· 0.07 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">在 0.62 中：十分位=？百分位=？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">0.9 = ？/10 = ？個 0.1</td><td class="qd d1">🌱</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">把 0.75 化成分數（約至最簡）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做（共 3 題，🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">把下面分數化為小數：1/2 = ？· 1/4 = ？· 3/4 = ？· 1/5 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個兩位小數的十分位是7，百分位是5。這個數是？寫出其分數形式並約簡。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">0.40 和 0.4 數值是否相同？在小數位值表上它們有甚麼分別？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr>
+    <tr><td>1</td><td><b>十分位同百分位混淆</b>：0.25 以為 2=百分位</td><td>小數點後第1位=十分位(1/10)，第2位=百分位(1/100)</td></tr>
+    <tr><td>2</td><td><b>0.1 同 0.01 搞錯</b>：0.1 = 1/100（❌）</td><td>0.1=1/10（一位小數）。0.01=1/100（兩位小數）</td></tr>
+    <tr><td>3</td><td><b>讀小數漏讀「點」</b>：0.37 讀「零三七」</td><td>正確讀法：「零點三七」</td></tr>
+    <tr><td>4</td><td><b>分數轉小數分母搞錯</b>：3/100=0.3（❌）</td><td>3/100=0.03。分母100→兩個小數位</td></tr>
+    <tr><td>5</td><td><b>小數轉分數冇約簡</b>：0.5=5/10（可以約）</td><td>5/10=1/2。一定要約到最簡！</td></tr>
+    <tr><td>6</td><td><b>小數點位置錯</b>：寫成 .5 或 0.5.（多咗點）</td><td>標準寫法：0.5。前面要有0，後面唔要點</td></tr>
+    <tr><td>7</td><td><b>$12.5 讀錯</b>：十二元五</td><td>十二元五毫。$12.50=$12元5毫（小數後兩位代表毫）</td></tr>
+  </table>
+
+  <div class="mn">🧠 口訣：「小數點後第一位係十分，第二位係百分。零點一係十分一，零點零一係百分一。零點五係一半，零點二五係四分一。」</div>
+
+  <div class="h1">七、解題四步卡</div>
+  <div class="sc">
+    <div class="sc-card"><div class="snum">1</div><div class="stitle">睇小數點</div><div class="sdetail">小數點前=整數，後=小數。第1位=1/10，第2位=1/100</div></div>
+    <div class="sc-card"><div class="snum">2</div><div class="stitle">分→小</div><div class="sdetail">分母10→1位小數。分母100→2位小數。分子寫係對應位置</div></div>
+    <div class="sc-card"><div class="snum">3</div><div class="stitle">小→分</div><div class="sdetail">睇有幾多位→分母係10/100。分子=小數數字。最後要約簡</div></div>
+    <div class="sc-card"><div class="snum">4</div><div class="stitle">驗算</div><div class="sdetail">讀一次。檢查小數點位置。分數小數互換核對數值</div></div>
+  </div>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-下-L26</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L01 小數除法 · L02 分數小數百分數互換 · L12 小數乘法</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L26 | 32題 · 小數認識 · 0.1=1/10
+</div>
+</body>
+</html>

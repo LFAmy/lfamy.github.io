@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · T1-T10 核心陷阱系統</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:16px;line-height:1.7}
+.container{max-width:900px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:16px}
+.header h1{font-size:22px}.header p{font-size:12px;opacity:0.6}
+.grade-tabs{display:flex;gap:6px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.gtab{padding:10px 24px;border-radius:25px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-size:14px;font-weight:700;transition:all 0.15s}
+.gtab:hover,.gtab.on{border-color:#1A3C6D;background:#1A3C6D;color:white}
+.trap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trap-card{background:white;border-radius:12px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,0.04);border-left:4px solid #DC2626;transition:all 0.15s}
+.trap-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.trap-card .th{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.trap-card .tn{font-size:22px;font-weight:900;color:#DC2626}
+.trap-card .ticon{font-size:32px}.trap-card .tname{font-size:15px;font-weight:900;color:#1A3C6D}
+.trap-card .tdesc{font-size:11px;color:#6B7280;margin-bottom:4px}
+.trap-card .texample{font-size:11px;color:#DC2626;background:#FEF2F2;padding:4px 8px;border-radius:6px;display:inline-block}
+.note{background:#FFFDF5;border:1px solid #C9A84C;border-radius:12px;padding:16px;margin:16px 0;font-size:12px;text-align:center}
+@media(max-width:600px){.trap-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>T1-T10 核心陷阱分類法</h1>
+<p>各年級獨立陷阱系統 · 精準對應課程內容</p>
+</div>
+
+<div class="grade-tabs">
+<button class="gtab" onclick="showGrade('P3')">P3 小三</button>
+<button class="gtab" onclick="showGrade('P4')">P4 小四</button>
+<button class="gtab on" onclick="showGrade('P5')">P5 小五</button>
+<button class="gtab" onclick="showGrade('P6')">P6 小六</button>
+</div>
+
+<div class="note">
+💡 每個年級嘅陷阱係根據該年級課程內容獨立定義。<br>
+同一個陷阱編號（例如 T5）喺唔同年級代表唔同嘅陷阱類型，更精準對應學生嘅學習階段。
+</div>
+
+<div id="trapContainer"></div>
+
+</div>
+
+<script>
+var traps={
+P3:{
+T1:{icon:'🔢',name:'進退位錯誤',desc:'3位數加減時進位退位出錯',ex:'235+148=383(應為373)'},
+T2:{icon:'📏',name:'單位換算',desc:'長度/重量/容量基本單位混淆',ex:'1米=10厘米?(應為100厘米)'},
+T3:{icon:'✖️',name:'乘法口訣錯誤',desc:'乘法表記憶不熟或混淆',ex:'8×7=54(應為56)'},
+T4:{icon:'➗',name:'除法概念混淆',desc:'除數/被除數/商/餘數概念不清',ex:'20÷4=4?(應為5)'},
+T5:{icon:'🍕',name:'分數認識',desc:'同分母分數概念/比較/基本加減',ex:'1/4+2/4=3/8?(應為3/4)'},
+T6:{icon:'⏰',name:'時間計算',desc:'時/分換算、時間間隔計算',ex:'1時30分=130分?(應為90分)'},
+T7:{icon:'💵',name:'貨幣計算',desc:'元/角換算、找續計算',ex:'$10-$3.5=$7.5?(應為$6.5)'},
+T8:{icon:'📐',name:'圖形認識',desc:'基本圖形辨認/邊/角/對稱',ex:'正方形有6條邊?(應為4條)'},
+T9:{icon:'📊',name:'棒形圖閱讀',desc:'讀取棒形圖數據/比較/簡單分析',ex:'睇錯棒形圖嘅刻度'},
+T10:{icon:'📖',name:'應用題理解',desc:'文字題→算式轉換/關鍵字辨認',ex:'「總共」誤當作減法'}
+},
+P4:{
+T1:{icon:'🔢',name:'進退位錯誤',desc:'4-5位數加減/連續進退位',ex:'5000-2345=2755?(應為2655)'},
+T2:{icon:'📏',name:'單位換算',desc:'複合單位/公里↔米/公斤↔克',ex:'2公里=200米?(應為2000米)'},
+T3:{icon:'🧮',name:'四則運算順序',desc:'先乘除後加減/括號優先',ex:'12+8×3=60?(應為36)'},
+T4:{icon:'0️⃣',name:'除數中間漏寫0',desc:'商中間有0時漏寫',ex:'806÷2=43?(應為403)'},
+T5:{icon:'🍕',name:'分數加減',desc:'同分母加減/異分母入門/擴分約分',ex:'2/3-1/3=1/6?(應為1/3)'},
+T6:{icon:'🔣',name:'小數認識',desc:'小數位值/比較/基本加減',ex:'0.5+0.3=0.8? 0.8>0.12?'},
+T7:{icon:'📐',name:'面積與周界',desc:'長方形/正方形面積及周界公式混淆',ex:'求面積用咗周界公式'},
+T8:{icon:'🔗',name:'倍數與因數',desc:'倍數/因數/HCF/LCM概念混淆',ex:'12的因數寫漏咗2'},
+T9:{icon:'🧭',name:'方向與位置',desc:'八方位/路線圖/坐標閱讀',ex:'東北方當作東方'},
+T10:{icon:'📖',name:'應用題理解',desc:'多步運算/隱藏條件/逆向思考',ex:'漏睇題目中嘅隱藏條件'}
+},
+P5:{
+T1:{icon:'🔢',name:'大數運算',desc:'大數加減乘除/近似值/估算',ex:'38456+27829=65285?(應為66285)'},
+T2:{icon:'📏',name:'單位換算',desc:'面積/體積單位換算(m²↔cm²)',ex:'1m²=1000cm²?(應為10000cm²)'},
+T3:{icon:'🧮',name:'四則運算順序',desc:'多步運算/括號/先乘除後加減',ex:'(6+4)×(3-1)=16?(應為20)'},
+T4:{icon:'🔣',name:'小數運算',desc:'小數加減乘除/小數點位置',ex:'3.5×0.4=14?(應為1.4)'},
+T5:{icon:'🍕',name:'分數加減乘除',desc:'異分母加減/分數乘法/三步混合',ex:'1/2+1/3=2/5?(應為5/6)'},
+T6:{icon:'💯',name:'百分數入門',desc:'百分數概念/基本計算/折扣',ex:'$200的15%=$15?(應為$30)'},
+T7:{icon:'📐',name:'面積計算',desc:'三角形/梯形/平行四邊形面積',ex:'三角形面積忘記÷2'},
+T8:{icon:'🧊',name:'體積計算',desc:'正方體/長方體體積/表面面積混淆',ex:'體積=邊長³?用咗面積公式'},
+T9:{icon:'📝',name:'代數入門',desc:'代數式/簡易方程/列方程',ex:'3x+7=22, x=3?(應為5)'},
+T10:{icon:'📖',name:'應用題理解',desc:'多步應用題/分數應用題/逆向',ex:'分數應用題列錯算式'}
+},
+P6:{
+T1:{icon:'🔢',name:'大數/小數混合',desc:'大數與小數混合運算/精確度',ex:'100000-67845=33155?(應為32155)'},
+T2:{icon:'📏',name:'單位換算應用',desc:'複合單位換算/容量↔體積',ex:'4500mL=45L?(應為4.5L)'},
+T3:{icon:'🧮',name:'運算順序+方程',desc:'含未知數運算/兩步方程/化簡',ex:'5²+4×3=75?(應為37)'},
+T4:{icon:'🔣',name:'小數乘除',desc:'小數點位置/0的處理/近似值',ex:'0.8×0.5=4?(應為0.4)'},
+T5:{icon:'🍕',name:'分數四則',desc:'分數加減乘除/帶分數/混合',ex:'3/4÷2/3=6/12?(應為9/8)'},
+T6:{icon:'💯',name:'百分數應用',desc:'折扣/利率/連續變化/佔比',ex:'加價20%再八折=原價?(應為96%)'},
+T7:{icon:'⭕',name:'圓周與圓面積',desc:'圓周(2πr)/圓面積(πr²)公式混淆',ex:'求圓周用咗面積公式πr²'},
+T8:{icon:'🧊',name:'體積與表面面積',desc:'立體體積/表面面積公式混淆',ex:'表面面積當作體積'},
+T9:{icon:'🚗',name:'速率',desc:'速率=距離÷時間/平均速率',ex:'120km÷2h=240km/h?(應為60km/h)'},
+T10:{icon:'📊',name:'統計圖表',desc:'圓形圖/折線圖/數據分析',ex:'圓形圖角度轉換百分比出錯'}
+}};
+
+function showGrade(g){
+document.querySelectorAll('.gtab').forEach(function(t){t.classList.remove('on')});
+event.target.classList.add('on');
+var t=traps[g];
+var html='<div class=trap-grid>';
+for(var i=1;i<=10;i++){
+var key='T'+i;var d=t[key];
+html+='<div class=trap-card><div class=th><span class=tn>'+key+'</span><span class=ticon>'+d.icon+'</span><span class=tname>'+d.name+'</span></div><div class=tdesc>'+d.desc+'</div><span class=texample>例：'+d.ex+'</span></div>';
+}
+html+='</div>';
+document.getElementById('trapContainer').innerHTML=html;
+}
+
+showGrade('P5');
+</script>
+</body>
+</html>

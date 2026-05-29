@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 家長通訊中心</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:700px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.channel-toggle{display:flex;gap:8px;justify-content:center;margin:16px 0}
+.channel-btn{padding:12px 28px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:2px solid #E5E7EB;font-family:inherit;background:white;transition:all 0.2s}
+.channel-btn:hover{transform:translateY(-1px)}
+.channel-btn.wa{border-color:#25D366;color:#25D366}
+.channel-btn.wa.active{background:#25D366;color:white}
+.channel-btn.wx{border-color:#07C160;color:#07C160}
+.channel-btn.wx.active{background:#07C160;color:white}
+.template-card{background:#F9FAFB;border-radius:10px;padding:16px;margin:10px 0}
+.template-card h3{font-size:13px;margin-bottom:6px}
+.template-card .msg{font-size:12px;color:#374151;line-height:1.8;white-space:pre-wrap;margin-bottom:8px}
+.template-card .meta{font-size:10px;color:#9CA3AF}
+.template-card.wa{border-left:3px solid #25D366}
+.template-card.wx{border-left:3px solid #07C160}
+.btn{display:inline-block;padding:8px 18px;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;margin:4px}
+.btn-wa{background:#25D366;color:white}.btn-wx{background:#07C160;color:white}
+.btn-copy{background:#1A3C6D;color:white}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:#F3F4F6;border-radius:10px;padding:4px}
+.tab{padding:10px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:transparent;color:#6B7280;flex:1;text-align:center}
+.tab.active{background:white;color:#1A3C6D;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:12px;font-size:11px;margin:8px 0;line-height:1.8}
+input,select,textarea{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+textarea{height:100px;resize:vertical}
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>家長通訊中心</h1><p>WhatsApp (香港) + 微信 (內地) · 雙通道 · 統一管理</p></div>
+
+<!-- CHANNEL TOGGLE -->
+<div class="channel-toggle">
+<button class="channel-btn wa active" id="btnWA" onclick="switchChannel('wa')">WhatsApp<br><span style="font-size:10px">香港家長</span></button>
+<button class="channel-btn wx" id="btnWX" onclick="switchChannel('wx')">微信 WeChat<br><span style="font-size:10px">內地家長</span></button>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="switchTab('notify')">通知模板</button>
+<button class="tab" onclick="switchTab('custom')">自訂訊息</button>
+<button class="tab" onclick="switchTab('sequence')">自動序列</button>
+</div>
+
+<!-- NOTIFY -->
+<div id="tab-notify">
+<div id="templates"></div>
+</div>
+
+<!-- CUSTOM -->
+<div id="tab-custom" style="display:none">
+<div class="card"><h2>自訂訊息</h2>
+<label>收件人</label><input type="text" id="recipient" placeholder="家長名稱">
+<label>學生</label><input type="text" id="studentForMsg" placeholder="學生姓名">
+<label>訊息內容</label>
+<textarea id="customMsg" placeholder="輸入訊息…"></textarea>
+<button class="btn btn-wa" id="sendWaBtn" onclick="sendVia('wa')">WhatsApp 發送</button>
+<button class="btn btn-wx" id="sendWxBtn" onclick="sendVia('wx')">微信發送</button>
+<button class="btn btn-copy" onclick="copyCustom()">複製內容</button>
+</div></div>
+
+<!-- SEQUENCE -->
+<div id="tab-sequence" style="display:none">
+<div class="card"><h2>自動跟進序列</h2>
+<div class="note">設定後，系統會按時間自動提醒你發送對應訊息。目前通過本地通知提醒你手動發送。</div>
+<div style="line-height:2.5;font-size:12px">
+<strong>Day 1:</strong> 首次診斷結果<br>
+<strong>Day 3:</strong> 練習進度 + 小貼士<br>
+<strong>Day 5:</strong> 陷阱改善報告<br>
+<strong>Day 7:</strong> 一週總結 + Pro 升級邀請<br>
+</div>
+<button class="btn btn-copy" onclick="copySequence()">複製完整序列</button>
+</div></div>
+</div>
+
+<script>
+var channel = 'wa'; // wa or wx
+
+var templates = {
+  diagnosis: {
+    title: '首次診斷結果通知',
+    msg: '【霖楓學苑】{家长}您好！\n\n{学生}的数学陷阱诊断已完成 📊\n\n主要陷阱类型：{traps}\n正确率：{accuracy}%\n\n建议：每周3次针对性练习\n👉 查看完整报告：{link}',
+    trigger: '學生完成陷阱診斷後'
+  },
+  weekly: {
+    title: '每週進度報告',
+    msg: '【霖楓學苑】{学生}本周学习报告 📊\n\n练习次数：{count}次\n正确率：{accuracy}%（{trend}）\n已避开陷阱：{avoided}种\n连续天数：{streak}天 🔥\n\n👉 详细报告：{link}',
+    trigger: '每週一自動提醒發送'
+  },
+  reminder: {
+    title: '3日未練習提醒',
+    msg: '【霖楓學苑】{家长}您好！\n\n{学生}已经{inactive_days}天没有练习了 📅\n\n持续练习的学生平均进步+8.1分。\n\n👉 开始练习：{link}',
+    trigger: '學生3日冇練習時'
+  },
+  expiry: {
+    title: '會員到期提醒',
+    msg: '【霖楓學苑】{家长}您好！\n\n{学生}的Pro会员将于{expiry}到期 ⏰\n剩余{remaining}天\n\n续费：{renew_link}\n\n如有疑问请回复此消息',
+    trigger: '到期前7天、3天、1天'
+  },
+  class_summary: {
+    title: '課堂摘要',
+    msg: '【霖楓學苑】今日课堂摘要 📋\n日期：{date}\n\n📊 课堂重点：{topic}\n✅ 全班平均正确率：{avg}%\n⚠️ 最常错陷阱：{worst}\n📝 功课：{homework}\n💡 家长小贴士：{tip}',
+    trigger: '老師落堂後'
+  }
+};
+
+function switchChannel(ch) {
+  channel = ch;
+  document.getElementById('btnWA').classList.toggle('active', ch==='wa');
+  document.getElementById('btnWX').classList.toggle('active', ch==='wx');
+  document.getElementById('sendWaBtn').style.display = ch==='wa' ? 'inline-block' : 'none';
+  document.getElementById('sendWxBtn').style.display = ch==='wx' ? 'inline-block' : 'none';
+  renderTemplates();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  event.target.classList.add('active');
+  ['notify','custom','sequence'].forEach(function(t){
+    document.getElementById('tab-'+t).style.display = (t===tab) ? 'block' : 'none';
+  });
+}
+
+function renderTemplates() {
+  var html = '<div class="card"><h2>通知模板 (' + (channel==='wa' ? 'WhatsApp' : '微信') + ')</h2>';
+  Object.keys(templates).forEach(function(key){
+    var t = templates[key];
+    var cls = channel === 'wa' ? 'wa' : 'wx';
+    html += '<div class="template-card ' + cls + '"><h3>' + t.title + '</h3>';
+    html += '<div class="msg">' + t.msg + '</div>';
+    html += '<div class="meta">触发时机：' + t.trigger + ' | 渠道：' + (channel==='wa' ? 'WhatsApp' : '微信') + '</div>';
+    html += '<button class="btn btn-copy" onclick="copyThis(this)">复制消息</button> ';
+    html += '<button class="btn ' + (channel==='wa' ? 'btn-wa' : 'btn-wx') + '" onclick="sendVia(\'' + channel + '\', this)">' + (channel==='wa' ? 'WhatsApp' : '微信') + '发送</button>';
+    html += '</div>';
+  });
+  html += '</div>';
+  document.getElementById('templates').innerHTML = html;
+}
+
+function copyThis(btn) {
+  var msg = btn.parentElement.querySelector('.msg').textContent;
+  navigator.clipboard.writeText(msg).then(function(){alert('已复制 ✅')});
+}
+
+function copyCustom() {
+  var msg = document.getElementById('customMsg').value;
+  if (!msg) return alert('请先输入消息');
+  navigator.clipboard.writeText(msg).then(function(){alert('已复制 ✅')});
+}
+
+function copySequence() {
+  var seq = 'Day 1: ' + templates.diagnosis.msg + '\n\nDay 3: 练习进度更新\n\nDay 5: 陷阱改善报告\n\nDay 7: ' + templates.weekly.msg;
+  navigator.clipboard.writeText(seq).then(function(){alert('序列已复制 ✅')});
+}
+
+function sendVia(ch, btn) {
+  var msg = '';
+  if (btn) {
+    msg = btn.parentElement.querySelector('.msg').textContent;
+  } else {
+    msg = document.getElementById('customMsg').value;
+    if (!msg) return alert('请先输入消息');
+  }
+
+  if (ch === 'wa') {
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+  } else {
+    navigator.clipboard.writeText(msg).then(function(){
+      alert('消息已复制到剪贴板 ✅\n请打开微信粘贴发送\n\n（微信需要手动发送，无法通过网页直接跳转）');
+    });
+  }
+}
+
+renderTemplates();
+document.getElementById('sendWaBtn').style.display = 'inline-block';
+document.getElementById('sendWxBtn').style.display = 'none';
+</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body></html>

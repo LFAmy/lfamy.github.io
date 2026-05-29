@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 個人化學習路徑</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:750px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.path-timeline{position:relative;padding-left:24px}
+.path-timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#DC2626,#F59E0B,#16A34A,#1A3C6D)}
+.path-step{position:relative;margin-bottom:24px;padding:16px;background:#F9FAFB;border-radius:10px;border-left:4px solid #1A3C6D}
+.path-step::before{content:'';position:absolute;left:-28px;top:20px;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 0 0 3px #1A3C6D}
+.path-step.current::before{background:#DC2626;box-shadow:0 0 0 3px #DC2626}
+.path-step.done::before{background:#16A34A;box-shadow:0 0 0 3px #16A34A}
+.path-step h3{font-size:15px;color:#1A3C6D;margin-bottom:4px}
+.path-step p{font-size:12px;color:#6B7280}
+.path-step .meta{font-size:11px;color:#9CA3AF;margin-top:4px}
+.path-step .action-btn{display:inline-block;padding:6px 14px;border-radius:15px;background:#DC2626;color:white;font-weight:700;font-size:11px;text-decoration:none;margin-top:8px}
+.roadmap-card{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:12px;padding:16px;margin:8px 0}
+.roadmap-card h4{color:#C9A84C}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>🎯 個人化學習路徑</h1><p style="font-size:13px;opacity:0.8" id="pathStudent">根據陷阱指紋自動生成</p></div>
+
+<div class="card">
+<h2>你的學習路線圖</h2>
+<div class="path-timeline" id="pathTimeline"></div>
+</div>
+
+<div class="card">
+<h2>本週行動建議</h2>
+<div id="weeklyPlan"></div>
+</div>
+</div>
+
+<script>
+// Demo path - in production, generated from trap fingerprint
+var path=[
+{step:1,title:"基礎診斷",desc:"完成陷阱診斷測驗，鎖定你的陷阱指紋",time:"10分鐘",status:"done",action:"/docs/trap-quiz.html",actionLabel:"重新診斷"},
+{step:2,title:"T4 漏寫0 專項",desc:"專注解決漏寫0陷阱 · 目標正確率80%+",time:"每日5題 · 約1週",status:"current",action:"/docs/test-generator.html?traps=T4",actionLabel:"開始練習"},
+{step:3,title:"T5 分數運算鞏固",desc:"分數加減乘除全面鞏固 · 目標正確率75%+",time:"每日5題 · 約1-2週",status:"pending",action:"/docs/test-generator.html?traps=T5",actionLabel:"—"},
+{step:4,title:"T7 應用題理解",desc:"訓練解題四步卡 · 提升文字題正確率",time:"每日3題 · 約2週",status:"pending",action:"/docs/test-generator.html?traps=T7",actionLabel:"—"},
+{step:5,title:"綜合模擬",desc:"SSPA全真模擬 · 時間控制訓練",time:"每週1次 · 持續",status:"pending",action:"/docs/test-generator.html",actionLabel:"—"},
+{step:6,title:"考前衝刺",desc:"針對最弱2個陷阱進行終極鞏固",time:"考前2週",status:"pending",action:"/docs/test-generator.html",actionLabel:"—"},
+];
+
+var tl="";
+path.forEach(function(p){
+var cls=p.status==="done"?"done":p.status==="current"?"current":"";
+tl+='<div class="path-step '+cls+'"><h3>'+p.step+'. '+p.title+'</h3><p>'+p.desc+'</p><div class="meta">⏱ '+p.time+'</div>';
+if(p.action&&p.status!=="done")tl+='<a href="'+p.action+'" class="action-btn" target="_blank">'+ (p.actionLabel||"開始")+' →</a>';
+tl+='</div>';
+});
+document.getElementById("pathTimeline").innerHTML=tl;
+
+document.getElementById("weeklyPlan").innerHTML=''+
+'<div class="roadmap-card"><h4>本週重點</h4><p style="font-size:13px;opacity:0.9">集中解決 「T4 漏寫0陷阱」。每日5題除數練習，專注中間有0嘅題目。目標：本週正確率由65%提升至80%+。</p></div>'+
+'<div class="roadmap-card" style="margin-top:8px"><h4>💡 老師貼士</h4><p style="font-size:13px;opacity:0.9">每題做完之後，自己檢查一次答案嘅位數。被除數有3位，答案應該都有3位。呢個習慣可以幫你避開80%嘅T4陷阱。</p></div>';
+</script>
+</body></html>

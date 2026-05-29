@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 批量導入學生</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:16px}
+.container{max-width:700px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
+.card{background:white;border-radius:12px;padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px}
+textarea{width:100%;height:200px;padding:12px;border:2px solid #E5E7EB;border-radius:10px;font-size:13px;font-family:monospace;resize:vertical}
+textarea:focus{border-color:#1A3C6D;outline:none}
+.btn{display:inline-block;padding:10px 22px;border-radius:25px;font-weight:900;font-size:13px;cursor:pointer;border:none;margin:4px}
+.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#16A34A;color:white}.btn-gold{background:#C9A84C;color:#1A3C6D}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-top:12px}
+th{background:#F9FAFB;padding:8px;text-align:left;font-size:10px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+td{padding:8px;border-bottom:1px solid #F3F4F6}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:12px;font-size:11px;margin:8px 0;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>批量導入學生</h1><p>貼上名單 · 自動生成激活碼 · 一鍵導入</p></div>
+<div class="card">
+<h2>貼上學生名單</h2>
+<p style="font-size:11px;color:#6B7280;margin-bottom:8px">每行一位：<code>姓名, 年級, 家長, 電話</code></p>
+<textarea id="csvInput" placeholder="陳小明, P5, 陳太, 61234567
+李小美, P3, 李太, 69876543
+張志偉, P6, 張生, 92345678" oninput="preview()"></textarea>
+<button class="btn btn-green" onclick="doImport()">導入學生</button>
+<button class="btn btn-gold" onclick="doImportCodes()">導入 + 生成激活碼</button>
+</div>
+<div class="card" id="previewCard" style="display:none">
+<h2>預覽 (<span id="count">0</span> 位)</h2>
+<table><thead><tr><th>姓名</th><th>年級</th><th>家長</th><th>電話</th></tr></thead><tbody id="previewBody"></tbody></table>
+</div>
+<div class="note"><b>格式：</b>姓名,年級,家長,電話 · 逗號或Tab分隔 · 直接從Excel貼上即可</div>
+</div>
+<script>
+var students=[];
+function preview(){
+var t=document.getElementById('csvInput').value;
+students=t.split(/[\n\r]+/).filter(function(l){return l.trim()}).map(function(l){
+var p=l.split(/[,\t]/).map(function(x){return x.trim()});
+return {name:p[0]||'',grade:p[1]||'P5',parent:p[2]||'家長',phone:p[3]||''};
+});
+if(!students.length){document.getElementById('previewCard').style.display='none';return}
+document.getElementById('previewCard').style.display='block';
+document.getElementById('count').textContent=students.length;
+document.getElementById('previewBody').innerHTML=students.map(function(s){
+return '<tr><td><b>'+s.name+'</b></td><td>'+s.grade+'</td><td>'+s.parent+'</td><td>'+s.phone+'</td></tr>';
+}).join('');
+}
+function doImport(){
+if(!students.length)return alert('請先輸入名單');
+var m=JSON.parse(localStorage.getItem('lf_members')||'[]');
+var c=0;students.forEach(function(s){
+var p=s.phone||('auto_'+Date.now()+'_'+c);
+if(!m.find(function(x){return x.phone===p})){m.push({student:s.name,grade:s.grade,parent:s.parent,phone:p,plan:'free',activated:new Date().toISOString(),expiry:null});c++}
+});
+localStorage.setItem('lf_members',JSON.stringify(m));
+alert('已導入 '+c+' 位學生 ✅');
+}
+function doImportCodes(){
+if(!students.length)return alert('請先輸入名單');
+doImport();
+var codes=JSON.parse(localStorage.getItem('lf_activation_codes')||'[]');
+var list=[];students.forEach(function(s){
+var code='LF-'+Date.now().toString(36).toUpperCase().slice(-6)+Math.random().toString(36).slice(-2).toUpperCase();
+var e=new Date();e.setMonth(e.getMonth()+12);
+codes.push({code:code,plan:'annual',parent:s.parent,student:s.name,grade:s.grade,status:'active',created:new Date().toISOString(),expiry:e.toISOString()});
+list.push(s.name+': '+code);
+});
+localStorage.setItem('lf_activation_codes',JSON.stringify(codes));
+alert('已生成 '+list.length+' 個激活碼：\n\n'+list.join('\n'));
+}
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body>
+</html>

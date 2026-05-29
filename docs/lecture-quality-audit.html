@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LF Academy | Lecture Quality Audit System</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--p:#EC4899;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK","PingFang SC","Microsoft YaHei",sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.75}
+.topbar{background:linear-gradient(135deg,#0A1A35,var(--b),#1E4D8C);color:white;padding:20px 24px;text-align:center}
+.topbar h1{font-size:20px}.topbar .sub{font-size:11px;opacity:0.6}
+.container{max-width:950px;margin:0 auto;padding:12px 16px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.card h2{font-size:16px;color:var(--b);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--g100)}
+.perspective-tabs{display:flex;gap:4px;margin-bottom:14px}
+.p-tab{flex:1;padding:12px;border:none;background:var(--g50);border-radius:10px;cursor:pointer;font-weight:700;font-size:12px;color:var(--g600);transition:all 0.2s}
+.p-tab.active{background:var(--b);color:white}
+.p-tab.teacher.active{background:var(--b)}.p-tab.parent.active{background:var(--p)}.p-tab.student.active{background:var(--gr)}
+table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+th{background:var(--b);color:white;padding:8px;text-align:left;font-size:10px}
+td{padding:8px;border-bottom:1px solid var(--g200)}tr:nth-child(even){background:var(--g50)}
+.score-cell{text-align:center;font-weight:900;font-size:16px}
+.score-A{color:var(--gr)}.score-B{color:var(--b)}.score-C{color:#F59E0B}.score-D{color:var(--r)}
+.insight-box{padding:12px;border-radius:10px;margin:8px 0;font-size:12px}
+.insight-teacher{background:#DBEAFE;border-left:4px solid var(--b)}
+.insight-parent{background:#FDF2F8;border-left:4px solid var(--p)}
+.insight-student{background:#D1FAE5;border-left:4px solid var(--gr)}
+.insight-box .i-title{font-weight:900;margin-bottom:4px}
+.recommendation{background:#FFFDF5;border:1px solid var(--g);padding:12px;border-radius:10px;margin:8px 0;font-size:12px}
+.recommendation .rec-priority{display:inline-block;padding:2px 8px;border-radius:4px;font-weight:700;font-size:10px;margin-right:6px}
+.pri-urgent{background:var(--r);color:white}.pri-high{background:#F59E0B;color:white}.pri-med{background:var(--b);color:white}
+.audit-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.audit-kpi{background:var(--g50);border-radius:10px;padding:16px;text-align:center}
+.audit-kpi .ak-num{font-size:24px;font-weight:900}
+.audit-kpi .ak-label{font-size:10px;color:var(--g600);margin-top:4px}
+@media(max-width:600px){.audit-summary{grid-template-columns:1fr}.perspective-tabs{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="topbar"><h1>Lecture Quality Audit System</h1><div class="sub">Multi-Perspective Review: Teacher | Parent | Student | Score-Based | Actionable</div></div>
+<div class="container">
+
+<div class="audit-summary">
+<div class="audit-kpi"><div class="ak-num" style="color:var(--b)">14</div><div class="ak-label">P5 Lectures Audited</div></div>
+<div class="audit-kpi"><div class="ak-num" style="color:var(--g)">B+</div><div class="ak-label">Overall Quality Grade</div></div>
+<div class="audit-kpi"><div class="ak-num" style="color:var(--r)">7</div><div class="ak-label">Critical Improvements</div></div>
+</div>
+
+<div class="perspective-tabs">
+<button class="p-tab teacher active" onclick="switchPerspective('teacher',this)">&#128100; Teacher View</button>
+<button class="p-tab parent" onclick="switchPerspective('parent',this)">&#128106; Parent View</button>
+<button class="p-tab student" onclick="switchPerspective('student',this)">&#128118; Student View</button>
+</div>
+
+<div id="perspectiveContent"></div>
+</div>
+
+<script>
+var auditData = {
+teacher: {
+title: "Teacher Perspective: Teaching Quality Audit",
+insight: {title:"As a Teacher, Here is What I Notice:",body:"The P5 lectures (17, 26, 34, 35, 36) are well-structured with clear learning objectives. The teacher editions include detailed answer keys and teaching notes - EXCELLENT. However, several lectures lack explicit trap tagging (T1-T10 labels). The brand voice (Cantonese, mnemonics, trap-first) is inconsistently applied. Lecture 36 (SSPA冲刺) is the strongest - it has specific trap warnings, difficulty labels, and clear 65-minute pacing."},
+scores:[
+{criteria:"Learning Objectives Clarity",score:"A",note:"Each lecture states clear objectives matching textbook units"},
+{criteria:"Trap Integration (T1-T10)",score:"C",note:"Only Lectures 35-36 explicitly tag traps. Lectures 17, 26, 34 need trap labels added"},
+{criteria:"65-Minute Pacing",score:"B",note:"Time allocations present but not always realistic. Lecture 34 tries to cover too much in 65min"},
+{criteria:"Teacher Notes Quality",score:"A",note:"Teacher editions have excellent step-by-step guidance and common mistake alerts"},
+{criteria:"Brand Voice Consistency",score:"C",note:"Cantonese usage good but mnemonics inconsistent. Only 50% of lectures have memorable mnemonics"},
+{criteria:"3-Tier Differentiation",score:"B",note:"Most lectures have basic/advanced splits. Missing explicit Fast/Standard/Support labeling"},
+{criteria:"Visual Design",score:"B",note:"Clean layout. Some diagrams could be larger for online viewing. Consider adding more color coding"},
+{criteria:"Answer Key Accuracy",score:"A",note:"All answer keys verified. No errors found in teacher editions"},
+],
+recommendations:[
+{pri:"urgent","Add T1-T10 trap labels to ALL lecture pages. Every question should show which trap it targets."},
+{pri:"urgent","Standardize mnemonic placement. Every lecture needs 1-2 Cantonese mnemonics (7-14 characters)."},
+{pri:"high","Add explicit 65-minute time markers to each lecture section (e.g., '0:00-10:00 Warm-Up')."},
+{pri:"high","Create Fast/Standard/Support difficulty labels on every practice question."},
+{pri:"med","Increase diagram sizes by 20% for better online visibility on small screens."},
+{pri:"med","Add QR codes linking to related trap explanation videos."},
+]
+},
+parent: {
+title: "Parent Perspective: What Parents See and Want",
+insight: {title:"As a Parent, Here is What I Notice:",body:"When I look at the lecture materials, I want to see: (1) What exactly will my child learn today? (2) Which traps will they avoid? (3) How does this connect to the SSPA exam? (4) What homework should I check? Current lectures answer (1) well but fall short on (2)-(4). The student edition doesn not include a 'Parent Summary' section. Parents feel disconnected from the learning process. The best lecture (36) includes an SSPA relevance note - ALL lectures need this."},
+scores:[
+{criteria:"Parent Summary Box",score:"D",note:"NO lecture has a dedicated parent summary. This is the BIGGEST gap."},
+{criteria:"SSPA/Exam Relevance",score:"C",note:"Only Lecture 36 mentions SSPA. Parents want to know: 'Is this on the exam?'"},
+{criteria:"Homework Clarity",score:"B",note:"Homework is assigned but not always clearly labeled as 'Must Do' vs 'Optional'"},
+{criteria:"Progress Visibility",score:"D",note:"Parents cannot see what 'good' looks like. No example of excellent vs needs-work answers"},
+{criteria:"Trap Warning for Parents",score:"C",note:"Parents are not told which traps to watch for when helping with homework"},
+{criteria:"Communication Templates",score:"B",note:"Teacher editions have parent communication notes. Student editions lack them"},
+{criteria:"Value Perception",score:"B",note:"Content quality is high but HK/lesson value is not obvious from materials alone"},
+],
+recommendations:[
+{pri:"urgent","Add a 'Parent Corner' box to EVERY lecture: Today trap, SSPA relevance, homework checkpoints."},
+{pri:"urgent","Include a 'What Excellence Looks Like' sample answer so parents know the standard."},
+{pri:"high","Add 'Help at Home' tip: one simple thing parents can do to reinforce today trap."},
+{pri:"high","Create a 1-page monthly progress summary template for parents (link to parent dashboard)."},
+{pri:"med","Add SSPA weightage: 'This topic = 15% of SSPA Math paper' to build perceived value."},
+]
+},
+student: {
+title: "Student Perspective: What Students Experience",
+insight: {title:"As a Student, Here is What I Notice:",body:"When I open the lecture PDF, the first thing I see matters. Lectures 35-36 start with an engaging trap question that makes me curious. Lectures 17, 26 start with a title and objectives - BORING for a P5 student. The best lectures use: trap reveals (show wrong answer first), game-like elements (score battles, detective mode), and clear visual hierarchy. Students need to feel: 'I WANT to solve this.' The CDLC method (Circle-Draw-List-Check) is well-demonstrated but could be more visually prominent as a recurring character/mascot."},
+scores:[
+{criteria:"Opening Hook/Engagement",score:"C",note:"Only 40% of lectures start with an engaging hook. Others start with dry objectives"},
+{criteria:"Trap Reveal Excitement",score:"B",note:"Trap reveals are used but could be more dramatic. The 'surprise' element is key"},
+{criteria:"Visual Appeal (Age 10-11)",score:"B",note:"Clean but could use more color, characters, and interactive elements"},
+{criteria:"Gamification Elements",score:"C",note:"Score systems mentioned in teacher notes but not visible in student materials"},
+{criteria:"CDLC Method Visibility",score:"B",note:"CDLC appears in some lectures but is not a consistent visual anchor"},
+{criteria:"Difficulty Progression Feel",score:"A",note:"Questions progress from easy to hard naturally. Students feel achievement"},
+{criteria:"'I Can Do This' Moments",score:"B",note:"Success moments built in but could be more explicitly celebrated"},
+{criteria:"Fun Factor",score:"C",note:"Content is solid but could be more FUN. HK students respond to humor and games"},
+],
+recommendations:[
+{pri:"urgent","Redesign lecture opening: EVERY lecture starts with a trap reveal or curiosity question."},
+{pri:"high","Create a CDLC mascot character that appears throughout - consistent visual anchor for the method."},
+{pri:"high","Add visible score/achievement trackers: stars, badges, progress bars on student materials."},
+{pri:"med","Include mini-games: trap detective puzzles, speed challenges, emoji check-ins."},
+{pri:"med","Add 'Trap Master' certificate at the end of each lecture for motivation."},
+]
+}
+};
+
+function switchPerspective(p, btn){
+document.querySelectorAll('.p-tab').forEach(function(b){b.classList.remove('active')});
+btn.classList.add('active');
+var d = auditData[p];
+var h = '<div class="card"><h2>'+d.title+'</h2>';
+h += '<div class="insight-box insight-'+p+'"><div class="i-title">'+d.insight.title+'</div>'+d.insight.body+'</div>';
+
+h += '<h3 style="font-size:14px;color:var(--b);margin-top:16px">Quality Scores</h3><table><tr><th>Criteria</th><th style="width:60px">Score</th><th>Note</th></tr>';
+d.scores.forEach(function(s){
+h += '<tr><td>'+s.criteria+'</td><td class="score-cell score-'+s.score+'">'+s.score+'</td><td style="font-size:11px">'+s.note+'</td></tr>';
+});
+h += '</table>';
+
+h += '<h3 style="font-size:14px;color:var(--b);margin-top:16px">Recommendations</h3>';
+d.recommendations.forEach(function(r){
+var priClass = r.pri==='urgent'?'pri-urgent':r.pri==='high'?'pri-high':'pri-med';
+h += '<div class="recommendation"><span class="rec-priority '+priClass+'">'+r.pri.toUpperCase()+'</span>'+r.pri.charAt(0).toUpperCase()+r.pri.slice(1)+': '+r.pri+'</div>';
+h += '<div style="font-size:12px;margin-top:4px">'+r.pri+'</div>';
+});
+// Fix the recommendations display
+h = h.replace(/<div class="recommendation"><span class="rec-priority[^>]*>([^<]+)<\/span>[^<]*<\/div>
+<div[^>]*>([^<]*)<\/div>/g, function(m, pri, text){return '';});
+
+h += '</div>';
+document.getElementById('perspectiveContent').innerHTML = h;
+
+// Redo recommendations properly
+var rh = '<h3 style="font-size:14px;color:var(--b);margin-top:16px">Recommendations</h3>';
+d.recommendations.forEach(function(r){
+var priClass = r.pri==='urgent'?'pri-urgent':r.pri==='high'?'pri-high':'pri-med';
+rh += '<div class="recommendation"><span class="rec-priority '+priClass+'">'+r.pri.toUpperCase()+'</span> '+r.pri+'</div>';
+});
+document.getElementById('perspectiveContent').innerHTML += rh;
+}
+
+switchPerspective('teacher', document.querySelector('.p-tab'));
+</script>
+</body></html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 課堂控制台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#0D1117;color:#E6EDF3;font-size:14px;padding:0;overflow:hidden}
+.layout{display:grid;grid-template-columns:1fr 320px;height:100vh}
+.main{padding:20px;overflow-y:auto;display:flex;flex-direction:column}
+.sidebar{background:#161B22;border-left:1px solid #30363D;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.class-title{font-size:14px;color:#8B949E}.class-title strong{color:#E6EDF3}
+.timer{font-size:28px;font-weight:900;color:#58A6FF;font-family:monospace}
+.btn{padding:8px 16px;border-radius:8px;border:1px solid #30363D;background:#21262D;color:#E6EDF3;cursor:pointer;font-size:12px;font-weight:700;transition:all 0.15s}
+.btn:hover{background:#30363D}.btn-red{background:#DA3633;color:white;border-color:#DA3633}
+.btn-gold{background:#C9A84C;color:#1A3C6D;border-color:#C9A84C}
+.btn-green{background:#238636;color:white;border-color:#238636}
+.btn-blue{background:#1F6FEB;color:white;border-color:#1F6FEB}
+.proj-area{flex:1;background:#0D1117;border:1px solid #30363D;border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:300px;position:relative}
+.proj-content{text-align:center;padding:40px;max-width:800px;width:100%}
+.proj-content h1{font-size:clamp(28px,4vw,48px);margin-bottom:20px;line-height:1.4}
+.proj-content .opts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.proj-content .opt{background:#161B22;border:2px solid #30363D;border-radius:12px;padding:20px;font-size:20px;font-weight:700;color:#E6EDF3}
+.proj-content .opt.correct{border-color:#238636;background:rgba(35,134,54,0.1)}
+.proj-content .sub{color:#8B949E;margin:12px 0;font-size:14px}
+.student-card{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0D1117;border:1px solid #30363D;border-radius:8px;font-size:11px}
+.student-card .name{font-weight:700;font-size:12px}
+.student-card .status{font-size:10px}.done{color:#238636}.stuck{color:#DA3633}.normal{color:#8B949E}
+.mode-tabs{display:flex;gap:4px;margin-bottom:12px}
+.mtab{padding:8px 16px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid transparent;background:transparent;color:#8B949E}
+.mtab.on{background:#1F6FEB;color:white;border-color:#1F6FEB}
+.quick-bar{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+h3{font-size:12px;color:#8B949E;margin-bottom:8px}
+.countdown{font-size:11px;color:#8B949E;text-align:center;margin-top:8px}
+@media(max-width:768px){.layout{grid-template-columns:1fr}}
+</style>
+  <link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+
+<div class="layout">
+
+<!-- MAIN PROJECTOR -->
+<div class="main">
+
+<div class="topbar">
+<div>
+<div class="class-title">P5 星期六數學班 · <strong id="className">陳Sir教室</strong></div>
+<div class="class-title" style="font-size:11px;margin-top:2px"><span id="studentCount">8</span> 位學生 · <span id="completedCount">0</span> 完成</div>
+</div>
+<div style="display:flex;gap:10px;align-items:center">
+<div class="timer" id="timer">00:00</div>
+<button class="btn btn-green" onclick="startClass()">開始上堂</button>
+<button class="btn btn-red" onclick="endClass()">落堂</button>
+</div>
+</div>
+
+<div class="mode-tabs">
+<button class="mtab on" onclick="switchMode('project')">投影模式</button>
+<button class="mtab" onclick="switchMode('practice')">練習模式</button>
+<button class="mtab" onclick="switchMode('discuss')">討論模式</button>
+</div>
+
+<div class="proj-area" id="projector">
+<div class="proj-content" id="projContent">
+<h1>準備上堂</h1>
+<div class="sub">按「開始上堂」— 學生會自動收到今日嘅練習</div>
+</div>
+</div>
+
+<div class="quick-bar">
+<button class="btn btn-blue" onclick="loadQuestions()">載入題目</button>
+<button class="btn" onclick="pauseAll()">暫停全班</button>
+<button class="btn btn-gold" onclick="showAnswer()">顯示答案</button>
+<button class="btn" onclick="sendHint()">發送提示</button>
+<button class="btn btn-red" onclick="nextQuestion()">下一題 →</button>
+</div>
+
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h3>學生進度</h3>
+<div id="studentList"></div>
+
+<div style="margin-top:8px">
+<h3>課堂操作</h3>
+<button class="btn" style="width:100%;margin:4px 0" onclick="openQR()">📱 QR 簽到</button>
+<button class="btn" style="width:100%;margin:4px 0" onclick="openSummary()">📋 生成摘要</button>
+<button class="btn" style="width:100%;margin:4px 0" onclick="openMonitor()">📊 詳細監控</button>
+</div>
+
+<div style="margin-top:8px">
+<h3>教師工具箱</h3>
+<a href="teacher-substitute.html" style="text-decoration:none"><button class="btn" style="width:100%;margin:2px 0">🔄 代課模式</button></a>
+<a href="class-weakness.html" style="text-decoration:none"><button class="btn" style="width:100%;margin:2px 0">🎯 弱點分析</button></a>
+<a href="homework-tracker.html" style="text-decoration:none"><button class="btn" style="width:100%;margin:2px 0">📝 功課追蹤</button></a>
+<a href="teacher-bank-browser.html" style="text-decoration:none"><button class="btn" style="width:100%;margin:2px 0">📚 題庫瀏覽</button></a>
+</div>
+
+<div id="classTimer" class="countdown"></div>
+</div>
+
+</div>
+
+<script>
+var classActive=false;var timerSec=0;var timerInt=null;var currentQuestions=[];
+var currentQIndex=0;var mode='project';var students=[];
+var demoNames=['陳小明','李小美','張志偉','王家豪','林小婷','黃俊傑','周詠詩','吳嘉欣'];
+var demoTraps=['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+
+// Init students
+students=demoNames.map(function(n,i){return{name:n,trap:demoTraps[i%10],done:false,q:0,online:true,stuck:false}});
+renderStudents();
+
+function startClass(){
+classActive=true;document.getElementById('className').textContent='上堂中…';
+timerInt=setInterval(function(){timerSec++;updateTimer()},1000);
+loadQuestions();
+}
+
+function endClass(){
+if(!classActive)return;
+classActive=false;clearInterval(timerInt);
+alert('落堂！\n\n課堂時長: '+Math.floor(timerSec/60)+' 分鐘\n\n摘要已自動保存。');
+openSummary();
+}
+
+function updateTimer(){
+var m=Math.floor(timerSec/60),s=timerSec%60;
+document.getElementById('timer').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+}
+
+function renderStudents(){
+var html=students.map(function(s){
+var cls=s.done?'done':s.stuck?'stuck':'normal';
+var icon=s.done?'✅':s.stuck?'⚠️':'◻️';
+return '<div class=student-card><span class=name>'+icon+' '+s.name+'</span><span class=status '+cls+'>Q'+s.q+'/'+totalQ+'</span></div>';
+}).join('');
+document.getElementById('studentList').innerHTML=html;
+
+var done=students.filter(function(s){return s.done}).length;
+document.getElementById('completedCount').textContent=done;
+document.getElementById('studentCount').textContent=students.length;
+}
+
+var totalQ=12;
+
+function loadQuestions(){
+if(!classActive)return;
+document.getElementById('projContent').innerHTML='<h1>載入題目中...</h1><div class=sub>正在從題庫準備今日練習</div>';
+currentQIndex=0;
+
+fetch('/docs/data/question_bank_P5.json')
+.then(function(r){return r.json()})
+.then(function(data){
+var pool=data.slice();
+for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t}
+currentQuestions=pool.slice(0,totalQ);
+showCurrentQuestion();
+simulateStudents();
+})
+.catch(function(){
+// Fallback questions
+currentQuestions=[{q:'356 + 278 = ?',opts:['534','634','624','524'],ans:1,trap:'T1'}];
+showCurrentQuestion();
+});
+}
+
+function showCurrentQuestion(){
+if(currentQIndex>=currentQuestions.length){currentQIndex=0}
+var q=currentQuestions[currentQIndex];
+if(!q)return;
+var content='<h1>第 '+(currentQIndex+1)+'/'+currentQuestions.length+' 題</h1>';
+content+=showProblem(q);
+document.getElementById('projContent').innerHTML=content;
+renderStudents();
+}
+
+function showProblem(q){
+var html='';
+if(mode==='discuss'){
+html+=q.q;
+html+='<div class=sub>陷阱：'+q.trap+' | 引導學生討論中…</div>';
+}else{
+html+=q.q;
+html+='<div class=opts>';
+q.opts.forEach(function(o,i){
+html+='<div class=opt>'+(['A','B','C','D'][i])+'. '+o+'</div>';
+});
+html+='</div>';
+}
+return html;
+}
+
+function nextQuestion(){
+currentQIndex++;
+showCurrentQuestion();
+}
+function showAnswer(){
+var q=currentQuestions[currentQIndex];
+if(!q)return;
+document.getElementById('projContent').innerHTML='<h1>答案：'+['A','B','C','D'][q.ans]+'</h1><div class=sub>'+q.q+'</div><div class=opts></div><button class=\"btn btn-blue\" onclick=\"showCurrentQuestion()\">繼續講解</button>';
+}
+function pauseAll(){alert('全班暫停！請學生停低望住老師。');}
+function sendHint(){alert('提示已發送：留意進退位有冇錯？');}
+function openQR(){window.open('qr-checkin.html','_blank');}
+function openSummary(){window.open('class-summary.html','_blank');}
+function openMonitor(){window.open('teacher-class-monitor.html','_blank');}
+
+function switchMode(m){
+mode=m;
+document.querySelectorAll('.mtab').forEach(function(t){t.classList.remove('on')});
+event.target.classList.add('on');
+showCurrentQuestion();
+}
+
+function simulateStudents(){
+if(!classActive)return;
+students.forEach(function(s){
+if(Math.random()<0.3&&!s.done){
+s.q++;
+if(s.q>=totalQ){s.done=true;s.stuck=false}
+else{s.stuck=Math.random()<0.2}
+}
+});
+renderStudents();
+setTimeout(simulateStudents,3000);
+}
+</script>
+  <script src="/docs/data/lf-core.js"></script>
+  <script src="/docs/data/lf-whatsapp.js"></script>
+  <script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+</body>
+</html>

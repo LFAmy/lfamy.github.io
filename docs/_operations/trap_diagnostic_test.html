@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · 陷阱敏感度診斷測試 | T1-T10 Trap Diagnostic</title>
+<style>
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans HK",sans-serif}
+  :root {
+    --blue: #1A3C6D;
+    --gold: #C9A84C;
+    --red: #DC2626;
+    --green: #16A34A;
+    --bg: #FFFDF7;
+    --card: #FFFFFF;
+    --text: #1A1A1A;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --trap-red: #FEF2F2;
+    --trap-green: #F0FDF4;
+    --trap-amber: #FFFBEB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Noto Sans HK', 'Microsoft JhengHei', sans-serif;
+    background: #F5F5F5;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  .app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    min-height: 100vh;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+    position: relative;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: var(--blue);
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .top-bar-logo {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+  .top-bar-title {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .top-bar-progress {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .progress-wrap {
+    background: #E5E7EB;
+    height: 6px;
+    position: sticky;
+    top: 48px;
+    z-index: 99;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    transition: width 0.3s ease;
+    width: 0%;
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* ── SECTIONS ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── COVER ── */
+  .cover-screen {
+    background: linear-gradient(160deg, var(--blue) 0%, #0D2447 60%, #0A1A35 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 30px;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-screen::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border: 3px solid rgba(201,168,76,0.2);
+    border-radius: 50%;
+  }
+  .cover-screen::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 300px; height: 300px;
+    border: 3px solid rgba(201,168,76,0.15);
+    border-radius: 50%;
+  }
+  .cover-academy {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover-title {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 30px;
+  }
+  .cover-tagline {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--blue);
+    padding: 8px 28px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 40px;
+  }
+  .cover-grid {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    margin-bottom: 35px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cover-stat { text-align: center; }
+  .cover-stat-num { font-size: 28px; font-weight: 900; color: var(--gold); }
+  .cover-stat-label { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+  .cover-meta {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-block;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    text-decoration: none;
+    text-align: center;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--blue);
+    position: relative;
+    z-index: 1;
+  }
+  .btn-gold:hover { background: #D4B556; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(201,168,76,0.4); }
+  .btn-blue { background: var(--blue); color: white; }
+  .btn-blue:hover { background: #254D8A; }
+  .btn-outline { background: white; color: var(--blue); border: 2px solid var(--blue); }
+  .btn-outline:hover { background: #F0F4F8; }
+  .btn-green { background: var(--green); color: white; }
+  .btn-green:hover { background: #15803D; }
+  .btn-whatsapp { background: #25D366; color: white; }
+  .btn-whatsapp:hover { background: #20BD5A; }
+  .btn-sm { padding: 8px 20px; font-size: 13px; }
+
+  /* ── INSTRUCTIONS ── */
+  .instructions-page { padding: 30px 24px; }
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 3px solid var(--blue);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+  .page-header-left h1 { font-size: 22px; font-weight: 900; color: var(--blue); }
+  .page-header-left .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .page-header-right { font-size: 12px; color: var(--gold); font-weight: 700; text-align: right; line-height: 1.5; }
+  .instructions-box {
+    background: #F0F4F8;
+    border-left: 4px solid var(--blue);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 24px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .instructions-box strong { color: var(--blue); }
+  .trap-table { width: 100%; font-size: 12px; line-height: 1.8; border-collapse: collapse; }
+  .trap-table td { padding: 3px 8px; }
+  .trap-table .trap-label { font-weight: 700; color: var(--blue); padding-right: 12px; }
+  .resume-banner {
+    background: #FFFDF7;
+    border: 2px dashed var(--gold);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    text-align: center;
+    font-size: 13px;
+  }
+  .resume-banner strong { color: var(--blue); }
+
+  /* ── QUESTIONS ── */
+  .questions-page { padding: 20px 24px 80px; }
+  .section-header {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--blue);
+    margin: 28px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-header .trap-badge {
+    background: var(--red);
+    color: white;
+    font-size: 10px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+  }
+  .question-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .question-box.answered { border-color: var(--green); background: #F9FDF9; }
+  .q-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .q-num { font-weight: 900; font-size: 15px; color: var(--blue); min-width: 30px; }
+  .q-diff {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: #ECFDF5;
+    color: var(--green);
+  }
+  .q-diff.mid { background: #FFFBEB; color: #B45309; }
+  .q-diff.hard { background: #FEF2F2; color: var(--red); }
+  .q-trap { font-size: 11px; color: var(--muted); }
+  .q-body { font-size: 14px; font-weight: 500; line-height: 1.7; margin: 6px 0 12px; }
+
+  .q-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+  }
+  .q-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    border: 2px solid var(--border);
+    transition: all 0.15s ease;
+    background: white;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .q-option:hover { background: #F0F4F8; border-color: #9CA3AF; }
+  .q-option.selected {
+    background: #EFF6FF;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(26,60,109,0.1);
+  }
+  .q-option .opt-letter {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #F3F4F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+  }
+  .q-option.selected .opt-letter {
+    background: var(--blue);
+    color: white;
+  }
+
+  /* ── BOTTOM BAR ── */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 800px;
+    background: white;
+    border-top: 2px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+  }
+  .bottom-bar .answered-count { font-size: 13px; font-weight: 700; color: var(--blue); }
+
+  /* ── RESULTS ── */
+  .results-page {
+    padding: 30px 24px;
+    animation: fadeInUp 0.5s ease;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes confetti-fall {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  .results-hero { text-align: center; padding: 24px 0; }
+  .results-score-circle {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    animation: popIn 0.5s ease;
+  }
+  .results-score-circle.great {
+    background: linear-gradient(135deg, #DCFCE7, #BBF7D0);
+    border: 4px solid var(--green);
+    color: var(--green);
+  }
+  .results-score-circle.good {
+    background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+    border: 4px solid #F59E0B;
+    color: #B45309;
+  }
+  .results-score-circle.needs-work {
+    background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
+    border: 4px solid var(--red);
+    color: var(--red);
+  }
+  .results-score-num { font-size: 42px; line-height: 1; }
+  .results-score-label { font-size: 12px; margin-top: 2px; }
+  .results-grade { font-size: 20px; font-weight: 900; margin: 8px 0; }
+  .results-msg { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+
+  /* ── TRAP CARDS ── */
+  .trap-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .trap-card {
+    border-radius: 10px;
+    padding: 16px;
+    border: 2px solid;
+    animation: fadeInUp 0.4s ease backwards;
+  }
+  .trap-card:nth-child(1) { animation-delay: 0.05s; }
+  .trap-card:nth-child(2) { animation-delay: 0.10s; }
+  .trap-card:nth-child(3) { animation-delay: 0.15s; }
+  .trap-card:nth-child(4) { animation-delay: 0.20s; }
+  .trap-card:nth-child(5) { animation-delay: 0.25s; }
+  .trap-card:nth-child(6) { animation-delay: 0.30s; }
+  .trap-card:nth-child(7) { animation-delay: 0.35s; }
+  .trap-card:nth-child(8) { animation-delay: 0.40s; }
+  .trap-card:nth-child(9) { animation-delay: 0.45s; }
+  .trap-card:nth-child(10) { animation-delay: 0.50s; }
+
+  .trap-card.green { background: var(--trap-green); border-color: var(--green); }
+  .trap-card.yellow { background: var(--trap-amber); border-color: #F59E0B; }
+  .trap-card.red { background: var(--trap-red); border-color: var(--red); }
+
+  .trap-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .trap-card-tag { font-size: 11px; font-weight: 900; color: var(--blue); }
+  .trap-card-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .trap-card-score { font-size: 20px; font-weight: 900; }
+  .trap-card-score.green { color: var(--green); }
+  .trap-card-score.yellow { color: #B45309; }
+  .trap-card-score.red { color: var(--red); }
+
+  .trap-card-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .trap-card-status.green { background: #DCFCE7; color: #166534; }
+  .trap-card-status.yellow { background: #FEF3C7; color: #92400E; }
+  .trap-card-status.red { background: #FEE2E2; color: #991B1B; }
+
+  .trap-card-recommendation {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .trap-card-recommendation .lesson { font-weight: 700; color: var(--blue); }
+
+  /* ── REPORT SUMMARY ── */
+  .report-summary {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .report-stat-card {
+    flex: 1;
+    min-width: 100px;
+    background: white;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+  .report-stat-card .big-num { font-size: 28px; font-weight: 900; }
+  .report-stat-card .big-num.green { color: var(--green); }
+  .report-stat-card .big-num.red { color: var(--red); }
+  .report-stat-card .big-num.amber { color: #B45309; }
+  .report-stat-card .label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .results-actions {
+    display: flex;
+    gap: 12px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ── CONFETTI ── */
+  .confetti-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute;
+    width: 10px; height: 10px;
+    top: -20px;
+    animation: confetti-fall 3s ease-in forwards;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .cover-title { font-size: 26px; }
+    .cover-subtitle { font-size: 15px; }
+    .cover-grid { gap: 16px; }
+    .cover-stat-num { font-size: 22px; }
+    .q-options { grid-template-columns: 1fr; }
+    .trap-cards { grid-template-columns: 1fr; }
+    .questions-page { padding: 12px 16px 80px; }
+    .instructions-page { padding: 20px 16px; }
+    .results-page { padding: 20px 16px; }
+    .bottom-bar { padding: 10px 16px; }
+    .results-actions { flex-direction: column; }
+    .results-actions .btn { width: 100%; }
+    .btn { padding: 12px 24px; font-size: 14px; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; }
+    .app-container { box-shadow: none; max-width: 100%; }
+    .top-bar, .bottom-bar, .progress-wrap, .btn, .results-actions,
+    .confetti-container { display: none !important; }
+    .section { display: block !important; }
+    .cover-screen { min-height: auto; padding: 40px; page-break-after: always; }
+    .results-page { page-break-before: always; }
+    .trap-card { break-inside: avoid; }
+    .q-option { border: 1px solid #ccc; }
+    .q-option.selected { border-color: var(--blue); background: #EFF6FF; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+
+<!-- ═══════════ TOP BAR ═══════════ -->
+<div class="top-bar" id="topBar" style="display:none;">
+  <span class="top-bar-logo">霖楓學苑</span>
+  <span class="top-bar-title">陷阱診斷測試</span>
+  <span class="top-bar-progress" id="topProgress">0/30</span>
+</div>
+<div class="progress-wrap" id="progressWrap" style="display:none;">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<!-- ═══════════ SECTION 0: COVER ═══════════ -->
+<div class="section active" id="sectionCover">
+  <div class="cover-screen">
+    <div class="cover-academy">霖楓學苑 · LF Academy</div>
+    <div class="cover-title">陷阱敏感度<br>診斷測試</div>
+    <div class="cover-subtitle">T1-T10 Trap Sensitivity Diagnostic</div>
+    <div class="cover-tagline">不教數學，教避開陷阱。</div>
+    <div class="cover-grid">
+      <div class="cover-stat"><div class="cover-stat-num">30</div><div class="cover-stat-label">陷阱題</div></div>
+      <div class="cover-stat"><div class="cover-stat-num">T1-T10</div><div class="cover-stat-label">陷阱類型</div></div>
+      <div class="cover-stat"><div class="cover-stat-num">P3-P6</div><div class="cover-stat-label">跨年級範圍</div></div>
+      <div class="cover-stat"><div class="cover-stat-num">~45min</div><div class="cover-stat-label">建議時間</div></div>
+    </div>
+    <button class="btn btn-gold" onclick="showInstructions()" style="position:relative;z-index:1;">開始診斷測試</button>
+    <div class="cover-meta" style="margin-top:24px;">
+      學生姓名：_______________ &nbsp;|&nbsp; 年級：_______________ &nbsp;|&nbsp; 日期：_______________
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SECTION 1: INSTRUCTIONS ═══════════ -->
+<div class="section" id="sectionInstructions">
+  <div class="instructions-page">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1>測試說明</h1>
+        <div class="sub">T1-T10 Trap Diagnostic Test · Instructions</div>
+      </div>
+      <div class="page-header-right">霖楓學苑<br>confidential</div>
+    </div>
+
+    <div class="instructions-box">
+      <strong>⚠️ 重要提示：</strong>呢個唔係普通數學測驗。每一題都係一個<b>陷阱</b>——睇下你識唔識避開佢。<br>
+      唔好估，認真計。答錯唔緊要，答錯嘅題目先係你最需要學嘅嘢。
+    </div>
+
+    <div style="display:flex;gap:24px;margin-bottom:20px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <h3 style="font-size:15px;color:var(--blue);margin-bottom:8px;">📋 答題規則</h3>
+        <ul style="font-size:13px;line-height:2;padding-left:20px;">
+          <li>共 <strong>30 題</strong>，每題 4 個選項</li>
+          <li>每題只選 <strong>一個</strong> 答案</li>
+          <li>建議時間：<strong>45 分鐘</strong></li>
+          <li>可用草稿紙，<strong>不可用計數機</strong></li>
+          <li>㩒一下選項就選定答案，可以隨時改</li>
+          <li>進度會自動儲存，可以之後繼續</li>
+        </ul>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <h3 style="font-size:15px;color:var(--blue);margin-bottom:8px;">🏷️ 陷阱類型標籤</h3>
+        <table class="trap-table">
+          <tr><td class="trap-label">T1</td><td>單位與進位陷阱</td></tr>
+          <tr><td class="trap-label">T2</td><td>小數點陷阱</td></tr>
+          <tr><td class="trap-label">T3</td><td>運算次序陷阱</td></tr>
+          <tr><td class="trap-label">T4</td><td>面積公式混淆陷阱</td></tr>
+          <tr><td class="trap-label">T5</td><td>幾何圖形混淆陷阱</td></tr>
+          <tr><td class="trap-label">T6</td><td>分數陷阱</td></tr>
+          <tr><td class="trap-label">T7</td><td>百分數陷阱</td></tr>
+          <tr><td class="trap-label">T8</td><td>速率陷阱</td></tr>
+          <tr><td class="trap-label">T9</td><td>方程陷阱</td></tr>
+          <tr><td class="trap-label">T10</td><td>統計圖表陷阱</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="instructions-box" style="background:#FFFDF7;border-left-color:var(--gold);">
+      <strong>🧠 評分解讀：</strong><br>
+      🟢 <strong>3/3 正確</strong> = 陷阱敏銳度強，繼續保持<br>
+      🟡 <strong>2/3 正確</strong> = 需要複習相關陷阱<br>
+      🔴 <strong>0-1/3 正確</strong> = 陷阱弱點，強烈建議專項訓練
+    </div>
+
+    <div id="resumeBanner" class="resume-banner" style="display:none;">
+      你有未完成嘅測試進度（<span id="resumeCount">0</span>/30 已答）。㩒「繼續測試」恢復你嘅答案。
+    </div>
+
+    <div style="text-align:center;margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-blue" onclick="startTest(false)">開始新測試</button>
+      <button class="btn btn-outline" id="btnResume" style="display:none;" onclick="startTest(true)">繼續測試</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SECTION 2: QUESTIONS ═══════════ -->
+<div class="section" id="sectionQuestions">
+  <div class="questions-page" id="questionsContainer"></div>
+  <div class="bottom-bar" id="bottomBar">
+    <span class="answered-count" id="answeredCount">已答：0/30</span>
+    <button class="btn btn-gold btn-sm" id="btnSubmit" onclick="submitTest()">查看報告 →</button>
+  </div>
+</div>
+
+<!-- ═══════════ SECTION 3: RESULTS ═══════════ -->
+<div class="section" id="sectionResults">
+  <div class="results-page" id="resultsContainer"></div>
+  <div style="text-align:center;padding:20px 24px 40px;">
+    <div class="results-actions">
+      <button class="btn btn-blue" onclick="window.print()">列印報告</button>
+      <button class="btn btn-whatsapp" onclick="shareWhatsApp()">WhatsApp 分享</button>
+      <button class="btn btn-outline" onclick="retakeTest()">重新測試</button>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      霖楓學苑 · LF Academy &copy; 2026 &nbsp;|&nbsp; 不教數學，教避開陷阱。 &nbsp;|&nbsp; www.lamfung.edu.hk
+    </div>
+  </div>
+</div>
+
+</div><!-- /app-container -->
+
+<div class="confetti-container" id="confettiContainer"></div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  JAVASCRIPT                           -->
+<!-- ═══════════════════════════════════════ -->
+<script>
+(function(){
+'use strict';
+
+// ─── ANSWER KEY (verified against original HTML answer table) ───
+var ANSWER_KEY = {
+  q1:'C', q2:'A', q3:'B', q4:'B', q5:'C',
+  q6:'B', q7:'A', q8:'C', q9:'C', q10:'B',
+  q11:'D', q12:'C', q13:'B', q14:'B', q15:'B',
+  q16:'C', q17:'A', q18:'B', q19:'C', q20:'C',
+  q21:'A', q22:'C', q23:'A', q24:'B', q25:'B',
+  q26:'C', q27:'A', q28:'C', q29:'B', q30:'D'
+};
+
+// ─── TRAP DEFINITIONS ───
+var TRAPS = [
+  {
+    id:'T1', icon:'📏', name:'單位與進位陷阱',
+    questions:['q1','q2','q3'],
+    recommendation:'見到「公里」同「米」同時出現即刻要轉換！',
+    lesson:'L03 單位換算全攻略 · L04 進階單位應用題',
+    weakMsg:'你經常忘記統一單位就開始計數。記住口訣：「先轉單位後計算，唔轉單位必錯硬！」'
+  },
+  {
+    id:'T2', icon:'🔢', name:'小數點陷阱',
+    questions:['q4','q5','q6'],
+    recommendation:'小數相乘數位數，小數相除移小數！',
+    lesson:'L07 小數四則運算 · L08 小數應用題精解',
+    weakMsg:'小數乘法/除法後成日點錯小數位。0.5 × 0.4 係 0.2，唔係 2！記住數小數位。'
+  },
+  {
+    id:'T3', icon:'🔄', name:'運算次序陷阱',
+    questions:['q7','q8','q9'],
+    recommendation:'先乘除後加減，有括號最優先！',
+    lesson:'L11 四則混合運算 · L12 括號與指數運算',
+    weakMsg:'你見到加減就想即刻計，忽略咗乘除要優先。記住「先乘除後加減，有括號最優先！」'
+  },
+  {
+    id:'T4', icon:'📐', name:'面積公式混淆陷阱',
+    questions:['q10','q11','q12'],
+    recommendation:'三角形要÷2，梯形用斜邊係陷阱！',
+    lesson:'L15 平面圖形面積公式 · L16 複合圖形面積',
+    weakMsg:'三角形唔記得÷2、梯形用錯斜邊當高、平行四邊形直接乘。記熟每個形狀嘅公式！'
+  },
+  {
+    id:'T5', icon:'🔷', name:'幾何圖形混淆陷阱',
+    questions:['q13','q14','q15'],
+    recommendation:'正方形係菱形加直角，分清從屬關係！',
+    lesson:'L13 四邊形分類與特性 · L14 圖形分割與拼砌',
+    weakMsg:'成日混淆正方形/菱形/長方形/平行四邊形嘅從屬關係。所有正方形都係菱形，但唔係所有菱形都係正方形！'
+  },
+  {
+    id:'T6', icon:'🍕', name:'分數陷阱',
+    questions:['q16','q17','q18'],
+    recommendation:'加減先通分，乘除直接計！',
+    lesson:'L19 分數四則運算 · L20 分數應用題 · L21 分數比較',
+    weakMsg:'分子分母各自相加係最常見錯誤！1/2 + 1/3 唔等於 2/5！一定要先通分。'
+  },
+  {
+    id:'T7', icon:'💯', name:'百分數陷阱',
+    questions:['q19','q20','q21'],
+    recommendation:'原價乘折扣等於售價，基準量要分清！',
+    lesson:'L24 百分數基礎 · L25 折扣與賺蝕 · L26 進階百分數應用',
+    weakMsg:'折扣計錯（八折=×0.8 唔係÷0.8）、連續百分數用錯基準量。加價後再折扣要用新價！'
+  },
+  {
+    id:'T8', icon:'🚗', name:'速率陷阱',
+    questions:['q22','q23','q24'],
+    recommendation:'平均速率唔係速率平均！總距離÷總時間！',
+    lesson:'L30 速率基礎 · L31 平均速率 · L32 相遇追及問題',
+    weakMsg:'最大陷阱：來回唔同速率，平均速率唔等於兩個速率加埋÷2！一定要總距離÷總時間！'
+  },
+  {
+    id:'T9', icon:'⚖️', name:'方程陷阱',
+    questions:['q25','q26','q27'],
+    recommendation:'移項要變號，展開要乘晒！',
+    lesson:'L35 簡易方程 · L36 兩步方程 · L37 進階方程應用',
+    weakMsg:'移項時正負號成日搞錯、展開括號漏乘、逆運算次序混亂。逆向思考要由最後一步倒轉做！'
+  },
+  {
+    id:'T10', icon:'📊', name:'統計圖表陷阱',
+    questions:['q28','q29','q30'],
+    recommendation:'睇清楚刻度、分清平均數同中位數！',
+    lesson:'L42 棒形圖與折線圖 · L43 圓形圖 · L44 數據分析與誤讀',
+    weakMsg:'睇錯刻度、計咗平均數當成中位數、圓形圖剩餘百分比計錯。睇圖要細心！'
+  }
+];
+
+// ─── QUESTION DATA ───
+function getQuestionData() {
+  return [
+    // T1
+    {id:'q1',trapId:'T1',trapName:'單位與進位',diff:'🌱 基礎',diffClass:'',body:'3 公里 = ？米',options:[{letter:'A',text:'A. 30 米'},{letter:'B',text:'B. 300 米'},{letter:'C',text:'C. 3000 米'},{letter:'D',text:'D. 30000 米'}]},
+    {id:'q2',trapId:'T1',trapName:'單位與進位',diff:'🌿 中等',diffClass:'mid',body:'一個長方形花園長 1.2 公里、闊 800 米。花園的面積是多少<b>平方公里</b>？',options:[{letter:'A',text:'A. 0.96 平方公里'},{letter:'B',text:'B. 9.6 平方公里'},{letter:'C',text:'C. 96 平方公里'},{letter:'D',text:'D. 960 平方公里'}]},
+    {id:'q3',trapId:'T1',trapName:'單位與進位',diff:'🌳 高階',diffClass:'hard',body:'水缸長 80 cm、闊 0.5 m、高 40 cm。注水至高度嘅 3/4，水嘅體積係幾多<b>升</b>？（1 L = 1000 cm³）',options:[{letter:'A',text:'A. 12 升'},{letter:'B',text:'B. 48 升'},{letter:'C',text:'C. 60 升'},{letter:'D',text:'D. 120 升'}]},
+
+    // T2
+    {id:'q4',trapId:'T2',trapName:'小數點',diff:'🌱 基礎',diffClass:'',body:'0.5 × 0.4 = ？',options:[{letter:'A',text:'A. 0.02'},{letter:'B',text:'B. 0.2'},{letter:'C',text:'C. 2'},{letter:'D',text:'D. 20'}]},
+    {id:'q5',trapId:'T2',trapName:'小數點',diff:'🌿 中等',diffClass:'mid',body:'一支鉛筆 $3.5，一個筆盒 $18.8。小明買 4 支鉛筆同 1 個筆盒，俾 $50 紙幣，應找回幾多？',options:[{letter:'A',text:'A. $13.2'},{letter:'B',text:'B. $15.2'},{letter:'C',text:'C. $17.2'},{letter:'D',text:'D. $27.7'}]},
+    {id:'q6',trapId:'T2',trapName:'小數點',diff:'🌳 高階',diffClass:'hard',body:'0.08 ÷ 0.2 × 1.5 = ？',options:[{letter:'A',text:'A. 0.06'},{letter:'B',text:'B. 0.6'},{letter:'C',text:'C. 0.024'},{letter:'D',text:'D. 2.4'}]},
+
+    // T3
+    {id:'q7',trapId:'T3',trapName:'運算次序',diff:'🌱 基礎',diffClass:'',body:'8 + 4 × 3 = ？',options:[{letter:'A',text:'A. 20'},{letter:'B',text:'B. 36'},{letter:'C',text:'C. 44'},{letter:'D',text:'D. 60'}]},
+    {id:'q8',trapId:'T3',trapName:'運算次序',diff:'🌿 中等',diffClass:'mid',body:'(24 − 6 × 2) ÷ 3 + 8² = ？',options:[{letter:'A',text:'A. 12'},{letter:'B',text:'B. 20'},{letter:'C',text:'C. 68'},{letter:'D',text:'D. 72'}]},
+    {id:'q9',trapId:'T3',trapName:'運算次序',diff:'🌳 高階',diffClass:'hard',body:'18 + [ 6 × ( 9 − 4² ÷ 2 ) ] ÷ 3 = ？',options:[{letter:'A',text:'A. 10'},{letter:'B',text:'B. 16'},{letter:'C',text:'C. 20'},{letter:'D',text:'D. 28'}]},
+
+    // T4
+    {id:'q10',trapId:'T4',trapName:'面積公式',diff:'🌱 基礎',diffClass:'',body:'三角形底 8 cm，高 5 cm。面積 = ？',options:[{letter:'A',text:'A. 13 cm²'},{letter:'B',text:'B. 20 cm²'},{letter:'C',text:'C. 40 cm²'},{letter:'D',text:'D. 80 cm²'}]},
+    {id:'q11',trapId:'T4',trapName:'面積公式',diff:'🌿 中等',diffClass:'mid',body:'平行四邊形底 2 m，高 50 cm。面積 = ？<b>cm²</b>',options:[{letter:'A',text:'A. 100 cm²'},{letter:'B',text:'B. 1000 cm²'},{letter:'C',text:'C. 5000 cm²'},{letter:'D',text:'D. 10000 cm²'}]},
+    {id:'q12',trapId:'T4',trapName:'面積公式',diff:'🌳 高階',diffClass:'hard',body:'梯形上底 6、下底 10、斜邊長 8、高 6。求面積時，邊個數字<b>唔需要</b>用到？',options:[{letter:'A',text:'A. 上底 6'},{letter:'B',text:'B. 下底 10'},{letter:'C',text:'C. 斜邊 8'},{letter:'D',text:'D. 高 6'}]},
+
+    // T5
+    {id:'q13',trapId:'T5',trapName:'幾何圖形',diff:'🌱 基礎',diffClass:'',body:'正方形邊長 5 cm。周界 = ？',options:[{letter:'A',text:'A. 10 cm'},{letter:'B',text:'B. 20 cm'},{letter:'C',text:'C. 25 cm'},{letter:'D',text:'D. 25 cm²'}]},
+    {id:'q14',trapId:'T5',trapName:'幾何圖形',diff:'🌿 中等',diffClass:'mid',body:'以下邊個講法<b>一定正確</b>？',options:[{letter:'A',text:'A. 所有菱形都係正方形'},{letter:'B',text:'B. 所有長方形都係平行四邊形'},{letter:'C',text:'C. 所有平行四邊形都係菱形'},{letter:'D',text:'D. 所有梯形都係平行四邊形'}]},
+    {id:'q15',trapId:'T5',trapName:'幾何圖形',diff:'🌳 高階',diffClass:'hard',body:'將一個大正方形分成 4 個相同大小嘅小正方形。每個小正方形嘅周界係 12 cm。原來大正方形嘅面積係幾多 cm²？',options:[{letter:'A',text:'A. 9 cm²'},{letter:'B',text:'B. 36 cm²'},{letter:'C',text:'C. 48 cm²'},{letter:'D',text:'D. 144 cm²'}]},
+
+    // T6
+    {id:'q16',trapId:'T6',trapName:'分數',diff:'🌱 基礎',diffClass:'',body:'1/2 + 1/3 = ？',options:[{letter:'A',text:'A. 1/5'},{letter:'B',text:'B. 2/5'},{letter:'C',text:'C. 5/6'},{letter:'D',text:'D. 2/6'}]},
+    {id:'q17',trapId:'T6',trapName:'分數',diff:'🌿 中等',diffClass:'mid',body:'一支飲品飲咗 3/5，剩低嘅 2/3 俾咗妹妹。妹妹飲咗原本嘅幾分之幾？',options:[{letter:'A',text:'A. 4/15'},{letter:'B',text:'B. 2/5'},{letter:'C',text:'C. 2/3'},{letter:'D',text:'D. 3/5'}]},
+    {id:'q18',trapId:'T6',trapName:'分數',diff:'🌳 高階',diffClass:'hard',body:'書架上層有書 120 本。下層嘅書係上層嘅 3/4，而下層嘅 2/5 係中文書。書架下層有幾多本<b>唔係中文書</b>？',options:[{letter:'A',text:'A. 36 本'},{letter:'B',text:'B. 54 本'},{letter:'C',text:'C. 66 本'},{letter:'D',text:'D. 90 本'}]},
+
+    // T7
+    {id:'q19',trapId:'T7',trapName:'百分數',diff:'🌱 基礎',diffClass:'',body:'一件衫原價 $200，八折出售。售價係幾多？',options:[{letter:'A',text:'A. $80'},{letter:'B',text:'B. $120'},{letter:'C',text:'C. $160'},{letter:'D',text:'D. $180'}]},
+    {id:'q20',trapId:'T7',trapName:'百分數',diff:'🌿 中等',diffClass:'mid',body:'一件貨品加價 20% 後賣 $360。再打九折出售，最終售價係？',options:[{letter:'A',text:'A. $270'},{letter:'B',text:'B. $288'},{letter:'C',text:'C. $324'},{letter:'D',text:'D. $396'}]},
+    {id:'q21',trapId:'T7',trapName:'百分數',diff:'🌳 高階',diffClass:'hard',body:'小明考試有 32 題答錯，佔全部題目嘅 20%。全部有幾多題？如果佢想合格（答啱 ≥ 60%），佢最少要答啱幾多題？',options:[{letter:'A',text:'A. 全部 160 題，最少答啱 96 題'},{letter:'B',text:'B. 全部 160 題，最少答啱 64 題'},{letter:'C',text:'C. 全部 128 題，最少答啱 77 題'},{letter:'D',text:'D. 全部 128 題，最少答啱 96 題'}]},
+
+    // T8
+    {id:'q22',trapId:'T8',trapName:'速率',diff:'🌱 基礎',diffClass:'',body:'一架車以 60 km/h 行駛咗 3 小時，行咗幾遠？',options:[{letter:'A',text:'A. 20 km'},{letter:'B',text:'B. 120 km'},{letter:'C',text:'C. 180 km'},{letter:'D',text:'D. 240 km'}]},
+    {id:'q23',trapId:'T8',trapName:'速率',diff:'🌿 中等',diffClass:'mid',body:'小明由屋企去學校：去程速率 4 km/h，回程用同一條路速率 6 km/h。全程嘅平均速率係幾多 km/h？',options:[{letter:'A',text:'A. 4.8 km/h'},{letter:'B',text:'B. 5 km/h'},{letter:'C',text:'C. 5.2 km/h'},{letter:'D',text:'D. 10 km/h'}]},
+    {id:'q24',trapId:'T8',trapName:'速率',diff:'🌳 高階',diffClass:'hard',body:'A、B 兩車相距 300 km，同時相向而行。A 車速率 70 km/h，B 車速率 50 km/h。幾耐之後兩車相遇？',options:[{letter:'A',text:'A. 2 小時'},{letter:'B',text:'B. 2 小時 30 分鐘'},{letter:'C',text:'C. 3 小時'},{letter:'D',text:'D. 4 小時 17 分鐘'}]},
+
+    // T9
+    {id:'q25',trapId:'T9',trapName:'方程',diff:'🌱 基礎',diffClass:'',body:'如果 x + 7 = 15，x = ？',options:[{letter:'A',text:'A. 7'},{letter:'B',text:'B. 8'},{letter:'C',text:'C. 15'},{letter:'D',text:'D. 22'}]},
+    {id:'q26',trapId:'T9',trapName:'方程',diff:'🌿 中等',diffClass:'mid',body:'解方程：3(x − 4) = 5x − 20',options:[{letter:'A',text:'A. x = −1'},{letter:'B',text:'B. x = 1'},{letter:'C',text:'C. x = 4'},{letter:'D',text:'D. x = 16'}]},
+    {id:'q27',trapId:'T9',trapName:'方程',diff:'🌳 高階',diffClass:'hard',body:'小明諗咗一個數。將呢個數加 5、再乘 3、再減去 9，結果係 36。小明諗嘅數係幾多？',options:[{letter:'A',text:'A. 10'},{letter:'B',text:'B. 12'},{letter:'C',text:'C. 14'},{letter:'D',text:'D. 20'}]},
+
+    // T10
+    {id:'q28',trapId:'T10',trapName:'統計圖表',diff:'🌱 基礎',diffClass:'',body:'棒形圖顯示：星期一賣出 20 個、星期二 35 個、星期三 30 個。<br>星期二比星期一<b>多賣幾多個</b>？',options:[{letter:'A',text:'A. 5 個'},{letter:'B',text:'B. 10 個'},{letter:'C',text:'C. 15 個'},{letter:'D',text:'D. 55 個'}]},
+    {id:'q29',trapId:'T10',trapName:'統計圖表',diff:'🌿 中等',diffClass:'mid',body:'折線圖顯示某商店 1-6 月銷售額（萬元）：<br>1月: 10, 2月: 8, 3月: 14, 4月: 12, 5月: 20, 6月: 18<br>銷售額嘅<b>中位數</b>係幾多萬元？',options:[{letter:'A',text:'A. 12 萬元'},{letter:'B',text:'B. 13 萬元'},{letter:'C',text:'C. 13.7 萬元'},{letter:'D',text:'D. 14 萬元'}]},
+    {id:'q30',trapId:'T10',trapName:'統計圖表',diff:'🌳 高階',diffClass:'hard',body:'某校 P5 有 200 人。圓形圖顯示課外活動分佈：運動 35%、音樂 25%、美術 15%、<b>其餘為無參加</b>。<br>無參加課外活動嘅學生有幾多人？',options:[{letter:'A',text:'A. 25 人'},{letter:'B',text:'B. 30 人'},{letter:'C',text:'C. 40 人'},{letter:'D',text:'D. 50 人'}]}
+  ];
+}
+
+// ─── PERSISTENCE ───
+var STORAGE_KEY = 'lamfung_trap_diag';
+var userAnswers = {};
+
+function loadAnswers() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) userAnswers = JSON.parse(raw);
+  } catch(e) { userAnswers = {}; }
+}
+
+function saveAnswers() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(userAnswers)); } catch(e) {}
+}
+
+function clearAnswers() {
+  userAnswers = {};
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+}
+
+function answeredCount() {
+  return Object.keys(userAnswers).length;
+}
+
+// ─── SECTION SWITCHING ───
+function showSection(name) {
+  var sections = document.querySelectorAll('.section');
+  for (var i = 0; i < sections.length; i++) sections[i].classList.remove('active');
+  var target = document.getElementById('section' + name);
+  if (target) target.classList.add('active');
+
+  var topBar = document.getElementById('topBar');
+  var progressWrap = document.getElementById('progressWrap');
+  var bottomBar = document.getElementById('bottomBar');
+
+  if (name === 'Cover' || name === 'Instructions') {
+    topBar.style.display = 'none';
+    progressWrap.style.display = 'none';
+    if (bottomBar) bottomBar.style.display = 'none';
+  } else if (name === 'Questions') {
+    topBar.style.display = 'flex';
+    progressWrap.style.display = 'block';
+    if (bottomBar) bottomBar.style.display = 'flex';
+  } else if (name === 'Results') {
+    topBar.style.display = 'flex';
+    progressWrap.style.display = 'none';
+    if (bottomBar) bottomBar.style.display = 'none';
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress() {
+  var cnt = answeredCount();
+  var pct = Math.round((cnt / 30) * 100);
+  document.getElementById('topProgress').textContent = cnt + '/30';
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('answeredCount').textContent = '已答：' + cnt + '/30';
+}
+
+// ─── NAVIGATION ───
+window.showInstructions = function() {
+  loadAnswers();
+  var hasProgress = answeredCount() > 0;
+  document.getElementById('resumeBanner').style.display = hasProgress ? 'block' : 'none';
+  document.getElementById('btnResume').style.display = hasProgress ? 'inline-block' : 'none';
+  if (hasProgress) {
+    document.getElementById('resumeCount').textContent = answeredCount();
+  }
+  showSection('Instructions');
+};
+
+window.startTest = function(resume) {
+  if (!resume) clearAnswers();
+  loadAnswers();
+  renderQuestions();
+  updateProgress();
+  showSection('Questions');
+};
+
+window.retakeTest = function() {
+  if (confirm('確定要重新測試嗎？你現有嘅答案會被清除。')) {
+    clearAnswers();
+    showInstructions();
+  }
+};
+
+// ─── RENDER QUESTIONS ───
+function renderQuestions() {
+  var questions = getQuestionData();
+  var container = document.getElementById('questionsContainer');
+  var html = '';
+  var currentTrap = null;
+
+  for (var i = 0; i < questions.length; i++) {
+    var q = questions[i];
+    if (q.trapId !== currentTrap) {
+      currentTrap = q.trapId;
+      var trap = findTrap(currentTrap);
+      if (trap) {
+        html += '<div class="section-header"><span>' + trap.id + '</span> ' + trap.name + ' <span class="trap-badge">🪤 陷阱</span></div>';
+      }
+    }
+
+    var sel = userAnswers[q.id] || '';
+    html += '<div class="question-box' + (sel ? ' answered' : '') + '" id="box-' + q.id + '">';
+    html += '<div class="q-meta">';
+    html += '<span class="q-num">Q' + (i + 1) + '</span>';
+    html += '<span class="q-diff' + (q.diffClass ? ' ' + q.diffClass : '') + '">' + q.diff + '</span>';
+    html += '<span class="q-trap">' + q.trapId + ' · ' + q.trapName + '</span>';
+    html += '</div>';
+    html += '<div class="q-body">' + q.body + '</div>';
+    html += '<div class="q-options">';
+
+    for (var j = 0; j < q.options.length; j++) {
+      var opt = q.options[j];
+      var isSel = sel === opt.letter;
+      html += '<div class="q-option' + (isSel ? ' selected' : '') + '" onclick="selectAnswer(\'' + q.id + '\',\'' + opt.letter + '\')" data-q="' + q.id + '" data-opt="' + opt.letter + '">';
+      html += '<span class="opt-letter">' + opt.letter + '</span>';
+      html += '<span>' + opt.text + '</span>';
+      html += '</div>';
+    }
+
+    html += '</div></div>';
+  }
+
+  container.innerHTML = html;
+}
+
+function findTrap(id) {
+  for (var i = 0; i < TRAPS.length; i++) {
+    if (TRAPS[i].id === id) return TRAPS[i];
+  }
+  return null;
+}
+
+// ─── SELECT ANSWER ───
+window.selectAnswer = function(qId, letter) {
+  userAnswers[qId] = letter;
+  saveAnswers();
+
+  var box = document.getElementById('box-' + qId);
+  if (box) {
+    box.classList.add('answered');
+    var opts = box.querySelectorAll('.q-option');
+    for (var i = 0; i < opts.length; i++) {
+      opts[i].classList.remove('selected');
+      if (opts[i].getAttribute('data-opt') === letter) {
+        opts[i].classList.add('selected');
+      }
+    }
+  }
+  updateProgress();
+};
+
+// ─── SUBMIT & SCORE ───
+window.submitTest = function() {
+  var answered = answeredCount();
+  if (answered < 30) {
+    if (!confirm('你仲有 ' + (30 - answered) + ' 題未答。未答嘅題目會當作答錯。確定要睇報告嗎？')) return;
+  }
+
+  // Score each trap
+  var trapResults = [];
+  for (var i = 0; i < TRAPS.length; i++) {
+    var trap = TRAPS[i];
+    var correct = 0;
+    for (var j = 0; j < trap.questions.length; j++) {
+      if (userAnswers[trap.questions[j]] === ANSWER_KEY[trap.questions[j]]) correct++;
+    }
+    var status;
+    if (correct === 3) status = 'green';
+    else if (correct === 2) status = 'yellow';
+    else status = 'red';
+    trapResults.push({trap:trap, correct:correct, status:status});
+  }
+
+  var totalCorrect = 0;
+  for (var k = 0; k < trapResults.length; k++) totalCorrect += trapResults[k].correct;
+  var totalPct = Math.round((totalCorrect / 30) * 100);
+
+  var grade, gradeClass, encouragement;
+  if (totalPct >= 90) {
+    grade = 'A+ 陷阱大師';
+    gradeClass = 'great';
+    encouragement = '你好叻！對陷阱嘅敏感度極高，繼續保持！';
+  } else if (totalPct >= 80) {
+    grade = 'A 陷阱敏銳';
+    gradeClass = 'great';
+    encouragement = '表現好好！大部分陷阱都避到，留意下黃色區域就可以更上一層樓。';
+  } else if (totalPct >= 70) {
+    grade = 'B 陷阱警覺';
+    gradeClass = 'good';
+    encouragement = '唔錯！但紅色陷阱區域需要重點加強，睇下報告搵出弱點。';
+  } else if (totalPct >= 60) {
+    grade = 'C 陷阱注意';
+    gradeClass = 'good';
+    encouragement = '有進步空間。紅色陷阱係你嘅弱點，建議報讀相關霖楓學苑課程。';
+  } else if (totalPct >= 50) {
+    grade = 'D 陷阱高危';
+    gradeClass = 'needs-work';
+    encouragement = '你嘅陷阱敏感度需要大幅提升。唔好灰心，每個陷阱都可以透過練習克服！';
+  } else {
+    grade = 'E 需要救援';
+    gradeClass = 'needs-work';
+    encouragement = '陷阱係你嘅頭號敵人！建議由基礎課程開始，一步步建立陷阱敏感度。我哋會幫你！';
+  }
+
+  var greenCount = 0, yellowCount = 0, redCount = 0;
+  for (var m = 0; m < trapResults.length; m++) {
+    if (trapResults[m].status === 'green') greenCount++;
+    else if (trapResults[m].status === 'yellow') yellowCount++;
+    else redCount++;
+  }
+
+  // Build results HTML
+  var html = '';
+  html += '<div class="results-hero">';
+  html += '<div class="results-score-circle ' + gradeClass + '">';
+  html += '<div class="results-score-num">' + totalCorrect + '/30</div>';
+  html += '<div class="results-score-label">正確</div>';
+  html += '</div>';
+  html += '<div class="results-grade" style="color:' + (gradeClass === 'great' ? 'var(--green)' : gradeClass === 'good' ? 'var(--blue)' : 'var(--red)') + ';">' + grade + '</div>';
+  html += '<div class="results-msg">' + encouragement + '</div>';
+  html += '</div>';
+
+  // Summary stats
+  html += '<div class="report-summary">';
+  html += '<div class="report-stat-card"><div class="big-num green">' + greenCount + '</div><div class="label">🟢 陷阱敏銳</div></div>';
+  html += '<div class="report-stat-card"><div class="big-num amber">' + yellowCount + '</div><div class="label">🟡 需要複習</div></div>';
+  html += '<div class="report-stat-card"><div class="big-num red">' + redCount + '</div><div class="label">🔴 陷阱弱點</div></div>';
+  html += '<div class="report-stat-card"><div class="big-num" style="color:var(--blue);">' + totalPct + '%</div><div class="label">總正確率</div></div>';
+  html += '</div>';
+
+  // Trap cards
+  html += '<h2 style="font-size:18px;font-weight:900;color:var(--blue);margin:20px 0 12px;text-align:center;">陷阱敏感度分析 · T1-T10</h2>';
+  html += '<div class="trap-cards">';
+
+  for (var n = 0; n < trapResults.length; n++) {
+    var tr = trapResults[n];
+    var t = tr.trap;
+    var statusLabel = tr.status === 'green' ? '🟢 敏銳' : tr.status === 'yellow' ? '🟡 複習' : '🔴 弱點';
+    var sc = tr.status;
+
+    html += '<div class="trap-card ' + sc + '">';
+    html += '<div class="trap-card-header">';
+    html += '<span class="trap-card-tag">' + t.id + ' ' + t.icon + '</span>';
+    html += '<span class="trap-card-status ' + sc + '">' + statusLabel + '</span>';
+    html += '</div>';
+    html += '<div class="trap-card-name">' + t.name + '</div>';
+    html += '<div class="trap-card-score ' + sc + '">' + tr.correct + '/3</div>';
+    html += '<div class="trap-card-recommendation">';
+
+    if (tr.status === 'green') {
+      html += '做得好！你對呢個陷阱類型好敏銳，繼續保持。';
+    } else if (tr.status === 'yellow') {
+      html += '⚠️ ' + t.recommendation + '<br>';
+      html += '<span class="lesson">📚 ' + t.lesson + '</span>';
+    } else {
+      html += '🚨 ' + t.weakMsg + '<br>';
+      html += '<span class="lesson">📚 建議報讀：' + t.lesson + '</span>';
+    }
+
+    html += '</div></div>';
+  }
+  html += '</div>';
+
+  // Action recommendation box
+  if (redCount > 0) {
+    html += '<div style="background:var(--blue);color:white;padding:16px 20px;border-radius:8px;margin-top:16px;font-size:13px;line-height:1.8;">';
+    html += '<strong style="font-size:15px;">📋 下一步行動建議</strong><br>';
+    html += '1. 優先處理 🔴 紅色陷阱 → 報讀對應霖楓學苑課程<br>';
+    html += '2. 每星期做 3-5 題相關陷阱題 → 建立「陷阱敏感度」<br>';
+    html += '3. 做完學校試卷後，用呢個框架覆卷 → 檢查仲有冇中同一類陷阱<br>';
+    html += '4. WhatsApp 我哋預約<b>免費陷阱診斷分析</b>';
+    html += '</div>';
+  }
+
+  document.getElementById('resultsContainer').innerHTML = html;
+  showSection('Results');
+  document.getElementById('topProgress').textContent = totalCorrect + '/30';
+
+  // Confetti for 80%+
+  if (totalPct >= 80) launchConfetti();
+
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+// ─── CONFETTI ───
+function launchConfetti() {
+  var container = document.getElementById('confettiContainer');
+  var colors = ['#DC2626','#16A34A','#1A3C6D','#C9A84C','#F59E0B','#8B5CF6','#EC4899','#06B6D4'];
+  var count = 80;
+
+  for (var i = 0; i < count; i++) {
+    var piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+    piece.style.animationDelay = Math.random() * 2 + 's';
+    piece.style.width = (6 + Math.random() * 10) + 'px';
+    piece.style.height = (6 + Math.random() * 10) + 'px';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    container.appendChild(piece);
+
+    // Clean up this piece after its animation
+    (function(p) {
+      setTimeout(function() { p.remove(); }, 5000);
+    })(piece);
+  }
+}
+
+// ─── WHATSAPP SHARE ───
+window.shareWhatsApp = function() {
+  var totalCorrect = 0;
+  for (var i = 0; i < TRAPS.length; i++) {
+    for (var j = 0; j < TRAPS[i].questions.length; j++) {
+      if (userAnswers[TRAPS[i].questions[j]] === ANSWER_KEY[TRAPS[i].questions[j]]) totalCorrect++;
+    }
+  }
+  var totalPct = Math.round((totalCorrect / 30) * 100);
+
+  var redTrapNames = [];
+  for (var k = 0; k < TRAPS.length; k++) {
+    var corr = 0;
+    for (var m = 0; m < TRAPS[k].questions.length; m++) {
+      if (userAnswers[TRAPS[k].questions[m]] === ANSWER_KEY[TRAPS[k].questions[m]]) corr++;
+    }
+    if (corr <= 1) redTrapNames.push(TRAPS[k].name);
+  }
+
+  var msg = '🔍 霖楓學苑陷阱敏感度診斷報告%0A';
+  msg += '📊 總分：' + totalCorrect + '/30 (' + totalPct + '%)%0A';
+  if (redTrapNames.length > 0) {
+    msg += '🚨 弱點陷阱：' + redTrapNames.join('、') + '%0A';
+  }
+  msg += '%0A不教數學，教避開陷阱。%0A';
+  msg += 'www.lamfung.edu.hk';
+
+  window.open('https://wa.me/?text=' + msg, '_blank');
+};
+
+// ─── INIT ───
+loadAnswers();
+
+})();
+</script>
+
+</body>
+</html>

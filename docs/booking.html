@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 線上預約試堂</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:700px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;margin-bottom:4px}
+.header p{font-size:13px;opacity:0.8}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #E5E7EB}
+.slot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.slot{background:white;border:2px solid #E5E7EB;border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all 0.2s;font-size:13px}
+.slot:hover{border-color:#1A3C6D;background:#F0F7FF}
+.slot.selected{border-color:#1A3C6D;background:#DBEAFE;font-weight:700}
+.slot.booked{background:#FEF2F2;border-color:#FECACA;color:#DC2626;cursor:not-allowed}
+.slot .time{font-weight:900;font-size:15px}
+.slot .date{font-size:11px;color:#6B7280}
+select,input{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+.btn{display:block;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;border:none;font-family:inherit;background:#DC2626;color:white}
+.btn:hover{background:#B91C1C}
+.confirm-box{display:none;background:#F0FDF4;border:2px solid #BBF7D0;border-radius:14px;padding:24px;text-align:center;margin-top:16px}
+.confirm-box .icon{font-size:48px}
+.booking-list{font-size:12px}
+.booking-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F3F4F6}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>📅 線上預約免費試堂</h1>
+<p>30分鐘 · 陷阱診斷 · 零壓力 · 冇義務報名</p>
+</div>
+
+<div class="card">
+<h2>選擇時段</h2>
+<div style="display:flex;gap:8px;margin-bottom:12px;overflow-x:auto">
+<button class="quick-date active" style="padding:8px 16px;border-radius:20px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit" onclick="showSlots(0)">今天</button>
+<button class="quick-date" style="padding:8px 16px;border-radius:20px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit" onclick="showSlots(1)">明天</button>
+<button class="quick-date" style="padding:8px 16px;border-radius:20px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit" onclick="showSlots(2)">後天</button>
+</div>
+<div class="slot-grid" id="slots"></div>
+</div>
+
+<div class="card">
+<h2>你的資料</h2>
+<input type="text" id="bkName" placeholder="家長名稱">
+<input type="tel" id="bkPhone" placeholder="WhatsApp 號碼">
+<select id="bkGrade"><option value="">小朋友年級</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<input type="text" id="bkNote" placeholder="備註（選填）：例如想專注邊個課題">
+<button class="btn" onclick="confirmBooking()">✅ 確認預約</button>
+</div>
+
+<div class="confirm-box" id="confirmBox">
+<div class="icon">✅</div>
+<h3>預約成功！</h3>
+<p id="confirmMsg"></p>
+<p style="font-size:12px;color:#6B7280;margin-top:8px">我哋會喺上堂前 WhatsApp 提醒你</p>
+<a href="https://wa.me/85294796459" style="display:inline-block;margin-top:12px;padding:10px 24px;background:#25D366;color:white;border-radius:25px;text-decoration:none;font-weight:700">📱 WhatsApp 查詢</a>
+</div>
+
+<div class="card">
+<h2>最近預約</h2>
+<div class="booking-list" id="bookingList"><p style="color:#9CA3AF;text-align:center;padding:20px;font-size:12px">未有預約記錄</p></div>
+</div>
+</div>
+
+<script>
+var selectedSlot=null,currentDay=0;
+var days=["今天","明天","後天"];
+var times=["3:30PM","4:15PM","5:00PM","5:45PM","6:30PM"];
+
+function showSlots(day){
+currentDay=day;selectedSlot=null;
+document.querySelectorAll(".quick-date").forEach(function(b,i){b.classList.toggle("active",i===day)});
+var now=new Date();now.setDate(now.getDate()+day);
+var dateStr=now.toISOString().split("T")[0];
+var bookings=JSON.parse(localStorage.getItem("lf_bookings")||"[]");
+var html="";
+times.forEach(function(t){
+var booked=bookings.some(function(b){return b.date===dateStr&&b.time===t});
+html+='<div class="slot'+(booked?' booked':'')+'" onclick="'+(booked?'':'selectSlot(this,\''+dateStr+'\',\''+t+'\')')+'"><div class="time">'+t+'</div><div class="date">'+dateStr+'</div>'+(booked?'<div style="font-size:10px">已預約</div>':'')+'</div>';
+});
+document.getElementById("slots").innerHTML=html;
+}
+function selectSlot(el,date,time){
+document.querySelectorAll(".slot").forEach(function(s){s.classList.remove("selected")});
+el.classList.add("selected");selectedSlot={date:date,time:time};
+}
+
+function confirmBooking(){
+var name=document.getElementById("bkName").value.trim();
+var phone=document.getElementById("bkPhone").value.trim();
+var grade=document.getElementById("bkGrade").value;
+if(!name||!phone||!grade)return alert("請填寫所有資料");
+if(!selectedSlot)return alert("請選擇一個時段");
+
+var booking={name:name,phone:phone,grade:grade,date:selectedSlot.date,time:selectedSlot.time,note:document.getElementById("bkNote").value,created:new Date().toISOString()};
+var bookings=JSON.parse(localStorage.getItem("lf_bookings")||"[]");
+bookings.push(booking);
+localStorage.setItem("lf_bookings",JSON.stringify(bookings));
+
+document.getElementById("confirmBox").style.display="block";
+document.getElementById("confirmMsg").textContent=name+" · "+selectedSlot.date+" "+selectedSlot.time+" · "+grade;
+document.getElementById("confirmBox").scrollIntoView({behavior:"smooth"});
+showSlots(currentDay);renderBookings();
+}
+function renderBookings(){
+var bookings=JSON.parse(localStorage.getItem("lf_bookings")||"[]");
+var list=document.getElementById("bookingList");
+if(bookings.length===0)return;
+list.innerHTML=bookings.slice(-5).reverse().map(function(b){return'<div class="booking-item"><span>'+b.name+' · '+b.grade+'</span><span>'+b.date+' '+b.time+'</span></div>'}).join("");
+}
+showSlots(0);renderBookings();
+</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<div style="text-align:center;margin:20px 0"><a href="/docs/pay.html" style="display:inline-block;background:#16A34A;color:white;padding:12px 30px;border-radius:25px;text-decoration:none;font-weight:700">💳 付款 →</a></div>
+
+<div style="text-align:center;padding:20px;font-size:12px;color:#9CA3AF;border-top:1px solid #E5E7EB;margin-top:20px">
+<a href="/docs/app-v2.html" style="color:#1A3C6D;font-weight:700;text-decoration:none">🏠 霖楓 App 主控台</a> · 
+<a href="/docs/login.html" style="color:#6B7280;text-decoration:none">登入</a> · 
+<a href="/docs/faq.html" style="color:#6B7280;text-decoration:none">FAQ</a>
+</div>
+</body></html>

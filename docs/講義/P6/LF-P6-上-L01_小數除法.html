@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-上-L01 小數除法（÷整數+÷小數）+餘數定位 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 1 堂 · 學生版講義</div>
+  <div class="cv-title">小數除法（÷整數 + ÷小數）+ 餘數定位</div>
+  <div class="cv-sub">單元一 · 小數運算 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6上A冊 單元一 ＋ 現代教育 6上A 單元1<br>
+    <b>核心陷阱：</b>T2 小數除法 — 除數移位後餘數小數點忘記還原 · 商的小數點位置錯誤<br>
+    <b>SSPA 關聯：</b><span class="ss sh">高頻</span> 呈分試每年必考，佔卷一約 12-18%<br>
+    <b>前置知識：</b>P5 小數乘法（堂6-7）· 整數除法（P4）· 小數加減（P4-P5）<br>
+    <b>本堂目標：</b>小數÷整數 小數÷小數（同步移位） 餘數小數點定位 應用題
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">計算 48 ÷ 6 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">計算 125 ÷ 5 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">計算 3.6 + 2.4 = ？（P5 小數加法複習）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">計算 5.8 − 2.3 = ？（P5 小數減法複習）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">把 4.5 元寫成「___元___角」</td><td class="qd d2">進階</td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：小數 ÷ 整數<span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>計算步驟：</strong><br>
+      用直式計算：<br>
+      商的小數點要<strong>對齊被除數的小數點</strong><br>
+      如有餘數，在餘數後補「0」繼續除<br>
+      不夠除時商要寫「0」，不可跳位<br>
+      <strong>關鍵記憶點：</strong>「商的小數點 = 被除數的小數點」
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題（本堂最重要的示範）</div>
+    <div class="ex-q">計算：7.5 ÷ 5 = ？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤（60% 學生）</div><div class="eq">7.5 ÷ 5 = 15</div><div class="why">忘記在商加小數點 — 7.5 ÷ 5 = 1.5，不是 15</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">7.5 ÷ 5 = 1.5</div><div class="why">5 × 1 = 5，餘 2.5；5 × 0.5 = 2.5，商 = 1.5</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「商的小數點，對齊被除數；餘數補個零，繼續除落去」</div>
+  <div class="warn">最高頻錯誤：忘記在商標小數點。記住：7.5 ÷ 5 = 1.5，不是 15！</div>
+  <div class="warn">第二高頻錯誤：餘數後忘記補 0 繼續除，導致商不準確。</div>
+
+  <div class="h2">知識點一 例題練習（寫出直式計算過程）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">例1</td><td class="qtxt">3.6 ÷ 3 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">例2</td><td class="qtxt">9.2 ÷ 4 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：小數 ÷ 小數（同步移位法）<span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>同步移位三步法：</strong><br>
+      除數是<strong>小數</strong>時，利用「被除數和除數同時乘 10/100/1000」的性質：<br>
+      除數有 1 位小數 → 兩數同時 × 10<br>
+      除數有 2 位小數 → 兩數同時 × 100<br>
+      除數有 3 位小數 → 兩數同時 × 1000<br>
+      <strong>本質：</strong>將「小數÷小數」變成「整數÷整數」來計算
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：3.6 ÷ 1.2 = ？（除數有 1 位小數，兩數同時 × 10：36 ÷ 12）</div></div>
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：0.75 ÷ 0.15 = ？（除數有 2 位小數，兩數同時 × 100：75 ÷ 15）</div></div>
+
+  <div class="h2">知識點二 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">4.8 ÷ 0.6 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">5.4 ÷ 0.9 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">2.4 ÷ 1.2 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">7.2 ÷ 2.4 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">9.1 ÷ 1.3 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3: KP3 + PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：餘數小數點定位 — 「世紀災難」專項<span class="ss sh">SSPA 終極陷阱</span></div>
+    <div class="kp-rules">
+      <strong>核心規則（極易出錯！）：</strong><br>
+      同步移位後，<strong>餘數的小數點 = 被除數<u>原來的</u>小數點位置</strong><br>
+      <br>
+      例：1.5 ÷ 0.4 → 同步 × 10 → 15 ÷ 40<br>
+      15 ÷ 40 = 0 餘 15（但這是移位後的餘數！）<br>
+      <strong>還原：</strong>餘數 15 要 ÷ 10 → 真正的餘數是 <strong>1.5</strong><br>
+      <br>
+      或以直式直接計算：1.5 ÷ 0.4 = 3 餘 0.3<br>
+      <strong>驗算：</strong>0.4 × 3 + 0.3 = 1.2 + 0.3 = 1.5 ✓
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">世紀災難例題</div>
+    <div class="ex-q">例5：2.3 ÷ 0.6 = ？（求商和餘數）</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">世紀災難（85% 學生錯）</div><div class="eq">2.3 ÷ 0.6 = 3 餘 5</div><div class="why">同步 × 10 後 23 ÷ 6 = 3 餘 5，忘記餘數要 ÷ 10 還原！</div></div>
+      <div class="tc-r"><div class="lbl">正確答案</div><div class="eq">2.3 ÷ 0.6 = 3 餘 0.5</div><div class="why">驗算：0.6 × 3 + 0.5 = 1.8 + 0.5 = 2.3 ✓</div></div>
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例6：3.7 ÷ 0.8 = ？（求商和餘數）</div></div>
+
+  <div class="mn">口訣：「移位計完要還原，餘數跟返原小數點；驗算乘除加餘數，唔驗算實出事」</div>
+  <div class="warn">世紀災難：同步移位後餘數忘記還原！移位時 ×10/×100，餘數必須 ÷10/÷100 還原！</div>
+
+  <div class="h2">知識點三 同步練習（每題求商和餘數，必須驗算）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">1.7 ÷ 0.5 = ？（求商和餘數）</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">2.5 ÷ 0.7 = ？（求商和餘數）</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">4.3 ÷ 1.2 = ？（求商和餘數）</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">5.8 ÷ 1.6 = ？（求商和餘數）</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">3.2 ÷ 0.9 = ？（求商和餘數）</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點四：應用題<span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>解題四步法：</strong>圈關鍵詞 列式 計算（移位+直式） 寫完整答句<br>
+      注意單位一致性 — 元/角、米/厘米 要統一後再計算<br>
+      注意餘數的實際意義 — 「還剩多少錢」「還剩多少米」
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例7：一條絲帶長 6.4 米，每 0.8 米剪成一段。最多可剪成多少段？還剩多少米？</div></div>
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例8：媽媽有 50 元，每包糖售 3.5 元。最多可買多少包？還剩多少元？</div></div>
+
+  <div class="h2">應用題練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">16</td><td class="qtxt">一根繩子長 9.6 米，每 2.4 米剪成一段。可剪成多少段？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">小明有 20 元，每枝鉛筆售 3.2 元。最多可買多少枝？還剩多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">基礎層（共 6 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">6.4 ÷ 2 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">8.1 ÷ 3 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">4.5 ÷ 5 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">2.4 ÷ 0.4 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">6.3 ÷ 0.9 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">3.6 ÷ 1.2 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">進階層（共 6 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">24</td><td class="qtxt">9.75 ÷ 2.5 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">14.4 ÷ 3.6 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">0.84 ÷ 0.12 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">27</td><td class="qtxt">1.26 ÷ 0.3 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">2.8 ÷ 0.7 = ？（求商和餘數）</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">3.5 ÷ 0.6 = ？（求商和餘數）</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">挑戰層（共 5 題，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">30</td><td class="qtxt">5.76 ÷ 1.8 = ？</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">0.056 ÷ 0.007 = ？</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">32</td><td class="qtxt">4.7 ÷ 1.3 = ？（求商和餘數，商取整數）</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">33</td><td class="qtxt">一條絲帶長 15.6 米，每 2.4 米做一個蝴蝶結。最多可做多少個？還剩多少米絲帶？</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">34</td><td class="qtxt">3.85 ÷ 1.1 = ？（求商至小數點後一位，並寫出餘數）</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（呈分試文字題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">35</td><td class="qtxt">一瓶橙汁 2.4 升，平均分給 6 人。每人得橙汁多少升？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">36</td><td class="qtxt">5.5 公斤的米，每 0.5 公斤裝一袋。共可裝多少袋？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">37</td><td class="qtxt">一張長方形紙的面積是 18.6 cm²，長是 6.2 cm。闊是多少 cm？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">38</td><td class="qtxt">爸爸駕車 3.5 小時行駛了 227.5 公里。平均每小時行駛多少公里？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">39</td><td class="qtxt">一個長方形花園的周界是 18.4 米，闊是 3.6 米。長是多少米？</td><td class="qd d3"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">40</td><td class="qtxt">小美用 38.5 元買了 5.5 公斤的蘋果，每公斤蘋果售多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="h1">五、終極挑戰專區</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">計算：(8.4 − 2.7) ÷ 1.9 = ？（先計括號內減法，再做除法）</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">小明有 100 元，買了 3 本每本售 15.8 元的書。餘下的錢每枝 3.5 元的原子筆最多可買多少枝？還剩多少元？</td><td class="qd d4"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">超市的橙汁：A 牌子 2.5 升售 32.5 元，B 牌子 1.8 升售 25.2 元。哪個牌子每升較便宜？便宜多少？（答案取至小數點後一位）</td><td class="qd d4"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 6 題，必須寫直式計算）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">7.2 ÷ 3 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">9.6 ÷ 4 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">5.6 ÷ 0.8 = ？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">3.6 ÷ 1.2 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">4.5 ÷ 0.9 = ？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">2.8 ÷ 0.7 = ？（求商和餘數）</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">8.64 ÷ 2.4 = ？</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">一條繩子長 12.8 米，每 3.2 米剪一段。可剪多少段？</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H9</td><td class="qtxt">3.85 ÷ 0.55 = ？（提示：除數有 2 位小數，同步 × 100）</td><td class="qd d4"></td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>商的小數點位置錯誤：</strong>7.5 ÷ 5 寫成 15 而非 1.5</td><td>商的小數點對齊被除數的小數點</td></tr>
+    <tr><td>2</td><td><strong>除數移位時只移除數不移被除數：</strong>3.6 ÷ 1.2 只把 1.2 × 10</td><td>被除數和除數必須同步移位（同時 × 相同倍數）</td></tr>
+    <tr><td>3</td><td><strong>移位後餘數忘記還原（世紀災難）：</strong>2.3 ÷ 0.6 寫成 3 餘 5</td><td>餘數要 ÷ 移位倍數還原，或用驗算確認</td></tr>
+    <tr><td>4</td><td><strong>不夠除時忘記商寫「0」：</strong>1.2 ÷ 5，商應為 0.24 而非 24</td><td>每一位都要有商，不夠除就寫 0</td></tr>
+    <tr><td>5</td><td><strong>除到最後忘記補 0 繼續：</strong>7 ÷ 4 = 1.75，不是 1 餘 3</td><td>有餘數時補 0 繼續除，直到整除或指定小數位</td></tr>
+    <tr><td>6</td><td><strong>應用題單位忘記換算：</strong>元和角、米和厘米混用</td><td>先統一單位再計算</td></tr>
+    <tr><td>7</td><td><strong>應用題漏答句／漏寫餘數：</strong>只寫商，不寫「還剩」</td><td>完整答句包括商和餘數，否則扣步驟分</td></tr>
+  </table>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱 · LF-P6-上-L01</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF &nbsp;|&nbsp; 6頁 · 45題 &nbsp;|&nbsp; LF-P6-上-L01 v6
+</div>
+
+</body>
+</html>

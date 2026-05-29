@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-上-L12 SSPA專項：應用題+幾何題滿分 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .cover { justify-content:center; align-items:center; text-align:center; background:var(--white); }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:16px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:28px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:18px 24px; font-size:12px; line-height:2; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  .h1 { font-family:'Noto Serif HK',serif; font-size:17px; font-weight:900; color:var(--blue); padding:7px 12px; margin:18px 0 10px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:14px; font-weight:700; color:var(--blue); margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc); }
+
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:80px; background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px); }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .geo-svg { display:block; margin:8px auto; max-width:100%; }
+  .geo-row { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin:8px 0; }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 12 堂 · 學生版講義</div>
+  <div class="cv-title">SSPA專項：應用題+幾何題滿分</div>
+  <div class="cv-sub">上學期 · SSPA 備戰系列 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6上A冊 百分數·速率·圓 ＋ 呈分試歷屆試題 2021-2025<br>
+    <b>核心陷阱：</b>T4 百分數應用「比...多」vs「是...的」混淆；T8 圓周率=3.14還是22/7；T6 速率=距離÷時間<br>
+    <b>SSPA 關聯：</b><span class="ss sh">高頻</span> 應用題和幾何題佔呈分試卷約 35-50%，決定A/B等級<br>
+    <b>前置知識：</b>L01-L11 百分數·分數運算·圓面積/周界·速率公式·四則運算<br>
+    <b>本堂目標：</b>① 百分數應用題秒圈關鍵詞 ② 圓周界/面積公式零混亂 ③ 速率三步法 ④ 70%呈分試真題模式
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">200 的 15% 是多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">圓形半徑 7 cm。圓周界 = ？（取 =3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">一架車 3 小時行 180 km。平均速率 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">原價 $200，八折後售價 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">圓形半徑 4 cm。面積 = ？（取 =3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：百分數應用題 — 關鍵詞識別法 <span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>四種百分數題型：</strong><br>
+      ① <strong>求部分</strong>：「...的 X%」→ 整體 × 百分數（例：200的15% = 200×0.15=30）<br>
+      ② <strong>求整體</strong>：「部分佔整體的 Y%」→ 整體 = 部分 ÷ 百分數<br>
+      ③ <strong>求百分數</strong>：「A是B的...%」→ 百分數 = A÷B×100%<br>
+      ④ <strong>變化率</strong>：「比原來多了/少了 Z%」→ 新值 = 原值 × (1±Z%)<br>
+      <strong>陷阱關鍵詞區分：</strong>「是...的」≠「比...多」——前者直接乘，後者要加1
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題 — 「比...多」vs「是...的」</div>
+    <div class="ex-q">蘋果原價 $50。（A）蘋果是橙的 80%。橙多少元？（B）蘋果比橙貴 25%。橙多少元？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤</div><div class="eq">(A) 橙 = 50÷0.8=62.5  &nbsp; (B) 橙 = 50×0.75=37.5</div><div class="why">(B)「比...貴25%」意思係橙×(1+25%)=50，所以橙=50÷1.25，不是50×0.75</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">(A) 橙 = 50÷0.8 = $62.5 &nbsp; (B) 橙 = 50÷1.25 = $40</div><div class="why">關鍵詞決定公式：「是...的」→除法；「比...多」→先還原1倍</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「是就除，多就加一除，少就減一除。圈關鍵詞再決定公式。」</div>
+
+  <div class="h2">KP1 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">書架有 320 本書，小說佔 45%。小說有多少本？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">小明有 $180，是弟弟的 120%。弟弟有多少元？</td><td class="qd d2">進階</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">一件貨品比原價貴了 30%，現售 $520。原價多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">某數的 12.5% 是 25。求該數。</td><td class="qd d2">進階</td><td class="qw" style="min-height:46px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3: KP2 — 圓周界與面積 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：圓周界與面積 — 公式零混亂 <span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>必須記住兩個公式（不能調轉！）：</strong><br>
+      ① <strong>周界</strong>：C = 2r = d（一條線的長度，單位：cm/m）<br>
+      ② <strong>面積</strong>：A = r²（一個面的範圍，單位：cm²/m²）<br>
+      ③ = 3.14（精確計算）或 <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>（分數題）<br>
+      ④ <strong>半圓周界 ≠ 半個圓周</strong>：半圓周界 = r + 2r（弧長+直徑！）
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:6px 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 160" width="180" height="160">
+      <circle cx="90" cy="70" r="60" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/>
+      <circle cx="90" cy="70" r="3" fill="#1A3C6D"/>
+      <text x="90" y="63" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text>
+      <line x1="90" y1="70" x2="150" y2="70" stroke="#1A3C6D" stroke-width="2"/>
+      <text x="120" y="63" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text>
+      <line x1="30" y1="78" x2="150" y2="78" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/>
+      <text x="90" y="92" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text>
+    </svg>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題 — 半圓周界</div>
+    <div class="ex-q">一個半圓形花圃，直徑 14 m。求其周界。（取 = 22/7）</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤</div><div class="eq">半圓周界 = 14÷2×22/7 = 22 m</div><div class="why">只計左弧長（半個圓周），忘左仲有直徑！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">半圓周界 = r + d = 7×22/7 + 14 = 22 + 14 = <strong>36 m</strong></div><div class="why">半圓周界 = 弧長(半個圓周) + 直徑</div></div>
+    </div>
+  </div>
+
+  <div class="warn">最高頻陷阱：圓周界和面積公式調轉！C有d/r，A有r²。單位也不同：周界是cm，面積是cm²。</div>
+
+  <div class="h2">KP2 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">10</td><td class="qtxt">圓形半徑 5 cm。求面積。（ = 3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">圓形直徑 20 cm。求周界。（ = 3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">一個半圓，半徑 10 cm。求周界。（ = 3.14，留意：弧長 + 直徑）</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">一個圓形花圃周界是 62.8 m。求其半徑。（ = 3.14）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: KP3 — 速率 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：速率應用題 — 三步法 + 單位陷阱 <span class="ss sh">SSPA 高頻</span></div>
+    <div class="kp-rules">
+      <strong>速率萬能公式：</strong>距離 = 速率 × 時間<br>
+      ① <strong>公式變形</strong>：速率 = 距離 ÷ 時間 &nbsp; 時間 = 距離 ÷ 速率（三個量知二求一）<br>
+      ② <strong>單位一致性陷阱</strong>：速率 km/h，時間必須是「小時」，不是「分鐘」！<br>
+      ③ 時間轉換：分鐘÷60=小時 &nbsp; 或全部轉分鐘用分鐘速率<br>
+      ④ <strong>SSPA常考</strong>：中途停留、不同路段不同速率
+    </div>
+  </div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">圈單位</div><div class="d">速率單位是km/h還是m/min？</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">統一單位</div><div class="d">時間必須和速率單位一致</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">選公式</div><div class="d">D=S×T／S=D÷T／T=D÷S</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">代數+答句</div><div class="d">計算＋完整答句</div></div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題 — 時間單位不一致</div>
+    <div class="ex-q">一輛巴士以 72 km/h 行駛 30 分鐘。行了多少 km？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤</div><div class="eq">距離 = 72 × 30 = 2160 km</div><div class="why">30係分鐘，但速率係km/h！必須轉成小時：30min=0.5h</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">距離 = 72 × 0.5 = <strong>36 km</strong></div><div class="why">30分鐘 = 30÷60 = 0.5 小時</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「速率、距離、時間，知二求一。速率用km/h，時間要跟小時。」</div>
+
+  <div class="h2">KP3 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">14</td><td class="qtxt">一架車 2.5 小時行 200 km。平均速率 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">火車速率 90 km/h，行 6 分鐘。距離 = ？km</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">單車手速率 15 km/h。行 45 km 要多少時間？（以分鐘作答）</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">甲車 80 km/h，乙車 60 km/h。同時同地出發，2小時後兩車相距多遠？（同方向）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: KP4 + TIERED ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點四：常見幾何圖形面積 — 三角形·梯形·長方體 <span class="ss sm">SSPA 必考</span></div>
+    <div class="kp-rules">
+      ① <strong>三角形面積</strong>：A = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × b × h（底×高÷2）<br>
+      ② <strong>梯形面積</strong>：A = <span class="f"><span class="n">(a+b)h</span><span class="b"></span><span class="d">2</span></span>（上底+下底）×高÷2<br>
+      ③ <strong>長方體體積</strong>：V = l × w × h（長×闊×高）<br>
+      ④ <strong>陷阱</strong>：三角形面積忘了÷2；梯形忘了加兩個底
+    </div>
+  </div>
+
+  <div class="geo-row">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 150" width="150" height="120">
+      <polygon points="35,100 155,100 35,20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/>
+      <polyline points="43,10 43,18 35,18" fill="none" stroke="#1A3C6D" stroke-width="2"/>
+      <line x1="35" y1="20" x2="35" y2="100" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="21" y="60" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">h</text>
+      <text x="95" y="122" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">b</text>
+    </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 135" width="160" height="105">
+      <polygon points="35,95 175,95 145,20 65,20" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/>
+      <line x1="65" y1="20" x2="65" y2="95" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/>
+      <text x="77" y="58" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">h</text>
+      <text x="105" y="117" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">b₂</text>
+      <text x="105" y="12" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">b₁</text>
+    </svg>
+  </div>
+
+  <div class="h2">KP4 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">三角形底 8 cm，高 5 cm。面積 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">梯形上底 6 cm，下底 10 cm，高 4 cm。面積 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">長方體長 12 cm，闊 8 cm，高 5 cm。體積 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">一個三角形面積 30 cm²，底 10 cm。求高。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">三、課堂分層同步練習</div>
+  <div class="h2">基礎層（共 5 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">22</td><td class="qtxt">500 的 20% 是多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">圓形半徑 3 cm。面積 = ？（ = 3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">火車 1.5 小時行 135 km。速率 = ？km/h</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">30 是 120 的百分之幾？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">三角形底 12 cm，高 9 cm。面積 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: TIERED CONT ═══════════════ -->
+<div class="pb">
+  <div class="h2">進階層（共 5 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">27</td><td class="qtxt">一件衫原價 $350，八五折出售。售價 = ？</td><td class="qd d2">進階</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">圓直徑 16 cm。求周界和面積。（ = 3.14）</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">A到B：80 km/h × 2h。B到C：60 km/h × 1.5h。總距離 = ？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">30</td><td class="qtxt">某數比 240 多了 35%。求該數。</td><td class="qd d2">進階</td><td class="qw" style="min-height:46px;"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">梯形上底 5 cm，下底 12 cm，面積 51 cm²。求高。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">挑戰層（共 3 題，SSPA殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">32</td><td class="qtxt">一個半圓形操場：半徑 21 m。（a）求周界（b）求面積。取 = 22/7。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">33</td><td class="qtxt">車從甲地出發，以 70 km/h 行 2 小時，休息 30 分鐘，再以 50 km/h 行 1.5 小時到達乙地。求全程平均速率。（km/h，精確至一位小數）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">34</td><td class="qtxt">售價 $270，是原價的 90%。如果再打八折，新售價比原價便宜多少%？</td><td class="qd d4">極限</td><td class="qw" style="min-height:68px;"></td></tr>
+  </table>
+
+  <div class="h2">極限挑戰（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">35</td><td class="qtxt">一個圓形噴水池直徑 14 m。外圍有一條闊 2 m 的環形小路。求小路的面積。（取 = 22/7）</td><td class="qd d4">極限</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">36</td><td class="qtxt">甲車 8:00 出發，速率 60 km/h。乙車 8:30 出發追趕，速率 80 km/h。乙車何時追到甲車？</td><td class="qd d4">極限</td><td class="qw" style="min-height:68px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 7: APPLICATION + HOMEWORK ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、SSPA應用題（5 題，文字題陷阱專項）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">小明體重 40 kg，小華比他重 25%。小華體重多少 kg？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">圓形蛋糕直徑 20 cm。切出 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 個蛋糕，這部分的面積是多少？（ = 3.14）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">媽媽駕車 90 km/h 行 40 分鐘，到達學校。全程有多遠？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A4</td><td class="qtxt">梯形花園：上底 8 m，下底 14 m，高 6 m。每平方米種 3 棵花，共可種多少棵？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">A5</td><td class="qtxt">手錶標價 $800，先加價 15%，後減價 20%。最終售價比原價貴了還是便宜了？差多少%？</td><td class="qd d4">極限</td><td class="qw" style="min-height:65px;"></td></tr>
+  </table>
+
+  <div class="h1">五、課後功課</div>
+  <div class="h2">基礎必做題（共 6 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">360 的 35% 是多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">圓形直徑 10 cm。求周界和面積。（ = 3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">巴士速率 60 km/h，行 3.5 小時。距離 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">三角形底 15 cm，高 8 cm。面積 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">45 是 60 的百分之幾？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">書包原價 $420，七五折出售。售價 = ？</td><td class="qd d2">進階</td><td class="qw" style="min-height:46px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 圓形（即270°扇形）半徑 14 cm，求周界。（取 = 22/7，留意：兩條半徑 + 弧長）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">全程 240 km。前一半路程速率 80 km/h，後一半速率 60 km/h。求全程平均速率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">H9</td><td class="qtxt">某數減少了 30% 後是 105。該數原是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 8: ERROR SUMMARY + MNEMONIC ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>「比...多」vs「是...的」混淆</strong>：多就加1除</td><td>「是」→除百分比；「比...多P%」→除(1+P%)；「比...少P%」→除(1−P%)</td></tr>
+    <tr><td>2</td><td><strong>圓周界公式用成面積</strong>：C=r²（錯！）</td><td>周界C=2r或d（單位cm）；面積A=r²（單位cm²）</td></tr>
+    <tr><td>3</td><td><strong>半圓周界忘記加直徑</strong></td><td>半圓周界 = r + 2r = r + d（弧長＋直徑）</td></tr>
+    <tr><td>4</td><td><strong>三角形面積忘記÷2</strong></td><td>A = b×h÷2。底×高後必須÷2！</td></tr>
+    <tr><td>5</td><td><strong>時間單位不轉換</strong>：速率km/h但用分鐘</td><td>必須統一：分鐘÷60=小時，或速率轉成每分鐘</td></tr>
+    <tr><td>6</td><td><strong>平均速率≠速率平均</strong></td><td>平均速率 = 總距離÷總時間，不是各段速率的簡單平均</td></tr>
+    <tr><td>7</td><td><strong>連續加價/減價：第二次用新價</strong></td><td>加15%後減20%：不是直接用原價×(−5%)，是分兩步計</td></tr>
+  </table>
+
+  <div class="mn">口訣一：「比多是加一除，比少是減一除，是就直接除。圓周用2r，面積用r²。」</div>
+  <div class="mn">口訣二：「速率距離時間，知二求一。單位要一致，分鐘轉小時。」</div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-上-L12</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P  PDF  |  8頁 · 50題  |  LF-P6-上-L12 v6
+</div>
+
+</body>
+</html>

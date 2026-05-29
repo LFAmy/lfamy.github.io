@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 激活會員</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;overflow-x:hidden;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:white;border-radius:20px;padding:36px 28px;max-width:450px;width:100%;color:#1A1A1A;text-align:center}
+.card h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:22px;color:#1A3C6D;margin-bottom:4px}
+.card .sub{font-size:13px;color:#6B7280;margin-bottom:24px}
+input{padding:14px;border:2px solid #E5E7EB;border-radius:10px;font-size:16px;font-family:inherit;text-align:center;letter-spacing:3px;font-weight:700;text-transform:uppercase}
+.btn-activate{display:block;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;border:none;font-family:inherit;background:linear-gradient(135deg,#C9A84C,#DFC06A);color:#1A3C6D;margin-top:12px}
+.success{display:none;text-align:center;padding:20px}
+.success .icon{font-size:64px;margin-bottom:12px}
+.member-info{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:14px;margin:12px 0;font-size:13px;text-align:left}
+.member-info .row{display:flex;justify-content:space-between;padding:4px 0}
+.error{color:#DC2626;font-size:12px;margin-top:6px;display:none}
+<style>
+</style>
+
+</style>
+</head>
+<body>
+<!-- Membership Bar -->
+<script>
+
+</script>
+<div class="card" id="activateForm">
+<h1>🔑 激活會員</h1>
+<div class="sub">輸入老師俾你嘅激活碼</div>
+<input type="text" id="activateCode" placeholder="LF-XXXXXXXX" style="width:100%">
+<button class="btn-activate" onclick="activateMembership()">✅ 激活</button>
+<div class="error" id="errorMsg"></div>
+<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:12px;margin-top:12px;font-size:11px;color:#065F46;text-align:left"><strong>Data Preservation</strong><br>Activating will NOT clear your existing practice records, trap fingerprints, or badges. All your data is preserved. Only your access level is upgraded.</div></div>
+
+<div class="success" id="successMsg">
+<div class="icon">🎉</div><h2>激活成功！<br><span style="font-size:12px;color:#16A34A">你的練習記錄、徽章成就全部保留</span></h2>
+<div class="member-info" id="memberInfo"></div>
+<a href="student-platform.html" class="btn-activate">🎓 開始使用 →</a>
+</div>
+
+<script>
+function activateMembership(){
+var code=document.getElementById("activateCode").value.trim().toUpperCase();
+if(!code){showError("請輸入激活碼");return}
+
+var codes=JSON.parse(localStorage.getItem("lf_activation_codes")||"[]");
+var found=codes.find(function(c){return c.code===code&&c.status==="pending"});
+if(!found){showError("激活碼無效或已使用");return}
+
+// Check expiry
+if(new Date(found.expiry)<new Date()){showError("此激活碼已過期");return}
+
+// Activate
+found.status="active";
+localStorage.setItem("lf_activation_codes",JSON.stringify(codes));
+
+// Set membership on this device
+var member={parent:found.parent,plan:found.plan,activated:new Date().toISOString(),expiry:found.expiry,code:code};
+localStorage.setItem("lf_active_membership",JSON.stringify(member));
+
+// Update usage to Pro plan
+var usage=JSON.parse(localStorage.getItem("lf_usage")||'{}');
+usage.plan="pro";
+localStorage.setItem("lf_usage",JSON.stringify(usage));
+
+// Show success
+var planName={monthly:"Pro 月費 $199/月",annual:"Pro 年費 $99/月",trial:"首月試用 $99"}[found.plan];
+var daysLeft=Math.ceil((new Date(found.expiry)-new Date())/(86400000));
+document.getElementById("memberInfo").innerHTML='<div class="row"><span>方案</span><strong>'+planName+'</strong></div><div class="row"><span>到期日</span><strong>'+found.expiry.split("T")[0]+'</strong></div><div class="row"><span>剩餘</span><strong>'+daysLeft+' 日</strong></div>';
+document.getElementById("activateForm").style.display="none";
+document.getElementById("successMsg").style.display="block";
+}
+function showError(msg){document.getElementById("errorMsg").textContent=msg;document.getElementById("errorMsg").style.display="block"}
+</script>
+</body></html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF Academy · P5-上-L13 小數近似值+應用 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── DECIMAL DISPLAY ── */
+  .dc { font-size:16px; font-weight:700; color:var(--blue); }
+  .tbl-dec { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .tbl-dec th { background:var(--blue); color:white; padding:4px 6px; font-size:11px; text-align:center; }
+  .tbl-dec td { padding:4px 6px; border:1px solid var(--borderc); text-align:center; }
+  .tbl-dec .hl { background:#FFFBEB; font-weight:700; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+  <div class="cv-badge">小五 · 第 13 堂 · 學生版講義</div>
+  <div class="cv-title">小數近似值 + 應用</div>
+  <div class="cv-sub">單元四 · 小數運算與近似 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》5上A冊 單元四 ＋ 現代教育 5上A 單元11<br>
+    <b>核心陷阱：</b>🪤 T2 近似值取位 — 多算一位再判斷 · 提早煞車<br>
+    <b>SSPA 關聯：</b><span class="ss sm">🟡 中頻</span> 呈分試卷二常見，估算與近似值取位屬必考題型<br>
+    <b>前置知識：</b>堂12（小數乘法 · 小數位處理 · 小數點對齊）<br>
+    <b>本堂目標：</b>❶ 掌握四捨五入到十分位/百分位 ❷ 理解「多算一位再判斷」 ❸ 估算與近似值的區別 ❹ 應用題解題
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整過程）</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">把 3.27 讀作：______；其中「2」在 ______ 位，數值是 ______。</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">比較大小（填 >、< 或 =）：<br>(a) 0.7 ______ 0.70 &nbsp;&nbsp; (b) 1.05 ______ 1.5 &nbsp;&nbsp; (c) 2.30 ______ 2.3</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">把 4.5 乘以 10 = ______；把 4.5 乘以 100 = ______。<br>你發現小數點怎樣移動？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">計算：3.6 + 2.48 = ？（注意對齊小數點）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">計算：5.2 × 0.3 = ？（小數乘法，先當整數計再點小數點）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：小數取近似值 — 四捨五入到十分位／百分位 <span class="ss sm">🟡 SSPA</span></div>
+    <div class="kp-rules">
+      <strong>四捨五入法：</strong><br>
+      ① <strong>睇目標位的後一位</strong>：取到十分位 → 睇百分位；取到百分位 → 睇千分位<br>
+      ② <strong>判斷規則</strong>：後一位 ≧ 5 → 目標位 +1（進位）；後一位 ≦ 4 → 目標位不變（捨去）<br>
+      ③ <strong>關鍵口訣</strong>：「多算一位再判斷，唔好提早煞車！」<br>
+      ④ <strong>注意</strong>：近似值答案的末位零必須保留（例如 3.20 ≠ 3.2，前者精確到百分位）
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆例題（本堂最重要的示範）</div>
+    <div class="ex-q">把 4.368 取近似值到百分位（即取小數後兩個位）。</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 常見錯誤（提早煞車）</div><div class="eq">4.36（只睇到千分位 8，但判斷錯）<br>或直接寫 4.37（胡亂進位）</div><div class="why">未掌握「睇後一位」規則：取百分位要睇千分位（第3位），4.368 → 千分位是 8 ≧ 5 → 百分位 6+1=7</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">4.368 ≈ 4.37</div><div class="why">取百分位（第2位）= 6，睇千分位（第3位）= 8 ≧ 5，所以百分位進 1 → 4.37</div></div>
+    </div>
+  </div>
+
+  <div class="mn">🧠 口訣：「目標位後望一眼，五或以上就進位，四或以下就捨去，末位零要保留住！」</div>
+  <div class="warn">⚠️ 最高頻錯誤：取十分位時只睇個位，忘記睇百分位。記住：永遠睇目標位的「右邊一位」！</div>
+  <div class="warn">⚠️ 第二高頻錯誤：近似值結果的末位 0 被刪除。例如 2.097 ≈ 2.10（百分位），不可寫成 2.1！</div>
+
+  <div class="h2">知識點一 例題練習（寫出判斷過程：目標位 → 睇哪一位 → 該位數字 → 進/捨 → 答案）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">例1</td><td class="qtxt">把 2.73 取近似值到十分位（即小數後 1 個位）。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">例2</td><td class="qtxt">把 5.084 取近似值到百分位（即小數後 2 個位）。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：小數近似值的應用 — 金額、長度、重量 <span class="ss sm">🟡 SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>常見應用場景：</strong><br>
+      ① <strong>金額</strong>：港元取至「毫」（十分位）或「仙」（百分位）→ 日常生活中金額通常取至小數後兩位<br>
+      ② <strong>長度</strong>：米取至 cm（百分位）或 mm（千分位）<br>
+      ③ <strong>重量</strong>：公斤取至克（千分位）<br>
+      ④ <strong>關鍵判斷</strong>：先認清單位要求，再決定取到哪一位
+    </div>
+  </div>
+  <div class="sc">
+    <div class="sc-i"><div class="n">①</div><div class="t">認清單位</div><div class="d">題目要求取<br>到哪一個位</div></div>
+    <div class="sc-i"><div class="n">②</div><div class="t">定目標位</div><div class="d">十分位？<br>百分位？</div></div>
+    <div class="sc-i"><div class="n">③</div><div class="t">睇後一位</div><div class="d">判斷進位<br>還是捨去</div></div>
+    <div class="sc-i"><div class="n">④</div><div class="t">寫答案</div><div class="d">保留單位<br>及末位零</div></div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：一條繩子長 3.467 m，取近似值至十分位（即 m 取一位小數）。</div></div>
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：一包米重 2.385 kg，取近似值至百分位（即 kg 取兩位小數）。</div></div>
+
+  <div class="h2">知識點二 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">一支鉛筆長 18.63 cm，取近似值至十分位。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">一本書重 0.856 kg，取近似值至百分位。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">水樽容量 1.275 L，取近似值至百分位。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">一個橙重 0.204 kg，取近似值至十分位。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">一條路長 2.951 km，取近似值至十分位。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：估算與近似值的區別 <span class="ss sm">🟡 SSPA 進階</span></div>
+    <div class="kp-rules">
+      <strong>估算 ≠ 近似值：</strong><br>
+      ① <strong>估算（Estimation）</strong>：用「約數」代替精確數進行快速計算，例如 3.8 × 2.1 ≈ 4 × 2 = 8<br>
+      ② <strong>近似值（Approximation）</strong>：對一個精確數按規則取位，例如 3.847 ≈ 3.85（百分位）<br>
+      ③ <strong>估算用在「計算前」</strong>（先估再計），<strong>近似值用在「計算後」</strong>（計完再取位）<br>
+      ④ 呈分試常考：先估算檢驗答案合理性 → 再精確計算 → 最後取近似值
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例5：估算 4.7 × 3.2 的結果大約是多少？然後精確計算，再把答案取近似值到十分位。</div></div>
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例6：小明說「3.14159 的近似值是 3.1（十分位）」，小華說「3.14159 ≈ 3 估算」。誰的說法正確？為甚麼？</div></div>
+
+  <div class="h2">知識點三 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">估算 5.8 × 4.1 ≈ ______ × ______ = ______</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">估算 9.7 + 3.2 + 6.1 ≈ ______ + ______ + ______ = ______</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 5 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">13</td><td class="qtxt">把 7.82 取近似值到十分位。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">把 1.456 取近似值到百分位。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">把 0.395 取近似值到百分位。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">把 4.072 取近似值到十分位。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">把 9.998 取近似值到百分位。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 5 題，🚶🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">把 6.2549 取近似值到百分位。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">把 3.097 取近似值到十分位。答案的末位零要保留嗎？為甚麼？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">一件貨品標價 $12.875，超市取近似值至「毫」（十分位），應收多少？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">一條魚重 0.683 kg。取近似值：(a) 至十分位 (b) 至百分位。兩個答案有何不同？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">計算 3.25 × 1.6，先估算（取整數約計），再精確計算，最後把精確答案取近似值到十分位。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:56px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題，🚀 選做，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">23</td><td class="qtxt">把 0.9999 取近似值：(a) 至十分位 (b) 至百分位 (c) 至千分位。觀察三個答案，發現了甚麼？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">計算 4.56 + 7.389 + 2.1，先把每個數取近似值到十分位，再加起來。與先加再取近似值到十分位的結果是否相同？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">一個長方形長 4.37 cm，闊 2.86 cm。(a) 計算面積（準確到百分位）。(b) 先把長和闊分別取近似值至十分位，再計算面積。兩個面積相差多少？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點四：近似值應用題（呈分試文字題專項）<span class="ss sm">🟡 SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>解題四步法：</strong>① <strong>圈關鍵詞</strong>（「大約」「近似」「取至」）② <strong>認清取位要求</strong> ③ <strong>精確計算 → 再取近似</strong> ④ <strong>寫完整答句連單位</strong>
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例7：小明買了 3 本書，價錢分別是 $12.85、$23.49、$8.76。他共付了多少元？（答案取近似值至十分位，即取至毫）</div></div>
+
+  <div class="h2">應用題練習（全部必做，列式 → 計算 → 取近似 → 答句）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">26</td><td class="qtxt">一條繩子長 5.738 m，取近似值至百分位，繩子大約長多少 m？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">27</td><td class="qtxt">一枝鉛筆售 $4.75，一個擦膠售 $3.28。共值多少元？（答案取近似值至十分位）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">一個水壺可裝水 1.863 L，取近似值至十分位後，水壺大約可裝水多少 L？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="h2">進階應用題（🚶🚀 選做，呈分試卷二常見題型）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">29</td><td class="qtxt">三個水果分別重 0.385 kg、0.472 kg 和 0.298 kg。(a) 總重量是多少 kg？(b) 把總重量取近似值至十分位。(c) 如果先把每個重量取近似值至十分位再加起來，結果與 (b) 相同嗎？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">30</td><td class="qtxt">正方形邊長 2.67 cm。求周界，並把答案取近似值至十分位。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">長方形長 5.38 m，闊 2.94 m。(a) 求周界，取近似值至十分位。(b) 求面積，取近似值至百分位。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="h1">四、🏔️ 終極挑戰專區</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">🏔️1</td><td class="qtxt">一個數取近似值到十分位後是 7.0。這個數最小可能是多少？最大可能是多少？（提示：考慮「四捨」和「五入」的邊界）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">🏔️2</td><td class="qtxt">計算 0.1 ÷ 3 = 0.03333...（無限循環）。把結果取近似值：(a) 至十分位 (b) 至百分位 (c) 至千分位。每個答案寫出判斷過程。</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">🏔️3</td><td class="qtxt">一個梯形上底 3.26 cm、下底 5.74 cm、高 2.38 cm。(a) 計算面積（梯形面積 = (上底+下底)×高÷2）。(b) 把面積取近似值至百分位。(c) 先把三個長度各自取近似值至十分位再計算面積，結果與 (b) 相差多少？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+  <div class="h1">五、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題，必須寫判斷過程）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">把 3.68 取近似值到十分位。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">把 9.053 取近似值到百分位。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">把 8.172 取近似值到十分位。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">一枝筆售 $6.48，一本簿售 $3.75。共值多少元？（答案取近似值至十分位）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">估算 6.3 × 4.8 ≈ ______ × ______ = ______。<br>再精確計算 6.3 × 4.8 = ______。兩者接近嗎？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題，🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">把 5.496 取近似值至十分位和百分位，分別寫出答案。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">長方形長 3.87 m，闊 2.45 m。求周界和面積，答案均取近似值至十分位。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">一個數取了近似值到百分位後是 2.50。這個數的取值範圍是多少？（即最小可能是？最大可能是？）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>睇錯判斷位</strong>：取十分位卻睇十分位自己</td><td>取第n位 → 睇第n+1位！例如取十分位（第1位）→ 睇百分位（第2位）</td></tr>
+    <tr><td>2</td><td><strong>提早煞車</strong>：取十分位時只睇到百分位就停，忘記千分位可能影響</td><td>「多算一位再判斷」— 永遠睇目標位的下一位</td></tr>
+    <tr><td>3</td><td><strong>末位零被刪除</strong>：3.097 ≈ 3.1（漏了末位零）</td><td>3.097 ≈ 3.10（百分位），末位0必須保留以顯示精確度</td></tr>
+    <tr><td>4</td><td><strong>混淆估算與近似值</strong></td><td>估算 = 約數替代計算（計前）；近似值 = 精確結果取位（計後）</td></tr>
+    <tr><td>5</td><td><strong>9進位時忘記連鎖進位</strong>：3.297 ≈ 3.30（百分位），不是 3.29</td><td>9+1=10 → 寫0進1到前一位，逐位檢查</td></tr>
+    <tr><td>6</td><td><strong>應用題漏答句／漏單位</strong></td><td>必須寫「答：約 ______（單位）。」</td></tr>
+    <tr><td>7</td><td><strong>先取近似再計算 vs 先計算再取近似結果不同</strong></td><td>呈分試通常要求「先精確計算，再取近似值」，留意題目指示</td></tr>
+  </table>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P5-上-L13</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L01 小數除法 · L02 分數小數百分數互換 · L12 小數乘法</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  🖨️ Ctrl+P 列印 PDF &nbsp;|&nbsp; 6頁 · 45題 &nbsp;|&nbsp; LF-P5-上-L13 v6
+</div>
+
+</body>
+</html>

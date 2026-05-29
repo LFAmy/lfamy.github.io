@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · 登入</title>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.nav-top{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.95);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.nav-top a{color:#4f46e5;text-decoration:none;font-weight:600;font-size:.9em}
+.nav-top .brand{font-size:1.1em;color:#1e293b}
+.card{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);padding:36px;width:100%;max-width:420px;text-align:center;margin-top:60px}
+.card h1{font-size:1.6em;color:#4f46e5;margin-bottom:4px}
+.card .sub{color:#64748b;margin-bottom:8px;font-size:.9em}
+.role-select{display:flex;gap:8px;margin:16px 0}
+.role-btn{flex:1;padding:12px;border:2px solid #e2e8f0;border-radius:12px;background:#fff;cursor:pointer;font-size:.9em;font-weight:600;transition:all .2s;text-align:center}
+.role-btn:hover{border-color:#7c3aed}
+.role-btn.active{border-color:#4f46e5;background:#f5f3ff;color:#4f46e5}
+.role-btn .icon{display:block;font-size:1.4em;margin-bottom:2px}
+.role-btn .label{font-size:.85em}
+.input{width:100%;padding:12px 16px;border:2px solid #e2e8f0;border-radius:12px;font-size:1em;margin-bottom:10px;outline:none;transition:border .2s}
+.input:focus{border-color:#4f46e5}
+.btn{width:100%;padding:13px;background:#4f46e5;color:#fff;border:none;border-radius:12px;font-size:1em;font-weight:600;cursor:pointer;margin-bottom:8px;transition:background .2s}
+.btn:hover{background:#4338ca}
+.btn.google{background:#fff;color:#1f293b;border:2px solid #e2e8f0;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn.google:hover{background:#f8fafc}
+.btn.outline{background:#f1f5f9;color:#475569}
+.btn.outline:hover{background:#e2e8f0}
+.divider{display:flex;align-items:center;margin:14px 0;color:#94a3b8;font-size:.82em}
+.divider::before,.divider::after{content:"";flex:1;border-top:1px solid #e2e8f0}
+.divider span{padding:0 12px}
+.error{color:#ef4444;font-size:.82em;margin-top:8px;display:none}
+.success{color:#10b981;font-size:.82em;margin-top:8px;display:none}
+.footer-links{margin-top:12px;font-size:.8em;color:#94a3b8}
+.footer-links a{color:#4f46e5;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="nav-top">
+  <a href="/" class="brand"><img src="logo.jpg" alt="霖楓學苑" style="height:32px"></a>
+  <a href="/">← 回首頁</a>
+</div>
+
+<div class="card">
+  <h1>🏫 霖楓學苑</h1>
+  <p class="sub">AI 智能學習平台 · 選擇你的身份</p>
+
+  <!-- Role Selection -->
+  <div class="role-select">
+    <div class="role-btn active" id="roleStudent" onclick="selectRole('student')">
+      <span class="icon">🎒</span>
+      <span class="label">我是學生</span>
+    </div>
+    <div class="role-btn" id="roleParent" onclick="selectRole('parent')">
+      <span class="icon">👨‍👩‍👧</span>
+      <span class="label">我是家長</span>
+    </div>
+  </div>
+
+  <div id="loginForm">
+    <input class="input" type="email" id="email" placeholder="電郵地址" autocomplete="email">
+    <input class="input" type="password" id="password" placeholder="密碼" autocomplete="current-password">
+    <button class="btn" onclick="login()">登入</button>
+    <button class="btn outline" onclick="showSignup()">📝 註冊新帳戶</button>
+    <div class="divider"><span>或</span></div>
+    <button class="btn google" onclick="googleLogin()">🚀 使用 Google 登入</button>
+    <a href="javascript:void(0)" onclick="forgotPassword()" style="font-size:12px;color:#6B7280;text-decoration:none;display:block;margin-top:4px">忘記密碼？</a>
+  </div>
+
+  <div id="signupForm" style="display:none">
+    <input class="input" type="email" id="signupEmail" placeholder="電郵地址">
+    <input class="input" type="password" id="signupPassword" placeholder="密碼 (最少6位)">
+    <input class="input" type="text" id="signupName" placeholder="你的名字">
+    <button class="btn" onclick="signup()">建立帳戶</button>
+    <button class="btn outline" onclick="showLogin()">← 返回登入</button>
+  </div>
+
+  <div class="error" id="error"></div>
+  <div class="success" id="success"></div>
+
+  <div class="footer-links">
+    <a href="/">回首頁</a> · <a href="/docs/faq.html">常見問題</a>
+  </div>
+</div>
+
+<script>
+// ═══ Firebase Init ═══
+try { firebase.initializeApp(LF_FIREBASE_CONFIG); } catch(e) {}
+const auth = firebase.auth();
+// Persist session across tabs
+try { auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch(e) {}
+
+let userRole = "student";
+let googleRedirecting = false;
+
+// ═══ On Auth State Change ═══
+auth.onAuthStateChanged(user => {
+  if (user) {
+    // Already logged in - redirect
+    if (!googleRedirecting) {
+      try { localStorage.setItem("lf_user_role", userRole); } catch(e) {}
+      try { localStorage.setItem("lf_user_name", user.displayName || ""); } catch(e) {}
+      try { localStorage.setItem("lf_user_email", user.email || ""); } catch(e) {}
+      showSuccess("已登入！跳轉中...");
+      setTimeout(() => location.href = getRedirectUrl(), 600);
+    }
+  }
+});
+
+// ═══ Handle Google Redirect Result ═══
+auth.getRedirectResult().then(r => {
+  if (r.user) {
+    googleRedirecting = false;
+    try { localStorage.setItem("lf_user_role", userRole); } catch(e) {}
+    try { localStorage.setItem("lf_user_name", r.user.displayName || ""); } catch(e) {}
+    try { localStorage.setItem("lf_user_email", r.user.email || ""); } catch(e) {}
+    showSuccess("Google 登入成功！");
+    setTimeout(() => location.href = getRedirectUrl(), 800);
+  }
+}).catch(e => {
+  googleRedirecting = false;
+  if (e.code !== "auth/redirect-cancelled-by-user") {
+    showError(mapFirebaseError(e.code));
+  }
+});
+
+// Check for stored auth (session recovery)
+if (auth.currentUser) {
+  try { localStorage.setItem("lf_user_role", userRole); } catch(e) {}
+  showSuccess("已登入！跳轉中...");
+  setTimeout(() => location.href = getRedirectUrl(), 500);
+}
+
+function selectRole(role) {
+  userRole = role;
+  document.getElementById("roleStudent").className = role==="student"?"role-btn active":"role-btn";
+  document.getElementById("roleParent").className = role==="parent"?"role-btn active":"role-btn";
+}
+
+function getRedirectUrl() {
+  if (userRole === "parent") return "/parent-dashboard.html";
+  return "/ai-tutor.html";
+}
+
+function showError(msg) {
+  const e = document.getElementById("error");
+  e.textContent = "❌ " + msg;
+  e.style.display = "block";
+  document.getElementById("success").style.display = "none";
+}
+function showSuccess(msg) {
+  const s = document.getElementById("success");
+  s.textContent = "✅ " + msg;
+  s.style.display = "block";
+  document.getElementById("error").style.display = "none";
+}
+
+function mapFirebaseError(code) {
+  const map = {
+    "auth/user-not-found": "找不到此電郵的帳戶，請先註冊",
+    "auth/wrong-password": "密碼錯誤，請重試",
+    "auth/invalid-email": "電郵格式不正確",
+    "auth/email-already-in-use": "此電郵已被註冊",
+    "auth/weak-password": "密碼太短（最少6位）",
+    "auth/popup-closed-by-user": "Google 登入視窗被關閉，請重試",
+    "auth/popup-blocked": "請允許彈出視窗以使用 Google 登入",
+    "auth/network-request-failed": "網絡連接失敗，請檢查網絡",
+    "auth/too-many-requests": "嘗試次數過多，請稍後再試"
+  };
+  return map[code] || "登入失敗，請重試（" + code + "）";
+}
+
+function setLoading(btn, loading) {
+  if (loading) {
+    btn.disabled = true;
+    btn.dataset.origText = btn.textContent;
+    btn.textContent = "⏳ 處理中...";
+  } else {
+    btn.disabled = false;
+    btn.textContent = btn.dataset.origText || btn.textContent;
+  }
+}
+
+function login() {
+  const email = document.getElementById("email").value.trim();
+  const pass = document.getElementById("password").value;
+  if (!email || !pass) { showError("請輸入電郵和密碼"); return; }
+  const btn = event.target;
+  setLoading(btn, true);
+  auth.signInWithEmailAndPassword(email, pass)
+    .then(r => {
+      showSuccess("登入成功！跳轉中...");
+      try { localStorage.setItem("lf_user_role", userRole); } catch(e) {}
+      try { localStorage.setItem("lf_user_name", r.user.displayName || ""); } catch(e) {}
+      try { localStorage.setItem("lf_user_email", r.user.email || ""); } catch(e) {}
+      setTimeout(() => location.href = getRedirectUrl(), 800);
+    })
+    .catch(e => { showError(mapFirebaseError(e.code)); setLoading(btn, false); });
+}
+
+function signup() {
+  const email = document.getElementById("signupEmail").value.trim();
+  const pass = document.getElementById("signupPassword").value;
+  const name = document.getElementById("signupName").value.trim();
+  if (!email || !pass) { showError("請輸入電郵和密碼"); return; }
+  if (pass.length < 6) { showError("密碼最少需要6位"); return; }
+  const btn = event.target;
+  setLoading(btn, true);
+  auth.createUserWithEmailAndPassword(email, pass)
+    .then(r => r.user.updateProfile({ displayName: name || "學生" }))
+    .then(() => {
+      showSuccess("帳戶已建立！跳轉中...");
+      try { localStorage.setItem("lf_user_role", userRole); } catch(e) {}
+      try { localStorage.setItem("lf_student_name", name || ""); } catch(e) {}
+      setTimeout(() => location.href = getRedirectUrl(), 800);
+    })
+    .catch(e => { showError(mapFirebaseError(e.code)); setLoading(btn, false); });
+}
+
+function googleLogin() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+
+  // Try popup first, fallback to redirect
+  googleRedirecting = true;
+  auth.signInWithPopup(provider)
+    .then(r => {
+      googleRedirecting = false;
+      showSuccess("Google 登入成功！");
+      try { localStorage.setItem("lf_user_role", userRole); } catch(e) {}
+      try { localStorage.setItem("lf_user_name", r.user.displayName || ""); } catch(e) {}
+      try { localStorage.setItem("lf_user_email", r.user.email || ""); } catch(e) {}
+      setTimeout(() => location.href = getRedirectUrl(), 800);
+    })
+    .catch(e => {
+      if (e.code === "auth/popup-blocked" || e.code === "auth/popup-closed-by-user") {
+        // Fallback to redirect
+        showSuccess("正在跳轉至 Google 登入...");
+        auth.signInWithRedirect(provider);
+      } else {
+        googleRedirecting = false;
+        showError(mapFirebaseError(e.code));
+      }
+    });
+}
+
+// ═══ Enter key support ═══
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    if (document.getElementById("signupForm").style.display !== "none") {
+      signup();
+    } else {
+      login();
+    }
+  }
+});
+
+function showSignup() {
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("signupForm").style.display = "block";
+  document.getElementById("error").style.display = "none";
+  document.getElementById("success").style.display = "none";
+}
+function showLogin() {
+  document.getElementById("signupForm").style.display = "none";
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("error").style.display = "none";
+  document.getElementById("success").style.display = "none";
+}
+
+// ═══ Forgot password ═══
+function forgotPassword() {
+  const email = document.getElementById("email").value.trim();
+  if (!email) { showError("請先輸入電郵地址"); return; }
+  auth.sendPasswordResetEmail(email)
+    .then(() => showSuccess("重設密碼電郵已發送！請檢查收件箱"))
+    .catch(e => showError(mapFirebaseError(e.code)));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>霖楓學苑 · WhatsApp AI 啊狐 | 數學智能回覆</title>
+<meta name="description" content="WhatsApp AI數學助手 — 學生在WhatsApp問數學，啊狐自動引導回覆。24/7在線。">
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:var(--g100);color:var(--g800);min-height:100vh}
+.container{max-width:650px;margin:0 auto;padding:20px}
+
+/* WA Chat Simulation */
+.wa-phone{background:#0A1A35;border-radius:28px;padding:12px;max-width:380px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.wa-screen{background:#E5DDD5;border-radius:20px;overflow:hidden;min-height:500px;position:relative}
+.wa-header{background:#075E54;color:white;padding:12px 16px;display:flex;align-items:center;gap:10px}
+.wa-header .wa-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#C9A84C,#DFC06A);display:flex;align-items:center;justify-content:center;font-size:20px}
+.wa-header .wa-info{flex:1}
+.wa-header .wa-name{font-size:14px;font-weight:700}
+.wa-header .wa-status{font-size:10px;opacity:0.7}
+.wa-chat{ padding:12px;display:flex;flex-direction:column;gap:8px;min-height:400px;max-height:400px;overflow-y:auto}
+.wa-msg{max-width:80%;padding:8px 12px;border-radius:8px;font-size:13px;line-height:1.5;position:relative;word-wrap:break-word}
+.wa-msg.incoming{background:white;align-self:flex-start;border-top-left-radius:0}
+.wa-msg.outgoing{background:#DCF8C6;align-self:flex-end;border-top-right-radius:0}
+.wa-msg .wa-time{font-size:9px;color:rgba(0,0,0,0.4);text-align:right;margin-top:2px}
+.wa-input-bar{display:flex;gap:8px;padding:8px 12px;background:#F0F0F0;align-items:center}
+.wa-input-bar input{flex:1;padding:10px 14px;border:none;border-radius:20px;font-size:13px;font-family:inherit;outline:none}
+.wa-input-bar button{width:40px;height:40px;border-radius:50%;background:#075E54;color:white;border:none;font-size:18px;cursor:pointer;flex-shrink:0}
+
+/* Info Cards */
+.card{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.card h2{font-size:16px;color:var(--b);margin-bottom:12px}
+.btn{display:block;width:100%;padding:14px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;text-align:center;text-decoration:none;font-family:inherit;margin:8px 0}
+.btn-wa{background:#25D366;color:white}
+.btn-primary{background:var(--b);color:white}
+.btn-outline{background:white;border:2px solid var(--g200);color:var(--b)}
+
+/* Setup Steps */
+.step-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--g200)}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--b);color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0}
+.step-body h4{font-size:13px;color:var(--b)}
+.step-body p{font-size:11px;color:var(--g600);margin-top:2px}
+.step-body code{background:var(--g100);padding:2px 6px;border-radius:4px;font-size:11px}
+</style>
+<link rel="manifest" href="/manifest.json">
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══ WA SIMULATOR ═══ -->
+<div class="card" style="text-align:center">
+  <h2>🦊 WhatsApp AI 啊狐 · 即時模擬</h2>
+  <p style="font-size:11px;color:var(--g600);margin-bottom:16px">模擬學生在WhatsApp問數學 → 啊狐自動引導回覆</p>
+  
+  <div class="wa-phone">
+    <div class="wa-screen">
+      <div class="wa-header">
+        <div class="wa-avatar">🦊</div>
+        <div class="wa-info">
+          <div class="wa-name">霖楓學苑 · 啊狐</div>
+          <div class="wa-status">在線 · AI數學助手</div>
+        </div>
+      </div>
+      <div class="wa-chat" id="waChat">
+        <div class="wa-msg incoming">
+          你好！我係啊狐🦊<br>有咩數學問題想問我？
+          <div class="wa-time">10:00</div>
+        </div>
+      </div>
+      <div class="wa-input-bar">
+        <input type="text" id="waInput" placeholder="輸入數學問題..." onkeydown="if(event.key==='Enter')sendWA()">
+        <button onclick="sendWA()">➤</button>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:10px;color:var(--g400);margin-top:8px">📱 模擬介面 · 真實WhatsApp效果相同</p>
+</div>
+
+<!-- ═══ SETUP GUIDE ═══ -->
+<div class="card">
+  <h2>🔧 正式上線WhatsApp Bot（3步）</h2>
+  <div class="step-item">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>註冊 Twilio 帳戶</h4>
+      <p>前往 twilio.com → 註冊 → 取得 <code>Account SID</code> 和 <code>Auth Token</code></p>
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>啟用 WhatsApp Sandbox</h4>
+      <p>Twilio Console → Messaging → Try WhatsApp → 掃QR碼加入Sandbox</p>
+    </div>
+  </div>
+  <div class="step-item">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>部署 Webhook 處理器</h4>
+      <p>部署 <code>lf-wa-webhook.js</code> 到 Cloudflare Workers → 設定Webhook URL</p>
+    </div>
+  </div>
+  <a href="https://wa.me/85294796459?text=%E4%BD%A0%E5%A5%BD%E5%95%8A%E7%8B%90%20%F0%9F%A6%8A" class="btn btn-wa" target="_blank">💬 在真WhatsApp試用啊狐 →</a>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<div class="card">
+  <h2>✨ WhatsApp Bot 功能</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+    <div style="padding:10px;background:var(--g50);border-radius:10px">📐 數學概念解答</div>
+    <div style="padding:10px;background:var(--g50);border-radius:10px">🪤 陷阱類型診斷</div>
+    <div style="padding:10px;background:var(--g50);border-radius:10px">📝 步驟引導（唔直接畀答案）</div>
+    <div style="padding:10px;background:var(--g50);border-radius:10px">💡 記憶口訣推送</div>
+    <div style="padding:10px;background:var(--g50);border-radius:10px">📊 練習進度查詢</div>
+    <div style="padding:10px;background:var(--g50);border-radius:10px">🎯 推薦相關練習</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// WHATSAPP AI FOX SIMULATOR
+// ═══════════════════════════════════════
+
+var WA_AI = {
+  knowledge: {
+    '三角形面積': { reply: '📐 三角形面積公式：*底 × 高 ÷ 2*\n\n例如：底10cm，高6cm\n→ 10×6÷2 = *30cm²*\n\n⚠️ 陷阱：記得÷2！好多人就係錯呢個～\n\n🪄 口訣：「底乘高，除以二；唔除二，就玩完！」' },
+    '梯形面積': { reply: '🔷 梯形面積公式：*(上底+下底) × 高 ÷ 2*\n\n例如：上底5cm，下底9cm，高4cm\n→ (5+9)×4÷2 = *28cm²*\n\n⚠️ 陷阱：記得加括號！先加咗上底同下底先乘高！' },
+    '分數加法': { reply: '🍕 分數加法要先*通分*！\n\n例如：1/3 + 1/4\n→ LCM of 3,4 = 12\n→ 4/12 + 3/12 = *7/12*\n\n⚠️ 陷阱：唔可以就咁分子加分子！1/3+1/4 ≠ 2/7!' },
+    '分數乘法': { reply: '✖️ 分數乘法：*分子×分子，分母×分母*\n\n例如：2/3 × 3/4\n→ 6/12 = *1/2*\n\n記得約簡！' },
+    '分數除法': { reply: '➗ 分數除法：*÷分數 = ×倒數*\n\n例如：2/3 ÷ 3/4\n→ 2/3 × 4/3 = *8/9*\n\n⚠️ 陷阱：係將第二個分數倒轉，唔係第一個！' },
+    '方程': { reply: '🔣 解方程：目標係搵出x！\n\n例如：3x + 5 = 20\n① 移項：3x = 20-5 = 15\n② ÷3：x = *5*\n\n⚠️ 陷阱：移項要變符號！+5移去右邊變-5！' },
+    '小數乘法': { reply: '0️⃣ 小數乘法步驟：\n① 先當整數乘（唔理點）\n② 數下有幾多個小數位\n③ 答案度數返咁多位加點\n\n例如：1.2×0.5\n→ 12×5=60，2個小數位\n→ *0.60 = 0.6*' },
+    '百分數': { reply: '💯 折扣計法：\n• 八折 = ×0.8\n• 九折 = ×0.9\n• 七折 = ×0.7\n\n⚠️ 陷阱①：八折再九折 ≠ 七折！\n→ ×0.8×0.9 = ×0.72\n\n⚠️ 陷阱②：加20%再減20% ≠ 原價！' },
+    '速率': { reply: '🚗 速率 = *距離 ÷ 時間*\n\n例如：150公里÷2.5小時\n= *60 km/h*\n\nP6先會分速率同速度～' },
+    '體積': { reply: '📦 長方體體積 = *長×闊×高*\n\n例如：8×5×3 = *120cm³*\n\n⚠️ 陷阱：單位係cm³（立方），面積先係cm²（平方）！' },
+    '周界': { reply: '📏 周界 = *所有邊長加埋*\n\n香港叫「周界」，唔係「周長」！\n\n長方形周界：*(長+闊)×2*' },
+    'hello': { reply: '👋 你好！我係啊狐🦊\n\n有咩數學問題想問我？\n\n📐 面積公式\n🍕 分數運算\n🔣 方程解法\n💯 百分數折扣\n\n直接打字問我就得～' }
+  },
+  
+  respond: function(msg) {
+    var lower = msg.toLowerCase().replace(/[？?！!。，,、\s]+/g,'');
+    for(var k in this.knowledge){
+      if(lower.indexOf(k.toLowerCase())>=0 || k.toLowerCase().indexOf(lower)>=0){
+        return this.knowledge[k].reply;
+      }
+    }
+    // Check keywords
+    if(lower.indexOf('面積')>=0) return this.knowledge['三角形面積'].reply;
+    if(lower.indexOf('分數')>=0 && lower.indexOf('加')>=0) return this.knowledge['分數加法'].reply;
+    if(lower.indexOf('分數')>=0 && lower.indexOf('乘')>=0) return this.knowledge['分數乘法'].reply;
+    if(lower.indexOf('分數')>=0 && lower.indexOf('除')>=0) return this.knowledge['分數除法'].reply;
+    if(lower.indexOf('折')>=0||lower.indexOf('折扣')>=0||lower.indexOf('%')>=0) return this.knowledge['百分數'].reply;
+    
+    return '我暫時未識答呢個問題 🙈\n\n你可以試下問：\n📐 三角形面積點計？\n🍕 分數點通分？\n🔣 方程點解？\n💯 八折即係幾多？\n\n或者上我哋網站做AI診斷：\nhttps://lfamy.github.io/docs/ai-diagnostic.html';
+  }
+};
+
+function sendWA(){
+  var input = document.getElementById('waInput');
+  var msg = input.value.trim();
+  if(!msg) return;
+  
+  var chat = document.getElementById('waChat');
+  var now = new Date();
+  var time = now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes();
+  
+  // User message
+  chat.innerHTML += '<div class="wa-msg outgoing">'+msg+'<div class="wa-time">'+time+'</div></div>';
+  
+  // AI thinking delay
+  setTimeout(function(){
+    var reply = WA_AI.respond(msg);
+    chat.innerHTML += '<div class="wa-msg incoming">'+reply.replace(/\n/g,'<br>')+'<div class="wa-time">'+time+'</div></div>';
+    chat.scrollTop = chat.scrollHeight;
+  }, 600+Math.random()*800);
+  
+  input.value = '';
+  chat.scrollTop = chat.scrollHeight;
+}
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+
+<script src="/docs/data/lf-event-bus.js"></script>
+</body>
+</html>

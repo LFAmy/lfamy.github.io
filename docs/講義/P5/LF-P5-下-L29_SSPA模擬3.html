@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF Academy · P5-下-L29 SSPA模擬考試3 — 小五數學科（下學期期中）</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:12.5px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .container { max-width:100%; }
+    .pb { box-shadow:none; min-height:0; padding:28px 40px; page-break-after:always; }
+    .pb:last-of-type { page-break-after:auto; }
+    .no-print { display:none!important; }
+  }
+
+  @page {
+    size: A4;
+    margin: 12mm 15mm;
+    @bottom-center {
+      content: "模擬3 · P5數學科（下學期期中）· 霖楓學苑　　第 " counter(page) " 頁";
+      font-family: 'Noto Sans HK', sans-serif;
+      font-size: 9px;
+      color: #6B7280;
+    }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:32px 44px;
+    display:flex; flex-direction:column;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    margin-bottom:8px;
+    min-height: 297mm;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; font-size:inherit; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  /* ── EXAM HEADER ── */
+  .exam-header {
+    text-align:center;
+    border:2px solid var(--ink);
+    padding:14px 20px;
+    margin-bottom:16px;
+    background:var(--lightbg);
+  }
+  .exam-header .school {
+    font-family:'Noto Serif HK',serif;
+    font-size:20px; font-weight:900; color:var(--blue);
+    letter-spacing:6px;
+  }
+  .exam-header .title {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:700;
+    margin:6px 0;
+    letter-spacing:2px;
+  }
+  .exam-header .info {
+    font-size:12px; color:var(--gray);
+  }
+  .exam-header .duration {
+    display:inline-block;
+    border:1px solid var(--red); color:var(--red);
+    padding:2px 14px; border-radius:14px;
+    font-size:11px; font-weight:700;
+    margin-top:4px;
+  }
+
+  /* ── STUDENT INFO ── */
+  .student-info {
+    display:flex; gap:40px; justify-content:center;
+    font-size:13px; margin-bottom:18px;
+    padding:8px 12px;
+    border-bottom:1px dashed var(--borderc);
+  }
+  .student-info span { display:flex; align-items:center; gap:4px; }
+  .student-info .blank {
+    display:inline-block;
+    min-width:100px;
+    border-bottom:1px solid var(--ink);
+  }
+  .student-info .score-blank {
+    display:inline-block;
+    min-width:50px;
+    border-bottom:2px solid var(--ink);
+    font-weight:700;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .sec-title {
+    font-family:'Noto Serif HK',serif;
+    font-size:15px; font-weight:900; color:var(--blue);
+    padding:8px 14px; margin:14px 0 10px;
+    border-left:4px solid var(--ink);
+    background:#F0F4FA;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .sec-title .sec-marks {
+    font-size:12px; font-weight:500; color:var(--gray);
+  }
+
+  /* ── INSTRUCTION ── */
+  .instruction {
+    font-size:11px; color:var(--gray);
+    padding:6px 10px; margin:4px 0 10px;
+    background:var(--lightbg);
+    border:1px solid var(--borderc);
+    border-radius:4px;
+    line-height:1.6;
+  }
+
+  /* ── QUESTION TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0 12px; font-size:12px; }
+  .qt th { background:var(--ink); color:white; padding:5px 8px; font-size:10px; font-weight:600; text-align:left; }
+  .qt td { padding:7px 9px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:36px; text-align:center; font-weight:700; font-size:13px; }
+  .qt .qs { width:60px; text-align:center; font-size:11px; }
+  .qt .qtxt { font-size:12.5px; line-height:1.7; }
+
+  /* ── MC OPTIONS ── */
+  .mc-opts { margin-top:4px; display:flex; flex-wrap:wrap; gap:12px; }
+  .mc-opts .opt { font-family:'Noto Sans HK',sans-serif; font-size:12px; white-space:nowrap; }
+
+  /* ── ANSWER AREA ── */
+  .ans-area {
+    min-height:44px;
+    border-bottom:1px dashed var(--borderc);
+    margin-top:4px;
+  }
+  .ans-lines {
+    background: repeating-linear-gradient(transparent,transparent 21px,#E5E7EB 21px,#E5E7EB 22px);
+    min-height:72px;
+  }
+
+  /* ── SCORE BOX ── */
+  .score-box {
+    display:inline-block;
+    border:1.5px solid var(--ink);
+    padding:2px 8px;
+    font-size:10px;
+    font-weight:700;
+    margin-left:6px;
+    background:white;
+  }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:9px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+
+  /* ── APP QUESTION ── */
+  .app-q {
+    border:1.5px solid var(--borderc);
+    padding:12px 16px;
+    margin:8px 0;
+    background:var(--white);
+    page-break-inside:avoid;
+  }
+  .app-q .q-head {
+    font-weight:700; font-size:13px;
+    margin-bottom:6px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .app-q .q-body { font-size:12.5px; line-height:1.8; }
+  .app-q .q-work {
+    min-height:100px;
+    border:1px dashed var(--borderc);
+    margin-top:8px;
+    padding:6px 10px;
+    font-size:11px; color:var(--gray);
+  }
+
+  /* ── END MARKER ── */
+  .end-marker {
+    text-align:center;
+    margin-top:30px;
+    padding:16px 0;
+    border-top:2px solid var(--ink);
+  }
+  .end-marker .end-text {
+    font-family:'Noto Serif HK',serif;
+    font-size:16px; font-weight:900;
+    letter-spacing:6px;
+    color:var(--blue);
+  }
+  .end-marker .total-score {
+    margin-top:10px;
+    font-size:14px; font-weight:700;
+  }
+  .end-marker .total-score .ts-blank {
+    display:inline-block;
+    width:60px;
+    border-bottom:2px solid var(--ink);
+  }
+
+  /* ── FOOTER LINE ── */
+  .footer-line {
+    text-align:center;
+    font-size:9px; color:var(--gray);
+    margin-top:20px;
+    padding-top:8px;
+    border-top:1px solid var(--borderc);
+  }
+
+  /* ── PRINT PAGE BREAK CONTROL ── */
+  .keep-together { page-break-inside:avoid; }
+
+  @media print {
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; margin-bottom:0; }
+    .exam-header { padding:10px 16px; }
+    .exam-header .school { font-size:17px; }
+    .exam-header .title { font-size:15px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11px; }
+    .qt td { padding:5px 7px; }
+    .sec-title { font-size:13px; }
+    .app-q .q-body { font-size:11px; }
+    .ans-lines { background:none; border-bottom:1px solid #E5E7EB; }
+    .page-break { page-break-before:always; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: HEADER + 甲部 ═══════════════ -->
+<div class="pb">
+
+  <div class="exam-header">
+    <div class="school">霖楓學苑</div>
+    <div class="title">SSPA 模擬考試（三）· 小五數學科 · 下學期期中</div>
+    <div class="info">範圍：第21–28課（圓·立體截面·摺紙圖樣·體積·分數乘除·小數除法·綜合應用）</div>
+    <div class="duration">考試時間：50 分鐘　　滿分：100 分</div>
+  </div>
+
+  <div class="student-info">
+    <span>姓名：<span class="blank"></span></span>
+    <span>日期：<span class="blank"></span></span>
+    <span>分數：<span class="score-blank"></span> / 100</span>
+  </div>
+
+  <!-- ═══════ 甲部：多項選擇題 ═══════ -->
+  <div class="sec-title">甲部 — 多項選擇題（Multiple Choice）<span class="sec-marks">10 題 × 3 分 = 30 分</span></div>
+  <div class="instruction">指示：選出正確答案，把答案字母填在每題右側的空格內。每題只有一個正確答案。</div>
+
+  
+<div style="margin:12px 0;padding:10px 14px;background:linear-gradient(135deg,#FEF2F2,#FFF8E7);border:2px solid var(--red);border-radius:6px;">
+<strong style="color:#991B1B;">🎫 考試錦囊（SSPA 必讀）</strong>
+<p style="font-size:11px;margin:4px 0;color:#1A1A1A;">
+① 先做識做嘅題目，唔好卡死喺一條！<br>
+② 每題檢查單位（cm vs cm² vs cm³）！<br>
+③ 幾何題：圖中有標高就係高，冇標就用公式反求！<br>
+④ 應用題：寫答句！唔寫扣步驟分！<br>
+⑤ 剩 5 分鐘：檢查 MC 有冇填漏 + 單位有冇寫啱！
+</p>
+</div>
+<table class="qt">
+    <tr><th class="qn">題號</th><th>題目</th><th class="qs">分數</th></tr>
+
+    <tr>
+      <td class="qn">1</td>
+      <td class="qtxt">
+        <div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓：半徑9cm</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 170" width="190" height="170"><circle cx="95" cy="75" r="65" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="95" cy="75" r="3" fill="#1A3C6D"/><text x="95" y="68" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="95" y1="75" x2="160" y2="75" stroke="#1A3C6D" stroke-width="2"/><text x="127" y="68" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="83" x2="160" y2="83" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="95" y="97" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+一個圓的半徑是 9 cm。直徑是多少？
+        <div class="mc-opts">
+          <span class="opt">A. 4.5 cm</span>
+          <span class="opt">B. 9 cm</span>
+          <span class="opt">C. 18 cm</span>
+          <span class="opt">D. 27 cm</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">2</td>
+      <td class="qtxt">
+        一個圓柱體，沿平行於底面的方向切開。截面是什麼形狀？
+        <div class="mc-opts">
+          <span class="opt">A. 長方形</span>
+          <span class="opt">B. 三角形</span>
+          <span class="opt">C. 圓形</span>
+          <span class="opt">D. 梯形</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">3</td>
+      <td class="qtxt">
+        以下哪種展開圖<b>不能</b>摺成正方體？
+        <div class="mc-opts">
+          <span class="opt">A. 一四一型（中間4格+上下各1格）</span>
+          <span class="opt">B. 二三一型（中間3格+旁邊2+1格）</span>
+        </div>
+        <div class="mc-opts" style="margin-top:2px;">
+          <span class="opt">C. 田字形（2×2方格+上下各1格）</span>
+          <span class="opt">D. 二二二階梯型</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">4</td>
+      <td class="qtxt">
+        <div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 長方體：8×5×4cm</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 225 160" width="225" height="160"><rect x="25" y="33" width="120" height="65" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polygon points="25,33 43,15 163,15 145,33" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polygon points="145,33 163,15 163,80 145,98" fill="#BFDBFE" stroke="#1A3C6D" stroke-width="3"/><text x="85" y="114" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">l</text></svg></div>
+</div>
+長方體長 8 cm、闊 5 cm、高 4 cm。體積 = ？
+        <div class="mc-opts">
+          <span class="opt">A. 17 cm³</span>
+          <span class="opt">B. 80 cm³</span>
+          <span class="opt">C. 120 cm³</span>
+          <span class="opt">D. 160 cm³</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">5</td>
+      <td class="qtxt">
+        計算 <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> × <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？
+        <div class="mc-opts">
+          <span class="opt">A. <span class="f"><span class="n">5</span><span class="b"></span><span class="d">9</span></span></span>
+          <span class="opt">B. <span class="f"><span class="n">6</span><span class="b"></span><span class="d">20</span></span></span>
+          <span class="opt">C. <span class="f"><span class="n">3</span><span class="b"></span><span class="d">10</span></span></span>
+          <span class="opt">D. <span class="f"><span class="n">6</span><span class="b"></span><span class="d">5</span></span></span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">6</td>
+      <td class="qtxt">
+        一個正方體的展開圖中，與指定面相對的面有甚麼特徵？
+        <div class="mc-opts">
+          <span class="opt">A. 必定相鄰</span>
+          <span class="opt">B. 中間必定隔著至少一個面</span>
+        </div>
+        <div class="mc-opts" style="margin-top:2px;">
+          <span class="opt">C. 必定在展開圖的對角位置</span>
+          <span class="opt">D. 沒有任何規律</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">7</td>
+      <td class="qtxt">
+        正方體水箱邊長 20 cm。裝了 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 的水。水的體積是多少 cm³？
+        <div class="mc-opts">
+          <span class="opt">A. 6000 cm³</span>
+          <span class="opt">B. 8000 cm³</span>
+          <span class="opt">C. 2000 cm³</span>
+          <span class="opt">D. 3000 cm³</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">8</td>
+      <td class="qtxt">
+        下列哪項關於圓的敍述是<b>不正確</b>的？
+        <div class="mc-opts">
+          <span class="opt">A. 直徑是圓內最長的線段</span>
+          <span class="opt">B. 直徑的長度是半徑的兩倍</span>
+        </div>
+        <div class="mc-opts" style="margin-top:2px;">
+          <span class="opt">C. 所有半徑的長度都相等</span>
+          <span class="opt">D. 半徑是直徑的兩倍</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+  </table>
+
+  <div class="footer-line">模擬3 · P5數學科（下學期期中）· 霖楓學苑　　第 1 頁</div>
+</div>
+
+<!-- ═══════════════ PAGE 2: 甲部續 + 乙部開始 ═══════════════ -->
+<div class="pb">
+
+  <table class="qt">
+    <tr><th class="qn">題號</th><th>題目</th><th class="qs">分數</th></tr>
+
+    <tr>
+      <td class="qn">9</td>
+      <td class="qtxt">
+        一個長方體的長、闊、高各放大 2 倍。新體積是原來的多少倍？
+        <div class="mc-opts">
+          <span class="opt">A. 2 倍</span>
+          <span class="opt">B. 4 倍</span>
+          <span class="opt">C. 6 倍</span>
+          <span class="opt">D. 8 倍</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">10</td>
+      <td class="qtxt">
+        梯形面積公式中，高是指什麼？
+        <div class="mc-opts">
+          <span class="opt">A. 梯形的斜邊長度</span>
+          <span class="opt">B. 上底和下底之間的垂直距離</span>
+        </div>
+        <div class="mc-opts" style="margin-top:2px;">
+          <span class="opt">C. 上底的長度</span>
+          <span class="opt">D. 下底的長度</span>
+        </div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 3分</span></td>
+    </tr>
+  </table>
+
+  <!-- ═══════ 乙部：短答題 ═══════ -->
+  <div class="sec-title">乙部 — 短答題 / 計算題（Short Questions）<span class="sec-marks">8 題 × 5 分 = 40 分</span></div>
+  <div class="instruction">指示：在每題下方的作答區內寫出完整計算步驟及答案。答案必須約簡（如適用）並附上正確單位。</div>
+
+  <table class="qt">
+    <tr><th class="qn">題號</th><th>題目</th><th class="qs">分數</th></tr>
+
+    <tr>
+      <td class="qn">1</td>
+      <td class="qtxt">
+        一個圓的直徑是 34 cm。求半徑的長度。<br>
+        <div class="ans-lines" style="min-height:72px;"></div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 5分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">2</td>
+      <td class="qtxt">
+        一個長方體長 12 cm、闊 7 cm、高 5 cm。<br>
+        (a) 求底面積。（2分）<br>
+        (b) 求體積。（3分）<br>
+        <div class="ans-lines" style="min-height:80px;"></div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 5分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">3</td>
+      <td class="qtxt">
+        計算：<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> × <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> = ？寫出乘法和約簡步驟。<br>
+        <div class="ans-lines" style="min-height:75px;"></div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 5分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">4</td>
+      <td class="qtxt">
+        計算：<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> ÷ <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？寫出計算步驟（倒數相乘）。<br>
+        <div class="ans-lines" style="min-height:75px;"></div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 5分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">5</td>
+      <td class="qtxt">
+        一個圓錐體沿穿過頂點且垂直於底面的方向切開。截面是什麼形狀？畫出簡圖標註。<br>
+        <div class="ans-lines" style="min-height:85px;"></div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 5分</span></td>
+    </tr>
+  </table>
+
+  <div class="footer-line">模擬3 · P5數學科（下學期期中）· 霖楓學苑　　第 2 頁</div>
+</div>
+
+<!-- ═══════════════ PAGE 3: 乙部續 ═══════════════ -->
+<div class="pb">
+
+  <table class="qt">
+    <tr><th class="qn">題號</th><th>題目</th><th class="qs">分數</th></tr>
+
+    <tr>
+      <td class="qn">6</td>
+      <td class="qtxt">
+        一個正方體邊長 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> cm。求體積。（以分數或帶分數作答）<br>
+        <div class="ans-lines" style="min-height:85px;"></div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 5分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">7</td>
+      <td class="qtxt">
+        一個長方體水箱內部長 40 cm、闊 25 cm、高 30 cm。<br>
+        (a) 水箱的體積是多少 cm³？（2分）<br>
+        (b) 水箱可盛水多少 L？（1 L = 1000 cm³）（1分）<br>
+        (c) 若裝了 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 的水，水有多少 L？（2分）<br>
+        <div class="ans-lines" style="min-height:75px;"></div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 5分</span></td>
+    </tr>
+
+    <tr>
+      <td class="qn">8</td>
+      <td class="qtxt">
+        一個梯形（上底 5 cm、下底 11 cm、高 6 cm）是某柱體的底面。柱體高 10 cm。求該柱體的體積。<br>
+        <span style="font-size:10px;color:var(--gray);">提示：先求梯形面積（底面積），再乘以柱體高。</span><br>
+        <div class="ans-lines" style="min-height:70px;"></div>
+      </td>
+      <td class="qs"><span class="score-box">___ / 5分</span></td>
+    </tr>
+  </table>
+
+  <div class="footer-line">模擬3 · P5數學科（下學期期中）· 霖楓學苑　　第 3 頁</div>
+</div>
+
+<!-- ═══════════════ PAGE 4: 丙部 ═══════════════ -->
+<div class="pb">
+
+  <!-- ═══════ 丙部：文字應用題 ═══════ -->
+  <div class="sec-title">丙部 — 文字應用題（Application Problems）<span class="sec-marks">3 題 × 10 分 = 30 分</span></div>
+  <div class="instruction">指示：每題必須列出所有計算步驟，並寫出完整答句。答案須附單位。計算過程佔步驟分。</div>
+
+  <div class="app-q">
+    <div class="q-head">第 1 題（10 分） — 體積綜合應用 <span class="score-box">___ / 10分</span></div>
+    <div class="q-body">
+      一個長方體游泳池長 25 m、闊 10 m、深 2 m。<br><br>
+      (a) 游泳池的體積是多少 m³？（2 分）<br>
+      (b) 如果水深只有 <span class="f"><span class="n">4</span><span class="b"></span><span class="d">5</span></span>，水的體積是多少 m³？（3 分）<br>
+      (c) 如果每分鐘注入 5 m³ 的水，由空池注水至 (b) 的水位需要多少分鐘？（3 分）<br>
+      (d) 游泳池的底部和四面牆需要鋪瓷磚。鋪瓷磚的總面積是多少 m²？（2 分）<br>
+      <span style="font-size:10px;color:var(--gray);">提示：(d) 底面積 + 四面牆面積（注意牆有兩面長牆和兩面短牆）</span>
+    </div>
+    <div class="q-work">作答區 — 請寫出所有計算步驟及完整答句：</div>
+  </div>
+
+  <div class="app-q">
+    <div class="q-head">第 2 題（10 分） — 分數四則混合應用 <span class="score-box">___ / 10分</span></div>
+    <div class="q-body">
+      一盒積木共有 180 塊。<br>
+      其中 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> 是紅色，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 是藍色，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 是綠色，其餘是黃色。<br><br>
+      (a) 紅色積木有多少塊？（2 分）<br>
+      (b) 藍色和綠色積木共有多少塊？（3 分）<br>
+      (c) 三種顏色（紅+藍+綠）的積木佔全部的幾分之幾？（2 分）<br>
+      (d) 黃色積木有多少塊？佔全部的幾分之幾？（3 分）
+    </div>
+    <div class="q-work">作答區 — 請寫出所有計算步驟及完整答句：</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ PAGE 5: 丙部續 ═══════════════ -->
+<div class="pb">
+
+  <div class="app-q">
+    <div class="q-head">第 3 題（10 分） — 跨課題綜合陷阱題 <span class="score-box">___ / 10分</span></div>
+    <div class="q-body">
+      一個正方體水箱 A，邊長 30 cm。另一個長方體水箱 B，長 50 cm、闊 20 cm、高 25 cm。<br><br>
+      (a) 求水箱 A 的體積。（以 cm³ 作答）（2 分）<br>
+      (b) 求水箱 B 的體積。（以 cm³ 作答）（2 分）<br>
+      (c) 水箱 A 注滿水後，把全部水倒入空的 B 箱。B 箱的水位會有多高？水會溢出嗎？（3 分）<br>
+      (d) 若從 B 箱倒出 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 的水，B 箱還剩多少 cm³ 的水？（3 分）<br>
+      <span style="font-size:10px;color:var(--gray);">提示：(c) 水位高度 = 水的體積 ÷ B箱底面積。檢查是否超過 B 箱高度。</span>
+    </div>
+    <div class="q-work">作答區 — 請寫出所有計算步驟及完整答句：</div>
+  </div>
+
+  <div style="margin-top:30px;"></div>
+
+  <div class="end-marker">
+    <div class="end-text">— 全卷完 —</div>
+    <div class="total-score">
+      總得分：<span class="ts-blank"></span> / 100 分
+    </div>
+    <div style="margin-top:12px; font-size:10px; color:var(--gray);">
+      閱卷老師簽名：__________　　日期：__________
+    </div>
+  </div>
+
+  <div style="margin-top:24px; padding:12px 16px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; font-size:11px;">
+    <strong>考試提示：</strong><br>
+    · 甲部 MC 陷阱：題 3 田字形不能摺正方體、題 7 小數排水法、題 8 半徑vs直徑關係、題 9 體積放大倍數<br>
+    · 乙部計算題：通分須找 LCM，分數除法要「除號變乘號、除數倒轉」，梯形面積必除 2<br>
+    · 丙部應用題：每題均藏跨課題陷阱（單位換算、水位高度反推、空間剩餘計算）<br>
+    · 善用 50 分鐘：甲部 12 分鐘 → 乙部 18 分鐘 → 丙部 16 分鐘 → 檢查 4 分鐘
+  </div>
+
+  <div class="footer-line">模擬3 · P5數學科（下學期期中）· 霖楓學苑　　第 5 頁</div>
+
+</div>
+
+</div><!-- .container -->
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P 列印 PDF &nbsp;|&nbsp; 5頁 · 21題 &nbsp;|&nbsp; LF-P5-下-L29 模擬3
+</div>
+
+<div style="text-align:center;margin-top:20px;padding-top:14px;border-top:1px solid var(--borderc);font-size:11px;color:var(--gray);">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。</div>
+</body>
+</html>

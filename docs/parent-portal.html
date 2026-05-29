@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 學習進度</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:650px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:22px;margin-bottom:4px}
+.header .student{font-size:15px;opacity:0.8}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #E5E7EB;display:flex;align-items:center;gap:8px}
+.fingerprint{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.fp-dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:white}
+.fp-dot.fixed{background:#16A34A}
+.fp-dot.improving{background:#C9A84C}
+.fp-dot.active{background:#DC2626}
+.fp-dot.untested{background:#E5E7EB;color:#9CA3AF}
+.legend{display:flex;gap:16px;justify-content:center;font-size:11px;color:#6B7280;margin-top:8px}
+.legend span{display:flex;align-items:center;gap:4px}
+.legend .dot{width:10px;height:10px;border-radius:50%}
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:#E5E7EB}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-item::before{content:'';position:absolute;left:-20px;top:6px;width:12px;height:12px;border-radius:50%;background:#C9A84C;border:2px solid white;box-shadow:0 0 0 2px #C9A84C}
+.tl-date{font-size:11px;color:#6B7280;margin-bottom:2px}
+.tl-title{font-weight:700;font-size:13px;margin-bottom:2px}
+.tl-desc{font-size:12px;color:#6B7280}
+.stat-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F3F4F6;font-size:13px}
+.stat-val{font-weight:900;color:#1A3C6D}
+.cta-box{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:14px;padding:24px;text-align:center;margin-top:20px}
+.cta-box h3{font-size:16px;margin-bottom:8px}
+.cta-box p{font-size:13px;opacity:0.8;margin-bottom:16px}
+.cta-btn{display:inline-block;background:#C9A84C;color:#1A3C6D;padding:12px 32px;border-radius:25px;text-decoration:none;font-weight:900;font-size:14px}
+.whatsapp-btn{display:inline-block;background:#25D366;color:white;padding:12px 32px;border-radius:25px;text-decoration:none;font-weight:900;font-size:14px;margin-left:8px}
+.trap-evolution{display:flex;gap:16px;justify-content:center;margin:16px 0}
+.evo-stage{text-align:center}
+.evo-stage .evo-date{font-size:10px;color:#6B7280;margin-bottom:4px}
+.evo-stage .evo-fp{display:flex;gap:3px}
+.evo-stage .evo-label{font-size:10px;color:#6B7280;margin-top:4px}
+<style>
+</style>
+
+</style>
+  <link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+<h1>學習進度報告</h1>
+<div class="student" id="studentName">陳小明 · P5</div>
+</div>
+
+<!-- TRAP FINGERPRINT -->
+<div class="card">
+<h2>🎯 陷阱指紋</h2>
+<div class="fingerprint" id="fingerprint"></div>
+<div class="legend">
+<span><span class="dot" style="background:#16A34A"></span> 已解決</span>
+<span><span class="dot" style="background:#C9A84C"></span> 改善中</span>
+<span><span class="dot" style="background:#DC2626"></span> 需關注</span>
+</div>
+<div class="trap-evolution" id="trapEvolution"></div>
+</div>
+
+<!-- STATS -->
+<div class="card">
+<h2>📊 學習數據</h2>
+<div class="stat-row"><span>已完成堂數</span><span class="stat-val">8 / 12 堂</span></div>
+<div class="stat-row"><span>整體正確率</span><span class="stat-val" style="color:#16A34A">78%</span></div>
+<div class="stat-row"><span>已避開陷阱</span><span class="stat-val" style="color:#16A34A">3 個</span></div>
+<div class="stat-row"><span>下階段目標</span><span class="stat-val">T6 百分數陷阱</span></div>
+</div>
+
+<!-- TIMELINE -->
+<div class="card">
+<h2>📅 學習歷程</h2>
+<div class="timeline" id="timeline"></div>
+</div>
+
+<!-- CTA -->
+<div class="cta-box">
+<h3>想繼續進步？</h3>
+<p>下階段我哋會專注解決剩餘嘅陷阱，準備呈分試。</p>
+<a href="enroll.html" class="cta-btn">📚 續報課程</a>
+<a href="https://wa.me/85294796459" class="whatsapp-btn">💬 查詢詳情</a>
+</div>
+
+</div>
+
+<script>
+// Demo data — in production this comes from CRM/Google Sheets
+
+try{
+    var shared=JSON.parse(localStorage.getItem("lf_shared_results"));
+    if(shared){
+        studentData.name=shared.name||studentData.name;
+        studentData.grade=shared.grade||studentData.grade;
+        studentData.accuracy=shared.pct||studentData.accuracy;
+        studentData.timeline.push({date:shared.date||"今日",title:"線上測驗",desc:"正確率: "+(shared.pct||"?")+"%"});
+        studentData.lessons=Math.min(studentData.lessons+1,studentData.totalLessons);
+    }
+    var history=JSON.parse(localStorage.getItem("online_tests")||"[]");
+    if(history.length>0){
+        history.slice(0,3).forEach(function(h){
+            studentData.timeline.push({date:h.date,title:"測驗: "+h.pct+"%",desc:h.correct+"/"+h.total+"題正確"});
+        });
+    }
+}catch(e){}
+
+var studentData = {
+    name: "陳小明", grade: "P5", lessons: 8, totalLessons: 12,
+    accuracy: 78,
+    traps: [
+        {id:"T1",name:"進退位",status:"fixed"},
+        {id:"T2",name:"單位換算",status:"fixed"},
+        {id:"T3",name:"運算順序",status:"improving"},
+        {id:"T4",name:"漏寫0",status:"fixed"},
+        {id:"T5",name:"分數",status:"active"},
+        {id:"T6",name:"百分數",status:"active"},
+        {id:"T7",name:"應用題",status:"improving"},
+        {id:"T8",name:"圖形面積",status:"untested"},
+        {id:"T9",name:"體積容量",status:"untested"},
+        {id:"T10",name:"速率",status:"untested"}
+    ],
+    timeline: [
+        {date:"2026-04-01",title:"第1堂 · 初步診斷",desc:"發現 T1/T2/T4 陷阱"},
+        {date:"2026-04-08",title:"第2堂 · T1 進退位訓練",desc:"正確率 65% → 80%"},
+        {date:"2026-04-15",title:"第3堂 · T4 漏寫0 突破",desc:"完全避開 T4 陷阱"},
+        {date:"2026-04-22",title:"第4堂 · 階段複習",desc:"T1/T2/T4 已解決 ✅"},
+        {date:"2026-04-29",title:"第5堂 · T7 應用題",desc:"開始改善文字題理解"},
+        {date:"2026-05-06",title:"第6堂 · T5 分數",desc:"分數加減正確率提升"},
+        {date:"2026-05-13",title:"第7堂 · T3 運算順序",desc:"持續改善中"},
+        {date:"2026-05-20",title:"第8堂 · 階段複習",desc:"下一目標：T6 百分數"},
+    ]
+};
+
+// Render
+document.getElementById("studentName").textContent = studentData.name + " · " + studentData.grade;
+
+// Fingerprint
+var fp = "";
+studentData.traps.forEach(function(t){
+    fp += '<div class="fp-dot '+t.status+'" title="T'+t.id.slice(1)+' '+t.name+'">'+t.id.slice(1)+'</div>';
+});
+document.getElementById("fingerprint").innerHTML = fp;
+
+// Evolution (3 stages)
+var stages = [
+    {date:"4月1日",traps:["active","active","untested","active","untested","untested","active","untested","untested","untested"],label:"開始前"},
+    {date:"4月22日",traps:["fixed","fixed","improving","fixed","untested","untested","improving","untested","untested","untested"],label:"4堂後"},
+    {date:"5月20日",traps:["fixed","fixed","improving","fixed","active","active","improving","untested","untested","untested"],label:"而家"},
+];
+var evoHtml = "";
+stages.forEach(function(s){
+    evoHtml += '<div class="evo-stage"><div class="evo-date">'+s.date+'</div><div class="evo-fp">';
+    s.traps.forEach(function(t){
+        var c = t==="fixed"?"#16A34A":t==="improving"?"#C9A84C":t==="active"?"#DC2626":"#E5E7EB";
+        evoHtml += '<div style="width:8px;height:8px;border-radius:50%;background:'+c+'"></div>';
+    });
+    evoHtml += '</div><div class="evo-label">'+s.label+'</div></div>';
+});
+document.getElementById("trapEvolution").innerHTML = evoHtml;
+
+// Timeline
+var tl = "";
+studentData.timeline.forEach(function(t){
+    tl += '<div class="tl-item"><div class="tl-date">'+t.date+'</div><div class="tl-title">'+t.title+'</div><div class="tl-desc">'+t.desc+'</div></div>';
+});
+document.getElementById("timeline").innerHTML = tl;
+</script>
+  <script src="/docs/data/lf-core.js"></script>
+  <script src="/docs/data/lf-whatsapp.js"></script>
+  <script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+</body></html>

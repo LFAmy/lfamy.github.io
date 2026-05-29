@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 家長滿意度調查</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:white;border-radius:20px;padding:36px 28px;max-width:480px;width:100%;color:#1A1A1A}
+.card h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:22px;color:#1A3C6D;text-align:center;margin-bottom:20px}
+.q-block{margin-bottom:20px}
+.q-block .q-text{font-weight:700;margin-bottom:10px;font-size:14px}
+.stars{display:flex;gap:8px;justify-content:center}
+.star{font-size:36px;cursor:pointer;transition:all 0.2s;filter:grayscale(1)}
+.star:hover,.star.active{filter:grayscale(0);transform:scale(1.2)}
+textarea{padding:12px;border:2px solid #E5E7EB;border-radius:10px;font-size:13px;font-family:inherit;width:100%;resize:vertical;min-height:80px}
+.btn{display:block;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white;margin-top:16px}
+.thanks{display:none;text-align:center;padding:30px}
+.thanks .icon{font-size:64px}
+</style>
+</head>
+<body>
+<div class="card" id="surveyForm">
+<h1>📋 學習體驗調查</h1>
+<p style="text-align:center;color:#6B7280;font-size:13px;margin-bottom:16px">幫助我哋做得更好（1分鐘）</p>
+
+<div class="q-block"><div class="q-text">小朋友喜歡上課嗎？</div><div class="stars" id="q1"><span class="star" onclick="rate('q1',1)">⭐</span><span class="star" onclick="rate('q1',2)">⭐</span><span class="star" onclick="rate('q1',3)">⭐</span><span class="star" onclick="rate('q1',4)">⭐</span><span class="star" onclick="rate('q1',5)">⭐</span></div></div>
+
+<div class="q-block"><div class="q-text">你覺得小朋友有進步嗎？</div><div class="stars" id="q2"><span class="star" onclick="rate('q2',1)">⭐</span><span class="star" onclick="rate('q2',2)">⭐</span><span class="star" onclick="rate('q2',3)">⭐</span><span class="star" onclick="rate('q2',4)">⭐</span><span class="star" onclick="rate('q2',5)">⭐</span></div></div>
+
+<div class="q-block"><div class="q-text">你會推薦霖楓學苑給朋友嗎？</div><div class="stars" id="q3"><span class="star" onclick="rate('q3',1)">⭐</span><span class="star" onclick="rate('q3',2)">⭐</span><span class="star" onclick="rate('q3',3)">⭐</span><span class="star" onclick="rate('q3',4)">⭐</span><span class="star" onclick="rate('q3',5)">⭐</span></div></div>
+
+<div class="q-block"><div class="q-text">有什麼想跟我們說嗎？（選填）</div><textarea id="feedback" placeholder="你的意見對我們很重要…"></textarea></div>
+
+<button class="btn" onclick="submitSurvey()">✅ 提交</button>
+</div>
+
+<div class="thanks" id="thanksMsg"><div class="icon">❤️</div><h2>感謝你的回饋！</h2><p style="color:#6B7280">我哋會根據你的意見持續改進</p></div>
+
+<script>
+var ratings={};
+function rate(q,n){
+ratings[q]=n;
+document.querySelectorAll("#"+q+" .star").forEach(function(s,i){s.classList.toggle("active",i<n)});
+}
+function submitSurvey(){
+if(!ratings.q3)return alert("請完成所有評分");
+var nps=ratings.q3>=4?"promoter":ratings.q3>=3?"passive":"detractor";
+var data={ratings:ratings,feedback:document.getElementById("feedback").value,nps:nps,date:new Date().toISOString()};
+var surveys=JSON.parse(localStorage.getItem("lf_surveys")||"[]");
+surveys.push(data);localStorage.setItem("lf_surveys",JSON.stringify(surveys));
+document.getElementById("surveyForm").style.display="none";
+document.getElementById("thanksMsg").style.display="block";
+}
+</script>
+</body></html>

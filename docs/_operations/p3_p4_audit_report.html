@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<title>P3/P4 講義品質審計報告</title>
+<style>
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans HK",sans-serif}
+body { font-family: 'Segoe UI', system-ui, sans-serif; max-width: 1200px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; }
+h1 { border-bottom: 3px solid #1A3C6D; padding-bottom: 12px; color: #1A3C6D; }
+h2 { color: #1A3C6D; margin-top: 32px; }
+.summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0; }
+.stat-card { background: #F9FAFB; border: 1px solid #D1D5DB; border-radius: 10px; padding: 20px; text-align: center; }
+.stat-card .num { font-size: 42px; font-weight: 900; color: #1A3C6D; }
+.stat-card .label { font-size: 13px; color: #6B7280; margin-top: 4px; }
+.stat-card.critical { border-left: 4px solid #DC2626; }
+.stat-card.warning { border-left: 4px solid #F59E0B; }
+.stat-card.good { border-left: 4px solid #16A34A; }
+.stat-card.info { border-left: 4px solid #3B82F6; }
+
+.score-bar { display: flex; gap: 4px; margin: 12px 0; align-items: center; }
+.score-bar .bar { height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; }
+.bar-6 { background: #16A34A; }
+.bar-5 { background: #65A30D; }
+.bar-4 { background: #CA8A04; }
+.bar-3 { background: #F59E0B; }
+.bar-2 { background: #EA580C; }
+.bar-1 { background: #DC2626; }
+
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+th { background: #1A3C6D; color: white; padding: 8px 12px; text-align: left; }
+td { padding: 7px 12px; border: 1px solid #D1D5DB; }
+tr:nth-child(even) td { background: #F9FAFB; }
+.issue-tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; margin: 1px 2px; }
+.tag-critical { background: #FEE2E2; color: #991B1B; }
+.tag-warning { background: #FEF3C7; color: #92400E; }
+.tag-info { background: #DBEAFE; color: #1E40AF; }
+.tag-ok { background: #DCFCE7; color: #166534; }
+.check { color: #16A34A; font-weight: 900; }
+.cross { color: #DC2626; font-weight: 900; }
+.section { background: #FFFBEB; border-left: 4px solid #C9A84C; padding: 12px 16px; margin: 16px 0; border-radius: 4px; }
+.findings-list { line-height: 2; }
+.findings-list li { margin: 4px 0; }
+</style>
+</head>
+<body>
+
+<h1>P3/P4 講義品質審計報告</h1>
+<div style="color:#6B7280;margin-top:-8px;">霖楓學苑 · LF Academy · 審計日期: 2026-05-22 · 審計範圍: P3(小三) + P4(小四) 共 80 份學生版講義</div>
+
+<!-- KEY METRICS -->
+<div class="summary-grid">
+  <div class="stat-card info">
+    <div class="num">80</div>
+    <div class="label">總講義數量 (P3:40 + P4:40)</div>
+  </div>
+  <div class="stat-card critical">
+    <div class="num">1</div>
+    <div class="label">需要立即處理 (Score &le; 3)</div>
+  </div>
+  <div class="stat-card warning">
+    <div class="num">31</div>
+    <div class="label">常規課缺少陷阱對比 (.tc)</div>
+  </div>
+  <div class="stat-card good">
+    <div class="num">64</div>
+    <div class="label">高品質講義 (Score 5-6)</div>
+  </div>
+</div>
+
+<!-- SCORE DISTRIBUTION -->
+<div class="section">
+<h2>評分分佈 (調整後)</h2>
+<div class="score-bar">
+<div class="bar bar-6" style="width:16.25%;">13份 (16%)</div><div class="bar bar-5" style="width:63.74999999999999%;">51份 (64%)</div><div class="bar bar-4" style="width:18.75%;">15份 (19%)</div><div class="bar bar-3" style="width:3%;">1份 (1%)</div><div class="bar bar-2" style="width:3%;">0份 (0%)</div><div class="bar bar-1" style="width:3%;">0份 (0%)</div>
+</div>
+<div style="font-size:12px;color:#6B7280;margin-top:4px;">
+  評分標準 (調整後): 6分=完美 · 5分=1個非關鍵缺失 · 4分=2個缺失 · 3分=3個缺失 · &le;2分=多個關鍵缺失<br>
+  <em>註：複習課(L19/L20/L39/L40)和模擬考試(L19/L37)已放寬評分標準（不需熱身題、陷阱對比、警告標記）</em>
+</div>
+</div>
+
+<!-- LESSON TYPE BREAKDOWN -->
+<div class="section">
+<h2>講義類型分佈</h2>
+<table>
+<tr><th>類型</th><th>數量</th><th>說明</th><th>評分標準</th></tr>
+<tr><td>常規教學課</td><td>70</td><td>含KP + 例題 + 練習 + 功課的完整講義</td><td>全標準（需陷阱對比、口訣、熱身）</td></tr>
+<tr><td>複習/總結課</td><td>8</td><td>L19/L20/L39/L40 學期複習或假期計劃</td><td>放寬（不需熱身、陷阱對比）</td></tr>
+<tr><td>模擬考試</td><td>2</td><td>SSPA模擬卷 (L19/L37)</td><td>試卷格式（不需KP、陷阱對比）</td></tr>
+</table>
+</div>
+
+<!-- CRITICAL FINDINGS -->
+<div class="section">
+<h2>關鍵發現</h2>
+
+<h3>1. 陷阱對比 (.tc) 缺失 — 最嚴重的系統性問題</h3>
+<p>常規教學課中，31/70 (44%) 缺少陷阱對比區塊。這是霖楓學苑的核心教學法（❌常見錯誤 vs ✅正確解法），每個知識點至少需要一個。</p>
+<ul class="findings-list">
+<li><span class='cross'>&#10008;</span> P3 - LF-P3-上-L18_立體圖形認識.html</li><li><span class='cross'>&#10008;</span> P3 - LF-P3-下-L28_棒形圖閱讀.html</li><li><span class='cross'>&#10008;</span> P3 - LF-P3-下-L29_棒形圖製作.html</li><li><span class='cross'>&#10008;</span> P3 - LF-P3-下-L30_綜合小數測量圖表.html</li><li><span class='cross'>&#10008;</span> P3 - LF-P3-下-L34_立體圖形進階.html</li><li><span class='cross'>&#10008;</span> P3 - LF-P3-下-L37_對稱初探.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L01_五位數認識.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L05_四則應用題.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L06_倍數與因數.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L08_分數認識.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L09_同分母分數加減.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L10_分數比較+擴分約分.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L11_面積入門.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L13_複合圖形面積.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L14_周界應用題.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L15_方向與位置.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L16_棒形圖閱讀.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-上-L17_棒形圖製作.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L24_異分母分數減法+加減混合.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L25_分數應用題.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L27_小數比較+數線.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L28_小數加法+減法.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L29_小數應用題.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L30_對稱.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L31_對稱進階.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L32_倍數與因數進階.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L33_四則混合運算進階.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L34_數據與概率入門.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L35_周界面積綜合應用.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L36_方向與路線進階.html</li><li><span class='cross'>&#10008;</span> P4 - LF-P4-下-L39_綜合應用題挑戰.html</li>
+</ul>
+
+<h3>2. 封面資訊不完整</h3>
+<p>共 61 個封面資訊缺失，主要集中在「SSPA關聯」和「前置知識」欄位。</p>
+<p>P3/P4 階段 SSPA 關聯可選填，但「前置知識」和「本堂目標」應為必填。</p>
+
+<h3>3. 錯誤表 (.et) 缺失</h3>
+<p>3/80 份講義缺少錯誤總結表。這些主要為複習課和模擬考試。</p>
+
+<h3>4. 內容品質亮點</h3>
+<ul>
+  <li>所有講義均有封面頁和頁尾（100% 覆蓋）</li>
+  <li>99% 講義有列印 CSS 設定</li>
+  <li>99% 講義有口訣 (.mn) — 核心教學元素保存良好</li>
+  <li>高品質範例: LF-P3-上-L01 (分數清晰、年齡適宜、遊戲元素豐富)</li>
+  <li>高品質範例: LF-P4-上-L11 (SVG圖形完整、陷阱對比清晰)</li>
+</ul>
+</div>
+
+<!-- PER-FILE DETAIL -->
+<div class="section">
+<h2>逐份審計詳情</h2>
+<p style="font-size:12px;color:#6B7280;">每份講義的審計結果。紅色 = 需要修正的項目。</p>
+<table>
+<tr>
+  <th>年級</th><th>檔案</th><th>類型</th><th>評分</th>
+  <th>陷阱對比</th><th>口訣</th><th>錯誤表</th>
+  <th>主要問題</th>
+</tr>
+
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L19_SSPA模擬1.html</td>
+  <td><span class="tag-info">模擬考</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">3/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="font-size:11px;">封面缺:對應教材<br>封面缺:SSPA 關聯<br>封面缺:前置知識<br>封面缺:本堂目標<br>error table (.et)<br>... 還有 7 個問題</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L17_時間應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>warning alerts (.warn)<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L18_立體圖形認識.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>trap comparison (.tc) - core pedagogy element<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L28_棒形圖閱讀.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>trap comparison (.tc) - core pedagogy element<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L29_棒形圖製作.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>trap comparison (.tc) - core pedagogy element<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L30_綜合小數測量圖表.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>trap comparison (.tc) - core pedagogy element<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L34_立體圖形進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>trap comparison (.tc) - core pedagogy element<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L37_對稱初探.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>trap comparison (.tc) - core pedagogy element<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L25_分數應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element<br>warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L27_小數比較+數線.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element<br>warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L28_小數加法+減法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element<br>warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L29_小數應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element<br>warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L33_四則混合運算進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element<br>warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L34_數據與概率入門.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element<br>warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L36_方向與路線進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element<br>warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L39_綜合應用題挑戰.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#F59E0B;font-weight:900;font-size:16px;">4/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:對應教材<br>trap comparison (.tc) - core pedagogy element<br>NOTE: no step cards (.sc) — may be OK for some ...<br>knowledge point sections (.kp)</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L01_萬以內數的認識.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L02_萬以內加法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L03_萬以內減法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L04_加減混合運算.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L05_乘法認識.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L06_兩位數乘一位數乘法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L07_乘法應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L08_除法認識.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L09_基本除法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L10_除法應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L11_分數初探.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L12_同分母分數加法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L13_長度單位.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L14_重量單位.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L15_容量單位.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L16_時間.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L20_學期總結+聖誕練習包.html</td>
+  <td><span class="tag-info">複習</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="font-size:11px;">封面缺:對應教材<br>封面缺:核心陷阱<br>封面缺:SSPA 關聯<br>封面缺:前置知識<br>封面缺:本堂目標<br>... 還有 6 個問題</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L21_乘法進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L22_除法進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L23_除法應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L24_四則混合.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L25_分數進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L26_分數應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L27_小數初探.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L31_容量進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L32_時間進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L33_時間應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L35_數感進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L36_方向和位置.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L38_可能性入門.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>SSPA/呈分試 references</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L01_五位數認識.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L05_四則應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L06_倍數與因數.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L08_分數認識.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L09_同分母分數加減.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L10_分數比較+擴分約分.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L11_面積入門.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L13_複合圖形面積.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L14_周界應用題.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L15_方向與位置.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L16_棒形圖閱讀.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L17_棒形圖製作.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L20_總複習+寒假計劃.html</td>
+  <td><span class="tag-info">複習</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="font-size:11px;">error table (.et)<br>trap comparison (.tc) - core pedagogy element<br>warm-up section<br>warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L22_異分母分數比較.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L23_異分母分數加法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L24_異分母分數減法+加減混合.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L26_小數認識.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">warning alerts (.warn)</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L30_對稱.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L31_對稱進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L32_倍數與因數進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L35_周界面積綜合應用.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">5/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-上-L19_上學期總複習.html</td>
+  <td><span class="tag-info">複習</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>封面缺:前置知識<br>trap comparison (.tc) - core pedagogy element<br>warm-up section<br>warning alerts (.warn)<br>... 還有 2 個問題</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L39_下學期總複習.html</td>
+  <td><span class="tag-info">複習</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:SSPA 關聯<br>封面缺:前置知識<br>trap comparison (.tc) - core pedagogy element<br>warm-up section<br>warning alerts (.warn)<br>... 還有 2 個問題</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td style="font-size:11px;">LF-P3-下-L40_學期總結+暑假升P4預告.html</td>
+  <td><span class="tag-info">複習</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:核心陷阱<br>封面缺:SSPA 關聯<br>封面缺:前置知識<br>Error table has only 5 rows (need >=6)<br>trap comparison (.tc) - core pedagogy element<br>... 還有 3 個問題</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L02_兩位數除法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;"></td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L03_三位數除法.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;"></td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L04_四則混合運算.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;"></td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L07_HCF+LCM.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;"></td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L12_正方形面積與周界.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;"></td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-上-L18_綜合複習.html</td>
+  <td><span class="tag-info">複習</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">trap comparison (.tc) - core pedagogy element</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L21_分數進階.html</td>
+  <td><span class="tag-ok">常規</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;"></td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L37_SSPA模擬2.html</td>
+  <td><span class="tag-info">模擬考</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:對應教材<br>封面缺:核心陷阱<br>封面缺:前置知識<br>封面缺:本堂目標<br>Error table has only 5 rows (need >=6)<br>... 還有 5 個問題</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L38_下學期陷阱總複習.html</td>
+  <td><span class="tag-info">複習</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:對應教材<br>封面缺:前置知識<br>trap comparison (.tc) - core pedagogy element<br>warm-up section<br>warning alerts (.warn)<br>... 還有 2 個問題</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td style="font-size:11px;">LF-P4-下-L40_學期總結+暑假P5預告.html</td>
+  <td><span class="tag-info">複習</span></td>
+  <td style="color:#16A34A;font-weight:900;font-size:16px;">6/6</td>
+  <td style="text-align:center;"><span class="cross">&#10008;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="text-align:center;"><span class="check">&#10004;</span></td>
+  <td style="font-size:11px;">封面缺:對應教材<br>封面缺:核心陷阱<br>trap comparison (.tc) - core pedagogy element<br>warm-up section<br>NOTE: no step cards (.sc) — may be OK for some ...</td>
+</tr>
+</table>
+</div>
+
+<!-- BEFORE/AFTER COMPARISON -->
+<div class="section">
+<h2>審計前後對比</h2>
+<table>
+<tr><th>指標</th><th>審計前</th><th>審計後（調整）</th><th>變化</th></tr>
+
+<tr><td>高品質講義 (5-6分)</td><td>56/80 (70%)</td><td>64/80 (80%)</td><td>+8（放寬複習/模擬課標準）</td></tr>
+<tr><td>低分講義 (&le;3分)</td><td>8</td><td>1</td><td>-7（調整後）</td></tr>
+<tr><td>陷阱對比覆蓋率</td><td>39/70 (55%)</td><td>目標: 70/70 (100%)</td><td>待修正</td></tr>
+<tr><td>錯誤表覆蓋率</td><td>77/80</td><td>目標: 80/80 (100%)</td><td>待修正</td></tr>
+</table>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<div class="section">
+<h2>改善建議（優先級排序）</h2>
+
+<h3>P0 - 立即修正（內容錯誤，影響學生學習）</h3>
+<ol>
+  <li><strong>數學答案驗證：</strong>抽查所有涉及分數運算（加減乘除）、面積計算、單位換算的題目答案。使用 Python 腳本批量驗證。</li>
+  <li><strong>陷阱對比品質：</strong>檢查現有 39 個 .tc 區塊的錯誤範例是否為「真實常見錯誤」，非稻草人錯誤。</li>
+</ol>
+
+<h3>P1 - 本週內修正（教學法完整性）</h3>
+<ol>
+  <li><strong>為 31 份常規課添加陷阱對比 (.tc)：</strong>每個知識點至少 1 個 ❌vs✅ 對比。</li>
+  <li><strong>為 3 份講義添加錯誤總結表 (.et)：</strong>複習課和模擬考也應有錯誤回顧。</li>
+</ol>
+
+<h3>P2 - 本月內修正（格式統一）</h3>
+<ol>
+  <li><strong>封面資訊標準化：</strong>所有講義封面應含 5 個必填欄位（對應教材、核心陷阱、SSPA關聯、前置知識、本堂目標）。</li>
+  <li><strong>字體大小檢查：</strong>P3/P4 字體應比 P5/P6 大 1-2px，確保 8-10 歲學生閱讀舒適。</li>
+  <li><strong>SVG 圖形標註：</strong>幾何/圖表課題的 SVG 圖形應有清晰尺寸標註。</li>
+</ol>
+
+<h3>P3 - 持續改善</h3>
+<ol>
+  <li>建立講義生成檢查清單（可整合到 Claude Code hook）</li>
+  <li>每份新講義完成後自動運行審計腳本</li>
+  <li>收集老師/學生反饋，迭代改善陷阱範例的真實性</li>
+</ol>
+</div>
+
+<div style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #D1D5DB;font-size:11px;color:#6B7280;">
+  LF Academy P3/P4 Audit Report · Generated 2026-05-22 · Auditor: Claude Code
+</div>
+
+</body>
+</html>

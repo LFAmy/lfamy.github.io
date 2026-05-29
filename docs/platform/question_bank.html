@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教研題庫瀏覽器 | 霖楓學苑 · LF Academy</title><style>
+<style>
+:root {
+  --primary: #1B3A5C; --primary-light: #2A5A8C;
+  --gold: #C8922A; --gold-light: #E8B84B;
+  --accent: #2D7D46; --accent-light: #3DA85E;
+  --bg: #F7F4ED; --card: #FFFFFF;
+  --text: #2C3E50; --text-light: #5D6D7E;
+  --border: #E2DCCE; --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --radius: 12px; --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { font-size:16px; scroll-behavior:smooth; }
+body {
+  font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text); background: var(--bg);
+  line-height: 1.6; min-height: 100vh;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, #0F2A45 100%);
+  color: #fff; padding: 24px 0; text-align: center; position: relative;
+}
+.header::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+.header h1 { font-size: 1.6rem; font-weight: 900; }
+.header .tagline { font-size: 0.9rem; color: var(--gold-light); margin-top: 4px; }
+
+/* Layout */
+.app-layout { display: flex; gap: 24px; max-width: 1300px; margin: 24px auto; padding: 0 20px; align-items: flex-start; }
+.main-content { flex: 1; min-width: 0; }
+.sidebar { width: 340px; flex-shrink: 0; position: sticky; top: 20px; }
+
+/* Stats Bar */
+.stats-bar {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--card); border-radius: var(--radius-sm);
+  padding: 14px 12px; text-align: center; box-shadow: var(--shadow);
+  border-top: 3px solid var(--primary);
+}
+.stat-card .stat-num { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
+.stat-card .stat-label { font-size: 0.75rem; color: var(--text-light); margin-top: 2px; }
+
+/* Filter Panel */
+.filter-panel {
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 20px 24px; margin-bottom: 20px;
+}
+.filter-panel h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 16px; }
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.filter-row:last-child { margin-bottom: 0; }
+.filter-chip {
+  padding: 6px 14px; border: 2px solid var(--border); border-radius: 20px;
+  font-size: 0.8rem; font-weight: 500; cursor: pointer; user-select: none;
+  transition: all 0.2s; background: var(--bg); color: var(--text);
+}
+.filter-chip:hover { border-color: var(--primary-light); }
+.filter-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.filter-chip.trap-T1.active { background: #E74C3C; border-color: #E74C3C; }
+.filter-chip.trap-T2.active { background: #E67E22; border-color: #E67E22; }
+.filter-chip.trap-T3.active { background: #2980B9; border-color: #2980B9; }
+.filter-chip.trap-T4.active { background: #27AE60; border-color: #27AE60; }
+.filter-chip.trap-T5.active { background: #8E44AD; border-color: #8E44AD; }
+.filter-chip.trap-T6.active { background: #16A085; border-color: #16A085; }
+.filter-chip.trap-T7.active { background: #D35400; border-color: #D35400; }
+.filter-chip.trap-T8.active { background: #2C3E50; border-color: #2C3E50; }
+.filter-chip.trap-T9.active { background: #C0392B; border-color: #C0392B; }
+.filter-chip.trap-T10.active { background: #7F8C8D; border-color: #7F8C8D; }
+.chip-diff { border-color: var(--gold); }
+.chip-diff.active { background: var(--gold); border-color: var(--gold); color: #fff; }
+.chip-type { border-color: var(--accent); }
+.chip-type.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.search-box {
+  width: 100%; padding: 10px 16px; border: 2px solid var(--border);
+  border-radius: 25px; font-size: 0.9rem; font-family: inherit;
+  outline: none; transition: border-color 0.2s; background: var(--bg);
+}
+.search-box:focus { border-color: var(--primary); }
+
+/* Question List */
+.results-info {
+  font-size: 0.85rem; color: var(--text-light); margin-bottom: 12px;
+  font-weight: 500;
+}
+.question-card {
+  background: var(--card); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow); padding: 16px 20px; margin-bottom: 10px;
+  cursor: pointer; transition: all 0.2s; border-left: 4px solid transparent;
+  position: relative;
+}
+.question-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+.question-card.selected { border-left-color: var(--accent); background: #F7FAF8; }
+.question-card .q-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+}
+.question-card .q-id { font-weight: 700; color: var(--primary); font-size: 0.85rem; min-width: 32px; }
+.question-card .q-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.badge {
+  padding: 2px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 600;
+  white-space: nowrap;
+}
+.badge-trap { background: #EDF2F8; color: var(--primary); }
+.badge-trap.T1 { background: #FDEDEC; color: #E74C3C; }
+.badge-trap.T2 { background: #FEF5E7; color: #E67E22; }
+.badge-trap.T3 { background: #EBF5FB; color: #2980B9; }
+.badge-trap.T4 { background: #E8F8F5; color: #27AE60; }
+.badge-trap.T5 { background: #F4ECF7; color: #8E44AD; }
+.badge-trap.T6 { background: #E8F8F5; color: #16A085; }
+.badge-trap.T7 { background: #FEF5E7; color: #D35400; }
+.badge-trap.T8 { background: #EAECEE; color: #2C3E50; }
+.badge-trap.T9 { background: #FDEDEC; color: #C0392B; }
+.badge-trap.T10 { background: #F2F3F4; color: #7F8C8D; }
+.badge-diff { background: #FEF9E7; color: #B7950B; }
+.badge-type { background: #E8F8F5; color: var(--accent); }
+.question-card .q-text { font-size: 0.9rem; margin-bottom: 4px; }
+.question-card .q-detail {
+  display: none; margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border); font-size: 0.85rem;
+}
+.question-card.expanded .q-detail { display: block; }
+.q-detail .answer-block {
+  background: #F0F8F0; padding: 8px 12px; border-radius: 6px;
+  font-weight: 600; color: var(--accent);
+}
+.q-detail .options-block { margin-bottom: 8px; }
+.q-detail .options-block span { display: inline-block; margin-right: 12px; font-size: 0.88rem; }
+.q-checkbox {
+  position: absolute; top: 16px; right: 16px;
+  width: 22px; height: 22px; cursor: pointer; accent-color: var(--accent);
+  transform: scale(1.5);
+}
+
+/* Sidebar / Worksheet Builder */
+.worksheet-sidebar {
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 20px 24px;
+}
+.worksheet-sidebar h3 {
+  font-size: 1rem; font-weight: 700; color: var(--primary);
+  margin-bottom: 4px;
+}
+.worksheet-sidebar .ws-count {
+  font-size: 0.82rem; color: var(--text-light); margin-bottom: 16px;
+}
+.ws-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.ws-item .ws-remove {
+  color: #E74C3C; cursor: pointer; font-weight: 700; font-size: 1.1rem;
+  padding: 2px 8px;
+}
+.ws-item .ws-remove:hover { background: #FDEDEC; border-radius: 4px; }
+.ws-empty { text-align: center; color: var(--text-light); padding: 24px 0; font-size: 0.88rem; }
+.ws-actions { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.btn-ws {
+  padding: 10px; border: none; border-radius: var(--radius-sm);
+  font-size: 0.88rem; font-weight: 600; font-family: inherit;
+  cursor: pointer; transition: all 0.2s; text-align: center;
+}
+.btn-ws-print { background: var(--primary); color: #fff; }
+.btn-ws-print:hover { background: var(--primary-light); }
+.btn-ws-clear { background: var(--bg); color: var(--text); border: 2px solid var(--border); }
+.btn-ws-clear:hover { border-color: #E74C3C; color: #E74C3C; }
+.btn-ws-whatsapp { background: #25D366; color: #fff; }
+.btn-ws-whatsapp:hover { background: #1EA84F; }
+
+/* Footer */
+.footer {
+  text-align: center; padding: 24px; color: var(--text-light);
+  font-size: 0.82rem; margin-top: 40px; border-top: 1px solid var(--border);
+}
+.footer strong { color: var(--primary); }
+
+/* Print styles */
+@media print {
+  body { background: #fff; }
+  .header, .filter-panel, .stats-bar, .sidebar, .footer, .results-info, .q-checkbox { display: none !important; }
+  .app-layout { display: block; max-width: 100%; }
+  .question-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+  .question-card.expanded .q-detail { display: block; }
+}
+
+@media (max-width: 1024px) {
+  .app-layout { flex-direction: column; }
+  .sidebar { width: 100%; position: static; }
+  .stats-bar { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .filter-panel { padding: 14px 12px; }
+  .question-card { padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1>教研題庫瀏覽器</h1>
+  <p class="tagline">霖楓學苑 · LF Academy — 不教數學，教避開陷阱。</p>
+</header>
+
+<div class="app-layout">
+  <main class="main-content">
+    <!-- Stats -->
+    <div class="stats-bar" id="statsBar"></div>
+
+    <!-- Filter Panel -->
+    <div class="filter-panel">
+      <h3>篩選與搜尋</h3>
+      <div style="margin-bottom:10px;">
+        <input type="text" class="search-box" id="searchBox" placeholder="搜尋題目關鍵字..." oninput="applyFilters()">
+      </div>
+      <div class="filter-row" style="font-size:0.78rem;font-weight:600;color:var(--text-light);margin-bottom:4px;">陷阱類型：</div>
+      <div class="filter-row" id="trapFilters"></div>
+      <div class="filter-row" style="font-size:0.78rem;font-weight:600;color:var(--text-light);margin-bottom:4px;">難度：</div>
+      <div class="filter-row" id="diffFilters"></div>
+      <div class="filter-row" style="font-size:0.78rem;font-weight:600;color:var(--text-light);margin-bottom:4px;">題型：</div>
+      <div class="filter-row" id="typeFilters"></div>
+      <button class="btn-ws btn-ws-clear" style="margin-top:8px;width:auto;padding:6px 16px;font-size:0.8rem;" onclick="clearFilters()">清除所有篩選</button>
+    </div>
+
+    <!-- Results -->
+    <div class="results-info" id="resultsInfo"></div>
+    <div id="questionList"></div>
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="worksheet-sidebar">
+      <h3>工作紙編輯器</h3>
+      <p class="ws-count" id="wsCount">已選 0 題</p>
+      <div id="wsList">
+        <div class="ws-empty">點擊題目旁的 ☐ 選擇題目<br>建立自訂工作紙</div>
+      </div>
+      <div class="ws-actions">
+        <button class="btn-ws btn-ws-print" onclick="printWorksheet()" id="btnPrintWs" disabled>🖨️ 列印工作紙</button>
+        <button class="btn-ws btn-ws-clear" onclick="clearWorksheet()">🗑️ 清空選擇</button>
+        <button class="btn-ws btn-ws-whatsapp" onclick="shareWhatsApp()">📱 WhatsApp 分享題目</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer class="footer">
+  <p>Powered by <strong>霖楓學苑 · LF Academy</strong> — 教研平台</p>
+  <p style="margin-top:4px;">📞 WhatsApp 查詢：師資培訓 · 教材合作</p>
+</footer>
+
+<script>
+// ============================================================
+// QUESTION BANK — 55 REAL P5 SSPA QUESTIONS
+// ============================================================
+const Q = [
+  {id:'Q1', type:'mc', trap:'T3', diff:'🌿', topic:'分數混合運算',
+   q:'計算 5/6 − 2/3 + 1/2 的值。',
+   opts:['41/60','2/3','39/60','5/6'], ans:1},
+  {id:'Q2', type:'mc', trap:'T3', diff:'🌿', topic:'分數乘除',
+   q:'計算 2/3 × 3/4 ÷ 1/2 的值。',
+   opts:['1','1/2','1/4','3/4'], ans:0},
+  {id:'Q3', type:'mc', trap:'T8', diff:'🌿', topic:'平均數',
+   q:'計算八個數的平均數：25.5, 26, 27.5, 27, 27.5, 27.5, 27.5, 24.5。',
+   opts:['25.625','26.125','26.5','26.625'], ans:3},
+  {id:'Q4', type:'mc', trap:'T2', diff:'🌿', topic:'小數化分數',
+   q:'把 1.88 化為最簡分數。',
+   opts:['88/100','1 88/100','1 44/50','1 22/25'], ans:3},
+  {id:'Q5', type:'mc', trap:'T1', diff:'🌿', topic:'近似值',
+   q:'把 942,578,369 取近似值至百萬位。',
+   opts:['942,000,000','942,600,000','943,000,000','940,000,000'], ans:2},
+  {id:'Q6', type:'mc', trap:'T7', diff:'🌿', topic:'公倍數',
+   q:'36 和 45 的第 3 個公倍數是多少？',
+   opts:['90','180','360','540'], ans:3},
+  {id:'Q7', type:'mc', trap:'T6', diff:'🌿', topic:'公因數',
+   q:'48 和 72 有多少個公因數？',
+   opts:['6','8','10','12'], ans:1},
+  {id:'Q8', type:'mc', trap:'T4', diff:'🌳', topic:'平行四邊形面積',
+   q:'平行四邊形高是 9 厘米，底是 20 厘米，面積是多少平方厘米？',
+   opts:['120','150','168','180'], ans:3},
+  {id:'Q9', type:'mc', trap:'T6', diff:'🌿', topic:'L.C.M.',
+   q:'36、48、96 的 L.C.M. 是多少？',
+   opts:['144','288','576','156,672'], ans:1},
+  {id:'Q10', type:'mc', trap:'T3', diff:'🌳', topic:'分數混合運算',
+   q:'計算 250 × 30 + 2500 × 99 − 250 × 20 的值。',
+   opts:['250,000','25,000','50,000','500,000'], ans:0},
+  {id:'Q11', type:'mc', trap:'T5', diff:'🌱', topic:'方向',
+   q:'如果小明背向東南方，他的左邊是哪一方？',
+   opts:['南方','東南方','西南方','東方'], ans:2},
+  {id:'Q12', type:'mc', trap:'T5', diff:'🌿', topic:'對稱軸',
+   q:'以下哪個圖形擁有 4 條對稱軸？',
+   opts:['長方形','正方形','等邊三角形','平行四邊形'], ans:1},
+  {id:'Q13', type:'mc', trap:'T6', diff:'🌳', topic:'倍數範圍',
+   q:'20 至 250 之間有多少個 4 的倍數？',
+   opts:['48','50','58','60'], ans:2},
+  {id:'Q14', type:'mc', trap:'T6', diff:'🌿', topic:'H.C.F.',
+   q:'60、30、75 的 H.C.F. 是多少？',
+   opts:['3','6','12','15'], ans:3},
+  {id:'Q15', type:'mc', trap:'T3', diff:'🌿', topic:'分數混合運算',
+   q:'計算 6/4 − 3/4 + 2/9 的值。',
+   opts:['35/36','7/9','18/9','17/9'], ans:0},
+  {id:'Q16', type:'mc', trap:'T9', diff:'🌱', topic:'除法餘數',
+   q:'小明有 142 粒糖，每 8 粒分成一袋，最少要準備多少個袋？',
+   opts:['16','17','18','19'], ans:2},
+  {id:'Q17', type:'mc', trap:'T1', diff:'🌱', topic:'位值',
+   q:'975,136 最少加上多少才是一個七位數？',
+   opts:['24,864','875,136','2,484','12,354'], ans:0},
+  {id:'Q18', type:'mc', trap:'T1', diff:'🌳', topic:'組合數字',
+   q:'用數字 0, 1, 5, 3, 7, 5 可組成的最小六位奇數是多少？',
+   opts:['103,357','103,557','105,753','107,553'], ans:1},
+  {id:'Q19', type:'mc', trap:'T4', diff:'🌳', topic:'梯形面積',
+   q:'梯形上底 15 cm，下底比上底多 4 倍，高 8 cm，面積是多少？',
+   opts:['260 cm²','300 cm²','360 cm²','480 cm²'], ans:2},
+  {id:'Q20', type:'mc', trap:'T3', diff:'🌳', topic:'分數比較',
+   q:'以下哪一道算式的結果最大？<br>A. 3/4 × 2/3  B. 5/6 × 3/4  C. 7/8 × 4/5  D. 2/3 × 5/6',
+   opts:['3/4 × 2/3','5/6 × 3/4','7/8 × 4/5','2/3 × 5/6'], ans:2},
+  {id:'Q31', type:'mc', trap:'T4', diff:'🌿', topic:'三角形面積',
+   q:'三角形底 12 cm，高 8 cm，面積是多少平方厘米？',
+   opts:['48','96','40','24'], ans:0},
+  {id:'Q32', type:'mc', trap:'T10', diff:'🌱', topic:'代數入門',
+   q:'如果 x + 5 = 12，求 x 的值。',
+   opts:['5','6','7','17'], ans:2},
+  {id:'Q33', type:'mc', trap:'T8', diff:'🌿', topic:'平均數',
+   q:'5 個數的平均是 28，其中 4 個數是 25, 30, 22, 35，第五個數是多少？',
+   opts:['26','28','30','32'], ans:1},
+  {id:'Q34', type:'mc', trap:'T9', diff:'🌿', topic:'除法應用',
+   q:'有 125 本書，每 8 本放一盒，最少需要多少個盒？',
+   opts:['15','16','17','18'], ans:1},
+  {id:'Q35', type:'mc', trap:'T1', diff:'🌿', topic:'近似值',
+   q:'把 3,456,789 取近似值至十萬位。',
+   opts:['3,400,000','3,450,000','3,460,000','3,500,000'], ans:3},
+  {id:'Q36', type:'mc', trap:'T10', diff:'🌿', topic:'代數',
+   q:'3x − 7 = 20，x 的值是多少？',
+   opts:['7','8','9','10'], ans:2},
+  {id:'Q37', type:'mc', trap:'T5', diff:'🌿', topic:'體積',
+   q:'正方體邊長 6 cm，體積是多少立方厘米？',
+   opts:['36','72','180','216'], ans:3},
+  {id:'Q38', type:'mc', trap:'T7', diff:'🌳', topic:'公倍數',
+   q:'6 和 8 的第 5 個公倍數是多少？',
+   opts:['72','96','120','144'], ans:2},
+  {id:'Q21', type:'short', trap:'T6', diff:'🌿', topic:'分數應用',
+   q:'一包口罩 50 個，用了當中的十分之八，餘下 ___ 個。', ans:'10'},
+  {id:'Q22', type:'short', trap:'T6', diff:'🌳', topic:'分數比較',
+   q:'小明有 800 粒糖，小華有的是小明的 3/4，小思有的是小明的 1/2，三人共有 ___ 粒糖。', ans:'1800'},
+  {id:'Q23', type:'short', trap:'T8', diff:'🌿', topic:'應用題',
+   q:'一條跑道長 3 2/5 km，小明來回跑了 3 次，共跑了 ___ km。', ans:'20 2/5'},
+  {id:'Q24', type:'short', trap:'T1', diff:'🌱', topic:'位值',
+   q:'在 932,546,542 中，兩個「2」的數值相差 ___。', ans:'1,998,000'},
+  {id:'Q25', type:'short', trap:'T2', diff:'🌿', topic:'小數應用',
+   q:'故事書每本 19.9 元，圖畫書比故事書貴 24.35 元，小思花一百元買兩本故事書和一本圖畫書，剩餘 ___ 元。', ans:'15.95'},
+  {id:'Q26', type:'short', trap:'T2', diff:'🌿', topic:'小數運算',
+   q:'計算 24.35 − 12.035 並化為最簡分數，答案是 ___。', ans:'12 63/200'},
+  {id:'Q27', type:'short', trap:'T5', diff:'🌳', topic:'長方體體積',
+   q:'長方體盒子長 12 厘米，闊是長的一半，高是長和闊之和的三倍，體積是 ___ 立方厘米。', ans:'3888'},
+  {id:'Q28', type:'short', trap:'T6', diff:'🌿', topic:'分數除法',
+   q:'把 12 1/2 升的可樂每 1/4 升分成一杯，平均分給 10 個學生，每個學生可分 ___ 杯。', ans:'5'},
+  {id:'Q29', type:'short', trap:'T5', diff:'🌿', topic:'體積',
+   q:'長方體長 8 cm、闊 5 cm、高 3 cm，體積是 ___ 立方厘米。', ans:'120'},
+  {id:'Q30', type:'short', trap:'T8', diff:'🌿', topic:'薪金應用',
+   q:'小志每天工作 8.5 小時，每小時薪金 60.5 元，3 月中休息了 4 日，共得薪金 ___ 元。', ans:'13,886.75'},
+  {id:'Q39', type:'short', trap:'T4', diff:'🌿', topic:'長方形面積',
+   q:'長方形長 15 cm，闊 12 cm，面積是 ___ 平方厘米。', ans:'180'},
+  {id:'Q40', type:'short', trap:'T3', diff:'🌿', topic:'分數加減',
+   q:'計算 3 1/4 + 2 2/5 − 1 3/8，答案是 ___。', ans:'4 11/40'},
+  {id:'Q41', type:'short', trap:'T8', diff:'🌱', topic:'平均數',
+   q:'小明的考試分數：78, 82, 88, 90, 92，平均分是 ___。', ans:'86'},
+  {id:'Q42', type:'short', trap:'T2', diff:'🌿', topic:'小數乘法',
+   q:'計算 3.25 × 4.8，答案是 ___。', ans:'15.6'},
+  {id:'Q43', type:'short', trap:'T4', diff:'🌿', topic:'梯形面積',
+   q:'梯形上底 10 cm、下底 14 cm、高 6 cm，面積是 ___ 平方厘米。', ans:'72'},
+  {id:'Q44', type:'short', trap:'T3', diff:'🌿', topic:'分數乘除',
+   q:'計算 3/4 × 2/5 ÷ 1/2，答案是 ___。', ans:'3/5'},
+  {id:'Q45', type:'short', trap:'T6', diff:'🌱', topic:'H.C.F.',
+   q:'24 和 36 的 H.C.F. 是 ___。', ans:'12'},
+  {id:'Q46', type:'short', trap:'T9', diff:'🌿', topic:'除法餘數',
+   q:'糖果 187 粒，每袋裝 12 粒，最多可裝滿 ___ 袋，餘下 ___ 粒。', ans:'15袋,餘7粒'},
+  {id:'Q47', type:'short', trap:'T5', diff:'🌱', topic:'正方體體積',
+   q:'正方體邊長 4 cm，體積是 ___ 立方厘米。', ans:'64'},
+  {id:'Q48', type:'short', trap:'T10', diff:'🌿', topic:'代數',
+   q:'2x + 8 = 30，x = ___。', ans:'11'},
+  {id:'Q49', type:'short', trap:'T2', diff:'🌱', topic:'小數乘除',
+   q:'12.05 × 100 = ___。', ans:'1205'},
+  {id:'Q50', type:'short', trap:'T8', diff:'🌳', topic:'應用題',
+   q:'的士起步價 24 元（首 2 公里），其後每公里 8.5 元，乘 15 公里需付 ___ 元。', ans:'134.5'},
+  {id:'Q51', type:'short', trap:'T3', diff:'🌿', topic:'分數加減',
+   q:'計算 5/8 + 3/4 − 1/2，答案是 ___。', ans:'7/8'},
+  {id:'Q52', type:'short', trap:'T7', diff:'🌿', topic:'公倍數',
+   q:'4 和 6 最小的公倍數是 ___。', ans:'12'},
+  {id:'Q53', type:'long', trap:'T8', diff:'🌳', topic:'綜合應用',
+   q:'超市大減價，蘋果每個原價 4.5 元，現買 4 送 1。媽媽買了 20 個蘋果，平均每個便宜了多少元？（列式計算）', ans:'0.9'},
+  {id:'Q54', type:'long', trap:'T6', diff:'🌳', topic:'公因數公倍數應用',
+   q:'兩條繩子分別長 48 cm 和 72 cm，要剪成相同長度的小段（整數厘米），每段最長是多少厘米？共可剪成多少段？（列式計算）', ans:'24cm,5段'},
+  {id:'Q55', type:'long', trap:'T4', diff:'🌳', topic:'面積綜合',
+   q:'梯形上底比下底多 4 cm，高 6 cm，面積 72 cm²。求上底和下底的長度。（列式計算）', ans:'上底14cm,下底10cm'},
+  {id:'Q56', type:'long', trap:'T10', diff:'🌳', topic:'代數應用',
+   q:'小明比小華大 3 歲，兩人年齡之和是 35 歲。設小華年齡為 x 歲，列出方程式並求兩人的年齡。（列式計算）', ans:'小華16歲,小明19歲'},
+  {id:'Q57', type:'long', trap:'T8', diff:'🌳', topic:'時間應用',
+   q:'小志由家步行到學校需 45 分鐘，乘巴士只需 12 分鐘。他每天來回學校，步行比乘巴士共多用多少小時？（列式計算）', ans:'1.1'},
+  {id:'Q58', type:'long', trap:'T3', diff:'🌳', topic:'分數綜合應用',
+   q:'一瓶果汁有 2 1/2 升。小明喝了 3/5 升，小華喝了 4/5 升，小思喝了剩下的。小思喝了多少升？（列式計算，以分數作答）', ans:'1 1/10'},
+  {id:'Q59', type:'long', trap:'T5', diff:'🌳', topic:'體積應用',
+   q:'長方體水箱內長 30 cm、闊 20 cm、高 25 cm，內有水深 15 cm。放入一塊石頭後水位升至 19 cm，石頭的體積是多少？（列式計算）', ans:'2400'},
+  {id:'Q60', type:'long', trap:'T9', diff:'🌳', topic:'餘數應用',
+   q:'運動會共有學生 487 人，每 8 人一組進行比賽，未能分組的學生做工作人員。工作人員有多少人？若要所有人都是比賽選手，最少要增加多少人？（列式計算）', ans:'7人,1人'},
+  {id:'Q61', type:'long', trap:'T8', diff:'🌳', topic:'折扣應用',
+   q:'書店全場八折。媽媽買了 3 本書，原價分別是 45 元、68 元、52 元。她付了 200 元，應找回多少元？（列式計算）', ans:'68'},
+  {id:'Q62', type:'long', trap:'T10', diff:'🌳', topic:'數據分析',
+   q:'下表顯示五年級各班人數：5A 32人、5B 35人、5C 30人、5D 33人、5E 34人。求(a)平均每班人數 (b)若平均人數超過32人則需分班，五年級需要分班嗎？', ans:'(a)32.8人 (b)需要'},
+];
+
+// ---- State ----
+let activeFilters = { traps: [], diffs: [], types: [], search: '' };
+let selectedQuestions = new Set();
+let expandedCards = new Set();
+
+// ---- Init ----
+function init() {
+  buildFilterChips();
+  updateStats();
+  applyFilters();
+}
+function buildFilterChips() {
+  // Trap filters
+  const traps = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+  const trapLabels = {
+    T1:'近似值·位值', T2:'小數轉換', T3:'分數運算', T4:'面積計算',
+    T5:'方向·對稱·體積', T6:'公因數·公倍數', T7:'倍數應用',
+    T8:'平均數·應用', T9:'餘數·除法', T10:'代數·數據'
+  };
+  const trapDiv = document.getElementById('trapFilters');
+  trapDiv.innerHTML = traps.map(t =>
+    `<span class="filter-chip trap-${t}" data-group="traps" data-val="${t}" onclick="toggleFilter(this)">${t} ${trapLabels[t]}</span>`
+  ).join('');
+
+  // Diff filters
+  const diffs = [
+    {val:'🌱', label:'🌱 基礎'},
+    {val:'🌿', label:'🌿 標準'},
+    {val:'🌳', label:'🌳 挑戰'}
+  ];
+  const diffDiv = document.getElementById('diffFilters');
+  diffDiv.innerHTML = diffs.map(d =>
+    `<span class="filter-chip chip-diff" data-group="diffs" data-val="${d.val}" onclick="toggleFilter(this)">${d.label}</span>`
+  ).join('');
+
+  // Type filters
+  const types = [
+    {val:'mc', label:'多項選擇'},
+    {val:'short', label:'短答題'},
+    {val:'long', label:'應用題'}
+  ];
+  const typeDiv = document.getElementById('typeFilters');
+  typeDiv.innerHTML = types.map(t =>
+    `<span class="filter-chip chip-type" data-group="types" data-val="${t.val}" onclick="toggleFilter(this)">${t.label}</span>`
+  ).join('');
+}
+
+function toggleFilter(chip) {
+  const group = chip.dataset.group;
+  const val = chip.dataset.val;
+  const arr = activeFilters[group];
+  const idx = arr.indexOf(val);
+  if (idx >= 0) arr.splice(idx, 1); else arr.push(val);
+  chip.classList.toggle('active');
+  applyFilters();
+}
+
+function clearFilters() {
+  activeFilters = { traps: [], diffs: [], types: [], search: '' };
+  document.getElementById('searchBox').value = '';
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  applyFilters();
+}
+
+function applyFilters() {
+  activeFilters.search = document.getElementById('searchBox').value.toLowerCase().trim();
+  let pool = [...Q];
+
+  if (activeFilters.traps.length > 0) {
+    pool = pool.filter(q => activeFilters.traps.includes(q.trap));
+  }
+  if (activeFilters.diffs.length > 0) {
+    pool = pool.filter(q => activeFilters.diffs.includes(q.diff));
+  }
+  if (activeFilters.types.length > 0) {
+    pool = pool.filter(q => activeFilters.types.includes(q.type));
+  }
+  if (activeFilters.search) {
+    pool = pool.filter(q =>
+      q.q.toLowerCase().includes(activeFilters.search) ||
+      q.topic.includes(activeFilters.search) ||
+      q.trap.includes(activeFilters.search) ||
+      q.id.toLowerCase().includes(activeFilters.search)
+    );
+  }
+
+  document.getElementById('resultsInfo').textContent = `顯示 ${pool.length} / ${Q.length} 題`;
+  renderQuestionList(pool);
+  updateStats();
+}
+
+function updateStats() {
+  let pool = [...Q];
+  if (activeFilters.traps.length) pool = pool.filter(q => activeFilters.traps.includes(q.trap));
+  if (activeFilters.diffs.length) pool = pool.filter(q => activeFilters.diffs.includes(q.diff));
+  if (activeFilters.types.length) pool = pool.filter(q => activeFilters.types.includes(q.type));
+
+  const total = Q.length;
+  const mcCount = Q.filter(q => q.type === 'mc').length;
+  const shortCount = Q.filter(q => q.type === 'short').length;
+  const longCount = Q.filter(q => q.type === 'long').length;
+  const basicCount = Q.filter(q => q.diff === '🌱').length;
+  const stdCount = Q.filter(q => q.diff === '🌿').length;
+  const chalCount = Q.filter(q => q.diff === '🌳').length;
+  const trapCounts = {};
+  ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'].forEach(t => {
+    trapCounts[t] = Q.filter(q => q.trap === t).length;
+  });
+
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">總題數</div></div>
+    <div class="stat-card"><div class="stat-num">${mcCount}</div><div class="stat-label">MC 選擇題</div></div>
+    <div class="stat-card"><div class="stat-num">${shortCount}</div><div class="stat-label">短答題</div></div>
+    <div class="stat-card"><div class="stat-num">${longCount}</div><div class="stat-label">應用題</div></div>
+    <div class="stat-card"><div class="stat-num">10</div><div class="stat-label">陷阱類型</div></div>
+  `;
+}
+
+function renderQuestionList(pool) {
+  const container = document.getElementById('questionList');
+  const typeLabels = { mc: 'MC', short: '短答', long: '應用' };
+  container.innerHTML = pool.map(q => {
+    const isSel = selectedQuestions.has(q.id);
+    const isExp = expandedCards.has(q.id);
+    const ansText = q.type === 'mc'
+      ? `${String.fromCharCode(65 + q.ans)}. ${q.opts[q.ans]}`
+      : q.ans;
+    const optsHtml = q.type === 'mc'
+      ? `<div class="options-block">${q.opts.map((o,i) => `<span>${String.fromCharCode(65+i)}. ${o}</span>`).join('')}</div>`
+      : '';
+
+    return `
+    <div class="question-card ${isSel ? 'selected' : ''} ${isExp ? 'expanded' : ''}" id="card-${q.id}" onclick="toggleExpand(event, '${q.id}')">
+      <input type="checkbox" class="q-checkbox" ${isSel ? 'checked' : ''} onclick="event.stopPropagation(); toggleSelect('${q.id}')" title="加入工作紙">
+      <div class="q-header">
+        <span class="q-id">${q.id}</span>
+        <div class="q-badges">
+          <span class="badge badge-trap ${q.trap}">${q.trap}</span>
+          <span class="badge badge-diff">${q.diff}</span>
+          <span class="badge badge-type">${typeLabels[q.type] || q.type}</span>
+          <span class="badge">${q.topic}</span>
+        </div>
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-detail">
+        ${optsHtml}
+        <div class="answer-block">✅ 答案：${ansText}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  updateWorksheetUI();
+}
+
+function toggleExpand(event, id) {
+  // Don't expand if clicking checkbox
+  if (event.target.type === 'checkbox') return;
+  const card = document.getElementById('card-' + id);
+  if (!card) return;
+  if (expandedCards.has(id)) {
+    expandedCards.delete(id);
+    card.classList.remove('expanded');
+  } else {
+    expandedCards.add(id);
+    card.classList.add('expanded');
+  }
+}
+
+function toggleSelect(id) {
+  if (selectedQuestions.has(id)) {
+    selectedQuestions.delete(id);
+  } else {
+    selectedQuestions.add(id);
+  }
+  // Re-render to update visual states
+  applyFilters();
+}
+
+function updateWorksheetUI() {
+  const wsList = document.getElementById('wsList');
+  const wsCount = document.getElementById('wsCount');
+  const btnPrint = document.getElementById('btnPrintWs');
+
+  wsCount.textContent = `已選 ${selectedQuestions.size} 題`;
+  btnPrint.disabled = selectedQuestions.size === 0;
+
+  if (selectedQuestions.size === 0) {
+    wsList.innerHTML = '<div class="ws-empty">點擊題目旁的 ☐ 選擇題目<br>建立自訂工作紙</div>';
+    return;
+  }
+
+  const selectedQs = Q.filter(q => selectedQuestions.has(q.id));
+  const typeLabels = { mc: 'MC', short: '短答', long: '應用' };
+  wsList.innerHTML = selectedQs.map(q => `
+    <div class="ws-item">
+      <span>${q.id} <span style="font-size:0.75rem;color:var(--text-light)">[${typeLabels[q.type]}] ${q.trap}</span></span>
+      <span class="ws-remove" onclick="removeFromWorksheet('${q.id}')" title="移除">×</span>
+    </div>
+  `).join('');
+
+  // Add marks summary
+  const totalMarks = selectedQs.reduce((sum, q) => {
+    return sum + (q.type === 'mc' ? 3 : q.type === 'short' ? 5 : 10);
+  }, 0);
+  wsList.innerHTML += `<div style="margin-top:12px;font-weight:700;font-size:0.9rem;color:var(--primary);">總分：${totalMarks} 分 · ${selectedQs.size} 題</div>`;
+}
+
+function removeFromWorksheet(id) {
+  selectedQuestions.delete(id);
+  applyFilters();
+}
+
+function clearWorksheet() {
+  selectedQuestions.clear();
+  applyFilters();
+}
+
+function printWorksheet() {
+  if (selectedQuestions.size === 0) return;
+  const selectedQs = Q.filter(q => selectedQuestions.has(q.id));
+  const typeLabels = { mc: 'MC', short: '短答', long: '應用' };
+
+  let html = '<html><head>
+<meta charset="UTF-8"><title>工作紙</title><style>';
+  html += '';
+  html += '<style>body{font-family:"Noto Sans HK","PingFang SC","Microsoft YaHei","SimHei",sans-serif;padding:30px;max-width:800px;margin:0 auto;color:#2C3E50;}';
+  html += 'h2{text-align:center;color:#1B3A5C;margin-bottom:4px;}';
+  html += '.subtitle{text-align:center;font-size:0.85rem;color:#5D6D7E;margin-bottom:20px;}';
+  html += '.q{margin-bottom:16px;padding:10px;border-bottom:1px solid #ddd;page-break-inside:avoid;}';
+  html += '.q-num{font-weight:700;} .q-text{display:inline;}';
+  html += '.answer-line{display:inline-block;min-width:200px;border-bottom:1px dashed #ccc;margin-left:10px;}';
+  html += '.opts{margin-left:30px;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;}';
+  html += '.footer{margin-top:30px;text-align:center;font-size:0.8rem;color:#999;}';
+  html += '@media print{body{padding:10px;}}';
+  html += '</style></head><body>';
+  html += '<h2>霖楓學苑 · 自訂工作紙</h2>';
+  html += '<p class="subtitle">姓名：________  日期：________  分數：________</p>';
+
+  selectedQs.forEach((q, i) => {
+    html += `<div class="q"><span class="q-num">${i+1}.</span>`;
+    html += `<span class="q-text">${q.q}</span>`;
+    if (q.type === 'mc') {
+      html += '<div class="opts">';
+      q.opts.forEach((o, j) => {
+        html += `<span>${String.fromCharCode(65+j)}. ${o}</span>`;
+      });
+      html += '</div>';
+    }
+    html += '<div style="margin-top:6px;"><span class="answer-line"></span></div>';
+    html += '</div>';
+  });
+
+  html += '<div class="footer">Powered by 霖楓學苑 · LF Academy</div>';
+  html += '</body></html>';
+
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(() => w.print(), 500);
+}
+
+function shareWhatsApp() {
+  const count = selectedQuestions.size;
+  const text = `霖楓學苑教研平台 — 我已選擇 ${count} 題 P5 SSPA 題目，一齊睇下！%0A%0A🔗 lfamy.github.io`;
+  window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

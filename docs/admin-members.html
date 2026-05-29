@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 會員管理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:16px}
+.container{max-width:1000px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
+.header h1{font-size:22px}.header p{font-size:11px;opacity:0.6}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.st{background:white;border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.st .v{font-size:28px;font-weight:900;color:#1A3C6D}.st .l{font-size:10px;color:#6B7280;margin-top:2px}
+.st .v.red{color:#DC2626}.st .v.green{color:#16A34A}.st .v.gold{color:#C9A84C}
+
+.card{background:white;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+input,select{padding:8px 12px;border:2px solid #E5E7EB;border-radius:8px;font-size:12px}
+input:focus,select:focus{border-color:#1A3C6D;outline:none}
+.btn{display:inline-block;padding:8px 18px;border-radius:20px;font-weight:700;font-size:12px;cursor:pointer;border:none;text-decoration:none}
+.btn-primary{background:#1A3C6D;color:white}.btn-green{background:#16A34A;color:white}
+.btn-gold{background:#C9A84C;color:#1A3C6D}.btn-red{background:#DC2626;color:white}
+.btn-outline{background:white;border:2px solid #E5E7EB;color:#1A3C6D}
+
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:8px 10px;background:#F9FAFB;color:#6B7280;font-size:10px;border-bottom:2px solid #E5E7EB}
+td{padding:8px 10px;border-bottom:1px solid #F3F4F6}
+tr:hover{background:#F0F7FF}
+
+.badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:700}
+.badge-active{background:#D1FAE5;color:#065F46}.badge-free{background:#DBEAFE;color:#1E40AF}
+.badge-expired{background:#FEF2F2;color:#991B1B}.badge-trial{background:#FEF3C7;color:#92400E}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-content{background:white;border-radius:16px;padding:28px;max-width:450px;width:90%}
+.modal-content h3{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.modal-content input,.modal-content select{width:100%;margin-bottom:8px}
+</style>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+// Using unified config from lf-firebase-config.js
+const firebaseConfig = LF_FIREBASE_CONFIG || {
+  apiKey: LF_FIREBASE_CONFIG?.apiKey || "YOUR_API_KEY",
+  authDomain: "lam-fung-academy.firebaseapp.com",
+  projectId: "lam-fung-academy",
+  storageBucket: "lam-fung-academy.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Auth guard - redirect to login if not authenticated
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    var currentPage = window.location.pathname;
+    if (!currentPage.includes("login.html") && !currentPage.includes("index.html") && !currentPage.includes("ai-diagnostic") && !currentPage.includes("enroll")) {
+      window.location.href = "/docs/login.html";
+    }
+  } else {
+    window.currentUser = user;
+    console.log("Logged in as:", user.email);
+  }
+});
+</script>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>會員管理系統</h1>
+<p>查看、搜尋、管理所有會員</p>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+<div class="st"><div class="v green" id="statActive">0</div><div class="l">活躍會員</div></div>
+<div class="st"><div class="v" id="statFree">0</div><div class="l">免費版</div></div>
+<div class="st"><div class="v gold" id="statPro">0</div><div class="l">Pro 會員</div></div>
+<div class="st"><div class="v red" id="statExpiring">0</div><div class="l">即將到期</div></div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="card">
+<div class="toolbar">
+<input type="text" id="searchInput" placeholder="搜尋學生/家長/電話..." oninput="renderTable()" style="flex:1;min-width:150px">
+<select id="filterPlan" onchange="renderTable()">
+<option value="all">全部計劃</option><option value="free">免費版</option><option value="pro">Pro</option><option value="trial">試用</option>
+</select>
+<select id="filterStatus" onchange="renderTable()">
+<option value="all">全部狀態</option><option value="active">活躍</option><option value="expiring">7日內到期</option><option value="expired">已過期</option>
+</select>
+<button class="btn btn-gold" onclick="showAddModal()">+ 新增會員</button>
+<button class="btn btn-outline" onclick="exportMembers()">匯出名單</button>
+<button class="btn btn-green" onclick="showCsvModal()" style="display:flex;align-items:center;gap:4px"><span style="font-size:14px">📥</span> CSV導入</button>
+</div>
+
+<table>
+<thead><tr>
+<th>學生</th><th>年級</th><th>家長</th><th>電話</th><th>計劃</th><th>到期日</th><th>本月練習</th><th>流失風險</th><th>操作</th>
+</tr></thead>
+<tbody id="memberTable"><tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:30px">載入中...</td></tr></tbody>
+</table>
+</div>
+
+<!-- UPCOMING EXPIRY -->
+<div class="card">
+<h2>即將到期（30日內）</h2>
+<div id="expiryList"><p style="color:#9CA3AF;font-size:12px;text-align:center;padding:16px">沒有即將到期的會員</p></div>
+</div>
+
+</div>
+
+<!-- ADD MODAL -->
+<div class="modal" id="addModal">
+<div class="modal-content">
+<h3>新增會員</h3>
+<input type="text" id="addStudent" placeholder="學生姓名">
+<select id="addGrade"><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<input type="text" id="addParent" placeholder="家長姓名">
+<input type="tel" id="addPhone" placeholder="手機號碼">
+<select id="addPlan"><option value="free">免費版</option><option value="pro">Pro 月費 $199</option><option value="trial">試用 $99</option></select>
+<select id="addDuration"><option value="1">1個月</option><option value="3">3個月</option><option value="6">6個月</option><option value="12" selected>12個月</option></select>
+<button class="btn btn-green" onclick="addMember()" style="width:100%;margin-top:8px">新增</button>
+<button class="btn btn-outline" onclick="closeModal()" style="width:100%">取消</button>
+</div>
+</div>
+
+<script>
+var members=JSON.parse(localStorage.getItem('lf_members')||'[]');
+var leads=JSON.parse(localStorage.getItem('lf_leads')||'[]');
+
+// Merge leads into members if not already present
+leads.forEach(function(lead){
+var exists=members.find(function(m){return m.phone===lead.phone});
+if(!exists){
+members.push({
+student:lead.student,grade:lead.grade,parent:lead.parent,phone:lead.phone,
+plan:'free',activated:lead.time,expiry:null
+});
+}
+});
+// Also load from localStorage registrations
+for(var i=0;i<localStorage.length;i++){
+var k=localStorage.key(i);
+if(k.startsWith('lf_member_')){
+try{
+var m=JSON.parse(localStorage.getItem(k));
+var phone=k.replace('lf_member_','');
+var exists=members.find(function(x){return x.phone===phone});
+if(!exists){
+members.push({
+student:m.student,grade:m.grade,parent:m.parent,phone:phone,
+plan:m.plan||'free',activated:m.registered,expiry:m.expiry
+});
+}
+}catch(e){}
+}
+}
+
+function updateStats(){
+var now=new Date();
+var active=members.filter(function(m){return !m.expiry||new Date(m.expiry)>now});
+var free=members.filter(function(m){return m.plan==='free'||!m.plan});
+var pro=members.filter(function(m){return m.plan==='pro'||m.plan==='trial'});
+var expiring=members.filter(function(m){
+if(!m.expiry)return false;
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+return days<=7&&days>0;
+});
+document.getElementById('statActive').textContent=active.length;
+document.getElementById('statFree').textContent=free.length;
+document.getElementById('statPro').textContent=pro.length;
+document.getElementById('statExpiring').textContent=expiring.length;
+}
+
+// ========================================
+// CSV IMPORT FUNCTIONS
+// ========================================
+var csvParsedData = [];
+var csvImportStats = { new: 0, update: 0, skip: 0 };
+
+function showCsvModal() {
+    document.getElementById(\u0027csvModal\u0027).classList.add(\u0027show\u0027);
+    resetCsvState();
+}
+
+function closeCsvModal() {
+    document.getElementById(\u0027csvModal\u0027).classList.remove(\u0027show\u0027);
+    resetCsvState();
+}
+
+function resetCsvState() {
+    csvParsedData = [];
+    csvImportStats = { new: 0, update: 0, skip: 0 };
+    document.getElementById(\u0027csvUploadArea\u0027).style.display = \u0027\u0027;
+    document.getElementById(\u0027csvFileInfo\u0027).style.display = \u0027none\u0027;
+    document.getElementById(\u0027csvPreview\u0027).style.display = \u0027none\u0027;
+    document.getElementById(\u0027csvMode\u0027).style.display = \u0027none\u0027;
+    document.getElementById(\u0027csvImportBtn\u0027).style.display = \u0027none\u0027;
+    document.getElementById(\u0027csvFileInput\u0027).value = \u0027\u0027;
+}
+
+function handleCsvDrop(e) {
+    e.preventDefault();
+    e.target.style.borderColor = \u0027#E5E7EB\u0027;
+    e.target.style.background = \u0027transparent\u0027;
+    var file = e.dataTransfer.files[0];
+    if (file) parseCsvFile(file);
+}
+
+function handleCsvFile(e) {
+    var file = e.target.files[0];
+    if (file) parseCsvFile(file);
+}
+
+function parseCsvFile(file) {
+    if (!file.name.endsWith(\u0027.csv\u0027)) {
+        alert(\u0027請上傳 .csv 格式檔案\u0027);
+        return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+        alert(\u0027檔案不能超過 2MB\u0027);
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var text = e.target.result;
+        var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+
+        if (lines.length < 2) {
+            alert(\u0027CSV 檔案沒有數據（至少需要標題行和1行數據）\u0027);
+            return;
+        }
+
+        // Parse header to detect columns
+        var header = parseCsvLine(lines[0]);
+        var colMap = detectColumns(header);
+
+        if (!colMap.name) {
+            alert(\u0027找不到「姓名」欄位。請確保 CSV 第一行包含：姓名, 年級, 家長電話, 班級\u0027);
+            return;
+        }
+
+        // Parse data rows
+        csvParsedData = [];
+        for (var i = 1; i < lines.length; i++) {
+            var cols = parseCsvLine(lines[i]);
+            if (cols.length < 2) continue;
+
+            var row = {
+                student: (cols[colMap.name] || \u0027\u0027).trim(),
+                grade: colMap.grade >= 0 ? (cols[colMap.grade] || \u0027\u0027).trim() : \u0027\u0027,
+                phone: colMap.phone >= 0 ? (cols[colMap.phone] || \u0027\u0027).trim() : \u0027\u0027,
+                parent: colMap.parent >= 0 ? (cols[colMap.parent] || \u0027\u0027).trim() : \u0027\u0027,
+                className: colMap.class >= 0 ? (cols[colMap.class] || \u0027\u0027).trim() : \u0027\u0027
+            };
+            if (row.student) csvParsedData.push(row);
+        }
+
+        // Check for duplicates within members
+        csvImportStats = { new: 0, update: 0, skip: 0 };
+        csvParsedData.forEach(function(row) {
+            var exists = members.find(function(m) {
+                return m.phone && row.phone && m.phone === row.phone;
+            });
+            if (exists) {
+                csvImportStats.update++;
+            } else if (row.phone && members.some(function(m) { return m.student === row.student && m.grade === row.grade; })) {
+                csvImportStats.skip++;
+            } else {
+                csvImportStats.new++;
+            }
+        });
+
+        // Show file info
+        document.getElementById(\u0027csvFileName\u0027).textContent = \u0027📄 \u0027 + file.name;
+        document.getElementById(\u0027csvRowCount\u0027).textContent = csvParsedData.length + \u0027 行數據\u0027;
+        document.getElementById(\u0027csvFileInfo\u0027).style.display = \u0027flex\u0027;
+
+        // Show preview
+        renderCsvPreview();
+        document.getElementById(\u0027csvPreview\u0027).style.display = \u0027block\u0027;
+        document.getElementById(\u0027csvMode\u0027).style.display = \u0027block\u0027;
+        document.getElementById(\u0027csvImportBtn\u0027).style.display = \u0027block\u0027;
+    };
+    reader.readAsText(file, \u0027UTF-8\u0027);
+}
+
+function parseCsvLine(line) {
+    var result = [];
+    var current = \u0027\u0027;
+    var inQuotes = false;
+    for (var i = 0; i < line.length; i++) {
+        var ch = line[i];
+        if (ch === \u0027"\u0027) {
+            inQuotes = !inQuotes;
+        } else if (ch === \u0027,\u0027 && !inQuotes) {
+            result.push(current);
+            current = \u0027\u0027;
+        } else {
+            current += ch;
+        }
+    }
+    result.push(current);
+    return result;
+}
+
+function detectColumns(header) {
+    var map = { name: -1, grade: -1, phone: -1, parent: -1, class: -1 };
+    header.forEach(function(h, i) {
+        var hLower = h.toLowerCase().trim();
+        if (hLower.includes(\u0027姓名\u0027) || hLower.includes(\u0027name\u0027) || hLower.includes(\u0027學生\u0027) || hLower.includes(\u0027student\u0027)) map.name = i;
+        if (hLower.includes(\u0027年級\u0027) || hLower.includes(\u0027grade\u0027) || hLower.includes(\u0027p\u0027) && hLower.length <= 3) map.grade = i;
+        if (hLower.includes(\u0027電話\u0027) || hLower.includes(\u0027phone\u0027) || hLower.includes(\u0027tel\u0027) || hLower.includes(\u0027手機\u0027) || hLower.includes(\u0027mobile\u0027)) map.phone = i;
+        if (hLower.includes(\u0027家長\u0027) || hLower.includes(\u0027parent\u0027) || hLower.includes(\u0027聯絡人\u0027)) map.parent = i;
+        if (hLower.includes(\u0027班級\u0027) || hLower.includes(\u0027class\u0027) || hLower.includes(\u0027組別\u0027) || hLower.includes(\u0027group\u0027)) map.class = i;
+    });
+    // Fallback: try positional mapping
+    if (map.name < 0 && header.length >= 1) map.name = 0;
+    if (map.grade < 0 && header.length >= 2 && (header[1] || \u0027\u0027).match(/^[PS]\d$/i)) map.grade = 1;
+    if (map.phone < 0 && header.length >= 3 && (header[2] || \u0027\u0027).match(/^\d/)) map.phone = 2;
+    return map;
+}
+
+function renderCsvPreview() {
+    var html = \u0027\u0027;
+    csvParsedData.forEach(function(row, i) {
+        var status = \u0027\u0027;
+        var statusColor = \u0027\u0027;
+        var exists = members.find(function(m) {
+            return m.phone && row.phone && m.phone === row.phone;
+        });
+        if (exists) {
+            status = \u0027🔄 更新\u0027;
+            statusColor = \u0027#F59E0B\u0027;
+        } else if (row.phone && members.some(function(m) { return m.student === row.student && m.grade === row.grade; })) {
+            status = \u0027⚠️ 同名跳過\u0027;
+            statusColor = \u0027#9CA3AF\u0027;
+        } else {
+            status = \u0027✨ 新增\u0027;
+            statusColor = \u0027#16A34A\u0027;
+        }
+        html += \u0027<tr>\u0027 +
+            \u0027<td>\u0027 + (i + 1) + \u0027</td>\u0027 +
+            \u0027<td><b>\u0027 + escHtml(row.student) + \u0027</b></td>\u0027 +
+            \u0027<td>\u0027 + escHtml(row.grade) + \u0027</td>\u0027 +
+            \u0027<td>\u0027 + escHtml(row.parent) + \u0027</td>\u0027 +
+            \u0027<td style="font-size:10px">\u0027 + escHtml(row.phone) + \u0027</td>\u0027 +
+            \u0027<td>\u0027 + escHtml(row.className) + \u0027</td>\u0027 +
+            \u0027<td style="color:\u0027 + statusColor + \u0027;font-weight:700">\u0027 + status + \u0027</td>\u0027 +
+        \u0027</tr>\u0027;
+    });
+    document.getElementById(\u0027csvPreviewBody\u0027).innerHTML = html;
+    document.getElementById(\u0027csvNewCount\u0027).textContent = \u0027🟢 新增 \u0027 + csvImportStats.new + \u0027 人\u0027;
+    document.getElementById(\u0027csvUpdateCount\u0027).textContent = \u0027🟡 更新 \u0027 + csvImportStats.update + \u0027 人\u0027;
+    document.getElementById(\u0027csvSkipCount\u0027).textContent = \u0027⚪ 跳過 \u0027 + csvImportStats.skip + \u0027 人\u0027;
+}
+
+function escHtml(str) {
+    return (str || \u0027\u0027).replace(/&/g, \u0027&amp;\u0027).replace(/</g, \u0027&lt;\u0027).replace(/>/g, \u0027&gt;\u0027).replace(/"/g, \u0027&quot;\u0027);
+}
+
+function doCsvImport() {
+    if (!csvParsedData.length) return;
+
+    var updateMode = document.getElementById(\u0027csvUpdateMode\u0027).checked;
+    var imported = 0;
+    var updated = 0;
+
+    csvParsedData.forEach(function(row) {
+        if (!row.student) return;
+
+        var exists = members.find(function(m) {
+            return m.phone && row.phone && m.phone === row.phone;
+        });
+
+        if (exists && updateMode) {
+            // Update existing
+            exists.student = row.student;
+            exists.grade = row.grade || exists.grade;
+            exists.parent = row.parent || exists.parent;
+            updated++;
+        } else if (!exists && !(row.phone && members.some(function(m) { return m.student === row.student && m.grade === row.grade; }))) {
+            // New member
+            members.push({
+                student: row.student,
+                grade: row.grade || \u0027P5\u0027,
+                parent: row.parent || \u0027家長\u0027,
+                phone: row.phone || \u0027\u0027,
+                plan: \u0027free\u0027,
+                activated: new Date().toISOString(),
+                expiry: null
+            });
+            imported++;
+        }
+    });
+
+    localStorage.setItem(\u0027lf_members\u0027, JSON.stringify(members));
+    closeCsvModal();
+    renderTable();
+    alert(\u0027✅ 導入完成！\n新增 \u0027 + imported + \u0027 人\n更新 \u0027 + updated + \u0027 人\n總計處理 \u0027 + (imported + updated) + \u0027 筆記錄\u0027);
+}
+
+function renderTable(){
+var q=(document.getElementById('searchInput').value||'').toLowerCase();
+var fp=document.getElementById('filterPlan').value;
+var fs=document.getElementById('filterStatus').value;
+var now=new Date();
+
+var filtered=members.filter(function(m){
+if(q&&!(m.student||'').toLowerCase().includes(q)&&!(m.parent||'').toLowerCase().includes(q)&&!(m.phone||'').includes(q))return false;
+if(fp!=='all'&&(m.plan||'free')!==fp)return false;
+if(fs==='active'&&m.expiry&&new Date(m.expiry)<=now)return false;
+if(fs==='expiring'){
+if(!m.expiry)return false;
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+if(days>7||days<=0)return false;
+}
+if(fs==='expired'&&(!m.expiry||new Date(m.expiry)>now))return false;
+return true;
+});
+
+var html='';
+if(!filtered.length){
+html='<tr><td colspan=8 style=text-align:center;color:#9CA3AF;padding:30px>沒有符合的會員</td></tr>';
+}else{
+filtered.forEach(function(m){
+var planName=m.plan==='pro'?'Pro':m.plan==='trial'?'試用':'免費';
+var planBadge=m.plan==='pro'?'badge-active':m.plan==='trial'?'badge-trial':'badge-free';
+var expiryText=m.expiry?new Date(m.expiry).toLocaleDateString('zh-HK'):'永久';
+var daysLeft='';
+if(m.expiry){
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+daysLeft=days>30?'✅':days>7?'⚠️ '+days+'日':days>0?'🔴 '+days+'日':'❌ 已過期';
+}
+// Get usage
+var q=JSON.parse(localStorage.getItem('lf_quota_'+(m.student||'unknown'))||'{}');
+var used=q.used||0;
+var thisMonth=new Date().toISOString().slice(0,7);
+if(q.month!==thisMonth)used=0;
+
+html+='<tr>';
+html+='<td><strong>'+(m.student||'-')+'</strong></td>';
+html+='<td>'+(m.grade||'-')+'</td>';
+html+='<td>'+(m.parent||'-')+'</td>';
+html+='<td style=font-size:10px>'+(m.phone||'-')+'</td>';
+html+='<td><span class=badge '+planBadge+'>'+planName+'</span></td>';
+html+='<td style=font-size:10px>'+expiryText+'<br>'+daysLeft+'</td>';
+html+='<td>'+used+'次</td>';
+html+='<td><button class=btn btn-outline style=font-size:10px;padding:4px 10px onclick=renewMember(\''+(m.phone||'')+'\')>續期</button> <button class=btn style=font-size:10px;padding:4px 10px;background:#DC2626;color:white onclick=deleteMember(\''+(m.phone||'')+'\')>刪除</button></td>';
+html+='</tr>';
+});
+}
+document.getElementById('memberTable').innerHTML=html;
+updateStats();
+renderExpiry();
+}
+
+function renderExpiry(){
+var now=new Date();
+var expiring=members.filter(function(m){
+if(!m.expiry)return false;
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+return days<=30&&days>0;
+}).sort(function(a,b){return new Date(a.expiry)-new Date(b.expiry)});
+
+if(!expiring.length){
+document.getElementById('expiryList').innerHTML='<p style=color:#9CA3AF;font-size:12px;text-align:center;padding:16px>沒有即將到期的會員 ✅</p>';
+return;
+}
+document.getElementById('expiryList').innerHTML=expiring.map(function(m){
+var days=Math.ceil((new Date(m.expiry)-now)/86400000);
+return '<div style=display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #F3F4F6;font-size:12px><div><strong>'+(m.student||'-')+'</strong> · '+(m.parent||'-')+' · <span style=color:#6B7280>'+(m.phone||'-')+'</span></div><div style=text-align:right><span style=color:'+(days<=7?'#DC2626':'#D97706')+';font-weight:700>'+days+' 日</span><br><span style=font-size:10px;color:#6B7280>'+new Date(m.expiry).toLocaleDateString('zh-HK')+'</span></div><button class=btn btn-outline style=font-size:10px;padding:4px 10px;margin-left:8px onclick=renewMember(\''+(m.phone||'')+'\')>續期</button></div>';
+}).join('');
+}
+
+function showAddModal(){document.getElementById('addModal').classList.add('show')}
+function closeModal(){document.getElementById('addModal').classList.remove('show')}
+
+function addMember(){
+var s=document.getElementById('addStudent').value.trim();
+var p=document.getElementById('addPhone').value.trim();
+if(!s||!p)return alert('請輸入學生姓名和手機號碼');
+var plan=document.getElementById('addPlan').value;
+var dur=parseInt(document.getElementById('addDuration').value);
+var expiry=null;
+if(plan!=='free'){var e=new Date();e.setMonth(e.getMonth()+dur);expiry=e.toISOString()}
+members.push({
+student:s,grade:document.getElementById('addGrade').value,
+parent:document.getElementById('addParent').value||'家長',
+phone:p,plan:plan,activated:new Date().toISOString(),expiry:expiry
+});
+localStorage.setItem('lf_members',JSON.stringify(members));
+closeModal();renderTable();
+document.getElementById('addStudent').value='';document.getElementById('addPhone').value='';
+}
+
+function renewMember(phone){
+var m=members.find(function(x){return x.phone===phone});
+if(!m)return;
+var months=prompt('續期幾個月？','12');
+if(!months)return;
+var expiry=new Date();
+if(m.expiry&&new Date(m.expiry)>new Date()){expiry=new Date(m.expiry)}
+expiry.setMonth(expiry.getMonth()+parseInt(months));
+m.expiry=expiry.toISOString();m.plan='pro';
+localStorage.setItem('lf_members',JSON.stringify(members));
+renderTable();alert('已續期 '+months+' 個月 ✅');
+}
+
+function deleteMember(phone){
+if(!confirm('確定刪除此會員？此操作無法還原。'))return;
+members=members.filter(function(x){return x.phone!==phone});
+localStorage.setItem('lf_members',JSON.stringify(members));
+renderTable();
+}
+
+function exportMembers(){
+var csv='學生,年級,家長,電話,計劃,到期日\n';
+members.forEach(function(m){
+csv+=(m.student||'')+','+(m.grade||'')+','+(m.parent||'')+','+(m.phone||'')+','+(m.plan||'free')+','+(m.expiry||'永久')+'\n';
+});
+var blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');a.href=url;a.download='lamfung_members_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+
+renderTable();
+</script>
+<script>
+var u=JSON.parse(localStorage.getItem("lf_current_user")||"null");
+if(!u||!u.phone){document.body.innerHTML="<div style=text-align:center;padding:80px;font-family:PingFang+SC,sans-serif><h1>請先登入</h1><p style=color:#6B7280>此頁面需要管理員權限</p><a href=login.html style=display:inline-block;padding:12px 32px;background:#1A3C6D;color:white;border-radius:25px;text-decoration:none;font-weight:700;margin-top:16px>登入</a></div>"}
+</script>
+</body>
+</html>

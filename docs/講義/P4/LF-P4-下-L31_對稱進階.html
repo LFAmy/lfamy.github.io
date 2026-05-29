@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P4-下-L31 對稱進階 — 學生版講義</title>
+<style>
+<link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; }
+@media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex-q { font-size:11px; } .warn { font-size:10px; } .mn { font-size:11px; } .et { font-size:9.5px; } }
+.container { max-width:1000px; margin:0 auto; }
+.pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+.cover { justify-content:center; align-items:center; text-align:center; }
+.cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+.cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+.cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+.cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+.cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+.cv-info b { color:var(--blue); }
+.cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+.cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+.h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+.h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+.kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+.kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+.kp-rules { font-size:12px; line-height:1.7; }
+.ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+.ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+.ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+.warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+.mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+.qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+.qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; }
+.qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+.qt tr:nth-child(even) td { background:#FAFBFC; }
+.qt .qn { width:32px; text-align:center; font-weight:700; }
+.qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+.qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+.qt .qtxt { font-size:12.5px; line-height:1.65; }
+.d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+.d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+.ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+.sh { background:#FEE2E2; color:#991B1B; }
+.tc { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:12px; text-align:center; }
+.tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:12px; text-align:center; }
+.et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+.et th { background:var(--red); color:white; padding:4px 7px; }
+.et td { padding:4px 7px; border:1px solid var(--borderc); }
+.end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+.sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+.sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+.sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+.sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+.sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+.fig-row { display:flex; gap:18px; align-items:flex-start; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+.fig-card { text-align:center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小四 · 第 31 堂 · 學生版講義</div>
+  <div class="cv-title">對稱進階</div>
+  <div class="cv-sub">旋轉對稱 · 平面圖形分類 · 65 分鐘</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》4下D冊 單元二<br>
+    <b>核心陷阱：</b>🪤 旋轉對稱 vs 軸對稱搞亂 · 圖形分類遺漏<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🔴 高頻</span> 呈分試幾何辨識基礎，P5-P6延伸<br>
+    <b>前置知識：</b>L30 軸對稱概念 · 基本圖形（正方、長方、三角）<br>
+    <b>本堂目標：</b>❶ 認識旋轉對稱 ❷ 區分軸對稱和旋轉對稱 ❸ 平面圖形分類 ❹ 方格紙完成旋轉對稱圖形
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">正方形有幾多條對稱軸？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">把一個正方形旋轉 90 度，佢嘅形狀有冇變？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:38px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">風車轉一圈（360度），中間會經過幾多次同原來一樣嘅位置？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">以下邊個圖形有旋轉對稱？A.正方形 B.長方形 C.等邊三角形</td><td class="qd d2">🌿</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">一個圖形有軸對稱係咪一定有旋轉對稱？（估下）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:42px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：什麼是旋轉對稱？ <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>旋轉對稱：</b>一個圖形繞著中心點旋轉<b>少於 360 度</b>後，同原來<b>完全重疊</b><br>
+      ② <b>旋轉對稱次數（重數）：</b>轉一圈（360度）會重疊幾多次<br>
+      &nbsp;&nbsp;例：正方形旋轉 90度、180度、270度都會重疊 → 4重旋轉對稱<br>
+      ③ <b>軸對稱 vs 旋轉對稱：</b>兩者係唔同概念！一個圖形可以有其中一種、兩種都有、或兩種都冇<br>
+      ④ <b>旋轉對稱的中心點：</b>圖形正中心。旋轉時中心點保持不動
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:8px 0;">
+    <svg width="480" height="150" viewBox="0 0 480 150">
+      <text x="240" y="18" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="900">正方形旋轉對稱：每轉90度重疊一次（4重）</text>
+      <!-- Position 1: 0 degrees -->
+      <rect x="30" y="35" width="80" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/>
+      <text x="70" y="130" text-anchor="middle" font-size="10" fill="#1A3C6D">0度（原圖）</text>
+      <text x="120" y="75" font-size="16" fill="#1A3C6D" font-weight="900">→</text>
+      <!-- Position 2: 90 degrees -->
+      <rect x="145" y="35" width="80" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/>
+      <line x1="185" y1="35" x2="185" y2="115" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="185" y="130" text-anchor="middle" font-size="10" fill="#1A3C6D">90度</text>
+      <text x="235" y="75" font-size="16" fill="#1A3C6D" font-weight="900">→</text>
+      <!-- Position 3: 180 degrees -->
+      <rect x="260" y="35" width="80" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/>
+      <text x="300" y="130" text-anchor="middle" font-size="10" fill="#1A3C6D">180度</text>
+      <text x="350" y="75" font-size="16" fill="#1A3C6D" font-weight="900">→</text>
+      <!-- Position 4: 270 degrees -->
+      <rect x="375" y="35" width="80" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/>
+      <text x="415" y="130" text-anchor="middle" font-size="10" fill="#1A3C6D">270度</text>
+    </svg>
+  </div>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：常見圖形的對稱屬性對照表 <span class="ss sh">🔴 SSPA 必考</span></div>
+    <div class="kp-rules">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;margin:4px 0;">
+        <tr style="background:#1A3C6D;color:white;"><th>圖形</th><th>軸對稱（對稱軸數）</th><th>旋轉對稱（重數）</th></tr>
+        <tr><td>正方形</td><td>✅ 4條</td><td>✅ 4重</td></tr>
+        <tr><td>長方形</td><td>✅ 2條</td><td>✅ 2重</td></tr>
+        <tr><td>等邊三角形</td><td>✅ 3條</td><td>✅ 3重</td></tr>
+        <tr><td>等腰三角形</td><td>✅ 1條</td><td>❌ 0重</td></tr>
+        <tr><td>平行四邊形</td><td>❌ 0條</td><td>✅ 2重</td></tr>
+        <tr><td>菱形</td><td>✅ 2條（對角線）</td><td>✅ 2重</td></tr>
+        <tr><td>圓形</td><td>✅ 無限</td><td>✅ 無限重</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="warn">⚠️ 關鍵陷阱：平行四邊形冇軸對稱但有旋轉對稱（2重）！等腰三角形有軸對稱但冇旋轉對稱！兩者唔係必然共存。</div>
+</div>
+
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：在方格紙上畫旋轉對稱圖形 <span class="ss sh">🟡 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>給定旋轉中心：</b>標出中心點 O<br>
+      ② <b>找出對應點：</b>原來圖形的每個頂點，旋轉指定度數後的新位置<br>
+      ③ <b>90度旋轉規律：</b>(x, y) 繞中心旋轉 90度 → (-y, x)（以中心為原點）<br>
+      ④ <b>P4 簡化版：</b>用方格紙，每個頂點「橫變直、直變橫」，方向跟旋轉方向
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例1</div><div class="ex-q">在方格紙上，以 O 為旋轉中心，把圖形順時針旋轉 90 度，畫出旋轉後的圖形。</div></div>
+  <div class="ex"><div class="ex-title">例2</div><div class="ex-q">一個正六邊形有幾多重旋轉對稱？幾多條對稱軸？</div></div>
+
+  <div class="kp">
+    <div class="kp-title">知識點四：平面圖形綜合分類 <span class="ss sh">🟡 SSPA</span></div>
+    <div class="kp-rules">
+      ① 平面圖形分類可以按：邊數、角數、有冇直角、有冇平行邊、對稱屬性<br>
+      ② <b>四邊形分類重點：</b>
+      &nbsp;&nbsp;- 正方形：4邊等長+4直角+4條對稱軸+4重旋轉<br>
+      &nbsp;&nbsp;- 長方形：對邊等長+4直角+2條對稱軸+2重旋轉<br>
+      &nbsp;&nbsp;- 菱形：4邊等長+對角相等+2條對稱軸+2重旋轉<br>
+      &nbsp;&nbsp;- 平行四邊形：對邊平行等長+冇對稱軸+2重旋轉<br>
+      &nbsp;&nbsp;- 梯形：只有一對平行邊
+    </div>
+  </div>
+
+  <div class="h2">知識點一至四 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">寫出以下圖形的旋轉對稱重數：(a)正方形 (b)長方形 (c)等邊三角形 (d)等腰三角形</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">平行四邊形有冇軸對稱？有冇旋轉對稱？分別是多少？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">一個圖形只有旋轉對稱而沒有軸對稱。請舉一個例子。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（全體必做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">9</td><td class="qtxt">以下圖形有軸對稱(A)、旋轉對稱(R)、兩者都有(B)、定兩者都冇(N)？<br>正方形__ 長方形__ 等腰三角形__ 平行四邊形__</td><td class="qd d1">🌱</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">菱形有幾多條對稱軸？旋轉對稱係幾多重？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">一個正五邊形有旋轉對稱嗎？如果有，係幾多重？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（🚶🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">12</td><td class="qtxt">把以下圖形按「有軸對稱」和「冇軸對稱」分兩組：正方形、長方形、平行四邊形、梯形、菱形、等腰三角形</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">一個「風車」形狀由四個相同的三角形組成。它有旋轉對稱嗎？有軸對稱嗎？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">一個「S」形有冇軸對稱？有冇旋轉對稱？解釋。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">15</td><td class="qtxt">正八邊形有幾多條對稱軸？旋轉對稱係幾多重？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">在方格紙上畫一個有2重旋轉對稱但沒有軸對稱的圖形。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:68px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">比較以下兩個圖形：(A)一個長方形 (B)兩個相同的等邊三角形拼成的菱形。邊個有較多對稱軸？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 終極挑戰（🚀 選做，共 1 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">用格點畫出一個有四重旋轉對稱但沒有軸對稱的圖形。有這樣的圖形嗎？如果有，畫出嚟；如果冇，解釋點解。</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">四、應用題（SSPA 文字題，共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">19</td><td class="qtxt">時鐘的指針有旋轉對稱嗎？時針由 12 點轉到 6 點，轉了多少度？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">地磚圖案：用正方形瓷磚鋪地，每塊瓷磚的圖案有四重旋轉對稱。點解咁樣鋪起嚟靚啲？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">一個風車有 4 塊相同嘅扇葉。佢有幾多重旋轉對稱？有冇軸對稱？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">以下邊個交通標誌有旋轉對稱？A.禁止標誌（圓形中間一橫）B.讓路標誌（倒三角形）C.迴旋處標誌（三個箭頭成圈）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">一個「米」字形（三條線穿過同一中心點）有幾多條對稱軸？有旋轉對稱嗎？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="h1">五、課後功課</div>
+  <div class="h2">基礎必做（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">寫出旋轉對稱重數：正方形__, 長方形__, 等邊三角形__。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">菱形有軸對稱嗎？有旋轉對稱嗎？各有幾多？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">平行四邊形（非特殊）有冇旋轉對稱？解釋。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">在方格紙上，以一點為中心，畫一個有2重旋轉對稱的簡單圖形。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:62px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">比較等邊三角形同正方形：邊個有較多對稱軸？邊個有較多重旋轉對稱？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做（共 3 題，🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">一個正六邊形有幾多條對稱軸？旋轉對稱重數是多少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">畫一個有軸對稱但沒有旋轉對稱的圖形（不能用等腰三角形）。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:62px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">字母「N」旋轉 180 度後變成「N」本身嗎？它有旋轉對稱嗎？「Z」呢？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr>
+    <tr><td>1</td><td><b>軸對稱=旋轉對稱</b>：以為有軸對稱一定有旋轉對稱</td><td>兩者獨立！等腰三角有軸對稱(1條)但冇旋轉對稱</td></tr>
+    <tr><td>2</td><td><b>平行四邊形冇任何對稱</b>（❌）</td><td>冇軸對稱但有2重旋轉對稱（轉180度重疊）</td></tr>
+    <tr><td>3</td><td><b>長方形旋轉對稱=4重</b>（❌）</td><td>長方形得2重旋轉對稱：轉180度。90度唔得！</td></tr>
+    <tr><td>4</td><td><b>等邊三角形旋轉對稱=2重</b>（❌）</td><td>等邊三角形3重：轉120度、240度都會重疊</td></tr>
+    <tr><td>5</td><td><b>旋轉對稱中心點位置錯</b></td><td>中心點一定係圖形正中心，旋轉時中心保持不動</td></tr>
+    <tr><td>6</td><td><b>正多邊形對稱軸數量=邊數-1</b>（❌）</td><td>正n邊形有n條對稱軸，n重旋轉對稱</td></tr>
+    <tr><td>7</td><td><b>菱形同正方形對稱屬性一樣</b>（❌）</td><td>菱形2條對稱軸(對角線)+2重。正方4條+4重</td></tr>
+  </table>
+
+  <div class="mn">🧠 口訣：「軸對稱靠摺疊，旋轉對稱靠轉圈。正方形四條軸四重轉，長方兩條軸兩重轉。等腰三角有軸冇旋轉，平行四邊有轉冇軸線。」</div>
+
+  <div class="h1">七、解題四步卡</div>
+  <div class="sc">
+    <div class="sc-card"><div class="snum">1</div><div class="stitle">睇圖形</div><div class="sdetail">確認圖形類型：幾邊形？邊長相等？有冇直角？</div></div>
+    <div class="sc-card"><div class="snum">2</div><div class="stitle">試摺疊（軸對稱）</div><div class="sdetail">想像沿不同線對摺。垂直/水平/斜向。兩邊重疊=有軸對稱</div></div>
+    <div class="sc-card"><div class="snum">3</div><div class="stitle">試旋轉（旋轉對稱）</div><div class="sdetail">想像繞中心轉。幾多度後重疊？→ 360÷度數 = 重數</div></div>
+    <div class="sc-card"><div class="snum">4</div><div class="stitle">查表覆核</div><div class="sdetail">用「圖形屬性表」核對答案。特別注意特殊情況</div></div>
+  </div>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-下-L31</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L31 | 32題 · 旋轉對稱+圖形分類
+</div>
+</body>
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 班級弱點分析</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px}
+.container{max-width:1100px;margin:0 auto;padding:20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.topbar h1{font-size:22px;color:#1A3C6D}
+.topbar .meta{font-size:12px;color:#6B7280}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:14px}
+.card h3{font-size:12px;color:#6B7280;margin-bottom:8px}
+.btn{padding:8px 16px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;transition:all 0.15s}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-outline{background:white;color:#1A3C6D;border:2px solid #1A3C6D}
+.btn-red{background:#DC2626;color:white}
+.btn-green{background:#16A34A;color:white}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+select{padding:8px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;background:white}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* Trap cards */
+.trap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.trap-card{border-radius:12px;padding:16px 12px;text-align:center;border:2px solid #E5E7EB;transition:all 0.2s;cursor:pointer}
+.trap-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.trap-card.critical{border-color:#DC2626;background:#FEF2F2}
+.trap-card.warning{border-color:#F59E0B;background:#FFFBEB}
+.trap-card.good{border-color:#16A34A;background:#F0FDF4}
+.trap-card .trap-label{font-size:10px;font-weight:700;color:#6B7280;margin-bottom:4px}
+.trap-card .trap-name{font-size:12px;font-weight:900;margin-bottom:6px}
+.trap-card .trap-pct{font-size:22px;font-weight:900}
+.trap-card .trap-students{font-size:10px;color:#6B7280;margin-top:4px}
+
+/* Bar chart */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:11px}
+.bar-label{width:100px;text-align:right;font-weight:700;flex-shrink:0}
+.bar-track{flex:1;background:#F3F4F6;border-radius:6px;height:22px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:6px;transition:width 0.5s;display:flex;align-items:center;padding-left:8px;font-weight:700;font-size:10px;color:white}
+.bar-fill.low{background:#DC2626}.bar-fill.mid{background:#F59E0B}.bar-fill.high{background:#16A34A}
+
+/* Student table */
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#F9FAFB;text-align:left;padding:10px 8px;font-size:10px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+td{padding:8px;border-bottom:1px solid #F3F4F6}
+.trap-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin:1px}
+.trap-dot.weak{background:#DC2626}.trap-dot.ok{background:#F59E0B}.trap-dot.strong{background:#16A34A}.trap-dot.none{background:#E5E7EB}
+
+.stat-num{font-size:28px;font-weight:900}
+.stat-label{font-size:10px;color:#6B7280}
+.recommendation{padding:12px 16px;background:#FFFBEB;border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;margin-bottom:8px;font-size:12px}
+.recommendation strong{color:#92400E}
+
+.tab-row{display:flex;gap:4px;margin-bottom:16px}
+.tab-btn{padding:8px 18px;border-radius:8px 8px 0 0;font-size:12px;font-weight:700;cursor:pointer;border:none;background:#E5E7EB;color:#6B7280;font-family:inherit}
+.tab-btn.active{background:#1A3C6D;color:white}
+.tab-content{display:none}
+.tab-content.active{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="topbar">
+	<div>
+		<h1>班級弱點分析</h1>
+		<div class="meta" id="classMeta">P5 星期六數學班 · 8位學生 · 最後更新：-</div>
+	</div>
+	<div style="display:flex;gap:8px">
+		<select id="gradeSelect" onchange="switchGrade()">
+			<option value="P3">P3</option><option value="P4">P4</option>
+			<option value="P5" selected>P5</option><option value="P6">P6</option>
+		</select>
+		<button class="btn btn-outline" onclick="addManualData()">+ 手動輸入數據</button>
+		<button class="btn btn-primary" onclick="refreshData()">🔄 刷新分析</button>
+	</div>
+</div>
+
+<!-- Stats Row -->
+<div class="grid-3" style="margin-bottom:16px">
+	<div class="card" style="text-align:center">
+		<div class="stat-num" id="statAccuracy">-</div>
+		<div class="stat-label">全班平均正確率</div>
+	</div>
+	<div class="card" style="text-align:center">
+		<div class="stat-num" id="statWeakest" style="color:#DC2626">-</div>
+		<div class="stat-label">最弱陷阱</div>
+	</div>
+	<div class="card" style="text-align:center">
+		<div class="stat-num" id="statTrend">-</div>
+		<div class="stat-label">趨勢 (vs 上次)</div>
+	</div>
+</div>
+
+<!-- Tabs -->
+<div class="tab-row">
+	<button class="tab-btn active" onclick="switchTab('overview')">班級總覽</button>
+	<button class="tab-btn" onclick="switchTab('students')">學生明細</button>
+	<button class="tab-btn" onclick="switchTab('trends')">趨勢追蹤</button>
+	<button class="tab-btn" onclick="switchTab('actions')">建議行動</button>
+</div>
+
+<!-- OVERVIEW TAB -->
+<div class="tab-content active" id="tab-overview">
+	<div class="card">
+		<h2>陷阱掌握度熱力圖</h2>
+		<div class="trap-grid" id="trapGrid"></div>
+	</div>
+
+	<div class="grid-2">
+		<div class="card">
+			<h2>正確率排名</h2>
+			<div id="trapBars"></div>
+		</div>
+		<div class="card">
+			<h2>錯誤類型分佈</h2>
+			<div id="errorDist"></div>
+		</div>
+	</div>
+</div>
+
+<!-- STUDENTS TAB -->
+<div class="tab-content" id="tab-students">
+	<div class="card">
+		<h2>學生個人弱點矩陣</h2>
+		<div style="overflow-x:auto">
+			<table id="studentTable">
+				<thead><tr><th>學生</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>T8</th><th>T9</th><th>T10</th><th>整體</th><th>最弱</th></tr></thead>
+				<tbody id="studentTbody"></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- TRENDS TAB -->
+<div class="tab-content" id="tab-trends">
+	<div class="card">
+		<h2>每次課堂正確率趨勢</h2>
+		<div id="trendChart" style="min-height:200px;display:flex;align-items:flex-end;gap:4px;padding:10px 0"></div>
+	</div>
+	<div class="card">
+		<h2>陷阱改善追蹤</h2>
+		<div id="trapTrendBars"></div>
+	</div>
+</div>
+
+<!-- ACTIONS TAB -->
+<div class="tab-content" id="tab-actions">
+	<div class="card">
+		<h2>建議教學行動</h2>
+		<div id="recommendations"></div>
+	</div>
+	<div class="card">
+		<h2>下堂教案重點</h2>
+		<div id="nextLessonPlan"></div>
+	</div>
+</div>
+
+</div>
+
+<script>
+var currentGrade = 'P5';
+var classData = {};
+var studentData = [];
+var historyData = [];
+
+// Trap definitions
+var trapNames = {
+	T1:'進退位', T2:'單位換算', T3:'運算順序', T4:'漏寫0',
+	T5:'分數', T6:'百分數', T7:'應用題', T8:'圖形', T9:'時間換算', T10:'餘數'
+};
+
+function init() {
+	loadData();
+	renderAll();
+}
+
+function loadData() {
+	// Load from localStorage
+	try {
+		classData = JSON.parse(localStorage.getItem('lf_class_weakness_' + currentGrade) || '{}');
+	} catch(e) { classData = {}; }
+
+	if (!classData.trapStats) {
+		classData.trapStats = {};
+		for (var t = 1; t <= 10; t++) {
+			classData.trapStats['T'+t] = {correct:0, total:0, studentsWeak:0};
+		}
+	}
+	if (!classData.totalCorrect) classData.totalCorrect = 0;
+	if (!classData.totalQuestions) classData.totalQuestions = 0;
+
+	try {
+		studentData = JSON.parse(localStorage.getItem('lf_class_students_' + currentGrade) || '[]');
+	} catch(e) { studentData = []; }
+
+	try {
+		historyData = JSON.parse(localStorage.getItem('lf_class_history_' + currentGrade) || '[]');
+	} catch(e) { historyData = []; }
+
+	// Ensure student data has all traps
+	var allTraps = [];
+	for (var t2 = 1; t2 <= 10; t2++) allTraps.push('T'+t2);
+	studentData.forEach(function(s) {
+		if (!s.traps) s.traps = {};
+		allTraps.forEach(function(t) {
+			if (!s.traps[t]) s.traps[t] = {correct:0, total:0};
+		});
+	});
+}
+
+function saveData() {
+	localStorage.setItem('lf_class_weakness_' + currentGrade, JSON.stringify(classData));
+	localStorage.setItem('lf_class_students_' + currentGrade, JSON.stringify(studentData));
+	localStorage.setItem('lf_class_history_' + currentGrade, JSON.stringify(historyData));
+}
+
+function switchGrade() {
+	currentGrade = document.getElementById('gradeSelect').value;
+	loadData();
+	renderAll();
+	document.getElementById('classMeta').textContent = currentGrade + ' 數學班 · 最後更新：' + (classData.lastUpdated || '-');
+}
+
+function switchTab(tab) {
+	document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+	document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+	event.target.classList.add('active');
+	document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function renderAll() {
+	renderStats();
+	renderTrapGrid();
+	renderTrapBars();
+	renderErrorDist();
+	renderStudentTable();
+	renderTrends();
+	renderRecommendations();
+	document.getElementById('classMeta').textContent = currentGrade + ' 數學班 · ' + studentData.length + '位學生 · 最後更新：' + (classData.lastUpdated || '-');
+}
+
+function renderStats() {
+	var acc = classData.totalQuestions > 0 ? Math.round(classData.totalCorrect / classData.totalQuestions * 100) : 0;
+	document.getElementById('statAccuracy').textContent = acc + '%';
+
+	// Find weakest trap
+	var weakest = null, lowest = 999;
+	for (var t = 1; t <= 10; t++) {
+		var ts = classData.trapStats['T'+t];
+		if (!ts) continue;
+		var rate = ts.total > 0 ? ts.correct / ts.total : 0;
+		if (rate < lowest) { lowest = rate; weakest = 'T'+t; }
+	}
+	document.getElementById('statWeakest').textContent = weakest ? (trapNames[weakest] + ' ' + Math.round(lowest*100) + '%') : '-';
+
+	// Trend vs previous
+	if (historyData.length >= 2) {
+		var curr = historyData[historyData.length - 1].accuracy || 0;
+		var prev = historyData[historyData.length - 2].accuracy || 0;
+		var diff = curr - prev;
+		document.getElementById('statTrend').textContent = (diff >= 0 ? '↑ ' : '↓ ') + Math.abs(diff) + '%';
+		document.getElementById('statTrend').style.color = diff >= 0 ? '#16A34A' : '#DC2626';
+	} else {
+		document.getElementById('statTrend').textContent = '數據不足';
+		document.getElementById('statTrend').style.color = '#6B7280';
+	}
+}
+
+function renderTrapGrid() {
+	var html = '';
+	for (var t = 1; t <= 10; t++) {
+		var ts = classData.trapStats['T'+t] || {correct:0, total:0, studentsWeak:0};
+		var rate = ts.total > 0 ? Math.round(ts.correct / ts.total * 100) : 0;
+		var cls = rate >= 80 ? 'good' : rate >= 60 ? 'warning' : 'critical';
+		if (ts.total === 0) cls = '';
+		html += '<div class="trap-card ' + cls + '" onclick="drillTrap(\'T' + t + '\')">';
+		html += '<div class="trap-label">T' + t + '</div>';
+		html += '<div class="trap-name">' + trapNames['T'+t] + '</div>';
+		html += '<div class="trap-pct" style="color:' + (rate>=80?'#16A34A':rate>=60?'#F59E0B':'#DC2626') + '">' + (ts.total > 0 ? rate + '%' : '-') + '</div>';
+		html += '<div class="trap-students">' + ts.studentsWeak + ' 人需加強</div>';
+		html += '</div>';
+	}
+	document.getElementById('trapGrid').innerHTML = html;
+}
+
+function renderTrapBars() {
+	var html = '';
+	var traps = [];
+	for (var t = 1; t <= 10; t++) {
+		var ts = classData.trapStats['T'+t] || {correct:0, total:0};
+		traps.push({id:'T'+t, rate: ts.total > 0 ? Math.round(ts.correct/ts.total*100) : null, total: ts.total});
+	}
+	traps.sort(function(a, b) { return (a.rate || 0) - (b.rate || 0); });
+
+	traps.forEach(function(trap) {
+		var rate = trap.rate || 0;
+		var cls = rate >= 80 ? 'high' : rate >= 60 ? 'mid' : 'low';
+		html += '<div class="bar-row">';
+		html += '<div class="bar-label">' + trapNames[trap.id] + '</div>';
+		html += '<div class="bar-track"><div class="bar-fill ' + cls + '" style="width:' + Math.max(rate, 5) + '%">' + rate + '% (' + trap.total + '題)</div></div>';
+		html += '</div>';
+	});
+	document.getElementById('trapBars').innerHTML = html || '<div style="color:#9CA3AF;text-align:center;padding:20px">未有數據</div>';
+}
+
+function renderErrorDist() {
+	// Count which traps have most weak students
+	var html = '<div style="font-size:12px;color:#6B7280;margin-bottom:8px">弱項學生人數分佈</div>';
+	for (var t = 1; t <= 10; t++) {
+		var ts = classData.trapStats['T'+t] || {studentsWeak:0};
+		var count = ts.studentsWeak || 0;
+		var maxW = Math.max.apply(null, Object.values(classData.trapStats).map(function(x) { return x.studentsWeak || 0; }));
+		var barW = maxW > 0 ? Math.round(count / maxW * 100) : 0;
+		html += '<div class="bar-row">';
+		html += '<div class="bar-label">' + trapNames['T'+t] + '</div>';
+		html += '<div class="bar-track"><div class="bar-fill ' + (count>=4?'low':count>=2?'mid':'high') + '" style="width:' + Math.max(barW, 5) + '%">' + count + ' 人</div></div>';
+		html += '</div>';
+	}
+	document.getElementById('errorDist').innerHTML = html;
+}
+
+function renderStudentTable() {
+	if (studentData.length === 0) {
+		document.getElementById('studentTbody').innerHTML = '<tr><td colspan="13" style="text-align:center;color:#9CA3AF;padding:30px">未有學生數據 — 點擊「手動輸入數據」加入學生</td></tr>';
+		return;
+	}
+
+	var html = '';
+	studentData.forEach(function(s, idx) {
+		html += '<tr>';
+		html += '<td><strong>' + s.name + '</strong></td>';
+		var totalC = 0, totalT = 0, weakestTrap = null, lowestRate = 999;
+		for (var t = 1; t <= 10; t++) {
+			var td = (s.traps && s.traps['T'+t]) || {correct:0, total:0};
+			var r = td.total > 0 ? td.correct / td.total : -1;
+			totalC += td.correct; totalT += td.total;
+			if (td.total > 0 && r < lowestRate) { lowestRate = r; weakestTrap = 'T'+t; }
+			var dotCls = r >= 0.8 ? 'strong' : r >= 0.6 ? 'ok' : r >= 0 ? 'weak' : 'none';
+			html += '<td><span class="trap-dot ' + dotCls + '" title="' + td.correct + '/' + td.total + '"></span></td>';
+		}
+		var overall = totalT > 0 ? Math.round(totalC / totalT * 100) : 0;
+		html += '<td><strong>' + overall + '%</strong></td>';
+		html += '<td style="color:#DC2626;font-size:10px">' + (weakestTrap ? trapNames[weakestTrap] : '-') + '</td>';
+		html += '</tr>';
+	});
+	document.getElementById('studentTbody').innerHTML = html;
+}
+
+function renderTrends() {
+	if (historyData.length === 0) {
+		document.getElementById('trendChart').innerHTML = '<div style="color:#9CA3AF;text-align:center;width:100%;padding:30px">未有歷史數據 — 每次課堂後數據會自動記錄</div>';
+	} else {
+		var html = '';
+		var maxH = 120;
+		historyData.forEach(function(h) {
+			var hPx = Math.max(h.accuracy || 0, 5) / 100 * maxH;
+			var color = (h.accuracy || 0) >= 80 ? '#16A34A' : (h.accuracy || 0) >= 60 ? '#F59E0B' : '#DC2626';
+			html += '<div style="flex:1;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:flex-end">';
+			html += '<div style="font-size:10px;font-weight:700;color:' + color + '">' + (h.accuracy || '?') + '%</div>';
+			html += '<div style="width:100%;max-width:40px;height:' + hPx + 'px;background:' + color + ';border-radius:4px 4px 0 0;min-height:3px"></div>';
+			html += '<div style="font-size:8px;color:#9CA3AF;margin-top:4px;transform:rotate(-30deg);white-space:nowrap">' + (h.date || '?') + '</div>';
+			html += '</div>';
+		});
+		document.getElementById('trendChart').innerHTML = html;
+	}
+
+	// Trap improvement tracking
+	var html2 = '<div style="font-size:12px;color:#6B7280;margin-bottom:8px">各陷阱上次 vs 今次正確率變化</div>';
+	var hasData = false;
+	for (var t = 1; t <= 10; t++) {
+		var ts = classData.trapStats['T'+t] || {};
+		var prevRate = ts.previousRate;
+		var currRate = ts.total > 0 ? Math.round(ts.correct / ts.total * 100) : null;
+		if (prevRate !== undefined && currRate !== null) {
+			hasData = true;
+			var change = currRate - prevRate;
+			var arrow = change > 0 ? '↑' : change < 0 ? '↓' : '→';
+			var color = change > 0 ? '#16A34A' : change < 0 ? '#DC2626' : '#6B7280';
+			html2 += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:11px">';
+			html2 += '<span style="width:80px;font-weight:700">' + trapNames['T'+t] + '</span>';
+			html2 += '<span style="color:#6B7280">' + prevRate + '% → ' + currRate + '%</span>';
+			html2 += '<span style="color:' + color + ';font-weight:700">' + arrow + ' ' + Math.abs(change) + '%</span>';
+			html2 += '</div>';
+		}
+	}
+	document.getElementById('trapTrendBars').innerHTML = hasData ? html2 : '<div style="color:#9CA3AF;text-align:center;padding:20px">需要至少兩次課堂數據才能顯示趨勢</div>';
+}
+
+function renderRecommendations() {
+	var recs = [];
+	var weakTraps = [];
+
+	for (var t = 1; t <= 10; t++) {
+		var ts = classData.trapStats['T'+t] || {correct:0, total:0, studentsWeak:0};
+		if (ts.total >= 5) {
+			var rate = ts.correct / ts.total;
+			if (rate < 0.6) weakTraps.push({id:'T'+t, rate:rate, students:ts.studentsWeak});
+		}
+	}
+	weakTraps.sort(function(a, b) { return a.rate - b.rate; });
+
+	if (weakTraps.length === 0) {
+		recs.push('未偵測到明顯弱項 — 繼續全面練習，保持水準。');
+	} else {
+		var top = weakTraps[0];
+		recs.push('<strong>' + trapNames[top.id] + '</strong>係全班最弱項目（正確率' + Math.round(top.rate*100) + '%），建議下堂重點教學。');
+		if (top.students > 0) recs.push('有 <strong>' + top.students + ' 位學生</strong>在' + trapNames[top.id] + '需要個別指導。');
+
+		if (weakTraps.length >= 2) {
+			var second = weakTraps[1];
+			recs.push('次要弱項：<strong>' + trapNames[second.id] + '</strong>（' + Math.round(second.rate*100) + '%）— 可作為第二重點。');
+		}
+
+		// Related traps
+		if (weakTraps.some(function(w) { return w.id === 'T1'; })) {
+			recs.push('💡 T1（進退位）係基礎 — 建議先用5分鐘熱身練習鞏固。');
+		}
+		if (weakTraps.some(function(w) { return w.id === 'T3'; })) {
+			recs.push('💡 T3（運算順序）— 可用BODMAS口訣輔助記憶。');
+		}
+	}
+
+	// Overall recommendation
+	var overallAcc = classData.totalQuestions > 0 ? Math.round(classData.totalCorrect / classData.totalQuestions * 100) : 0;
+	if (overallAcc < 60) {
+		recs.push('⚠️ 全班整體正確率偏低（' + overallAcc + '%）— 建議降低難度，從基礎題型開始。');
+	} else if (overallAcc >= 85) {
+		recs.push('全班表現良好（' + overallAcc + '%）— 可以增加挑戰性題目。');
+	}
+
+	var html = recs.map(function(r) {
+		return '<div class="recommendation">' + r + '</div>';
+	}).join('');
+	document.getElementById('recommendations').innerHTML = html || '<div style="color:#9CA3AF;text-align:center;padding:20px">未有足夠數據生成建議</div>';
+
+	// Next lesson plan
+	var planHtml = '<div style="font-size:12px;color:#6B7280;margin-bottom:8px">基於弱點分析的自動生成教案重點（65分鐘）</div>';
+	if (weakTraps.length > 0) {
+		planHtml += '<div style="font-size:13px;line-height:1.8">';
+		planHtml += '1. <strong>熱身啟動 (0-5分鐘)：</strong>' + (weakTraps[0] ? trapNames[weakTraps[0].id] : '基礎') + ' 陷阱回顧 + 今日課題預告<br>';
+		planHtml += '2. <strong>核心知識精講 (5-20分鐘)：</strong>' + trapNames[weakTraps[0].id] + ' 陷阱詳解 — 3個KP各5分鐘<br>';
+		planHtml += '3. <strong>輪流實戰 (20-30分鐘)：</strong>每人1題出聲解，即時診斷 (' + currentGrade + ')<br>';
+		planHtml += '4. <strong>分層練習 (30-45分鐘)：</strong>基礎→進階→挑戰，針對性題目<br>';
+		planHtml += '5. <strong>應用題+挑戰 (45-55分鐘)：</strong>跨陷阱綜合 + Boss 挑戰 ' + (weakTraps[0] ? weakTraps[0].id : 'T1') + '<br>';
+		planHtml += '6. <strong>出門券 (55-60分鐘)：</strong>1題必須啱先可以走<br>';
+		planHtml += '7. <strong>功課+口訣背誦 (60-65分鐘)：</strong>針對性功課 + 今日口訣<br>';
+		planHtml += '</div>';
+	} else {
+		planHtml += '<div style="color:#9CA3AF;font-size:12px">數據不足，使用預設綜合教案（65分鐘標準流程）。</div>';
+	}
+	document.getElementById('nextLessonPlan').innerHTML = planHtml;
+}
+
+function drillTrap(trap) {
+	alert('陷阱 ' + trap + '（' + trapNames[trap] + '）詳細分析：\n\n' +
+		'正確率：' + ((classData.trapStats[trap]||{}).total > 0 ? Math.round((classData.trapStats[trap]||{}).correct / (classData.trapStats[trap]||{}).total * 100) : 0) + '%\n' +
+		'需加強學生：' + ((classData.trapStats[trap]||{}).studentsWeak || 0) + ' 人\n\n' +
+		'建議：開啟題庫瀏覽器，選擇此陷阱的題目進行針對性練習。');
+}
+
+function addManualData() {
+	var name = prompt('學生名稱（留空跳過）：');
+	if (!name) return;
+
+	var student = {name: name, traps: {}};
+	for (var t = 1; t <= 10; t++) {
+		var input = prompt(name + ' — ' + trapNames['T'+t] + ' 正確數/總數（例如 7/10，留空跳過）：');
+		if (input && input.includes('/')) {
+			var parts = input.split('/');
+			var c = parseInt(parts[0]), tot = parseInt(parts[1]);
+			if (!isNaN(c) && !isNaN(tot) && tot > 0) {
+				student.traps['T'+t] = {correct: c, total: tot};
+				// Update class aggregate
+				if (!classData.trapStats['T'+t]) classData.trapStats['T'+t] = {correct:0, total:0, studentsWeak:0};
+				classData.trapStats['T'+t].correct += c;
+				classData.trapStats['T'+t].total += tot;
+				classData.totalCorrect += c;
+				classData.totalQuestions += tot;
+				if (c / tot < 0.6) classData.trapStats['T'+t].studentsWeak++;
+			}
+		}
+	}
+
+	// Update or add student
+	var existing = studentData.findIndex(function(s) { return s.name === name; });
+	if (existing >= 0) {
+		// Merge
+		var old = studentData[existing];
+		for (var t2 = 1; t2 <= 10; t2++) {
+			if (student.traps['T'+t2]) old.traps['T'+t2] = student.traps['T'+t2];
+		}
+	} else {
+		studentData.push(student);
+	}
+
+	// Save to history
+	classData.lastUpdated = new Date().toISOString().split('T')[0];
+	var overallAcc = classData.totalQuestions > 0 ? Math.round(classData.totalCorrect / classData.totalQuestions * 100) : 0;
+	historyData.push({
+		date: classData.lastUpdated,
+		accuracy: overallAcc,
+		students: studentData.length
+	});
+	// Keep last 20
+	if (historyData.length > 20) historyData = historyData.slice(-20);
+
+	// Save previous rates for trend tracking
+	for (var t3 = 1; t3 <= 10; t3++) {
+		var ts3 = classData.trapStats['T'+t3];
+		if (ts3 && ts3.total > 0) {
+			ts3.previousRate = Math.round(ts3.correct / ts3.total * 100);
+		}
+	}
+
+	saveData();
+	renderAll();
+}
+
+function refreshData() {
+	// Recalculate aggregates from student data
+	classData.trapStats = {};
+	classData.totalCorrect = 0;
+	classData.totalQuestions = 0;
+	for (var t = 1; t <= 10; t++) {
+		classData.trapStats['T'+t] = {correct:0, total:0, studentsWeak:0};
+	}
+
+	studentData.forEach(function(s) {
+		for (var t2 = 1; t2 <= 10; t2++) {
+			var td = (s.traps && s.traps['T'+t2]) || {correct:0, total:0};
+			if (td.total > 0) {
+				classData.trapStats['T'+t2].correct += td.correct;
+				classData.trapStats['T'+t2].total += td.total;
+				classData.totalCorrect += td.correct;
+				classData.totalQuestions += td.total;
+				if (td.correct / td.total < 0.6) classData.trapStats['T'+t2].studentsWeak++;
+			}
+		}
+	});
+
+	classData.lastUpdated = new Date().toISOString().split('T')[0];
+	saveData();
+	renderAll();
+	alert('數據已刷新！');
+}
+
+init();
+</script>
+</body>
+</html>

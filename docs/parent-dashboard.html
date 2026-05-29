@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="霖楓學苑 · 家長儀表板 — 即時查看子女學習進度">
+<title>霖楓學苑 · 家長儀表板 | Parent Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFFFFF;--gray-100:#F3F4F6;--gray-600:#6B7280;--gray-800:#374151;--radius:14px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans HK',sans-serif;background:var(--gray-100);color:var(--gray-800);min-height:100vh;}
+.header{background:var(--blue);color:white;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;}
+.header h1{font-size:20px;font-weight:900;}
+.header .student-select{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:white;padding:8px 16px;border-radius:20px;font-size:14px;}
+.container{max-width:900px;margin:24px auto;padding:0 16px;}
+.card{background:white;border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.card h2{font-size:16px;color:var(--blue);margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--gold);}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;}
+.stat-card{text-align:center;padding:20px 16px;border-radius:10px;background:var(--gray-100);}
+.stat-num{font-size:36px;font-weight:900;color:var(--blue);}
+.stat-lbl{font-size:12px;color:var(--gray-600);margin-top:4px;}
+.stat-card.warning .stat-num{color:var(--red);}
+.stat-card.success .stat-num{color:var(--green);}
+.progress-bar{height:8px;background:#E5E7EB;border-radius:4px;overflow:hidden;margin:8px 0;}
+.progress-fill{height:100%;border-radius:4px;transition:width 0.5s;}
+.weakness-tag{display:inline-block;padding:4px 12px;border-radius:15px;font-size:12px;font-weight:700;margin:4px;}
+.weakness-tag.danger{background:#FEF2F2;color:var(--red);border:1px solid #FECACA;}
+.weakness-tag.warning{background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;}
+.schedule-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #E5E7EB;}
+.schedule-item:last-child{border-bottom:none;}
+.teacher-msg{background:#F0FDF4;border-left:4px solid var(--green);padding:12px 16px;border-radius:0 8px 8px 0;margin-top:12px;}
+.cta-btn{display:inline-block;background:var(--red);color:white;padding:12px 24px;border-radius:25px;text-decoration:none;font-weight:700;font-size:14px;margin-top:12px;}
+.footer{text-align:center;padding:20px;font-size:11px;color:#9CA3AF;}
+@media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr;}}
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "lam-fung-academy.firebaseapp.com",
+  projectId: "lam-fung-academy",
+  storageBucket: "lam-fung-academy.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+const auth = firebase.auth();
+const db = firebase.firestore();
+</script>
+
+<script src="/docs/data/lf-whatsapp.js"></script>
+</head>
+<body>
+<div class="header">
+<h1>👨‍👩‍👧 家長儀表板</h1>
+<select class="student-select"><option>👦 小明 · P5</option><option>👧 小美 · P3</option></select>
+</div>
+<div class="container">
+
+<div class="card">
+<h2>📊 本週學習概覽</h2>
+<div class="stats-grid">
+<div class="stat-card success"><div class="stat-num">4/5</div><div class="stat-lbl">本週練習天數</div></div>
+<div class="stat-card"><div class="stat-num">85%</div><div class="stat-lbl">整體掌握度</div></div>
+<div class="stat-card warning"><div class="stat-num">⚠️</div><div class="stat-lbl">異分母分數加法</div></div>
+<div class="stat-card"><div class="stat-num">🏆</div><div class="stat-lbl">連續7天打卡</div></div>
+</div>
+</div>
+
+<div class="card">
+<h2>📈 各課題掌握度</h2>
+<div style="margin:8px 0;"><span>多位數與估算</span><div class="progress-bar"><div class="progress-fill" style="width:92%;background:var(--green);"></div></div><span style="font-size:11px;color:var(--gray-600);">92%</span></div>
+<div style="margin:8px 0;"><span>面積計算</span><div class="progress-bar"><div class="progress-fill" style="width:88%;background:var(--green);"></div></div><span style="font-size:11px;color:var(--gray-600);">88%</span></div>
+<div style="margin:8px 0;"><span>分數運算</span><div class="progress-bar"><div class="progress-fill" style="width:65%;background:#F59E0B;"></div></div><span style="font-size:11px;color:#D97706;">65% ⚠️</span></div>
+<div style="margin:8px 0;"><span>小數計算</span><div class="progress-bar"><div class="progress-fill" style="width:78%;background:var(--green);"></div></div><span style="font-size:11px;color:var(--gray-600);">78%</span></div>
+<div style="margin:8px 0;"><span>方程應用</span><div class="progress-bar"><div class="progress-fill" style="width:82%;background:var(--green);"></div></div><span style="font-size:11px;color:var(--gray-600);">82%</span></div>
+</div>
+
+<div class="card">
+<h2>⚠️ 需要關注的弱項</h2>
+<span class="weakness-tag danger">異分母分數加法 — 忘記通分</span>
+<span class="weakness-tag danger">分數減法 — 借位錯誤</span>
+<span class="weakness-tag warning">面積陷阱 — 斜邊≠高</span>
+<p style="margin-top:12px;font-size:13px;color:var(--gray-600);">💡 老師將在下堂重點跟進這些弱項</p>
+</div>
+
+<div class="card">
+<h2>📅 課堂時間表</h2>
+<div class="schedule-item"><span>🗓 5月30日(五) 5:00pm</span><span style="color:var(--blue);font-weight:700;">L32 複合棒形圖</span></div>
+<div class="schedule-item"><span>🗓 6月3日(二) 5:00pm</span><span style="color:var(--blue);font-weight:700;">L33 綜合練習</span></div>
+<div class="schedule-item"><span>🗓 6月6日(五) 5:00pm</span><span style="color:var(--red);font-weight:700;">L34 SSPA模擬3</span></div>
+<a href="/docs/class-schedule.html" class="cta-btn" style="background:var(--blue);">查看完整時間表 →</a>
+</div>
+
+<div class="card">
+<h2>💬 老師留言</h2>
+<div class="teacher-msg">
+<p style="font-weight:700;color:var(--green);">Miss Chan · P5數學老師</p>
+<p style="font-size:14px;margin-top:4px;">小明呢排上堂好專心！特別係面積課題進步好大。下一步我哋會重點幫佢突破分數運算嘅弱項。加油！💪</p>
+</div>
+</div>
+
+<a href="/docs/enroll.html" class="cta-btn" style="display:block;text-align:center;margin:20px auto;max-width:300px;">📞 聯絡老師 / 調堂查詢</a>
+
+</div>
+<div class="footer">© 2026 霖楓學苑 · Lam Fung Academy</div>
+
+<script>
+// Load real data from Firebase
+function loadParentData() {
+  var user = window.currentUser;
+  if (!user) {
+    // Demo mode - show sample data
+    console.log("Demo mode: using sample data");
+    return;
+  }
+  
+  // Real Firebase query
+  db.collection("students").where("parentId", "==", user.uid)
+    .get().then(function(snapshot) {
+      if (snapshot.empty) {
+        console.log("No linked students found");
+        return;
+      }
+      snapshot.forEach(function(doc) {
+        var data = doc.data();
+        document.getElementById("studentName").textContent = data.name || "學生";
+        document.getElementById("practiceDays").textContent = data.practiceDays || "0/5";
+        document.getElementById("mastery").textContent = data.mastery || "0%";
+        // Update progress bars
+        if (data.subjects) {
+          for (var subject in data.subjects) {
+            var el = document.getElementById("progress-" + subject);
+            if (el) el.style.width = data.subjects[subject] + "%";
+          }
+        }
+      });
+    }).catch(function(err) {
+      console.log("Error loading data:", err);
+    });
+}
+
+// Auto-load on page ready
+document.addEventListener("DOMContentLoaded", function() {
+  if (typeof firebase !== "undefined" && firebase.apps.length) {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        window.currentUser = user;
+        loadParentData();
+      }
+    });
+  }
+});
+</script>
+
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 家長註冊</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:linear-gradient(170deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:white;border-radius:20px;padding:36px 28px;max-width:480px;width:100%;color:#1A1A1A;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.card h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;color:#1A3C6D;text-align:center;margin-bottom:4px}
+.card .sub{text-align:center;color:#6B7280;font-size:13px;margin-bottom:24px}
+.step{display:none}
+.step.active{display:block}
+input,select{padding:12px 16px;border:2px solid #E5E7EB;border-radius:10px;font-size:14px;font-family:inherit;width:100%;margin-bottom:10px}
+.btn{display:block;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;border:none;font-family:inherit;transition:all 0.2s}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-primary:hover{background:#1E4D8C}
+.btn-wa{background:#25D366;color:white}
+.btn-outline{background:white;border:2px solid #E5E7EB;color:#6B7280}
+.progress{display:flex;gap:8px;justify-content:center;margin-bottom:24px}
+.progress-dot{width:10px;height:10px;border-radius:50%;background:#E5E7EB}
+.progress-dot.active{background:#1A3C6D}
+.progress-dot.done{background:#16A34A}
+.child-card{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:14px;margin-bottom:10px;position:relative}
+.child-card .remove{position:absolute;top:8px;right:12px;cursor:pointer;color:#DC2626;font-size:18px}
+.add-child{text-align:center;padding:12px;border:2px dashed #E5E7EB;border-radius:10px;cursor:pointer;color:#6B7280;font-size:13px;margin-bottom:10px}
+.add-child:hover{border-color:#1A3C6D;color:#1A3C6D}
+.benefit-list{font-size:12px;color:#6B7280;margin:12px 0}
+.benefit-list li{margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>註冊霖楓家長平台</h1>
+<div class="sub">免費註冊 · 追蹤小朋友學習進度 · AI 個人化建議</div>
+
+<div class="progress">
+<div class="progress-dot active" id="dot1"></div>
+<div class="progress-dot" id="dot2"></div>
+<div class="progress-dot" id="dot3"></div>
+</div>
+
+<!-- Step 1: Parent Info -->
+<div class="step active" id="step1">
+<h3 style="margin-bottom:12px;color:#1A3C6D">第1步：你的資料</h3>
+<input type="text" id="parentName" placeholder="你的稱呼">
+<input type="tel" id="parentPhone" placeholder="WhatsApp 號碼">
+<input type="email" id="parentEmail" placeholder="電郵（選填）">
+<button class="btn btn-primary" onclick="nextStep(2)">下一步 →</button>
+</div>
+
+<!-- Step 2: Child Info -->
+<div class="step" id="step2">
+<h3 style="margin-bottom:12px;color:#1A3C6D">第2步：子女資料</h3>
+<div id="childrenContainer">
+<div class="child-card">
+<div style="display:flex;gap:8px"><input type="text" class="child-name" placeholder="小朋友名稱" style="flex:2"><select class="child-grade" style="flex:1"><option value="">年級</option><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select></div>
+<div style="display:flex;gap:8px;margin-top:6px"><input type="text" class="child-school" placeholder="學校（選填）" style="flex:1"><input type="text" class="child-exam" placeholder="目標考試（選填）" style="flex:1"></div>
+</div>
+</div>
+<div class="add-child" onclick="addChild()">+ 加多個小朋友</div>
+<button class="btn btn-primary" onclick="nextStep(3)">下一步 →</button>
+<button class="btn btn-outline" onclick="nextStep(1)" style="margin-top:6px">← 上一步</button>
+</div>
+
+<!-- Step 3: Complete -->
+<div class="step" id="step3">
+<h3 style="margin-bottom:12px;color:#1A3C6D;text-align:center">註冊完成！</h3>
+<div style="text-align:center;font-size:48px;margin:16px 0">🎉</div>
+<p style="text-align:center;color:#6B7280;margin-bottom:16px">你已成功註冊霖楓家長平台</p>
+
+<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:14px;margin-bottom:16px">
+<strong style="color:#065F46">✅ 你可以用到嘅功能：</strong>
+<ul class="benefit-list" style="margin-top:6px">
+<li>📊 追蹤小朋友嘅陷阱指紋同練習進度</li>
+<li>📸 OCR 掃描學校試卷 → 自動生成相似練習</li>
+<li>💡 AI 智慧建議：每星期應該做咩練習</li>
+<li>📱 WhatsApp 自動接收練習結果</li>
+<li>🎯 個人化出題（根據小朋友弱點）</li>
+</ul>
+</div>
+
+<button class="btn btn-wa" onclick="openWA()">📱 打開 WhatsApp 接收通知</button>
+<a href="parent-portal.html" class="btn btn-primary" style="text-align:center;text-decoration:none;margin-top:8px">🎓 前往家長平台 →</a>
+</div>
+</div>
+
+<script>
+var childCount=1;
+function addChild(){
+    childCount++;
+    var html='<div class="child-card"><span class="remove" onclick="this.parentElement.remove();childCount--">×</span><div style="display:flex;gap:8px"><input type="text" class="child-name" placeholder="小朋友名稱" style="flex:2"><select class="child-grade" style="flex:1"><option value="">年級</option><option>P1</option><option>P2</option><option>P3</option><option>P4</option><option>P5</option><option>P6</option></select></div><div style="display:flex;gap:8px;margin-top:6px"><input type="text" class="child-school" placeholder="學校（選填）" style="flex:1"><input type="text" class="child-exam" placeholder="目標考試（選填）" style="flex:1"></div></div>';
+    document.getElementById("childrenContainer").insertAdjacentHTML("beforeend",html);
+}
+
+function nextStep(n){
+    document.querySelectorAll(".step").forEach(function(s){s.classList.remove("active")});
+    document.getElementById("step"+n).classList.add("active");
+    document.querySelectorAll(".progress-dot").forEach(function(d,i){d.classList.remove("active","done");if(i+1<n)d.classList.add("done");if(i+1===n)d.classList.add("active")});
+
+    if(n===3){
+        // Save registration data
+        var parent={name:document.getElementById("parentName").value,phone:document.getElementById("parentPhone").value,email:document.getElementById("parentEmail").value};
+        var children=[];
+        document.querySelectorAll(".child-card").forEach(function(card){
+            children.push({name:card.querySelector(".child-name").value,grade:card.querySelector(".child-grade").value,school:card.querySelector(".child-school").value,exam:card.querySelector(".child-exam").value});
+        });
+        localStorage.setItem("lf_registered_parent",JSON.stringify({parent:parent,children:children,registered:new Date().toISOString()}));
+
+        // Trigger WhatsApp welcome sequence (simulated)
+        var waMsg=encodeURIComponent("歡迎"+parent.name+"註冊霖楓家長平台！\n\n你已成功綁定"+children.length+"位小朋友。\n\n即時體驗：\n📊 進度追蹤：lfamy.github.io/docs/parent-portal.html\n📸 OCR掃描：lfamy.github.io/docs/ocr-scan.html");
+        document.getElementById("step3").querySelector(".btn-wa").setAttribute("onclick","window.open('https://wa.me/"+parent.phone+"?text="+waMsg+"','_blank')");
+    }
+}
+
+function openWA(){}
+</script>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body></html>

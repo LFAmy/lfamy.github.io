@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 代課計劃生成器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#DC2626,#991B1B);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+select,input{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+.btn{display:block;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;border:none;font-family:inherit;background:#DC2626;color:white}
+.plan-box{background:#FEF3C7;border:2px solid #F59E0B;border-radius:10px;padding:16px;margin-top:12px;font-size:13px;line-height:2;white-space:pre-wrap;display:none}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>🆘 代課計劃生成器</h1><p>老師請假 → 一鍵生成代課老師完整教案</p></div>
+
+<div class="card">
+<h2>今日堂數</h2>
+<div id="todayClasses"><p style="color:#9CA3AF;text-align:center;padding:20px">從課堂時間表載入…</p></div>
+<button class="btn" onclick="generateSubPlan()">📋 生成代課計劃</button>
+</div>
+
+<div class="plan-box" id="subPlan"></div>
+<button class="btn" style="background:#25D366;margin-top:8px;display:none" id="btnCopyPlan" onclick="copyPlan()">📱 複製 → WhatsApp send俾代課老師</button>
+</div>
+
+<script>
+function generateSubPlan(){
+var d=new Date();
+var plan='【霖楓學苑 · 代課計劃】\n日期：'+d.toISOString().split('T')[0]+'\n\n';
+
+plan+='📋 課前準備（15分鐘前）：\n';
+plan+='  □ 打開學生平台，查看今日學生嘅陷阱指紋\n';
+plan+='  □ 打印今日需要嘅講義（或開啟平板）\n';
+plan+='  □ 檢查 WhatsApp 有冇家長特別訊息\n\n';
+
+plan+='🎯 教學重點：\n';
+plan+='  · 每堂跟住講義嘅「核心知識精講」部分進行\n';
+plan+='  · 使用口訣教學（唔好長篇大論）\n';
+plan+='  · 每堂至少帶學生完成一次「解題四步卡」\n';
+plan+='  · 確保學生基礎層正確率≥70%先上進階層\n\n';
+
+plan+='📱 課後必做事項：\n';
+plan+='  □ 用快速記錄器為每位學生生成進度更新\n';
+plan+='  □ WhatsApp send俾家長（堂後1小時內）\n';
+plan+='  □ 如有學生表現異常，記錄備註\n\n';
+
+plan+='📖 參考資源：\n';
+plan+='  · 教學手冊：lfamy.github.io/docs/teacher-manual.html\n';
+plan+='  · 講義庫：lfamy.github.io/講義/master_index.html\n';
+plan+='  · 課後記錄器：lfamy.github.io/docs/student-journey.html\n\n';
+
+plan+='⚠️ 緊急聯繫：WhatsApp 85294796459';
+
+document.getElementById("subPlan").textContent=plan;
+document.getElementById("subPlan").style.display="block";
+document.getElementById("btnCopyPlan").style.display="block";
+}
+function copyPlan(){var t=document.getElementById("subPlan").textContent;navigator.clipboard.writeText(t).then(function(){alert("已複製 ✅")})}
+</script>
+</body></html>

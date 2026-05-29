@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-上-L05 百分數增減+連續變化 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 5 堂 · 學生版講義</div>
+  <div class="cv-title">百分數增減 + 連續變化</div>
+  <div class="cv-sub">單元五 · 百分數進階應用 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6上A冊 單元五 ＋ 現代教育 6上A 單元6<br>
+    <b>核心陷阱：</b>T7 百分數變化 — 連續變化時基準量轉移 · 先加後減不等於沒變<br>
+    <b>SSPA 關聯：</b><span class="ss sh">高頻</span> 呈分試進階題，佔卷一約 10-15%<br>
+    <b>前置知識：</b>堂4（百分數佔比+求原值·逆向）· 堂2（百分數互換）· 堂3（折扣計算）<br>
+    <b>本堂目標：</b>百分數增減計算 連續百分數變化（基準量轉移） 綜合應用題
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">計算：200 的 10% 是多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">增加了 20% 即是原來的多少倍？（堂2複習）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">減少了 15% 即是原來的多少倍？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">100 元增加 10% 後是多少元？再減少 10% 後是多少元？（小心！）</td><td class="qd d2">進階</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">一件貨品八折後售 160 元，原價是多少元？（堂4複習）</td><td class="qd d2">進階</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：百分數增減 — 基本運算<span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>核心公式：新值 = 原值 × (1 增減率)</strong><br>
+      增加 r%：新值 = 原值 × (1 + r%) &nbsp;&nbsp;例：100 增加 20% = 100 × 1.2 = 120<br>
+      減少 r%：新值 = 原值 × (1 − r%) &nbsp;&nbsp;例：100 減少 15% = 100 × 0.85 = 85<br>
+      <br>
+      <strong>關鍵理解：</strong><br>
+      增加了 20% 即是變成原來的 120%（1.2倍）<br>
+      減少了 15% 即是變成原來的 85%（0.85倍）<br>
+      原值不變 = 100% = 1 倍<br>
+      <strong>增幅/減幅計算：</strong>變化% = (新值 − 原值) ÷ 原值 × 100%
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題（本堂最重要的示範）</div>
+    <div class="ex-q">一件貨品原價 500 元，先加價 20%，再減價 20%。最終售價是多少元？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">世紀陷阱（85% 學生答錯）</div><div class="eq">500 元（回復原價！）</div><div class="why">加 20% 再減 20% 不等於沒變！<br>因為兩次的基準量不同！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">500 × 1.2 × 0.8 = 480 元</div><div class="why">加後：500 × 1.2 = 600<br>減後：600 × 0.8 = 480<br>最終比原價低了 20 元！</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「加完先乘 1 加 r，減完先乘 1 減 r；加減對稱不還原，基準唔同係關鍵」</div>
+  <div class="warn">最高頻錯誤：加 r% 再減 r% 以為回復原值。兩次基準量不同，結果永遠低於原值！</div>
+  <div class="warn">第二高頻錯誤：百分數未轉小數。20% = 0.2，1 + 20% = 1.2，不能寫成 1 + 20 = 21！</div>
+
+  <div class="h2">知識點一 例題練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">例1</td><td class="qtxt">300 元增加 15% 後是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">例2</td><td class="qtxt">450 克減少 30% 後是多少克？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：連續百分數變化 — 基準量轉移陷阱<span class="ss sh">SSPA 終極考點</span></div>
+    <div class="kp-rules">
+      <strong>核心概念：每次變化後的值，成為下一次變化的「新基準」</strong><br>
+      <br>
+      連續變化公式：<br>
+      最終值 = 原值 × (1 r<sub>1</sub>%) × (1 r<sub>2</sub>%) × ...<br>
+      <br>
+      <strong>經典案例：</strong><br>
+      先加 20% 再減 20%：100 × 1.2 × 0.8 = 96（比原值低 4%）<br>
+      先減 20% 再加 20%：100 × 0.8 × 1.2 = 96（也比原值低 4%）<br>
+      <br>
+      <strong>結論：</strong>對稱的連續增減 r%，最終永遠低於原值！
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：股票由 100 元先升 10%，再升 20%。最終價格是多少元？總升幅是多少%？</div></div>
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：一件貨品原價 800 元，先減價 25%，再減價 10%。最終售價是多少元？</div></div>
+
+  <div class="h2">知識點二 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">200 元先增加 10%，再增加 20%。最終是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">500 元先減 20%，再減 10%。最終是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">一件貨品原價 600 元，先加 50%，再減 50%。最終售價是多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">1000 元先減 30%，再加 30%。最終是多少元？比原價高還是低？</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">一件貨品先加 25%，再減 20%。最終售價比原價高還是低？變化幅度是多少%？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3: KP3 + TIERED ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：逆向連續變化 — 已知最終值求原值<span class="ss sh">SSPA 殺手題</span></div>
+    <div class="kp-rules">
+      <strong>逆向還原公式：</strong><br>
+      原值 = 最終值 <strong>÷</strong> (1 r<sub>1</sub>%) <strong>÷</strong> (1 r<sub>2</sub>%) ...<br>
+      <br>
+      <strong>步驟：</strong><br>
+      記錄每一次變化率<br>
+      從最終值開始，一步一步逆向除回去<br>
+      驗算：用正向公式確認結果<br>
+      <br>
+      例：一件貨品先加 20% 再減 10% 後售 540 元<br>
+      原價 = 540 ÷ 0.9 ÷ 1.2 = 540 ÷ 0.9 = 600；600 ÷ 1.2 = 500 元
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例5：股票價格先升 25% 後跌 20%，最終為 50 元。原價是多少元？</div></div>
+  <div class="ex"><div class="ex-title">例題</div><div class="ex-q">例6：一件貨品先減 30% 再減 10%，最終售 315 元。原價是多少元？</div></div>
+
+  <div class="mn">口訣：「連續變化逆向計，從尾到頭逐次除；每次除以變化率，驗算正向要相符」</div>
+  <div class="warn">致命陷阱：逆向還原時，每次除的是變化率（1+r% 或 1−r%），不能直接除百分比數字！</div>
+
+  <div class="h2">知識點三 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">加了 20% 後是 240 元，原值是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">減了 15% 後是 170 元，原值是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">先加 20% 再減 10% 後售 432 元。原價是多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">先減 25% 再加 15% 後售 345 元。原價是多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">一件貨品經過三次變化：加 10% 減 20% 加 25%，最終售 550 元。原價是多少元？</td><td class="qd d4"></td><td class="qw" style="min-height:62px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">基礎層（共 6 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">16</td><td class="qtxt">250 元增加 10% 是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">180 元減少 20% 是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">增加了 15% 後是 230 元，原值是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">減少了 25% 後是 150 元，原值是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">300 元先增加 20%，最終是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">400 元先減少 30%，最終是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+
+  <div class="h2">進階層（共 6 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">22</td><td class="qtxt">200 元先加 10% 再減 10%。最終是多少元？比原價變化了多少%？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">一件貨品原價 350 元，先加價 20% 再打八折。最終售價是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">由 80 增加到 100，增加了百分之幾？由 100 減少到 80，減少了百分之幾？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">股票由 50 元先升 20% 後跌 x%（至 48 元）。求跌了多少%？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">先加 30% 再減 20% 後售 520 元。原價是多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">27</td><td class="qtxt">小明體重去年 45 kg，今年增加了 8%。明年預計再增加 5%。明年體重預計是多少 kg？（答案取至小數後一位）</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="h2">挑戰層（共 6 題，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">28</td><td class="qtxt">一件貨品成本 300 元。加價 40% 作標價，再以標價的 75% 出售。利潤是多少元？利潤率是成本的百分之幾？</td><td class="qd d3"></td><td class="qw" style="min-height:62px;"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">1000 元存款，年利率 5%，複利計算（即每年本金變為上年本利和）。三年後本利和是多少元？（答案取至整數）</td><td class="qd d4"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">30</td><td class="qtxt">A 和 B 兩個數。A 比 B 大 25%。B 比 A 小百分之幾？（經典陷阱！）</td><td class="qd d4"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">一件貨品先加價 r%，再減價 r%。最終售價是原價的 96%。求 r。</td><td class="qd d4"></td><td class="qw" style="min-height:62px;"></td></tr>
+    <tr><td class="qn">32</td><td class="qtxt">長方形的長增加 20%，闊減少 20%。面積的變化是增加了還是減少了？變化幅度是多少%？</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">33</td><td class="qtxt">小明用儲蓄的 20% 買書，再用餘下的 30% 買文具。最後剩 224 元。儲蓄原有多少元？</td><td class="qd d4"></td><td class="qw" style="min-height:62px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（呈分試連續變化題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">34</td><td class="qtxt">小美體重 40 公斤，經過暑假增加了 5%。開學後減少了 5%。開學後體重是多少公斤？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">35</td><td class="qtxt">一個城市的人口是 50000 人，第一年增加了 8%，第二年減少了 3%。兩年後人口是多少？</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">36</td><td class="qtxt">一件衣服原價 240 元，先加價 25% 作標價，季末再以標價六折清貨。清貨價是多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">37</td><td class="qtxt">汽油價格去年每升 20 元。今年先升 15%，再跌 10%。現時油價是多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">38</td><td class="qtxt">一間公司去年盈利 200 萬元。預計今年減少 15%，明年回升 20%。明年的預計盈利是多少萬元？</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">39</td><td class="qtxt">一個長方形花園：長 20 米，闊 15 米。如果長增加 10%，闊減少 10%。新面積比原面積變化了多少%？</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+  </table>
+
+  <div class="h1">五、終極挑戰專區</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">一個正方形，邊長增加 20%。面積增加了百分之幾？（提示：新面積 = (1.2a)² = 1.44a²）</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">一件貨品的標價是成本的 150%。全場八折出售。利潤率是成本的百分之幾？如果要賺 50% 利潤，折扣最多可以是多少折？</td><td class="qd d4"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">小明三年來的儲蓄：第一年比前年增加 25%，第二年比第一年減少 20%，第三年比第二年增加 50%。如果前年儲蓄是 800 元，第三年的儲蓄是前年的百分之幾？總增幅是多少%？</td><td class="qd d4"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 6 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">150 元增加 20% 是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">220 元減少 15% 是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">增加了 25% 後是 300 元，原值是多少元？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">減少了 40% 後是 180 元，原值是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">200 元先增加 20% 再減少 10%。最終是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">一件貨品先加價 30% 再八折出售，最終售 312 元。原價是多少元？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">500 元存款，年利率 4%，複利計算。兩年後本利和是多少？</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">A 比 B 多 25%。B 是 80。求 A。如果 A 比 B 多 25%，B 比 A 少百分之幾？</td><td class="qd d3"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H9</td><td class="qtxt">一個長方形，長增加 10%，闊減少 10%。面積變化了多少%？由此你能得出什麼結論？</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>連續增減 r% 以為回復原值：</strong>加 20% 減 20% = 沒變</td><td>基準量不同，最終必低於原值：1.2 × 0.8 = 0.96</td></tr>
+    <tr><td>2</td><td><strong>百分數變化時直接用數字加減：</strong>100 + 20% = 120</td><td>增長率要轉為 (1+r%)，100 × 1.2 = 120</td></tr>
+    <tr><td>3</td><td><strong>逆向還原時除數取錯：</strong>加 20% 後＝X，原值＝X × 0.8</td><td>原值 = X <strong>÷</strong> 1.2，不是 × 0.8</td></tr>
+    <tr><td>4</td><td><strong>連續逆向時除數順序錯誤：</strong>從原值開始除</td><td>從最終值開始，逆序除以每次的變化率</td></tr>
+    <tr><td>5</td><td><strong>「A 比 B 多 r%」和「B 比 A 少 r%」混淆：</strong>以為少相同%</td><td>A = B × (1+r%) 但 B = A ÷ (1+r%)，百分比不同</td></tr>
+    <tr><td>6</td><td><strong>面積/體積的變化率直接用邊長變化率：</strong>邊長 +20% 面積 = +20%</td><td>面積變化 = (1.2)² − 1 = 44%（不是 20%）</td></tr>
+    <tr><td>7</td><td><strong>複利計算時用簡單乘法：</strong>3 年 5% = 原值 × (1 + 3×5%)</td><td>複利 = 原值 × (1 + 5%)³，不是簡單乘 3</td></tr>
+  </table>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱 · LF-P6-上-L05</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF &nbsp;|&nbsp; 6頁 · 45題 &nbsp;|&nbsp; LF-P6-上-L05 v6
+</div>
+
+</body>
+</html>

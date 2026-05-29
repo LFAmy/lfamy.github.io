@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 試卷資源庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:900px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:8px 18px;border-radius:20px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit}
+.tab.active{background:#1A3C6D;color:white;border-color:#1A3C6D}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.paper-card{background:white;border:1px solid #E5E7EB;border-radius:12px;padding:18px;transition:all 0.2s}
+.paper-card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08);border-color:#C9A84C}
+.paper-card .school{font-size:11px;color:#6B7280;margin-bottom:2px}
+.paper-card .title{font-weight:700;font-size:14px;color:#1A3C6D;margin-bottom:4px}
+.paper-card .meta{font-size:11px;color:#9CA3AF}
+.paper-card .btn-dl{display:inline-block;padding:6px 14px;border-radius:15px;background:#1A3C6D;color:white;text-decoration:none;font-weight:700;font-size:11px;margin-top:8px}
+.upload-zone{border:3px dashed #E5E7EB;border-radius:16px;padding:40px;text-align:center;cursor:pointer}
+.upload-zone:hover{border-color:#1A3C6D;background:#F0F7FF}
+.premium-lock{background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:16px;text-align:center;margin:16px 0}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>📚 試卷資源庫</h1><p>Pro 會員專享 · 50+ 份小學數學試卷</p></div>
+
+<div class="premium-lock">🔒 此為 Pro 會員專區 · <a href="pricing.html" style="color:#1E4D8C;font-weight:700">升級會員 $199/月 →</a></div>
+
+<div class="card">
+<div class="tabs"><button class="tab active" onclick="filterPapers('all')">全部</button><button class="tab" onclick="filterPapers('P3')">P3</button><button class="tab" onclick="filterPapers('P4')">P4</button><button class="tab" onclick="filterPapers('P5')">P5</button><button class="tab" onclick="filterPapers('P6')">P6</button></div>
+<div class="grid" id="paperGrid"></div>
+</div>
+
+<div class="card"><h2>📤 上傳試卷（賺積分）</h2><p style="font-size:12px;color:#6B7280;margin-bottom:12px">上傳你嘅學校試卷，經審核後獲得 500 積分 + 解鎖 3 份其他試卷</p>
+<div class="upload-zone" onclick="document.getElementById('paperUpload').click()"><div style="font-size:36px">📸</div><p>點擊上傳試卷（支援PDF/JPG）</p><input type="file" id="paperUpload" accept=".pdf,.jpg,.png" style="display:none" onchange="handleUpload(event)"></div></div>
+
+<div class="card"><h2>🔄 自動收集機制</h2>
+<p style="font-size:13px;color:#6B7280;line-height:1.8">
+<strong>來源一：家長上傳</strong><br>Pro 會員可上傳學校試卷 → 審核通過後公開（去除學校名）<br><br>
+<strong>來源二：公開資源整理</strong><br>定期整理 EDB、學校官網公開發布嘅樣本試卷<br><br>
+<strong>來源三：霖楓原創</strong><br>AI 根據真實試卷格式生成嘅模擬卷（標註為「霖楓模擬」）
+</p></div>
+</div>
+
+<script>
+var papers=[
+{school:"九龍塘某小學",title:"P5 上學期數學測驗",grade:"P5",year:"2025",type:"校內",download:"#"},
+{school:"港島某小學",title:"P6 呈分試模擬卷",grade:"P6",year:"2025",type:"SSPA",download:"#"},
+{school:"新界某小學",title:"P4 下學期數學考試",grade:"P4",year:"2025",type:"校內",download:"#"},
+{school:"九龍某小學",title:"P3 數學中期測驗",grade:"P3",year:"2025",type:"校內",download:"#"},
+{school:"霖楓原創",title:"P5 SSPA 模擬卷 A",grade:"P5",year:"2026",type:"SSPA",download:"/docs/test-generator.html"},
+{school:"霖楓原創",title:"P6 SSPA 模擬卷 B",grade:"P6",year:"2026",type:"SSPA",download:"/docs/test-generator.html"},
+{school:"港島某小學",title:"P5 下學期數學考試",grade:"P5",year:"2024",type:"校內",download:"#"},
+{school:"九龍塘某小學",title:"P3 數學期末考試",grade:"P3",year:"2024",type:"校內",download:"#"},
+];
+
+function filterPapers(g){
+document.querySelectorAll(".tab").forEach(function(t){t.classList.toggle("active",t.textContent===g||(g==="all"&&t.textContent==="全部"))});
+var grid=document.getElementById("paperGrid");
+var filtered=g==="all"?papers:papers.filter(function(p){return p.grade===g});
+grid.innerHTML=filtered.map(function(p){return'<div class="paper-card"><div class="school">'+p.school+'</div><div class="title">'+p.title+'</div><div class="meta">'+p.grade+' · '+p.year+' · '+p.type+'</div><a href="'+p.download+'" class="btn-dl" target="_blank">'+(p.download==='#'?'🔒 升級解鎖':'📥 下載')+'</a></div>'}).join("");
+}
+filterPapers("all");
+function handleUpload(e){alert("試卷已上傳！審核通過後會加入資源庫，你將獲得 500 積分 ✅")}
+</script>
+</body></html>

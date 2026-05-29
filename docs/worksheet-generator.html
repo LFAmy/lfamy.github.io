@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 工作紙生成器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.form-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.form-row>*{flex:1;min-width:120px}
+select,input{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;background:white}
+.btn{display:block;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;border:none;font-family:inherit;background:#DC2626;color:white;margin-top:8px}
+.ws-preview{background:white;border:2px solid #C9A84C;border-radius:14px;padding:28px;margin-top:16px;display:none;font-size:13px;line-height:2.2}
+.ws-preview h3{text-align:center;font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:18px;color:#1A3C6D}
+.ws-q{padding:12px;margin:8px 0;border-bottom:1px dashed #E5E7EB}
+.ws-q .q-num{font-weight:900;color:#1A3C6D}
+.ws-q .answer-line{border-bottom:2px solid #E5E7EB;min-width:200px;display:inline-block;margin-left:8px}
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin-top:10px}
+.preset-btn{padding:10px;border:2px solid #E5E7EB;border-radius:10px;background:white;cursor:pointer;font-size:12px;text-align:left;transition:all 0.2s}
+.preset-btn:hover{border-color:#1A3C6D;background:#F0F7FF}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>📝 工作紙生成器</h1><p>自訂參數 → 生成列印版工作紙 → 含答題空間</p></div>
+
+<div class="card">
+<h2>工作紙設定</h2>
+<div class="form-row">
+<select id="wsGrade"><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<select id="wsTopic"><option value="all">綜合練習</option><option>分數運算</option><option>小數運算</option><option>百分數</option><option>面積體積</option><option>方程代數</option><option>應用題</option></select>
+<select id="wsCount"><option>10題</option><option selected>15題</option><option>20題</option></select>
+</div>
+<div class="form-row">
+<select id="wsType"><option>計算題為主</option><option>應用題為主</option><option selected>混合題型</option></select>
+<select id="wsFormat"><option>附答題空間（列印版）</option><option>純題目（螢幕版）</option></select>
+</div>
+
+<div class="preset-grid">
+<button class="preset-btn" onclick="quickWS('P5','分數運算','15題')">📐 P5 分數工作紙</button>
+<button class="preset-btn" onclick="quickWS('P6','百分數','15題')">💯 P6 百分數工作紙</button>
+<button class="preset-btn" onclick="quickWS('P5','應用題','10題')">📖 P5 應用題工作紙</button>
+<button class="preset-btn" onclick="quickWS('P4','面積體積','15題')">📏 P4 面積體積工作紙</button>
+<button class="preset-btn" onclick="quickWS('P6','綜合練習','20題')">🎯 P6 SSPA 綜合練習</button>
+<button class="preset-btn" onclick="quickWS('P3','綜合練習','10題')">🌟 P3 基礎練習</button>
+</div>
+
+<button class="btn" onclick="generateWS()">⚡ 生成工作紙</button>
+</div>
+
+<div class="ws-preview" id="wsPreview"></div>
+<button class="btn" id="btnPrint" style="display:none;background:#1A3C6D" onclick="printWS()">🖨️ 列印工作紙</button>
+</div>
+
+<script>
+function quickWS(g,t,c){document.getElementById("wsGrade").value=g;document.getElementById("wsTopic").value=t;document.getElementById("wsCount").value=c;generateWS()}
+
+function generateWS(){
+var g=document.getElementById("wsGrade").value;
+var t=document.getElementById("wsTopic").value;
+var c=parseInt(document.getElementById("wsCount").value);
+var fmt=document.getElementById("wsFormat").value;
+var isPrint=fmt.includes("列印");
+
+var sampleQs=[
+{num:1,text:"計算：3/4 + 1/2 = ?",ans:"5/4 = 1 1/4"},
+{num:2,text:"計算：2.5 × 4 = ?",ans:"10"},
+{num:3,text:"$200 的 15% 是多少？",ans:"$30"},
+{num:4,text:"長方形長12cm闊8cm，面積是多少？",ans:"96cm²"},
+{num:5,text:"計算：5/6 - 1/3 = ?",ans:"1/2"},
+{num:6,text:"408 ÷ 2 = ?",ans:"204"},
+{num:7,text:"正方體邊長5cm，體積是多少？",ans:"125cm³"},
+{num:8,text:"$500加價20%後是多少？",ans:"$600"},
+{num:9,text:"小明有48粒糖，俾咗1/4俾妹妹，還剩多少？",ans:"36粒"},
+{num:10,text:"三角形底10cm高6cm，面積是多少？",ans:"30cm²"},
+{num:11,text:"計算：6 + 4 × 3 = ?",ans:"18"},
+{num:12,text:"1.5公升 = 多少毫升？",ans:"1500mL"},
+{num:13,text:"圓形半徑7cm，面積約是多少？(π≈3.14)",ans:"153.86cm²"},
+{num:14,text:"一件衫原價$400，8折後再9折，最終售價？",ans:"$288"},
+{num:15,text:"甲乙兩地相距180km，車速60km/h，需要多少小時？",ans:"3小時"},
+];
+
+var html='<h3>霖楓學苑 · '+g+' '+t+' 工作紙</h3>';
+html+='<p style="text-align:center;color:#6B7280;font-size:12px">姓名：___________ 日期：___________ 分數：____/'+c+'</p>';
+
+for(var i=0;i<Math.min(c,sampleQs.length);i++){
+var q=sampleQs[i];
+html+='<div class="ws-q"><span class="q-num">'+(i+1)+'.</span> '+q.text;
+if(isPrint)html+='<br><span class="answer-line" style="width:70%"></span>';
+html+='</div>';
+}
+
+html+='<div style="margin-top:20px;padding:12px;background:#FEF3C7;border-radius:8px"><strong>答案：</strong>';
+for(var i=0;i<Math.min(c,sampleQs.length);i++){html+=sampleQs[i].ans+'; '}
+html+='</div>';
+
+document.getElementById("wsPreview").innerHTML=html;
+document.getElementById("wsPreview").style.display="block";
+document.getElementById("btnPrint").style.display="block";
+document.getElementById("wsPreview").scrollIntoView({behavior:"smooth"});
+}
+function printWS(){window.print()}
+</script>
+</body></html>

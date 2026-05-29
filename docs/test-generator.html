@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · AI 智能出題系統</title><style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;margin-bottom:4px}
+.header p{font-size:13px;opacity:0.8}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #E5E7EB}
+.form-row{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.form-row label{font-size:12px;color:#6B7280;display:block;margin-bottom:2px}
+.form-row select,.form-row input{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1;min-width:120px;background:white}
+.btn-gen{width:100%;padding:16px;background:linear-gradient(135deg,#DC2626,#B91C1C);color:white;border:none;border-radius:12px;font-size:16px;font-weight:900;cursor:pointer;font-family:inherit;margin-top:10px}
+.btn-gen:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(220,38,38,0.3)}
+.output{display:none;margin-top:20px}
+.preview{background:white;border-radius:14px;padding:28px;box-shadow:0 2px 10px rgba(0,0,0,0.08);border:2px solid #C9A84C}
+.preview h3{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:20px;color:#1A3C6D;text-align:center;margin-bottom:4px}
+.preview .meta{text-align:center;font-size:12px;color:#6B7280;margin-bottom:20px}
+.question-block{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:16px;margin:12px 0}
+.question-block .q-num{font-weight:900;color:#1A3C6D;margin-bottom:4px}
+.question-block .q-text{font-size:14px;margin-bottom:8px;line-height:1.8}
+.question-block .q-options{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;font-size:13px}
+.question-block .q-option{padding:6px 12px;background:white;border:1px solid #E5E7EB;border-radius:6px}
+.question-block .q-trap{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-left:8px}
+.q-trap.T1{background:#FEF3C7;color:#92400E}.q-trap.T2{background:#FEF3C7;color:#92400E}
+.q-trap.T3{background:#DBEAFE;color:#1E40AF}.q-trap.T4{background:#DBEAFE;color:#1E40AF}
+.q-trap.T5{background:#FCE7F3;color:#9D174D}.q-trap.T6{background:#FCE7F3;color:#9D174D}
+.q-trap.T7{background:#D1FAE5;color:#065F46}.q-trap.T8{background:#D1FAE5;color:#065F46}
+.answer-section{background:#FEF3C7;border:2px solid #C9A84C;border-radius:10px;padding:16px;margin-top:20px}
+.answer-section h4{color:#92400E;margin-bottom:8px}
+.answer-section .ans{font-size:13px;line-height:2}
+.btn-row{display:flex;gap:10px;margin-top:12px}
+.btn-out{flex:1;padding:12px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;border:none;font-family:inherit}
+.btn-copy{background:#25D366;color:white}
+.btn-pdf{background:#1A3C6D;color:white}
+.btn-regen{background:#E5E7EB;color:#374151}
+.history{padding:12px 0;font-size:12px}
+.history-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F3F4F6}
+@media(max-width:500px){.q-options{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<div class="container">
+
+<div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:12px">
+<span style="font-size:12px;color:#6B7280;line-height:32px">Question Language:</span>
+<button class="lang-btn active" onclick="switchBank('zh')" id="btnZh">HK Chinese</button>
+<button class="lang-btn" onclick="switchBank('en')" id="btnEn">English</button>
+</div>
+<style>
+.lang-btn{padding:6px 16px;border-radius:20px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:12px;font-family:inherit}
+.lang-btn.active{border-color:#1A3C6D;background:#1A3C6D;color:white}
+</style>
+
+<div class="header">
+<h1>AI 智能出題系統</h1>
+<p>選擇需求 → 自動生成最合適嘅試卷 + 答案鍵</p>
+</div>
+
+<div class="card">
+<h2>出卷需求</h2>
+
+<div class="form-row">
+<div style="flex:1;min-width:100px"><label>年級</label><select id="grade"><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select></div>
+<div style="flex:2;min-width:180px"><label>課題</label><select id="topic"><option value="all">綜合（涵蓋所有課題）</option><option value="fraction">分數運算</option><option value="decimal">小數運算</option><option value="percent">百分數應用</option><option value="area">面積與體積</option><option value="equation">方程與代數</option><option value="geometry">幾何圖形</option><option value="speed">速率</option><option value="chart">數據圖表</option><option value="word">應用題</option></select></div>
+</div>
+
+<div class="form-row">
+<div style="flex:1;min-width:100px"><label>陷阱類型</label><select id="trap"><option value="all">全部陷阱</option><option value="T1">T1 進退位</option><option value="T2">T2 單位換算</option><option value="T3">T3 運算順序</option><option value="T4">T4 漏寫0</option><option value="T5">T5 分數陷阱</option><option value="T6">T6 百分數陷阱</option><option value="T7">T7 應用題理解</option><option value="T8">T8 圖形面積</option></select></div>
+<div style="flex:1;min-width:100px"><label>題目數量</label><select id="count"><option>10</option><option selected>20</option><option>30</option></select></div>
+<div style="flex:1;min-width:100px"><label>難度</label><select id="difficulty"><option value="foundation">基礎層（校內一般練習）</option><option value="intermediate" selected>進階層（校內考試水平）</option><option value="challenge">挑戰層（精英班水平）</option><option value="sspa">呈分試水平（SSPA真題難度）</option><option value="mixed">混合難度</option></select></div>
+</div>
+
+<div class="card" id="personalizeCard" style="border-left:4px solid #DC2626">
+<h2>🎯 個人化模式（根據陷阱指紋出題）</h2>
+<p style="font-size:12px;color:#6B7280;margin-bottom:12px">輸入學生嘅陷阱指紋 → AI 自動分配題目比重 → 針對性出卷</p>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:12px">
+<div style="flex:1;min-width:200px">
+<div style="font-size:11px;color:#6B7280;margin-bottom:4px">需要加強嘅陷阱（最多選 4 個）：</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap" id="trapSelector"></div>
+</div>
+<div style="flex:1;min-width:150px">
+<div style="font-size:11px;color:#6B7280;margin-bottom:4px">已解決嘅陷阱（可選）：</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap" id="fixedTraps"></div>
+</div>
+</div>
+<div class="form-row">
+<input type="text" id="studentNameInput" placeholder="學生名稱（選填）" style="flex:1">
+<button class="btn-gen" style="width:auto;padding:12px 24px;font-size:14px" onclick="generatePersonalized()">🎯 生成個人化試卷</button>
+</div>
+<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+<span style="font-size:10px;color:#6B7280">快速設定：</span>
+<a href="#" onclick="quickFingerprint('T5+T6');return false" style="font-size:10px;color:#1E4D8C">T5+T6 分數+百分數</a>
+<a href="#" onclick="quickFingerprint('T4+T7');return false" style="font-size:10px;color:#1E4D8C">T4+T7 漏0+應用題</a>
+<a href="#" onclick="quickFingerprint('T3+T8');return false" style="font-size:10px;color:#1E4D8C">T3+T8 運算+面積</a>
+<a href="#" onclick="quickFingerprint('T1+T2+T4');return false" style="font-size:10px;color:#1E4D8C">T1+T2+T4 基礎陷阱</a>
+</div>
+</div>
+
+<script>
+// Build trap selectors
+var trapNames={T1:"進退位",T2:"單位換算",T3:"運算順序",T4:"漏寫0",T5:"分數",T6:"百分數",T7:"應用題",T8:"圖形面積"};
+var trapsHtml="";
+Object.keys(trapNames).forEach(function(t){
+trapsHtml+='<label style="display:flex;align-items:center;gap:4px;font-size:11px;cursor:pointer;padding:4px 8px;border:2px solid #E5E7EB;border-radius:8px;background:white"><input type="checkbox" class="active-trap" value="'+t+'" onchange="updateTrapStyles()">'+t+" "+trapNames[t]+'</label>';
+});
+document.getElementById("trapSelector").innerHTML=trapsHtml;
+document.getElementById("fixedTraps").innerHTML=trapsHtml.replace(/active-trap/g,"fixed-trap").replace(/updateTrapStyles/g,"");
+
+function updateTrapStyles(){
+document.querySelectorAll(".active-trap").forEach(function(cb){
+var label=cb.parentElement;
+label.style.borderColor=cb.checked?"#DC2626":"#E5E7EB";
+label.style.background=cb.checked?"#FEF2F2":"white";
+label.style.fontWeight=cb.checked?"700":"400";
+});
+}
+
+function quickFingerprint(traps){
+document.querySelectorAll(".active-trap,.fixed-trap").forEach(function(cb){cb.checked=false});
+traps.split("+").forEach(function(t){
+var cb=document.querySelector(".active-trap[value=\""+t+"\"]");
+if(cb)cb.checked=true;
+});
+updateTrapStyles();
+}
+
+function generatePersonalized(){
+var grade=document.getElementById("grade").value;
+var count=parseInt(document.getElementById("count").value)||20;
+var diff=document.getElementById("difficulty").value;
+if(diff==="mixed")diff=["foundation","intermediate","challenge","sspa"][Math.floor(Math.random()*4)];
+
+// Collect active traps
+var activeTraps=[];
+document.querySelectorAll(".active-trap:checked").forEach(function(cb){activeTraps.push(cb.value)});
+var fixedTraps=[];
+document.querySelectorAll(".fixed-trap:checked").forEach(function(cb){fixedTraps.push(cb.value)});
+
+if(activeTraps.length===0){alert("請至少選擇一個需要加強嘅陷阱");return}
+
+var bank=questionBank.length>0?questionBank:QUESTION_BANK_backup;
+var pool=bank.filter(function(q){return q.grade===grade});
+
+// Weighted distribution: 50% active traps, 20% fixed traps, 30% random
+var questions=[];
+activeTraps.forEach(function(t){
+var matches=pool.filter(function(q){return q.trap===t});
+for(var i=0;i<Math.floor(count*0.5/activeTraps.length)&&matches.length>0;i++){
+var idx=Math.floor(Math.random()*matches.length);
+questions.push(matches.splice(idx,1)[0]);
+}
+});
+
+// Fill remaining with random + fixed
+while(questions.length<count){
+var remaining=pool.filter(function(q){return !questions.includes(q)});
+if(remaining.length===0)break;
+var idx=Math.floor(Math.random()*remaining.length);
+questions.push(remaining.splice(idx,1)[0]);
+}
+questions.sort(function(){return Math.random()-0.5});
+questions=questions.slice(0,count);
+
+// Render with personalized header
+var studentName=document.getElementById("studentNameInput").value||"學生";
+renderTest(grade,studentName+" · 個人化試卷",count,diff,questions,activeTraps);
+}
+
+// Override generateTest to use new render
+var originalGenerateTest=generateTest;
+generateTest=function(){
+var grade=document.getElementById("grade").value;
+var topic=document.getElementById("topic").value;
+var trap=document.getElementById("trap").value;
+var count=parseInt(document.getElementById("count").value);
+var diff=document.getElementById("difficulty").value;
+if(diff==="mixed")diff=["foundation","intermediate","challenge","sspa"][Math.floor(Math.random()*4)];
+
+var bank=questionBank.length>0?questionBank:QUESTION_BANK_backup;
+var pool=bank.filter(function(q){
+if(grade!==q.grade)return false;
+if(trap!=="all"&&q.trap!==trap)return false;
+if(topic!=="all"&&q.topic!==topic)return false;
+return true;
+});
+
+var questions=[];
+while(questions.length<count&&pool.length>0){
+var idx=Math.floor(Math.random()*pool.length);
+questions.push(pool.splice(idx,1)[0]);
+}
+while(questions.length<count){
+questions.push(generateAIQuestion(grade,trap||"T5",topic||"fraction",diff));
+}
+questions.sort(function(){return Math.random()-0.5});
+renderTest(grade,"標準試卷",count,diff,questions,null);
+}
+
+function renderTest(grade,title,count,diff,questions,activeTraps){
+var fmt=document.getElementById("format").value;
+var fmtLabel={"練習卷":"練習卷","模擬試卷（SSPA格式）":"SSPA 模擬試卷","陷阱專項練習":"陷阱專項練習"}[fmt];
+var topic=document.getElementById("topic").value;
+var html='<div class="preview"><h3>霖楓學苑 · '+grade+' '+title+'</h3>';
+html+='<div class="meta">課題：'+(topic==="all"?"綜合":topic)+' · '+count+'題 · 難度：'+diff+' · 含答案鍵</div>';
+if(activeTraps&&activeTraps.length>0){
+html+='<div style="background:#FEF2F2;padding:8px 12px;border-radius:8px;margin:8px 0;font-size:12px;color:#DC2626;font-weight:700">🎯 針對陷阱：'+activeTraps.map(function(t){return t+" "+trapNames[t]}).join("、")+'（佔50%題目）</div>';
+}
+
+questions.forEach(function(q,i){
+var qText=currentLang==="en"?(q.text_en||q.text):(q.text_zh||q.text);
+html+='<div class="question-block"><div class="q-num">'+(i+1)+'. '+qText+'<span class="q-trap '+q.trap+'">'+q.trap+'</span><span style="font-size:10px;color:#6B7280;margin-left:6px">['+(q.difficulty||diff)+']</span></div>';
+if(q.options){
+html+='<div class="q-options">';
+q.options.forEach(function(o,j){html+='<div class="q-option">'+["A","B","C","D"][j]+'. '+o+'</div>'});
+html+='</div>';
+}
+if(q.needs_image)html+=renderImage(q);
+html+='</div>';
+});
+
+// Answer key
+html+='<div class="answer-section"><h4>答案鍵</h4><div class="ans">';
+questions.forEach(function(q,i){
+var ans=q.answer||["A","B","C","D"][Math.floor(Math.random()*4)];
+html+=(i+1)+'. '+ans+'  ';
+});
+html+='</div></div></div>';
+html+='<div class="btn-row"><button class="btn-out btn-copy" onclick="copyTest()">📋 Copy</button>
+<button class="btn-out" style="background:#25D366;color:white" onclick="sendWhatsApp()">📱 WhatsApp</button>
+<button class="btn-out btn-pdf" onclick="exportPDF()">🖨️ Print</button>
+Copy Test</button><button class="btn-out btn-regen" onclick="generateTest()">Regenerate</button></div>';
+
+document.getElementById("output").innerHTML=html;
+document.getElementById("output").style.display="block";
+document.getElementById("output").scrollIntoView({behavior:"smooth"});
+}
+
+function exportPDF(){
+    var content=document.querySelector(".preview");
+    if(!content){alert("Please generate a test first");return}
+    var w=window.open("","_blank","width=800,height=600");
+    w.document.write("<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>Test Paper</title><style><style>body{font-family:sans-serif;padding:40px;font-size:14px;line-height:1.8}.question-block{margin:16px 0;padding:12px;border:1px solid #ddd;border-radius:8px}.q-options{display:grid;grid-template-columns:1fr 1fr;gap:6px}h3{text-align:center;font-size:20px}.answer-section{background:#fffde7;border:2px solid #f9a825;border-radius:10px;padding:16px;margin-top:20px}</style>
+</head><body>"+content.innerHTML+"</body></html>");
+    w.document.close();
+    setTimeout(function(){w.print()},500);
+}
+
+function sendWhatsApp(){
+    var content=document.querySelector(".preview");
+    if(!content){alert("Please generate a test first");return}
+    var text=content.innerText.substring(0,800).replace(/\n/g," ");
+    var url="https://wa.me/?text="+encodeURIComponent("霖楓學苑試卷\n\n"+text+"\n\n完整試卷：https://lfamy.github.io/docs/test-generator.html");
+    window.open(url,"_blank");
+}
+
+function renderImage(q){
+if(q.image_shape){
+var shapes={rectangle:'<rect x="40" y="30" width="220" height="140" fill="none" stroke="#1A3C6D" stroke-width="3"/>',triangle:'<polygon points="150,25 270,175 30,175" fill="none" stroke="#1A3C6D" stroke-width="3"/>',circle:'<circle cx="100" cy="100" r="70" fill="none" stroke="#1A3C6D" stroke-width="3"/><line x1="100" y1="100" x2="170" y2="100" stroke="#DC2626" stroke-width="2"/>'};
+return '<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;margin:12px 0">'+(shapes[q.image_shape]||shapes.rectangle)+'<text x="150" y="15" text-anchor="middle" font-size="13" fill="#374151">'+(q.image_label||"")+'</text></svg>';
+}
+if(q.image_data){
+var bars="";var maxVal=Math.max.apply(null,q.image_data.map(function(d){return d.value}));
+q.image_data.forEach(function(d,i){var h=Math.round(d.value/maxVal*180);var x=60+i*110;bars+='<rect x="'+x+'" y="'+(230-h)+'" width="80" height="'+h+'" fill="'+["#1A3C6D","#C9A84C","#DC2626","#16A34A"][i%4]+'" rx="4"/><text x="'+(x+40)+'" y="250" text-anchor="middle" font-size="12" fill="#374151">'+d.label+'</text><text x="'+(x+40)+'" y="'+(225-h)+'" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">'+d.value+'</text>'});return '<svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;margin:12px 0"><text x="300" y="18" text-anchor="middle" font-size="13" font-weight="700" fill="#1A3C6D">'+(q.image_title||"")+'</text><line x1="30" y1="230" x2="570" y2="230" stroke="#E5E7EB" stroke-width="2"/>'+bars+'</svg>';
+}
+return "";
+}
+</script>
+
+<div class="form-row" style="display:none">
+<div style="flex:1;min-width:140px"><label>格式</label><select id="format"><option selected>練習卷</option><option>模擬試卷（SSPA格式）</option><option>陷阱專項練習</option></select></div>
+</div>
+
+<button class="btn-gen" onclick="generateTest()">⚡ 生成試卷 + 答案鍵</button>
+</div>
+
+<div class="output" id="output"></div>
+
+<div class="card" id="historyCard" style="display:none">
+<h2>出卷記錄</h2>
+<div class="history" id="history"></div>
+</div>
+
+</div>
+
+<script>
+var questionBank = [{"grade": "P3", "topic": "fraction", "trap": "T5", "text": "比較 1/3 和 1/4，哪個較大？", "options": ["1/3", "1/4", "一樣大", "無法比較"], "answer": "A"}, {"grade": "P3", "topic": "word", "trap": "T7", "text": "一盒有24隻雞蛋，用咗8隻，仲有幾多隻？", "options": ["16", "8", "32", "24"], "answer": "A"}, {"grade": "P3", "topic": "decimal", "trap": "T1", "text": "計算：345 + 289 = ?", "options": ["534", "634", "624", "734"], "answer": "B"}, {"grade": "P4", "topic": "area", "trap": "T8", "text": "正方形邊長6cm，面積是多少？", "options": ["24cm²", "36cm²", "12cm²", "48cm²"], "answer": "B"}, {"grade": "P4", "topic": "fraction", "trap": "T5", "text": "2/5 + 1/5 = ?", "options": ["3/10", "3/5", "1/2", "2/10"], "answer": "B"}, {"grade": "P4", "topic": "decimal", "trap": "T2", "text": "3.5km = 多少m？", "options": ["35", "350", "3,500", "35,000"], "answer": "C"}, {"grade": "P5", "topic": "fraction", "trap": "T5", "text": "計算：3/4 ÷ 2 = ?", "options": ["3/8", "6/4", "3/2", "1/4"], "answer": "A"}, {"grade": "P5", "topic": "percent", "trap": "T6", "text": "$250加價12%後是多少？", "options": ["$280", "$262", "$300", "$238"], "answer": "A"}, {"grade": "P5", "topic": "area", "trap": "T8", "text": "平行四邊形底10cm高6cm，面積是？", "options": ["16cm²", "60cm²", "30cm²", "120cm²"], "answer": "B"}, {"grade": "P5", "topic": "equation", "trap": "T3", "text": "解方程：3x + 5 = 20", "options": ["x=5", "x=6", "x=7", "x=15"], "answer": "A"}, {"grade": "P6", "topic": "percent", "trap": "T6", "text": "$100加價20%再減20%等於？", "options": ["$100", "$96", "$104", "$80"], "answer": "B"}, {"grade": "P6", "topic": "speed", "trap": "T4", "text": "汽車以60km/h行駛，45分鐘行多遠？", "options": ["45km", "30km", "60km", "90km"], "answer": "A"}, {"grade": "P6", "topic": "geometry", "trap": "T8", "text": "圓形半徑7cm，圓周長約多少？(π≈3.14)", "options": ["22cm", "44cm", "154cm", "14cm"], "answer": "B"}, {"grade": "P6", "topic": "word", "trap": "T7", "text": "一件貨品原價$500，先減30%再減20%，最終售價？", "options": ["$280", "$250", "$350", "$200"], "answer": "A"}, {"grade": "P5", "topic": "decimal", "trap": "T4", "text": "計算：40.8 ÷ 2 = ?", "options": ["2.4", "20.4", "24.0", "40.2"], "answer": "B"}, {"grade": "P3", "topic": "word", "trap": "T7", "text": "小明有$50，買書用了$28，還剩多少？", "options": ["$22", "$32", "$78", "$28"], "answer": "A"}, {"grade": "P4", "topic": "geometry", "trap": "T8", "text": "長方形周界24cm，長8cm，闊是多少？", "options": ["4cm", "6cm", "8cm", "16cm"], "answer": "A"}, {"grade": "P6", "topic": "fraction", "trap": "T5", "text": "1/2 ÷ 1/4 = ?", "options": ["1/8", "2", "1/2", "4"], "answer": "B"}, {"grade": "P5", "topic": "area", "trap": "T2", "text": "一個長方形花園面積48m²，長8m，闊多少？", "options": ["6m", "40m", "56m", "384m"], "answer": "A"}, {"grade": "P6", "topic": "chart", "trap": "T7", "text": "棒形圖顯示A=30,B=45,C=25，總數是多少？", "options": ["100", "90", "75", "110"], "answer": "A"}];
+
+function generateTest_old(){
+    var grade=document.getElementById("grade").value;
+    var topic=document.getElementById("topic").value;
+    var trap=document.getElementById("trap").value;
+    var count=parseInt(document.getElementById("count").value);
+    var diff=document.getElementById("difficulty").value;if(diff==="mixed")diff=["foundation","intermediate","challenge","sspa"][Math.floor(Math.random()*4)];
+    var fmt=document.getElementById("format").value;
+
+    // Generate questions from bank + AI templates
+    var questions=[];
+    var pool=(questionBank.length>0?questionBank:QUESTION_BANK_backup).filter(function(q){
+        if(grade!==q.grade)return false;
+        if(trap!=="all"&&q.trap!==trap)return false;
+        if(topic!=="all"&&q.topic!==topic)return false;
+        return true;
+    });
+
+    // Fill with AI-generated questions using templates
+    while(questions.length<count){
+        if(pool.length>0&&Math.random()>0.3){
+            var idx=Math.floor(Math.random()*pool.length);
+            questions.push(pool.splice(idx,1)[0]);
+        }else{
+            questions.push(generateAIQuestion(grade,trap||"T5",topic||"fraction"));
+        }
+    }
+
+    // Shuffle
+    questions.sort(function(){return Math.random()-0.5});
+
+    // Render
+    var fmtLabel={"練習卷":"練習卷","模擬試卷（SSPA格式）":"SSPA 模擬試卷","陷阱專項練習":"陷阱專項練習"}[fmt];
+    var html='<div class="preview"><h3>霖楓學苑 · '+grade+' '+fmtLabel+'</h3>';
+    html+='<div class="meta">課題：'+(topic==="all"?"綜合":topic)+' · '+count+'題 · 難度：'+diff+' · 含答案鍵</div>';
+
+    questions.forEach(function(q,i){
+        html+='<div class="question-block"><div class="q-num">'+(i+1)+'. '+(currentLang==="en"?(q.text_en||q.text):(q.text_zh||q.text))+'<span class="q-trap '+q.trap+'">'+q.trap+'</span><span style="font-size:10px;color:#6B7280;margin-left:6px">['+q.difficulty+']</span></div>';
+        if(q.options){
+            html+='<div class="q-options">';
+            q.options.forEach(function(o,j){
+                html+='<div class="q-option">'+["A","B","C","D"][j]+'. '+o+'</div>';
+            });
+            html+='</div>';
+
+if(q.needs_image){
+    if(q.image_shape){
+        var shapes={rectangle:"<rect x=\"40\" y=\"30\" width=\"220\" height=\"140\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/>",triangle:"<polygon points=\"150,25 270,175 30,175\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/>",circle:"<circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/><line x1=\"100\" y1=\"100\" x2=\"170\" y2=\"100\" stroke=\"#DC2626\" stroke-width=\"2\"/>"};
+        var s=shapes[q.image_shape]||shapes.rectangle;
+        html+='<svg viewBox=\"0 0 300 200\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;margin:12px 0\">'+s+'<text x=\"150\" y=\"15\" text-anchor=\"middle\" font-size=\"13\" fill=\"#374151\">'+(q.image_label||\"\")+'</text></svg>';
+    }
+    if(q.image_data){
+        var bars=\'\';var maxVal=Math.max.apply(null,q.image_data.map(function(d){return d.value}));
+        q.image_data.forEach(function(d,i){
+            var h=Math.round(d.value/maxVal*180);var x=60+i*110;
+            bars+='<rect x=\"'+x+'\" y=\"'+(230-h)+'\" width=\"80\" height=\"'+h+'\" fill=\"'+["#1A3C6D","#C9A84C","#DC2626","#16A34A","#1E4D8C"][i%5]+'\" rx=\"4\"/><text x=\"'+(x+40)+'\" y=\"250\" text-anchor=\"middle\" font-size=\"12\" fill=\"#374151\">'+d.label+'</text><text x=\"'+(x+40)+'\" y=\"'+(225-h)+'\" text-anchor=\"middle\" font-size=\"12\" fill=\"#1A3C6D\" font-weight=\"700\">'+d.value+'</text>';
+        });
+        html+='<svg viewBox=\"0 0 600 280\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;margin:12px 0\"><text x=\"300\" y=\"18\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"700\" fill=\"#1A3C6D\">'+(q.image_title||\"\")+'</text><line x1=\"30\" y1=\"230\" x2=\"570\" y2=\"230\" stroke=\"#E5E7EB\" stroke-width=\"2\"/>'+bars+'</svg>';
+    }
+}
+
+        }
+        html+='</div>';
+
+if(q.needs_image){
+    if(q.image_shape){
+        var shapes={rectangle:"<rect x=\"40\" y=\"30\" width=\"220\" height=\"140\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/>",triangle:"<polygon points=\"150,25 270,175 30,175\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/>",circle:"<circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/><line x1=\"100\" y1=\"100\" x2=\"170\" y2=\"100\" stroke=\"#DC2626\" stroke-width=\"2\"/>"};
+        var s=shapes[q.image_shape]||shapes.rectangle;
+        html+='<svg viewBox=\"0 0 300 200\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;margin:12px 0\">'+s+'<text x=\"150\" y=\"15\" text-anchor=\"middle\" font-size=\"13\" fill=\"#374151\">'+(q.image_label||\"\")+'</text></svg>';
+    }
+    if(q.image_data){
+        var bars=\'\';var maxVal=Math.max.apply(null,q.image_data.map(function(d){return d.value}));
+        q.image_data.forEach(function(d,i){
+            var h=Math.round(d.value/maxVal*180);var x=60+i*110;
+            bars+='<rect x=\"'+x+'\" y=\"'+(230-h)+'\" width=\"80\" height=\"'+h+'\" fill=\"'+["#1A3C6D","#C9A84C","#DC2626","#16A34A","#1E4D8C"][i%5]+'\" rx=\"4\"/><text x=\"'+(x+40)+'\" y=\"250\" text-anchor=\"middle\" font-size=\"12\" fill=\"#374151\">'+d.label+'</text><text x=\"'+(x+40)+'\" y=\"'+(225-h)+'\" text-anchor=\"middle\" font-size=\"12\" fill=\"#1A3C6D\" font-weight=\"700\">'+d.value+'</text>';
+        });
+        html+='<svg viewBox=\"0 0 600 280\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;margin:12px 0\"><text x=\"300\" y=\"18\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"700\" fill=\"#1A3C6D\">'+(q.image_title||\"\")+'</text><line x1=\"30\" y1=\"230\" x2=\"570\" y2=\"230\" stroke=\"#E5E7EB\" stroke-width=\"2\"/>'+bars+'</svg>';
+    }
+}
+
+    });
+
+    // Answer key
+    html+='<div class="answer-section"><h4>答案鍵</h4><div class="ans">';
+    questions.forEach(function(q,i){
+        var ans=q.answer||["A","B","C","D"][Math.floor(Math.random()*4)];
+        html+=(i+1)+'. '+ans+'  ';
+    });
+    html+='</div></div>';
+    html+='<div class="btn-row"><button class="btn-out btn-copy" onclick="copyTest()">📋 Copy</button>
+<button class="btn-out" style="background:#25D366;color:white" onclick="sendWhatsApp()">📱 WhatsApp</button>
+<button class="btn-out btn-pdf" onclick="exportPDF()">🖨️ Print</button>
+📋 複製試卷</button><button class="btn-out btn-pdf" onclick="alert(\'即將生成PDF版本\')">📄 生成PDF</button><button class="btn-out btn-regen" onclick="generateTest()">🔄 重新生成</button></div>';
+    html+='</div>';
+
+if(q.needs_image){
+    if(q.image_shape){
+        var shapes={rectangle:"<rect x=\"40\" y=\"30\" width=\"220\" height=\"140\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/>",triangle:"<polygon points=\"150,25 270,175 30,175\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/>",circle:"<circle cx=\"100\" cy=\"100\" r=\"70\" fill=\"none\" stroke=\"#1A3C6D\" stroke-width=\"3\"/><line x1=\"100\" y1=\"100\" x2=\"170\" y2=\"100\" stroke=\"#DC2626\" stroke-width=\"2\"/>"};
+        var s=shapes[q.image_shape]||shapes.rectangle;
+        html+='<svg viewBox=\"0 0 300 200\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;margin:12px 0\">'+s+'<text x=\"150\" y=\"15\" text-anchor=\"middle\" font-size=\"13\" fill=\"#374151\">'+(q.image_label||\"\")+'</text></svg>';
+    }
+    if(q.image_data){
+        var bars=\'\';var maxVal=Math.max.apply(null,q.image_data.map(function(d){return d.value}));
+        q.image_data.forEach(function(d,i){
+            var h=Math.round(d.value/maxVal*180);var x=60+i*110;
+            bars+='<rect x=\"'+x+'\" y=\"'+(230-h)+'\" width=\"80\" height=\"'+h+'\" fill=\"'+["#1A3C6D","#C9A84C","#DC2626","#16A34A","#1E4D8C"][i%5]+'\" rx=\"4\"/><text x=\"'+(x+40)+'\" y=\"250\" text-anchor=\"middle\" font-size=\"12\" fill=\"#374151\">'+d.label+'</text><text x=\"'+(x+40)+'\" y=\"'+(225-h)+'\" text-anchor=\"middle\" font-size=\"12\" fill=\"#1A3C6D\" font-weight=\"700\">'+d.value+'</text>';
+        });
+        html+='<svg viewBox=\"0 0 600 280\" xmlns=\"http://www.w3.org/2000/svg\" style=\"max-width:100%;height:auto;margin:12px 0\"><text x=\"300\" y=\"18\" text-anchor=\"middle\" font-size=\"13\" font-weight=\"700\" fill=\"#1A3C6D\">'+(q.image_title||\"\")+'</text><line x1=\"30\" y1=\"230\" x2=\"570\" y2=\"230\" stroke=\"#E5E7EB\" stroke-width=\"2\"/>'+bars+'</svg>';
+    }
+}
+
+    document.getElementById("output").innerHTML=html;
+    document.getElementById("output").style.display="block";
+    document.getElementById("output").scrollIntoView({behavior:"smooth"});
+
+    // Save to history
+    saveToHistory(grade,fmtLabel,count,questions);
+}
+
+function generateAIQuestion(grade,trap,topic){
+    var templates={
+        T1:[{text:"計算：456 + 278 = ?",options:["734","634","834","724"],answer:"A"}],
+        T2:[{text:"1m² = 多少 cm²？",options:["100","1,000","10,000","100,000"],answer:"C"}],
+        T3:[{text:"計算：8 + 4 × 3 = ?",options:["36","20","15","24"],answer:"B"}],
+        T4:[{text:"計算：609 ÷ 3 = ?",options:["23","203","230","63"],answer:"B"}],
+        T5:[{text:"計算：1/2 + 1/4 = ?",options:["2/6","3/4","1/8","2/4"],answer:"B"}],
+        T6:[{text:"一件衫$200，打8折後幾錢？",options:["$160","$180","$120","$240"],answer:"A"}],
+        T7:[{text:"小明有30粒糖，俾咗1/5俾妹妹，仲有幾多？",options:["6","24","25","5"],answer:"B"}],
+        T8:[{text:"長方形長8cm闊5cm，面積是多少？",options:["26cm²","40cm²","13cm²","80cm²"],answer:"B"}],
+    };
+    var pool=templates[trap]||templates["T5"];
+    var q=pool[Math.floor(Math.random()*pool.length)];
+    return Object.assign({},q,{topic:topic,grade:grade,trap:trap});
+}
+
+function copyTest(){var t=document.querySelector(".preview").innerText;navigator.clipboard.writeText(t).then(function(){alert("試卷已複製 ✅")})}
+function saveToHistory(g,f,c,qs){
+    var h=JSON.parse(localStorage.getItem("test_history")||"[]");
+    h.unshift({grade:g,format:f,count:c,date:new Date().toISOString().split("T")[0],questions:qs.length});
+    if(h.length>20)h=h.slice(0,20);
+    localStorage.setItem("test_history",JSON.stringify(h));
+    renderHistory();
+}
+function renderHistory(){
+    var h=JSON.parse(localStorage.getItem("test_history")||"[]");
+    if(h.length===0)return;
+    document.getElementById("historyCard").style.display="block";
+    document.getElementById("history").innerHTML=h.map(function(r){return'<div class="history-item"><span>'+r.date+' · '+r.grade+' '+r.format+'</span><span>'+r.count+'題</span></div>'}).join("");
+}
+renderHistory();
+</script>
+</body></html>

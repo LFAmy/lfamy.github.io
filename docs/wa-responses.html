@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · WhatsApp 回覆系統</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:900px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:24px;color:#1A3C6D;margin-bottom:20px;text-align:center}
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center}
+.tab{padding:10px 20px;border-radius:25px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:13px;transition:all 0.2s}
+.tab:hover,.tab.active{border-color:#1A3C6D;background:#1A3C6D;color:white}
+.tab.hot:hover,.tab.hot.active{background:#DC2626;border-color:#DC2626}
+.tab.warm:hover,.tab.warm.active{background:#F59E0B;border-color:#F59E0B}
+.tab.cold:hover,.tab.cold.active{background:#16A34A;border-color:#16A34A}
+.tab.followup:hover,.tab.followup.active{background:#8B5CF6;border-color:#8B5CF6}
+.response-card{background:white;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-left:4px solid #25D366}
+.response-card .trigger{font-size:12px;color:#6B7280;margin-bottom:8px}
+.response-card .trigger span{background:#E5E7EB;padding:2px 8px;border-radius:4px;margin-right:4px}
+.response-card .text{font-size:13px;line-height:1.8;white-space:pre-wrap;background:#F9FAFB;padding:14px;border-radius:10px;margin-bottom:10px}
+.btn-copy{background:#25D366;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px}
+.btn-copy:hover{background:#1EBE5B}
+.setup-card{background:#1A3C6D;color:white;border-radius:14px;padding:24px;margin-bottom:20px}
+.setup-card h2{font-size:16px;margin-bottom:12px}
+.setup-card pre{font-size:12px;line-height:1.8;white-space:pre-wrap;opacity:0.9;background:rgba(0,0,0,0.2);padding:16px;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>📱 WhatsApp 分層回覆系統</h1>
+
+<div class="tabs">
+<button class="tab hot active" onclick="showTab('hot')">🔥 熱客</button>
+<button class="tab warm" onclick="showTab('warm')">🟡 暖客</button>
+<button class="tab cold" onclick="showTab('cold')">🟢 冷客</button>
+<button class="tab followup" onclick="showTab('followup')">📅 跟進</button>
+<button class="tab" onclick="showTab('setup')">⚙️ 自動回覆設定</button>
+</div>
+
+<div id="tab-content"></div>
+</div>
+<script>
+var data = {"hot": {"label": "🔥 熱客 — 直接問報名/價錢", "replies": [{"trigger": "幾錢？/學費？/收費？", "reply": "你好呀！我哋嘅收費係：\n\n📚 4堂優惠價：$800\n📚 8堂優惠價：$1,600\n📚 12堂優惠價：$2,080\n\n每堂 45 分鐘，一對三小班教學。\n包晒所有教材、講義、診斷報告。\n\n第一次可以先約免費陷阱診斷 💡\n大約 15 分鐘，做完會出一份完整嘅陷阱指紋報告俾你。\n唔使錢，冇義務報名。\n\n想約幾時？我哋星期一至六都有堂 😊"}, {"trigger": "我想報名/點報名/點樣報", "reply": "太好喇！報名好簡單：\n\n1️⃣ 先約免費陷阱診斷（約 15 分鐘）\n2️⃣ 我哋會分析小朋友嘅錯題，出份陷阱指紋報告\n3️⃣ 根據報告建議最適合嘅課程組合\n4️⃣ 確認時間 → 付款 → 開堂\n\n第一次診斷完全免費，零壓力。\n之後覺得合適先報名。\n\n你小朋友係幾年級㗎？我幫你安排最合適嘅時間 😊"}, {"trigger": "試堂/免費診斷/測試", "reply": "當然可以！我哋嘅免費陷阱診斷包括：\n\n✅ 10 分鐘數學陷阱測試\n✅ 完整陷阱指紋報告（10 大陷阱分類）\n✅ 導師詳細分析 + 學習建議\n✅ 全程約 30 分鐘\n\n診斷之後你可以：\n- 攞走份報告（唔報名都可以）\n- 了解小朋友嘅真實弱點\n- 再決定要唔要報名\n\n想約邊日？星期一至六 10AM-7PM 都得 😊"}]}, "warm": {"label": "🟡 暖客 — 想了解多啲/考慮中", "replies": [{"trigger": "想了解多啲/了解下/有咩分別", "reply": "當然！我哋同一般補習社最大嘅分別係：\n\n❌ 一般補習：不停做練習 → 對答案 → 再做\n✅ 霖楓學苑：診斷陷阱 → 鎖定弱點 → 針對操練\n\n我哋嘅「陷阱診斷教學法」會：\n1️⃣ 先搵出小朋友最易中嘅陷阱（10大分類）\n2️⃣ 針對性解決佢嘅「陷阱指紋」\n3️⃣ 每堂後 WhatsApp 進度報告俾家長\n\n與其做 100 題都唔知點解錯，\n不如做 20 題已經知邊度要改善。\n\n想約免費診斷體驗下先嗎？😊"}, {"trigger": "考慮下/諗諗先/遲啲", "reply": "完全明白！唔使急，慢慢考慮 👍\n\n俾多少少資料你參考：\n- 我哋嘅學生平均 8 堂後有明顯進步\n- 大部分家長會先試免費診斷（唔使錢、冇義務）\n- 試完覺得唔合適，可以攞走份報告就走\n\n我 3 日後再 follow up 你，到時有咩問題都可以問我 😊\n\n（如果而家有咩想知，隨時問我！）"}, {"trigger": "小朋友成績差/數學唔合格/跟唔上", "reply": "好多家長都係咁講㗎！唔使擔心 💪\n\n我哋最常見到嘅情況係：\n小朋友唔係蠢，而係不停中同一類陷阱。\n例如：成日漏寫0、單位換算錯、睇錯題目...\n\n呢啲全部都係「陷阱盲點」。\n只要搵出佢嘅陷阱指紋，針對性解決，\n大部分學生 8 堂內會有明顯進步。\n\n想幫小朋友做個免費診斷，睇下佢嘅陷阱指紋係咩嗎？😊"}]}, "cold": {"label": "🟢 冷客 — 只是打招呼/隨便問問", "replies": [{"trigger": "hi/hello/你好/👋", "reply": "你好呀！多謝你搵我哋 😊\n\n我哋係霖楓學苑 — 專注小學數學陷阱診斷嘅教育中心。\n唔係一般操卷式補習，而係幫小朋友搵出佢嘅「陷阱指紋」，針對性解決弱點。\n\n你可以：\n📌 約免費陷阱診斷（約30分鐘）\n📌 了解多啲我哋嘅教學方法\n📌 隨便問下問題都得\n\n有咩我可以幫到你？😊"}, {"trigger": "謝謝/thanks/唔該", "reply": "唔使客氣！有任何關於小朋友數學嘅問題都可以問我 😊\n\n隨時 WhatsApp 我，或者約時間做免費診斷都得。\n\n祝小朋友學業進步！💪"}]}, "followup": {"label": "📅 跟進 — 未成交 lead 自動 follow-up", "replies": [{"trigger": "Day 3 follow-up", "reply": "你好呀！3 日前你問過關於小朋友數學嘅嘢，想睇下而家有冇咩可以幫到你 😊\n\n冇壓力的，只係想提返你：\n我哋嘅免費陷阱診斷係唔使錢、冇義務嘅～\n做完會俾份完整報告你，唔報名都可以攞走。\n\n有興趣約個時間嗎？"}, {"trigger": "Day 7 follow-up", "reply": "Hi，一個星期前你問過關於數學補習嘅嘢～\n\n唔知你小朋友而家嘅數學情況點呢？\n\n我哋最近有個新出嘅免費資源：\n「10 大陷阱分類法完整圖解」\n可以幫你了解小朋友最易中邊種陷阱。\n\n想要嘅話我 send 俾你 😊"}]}};
+function showTab(t){document.querySelectorAll(".tab").forEach(function(b){b.classList.remove("active")});event.target.classList.add("active");
+var d=document.getElementById("tab-content");
+if(t==="setup"){d.innerHTML=document.getElementById("setup-html").innerHTML;return}
+var tier=data[t];if(!tier)return;
+d.innerHTML='<h3 style="margin-bottom:16px;color:#374151">'+tier.label+'</h3>'+tier.replies.map(function(r,i){return'<div class="response-card"><div class="trigger">'+r.trigger.split("/").map(function(t){return"<span>"+t+"</span>"}).join(" ")+'</div><div class="text">'+r.reply+'</div><button class="btn-copy" onclick="copyText(this)" data-text="'+encodeURIComponent(r.reply)+'">📋 複製回覆</button></div>'}).join("")}
+function copyText(b){var t=decodeURIComponent(b.getAttribute("data-text"));navigator.clipboard.writeText(t).then(function(){b.textContent="已複製 ✓";setTimeout(function(){b.textContent="📋 複製回覆"},2000)})}
+showTab("hot");
+</script>
+<div id="setup-html" style="display:none">
+<div class="setup-card"><h2>WhatsApp Business 自動回覆設定</h2><pre>
+=== WhatsApp Business App 自動回覆設定 ===
+
+1. 下載 WhatsApp Business App（同平時 WhatsApp 分開）
+2. 用同一個電話號碼登記
+3. 設定 > 商業工具：
+
+【離線自動回覆】
+時間：每日 10PM - 9AM（你唔覆機嘅時間）
+內容：
+"你好！我哋已經收到你嘅訊息 😊
+我哋嘅辦公時間係星期一至六 10AM-7PM。
+我會盡快喺辦公時間內回覆你。
+如果急可以留低電話，我盡快覆你 🙏
+—
+想了解多啲可以先睇：
+🌐 lfamy.github.io
+🧪 免費陷阱診斷：lfamy.github.io/enroll.html"
+
+【 greeting 歡迎訊息】
+內容：
+"你好！歡迎嚟到霖楓學苑 👋
+
+我哋專注小學數學陷阱診斷。
+唔教數學，教避開陷阱。
+
+你可以：
+1️⃣ 約免費陷阱診斷
+2️⃣ 查詢課程資料
+3️⃣ 問任何關於小朋友數學嘅問題
+
+有咩幫到你？😊"
+</pre></div>
+</div>
+</body></html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · AI 影片學情報告</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray-50:#F9FAFB;--gray-600:#6B7280;--gray-900:#1A1A1A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:#0A1A35;color:white;min-height:100vh;overflow-x:hidden}
+/* Video-style full-screen slides */
+.slide{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;position:relative;animation:fadeSlideIn 0.8s ease}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes countUp{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+@keyframes drawBar{from{width:0}to{width:var(--target-width)}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(201,168,76,0.3)}50%{box-shadow:0 0 40px rgba(201,168,76,0.6)}}
+.slide-1{background:linear-gradient(135deg,#0A1A35 0%,#1A3C6D 50%,#1E4D8C 100%)}
+.slide-2{background:linear-gradient(135deg,#1A3C6D,#0F2440)}
+.slide-3{background:linear-gradient(135deg,#0F2440,#1A3C6D)}
+.slide-4{background:linear-gradient(135deg,#1A3C6D,#0A1A35)}
+.slide-5{background:linear-gradient(135deg,#0A1A35,#1A3C6D)}
+.brand{font-family:'Noto Serif HK',serif;font-size:18px;color:var(--gold);letter-spacing:3px;margin-bottom:20px}
+.title{font-family:'Noto Serif HK',serif;font-size:clamp(24px,5vw,42px);font-weight:900;margin-bottom:12px;line-height:1.3}
+.subtitle{font-size:clamp(14px,2.5vw,18px);color:rgba(255,255,255,0.7);margin-bottom:32px}
+.stat-big{font-size:clamp(48px,8vw,80px);font-weight:900;color:var(--gold);animation:countUp 0.8s ease}
+.stat-label{font-size:16px;color:rgba(255,255,255,0.6);margin-top:8px}
+.bar-container{width:80%;max-width:500px;margin:12px auto}
+.bar-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.bar-name{width:80px;text-align:right;font-size:13px;font-weight:600;flex-shrink:0}
+.bar-track{flex:1;height:24px;background:rgba(255,255,255,0.1);border-radius:12px;overflow:hidden}
+.bar-fill{height:100%;border-radius:12px;animation:drawBar 1s ease 0.5s both;transition:width 1s}
+.bar-val{width:40px;font-size:12px;font-weight:700}
+.improvement{font-size:clamp(36px,6vw,56px);font-weight:900;color:var(--green)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:600px;width:100%}
+.grid-item{background:rgba(255,255,255,0.08);border-radius:16px;padding:24px;backdrop-filter:blur(4px)}
+.grid-item .icon{font-size:32px;margin-bottom:8px}
+.grid-item .val{font-size:28px;font-weight:900;color:var(--gold)}
+.grid-item .lbl{font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px}
+.cta-btn{display:inline-block;padding:18px 42px;background:var(--red);color:white;border-radius:35px;font-size:18px;font-weight:900;text-decoration:none;animation:pulseGlow 2s infinite;margin-top:24px}
+.cta-btn:hover{transform:scale(1.05)}
+.nav-dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:10}
+.nav-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;transition:all 0.3s}
+.nav-dot.active{background:var(--gold);transform:scale(1.5)}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}.bar-name{font-size:11px;width:60px}}
+</style>
+</head>
+<body>
+
+<!-- Navigation Dots -->
+<div class="nav-dots">
+<div class="nav-dot active" onclick="goTo(0)"></div>
+<div class="nav-dot" onclick="goTo(1)"></div>
+<div class="nav-dot" onclick="goTo(2)"></div>
+<div class="nav-dot" onclick="goTo(3)"></div>
+<div class="nav-dot" onclick="goTo(4)"></div>
+</div>
+
+<!-- Slide 1: Intro -->
+<div class="slide slide-1" id="slide0">
+<div class="brand">霖楓學苑 · LF ACADEMY</div>
+<div class="title">陳小明 · 本月學情報告</div>
+<div class="subtitle">P5 · 2026年5月 · 導師：李Sir</div>
+<div class="stat-big" id="bigAccuracy">72%</div>
+<div class="stat-label">整體正確率</div>
+<div style="margin-top:24px;font-size:13px;color:rgba(255,255,255,0.4)">⬇ 向下滑動查看完整報告</div>
+</div>
+
+<!-- Slide 2: Progress Trend -->
+<div class="slide slide-2" id="slide1">
+<div class="brand">進步趨勢</div>
+<div class="title">四週持續進步</div>
+<div class="bar-container">
+<div class="bar-row"><div class="bar-name">第1週</div><div class="bar-track"><div class="bar-fill" style="width:62%;background:#F59E0B"></div></div><div class="bar-val">62%</div></div>
+<div class="bar-row"><div class="bar-name">第2週</div><div class="bar-track"><div class="bar-fill" style="width:68%;background:#F59E0B"></div></div><div class="bar-val">68%</div></div>
+<div class="bar-row"><div class="bar-name">第3週</div><div class="bar-track"><div class="bar-fill" style="width:70%;background:#3B82F6"></div></div><div class="bar-val">70%</div></div>
+<div class="bar-row"><div class="bar-name">第4週</div><div class="bar-track"><div class="bar-fill" style="width:72%;background:#16A34A"></div></div><div class="bar-val">72%</div></div>
+</div>
+<div class="improvement" style="margin-top:24px">+10%</div>
+<div class="stat-label">本月總進步</div>
+</div>
+
+<!-- Slide 3: Weaknesses -->
+<div class="slide slide-3" id="slide2">
+<div class="brand">弱項分析</div>
+<div class="title">需要加強的知識點</div>
+<div class="grid-2">
+<div class="grid-item">
+<div class="icon">🔴</div><div class="val">T5 分數</div>
+<div class="lbl">正確率低於 60% · 優先處理</div>
+</div>
+<div class="grid-item">
+<div class="icon">🟡</div><div class="val">T9 百分數</div>
+<div class="lbl">正確率 60-75% · 持續改善</div>
+</div>
+</div>
+<div style="margin-top:20px;font-size:14px;color:rgba(255,255,255,0.6)">
+✅ 已掌握：T1 進退位 · T3 運算順序
+</div>
+</div>
+
+<!-- Slide 4: Strengths + Time -->
+<div class="slide slide-4" id="slide3">
+<div class="brand">學習數據</div>
+<div class="title">本月學習摘要</div>
+<div class="grid-2">
+<div class="grid-item"><div class="icon">🔥</div><div class="val">12 日</div><div class="lbl">連續簽到</div></div>
+<div class="grid-item"><div class="icon">⏱️</div><div class="val">320 min</div><div class="lbl">練習總時數</div></div>
+<div class="grid-item"><div class="icon">🪤</div><div class="val">18 個</div><div class="lbl">已避開陷阱</div></div>
+<div class="grid-item"><div class="icon">🏆</div><div class="val">#3/28</div><div class="lbl">同級排名</div></div>
+</div>
+</div>
+
+<!-- Slide 5: AI Recommendation + CTA -->
+<div class="slide slide-5" id="slide4">
+<div class="brand">AI 學習建議</div>
+<div class="title">下月學習計劃</div>
+<div class="subtitle">🎯 優先練習：異分母分數加法 · 每天5題<br>📅 預計2週提升至 80%+</div>
+<a href="enroll.html" class="cta-btn">✨ 繼續學習 · 報讀下月課程</a>
+<div style="margin-top:16px;font-size:12px;color:rgba(255,255,255,0.4)">
+霖楓學苑 · 不教數學，教避開陷阱
+</div>
+</div>
+
+<script>
+var currentSlide = 0;
+var totalSlides = 5;
+var isScrolling = false;
+
+function goTo(index) {
+    if (index < 0 || index >= totalSlides) return;
+    currentSlide = index;
+    document.getElementById('slide' + index).scrollIntoView({behavior:'smooth'});
+    updateDots();
+}
+
+function updateDots() {
+    document.querySelectorAll('.nav-dot').forEach(function(d,i){
+        d.classList.toggle('active', i === currentSlide);
+    });
+}
+
+// Scroll tracking
+var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+        if (e.isIntersecting) {
+            var id = e.target.id.replace('slide','');
+            currentSlide = parseInt(id);
+            updateDots();
+        }
+    });
+}, {threshold:0.5});
+
+document.querySelectorAll('.slide').forEach(function(s){observer.observe(s)});
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(currentSlide+1);
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') goTo(currentSlide-1);
+});
+
+// Touch swipe
+var touchStartY = 0;
+document.addEventListener('touchstart', function(e){touchStartY = e.touches[0].clientY});
+document.addEventListener('touchend', function(e){
+    var diff = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(diff) > 50) goTo(currentSlide + (diff > 0 ? 1 : -1));
+});
+</script>
+</body>
+</html>

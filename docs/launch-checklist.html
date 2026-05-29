@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 啟動清單</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:700px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:26px;color:#1A3C6D;text-align:center;margin-bottom:4px}
+.sub{text-align:center;color:#6B7280;font-size:13px;margin-bottom:24px}
+.section{margin-bottom:20px}
+.section h2{font-size:17px;color:#1A3C6D;margin-bottom:10px;padding-bottom:4px;border-bottom:2px solid #C9A84C}
+.task{display:flex;align-items:flex-start;gap:10px;padding:10px;background:white;border-radius:8px;margin-bottom:6px;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+.task input[type=checkbox]{width:20px;height:20px;margin-top:2px;flex-shrink:0}
+.task .info{flex:1;font-size:13px}
+.task .info strong{color:#1A3C6D}
+.task .info .detail{font-size:11px;color:#6B7280}
+.task .time{font-size:10px;color:#9CA3AF;white-space:nowrap;align-self:center}
+.done .info{text-decoration:line-through;color:#9CA3AF}
+.progress-bar{background:#E5E7EB;height:6px;border-radius:3px;margin-bottom:4px;overflow:hidden}
+.progress-fill{background:#16A34A;height:100%;transition:width 0.3s}
+.progress-text{text-align:center;font-size:12px;color:#6B7280;margin-bottom:20px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>霖楓學苑 · 啟動清單</h1>
+<div class="sub">65 個系統就緒 · 完成以下步驟即可正式營運</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+<div class="progress-text" id="progressText">0/12 完成</div>
+
+<div class="section"><h2>🔴 必須完成（解鎖全部功能）</h2>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>提供 FB Pixel ID</strong><div class="detail">去 business.facebook.com/events_manager2 → 複製16位數字 → send俾我</div></div><div class="time">2分鐘</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>提供 GA4 Measurement ID</strong><div class="detail">去 analytics.google.com → 管理→資料串流 → 複製 G-XXXXX</div></div><div class="time">2分鐘</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>部署 Google Apps Script</strong><div class="detail">去 script.google.com → 貼上 _operations/apps_script_crm.js → 部署 → 複製URL</div></div><div class="time">5分鐘</div></div>
+</div>
+
+<div class="section"><h2>🟡 本週完成</h2>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>開始每日發佈社交內容</strong><div class="detail">開 daily-workflow.html → 跟住 Step 1-4 做</div></div><div class="time">每日5分鐘</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>WhatsApp 舊 Lead 再激活</strong><div class="detail">開 reactivation-kit.html → 揀熱Lead模板 → copy → paste去WhatsApp</div></div><div class="time">15分鐘</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>邀請現有家長註冊平台</strong><div class="detail">Send parent-register.html link 俾現有家長</div></div><div class="time">5分鐘</div></div>
+</div>
+
+<div class="section"><h2>🟢 持續營運</h2>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>每堂後用快速記錄器</strong><div class="detail">student-journey.html → 30秒生成WhatsApp進度更新</div></div><div class="time">每堂30秒</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>每星期檢查老師後台</strong><div class="detail">teacher-dashboard.html → 睇AI建議 → 調整教學重點</div></div><div class="time">每星期5分鐘</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>收集家長滿意度</strong><div class="detail">每次階段報告後 send satisfaction-survey.html 俾家長</div></div><div class="time">每月1次</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>啟動 WhatsApp AI 回覆助手</strong><div class="detail">ai-wa-reply.html → 貼上家長訊息 → AI草擬 → 你approve</div></div><div class="time">每次30秒</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>使用 OCR 掃描為家長生成練習</strong><div class="detail">ocr-scan.html → 家長上傳試卷 → 自動生成相似練習</div></div><div class="time">每次1分鐘</div></div>
+<div class="task"><input type="checkbox" onchange="updateProgress()"><div class="info"><strong>每月生成營業報告</strong><div class="detail">monthly-report.html → 一鍵生成 → Review → 調整策略</div></div><div class="time">每月5分鐘</div></div>
+</div>
+</div>
+
+<script>
+function updateProgress(){
+var total=12;var done=document.querySelectorAll("input:checked").length;
+document.getElementById("progress").style.width=(done/total*100)+"%";
+document.getElementById("progressText").textContent=done+"/"+total+" 完成"+(done===total?" 🎉":"");
+// Save to localStorage
+var states=[];document.querySelectorAll("input").forEach(function(cb,i){states[i]=cb.checked});
+localStorage.setItem("lf_launch_checklist",JSON.stringify(states));
+}
+// Restore
+var saved=JSON.parse(localStorage.getItem("lf_launch_checklist")||"[]");
+document.querySelectorAll("input").forEach(function(cb,i){cb.checked=!!saved[i]});
+updateProgress();
+</script>
+</body></html>

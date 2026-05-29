@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · Ad→CRM→CAPI 閉環系統 — 完整設定手冊</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:15px;line-height:1.8;padding:40px 20px}
+.container{max-width:820px;margin:0 auto}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:28px;color:#1A3C6D;margin-bottom:8px;line-height:1.4}
+h2{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:20px;color:#1A3C6D;margin:40px 0 16px;padding-bottom:8px;border-bottom:2px solid #C9A84C}
+h3{font-size:16px;color:#374151;margin:20px 0 10px}
+.card{background:white;border-radius:14px;padding:28px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card.gold{border-left:4px solid #C9A84C}
+.card.blue{border-left:4px solid #1A3C6D}
+.card.red{border-left:4px solid #DC2626}
+ol,ul{margin-left:20px;margin-bottom:12px}
+li{margin-bottom:6px}
+code{background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:13px;font-family:'Consolas','Monaco',monospace}
+.url-block{background:#1A1A1A;color:#25D366;padding:14px 18px;border-radius:8px;font-family:monospace;font-size:13px;word-break:break-all;margin:10px 0;overflow-x:auto}
+.note{background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px}
+.warn{background:#FEF2F2;border:1px solid#DC2626;border-radius:8px;padding:12px 16px;margin:16px 0;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th{text-align:left;font-size:12px;color:#6B7280;padding:8px 12px;border-bottom:2px solid #E5E7EB;background:#F9FAFB}
+td{font-size:13px;padding:8px 12px;border-bottom:1px solid #F3F4F6}
+.step-num{display:inline-block;background:#1A3C6D;color:white;width:28px;height:28px;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:900;margin-right:8px}
+.checklist li{list-style:none;padding:6px 0}
+.checklist li::before{content:"☐ ";color:#C9A84C;font-size:16px;margin-right:6px}
+a{color:#1E4D8C}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>霖楓學苑<br>Ad → CRM → CAPI 閉環系統<br>完整設定手冊</h1>
+<p style="color:#6B7280;margin-bottom:30px">版本 1.0 · 2026-05-25 · 預計設定時間：15 分鐘</p>
+
+<!-- ═══ OVERVIEW ═══ -->
+<div class="card gold">
+<h2>系統架構</h2>
+<pre style="font-family:monospace;font-size:12px;line-height:1.8;background:#F9FAFB;padding:16px;border-radius:8px;overflow-x:auto">
+FB/IG 廣告 (帶 UTM 參數)
+     │
+     ▼
+track.html ── 記錄 UTM 數據 → Google Sheets
+     │        ── 觸發 FB Pixel Lead 事件
+     │        ── 顯示 Loading 動畫
+     │
+     ▼ (1.5 秒後自動跳轉)
+WhatsApp 對話 (訊息自帶來源標記)
+     │
+     ├─ 成交 ──→ CRM更新 → FB CAPI 回傳
+     │
+     └─ 未成交 ─→ CRM 自動排程 Day3/Day7 跟進提醒
+</pre>
+</div>
+
+<!-- ═══ SYSTEM FILES ═══ -->
+<div class="card">
+<h2>系統檔案清單</h2>
+<table>
+<tr><th>檔案</th><th>用途</th><th>位置</th></tr>
+<tr><td><code>track.html</code></td><td>UTM 追蹤 + 自動跳轉 WhatsApp + FB Pixel</td><td><code>docs/track.html</code></td></tr>
+<tr><td><code>crm.html</code></td><td>銷售 Pipeline 儀表板 (Kanban 視圖)</td><td><code>docs/crm.html</code></td></tr>
+<tr><td><code>ad-link-generator.html</code></td><td>廣告 UTM 連結產生器</td><td><code>docs/ad-link-generator.html</code></td></tr>
+<tr><td><code>apps_script_crm.js</code></td><td>Google Sheets CRM 後端 (Apps Script)</td><td><code>_operations/apps_script_crm.js</code></td></tr>
+<tr><td><code>build_track_page.py</code></td><td>track.html 建構腳本</td><td><code>scripts/build_track_page.py</code></td></tr>
+<tr><td><code>build_crm_dashboard.py</code></td><td>crm.html 建構腳本</td><td><code>scripts/build_crm_dashboard.py</code></td></tr>
+</table>
+</div>
+
+<!-- ═══ STEP 1 ═══ -->
+<div class="card blue">
+<h2><span class="step-num">1</span> 建立 Google Sheets CRM 後端</h2>
+
+<h3>1.1 建立新試算表</h3>
+<ol>
+<li>前往 <a href="https://sheets.google.com" target="_blank">sheets.google.com</a></li>
+<li>點「+ 空白」建立新試算表</li>
+<li>改名為「<strong>霖楓 CRM</strong>」</li>
+</ol>
+
+<h3>1.2 開啟 Apps Script 編輯器</h3>
+<ol>
+<li>試算表內：選單「<strong>擴充功能</strong>」→「<strong>Apps Script</strong>」</li>
+<li>會開新分頁，標題顯示「程式碼.gs」</li>
+<li><strong>刪除編輯器內所有預設代碼</strong></li>
+</ol>
+
+<h3>1.3 貼上 CRM 後端代碼</h3>
+<ol>
+<li>在專案資料夾打開：<code>_operations/apps_script_crm.js</code></li>
+<li>複製<strong>全部內容</strong></li>
+<li>貼入 Apps Script 編輯器</li>
+<li>點「<strong>儲存</strong>」(💾 icon)</li>
+</ol>
+
+<h3>1.4 部署為網路應用程式</h3>
+<ol>
+<li>右上角點「<strong>部署</strong>」→「<strong>新增部署</strong>」</li>
+<li>類型：選「<strong>網路應用程式</strong>」</li>
+<li>執行身分：「<strong>我</strong>」</li>
+<li>存取權：「<strong>任何人</strong>」</li>
+<li>點「<strong>部署</strong>」</li>
+<li>彈出授權視窗 → 點「<strong>允許</strong>」</li>
+</ol>
+
+<div class="note">
+<strong>⚠️ 重要：</strong>複製出現的 Web App URL！格式類似：<br>
+<code>https://script.google.com/macros/s/ABCDEFGHIJKLMNOPQRSTUVWXYZ/exec</code><br>
+呢個 URL 係成個系統的後端，track.html 同 crm.html 都要用。
+</div>
+</div>
+
+<!-- ═══ STEP 2 ═══ -->
+<div class="card blue">
+<h2><span class="step-num">2</span> 把 Apps Script URL 填入系統</h2>
+
+<p>需要改 <strong>2 個檔案</strong>，每個改 <strong>1 行</strong>。</p>
+
+<h3>2.1 更新 track.html</h3>
+<ol>
+<li>打開 <code>docs/track.html</code></li>
+<li>搜尋（Ctrl+F）：<code>YOUR_GOOGLE_APPS_SCRIPT_URL</code></li>
+<li>替換為 Step 1 複製的 Apps Script URL</li>
+<li>儲存</li>
+</ol>
+
+<h3>2.2 更新 crm.html</h3>
+<ol>
+<li>打開 <code>docs/crm.html</code></li>
+<li>搜尋（Ctrl+F）：<code>YOUR_GOOGLE_APPS_SCRIPT_URL</code></li>
+<li>替換為 Step 1 複製的 Apps Script URL</li>
+<li>儲存</li>
+</ol>
+</div>
+
+<!-- ═══ STEP 3 ═══ -->
+<div class="card red">
+<h2><span class="step-num">3</span> 設定 FB Pixel</h2>
+
+<h3>3.1 取得 Pixel ID</h3>
+<ol>
+<li>前往 <a href="https://www.facebook.com/events_manager" target="_blank">FB 事件管理工具</a></li>
+<li>選擇你的 Pixel（如未有，點「建立」）</li>
+<li>複製你的 <strong>Pixel ID</strong>（16 位數字）</li>
+</ol>
+
+<h3>3.2 更新所有檔案</h3>
+<p>在以下檔案中搜尋 <code>XXXXXXXXXXXXXXXX</code> 並替換為你的 Pixel ID：</p>
+<table>
+<tr><th>檔案</th><th>用途</th></tr>
+<tr><td><code>index.html</code></td><td>根首頁 FB Pixel</td></tr>
+<tr><td><code>docs/index.html</code></td><td>主站首頁 FB Pixel</td></tr>
+<tr><td><code>docs/track.html</code></td><td>UTM 追蹤頁 FB Pixel + Lead 事件</td></tr>
+</table>
+</div>
+
+<!-- ═══ STEP 4 ═══ -->
+<div class="card blue">
+<h2><span class="step-num">4</span> 設定每日自動跟進提醒</h2>
+
+<ol>
+<li>回到 Apps Script 編輯器</li>
+<li>左側點「<strong>觸發條件</strong>」icon（⏰ 鬧鐘）</li>
+<li>點右下「<strong>新增觸發條件</strong>」</li>
+<li>設定如下：
+  <ul>
+    <li>執行的功能：<strong>checkFollowUps</strong></li>
+    <li>部署：<strong>Head</strong></li>
+    <li>事件來源：<strong>時間驅動</strong></li>
+    <li>時間型別：<strong>日計時器</strong></li>
+    <li>時間段：<strong>上午 9 點至 10 點</strong></li>
+  </ul>
+</li>
+<li>點「儲存」</li>
+</ol>
+
+<div class="note">
+每日早上 9 點自動掃描 CRM，如果有超過 1 日未跟進的新 lead → 自動 send email 提醒你。
+</div>
+</div>
+
+<!-- ═══ STEP 5 ═══ -->
+<div class="card blue">
+<h2><span class="step-num">5</span> 更新 FB 廣告連結</h2>
+
+<h3>5.1 使用廣告連結產生器（推薦）</h3>
+<ol>
+<li>開瀏覽器：<a href="https://lfamy.github.io/docs/ad-link-generator.html" target="_blank">https://lfamy.github.io/docs/ad-link-generator.html</a></li>
+<li>選擇廣告平台、輸入系列名稱、廣告版本、目標年級</li>
+<li>點「產生連結」→「複製連結」</li>
+<li>貼入 FB 廣告的「網站 URL」欄位</li>
+</ol>
+
+<h3>5.2 手動產生 UTM 連結格式</h3>
+<div class="url-block">
+https://lfamy.github.io/track.html?utm_source=fb&utm_medium=cpc&utm_campaign=系列名&utm_content=版本&grade=年級
+</div>
+
+<h3>5.3 常用廣告連結範例</h3>
+<table>
+<tr><th>廣告目的</th><th>完整 UTM 連結</th></tr>
+<tr>
+<td>P5 呈分試急補</td>
+<td style="font-size:11px;word-break:break-all"><code>https://lfamy.github.io/track.html?utm_source=fb&utm_medium=cpc&utm_campaign=P5-呈分試急補-v1&utm_content=紅色CTA&grade=P5</code></td>
+</tr>
+<tr>
+<td>P6 SSPA 衝刺</td>
+<td style="font-size:11px;word-break:break-all"><code>https://lfamy.github.io/track.html?utm_source=fb&utm_medium=cpc&utm_campaign=P6-SSPA衝刺-v1&utm_content=藍色CTA&grade=P6</code></td>
+</tr>
+<tr>
+<td>P3 基礎打底</td>
+<td style="font-size:11px;word-break:break-all"><code>https://lfamy.github.io/track.html?utm_source=fb&utm_medium=cpc&utm_campaign=P3-基礎打底-v1&utm_content=綠色CTA&grade=P3</code></td>
+</tr>
+<tr>
+<td>P4 分數急救</td>
+<td style="font-size:11px;word-break:break-all"><code>https://lfamy.github.io/track.html?utm_source=fb&utm_medium=cpc&utm_campaign=P4-分數急救-v1&utm_content=橙色CTA&grade=P4</code></td>
+</tr>
+</table>
+</div>
+
+<!-- ═══ STEP 6 ═══ -->
+<div class="card blue">
+<h2><span class="step-num">6</span> 部署到 GitHub Pages</h2>
+
+<p>所有修改完成後：</p>
+<div class="url-block">
+git add -A<br>
+git commit -m "設定 CRM 後端 URL + FB Pixel ID"<br>
+git push origin main
+</div>
+<p>等 30-60 秒 GitHub Pages 自動部署。</p>
+</div>
+
+<!-- ═══ VERIFICATION ═══ -->
+<div class="card gold">
+<h2>驗證清單</h2>
+
+<div class="checklist">
+<ol>
+<li>用手機㩒 <code>track.html</code> UTM 連結 → 確認自動跳轉 WhatsApp</li>
+<li>WhatsApp 訊息帶有來源標記（例：<code>[P5-呈分試急補-v1]</code>）</li>
+<li>打開 Google Sheets → 確認 <code>Leads</code> sheet 有新 row</li>
+<li>開 <code>/docs/crm.html</code> → 確認顯示 lead 數據</li>
+<li>開 <code>/docs/ad-link-generator.html</code> → 確認可產生連結</li>
+<li>FB 事件管理工具 → 確認收到 <code>Lead</code> 事件</li>
+<li>Apps Script 觸發條件 → 確認 <code>checkFollowUps</code> 已設定</li>
+</ol>
+</div>
+</div>
+
+<!-- ═══ TROUBLESHOOTING ═══ -->
+<div class="card">
+<h2>疑難排解</h2>
+
+<table>
+<tr><th>問題</th><th>解決方法</th></tr>
+<tr>
+<td>track.html 無法記錄到 Sheets</td>
+<td>確認 <code>SHEETS_WEBHOOK</code> URL 正確，Apps Script 部署為「任何人」可存取</td>
+</tr>
+<tr>
+<td>crm.html 顯示「無法連接」</td>
+<td>確認 <code>API_URL</code> 正確，Apps Script 的 <code>doGet()</code> 已部署</td>
+</tr>
+<tr>
+<td>WhatsApp 訊息沒有來源標記</td>
+<td>確認 UTM 參數在 track.html URL 中有傳遞</td>
+</tr>
+<tr>
+<td>FB Pixel 事件無數據</td>
+<td>安裝 <a href="https://chrome.google.com/webstore/detail/facebook-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc" target="_blank">FB Pixel Helper</a> Chrome 擴展檢查</td>
+</tr>
+<tr>
+<td>Apps Script 權限錯誤</td>
+<td>Apps Script 編輯器 → 左側「專案設定」→ 勾選「將 Google 帳戶的資料顯示...」</td>
+</tr>
+</table>
+</div>
+
+<!-- ═══ DAILY USAGE ═══ -->
+<div class="card gold">
+<h2>日常使用流程</h2>
+
+<h3>銷售每日 SOP</h3>
+<ol>
+<li>早上開 <code>/docs/crm.html</code> 睇新 leads</li>
+<li>Check email（Apps Script 跟進提醒）</li>
+<li>WhatsApp 跟進紅色 overdue leads</li>
+<li>每次傾完 → 手機 Google Sheets → 更新 Status 欄位為：
+  <ul>
+    <li><code>Contacted</code>（已聯繫）</li>
+    <li><code>Trial</code>（試堂）</li>
+    <li><code>Enrolled</code>（報名）</li>
+    <li><code>Lost</code>（流失+原因）</li>
+  </ul>
+</li>
+<li>收工前睇 CRM 儀表板 → 確認轉換率</li>
+</ol>
+
+<h3>每週市場總監 Review</h3>
+<ol>
+<li>CRM 儀表板：總 leads / 轉換率 / 各廣告系列成效</li>
+<li>Google Sheets → 按 Campaign 排序 → 計每個廣告 ROI</li>
+<li>FB 廣告管理員 → 睇 CPM/CTR/CPA 趨勢</li>
+<li>決定：加 budget 邊個廣告、停邊個廣告</li>
+</ol>
+</div>
+
+<!-- ═══ NEXT STEPS ═══ -->
+<div class="card">
+<h2>下一步進化路線</h2>
+
+<table>
+<tr><th>階段</th><th>功能</th><th>依賴</th></tr>
+<tr><td>✅ 已完成</td><td>CRM + UTM + CAPI 閉環</td><td>—</td></tr>
+<tr><td>🔜 本週</td><td>WhatsApp 分層自動回覆（熱/暖/冷）</td><td>CRM 有數據</td></tr>
+<tr><td>🔜 本月</td><td>學生學習旅程自動化（進度報告自動生成）</td><td>講義系統</td></tr>
+<tr><td>📅 三個月</td><td>FB 類似受眾成熟 → CPA 大幅下降</td><td>CAPI 累積夠數據</td></tr>
+</table>
+</div>
+
+<p style="text-align:center;color:#9CA3AF;margin-top:40px;font-size:12px">霖楓學苑 · LF Academy · 2026</p>
+
+</div>
+</body>
+</html>

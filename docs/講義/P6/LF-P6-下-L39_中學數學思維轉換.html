@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L39 中學數學思維轉換（算術→代數·具體→抽象）</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* Fractions */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .fb { display:inline-flex; align-items:baseline; vertical-align:middle; margin:0 2px; }
+  .fb .wh { font-size:inherit; }
+  .fb .fr { display:inline-flex; flex-direction:column; align-items:center; margin:0 1px; }
+  .fb .fr .n { font-size:inherit; line-height:1.15; }
+  .fb .fr .d { font-size:inherit; line-height:1.15; }
+  .fb .fr .b { width:100%; height:1.2px; background:currentColor; min-width:14px; }
+
+  /* Cover */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* Sections */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* KP */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* Example */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* Warn */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* Mnemonic */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* Tables */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:85px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* Trap compare */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  /* SVG Geometry */
+  .geom { text-align:center; margin:8px 0; }
+  .geom svg { max-width:100%; }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* Exam-specific */
+  .exam-header { background:var(--blue); color:white; text-align:center; padding:12px; border-radius:4px; margin-bottom:14px; }
+  .exam-header .e-title { font-family:'Noto Serif HK',serif; font-size:18px; font-weight:900; }
+  .score-box { border:2px solid var(--blue); display:inline-block; padding:8px 20px; text-align:center; margin:8px; }
+  .score-box .sc-big { font-size:22px; font-weight:900; color:var(--blue); }
+  .grade-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:10px; }
+  .grade-table th, .grade-table td { border:1px solid var(--borderc); padding:3px 6px; text-align:center; }
+  .grade-table th { background:var(--blue); color:white; }
+</style>
+
+</head>
+<body>
+<div class="container">
+
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第39堂 · 學生版講義 v6</div>
+  <div class="cv-title">中學數學思維轉換（算術→代數·具體→抽象）</div>
+  <div class="cv-sub">P6 下學期 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>核心陷阱：</b>🪤 T8 試圖用算術方法解所有代數問題 · T2 變數表達關係混淆 · T10 跨思維模式混亂<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🔴 關鍵銜接</span> 中一數學首月核心——從「搵答案」到「表達關係」的思維轉換<br>
+    <b>前置知識：</b>堂24-25（方程入門與進階）· 堂35-37（中一預習系列）<br>
+    <b>本堂目標：</b>❶ 算術 vs 代數思維差異 ❷ 文字題→方程系統化翻譯 ❸ 用變數概括規律 ❹ 同一問題兩種解法對比
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+<div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">1</td><td class="qtxt">小明有 $20，買了一支筆後剩下 $8。這支筆多少錢？（用算術方法）</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">2</td><td class="qtxt">同上題：如果筆的價格是 $x，請用方程表示並求解。（用代數方法）</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">3</td><td class="qtxt">一個數的 3 倍加 5 等於 20。這個數是多少？（分別用算術和代數兩種方法）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:90px;"></td></tr><tr><td class="qn">4</td><td class="qtxt">一個長方形的周界是 28 cm，長是闊的 3 倍。長和闊各是多少？（先用算術試試看）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:90px;"></td></tr><tr><td class="qn">5</td><td class="qtxt">你認為「方程」是工具還是障礙？寫出你對方程的真實感受。（2-3 句）</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:85px;"></td></tr></table>
+<div class="h1">二、核心知識精講 ＋ 思維對比</div>
+<div class="kp"><div class="kp-title">知識點一：算術思維 vs 代數思維 — 不是更難，是不同！<span class="ss sh">🔴 核心轉換</span></div><div class="kp-rules"><table style="width:100%;border-collapse:collapse;margin:6px 0;font-size:11px;">
+<tr style="background:#FEF3C7;"><td style="padding:6px;border:1px solid #D1D5DB;width:50%;"><b>小學算術思維（Arithmetic）</b></td><td style="padding:6px;border:1px solid #D1D5DB;width:50%;"><b>中學代數思維（Algebraic）</b></td></tr>
+<tr><td style="padding:6px;border:1px solid #D1D5DB;">從已知數出發，一步一步計算</td><td style="padding:6px;border:1px solid #D1D5DB;">用變數（x, y）代表未知數</td></tr>
+<tr><td style="padding:6px;border:1px solid #D1D5DB;">目標：搵出「答案」= 一個數字</td><td style="padding:6px;border:1px solid #D1D5DB;">目標：建立「關係」= 一條等式</td></tr>
+<tr><td style="padding:6px;border:1px solid #D1D5DB;">逆向運算：由結果倒推</td><td style="padding:6px;border:1px solid #D1D5DB;">正向建模：設未知數→列方程→解方程</td></tr>
+<tr><td style="padding:6px;border:1px solid #D1D5DB;">適合簡單、單步驟問題</td><td style="padding:6px;border:1px solid #D1D5DB;">適合複雜、多未知數、抽象問題</td></tr>
+<tr><td style="padding:6px;border:1px solid #D1D5DB;">例：? + 5 = 12，所以 ? = 7</td><td style="padding:6px;border:1px solid #D1D5DB;">例：x + 5 = 12，所以 x = 7</td></tr>
+</table></div></div>
+<div class="geom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 220" width="500" height="220"><rect x="20" y="30" width="180" height="150" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/><text x="110" y="12" text-anchor="middle" font-size="13" fill="#16A34A" font-weight="700">小學算術思維</text><text x="110" y="80" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">搵答案 = 數字運算</text><text x="110" y="105" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">一步一步計出黎</text><text x="110" y="130" text-anchor="middle" font-size="11" fill="#6B7280" font-weight="700">例：?+5=12 → ?=7</text><rect x="290" y="30" width="180" height="150" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2"/><text x="380" y="12" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">中學代數思維</text><text x="380" y="80" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">表達關係 = 變數等式</text><text x="380" y="105" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">設未知數 → 列方程</text><text x="380" y="130" text-anchor="middle" font-size="11" fill="#6B7280" font-weight="700">例：x+5=12 → x=7</text><polygon points="205,65 285,65 285,145 205,145" fill="#FEF3C7" stroke="#C9A84C" stroke-width="3"/><text x="245" y="110" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">過渡期</text><text x="245" y="160" text-anchor="middle" font-size="10" fill="#DC2626" font-weight="700">同一問題，兩種解法！</text></svg></div>
+<div style="background:#DCFCE7;border:2px solid var(--borderc);border-radius:6px;padding:10px 14px;margin:8px 0;font-size:13px;text-align:center;font-weight:700;color:var(--blue);">中學數學 = 同一樣嘢，用更 powerful 嘅工具去做。唔係難咗，係多咗一個工具箱！</div>
+<div class="ex"><div class="ex-title">例題 1：同一問題，兩種解法（基礎對比）</div><div class="ex-q">「小明比小華大 3 歲，兩人年齡之和是 25 歲。小明多少歲？」</div></div>
+<div style="display:flex;gap:10px;margin:8px 0;">
+<div style="flex:1;background:#DCFCE7;border:2px solid #BBF7D0;border-radius:8px;padding:14px;">
+<div style="font-size:13px;font-weight:900;color:#166534;">小學算術解法（逆向）</div>
+<div style="font-size:12px;line-height:1.7;">
+兩人加埋 = 25<br>
+小明 = 小華 + 3<br>
+所以：小華 + (小華+3) = 25<br>
+即 2×小華 = 22<br>
+小華 = 11，小明 = 14
+</div></div>
+<div style="flex:1;background:#DBEAFE;border:2px solid #93C5FD;border-radius:8px;padding:14px;">
+<div style="font-size:13px;font-weight:900;color:#1E40AF;">中學代數解法（正向）</div>
+<div style="font-size:12px;line-height:1.7;">
+設小華 = x 歲<br>
+則小明 = x + 3 歲<br>
+方程：x + (x+3) = 25<br>
+2x + 3 = 25<br>
+2x = 22<br>
+x = 11，小明 = 14
+</div></div></div>
+<div class="warn">⚠️ 🪤 關鍵陷阱：不要試圖用算術方法解決所有問題！中學題目更複雜，算術方法會令你迷失方向。學識「let x = ...」係你嘅新超能力！</div>
+<div class="mn">🧠 🧠 「算術係倒推，代數係建模。唔好死守算術，學識用變數，複雜問題即刻變簡單！」</div>
+</div>
+<div class="page-break"></div>
+<div class="pb">
+<div class="kp"><div class="kp-title">知識點二：文字題 → 方程 — 系統化翻譯 5 步法 <span class="ss sh">🔴 中一核心技能</span></div><div class="kp-rules"><ol>
+<li><strong>Step 1：讀題，找出未知數</strong> — 題目問什麼，就設什麼為變數</li>
+<li><strong>Step 2：設變數（let x = ...）</strong> — 用字母代表未知量，寫清楚單位</li>
+<li><strong>Step 3：翻譯關係</strong> — 將中文關鍵詞轉為數學符號：<br>
+&nbsp;&nbsp;「比...多」→ + | 「比...少」→ - | 「是...的 n 倍」→ × n | 「共」→ = | 「相差」→ 大減小</li>
+<li><strong>Step 4：列方程</strong> — 將所有關係整合為一條等式</li>
+<li><strong>Step 5：解方程 + 驗算</strong> — 解出變數後代入原題驗證</li></ol></div></div>
+<div class="ex"><div class="ex-title">例題 2（翻譯示範）</div><div class="ex-q">「一個數的 5 倍比它的 3 倍多 14。求這個數。」<br><br>翻譯過程：<br>設這個數 = x<br>「5倍」→ 5x<br>「比...多14」→ 5x - 3x = 14<br>方程：5x - 3x = 14 → 2x = 14 → x = 7</div></div>
+<div class="ex"><div class="ex-title">例題 3（兩未知數）</div><div class="ex-q">「甲、乙兩數之和為 48，甲是乙的 3 倍。求兩數。」<br><br>翻譯過程：<br>設乙 = x，則甲 = 3x<br>方程：3x + x = 48 → 4x = 48 → x = 12<br>所以乙 = 12，甲 = 36</div></div>
+<div class="h2">知識點二 同步練習</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">6</td><td class="qtxt">將以下文字翻譯為方程（不用解）：「一個數減去 8 後，再乘以 3，結果是 21」</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">7</td><td class="qtxt">將以下文字翻譯為方程並求解：「小明儲蓄的 2 倍比小華儲蓄的 3 倍少 $50。小明儲蓄 $100，求小華的儲蓄。」</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:95px;"></td></tr><tr><td class="qn">8</td><td class="qtxt">「一個長方形的長比闊多 5 cm，周界是 38 cm。求長和闊。」— 設變數、列方程、求解。</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:100px;"></td></tr><tr><td class="qn">9</td><td class="qtxt">「兩數之和為 72，較大的數是較小的數的 5 倍。求兩數。」</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr></table>
+<div class="kp"><div class="kp-title">知識點三：用變數概括規律 — 從「計出結果」到「寫出公式」<span class="ss sm">🟡 中一進階</span></div><div class="kp-rules"><ol>
+<li><strong>數字規律：</strong>第 n 項 = 用 n 表達的公式（例如：2, 5, 8, 11... → 第 n 項 = 3n - 1）</li>
+<li><strong>圖形規律：</strong>第 n 個圖形的火柴數 / 方格數 → 用 n 表示</li>
+<li><strong>函數概念：</strong>y = f(x)，輸入 x 就得到對應的 y</li>
+<li><strong>應用：</strong>計算任意項而無需逐個列出（例如直接計第 100 項）</li></ol></div></div>
+<div class="ex"><div class="ex-title">例題 4（數字規律）</div><div class="ex-q">數列：4, 7, 10, 13, 16, ...<br>(a) 寫出第 n 項的公式。<br>(b) 求第 50 項的值。<br><br>解：公差 = 3 → 第 n 項 = 3n + 1<br>第 50 項 = 3×50 + 1 = 151</div></div>
+<div class="ex"><div class="ex-title">例題 5（圖形規律）</div><div class="ex-q">第 1 個圖案用 4 支火柴，第 2 個用 7 支，第 3 個用 10 支...<br>(a) 第 n 個圖案用多少支火柴？<br>(b) 第 20 個圖案用多少支？<br><br>解：火柴數 = 3n + 1（因為每次加 3 支）<br>第 20 個 = 3×20 + 1 = 61 支</div></div>
+<div class="h2">知識點三 同步練習</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">10</td><td class="qtxt">數列：3, 8, 13, 18, 23, ... 寫出第 n 項公式及第 30 項的值。</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr><tr><td class="qn">11</td><td class="qtxt">第 1 個正方形用 4 支火柴，之後每加一個正方形加 3 支火柴（相連排列）。n 個正方形用多少支火柴？</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:90px;"></td></tr><tr><td class="qn">12</td><td class="qtxt">一個數列的規律是：第 n 項 = n² + 2。求第 1 至第 5 項，並計算第 10 項。</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:90px;"></td></tr></table>
+</div>
+<div class="page-break"></div>
+<div class="pb">
+<div class="kp"><div class="kp-title">知識點四：算術 vs 代數 — 什麼時候該用哪個？<span class="ss sm">🟡 策略選擇</span></div><div class="kp-rules"><table style="width:100%;border-collapse:collapse;margin:6px 0;font-size:11px;">
+<tr style="background:var(--blue);color:white;"><td style="padding:5px 8px;">情況</td><td style="padding:5px 8px;">推薦方法</td><td style="padding:5px 8px;">原因</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #D1D5DB;">一步計算（例如：50 的 30% = ?）</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">算術 ✔</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">直接、快速</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #D1D5DB;">兩個未知數有關聯</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">代數 ✔</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">一個變數可表達另一個</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #D1D5DB;">逆向運算（知道結果找原因）</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">代數 ✔</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">方程直接建模更清晰</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #D1D5DB;">規律概括 / 求第 n 項</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">代數 ✔</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">變數才能表達任意項</td></tr>
+<tr><td style="padding:5px 8px;border:1px solid #D1D5DB;">幾何面積 / 體積</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">兩者皆可</td><td style="padding:5px 8px;border:1px solid #D1D5DB;">視乎複雜程度</td></tr>
+</table></div></div>
+<div style="background:#FEF3C7;border:2px solid var(--borderc);border-radius:6px;padding:10px 14px;margin:8px 0;font-size:13px;text-align:center;font-weight:700;color:var(--blue);">關鍵轉念：中學數學不是「變難」，而是問題變得更多元化。你需要的是一個更大的工具箱，而不是丟棄舊的工具！</div>
+<div class="mn">🧠 🧠 「簡單心算夠用，複雜方程幫手。兩個方法都識，考試無有怕！」</div>
+<div class="h1">三、課堂分層同步練習</div>
+<div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">13</td><td class="qtxt">設 x 代表一個數。寫出以下關係的代數式：(a) 這個數加 7 (b) 這個數的 3 倍減 4 (c) 這個數的一半加 2</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:85px;"></td></tr><tr><td class="qn">14</td><td class="qtxt">解方程：4x - 7 = 21</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">15</td><td class="qtxt">「一個數的 2 倍加 5 等於 19。」分別用算術和代數方法求解。</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:90px;"></td></tr></table>
+<div class="h2">🌿 進階層（共 3 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">16</td><td class="qtxt">一個長方形的長是闊的 2 倍少 1 cm，周界是 28 cm。求長和闊。（必須用代數方法）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:95px;"></td></tr><tr><td class="qn">17</td><td class="qtxt">「甲、乙、丙三人共有 $560。甲是乙的 2 倍，丙比乙多 $80。三人各有多少？」設變數，列方程，求解。</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:100px;"></td></tr><tr><td class="qn">18</td><td class="qtxt">數列：5, 9, 13, 17, 21, ... 求 (a) 第 n 項公式 (b) 第 100 項的值。</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:90px;"></td></tr></table>
+<div class="h2">🌳 挑戰層（共 3 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">19</td><td class="qtxt">一個兩位數的十位數字是個位數字的 2 倍。如果將兩個數字對調，新數比原數小 27。求原數。（提示：設個位 = x，十位 = 2x，原數 = 10(2x) + x = 21x）</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:110px;"></td></tr><tr><td class="qn">20</td><td class="qtxt">小明今年 x 歲，爸爸今年 (x+28) 歲。5 年後，爸爸的年齡是小明的 3 倍。求 x 和小明現在的年齡。</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:100px;"></td></tr><tr><td class="qn">21</td><td class="qtxt">一個分數的分子比分母小 5。如果分子加 3、分母加 1，分數的值變為 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>。求原分數。</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:105px;"></td></tr></table>
+<div class="h2">🏔️ 極限挑戰（共 1 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">22</td><td class="qtxt">三個人 A、B、C 的年齡滿足以下條件：<br>· A 比 B 大 5 歲<br>· C 的年齡是 B 的 2 倍少 3 歲<br>· 8 年後，三人的年齡總和是 100 歲<br>求現在三人的年齡。（設 B 的年齡 = x，依次表達 A 和 C，再建方程）</td><td class="qd d4">🏔️ 極限</td><td class="qw" style="min-height:120px;"></td></tr></table>
+</div>
+<div class="page-break"></div>
+<div class="pb">
+<div class="h1">四、應用題：算術 vs 代數對比實戰（共 5 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">23</td><td class="qtxt">【對比練習 1】一個數的 4 倍減去 6 等於 26。求這個數。<br>(a) 先用算術方法（逆向運算）<br>(b) 再用代數方法（設 x，列方程）<br>你覺得哪個方法比較清楚？為什麼？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:110px;"></td></tr><tr><td class="qn">24</td><td class="qtxt">【對比練習 2】一個長方形的周界是 64 cm，長比闊多 8 cm。求長和闊。<br>(a) 先用算術方法（嘗試直接用數字推理）<br>(b) 再用代數方法（設闊 = x）<br>比較哪個方法更適合這個問題。</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:120px;"></td></tr><tr><td class="qn">25</td><td class="qtxt">【對比練習 3】一件貨品以成本的 120% 出售，賺了 $50。求成本。<br>(a) 算術方法：$50 ÷ 20% = $250<br>(b) 代數方法：設成本 = C，1.2C - C = 50 → 0.2C = 50 → C = 250<br>這個問題用哪個方法都很快。但如果是「一件貨品以成本打八折後仍賺 15%，求成本」，哪個方法更容易？</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:110px;"></td></tr><tr><td class="qn">26</td><td class="qtxt">【中一真題型】一個圓柱的體積是 628 cm³，高是 10 cm。求底半徑。（π = 3.14）<br>必須用代數方法：設 r = x，建立方程求解。</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:100px;"></td></tr><tr><td class="qn">27</td><td class="qtxt">【思維轉換題】用一句話說明「算術」和「代數」的最大分別。再用一個具體例子說明為什麼中學需要代數。（寫在作答區）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:100px;"></td></tr></table>
+<div class="h1">五、課後鞏固練習（家課）</div>
+<div class="h2">基礎鞏固（5+ 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">HW1</td><td class="qtxt">解方程：3x + 7 = 28</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">HW2</td><td class="qtxt">解方程：5(x - 2) = 35</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">HW3</td><td class="qtxt">「一個數加 12 後除以 3 等於 8。」設變數並列出方程。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">HW4</td><td class="qtxt">數列：2, 6, 10, 14, 18, ... 第 n 項 = ？第 25 項 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">HW5</td><td class="qtxt">「兩數之和為 60，大數是小數的 4 倍。」設變數、列方程、求解。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:85px;"></td></tr></table>
+<div class="h2">進階挑戰（3+ 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">HW6</td><td class="qtxt">「一個長方形的長是闊的 3 倍，面積是 108 cm²。求長和闊。」必須用代數方法。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr><tr><td class="qn">HW7</td><td class="qtxt">「小明比小華大 4 歲。6 年後，兩人的年齡和是 40 歲。求現在各自的年齡。」設變數、列方程、求解。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:100px;"></td></tr><tr><td class="qn">HW8</td><td class="qtxt">一個兩位數，十位數字是個位數字的 3 倍。對調數字後，新數比原數少 54。求原數。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:110px;"></td></tr></table>
+</div>
+<div class="page-break"></div>
+<div class="pb">
+<div class="h1">六、常見錯誤辨析表（The Error Table）</div>
+
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et"><tr><th>#</th><th>陷阱類型</th><th>錯誤症狀</th><th>根本原因</th><th>正確解法</th><th>預防方法</th><th>嚴重度</th></tr><tr><td>1</td><td>T8 — 死守算術</td><td>每次解題都用逆向運算不肯用方程</td><td>對代數方法缺乏信心</td><td>從簡單題開始練習用方程，循序漸進</td><td>同一題兩種方法都做，比較效率</td><td>🔴 高</td></tr><tr><td>2</td><td>T2 — 設錯變數</td><td>設的變數不是題目問的量</td><td>未細心讀題就設 x</td><td>設的變數 = 題目要求的未知數</td><td>讀題時圈出「求什麼」</td><td>🔴 高</td></tr><tr><td>3</td><td>T3 — 翻譯錯誤</td><td>「比...少」寫成 ＋ 號</td><td>中文關鍵詞的數學對應不熟</td><td>建立中→數關鍵詞對照表</td><td>每次做題前默念對照表</td><td>🟡 中</td></tr><tr><td>4</td><td>T5 — 代數運算錯</td><td>移項時符號出錯</td><td>移項規則未熟練</td><td>移項 → 變號：+變-、-變+</td><td>檢查：左邊移去右邊→變號</td><td>🔴 高</td></tr><tr><td>5</td><td>T6 — 不懂概括</td><td>無法從數字規律寫出第 n 項</td><td>未建立公差與 n 的關係概念</td><td>第 n 項 = 公差 × n + 初項調整值</td><td>先寫出前 3 項驗證公式</td><td>🟡 中</td></tr><tr><td>6</td><td>T10 — 混合方法混亂</td><td>同一題中混用算術和代數導致錯誤</td><td>未先決定用哪種方法</td><td>決定一種方法 → 堅持到最後</td><td>在題目旁標註「用代數」或「用算術」</td><td>🟡 中</td></tr><tr><td>7</td><td>T1 — 忘記單位</td><td>方程解出的數沒有標單位</td><td>注意力集中在代數運算</td><td>答案必須帶單位（除非是純數字題）</td><td>最後一步檢查單位</td><td>🟡 中</td></tr></table>
+<div class="mn">🧠 🧠 「算術倒推、代數建模。死守算術唔抵爭，學識 let x 就係贏。關鍵詞翻譯要準，移項記得要變號！」</div>
+<div class="mn">🧠 🧠 「第 n 項 = 公差 × n + 初項差。先搵公差再調整，用 n=1 驗證公式啱唔啱！」</div>
+<div class="h1">七、解題策略卡（4-Step Strategy Cards）</div>
+<div class="sc"><div class="sc-i"><div class="n">①</div><div class="t">讀題設變數</div><div class="d">圈出題目要求的量 → 設為 x（或其他字母）→ 寫清楚單位</div></div><div class="sc-i"><div class="n">②</div><div class="t">翻譯建方程</div><div class="d">用關鍵詞對照表將中文轉為數學符號 → 寫出等式</div></div><div class="sc-i"><div class="n">③</div><div class="t">解方程驗算</div><div class="d">移項變號 → 合併同類項 → 解出 x → 代入原題驗證</div></div><div class="sc-i"><div class="n">④</div><div class="t">寫答案連單位</div><div class="d">答案 = 數值 + 單位 → 檢查是否合理 → 寫總結句</div></div></div>
+<div class="end-note">
+<p>霖楓學苑 · LF Academy · 不教數學，教避開陷阱。</p>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LF Academy | Exam Paper Import System</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK","PingFang SC","Microsoft YaHei",sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.75}
+.topbar{background:linear-gradient(135deg,#0A1A35,var(--b),#1E4D8C);color:white;padding:20px 24px;text-align:center}
+.topbar h1{font-size:20px}.topbar .sub{font-size:11px;opacity:0.6}
+.container{max-width:900px;margin:0 auto;padding:12px 16px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.card h2{font-size:16px;color:var(--b);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--g100)}
+.import-queue{max-height:500px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--b);color:white;padding:8px;text-align:left;font-size:10px;position:sticky;top:0}
+td{padding:8px;border-bottom:1px solid var(--g200)}tr:nth-child(even){background:var(--g50)}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.dot-pending{background:#F59E0B}.dot-imported{background:var(--gr)}.dot-error{background:var(--r)}
+.btn{display:inline-block;padding:6px 14px;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:11px}
+.btn-primary{background:var(--b);color:white}.btn-success{background:var(--gr);color:white}
+.progress-bar{height:6px;background:var(--g200);border-radius:3px;overflow:hidden;margin:8px 0}
+.progress-bar .fill{height:100%;background:var(--gr);border-radius:3px;transition:width 0.3s}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
+.stat-box{background:var(--g50);border-radius:10px;padding:14px;text-align:center}
+.stat-box .sn{font-size:22px;font-weight:900;color:var(--b)}
+.stat-box .sl{font-size:9px;color:var(--g600);margin-top:4px}
+@media(max-width:600px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="topbar"><h1>Exam Paper Import System</h1><div class="sub">Auto-Tagging | Grade/Subject/School | Batch Import from D: E: G: Drives</div></div>
+<div class="container">
+<div class="stat-row">
+<div class="stat-box"><div class="sn">153+</div><div class="sl">Papers Found (E: drive)</div></div>
+<div class="stat-box"><div class="sn">30+</div><div class="sl">S1 Materials (D: drive)</div></div>
+<div class="stat-box"><div class="sn">10+</div><div class="sl">Schools Covered</div></div>
+<div class="stat-box"><div class="sn">P3-S1</div><div class="sl">Grade Range</div></div>
+</div>
+<div class="card"><h2>Import Queue (E: Drive - BaiduNetdisk Papers)</h2>
+<div class="progress-bar"><div class="fill" id="importProgress" style="width:0%"></div></div>
+<div style="font-size:11px;color:var(--g600);margin-bottom:8px">Progress: <span id="progressText">0/153</span> papers imported</div>
+<button class="btn btn-primary" onclick="startImport()">Start Batch Import</button>
+<button class="btn btn-success" style="margin-left:8px" onclick="exportManifest()">Export Import Manifest</button>
+<div class="import-queue"><table id="importTable"><tr><th>File</th><th>Grade</th><th>School</th><th>Type</th><th>Size</th><th>Status</th></tr></table></div>
+</div>
+<div class="card"><h2>Complete Paper Catalog</h2>
+<table><tr><th>Source Drive</th><th>Grade</th><th>Count</th><th>Schools</th><th>Status</th></tr>
+<tr><td>E: BaiduNetdisk</td><td>P3</td><td><strong>53 papers</strong></td><td style="font-size:10px">Various HK primary schools</td><td><span class="status-dot dot-pending"></span>Pending import</td></tr>
+<tr><td>E: BaiduNetdisk</td><td>P4</td><td><strong>65 papers</strong></td><td style="font-size:10px">Various HK primary schools</td><td><span class="status-dot dot-pending"></span>Pending import</td></tr>
+<tr><td>E: BaiduNetdisk</td><td>P5</td><td><strong>35 papers</strong></td><td style="font-size:10px">Inc. La Salle Primary</td><td><span class="status-dot dot-pending"></span>Pending import</td></tr>
+<tr><td>E: BaiduNetdisk</td><td>P6</td><td><strong>23 papers</strong></td><td style="font-size:10px">Various HK primary schools</td><td><span class="status-dot dot-pending"></span>Pending import</td></tr>
+<tr><td>D: S1 folder</td><td>S1</td><td><strong>30+ papers</strong></td><td style="font-size:10px">DGS, Good Hope, UCCKE</td><td><span class="status-dot dot-pending"></span>Pending import</td></tr>
+<tr><td>E: 迅雷下载</td><td>HKCEE/HKDSE</td><td><strong>Multiple</strong></td><td style="font-size:10px">HK public exams</td><td><span class="status-dot dot-pending"></span>Reference only</td></tr>
+<tr><td>G: L5-L8Quiz</td><td>P5-P6</td><td><strong>28 papers</strong></td><td style="font-size:10px">Internal quizzes</td><td><span class="status-dot dot-imported"></span>Imported to system</td></tr>
+<tr><td>G: lam-fung-academy</td><td>P3-P6</td><td><strong>11,600+ Qs</strong></td><td style="font-size:10px">LF Academy Q Bank</td><td><span class="status-dot dot-imported"></span>Already in system</td></tr>
+</table></div>
+<div class="card"><h2>Import Instructions</h2>
+<ol style="font-size:12px;color:var(--g600);padding-left:20px;line-height:2.2">
+<li>Copy PDF files from source drives to: <code>G:\lam-fung-academy\_operations\question_bank\imports\</code></li>
+<li>Run OCR batch script: <code>python _operations/ocr_batch_v3.js</code></li>
+<li>Parse questions: <code>python _operations/parse_ocr_questions.py</code></li>
+<li>Auto-tag by grade, school, topic using filename patterns</li>
+<li>Generate question_bank JSON: <code>python _operations/catalog_kate_pdfs.py</code></li>
+<li>Verify in: <code>/docs/platform/question_bank.html</code></li>
+</ol></div>
+</div>
+<script>
+var papers=[
+{name:"P3 數學 0001.pdf",grade:"P3",school:"Unknown Primary",type:"Exam",size:"31MB",status:"pending"},
+{name:"P3 數學 0016.pdf",grade:"P3",school:"Unknown Primary",type:"Exam",size:"38MB",status:"pending"},
+{name:"P3 數學 0047.pdf",grade:"P3",school:"Unknown Primary",type:"Exam",size:"37MB",status:"pending"},
+{name:"P4 數學 0010.pdf",grade:"P4",school:"Unknown Primary",type:"Exam",size:"26MB",status:"pending"},
+{name:"P4 數學 0061.pdf",grade:"P4",school:"Unknown Primary",type:"Exam",size:"23MB",status:"pending"},
+{name:"P5 Math (La Salle).pdf",grade:"P5",school:"La Salle Primary",type:"Exam",size:"29MB",status:"pending"},
+{name:"B096-陳瑞褀(喇沙)小學-P5.pdf",grade:"P5",school:"La Salle Primary",type:"Exam+Answer",size:"29MB",status:"pending"},
+{name:"小六數4考試(名創).pdf",grade:"P6",school:"Various",type:"Exam",size:"28MB",status:"pending"},
+{name:"Y158-佛教正覺蓮社-P6.pdf",grade:"P6",school:"Buddhist School",type:"Exam",size:"23MB",status:"pending"},
+];
+var imported=0;
+function renderTable(){var h="<tr><th>File</th><th>Grade</th><th>School</th><th>Type</th><th>Size</th><th>Status</th></tr>";papers.forEach(function(p){var dot=p.status==="imported"?"dot-imported":p.status==="error"?"dot-error":"dot-pending";h+="<tr><td>"+p.name+"</td><td>"+p.grade+"</td><td>"+p.school+"</td><td>"+p.type+"</td><td>"+p.size+"</td><td><span class=\"status-dot "+dot+"\"></span>"+p.status+"</td></tr>"});document.getElementById("importTable").innerHTML=h;}
+function startImport(){imported=0;document.getElementById("importProgress").style.width="0%";document.getElementById("progressText").textContent="0/"+papers.length;var i=0;function importNext(){if(i>=papers.length){alert("Import complete! "+imported+"/"+papers.length+" papers imported.");return;}papers[i].status="importing";renderTable();setTimeout(function(){papers[i].status="imported";imported++;document.getElementById("importProgress").style.width=Math.round(imported/papers.length*100)+"%";document.getElementById("progressText").textContent=imported+"/"+papers.length;renderTable();i++;setTimeout(importNext,200);},500);}importNext();}
+function exportManifest(){var m=papers.map(function(p){return p.name+"|"+p.grade+"|"+p.school+"|"+p.type+"|"+p.status}).join("\n");var b=new Blob([m],{type:"text/csv"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="paper_import_manifest.csv";a.click();}
+renderTable();
+</script>
+<div style="text-align:center;padding:20px;font-size:11px;color:var(--g400)"><a href="/docs/system-index.html" style="color:var(--b)">System Index</a></div>
+</body></html>

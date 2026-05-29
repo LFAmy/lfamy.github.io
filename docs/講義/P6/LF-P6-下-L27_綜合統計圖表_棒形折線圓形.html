@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L27 綜合統計圖表（棒形+折線+圓形圖）</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  @media print { body { background:white; font-size:11px; } .pb { box-shadow:none; min-height:0; padding:24px 36px; } .pb.cover-page { page-break-after:always; } .page-break { page-break-before:always; } .qt .qw { background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border:1px dashed #9CA3AF; } .qt td { padding:4px 6px; } .qt { font-size:10.5px; } .qt .qtxt { font-size:11.5px; } .h1 { font-size:14px; } .h2 { font-size:12px; } .kp { padding:7px 10px; } .ex { padding:7px 10px; } .ex-q { font-size:12px; } .warn { font-size:10.5px; } .mn { font-size:12px; } .sc { gap:6px; } .sc-i { padding:10px; } .sc-i .n { width:26px;height:26px;font-size:14px; } .sc-i .t { font-size:11px; } .et { font-size:10px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:36px 48px; display:flex; flex-direction:column; }
+  .f { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; } .f .n { font-size:inherit; line-height:1.15; } .f .d { font-size:inherit; line-height:1.15; } .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; } .fd .n { font-size:16px; font-weight:700; line-height:1.15; } .fd .d { font-size:16px; font-weight:700; line-height:1.15; } .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; } .fi .n { font-size:inherit; line-height:1; } .fi .d { font-size:inherit; line-height:1; } .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+  .cover { justify-content:center; align-items:center; text-align:center; }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:16px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:27px; font-weight:900; color:var(--blue); letter-spacing:1px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:18px 24px; font-size:12px; line-height:2; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:17px; font-weight:900; color:var(--blue); padding:7px 12px; margin:18px 0 10px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:14px; font-weight:700; color:var(--blue); margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px); }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; } .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; } .sm { background:#FEF3C7; color:#92400E; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); } .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; } .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; } .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; } .et td { padding:5px 8px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+  .svg-diagram { text-align:center; margin:10px 0; overflow-x:auto; }
+  .svg-diagram svg { max-width:100%; height:auto; }
+  .chart-blank { border:2px dashed #D1D5DB; border-radius:12px; padding:16px; margin:8px 0; text-align:center; min-height:200px; background:#FAFBFC; }
+  .chart-blank .lbl { font-size:11px; color:var(--gray); margin-bottom:4px; }
+  .chart-type-compare { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:10px 0; font-size:11px; }
+  .chart-type-compare .ct { background:var(--lightbg); border:1px solid var(--borderc); border-radius:6px; padding:10px; text-align:center; }
+  .chart-type-compare .ct .ct-t { font-weight:900; color:var(--blue); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 下學期 第 27 堂 · 學生版講義</div>
+  <div class="cv-title">綜合統計圖表（棒形 + 折線 + 圓形圖）</div>
+  <div class="cv-sub">單元十七 · 統計圖表綜合 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6下B冊 單元十七 ＋ 現代教育 6下B 單元14<br>
+    <b>核心陷阱：</b>T31 選錯圖表類型 · T32 不同圖表數據不一致 · T33 <div style="text-align:center;margin:8px 0;padding:8px;background:#F0F9FF;border:1px solid var(--borderc);border-radius:5px;"><strong style="font-size:13px;color:var(--blue);">折線圖：展示數據隨時間變化趨勢。適合展示速率/溫度/股價變化。</strong><br><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 320" width="490" height="320"><line x1="85" y1="35" x2="85" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290" x2="470" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290.0" x2="470" y2="290.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="294.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">0</text><line x1="85" y1="264.5" x2="470" y2="264.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="268.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">10</text><line x1="85" y1="239.0" x2="470" y2="239.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="243.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">20</text><line x1="85" y1="213.5" x2="470" y2="213.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="217.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">30</text><line x1="85" y1="188.0" x2="470" y2="188.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="192.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">40</text><line x1="85" y1="162.5" x2="470" y2="162.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="166.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">50</text><line x1="85" y1="137.0" x2="470" y2="137.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="141.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">60</text><line x1="85" y1="111.5" x2="470" y2="111.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="115.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">70</text><line x1="85" y1="86.0" x2="470" y2="86.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="90.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">80</text><line x1="85" y1="60.5" x2="470" y2="60.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="64.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">90</text><line x1="85" y1="35.0" x2="470" y2="35.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="39.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">100</text><text x="77" y="39" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">(km/h)</text><text x="14" y="162" text-anchor="middle" font-size="11" fill="#1A3C6D" transform="rotate(-90,14,162)">速率</text><text x="117.08333333333334" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">1h</text><text x="181.25000000000003" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">2h</text><text x="245.41666666666669" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">3h</text><text x="309.5833333333333" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">4h</text><text x="373.75" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">5h</text><text x="437.9166666666667" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">6h</text><text x="245" y="25" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">六小時速率變化</text><circle cx="115" cy="188.0" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="115" y="176.0" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">40</text><circle cx="175" cy="149.75" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="175" y="137.75" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">55</text><circle cx="235" cy="111.5" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="235" y="99.5" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">70</text><circle cx="295" cy="124.25" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="295" y="112.25" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">65</text><circle cx="355" cy="73.25" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="355" y="61.25" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">85</text><circle cx="415" cy="60.5" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="415" y="48.5" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">90</text><polyline points="115,188.0 175,149.75 235,111.5 295,124.25 355,73.25 415,60.5" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linejoin="round"/></svg></div>
+折線圖趨勢判斷錯誤 · T34 棒形圖刻度誤讀<br>
+    <b>SSPA 關聯：</b><span class="ss sh">極高頻</span> 呈分試綜合統計題佔卷一約 12-16%<br>
+    <b>前置知識：</b>棒形圖（P4-P5）· 折線圖（L15）· 圓形圖（L26）· 數據整理（P5）<br>
+    <b>本堂目標：</b>跨圖表數據分析 選用合適圖表 同一數據多種呈現 綜合SSPA題型
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">棒形圖最適合顯示哪類數據？A. 趨勢變化 B. 比較數量 C. 部分佔整體比例</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">折線圖最適合顯示哪類數據？A. 比較數量 B. 趨勢變化 C. 部分佔整體比例</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">圓形圖最適合顯示哪類數據？A. 比較數量 B. 趨勢變化 C. 部分佔整體比例</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">一個棒形圖中，最高的棒代表 85，最低的代表 25。兩者相差多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">一個折線圖由左至右呈上升趨勢。呢個代表咩意思？</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 + 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：三種統計圖的用途對比<span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <div class="chart-type-compare">
+        <div class="ct"><div class="ct-t">棒形圖 (Bar Chart)</div>比較不同類別的數量<br>強調：誰多誰少<br>橫軸：類別（離散）<br>縱軸：數量</div>
+        <div class="ct"><div class="ct-t">折線圖 (Line Graph)</div>顯示數據隨時間的變化趨勢<br>強調：上升/下降/平穩<br>橫軸：時間<br>縱軸：數量</div>
+        <div class="ct"><div class="ct-t">圓形圖 (Pie Chart)</div>顯示各部分佔整體的比例<br>強調：百分比分佈<br>整個圓 = 100%<br>每個扇形 = 一個部分</div>
+      </div>
+      <strong>選圖鐵律：</strong>比較類別 → 棒形 | 睇趨勢 → 折線 | 睇比例 → 圓形
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆：選錯圖表</div>
+    <div class="ex-q">例1：以下情況應選用哪種統計圖？<br>(a) 顯示過去 6 個月每月體重變化<br>(b) 顯示各科成績比較<br>(c) 顯示家庭每月開支的分佈比例</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯配</div><div class="eq">(a)棒形圖 (b)圓形圖 (c)折線圖</div><div class="why">趨勢要用折線，比例用圓形，比較用棒形！</div></div>
+      <div class="tc-r"><div class="lbl">正確配對</div><div class="eq">(a)折線圖（看體重趨勢）<br>(b)棒形圖（比較各科）<br>(c)圓形圖（看開支比例）</div><div class="why">根據數據性質選圖，唔係隨意揀</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「棒形比多少，折線睇趨勢，圓形睇比例；揀錯圖表 = 表達錯意思！」</div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q1</td><td class="qtxt">以下各情況應選哪種統計圖？<br>(a) 一班同學最喜愛的季節<br>(b) 一棵植物每星期的生長高度<br>(c) 一個月內各項支出的比例</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">Q2</td><td class="qtxt">為什麼「學生每日的作業完成時間變化」適合用折線圖而唔係棒形圖？</td><td class="qd d2">進階</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：從同一數據製作不同圖表<span class="ss sh">SSPA 高頻</span></div>
+    <div class="kp-rules">
+      <strong>同一組數據可以用不同圖表呈現，各有不同重點：</strong><br>
+      例：某商店上半年營業額 —<br>
+      - 棒形圖：清楚睇到邊個月營業額最高/最低<br>
+      - 折線圖：清楚睇到營業額的上升/下降趨勢<br>
+      - 圓形圖：清楚睇到各月佔半年總營業額的比例<br>
+      <strong>關鍵：</strong>根據你想表達的信息選擇圖表類型
+    </div>
+  </div>
+
+  <div class="svg-diagram">
+    <strong style="font-size:12px;color:var(--blue);">下圖：上半年營業額（萬元）— 棒形圖 + 折線圖</strong><br>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="480" height="280">
+      <line x1="75" y1="30" x2="75" y2="265" stroke="#374151" stroke-width="2"/>
+      <line x1="75" y1="265" x2="460" y2="265" stroke="#374151" stroke-width="2"/>
+      <line x1="75" y1="265.0" x2="460" y2="265.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="269.0" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">0</text>
+      <line x1="75" y1="235.8" x2="460" y2="235.8" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="239.8" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">10</text>
+      <line x1="75" y1="206.6" x2="460" y2="206.6" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="210.6" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">20</text>
+      <line x1="75" y1="177.4" x2="460" y2="177.4" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="181.4" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">30</text>
+      <line x1="75" y1="148.2" x2="460" y2="148.2" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="152.2" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">40</text>
+      <line x1="75" y1="119.0" x2="460" y2="119.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="123.0" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">50</text>
+      <line x1="75" y1="89.8" x2="460" y2="89.8" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="93.8" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">60</text>
+      <line x1="75" y1="60.6" x2="460" y2="60.6" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="64.6" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">70</text>
+      <line x1="75" y1="31.4" x2="460" y2="31.4" stroke="#E5E7EB" stroke-width="0.5"/><text x="67" y="35.4" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">80</text>
+      <text x="107.5" y="283" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">一月</text>
+      <text x="171.7" y="283" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">二月</text>
+      <text x="235.8" y="283" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">三月</text>
+      <text x="300.0" y="283" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">四月</text>
+      <text x="364.2" y="283" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">五月</text>
+      <text x="428.3" y="283" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">六月</text>
+      <rect x="88" y="148.4" width="28" height="116.6" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="102" y="136.4" text-anchor="middle" font-size="9" fill="#1A3C6D">50</text>
+      <rect x="152" y="119.2" width="28" height="145.8" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="166" y="107.2" text-anchor="middle" font-size="9" fill="#1A3C6D">60</text>
+      <rect x="216" y="177.4" width="28" height="87.6" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="230" y="165.4" text-anchor="middle" font-size="9" fill="#1A3C6D">30</text>
+      <rect x="280" y="90.0" width="28" height="175.0" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="294" y="78.0" text-anchor="middle" font-size="9" fill="#1A3C6D">70</text>
+      <rect x="344" y="119.2" width="28" height="145.8" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="358" y="107.2" text-anchor="middle" font-size="9" fill="#1A3C6D">60</text>
+      <rect x="408" y="60.8" width="28" height="204.2" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="422" y="48.8" text-anchor="middle" font-size="9" fill="#1A3C6D">85</text>
+      <circle cx="102" cy="148.4" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/>
+      <circle cx="166" cy="119.2" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/>
+      <circle cx="230" cy="177.4" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/>
+      <circle cx="294" cy="90.0" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/>
+      <circle cx="358" cy="119.2" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/>
+      <circle cx="422" cy="60.8" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/>
+      <polyline points="102,148.4 166,119.2 230,177.4 294,90.0 358,119.2 422,60.8" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linejoin="round"/>
+    </svg>
+    <div style="font-size:10px;color:var(--gray);margin-top:4px;">藍色棒 = 各月營業額 | 紅色折線 = 趨勢變化</div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-q">例2：參看上圖。回答以下問題：<br>(a) 哪個月的營業額最高？是多少？<br>(b) 從三月到四月，營業額的變化是上升還是下降？<br>(c) 整個上半年，營業額的整體趨勢是怎樣的？</div>
+  </div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q3</td><td class="qtxt">參看上圖。計算上半年總營業額和月平均營業額。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">Q4</td><td class="qtxt">參看上圖。六月比一月營業額增加了多少萬元？增幅是百分之幾？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：跨圖表數據分析（SSPA 終極題型）<span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>SSPA 常見考法：</strong>同一頁有 2-3 個不同類型的圖表，需要交叉閱讀<br>
+      <strong>解題策略：</strong><br>
+      1. 先分清楚每個圖表顯示咩數據<br>
+      2. 找出圖表之間的關聯（同一個總體的不同面向？不同時間段？）<br>
+      3. 逐個問題確認需要睇邊個圖表<br>
+      <strong>陷阱：</strong>不同圖表可能使用不同單位、不同總數、不同時間範圍
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">SSPA 實戰例題</div>
+    <div class="ex-q">例3：某校小六共有 200 名學生。<br>
+    圓形圖顯示課外活動參與比例：體育40%、音樂30%、學術20%、不參加10%。<br>
+    棒形圖顯示各類活動的男女生人數：體育（男50女30）、音樂（男20女40）、學術（男18女22）。<br>
+    (a) 體育組共有多少人？<br>
+    (b) 音樂組的女生佔音樂組的百分之幾？<br>
+    (c) 全校男生共多少人？</div>
+  </div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q5</td><td class="qtxt">解例3的(a)(b)(c)。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">Q6</td><td class="qtxt">下表為某商店第一季和第二季的銷售額（萬元）：<br>第一季：食品12、服裝8、電子15<br>第二季：食品15、服裝10、電子12<br>用棒形圖（分組式）表示兩個季度的數據比較。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:160px;"></td></tr>
+    <tr><td class="qn">Q7</td><td class="qtxt">根據 Q6 數據，哪個類別兩季都有增長？哪個類別下降了？整體總銷售額是升了還是跌了？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B1</td><td class="qtxt">選擇合適的統計圖：(a) 5 個城市的平均氣溫比較 (b) 某股票過去一年的每日收市價變化 (c) 一個班級中男女生的比例</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">B2</td><td class="qtxt">從同一組數據（某學生各科分數：中85、英72、數90、常78）可以製作哪兩種統計圖？每種圖適合表達甚麼信息？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">B3</td><td class="qtxt">一個棒形圖顯示了四個科目的分數，但你想睇各科佔總分的比例。你需要轉換成哪種圖表？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">下表是某校圖書館連續 5 個月的借書量：<br>9月:350本, 10月:420, 11月:380, 12月:500, 1月:450<br>(a) 繪製棒形圖 (b) 繪製折線圖 (c) 哪個圖更能顯示借書量的變化趨勢？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:180px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">折線圖中，如果線段愈陡（斜率愈大），代表甚麼？如果線段是平的，代表甚麼？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">一個圓形圖顯示 A:30%, B:25%, C:20%, D:15%, E:10%。對應的棒形圖中，若 A 的棒高 9 cm，D 的棒應該多高？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C1</td><td class="qtxt">一張綜合圖表包含：(i) 棒形圖顯示各級學生人數 (ii) 圓形圖顯示全校學生參加課外活動的比例 (iii) 折線圖顯示過去 5 年課外活動參加率的變化。若要計算「小六參加課外活動的人數」，需要睇邊幾個圖表？列出計算步驟。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">C2</td><td class="qtxt">一張<div style="text-align:center;margin:8px 0;padding:8px;background:#F0F9FF;border:1px solid var(--borderc);border-radius:5px;"><strong style="font-size:13px;color:var(--blue);">棒形圖：比較不同類別數值。適合展示各月各店銷售對比。</strong><br><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 378 380" width="378" height="380"><line x1="85" y1="35" x2="85" y2="350" stroke="#374151" stroke-width="2"/><line x1="85" y1="350" x2="358" y2="350" stroke="#374151" stroke-width="2"/><line x1="85" y1="350.0" x2="358" y2="350.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="354.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">0</text><line x1="85" y1="297.5" x2="358" y2="297.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="301.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">100</text><line x1="85" y1="245.0" x2="358" y2="245.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="249.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">200</text><line x1="85" y1="192.5" x2="358" y2="192.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="196.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">300</text><line x1="85" y1="140.0" x2="358" y2="140.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="144.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">400</text><line x1="85" y1="87.5" x2="358" y2="87.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="91.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">500</text><line x1="85" y1="35.0" x2="358" y2="35.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="39.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">600</text><text x="77" y="39" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">(元)</text><text x="14" y="192" text-anchor="middle" font-size="11" fill="#1A3C6D" transform="rotate(-90,14,192)">銷售額</text><text x="153.25" y="368" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">A店</text><text x="289.75" y="368" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">B店</text><text x="189" y="25" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">兩店銷售對比</text><rect x="95" y="192.5" width="24" height="157.5" fill="#3B82F6" stroke="#1D4ED8" stroke-width="0.8"/><rect x="125" y="113.75" width="24" height="236.25" fill="#F97316" stroke="#C2410C" stroke-width="0.8"/><rect x="155" y="77.0" width="24" height="273.0" fill="#10B981" stroke="#047857" stroke-width="0.8"/><rect x="185" y="150.5" width="24" height="199.5" fill="#8B5CF6" stroke="#047857" stroke-width="0.8"/><rect x="229" y="203.0" width="24" height="147.0" fill="#3B82F6" stroke="#1D4ED8" stroke-width="0.8"/><rect x="259" y="87.5" width="24" height="262.5" fill="#F97316" stroke="#C2410C" stroke-width="0.8"/><rect x="289" y="98.0" width="24" height="252.0" fill="#10B981" stroke="#047857" stroke-width="0.8"/><rect x="319" y="129.5" width="24" height="220.5" fill="#8B5CF6" stroke="#047857" stroke-width="0.8"/><rect x="49" y="378" width="12" height="10" fill="#3B82F6" stroke="none" stroke-width="0"/><text x="65" y="387" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">1月</text><rect x="119" y="378" width="12" height="10" fill="#F97316" stroke="none" stroke-width="0"/><text x="135" y="387" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">2月</text><rect x="189" y="378" width="12" height="10" fill="#10B981" stroke="none" stroke-width="0"/><text x="205" y="387" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">3月</text><rect x="259" y="378" width="12" height="10" fill="#8B5CF6" stroke="none" stroke-width="0"/><text x="275" y="387" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">4月</text></svg></div>
+複合棒形圖顯示 A 店和 B 店四個季度的營業額。A 店呈上升趨勢，B 店呈下降趨勢。若你是投資者，你會投資哪一間？用數據說明。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">C3</td><td class="qtxt">以下是某店的銷售數據（單位：萬元）<br>春夏秋冬四季：食品[12,18,15,22]、服裝[8,15,25,10]、電子[20,16,18,24]<br>繪製各類別的分季折線圖（三條折線在同一圖上）。</td><td class="qd d4">極限</td><td class="qw" style="min-height:180px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 極限題（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">E1</td><td class="qtxt">一個圓形圖由三個扇形組成：A(120°)、B(150°)、C(90°)。總數是 480。之後，A 和 B 各增加了 20 個單位（總數變成 520）。重新計算各扇形的新角度。圓形圖的外觀有甚麼變化？</td><td class="qd d4">極限</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">E2</td><td class="qtxt">設計一個包含棒形圖和圓形圖的綜合題目（自訂數據），並寫出 3 條相關問題讓同學解答。</td><td class="qd d4">極限</td><td class="qw" style="min-height:140px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: APPLICATION + HOMEWORK ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（SSPA 綜合數據分析）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">P1</td><td class="qtxt">小美記錄了一週的運動時間（分鐘）：60, 45, 30, 90, 75, 50, 0（星期日休息）。用折線圖表示數據。哪天的運動量變化最大？</td><td class="qd d2">進階</td><td class="qw" style="min-height:160px;"></td></tr>
+    <tr><td class="qn">P2</td><td class="qtxt">某公司三個部門的員工人數：銷售30人、技術50人、行政20人。總員工人數中，30% 參加了公司的旅行。旅行參加者中，銷售部佔50%。求：(a) 參加旅行的總人數 (b) 銷售部參加旅行的人數 (c) 銷售部有多少人沒參加旅行？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">P3</td><td class="qtxt">棒形圖顯示 A、B、C、D 四個品牌的市場份額（%）：A 35%, B 30%, C 20%, D 15%。圓形圖顯示總市場為 2000 萬元。計算各品牌的實際營業額。若 A 品牌的營業額在下季度增加了 20% 而總市場不變，A 的新市場份額（%）是多少？</td><td class="qd d4">極限</td><td class="qw" style="min-height:110px;"></td></tr>
+    <tr><td class="qn">P4</td><td class="qtxt">綜合分析：下表為某班 40 名學生的成績分佈。等級A:8人, B:14人, C:12人, D:4人, E:2人。(a) 計算各等級的百分比。(b) 計算各等級的圓心角。(c) 這個數據用棒形圖還是圓形圖較適合？為甚麼？</td><td class="qd d2">進階</td><td class="qw" style="min-height:120px;"></td></tr>
+    <tr><td class="qn">P5</td><td class="qtxt">折線圖顯示了過去 6 個月的氣溫：18°C, 20°C, 23°C, 25°C, 28°C, 30°C。預測下個月的氣溫，並說明你的推測理據。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h1">五、空白圖表繪圖區（學生練習用）</div>
+  <div class="chart-blank">
+    <div class="lbl">空白棒形圖框架（請在此繪製棒形圖）</div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 260" width="450" height="260">
+      <line x1="80" y1="30" x2="80" y2="235" stroke="#374151" stroke-width="2"/>
+      <line x1="80" y1="235" x2="430" y2="235" stroke="#374151" stroke-width="2"/>
+      <line x1="80" y1="235" x2="430" y2="235" stroke="#E5E7EB" stroke-width="0.5"/><text x="72" y="239" text-anchor="end" font-size="9" fill="#6B7280">0</text>
+      <line x1="80" y1="183.8" x2="430" y2="183.8" stroke="#E5E7EB" stroke-width="0.5"/><text x="72" y="187.8" text-anchor="end" font-size="9" fill="#6B7280">20</text>
+      <line x1="80" y1="132.5" x2="430" y2="132.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="72" y="136.5" text-anchor="end" font-size="9" fill="#6B7280">40</text>
+      <line x1="80" y1="81.2" x2="430" y2="81.2" stroke="#E5E7EB" stroke-width="0.5"/><text x="72" y="85.2" text-anchor="end" font-size="9" fill="#6B7280">60</text>
+      <line x1="80" y1="30" x2="430" y2="30" stroke="#E5E7EB" stroke-width="0.5"/><text x="72" y="34" text-anchor="end" font-size="9" fill="#6B7280">80</text>
+      <text x="138" y="253" text-anchor="middle" font-size="9" fill="#9CA3AF">類別1</text>
+      <text x="226" y="253" text-anchor="middle" font-size="9" fill="#9CA3AF">類別2</text>
+      <text x="314" y="253" text-anchor="middle" font-size="9" fill="#9CA3AF">類別3</text>
+      <text x="402" y="253" text-anchor="middle" font-size="9" fill="#9CA3AF">類別4</text>
+      <rect x="118" y="30" width="30" height="205" fill="none" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="206" y="30" width="30" height="205" fill="none" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="294" y="30" width="30" height="205" fill="none" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="382" y="30" width="30" height="205" fill="none" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="4,3"/>
+    </svg>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L27</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L21 圓的認識 · L22 圓面積進階 · L06 圓周與圓面積 · 相關課題：L17 圓形圖閱讀 · L27 綜合統計圖表</div>
+</div>
+
+<!-- ═══════════════ PAGE 7: HOMEWORK ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">以下各情況用哪種圖表？<br>(a) 6個月體重變化 (b) 一年12個月各月降雨量比較 (c) 零用錢各項支出佔比</td><td class="qd d1">基礎</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">從棒形圖中可以直接讀取哪些資訊？不能直接讀取哪些資訊？（至少各列出兩項）</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">一個折線圖顯示了連續 8 個月的銷售額。如何從圖中判斷哪兩個月之間的變化最大？</td><td class="qd d2">進階</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">某班學生的血型分佈：A型16人、B型12人、O型18人、AB型4人。用棒形圖和圓形圖表示這個數據。（至少計算各血型百分比和圓心角）</td><td class="qd d2">進階</td><td class="qw" style="min-height:120px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">某公司兩年共四半年的營業額（萬元）：<br>第一年上半年:200, 下半年:280<br>第二年上半年:250, 下半年:320<br>(a) 繪製棒形圖 (b) 計算每半年的增長率</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:160px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">棒形圖顯示小明的測驗分數：中85、英72、數90、常78、普88。折線圖顯示這五科在班上的排名變化。如果數學考第一，中文考第三，你會如何評估小明的整體表現？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個圓形圖的某扇形被分成兩個更小的扇形。原來的大扇形角度是 120°，對應 60 個單位。分割後兩個小扇形的比是 2:1。求兩個小扇形各代表多少個單位。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">自訂一組數據（至少4個類別），分別用棒形圖和圓形圖呈現。解釋兩個圖表各自突顯了數據的哪些特點，以及各自的局限性。</td><td class="qd d4">極限</td><td class="qw" style="min-height:160px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>選錯圖表類型：</strong>用圓形圖睇趨勢、用折線圖睇比例</td><td>棒形→比較、折線→趨勢、圓形→比例</td></tr>
+    <tr><td>2</td><td><strong>棒形圖刻度誤讀：</strong>每格代表的值睇錯</td><td>先確認一格代表多少單位，再讀數據</td></tr>
+    <tr><td>3</td><td><strong>折線圖只看點忽略線：</strong>只看數字不看變化方向</td><td>線段斜率 = 變化速度，方向 = 上升/下降</td></tr>
+    <tr><td>4</td><td><strong>跨圖表分析時總數混淆：</strong>不同圖的總數不同</td><td>每個圖獨立確認總數和單位</td></tr>
+    <tr><td>5</td><td><strong>棒形圖刻度不從0開始：</strong>被截斷的刻度誤導</td><td>檢查縱軸是否從0開始，注意截斷標記</td></tr>
+    <tr><td>6</td><td><strong>無法從圓形圖讀取實際數字：</strong>只看到%但不知道總數</td><td>必須知道總數才能從%計算實際值</td></tr>
+    <tr><td>7</td><td><strong>製作圖表時尺度和比例不準確：</strong>手繪誤差太大</td><td>先用鉛筆輕畫，確認比例正確後才加深</td></tr>
+  </table>
+
+  <div class="mn">口訣：<br>「棒形比高低，折線睇趨勢，圓形睇比例；三個圖各有用，揀錯圖表表達錯意思！」</div>
+
+  <div class="h1">八、解題策略卡（4 步法）</div>
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">分圖閱讀</div><div class="d">先獨自理解每個圖表的內容</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">找關聯</div><div class="d">不同圖表之間有咩共通數據？</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">對應問題揀圖</div><div class="d">每條問題需要睇邊個/邊幾個圖？</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">提取+計算</div><div class="d">從圖中提取數字，進行所需計算</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L27</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 7頁 · 50題 | LF-P6-下-L27 v6
+</div>
+</body>
+</html>

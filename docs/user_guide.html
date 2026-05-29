@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 完整使用指南 | Complete User Guide</title>
+<style>
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray:#6B7280;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;color:#1A1A1A;font-size:14px;line-height:1.8;max-width:900px;margin:0 auto;padding:30px 24px;background:#FFF;}
+h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:28px;color:var(--blue);border-bottom:3px solid var(--gold);padding-bottom:10px;margin-bottom:20px;}
+h2{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:20px;color:var(--blue);margin:36px 0 12px;padding:8px 14px;background:#FFFBEB;border-left:4px solid var(--gold);}
+h3{font-size:15px;color:var(--blue);margin:20px 0 8px;}
+.section{margin:20px 0;padding:16px 20px;background:#F9FAFB;border-radius:8px;border:1px solid #E5E7EB;}
+.step{display:flex;gap:12px;margin:12px 0;align-items:flex-start;}
+.step-num{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:50%;background:var(--blue);color:white;font-size:13px;font-weight:900;}
+.cmd{background:#1E1E1E;color:#E5E5E5;padding:10px 14px;border-radius:6px;font-family:Consolas,monospace;font-size:12px;margin:8px 0;}
+.url-box{background:#F0FDF4;border:1px solid #BBF7D0;padding:12px 16px;border-radius:6px;font-size:14px;font-weight:700;color:#166534;word-break:break-all;}
+table{width:100%;border-collapse:collapse;margin:12px 0;}
+th{background:var(--blue);color:white;padding:8px 12px;text-align:left;font-size:11px;}
+td{padding:8px 12px;border:1px solid #D1D5DB;font-size:12px;}
+tr:nth-child(even) td{background:#FAFBFC;}
+.note{background:#FFFBEB;border-left:3px solid var(--gold);padding:10px 14px;margin:10px 0;font-size:12px;}
+.warn-box{background:#FEF2F2;border-left:3px solid var(--red);padding:10px 14px;margin:10px 0;font-size:12px;}
+@media(max-width:600px){body{font-size:12px;padding:16px;}}
+
+/* ═══ UX Pro Max v1.0: Accessibility + Reduced Motion ═══ */
+:focus-visible{outline:2px solid var(--gold,#C9A84C);outline-offset:2px;border-radius:2px;}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important;}
+}
+
+</style>
+</head>
+<body>
+
+<h1>📖 霖楓學苑 · 完整使用指南</h1>
+<p style="font-size:16px;color:var(--gray);">從講義生產到網站部署，從招生行銷到教學營運，全部功能一次搞懂。</p>
+
+<!-- ═══ QUICK START ═══ -->
+<h2>🚀 3分鐘快速開始</h2>
+
+<div class="section">
+<div class="step">
+<div class="step-num">1</div>
+<div><b>打開總控制台</b>：在瀏覽器打開 <code>G:\lam-fung-academy\launchpad.html</code><br>
+（或網上版：<span class="url-box" style="display:inline;padding:4px 10px;">https://lfamy.github.io/launchpad.html</span>）</div>
+</div>
+<div class="step">
+<div class="step-num">2</div>
+<div><b>瀏覽講義</b>：點擊「講義總索引」→ 搜尋或按年級瀏覽 208 份講義</div>
+</div>
+<div class="step">
+<div class="step-num">3</div>
+<div><b>生成答案冊</b>：VS Code 終端機貼上：
+<div class="cmd">python scripts/auto_answer_key.py --grade P5</div></div>
+</div>
+<div class="step">
+<div class="step-num">4</div>
+<div><b>發送家長報告</b>：打開「家長報告生成器」→ 填寫 → 一鍵複製到 WhatsApp</div>
+</div>
+<div class="step">
+<div class="step-num">5</div>
+<div><b>部署到網站</b>：終端機貼上：
+<div class="cmd">python scripts/deploy.py --push</div></div>
+</div>
+</div>
+
+<!-- ═══ WEB DEPLOYMENT ═══ -->
+<h2>🌐 網站部署</h2>
+
+<div class="section">
+<h3>你的網址</h3>
+<div class="url-box">https://lfamy.github.io</div>
+
+<h3>網站結構</h3>
+<table>
+<tr><th>網址</th><th>內容</th><th>用途</th></tr>
+<tr><td><code>/</code></td><td>首頁（品牌介紹+課程+CTA）</td><td>公開 Landing Page</td></tr>
+<tr><td><code>/enroll.html</code></td><td>報名頁面</td><td>招生轉換</td></tr>
+<tr><td><code>/testimonials.html</code></td><td>學生見證牆</td><td>Social Proof</td></tr>
+<tr><td><code>/sspa_rescue_package.html</code></td><td>SSPA急救包</td><td>高單價產品</td></tr>
+<tr><td><code>/blog_trap_teaching.html</code></td><td>Blog·陷阱教學法</td><td>SEO內容行銷</td></tr>
+<tr><td><code>/講義/master_index.html</code></td><td>講義總索引</td><td>全部208堂講義</td></tr>
+<tr><td><code>/launchpad.html</code></td><td>總控制台</td><td>內部營運（非公開）</td></tr>
+<tr><td><code>/講義/P5/LF-P5-上-L08_*.html</code></td><td>小五第8堂講義</td><td>學生/家長下載</td></tr>
+</table>
+
+<h3>每次更新講義後部署</h3>
+<div class="cmd">python scripts/deploy.py --push</div>
+<p style="font-size:11px;color:var(--gray);margin-top:4px;">這會自動 commit 所有變更 + push 到 GitHub。1-2分鐘後網站自動更新。</p>
+
+<div class="note">
+<b>💡 自動同步架構：</b><br>
+本地編輯講義 → <code>python scripts/deploy.py --push</code> → GitHub Pages 自動更新 → https://lfamy.github.io 即時生效
+</div>
+</div>
+
+<!-- ═══ HANDOUT SYSTEM ═══ -->
+<h2>📚 講義系統</h2>
+
+<div class="section">
+<h3>如何查找講義</h3>
+<div class="step"><div class="step-num">1</div><div>打開 <code>講義/master_index.html</code>（可搜尋關鍵詞：如「面積」「分數」）</div></div>
+<div class="step"><div class="step-num">2</div><div>按年級瀏覽：P3/P4/P5/P6 各40+堂</div></div>
+<div class="step"><div class="step-num">3</div><div>點擊任何講義 → 瀏覽器打開 → Ctrl+P 列印 PDF</div></div>
+
+<h3>講義結構（每份包含）</h3>
+<table>
+<tr><th>區塊</th><th>內容</th></tr>
+<tr><td>封面</td><td>Logo·課題·日期·SSPA關聯·前置知識·目標·陷阱</td></tr>
+<tr><td>一、熱身啟動題</td><td>5題·5分鐘·複習前置知識</td></tr>
+<tr><td>二、核心知識精講</td><td>3個知識點·3個例題·3個陷阱盒</td></tr>
+<tr><td>三、分層練習</td><td>🌱基礎6題·🌿進階5題·🌳挑戰5題·🏔️極限2題</td></tr>
+<tr><td>四、應用題</td><td>8題SSPA文字題</td></tr>
+<tr><td>五、課後功課</td><td>基礎必做9題·進階選做5題</td></tr>
+<tr><td>六、易錯點總結</td><td>7行易錯表·口訣·自我檢查框</td></tr>
+<tr><td>七、解題四步卡</td><td>4步驟解題框架</td></tr>
+<tr><td>家長角落</td><td>白話文摘要·3大陷阱·檢查問句</td></tr>
+<tr><td>教師參考</td><td>重點題號·答案提示</td></tr>
+</table>
+
+<h3>如何生成答案冊</h3>
+<div class="cmd">python scripts/auto_answer_key.py --grade P5    # 只做小五</div>
+<div class="cmd">python scripts/auto_answer_key.py                 # 全部年級</div>
+<p style="font-size:11px;color:var(--gray);">答案冊自動生成在講義同目錄下，檔名 _AK.html。目前33%題目可自動解答。</p>
+</div>
+
+<!-- ═══ TEACHING WORKFLOW ═══ -->
+<h2>👩‍🏫 教學工作流程</h2>
+
+<div class="section">
+<h3>上課前</h3>
+<div class="step"><div class="step-num">1</div><div>打開講義 → 預覽封面資訊（陷阱·目標）</div></div>
+<div class="step"><div class="step-num">2</div><div>檢查「教師參考」區 → 確認本堂重點題號</div></div>
+<div class="step"><div class="step-num">3</div><div>如需要，打開答案冊（_AK.html）參考</div></div>
+
+<h3>上課中（65分鐘流程）</h3>
+<table>
+<tr><th>時間</th><th>環節</th><th>做什麼</th></tr>
+<tr><td>0-5分</td><td>熱身啟動題</td><td>學生獨立完成 → 老師快速檢查答案</td></tr>
+<tr><td>5-20分</td><td>核心知識精講</td><td>講解3個KP → 示範3個例題 → 強調陷阱盒</td></tr>
+<tr><td>20-40分</td><td>課堂分層練習</td><td>🌱必做 → 🌿選做 → 🌳挑戰。老師巡視指導</td></tr>
+<tr><td>40-52分</td><td>應用題</td><td>SSPA文字題實戰 → 討論陷阱點</td></tr>
+<tr><td>52-60分</td><td>總結</td><td>回顧易錯點 → 讀口訣 → 自我檢查</td></tr>
+<tr><td>60-65分</td><td>功課佈置</td><td>明確指出必做題號 → 預告下堂</td></tr>
+</table>
+
+<h3>下課後（2分鐘內完成）</h3>
+<div class="step"><div class="step-num">1</div><div>打開「家長報告生成器」 → 填寫學生表現</div></div>
+<div class="step"><div class="step-num">2</div><div>點擊「生成報告」 → 自動複製到剪貼簿</div></div>
+<div class="step"><div class="step-num">3</div><div>WhatsApp 貼上發送給家長</div></div>
+<div class="step"><div class="step-num">4</div><div>（可選）更新「學生進度追蹤器」記錄分數</div></div>
+</div>
+
+<!-- ═══ MARKETING WORKFLOW ═══ -->
+<h2>📣 行銷工作流程</h2>
+
+<div class="section">
+<h3>招生漏斗</h3>
+<table>
+<tr><th>階段</th><th>工具</th><th>行動</th></tr>
+<tr><td>1. 吸引</td><td>SEO Blog + FB/IG廣告</td><td>發布陷阱教學文章 → 導流到免費診斷</td></tr>
+<tr><td>2. 獲取</td><td>報名頁面 + 免費診斷測驗</td><td>家長預約 → WhatsApp自動回覆</td></tr>
+<tr><td>3. 培育</td><td>WhatsApp 5階段序列</td><td>診斷後3天跟進 → 提供價值 → 自然轉換</td></tr>
+<tr><td>4. 轉換</td><td>SSPA急救包 + 常規課程</td><td>個人化建議 → 早鳥優惠 → 報名</td></tr>
+<tr><td>5. 留存</td><td>課後報告 + 進度追蹤</td><td>每堂報告 → 學期總結 → 升級推薦</td></tr>
+<tr><td>6. 轉介</td><td>轉介獎勵</td><td>介紹朋友 → 雙方送堂 → 口碑擴散</td></tr>
+</table>
+
+<h3>按月份行銷重點</h3>
+<p>參考 <a href="./#">學年行銷日曆</a> — 每月一個核心主題，對齊香港學校行事曆。</p>
+<table>
+<tr><th>月份</th><th>重點</th><th>行動</th></tr>
+<tr><td>6-7月</td><td>🔥 暑假招生</td><td>暑期營早鳥·下學年預留</td></tr>
+<tr><td>9月</td><td>🔥 開學搶客</td><td>免費診斷·開學焦慮廣告</td></tr>
+<tr><td>10-11月</td><td>🟡 呈分試1</td><td>SSPA急救包·呈分試Webinar</td></tr>
+<tr><td>1月</td><td>🔥 成績單補底</td><td>成績單跟進·補底方案</td></tr>
+<tr><td>3-4月</td><td>🟡 呈分試2</td><td>第二波SSPA急救包</td></tr>
+<tr><td>5-6月</td><td>🟡 呈分試3</td><td>終極衝刺+暑假預告</td></tr>
+</table>
+</div>
+
+<!-- ═══ AUTOMATION COMMANDS ═══ -->
+<h2>🔧 常用自動化指令</h2>
+
+<div class="section">
+<table>
+<tr><th>要做什麼</th><th>指令（在 VS Code 終端機貼上）</th></tr>
+<tr><td>重建總索引</td><td><code>python scripts/pipeline_master_index.py</code></td></tr>
+<tr><td>品質審計</td><td><code>python scripts/pipeline_quality.py --issues-only</code></td></tr>
+<tr><td>生成答案冊</td><td><code>python scripts/auto_answer_key.py</code></td></tr>
+<tr><td>注入SVG圖形</td><td><code>python scripts/inject_figures.py</code></td></tr>
+<tr><td>升級v6 CSS</td><td><code>python scripts/upgrade_css.py</code></td></tr>
+<tr><td>修復學生體驗</td><td><code>python scripts/fix_student_experience.py</code></td></tr>
+<tr><td>加入教師/家長功能</td><td><code>python scripts/upgrade_teacher_parent.py</code></td></tr>
+<tr><td>EN 翻譯</td><td><code>python scripts/pipeline_en_translate.py --grade P5</code></td></tr>
+<tr><td>HTML→PDF 批次</td><td><code>python scripts/pipeline_html2pdf.py --grade P5</code></td></tr>
+<tr><td>OCR 題庫搜尋</td><td><code>python scripts/pipeline_ocr_extract.py --search "除法"</code></td></tr>
+<tr><td><b>部署到網站</b></td><td><code><b>python scripts/deploy.py --push</b></code></td></tr>
+</table>
+
+<div class="warn-box">
+<b>⚠️ 重要：每次修改講義後，必須執行 deploy 指令才能同步到網頁版！</b><br>
+<code>python scripts/deploy.py --push</code> → 自動 commit + push → 1-2分鐘後 https://lfamy.github.io 更新
+</div>
+</div>
+
+<!-- ═══ CROSS-PLATFORM ═══ -->
+<h2>📱 跨平台支援</h2>
+
+<div class="section">
+<h3>所有頁面已支援</h3>
+<table>
+<tr><th>平台</th><th>狀態</th><th>說明</th></tr>
+<tr><td>🖥️ 桌面瀏覽器</td><td>✅ 完整</td><td>Chrome/Edge/Firefox/Safari</td></tr>
+<tr><td>📱 手機瀏覽器</td><td>✅ 完整</td><td>全部頁面有響應式設計</td></tr>
+<tr><td>📲 iPad/平板</td><td>✅ 完整</td><td>自適應螢幕尺寸</td></tr>
+<tr><td>🖨️ 列印 PDF</td><td>✅ 完整</td><td>Ctrl+P → 自動優化列印版面</td></tr>
+<tr><td>💬 WhatsApp 分享</td><td>✅ 完整</td><td>家長報告一鍵複製到 WhatsApp</td></tr>
+<tr><td>📧 Email 發送</td><td>✅ 可用</td><td>講義可作為附件發送</td></tr>
+</table>
+</div>
+
+<!-- ═══ SYNC FLOW ═══ -->
+<h2>🔄 更新同步流程</h2>
+
+<div class="section">
+<h3>講義更新 → 網頁同步</h3>
+<div style="background:white;padding:16px;border-radius:8px;text-align:center;">
+<pre style="font-size:12px;line-height:2.2;text-align:left;">
+📝 修改講義 HTML（本地 G: 盤）
+    │
+    ▼
+🔧 python scripts/deploy.py --push
+    │
+    ├─ git add 所有變更
+    ├─ git commit 自動提交
+    └─ git push origin main
+    │
+    ▼
+🌐 GitHub Pages 自動建置（1-2分鐘）
+    │
+    ▼
+✨ https://lfamy.github.io 更新完成
+</pre>
+</div>
+
+<div class="note">
+<b>💡 提示：</b>可以在修改多份講義後才執行一次 deploy。所有變更會一次性同步到網站。
+</div>
+</div>
+
+<div style="text-align:center;padding:30px;margin-top:30px;border-top:1px solid #E5E7EB;font-size:11px;color:var(--gray);">
+🪤 霖楓學苑 · LF Academy · 完整使用指南 v1.0 · <a href="./launchpad.html" style="color:var(--blue);">回 Launchpad</a>
+</div>
+
+</body>
+</html>

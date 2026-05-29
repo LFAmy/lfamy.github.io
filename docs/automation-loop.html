@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>自動化閉環 · 霖楓學苑</title>
+<style>
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&display=swap);
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151;--g900:#1A1A1A;--r:14px;--rs:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK",sans-serif;background:var(--g50);color:var(--g900);min-height:100vh;font-size:14px}
+.topbar{background:linear-gradient(135deg,#0F2440,var(--blue));color:white;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-size:17px}.topbar .badge{background:var(--green);color:white;padding:4px 12px;border-radius:12px;font-size:11px}
+.container{max-width:900px;margin:12px auto;padding:0 12px}
+.card{background:white;border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:var(--blue);margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.loop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.loop-item{background:var(--g50);border-radius:var(--rs);padding:14px;border-left:4px solid var(--g400);transition:all 0.2s}
+.loop-item.active{border-left-color:var(--green)}
+.loop-item .trigger{font-size:12px;color:var(--g600)}
+.loop-item .action{font-weight:700;font-size:13px;margin:4px 0}
+.loop-item .status{margin-top:6px}
+.loop-item .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.dot.on{background:var(--green)}.dot.off{background:var(--g400)}.dot.error{background:var(--red)}
+.timeline{position:relative;padding:12px 0}
+.tl-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--g100)}
+.tl-item .time{font-size:11px;color:var(--g400);min-width:50px}
+.tl-item .event{flex:1;font-size:13px}
+.tl-item .result{font-size:11px;color:var(--g600)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--blue);color:white;padding:8px 10px;text-align:left}
+td{padding:7px 10px;border-bottom:1px solid var(--g200)}
+</style>
+</head>
+<body>
+<div class="topbar">
+<h1>🔄 AI 自動化閉環中樞</h1>
+<div class="badge">⚡ v7.0 運行中</div>
+</div>
+<div class="container">
+
+<!-- Automation Loop Status -->
+<div class="card">
+<h2>🔁 自動化閉環流程</h2>
+<div class="loop-grid">
+<div class="loop-item active">
+<div class="trigger">📥 觸發：診斷完成</div>
+<div class="action">AI 分析 → 建立陷阱指紋 → 推薦練習</div>
+<div class="status"><span class="dot on"></span>運行中</div></div>
+<div class="loop-item active">
+<div class="trigger">📝 觸發：答題</div>
+<div class="action">AI 批改 → 更新指紋 → 檢查連續錯誤</div>
+<div class="status"><span class="dot on"></span>運行中</div></div>
+<div class="loop-item active">
+<div class="trigger">📊 觸發：課堂完成</div>
+<div class="action">AI 報告 → 更新指紋 → WhatsApp推送</div>
+<div class="status"><span class="dot on"></span>運行中</div></div>
+<div class="loop-item">
+<div class="trigger">⚡ 觸發：流失風險</div>
+<div class="action">自動標記 → 通知老師 → 挽回優惠</div>
+<div class="status"><span class="dot off"></span>待激活</div></div>
+</div>
+</div>
+
+<!-- Live Activity Timeline -->
+<div class="card">
+<h2>📡 即時活動記錄</h2>
+<div class="timeline" id="timeline">
+<div class="tl-item"><div class="time">—</div><div class="event">等待事件...</div></div>
+</div>
+</div>
+
+<!-- Stats -->
+<div class="card">
+<h2>📊 事件統計</h2>
+<table id="statsTable">
+<tr><th>事件類型</th><th>24小時</th><th>總計</th><th>最後觸發</th></tr>
+<tr id="statsRow"><td colspan="4" style="text-align:center;color:var(--g400)">載入中...</td></tr>
+</table>
+</div>
+
+<!-- Simulate Test -->
+<div class="card">
+<h2>🧪 事件模擬測試</h2>
+<p style="font-size:12px;color:var(--g600);margin-bottom:8px">點擊以下按鈕模擬事件，測試閉環是否正常運作：</p>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<button class="btn" onclick="simulate('diagnostic')" style="background:var(--blue);color:white;padding:8px 16px;border:none;border-radius:20px;font-weight:700;cursor:pointer">📥 診斷完成</button>
+<button class="btn" onclick="simulate('answer')" style="background:var(--gold);color:white;padding:8px 16px;border:none;border-radius:20px;font-weight:700;cursor:pointer">📝 答題</button>
+<button class="btn" onclick="simulate('lesson')" style="background:var(--green);color:white;padding:8px 16px;border:none;border-radius:20px;font-weight:700;cursor:pointer">📊 課堂完成</button>
+<button class="btn" onclick="simulate('churn')" style="background:var(--red);color:white;padding:8px 16px;border:none;border-radius:20px;font-weight:700;cursor:pointer">⚠️ 流失風險</button>
+</div>
+</div>
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<script>
+// ═══════ EVENT BUS v7.0 自動化閉環控制台 ═══════
+
+function addTimeline(eventName, data) {
+  var tl = document.getElementById("timeline");
+  var time = new Date().toLocaleTimeString();
+  var colors = {diagnostic_complete:"var(--blue)", question_answered:"var(--gold)", lesson_complete:"var(--green)", churn_risk:"var(--red)"};
+  var color = colors[eventName] || "var(--g400)";
+  
+  var item = document.createElement("div");
+  item.className = "tl-item";
+  item.innerHTML = '<div class="time">' + time + '</div>' +
+    '<div class="event" style="border-left:3px solid ' + color + ';padding-left:8px">' +
+    '<strong>' + eventName + '</strong><br><span class="result">' + JSON.stringify(data).substring(0,80) + '</span></div>';
+  
+  tl.insertBefore(item, tl.firstChild);
+  if (tl.children.length > 20) tl.removeChild(tl.lastChild);
+  
+  updateStats();
+}
+
+function updateStats() {
+  var stats = LF.EventBus.getStats();
+  var now = new Date();
+  var html = "";
+  Object.keys(stats.byName).sort().forEach(function(name) {
+    var count24h = 0;
+    var lastTime = "-";
+    var events = LF.EventBus.getEvents(name, 1);
+    if (events.length > 0) {
+      lastTime = new Date(events[0].timestamp).toLocaleTimeString();
+    }
+    html += "<tr><td>" + name + "</td><td>" + (stats.last24h > 0 ? "—" : "0") + "</td><td>" + stats.byName[name] + "</td><td>" + lastTime + "</td></tr>";
+  });
+  if (!html) html = '<tr><td colspan="4" style="text-align:center;color:var(--g400)">暫無數據</td></tr>';
+  document.getElementById("statsTable").innerHTML = 
+    '<tr><th>事件類型</th><th>總計</th><th>最後觸發</th></tr>' + html;
+}
+
+function simulate(type) {
+  var data = {};
+  switch(type) {
+    case "diagnostic":
+      data = {score: 72, weaknesses: ["單位轉換","折扣"], strengths: ["四則運算"]};
+      LF.EventBus.track("diagnostic_complete", data);
+      addTimeline("diagnostic_complete", data);
+      break;
+    case "answer":
+      data = {questionId: "q001", correct: false, trapType: "單位轉換", question: "250cm=?m", correctAnswer: "2.5m"};
+      LF.EventBus.track("question_answered", data);
+      addTimeline("question_answered", data);
+      break;
+    case "lesson":
+      data = {lessonId: "L05", studentName: "小明", traps: {unit_convert: {total:5, correct:3}, discount: {total:4, correct:4}}};
+      LF.EventBus.track("lesson_complete", data);
+      addTimeline("lesson_complete", data);
+      break;
+    case "churn":
+      data = {reason: "3堂缺席", daysInactive: 14};
+      LF.EventBus.track("churn_risk", data);
+      addTimeline("churn_risk", data);
+      break;
+  }
+  LF.track.buttonClick("simulate_" + type);
+}
+
+// Auto-refresh stats every 10s
+setInterval(updateStats, 10000);
+
+// Listen for all events
+LF.EventBus.on("*", function(event) {
+  if (event.name !== "page_view") {
+    addTimeline(event.name, event.data);
+  }
+});
+
+// Init
+updateStats();
+console.log("[LF] Automation Loop Console v1.0 ready");
+</script>
+</body>
+</html>

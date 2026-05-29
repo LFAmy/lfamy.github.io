@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 多校區管理</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--blue-light:#1E4D8C;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-600:#6B7280;--gray-800:#374151;--gray-900:#1A1A1A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:var(--gray-900);font-size:14px;padding:20px}
+.container{max-width:1100px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px 28px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.header h1{font-family:'Noto Serif HK',serif;font-size:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.card{background:white;border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:var(--blue);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gray-200);display:flex;justify-content:space-between;align-items:center}
+.btn{display:inline-block;padding:10px 20px;border-radius:25px;font-weight:700;font-size:12px;cursor:pointer;border:none;font-family:inherit;text-decoration:none;transition:all 0.2s}
+.btn-primary{background:var(--blue);color:white}.btn-primary:hover{background:var(--blue-light)}
+.btn-green{background:var(--green);color:white}.btn-red{background:var(--red);color:white}
+.btn-gold{background:var(--gold);color:var(--blue)}.btn-outline{background:white;border:2px solid var(--gray-200);color:var(--gray-800)}
+.btn-sm{padding:6px 14px;font-size:11px}
+.badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:700}
+.badge-green{background:#D1FAE5;color:#065F46}.badge-yellow{background:#FEF3C7;color:#92400E}.badge-blue{background:#DBEAFE;color:#1E40AF}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-box{background:white;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.stat-box .v{font-size:28px;font-weight:900;color:var(--blue)}.stat-box .l{font-size:10px;color:var(--gray-600);margin-top:4px}
+.campus-card{border-left:3px solid var(--blue);margin-bottom:12px;transition:all 0.2s}
+.campus-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.campus-name{font-weight:900;font-size:16px;color:var(--blue)}
+.campus-meta{font-size:11px;color:var(--gray-600);margin:4px 0}
+input,select{padding:10px 14px;border:2px solid var(--gray-200);border-radius:8px;font-size:13px;font-family:inherit}
+input:focus,select:focus{border-color:var(--blue);outline:none}
+.form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.form-row input,.form-row select{flex:1;min-width:100px}
+@media(max-width:768px){.stat-row{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+</style>
+<link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<div><h1>🏢 多校區管理中心</h1><div style="font-size:11px;opacity:0.7">霖楓學苑 · 統一管理所有分校</div></div>
+<button class="btn btn-gold" onclick="showAddCampus()">+ 新增校區</button>
+</div>
+
+<div class="stat-row">
+<div class="stat-box"><div class="v" id="statCampuses">1</div><div class="l">校區總數</div></div>
+<div class="stat-box"><div class="v" id="statStudents">0</div><div class="l">總學生數</div></div>
+<div class="stat-box"><div class="v" id="statTeachers">0</div><div class="l">總教師數</div></div>
+<div class="stat-box"><div class="v green" id="statRevenue">$0</div><div class="l">本月營收</div></div>
+</div>
+
+<div class="grid">
+<div class="card" style="grid-column:1/-1">
+<h2>📍 校區列表</h2>
+<div id="campusList"></div>
+</div>
+</div>
+
+<!-- Cross-campus comparison -->
+<div class="card" style="margin-top:16px">
+<h2>📊 校區數據對比</h2>
+<div style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-size:12px">
+<thead><tr style="background:#F9FAFB">
+<th>校區</th><th>學生</th><th>教師</th><th>本月新生</th><th>續報率</th><th>平均正確率</th><th>本月營收</th>
+</tr></thead>
+<tbody id="compareTable"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<!-- Add Campus Modal -->
+<div id="campusModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center">
+<div style="background:white;border-radius:16px;padding:28px;max-width:480px;width:90%">
+<h3 style="font-size:16px;color:var(--blue);margin-bottom:16px">🏢 新增校區</h3>
+<div class="form-row"><input type="text" id="campusName" placeholder="校區名稱（如：旺角分校）"></div>
+<div class="form-row"><input type="text" id="campusAddr" placeholder="地址"></div>
+<div class="form-row">
+<input type="text" id="campusPhone" placeholder="聯絡電話" style="flex:1">
+<input type="text" id="campusManager" placeholder="負責人" style="flex:1">
+</div>
+<div class="form-row">
+<select id="campusRegion"><option>九龍</option><option>香港島</option><option>新界</option></select>
+<select id="campusSize"><option value="S">小型 (<50人)</option><option value="M">中型 (50-150人)</option><option value="L">大型 (>150人)</option></select>
+</div>
+<button class="btn btn-green" onclick="addCampus()" style="width:100%;margin-top:8px">確認新增</button>
+<button class="btn btn-outline" onclick="closeCampusModal()" style="width:100%">取消</button>
+</div>
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/demo-data.js"></script>
+<script>
+var campuses = JSON.parse(localStorage.getItem('lf_campuses') || '[]');
+
+// Seed default campus if empty
+if (!campuses.length) {
+    campuses = [{
+        id: 'c001', name: '\u65fa\u89d2\u7e3d\u6821', addr: '\u65fa\u89d2\u5f4c\u6566\u9053', phone: '98765432',
+        manager: '\u674eSir', region: '\u4e5d\u9f8d', size: 'M',
+        students: 45, teachers: 3, newThisMonth: 8, retentionRate: 85,
+        avgAccuracy: 74, monthlyRevenue: 38400, createdAt: new Date().toISOString()
+    }];
+    localStorage.setItem('lf_campuses', JSON.stringify(campuses));
+}
+
+function renderAll() {
+    renderCampusList();
+    renderCompare();
+    updateStats();
+}
+
+function renderCampusList() {
+    var html = '';
+    campuses.forEach(function(c) {
+        html += `
+        <div class="card campus-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+                <div>
+                    <div class="campus-name">${c.name} <span class="badge badge-blue">${c.region}</span> <span class="badge badge-${c.size==='L'?'green':c.size==='M'?'yellow':'green'}">${c.size==='L'?'\u5927\u578b':c.size==='M'?'\u4e2d\u578b':'\u5c0f\u578b'}</span></div>
+                    <div class="campus-meta">📍 ${c.addr} · 📞 ${c.phone} · 👤 ${c.manager}</div>
+                </div>
+                <div>
+                    <button class="btn btn-outline btn-sm" onclick="editCampus(\u0027${c.id}\u0027)">✏️</button>
+                    <button class="btn btn-red btn-sm" onclick="deleteCampus(\u0027${c.id}\u0027)">🗑</button>
+                </div>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap">
+                <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:var(--blue)">${c.students}</div><div style="font-size:9px;color:var(--gray-600)">學生</div></div>
+                <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:var(--blue)">${c.teachers}</div><div style="font-size:9px;color:var(--gray-600)">教師</div></div>
+                <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:var(--green)">${c.retentionRate}%</div><div style="font-size:9px;color:var(--gray-600)">續報率</div></div>
+                <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:var(--gold)">$${(c.monthlyRevenue/1000).toFixed(1)}K</div><div style="font-size:9px;color:var(--gray-600)">本月營收</div></div>
+            </div>
+        </div>`;
+    });
+    document.getElementById('campusList').innerHTML = html || '<p style="text-align:center;color:var(--gray-400);padding:20px">未有校區，點擊「+ 新增校區」開始</p>';
+}
+
+function renderCompare() {
+    var html = '';
+    campuses.forEach(function(c) {
+        html += `<tr>
+            <td><b>${c.name}</b></td>
+            <td>${c.students}</td><td>${c.teachers}</td><td>${c.newThisMonth}</td>
+            <td><span style="color:${c.retentionRate>=80?'#16A34A':'#F59E0B'};font-weight:700">${c.retentionRate}%</span></td>
+            <td><span style="color:${c.avgAccuracy>=70?'#16A34A':'#F59E0B'};font-weight:700">${c.avgAccuracy}%</span></td>
+            <td style="font-weight:700">$${(c.monthlyRevenue/1000).toFixed(1)}K</td>
+        </tr>`;
+    });
+    document.getElementById('compareTable').innerHTML = html;
+}
+
+function updateStats() {
+    var totalStudents = campuses.reduce(function(s,c){return s+c.students},0);
+    var totalTeachers = campuses.reduce(function(s,c){return s+c.teachers},0);
+    var totalRevenue = campuses.reduce(function(s,c){return s+c.monthlyRevenue},0);
+    document.getElementById('statCampuses').textContent = campuses.length;
+    document.getElementById('statStudents').textContent = totalStudents;
+    document.getElementById('statTeachers').textContent = totalTeachers;
+    document.getElementById('statRevenue').textContent = '$' + (totalRevenue/1000).toFixed(1) + 'K';
+}
+
+function showAddCampus() { document.getElementById('campusModal').style.display = 'flex'; }
+function closeCampusModal() { document.getElementById('campusModal').style.display = 'none'; }
+
+function addCampus() {
+    var name = document.getElementById('campusName').value.trim();
+    if (!name) { alert('\u8acb\u8f38\u5165\u6821\u5340\u540d\u7a31'); return; }
+    campuses.push({
+        id: 'c' + Date.now().toString(36),
+        name: name,
+        addr: document.getElementById('campusAddr').value.trim(),
+        phone: document.getElementById('campusPhone').value.trim(),
+        manager: document.getElementById('campusManager').value.trim(),
+        region: document.getElementById('campusRegion').value,
+        size: document.getElementById('campusSize').value,
+        students: 0, teachers: 0, newThisMonth: 0, retentionRate: 0,
+        avgAccuracy: 0, monthlyRevenue: 0, createdAt: new Date().toISOString()
+    });
+    localStorage.setItem('lf_campuses', JSON.stringify(campuses));
+    closeCampusModal();
+    renderAll();
+    document.getElementById('campusName').value = '';
+}
+
+function deleteCampus(id) {
+    if (!confirm('\u78ba\u5b9a\u522a\u9664\u6b64\u6821\u5340\uff1f\u6b64\u64cd\u4f5c\u7121\u6cd5\u9084\u539f\u3002')) return;
+    campuses = campuses.filter(function(c){return c.id !== id});
+    localStorage.setItem('lf_campuses', JSON.stringify(campuses));
+    renderAll();
+}
+
+function editCampus(id) {
+    var c = campuses.find(function(x){return x.id === id});
+    if (!c) return;
+    document.getElementById('campusName').value = c.name;
+    document.getElementById('campusAddr').value = c.addr;
+    document.getElementById('campusPhone').value = c.phone;
+    document.getElementById('campusManager').value = c.manager;
+    showAddCampus();
+}
+
+renderAll();
+</script>
+</body>
+</html>

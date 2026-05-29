@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 冷啟動行動包</title>
+
+<style>
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray:#6B7280;--lightbg:#F9FAFB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:15px;line-height:1.7;padding:16px;}
+.container{max-width:700px;margin:0 auto;}
+.card{background:white;border-radius:12px;padding:20px;margin:12px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+.card h2{color:var(--blue);font-size:18px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--gold);}
+.priority{display:inline-block;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:900;margin-right:8px;}
+.p1{background:#FEE2E2;color:#991B1B;}.p2{background:#FFFBEB;color:#92400E;}.p3{background:#DBEAFE;color:#1E40AF;}
+.task{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid #E5E7EB;}
+.task:last-child{border-bottom:none;}
+.task-num{width:28px;height:28px;border-radius:50%;background:var(--blue);color:white;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;}
+.task-content{flex:1;}
+.task-title{font-weight:700;font-size:14px;}.task-detail{font-size:13px;color:var(--gray);margin-top:2px;}
+.copy-btn{display:inline-block;padding:4px 10px;background:var(--lightbg);border:1px solid #D1D5DB;border-radius:6px;font-size:11px;cursor:pointer;margin-top:4px;}
+.msg-box{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px;margin:8px 0;font-size:13px;white-space:pre-wrap;line-height:1.6;}
+.leaflet{width:100%;max-width:595px;margin:20px auto;background:white;padding:32px;border:2px solid #1A3C6D;text-align:center;font-size:14px;}
+.leaflet .logo{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:22px;font-weight:900;color:#1A3C6D;letter-spacing:4px;}
+.leaflet .headline{font-size:24px;font-weight:900;color:#DC2626;margin:12px 0;}
+.leaflet .sub{font-size:16px;color:#1A3C6D;margin:8px 0;}
+.leaflet .features{text-align:left;margin:12px 0;font-size:13px;}
+.leaflet .features li{margin:4px 0;}
+.leaflet .qr{width:120px;height:120px;border:2px dashed #D1D5DB;margin:12px auto;display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:12px;}
+.leaflet .url{font-size:16px;font-weight:900;color:var(--blue);margin:8px 0;}
+.leaflet .cta{font-size:14px;font-weight:700;color:#DC2626;margin:8px 0;}
+@media print{body{background:white;}.card{box-shadow:none;border:1px solid #D1D5DB;page-break-inside:avoid;}.no-print{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="card">
+<h2>🎯 今日目標：5個新診斷</h2>
+<p style="font-size:13px;color:var(--gray);">你有15個現有學生 → 最強武器係 <strong>轉介紹</strong>。每一個現有家長都係招生渠道。</p>
+</div>
+
+<!-- SECTION 1: TODAY'S ACTIONS -->
+<div class="card">
+<h2>📋 今日行動清單（照住做）</h2>
+
+<div class="task">
+<div class="task-num">1</div>
+<div class="task-content">
+<div class="task-title"><span class="priority p1">立即</span>WhatsApp 現有15位家長·轉介紹請求</div>
+<div class="task-detail">每個現有家長發一條個人化 WhatsApp。下面有模板。</div>
+<div class="msg-box" id="msg1">[家長名]媽咪！多謝你一直支持霖楓學苑。我哋而家有個「好友推薦計劃」：介紹一個朋友免費做陷阱診斷，你同朋友各自送1堂免費（價值$180）。你身邊有冇其他媽咪可能會想了解？🙏</div>
+<button class="copy-btn" onclick="copyMsg('msg1')">📋 複製訊息</button>
+</div>
+</div>
+
+<div class="task">
+<div class="task-num">2</div>
+<div class="task-content">
+<div class="task-title"><span class="priority p1">今日</span>在 5 個 FB 家長群發貼文</div>
+<div class="task-detail">用下面嘅「免費診斷貼文」。每個群發一條。唔好 spam——要自然。</div>
+<div class="msg-box" id="msg2">🆓 免費數學陷阱診斷（P3-P6）
+
+我嘅小朋友做完先發現——原來佢唔係數學渣，係中咗陷阱！
+
+30分鐘網上測驗·即時出報告·T1-T10十大陷阱分析
+做完你會知道：
+✅ 小朋友邊個陷阱最弱
+✅ 應該點樣針對性改善
+✅ SSPA呈分試常見伏位
+
+👉 lfamy.github.io
+（免費㗎·唔使俾錢·做完有報告）
+
+利申：我小朋友上緊呢間·真心推介</button>
+<button class="copy-btn" onclick="copyMsg('msg2')">📋 複製貼文</button>
+</div>
+</div>
+
+<div class="task">
+<div class="task-num">3</div>
+<div class="task-content">
+<div class="task-title"><span class="priority p1">今日</span>請3位現有家長寫一句推薦語</div>
+<div class="task-detail">WhatsApp問：「你覺得小朋友上堂之後最大改變係咩？」→ 截圖就係最好嘅宣傳。</div>
+</div>
+</div>
+
+<div class="task">
+<div class="task-num">4</div>
+<div class="task-content">
+<div class="task-title"><span class="priority p2">今日</span>叫15個現有學生做網上診斷</div>
+<div class="task-detail">Send 連結俾家長：「想幫你小朋友做個免費陷阱診斷嗎？做完會有一份 T1-T10 報告，睇下邊度仲要加強。」→ 你獲得「之前」數據，佢哋有動機繼續。</div>
+<div class="msg-box" id="msg4">[家長名]媽咪，我哋新出咗個網上陷阱診斷測驗，30分鐘自動出報告。想幫[學生名]做一個嗎？做完你會見到佢喺T1-T10十大陷阱嘅強弱分佈，可以針對性加強。免費㗎！
+👉 lfamy.github.io/_operations/trap_diagnostic_test.html</div>
+<button class="copy-btn" onclick="copyMsg('msg4')">📋 複製訊息</button>
+</div>
+</div>
+
+<div class="task">
+<div class="task-num">5</div>
+<div class="task-content">
+<div class="task-title"><span class="priority p2">本週</span>學校門口派傳單（下面有得印）</div>
+<div class="task-detail">目標：每日30張·放學時間15:00-16:00·揀最近嘅小學。</div>
+</div>
+</div>
+
+<div class="task">
+<div class="task-num">6</div>
+<div class="task-content">
+<div class="task-title"><span class="priority p3">本週</span>Carousell 放免費診斷廣告</div>
+<div class="task-detail">標題：「免費P3-P6數學陷阱診斷·30分鐘·即時報告」·分類：補習·地區：你嘅區域</div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 2: LEAFLET -->
+<div class="card no-print">
+<h2>📄 A4 傳單（可直接打印）</h2>
+<p style="font-size:12px;color:var(--gray);margin-bottom:12px;">下面係 A4 傳單預覽。Ctrl+P 列印 → 選「A4·實際大小」→ 彩色打印。</p>
+</div>
+
+<div class="leaflet" id="leaflet">
+<div class="logo"><img src="logo.jpg" alt="霖楓學苑" style="height:32px"></div>
+<div class="headline">你小朋友唔係數學渣，<br>佢只係未學識睇陷阱。</div>
+<div class="sub">免費 · 30分鐘 · 網上陷阱診斷</div>
+
+<div class="features">
+<ul>
+<li>🧪 30題·T1-T10十大陷阱分析</li>
+<li>📊 即時出報告·強項弱項一目了然</li>
+<li>🎯 P3-P6·針對呈分試SSPA</li>
+<li>✅ 87%學生8週內提升10+分</li>
+<li>👨‍👩‍👧 做完家長會知道：小朋友邊度要加強</li>
+</ul>
+</div>
+
+<div class="qr">[QR Code]<br>lfamy.github.io</div>
+<div class="url">lfamy.github.io</div>
+<div class="cta">📱 掃QR Code · 立即免費診斷</div>
+<div style="font-size:10px;color:var(--gray);margin-top:8px;">霖楓學苑 · 不教數學，教避開陷阱 · WhatsApp: 9479 6459</div>
+</div>
+
+<!-- SECTION 3: WEEKLY TARGET -->
+<div class="card">
+<h2>🎯 本週目標追蹤</h2>
+<table style="width:100%;border-collapse:collapse;font-size:13px;">
+<tr style="background:var(--blue);color:white;"><th style="padding:6px;text-align:left;">指標</th><th style="padding:6px;">目標</th><th style="padding:6px;">實際</th></tr>
+<tr><td style="padding:6px;">WhatsApp 轉介紹發出</td><td style="text-align:center;">15</td><td style="text-align:center;color:var(--gray);">___</td></tr>
+<tr><td style="padding:6px;">FB 家長群貼文</td><td style="text-align:center;">5</td><td style="text-align:center;color:var(--gray);">___</td></tr>
+<tr><td style="padding:6px;">家長推薦語收集</td><td style="text-align:center;">3</td><td style="text-align:center;color:var(--gray);">___</td></tr>
+<tr><td style="padding:6px;">免費診斷完成數</td><td style="text-align:center;">20</td><td style="text-align:center;color:var(--gray);">___</td></tr>
+<tr><td style="padding:6px;">新試堂預約</td><td style="text-align:center;">5</td><td style="text-align:center;color:var(--gray);">___</td></tr>
+<tr><td style="padding:6px;">新報名</td><td style="text-align:center;">3</td><td style="text-align:center;color:var(--gray);">___</td></tr>
+<tr style="font-weight:900;background:#FFFBEB;"><td style="padding:6px;">本週總學生數</td><td style="text-align:center;">15→18</td><td style="text-align:center;color:var(--gray);">___</td></tr>
+</table>
+</div>
+
+</div>
+
+<script>
+function copyMsg(id) {
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    alert('✅ 已複製！可以直接貼上到 WhatsApp / FB');
+  });
+}
+</script>
+</body>
+</html>

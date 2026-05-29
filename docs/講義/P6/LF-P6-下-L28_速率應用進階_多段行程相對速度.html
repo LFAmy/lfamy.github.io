@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L28 速率應用進階（多段行程+相對速度）</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  @media print { body { background:white; font-size:11px; } .pb { box-shadow:none; min-height:0; padding:24px 36px; } .pb.cover-page { page-break-after:always; } .page-break { page-break-before:always; } .qt .qw { background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border:1px dashed #9CA3AF; } .qt td { padding:4px 6px; } .qt { font-size:10.5px; } .qt .qtxt { font-size:11.5px; } .h1 { font-size:14px; } .h2 { font-size:12px; } .kp { padding:7px 10px; } .ex { padding:7px 10px; } .ex-q { font-size:12px; } .warn { font-size:10.5px; } .mn { font-size:12px; } .sc { gap:6px; } .sc-i { padding:10px; } .sc-i .n { width:26px;height:26px;font-size:14px; } .sc-i .t { font-size:11px; } .et { font-size:10px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:36px 48px; display:flex; flex-direction:column; }
+  .f { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; } .f .n { font-size:inherit; line-height:1.15; } .f .d { font-size:inherit; line-height:1.15; } .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; } .fd .n { font-size:16px; font-weight:700; line-height:1.15; } .fd .d { font-size:16px; font-weight:700; line-height:1.15; } .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; } .fi .n { font-size:inherit; line-height:1; } .fi .d { font-size:inherit; line-height:1; } .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+  .cover { justify-content:center; align-items:center; text-align:center; }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:16px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:28px; font-weight:900; color:var(--blue); letter-spacing:2px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:18px 24px; font-size:12px; line-height:2; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:17px; font-weight:900; color:var(--blue); padding:7px 12px; margin:18px 0 10px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:14px; font-weight:700; color:var(--blue); margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:85px; background:repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px); }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; } .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; } .sm { background:#FEF3C7; color:#92400E; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); } .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; } .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; } .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; } .et td { padding:5px 8px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+  .svg-diagram { text-align:center; margin:10px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 下學期 第 28 堂 · 學生版講義</div>
+  <div class="cv-title">速率應用進階（多段行程 + 相對速度）</div>
+  <div class="cv-sub">單元十八 · 速率進階 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6下B冊 單元十八 ＋ 現代教育 6下B 單元15<br>
+    <b>核心陷阱：</b>T35 平均速率=速率的平均 · T36 相對速度方向混淆 · T37 不同起步時間處理錯誤<br>
+    <b>SSPA 關聯：</b><span class="ss sh">極高頻</span> 呈分試速率應用題佔卷二約 18-22%<br>
+    <b>前置知識：</b>速率基礎（L08-L09）· 分數方程（L24）· 折線圖（L15）<br>
+    <b>本堂目標：</b>多段行程平均速率 相對速度（同向/反向） 環形跑道 速率-時間圖
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">距離 = 速率 × 時間。若速率 = 60 km/h，時間 = 2 h，距離 = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">平均速率 = ？ ÷ ？（寫出公式）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">小明駕車：頭 2 小時 80 km/h，之後 1 小時 60 km/h。總距離 = ？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">續上題：全程平均速率 = ？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">A 和 B 相距 300 km。A 以 50 km/h 向 B 出發，B 以 70 km/h 向 A 出發。他們相對速率是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 + 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：多段行程與平均速率<span class="ss sh">SSPA 必考 — 世紀災難</span></div>
+    <div class="kp-rules">
+      <strong>平均速率 ≠ 速率的平均！</strong><br>
+      平均速率 = 總距離 ÷ 總時間<br>
+      <strong>唔係</strong> (速率1 + 速率2) ÷ 2！<br>
+      <br>
+      <strong>例：</strong>小明駕車 120 km：頭 60 km 以 60 km/h（用咗1h），後 60 km 以 120 km/h（用咗0.5h）<br>
+      速率的平均 = (60+120)÷2 = 90 km/h ❌<br>
+      真正平均速率 = 120÷1.5 = 80 km/h ✅<br>
+      <strong>點解唔同？</strong>因為不同速率行駛的時間長短不同，時間長的速率影響更大！
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆：世紀災難級</div>
+    <div class="ex-q">例1：小明駕車從甲地到乙地，全程 240 km。頭 120 km 速率 60 km/h，後 120 km 速率 80 km/h。求全程平均速率。</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">世紀災難（85% 學生）</div><div class="eq">平均速率 = (60+80)÷2 = 70 km/h</div><div class="why">呢個係速率的平均，唔係平均速率！時間權重不同！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">t₁ = 120÷60 = 2h<br>t₂ = 120÷80 = 1.5h<br>總時間 = 3.5h<br>平均速率 = 240÷3.5 ≈ 68.6 km/h</div><div class="why">頭段用咗較長時間（2h），所以較低速率的影響更大</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「平均速率唔係平均速率！總距離除總時間，唔係兩個速率加埋除二！」</div>
+  <div class="warn">致命陷阱：平均速率 = 總距離 ÷ 總時間。唔好直接將兩個速率平均！呢個錯 = 全題 0 分！</div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q1</td><td class="qtxt">小美跑步：頭 3 km 用 15 分鐘，後 2 km 用 10 分鐘。求全程平均速率（km/h）。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">Q2</td><td class="qtxt">一輛巴士全程 150 km。頭 50 km 速率 50 km/h，中間 60 km 速率 80 km/h，最後 40 km 速率 100 km/h。求全程平均速率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">Q3</td><td class="qtxt">小明以 4 km/h 行路上學用咗 30 分鐘。放學時以 6 km/h 沿同一路線回家。求全程（來回）平均速率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">Q4</td><td class="qtxt">一架車來回甲乙兩地。去程平均速率 80 km/h，回程平均速率 60 km/h。全程平均速率是 70 km/h 嗎？計算真正的全程平均速率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：相對速度（Relative Speed）<span class="ss sh">SSPA 高頻</span></div>
+    <div class="kp-rules">
+      <strong>兩物體同時移動：</strong><br>
+      <strong>相反方向（面對面/背對背）：</strong><br>
+      相對速率 = 速率A + 速率B<br>
+      相遇時間 = 初始距離 ÷ (速率A + 速率B)<br>
+      <strong>相同方向（追及問題）：</strong><br>
+      相對速率 = |速率A − 速率B|（快的減慢的）<br>
+      追及時間 = 初始距離 ÷ |速率A − 速率B|<br>
+      <strong>關鍵：</strong>要睇清楚係迎面（相加）定同向（相減）！
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆：相對速度方向</div>
+    <div class="ex-q">例2：甲、乙兩車從相距 400 km 的兩地同時出發相向而行。甲車速率 55 km/h，乙車速率 45 km/h。幾小時後相遇？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤</div><div class="eq">相對速率 = 55−45 = 10 km/h<br>時間 = 400÷10 = 40 h</div><div class="why">方向搞錯！面對面應該相加，唔係相減！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">相對速率 = 55+45 = 100 km/h<br>相遇時間 = 400÷100 = 4 h</div><div class="why">驗算：甲走55×4=220km，乙走45×4=180km。220+180=400 ✓</div></div>
+    </div>
+  </div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q5</td><td class="qtxt">兩車從相距 300 km 的兩地相向而行。A車 70 km/h，B車 50 km/h。幾小時後相遇？</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">Q6</td><td class="qtxt">A 以 60 km/h 從甲地出發。1 小時後，B 以 80 km/h 從甲地出發沿同一方向追趕。B 幾小時後追上 A？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">Q7</td><td class="qtxt">兩車從相距 240 km 的兩地相向而行。A車出發 1 小時後 B 車才出發，A車 50 km/h，B 車 70 km/h。B 車出發後幾小時相遇？</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">Q8</td><td class="qtxt">一人從家裡以 5 km/h 步行去車站。30 分鐘後，他的朋友發現忘記帶東西，以 15 km/h 騎單車追趕。幾分鐘後追上？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：環形跑道問題<span class="ss sh">SSPA 高階</span></div>
+    <div class="kp-rules">
+      <strong>環形跑道（圓形操場）：</strong><br>
+      同向跑：快者追上慢者 = 快者比慢者多跑一圈<br>
+      追及時間 = 一圈長度 ÷ 速率差<br>
+      反向跑：相遇 = 兩人合共跑了一圈<br>
+      相遇時間 = 一圈長度 ÷ 速率和<br>
+      <strong>關鍵：</strong>環形跑道上無起點終點，循環計算
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-q">例3：一個圓形操場一圈 400 m。小明速率 6 m/s，小美速率 4 m/s。兩人從同一位置同時出發。<br>(a) 同向跑：幾秒後小明第一次追上小美？<br>(b) 反向跑：幾秒後兩人第一次相遇？</div>
+  </div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q9</td><td class="qtxt">解例3的(a)和(b)。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">Q10</td><td class="qtxt">一個環形跑道一圈 600 m。A 以 8 m/s、B 以 6 m/s 從同一位置同向出發。A 第二次追上 B 需要多少時間？</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B1</td><td class="qtxt">一輛車頭 100 km 以 50 km/h，後 100 km 以 100 km/h 行駛。求全程平均速率。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">B2</td><td class="qtxt">兩地相距 180 km。兩車從兩地同時相向出發，速率分別為 40 km/h 和 50 km/h。幾小時後相遇？</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">B3</td><td class="qtxt">小明和小美在同一條 200 m 的直路上。小明速率 5 m/s，小美速率 3 m/s，相距 40 m，同向跑。小明幾秒追上小美？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">一架車以 80 km/h 行了 2 小時，再以 100 km/h 行了 1.5 小時。全程平均速率是多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">一艘船順流速率 24 km/h，逆流速率 16 km/h。船在靜水中的速率和水流速率各是多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">一個環形跑道上，A 跑一圈需 6 分鐘，B 跑一圈需 8 分鐘。兩人從同一位置同時同向出發，多久後 A 會套圈 B（即 A 比 B 多跑一圈）？</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C1</td><td class="qtxt">兩車從 A、B 兩地同時相向出發。A車 60 km/h，B車 40 km/h。相遇後 A 車再行 2 小時到達 B 地。求 A、B 兩地的距離。</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">C2</td><td class="qtxt">一條河的水流速率是 4 km/h。一艘船來回 A、B 兩地共用了 5 小時（順流去，逆流回）。A、B 相距 48 km。求船在靜水中的速率。</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">C3</td><td class="qtxt">甲地到乙地全長 360 km。巴士以 60 km/h 從甲出發，1.5 小時後私家車以 90 km/h 從甲出發。私家車能否在巴士到達乙地前追上？如果能，在距離甲地多少 km 處追上？</td><td class="qd d4">極限</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 極限題（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">E1</td><td class="qtxt">一個環形跑道一圈 400 m。A 以 7 m/s、B 以 5 m/s 從同一位置出發。如果 A 比 B 遲 10 秒出發：(a) 同向，A 多久追上 B？(b) 反向，A 出發後多久兩人相遇？</td><td class="qd d4">極限</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">E2</td><td class="qtxt">一列火車長 200 m，以 72 km/h 行駛。它穿過一條長 800 m 的隧道需要多少秒？</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（SSPA 速率文字題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">P1</td><td class="qtxt">小明從家步行到學校，速率 4 km/h，需時 30 分鐘。放學後騎單車回家，速率 12 km/h。求來回全程的平均速率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P2</td><td class="qtxt">兩架飛機從相距 2400 km 的兩個機場相向飛行。A 機 600 km/h，B 機 800 km/h。它們何時相遇？相遇地點距離 A 機場多遠？</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P3</td><td class="qtxt">一條河的流速是 3 km/h。一艘汽船順流行駛 45 km 用了 1.5 小時。求船在靜水中的速率。若逆流返回，需要多少時間？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">P4</td><td class="qtxt">一列火車以 90 km/h 行駛。它要穿過一條長 1.2 km 的隧道。火車全長 300 m。從火車頭進入隧道到火車尾離開隧道，共需多少秒？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P5</td><td class="qtxt">小明和小美從兩個地點同時出發相向步行。小明速率 80 m/min，小美速率 70 m/min。8 分鐘後兩人相距多少米？若他們繼續走，還需多少時間相遇？（設全程距離未知但剛好在出發後 12 分鐘相遇）</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h1">五、終極挑戰專區</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">EC1</td><td class="qtxt">一個環形湖的周長是 5 km。小華和小明從同一碼頭同時出發。小華划船速率 12 km/h，小明划船速率 8 km/h。(a) 同向划，幾小時後小華第一次追上小明？(b) 反向划，幾小時後第三次相遇？</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">EC2</td><td class="qtxt">甲、乙、丙三人在一條直路上。甲以 100 m/min、乙以 80 m/min、丙以 60 m/min。甲和乙從起點同時出發，丙從終點出發（總長未知）。甲和丙在出發後 10 分鐘相遇。求：(a) 路全長 (b) 乙和丙何時相遇？</td><td class="qd d4">極限</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: HOMEWORK ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">一輛車頭半程速率 40 km/h，後半程速率 60 km/h，全程 120 km。求全程平均速率。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">兩車從相距 350 km 的兩地相向而行，速率 80 km/h 和 60 km/h。幾小時後相遇？</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">A 車先出發 1 小時（速率 50 km/h），B 車隨後以 75 km/h 追趕。B 車出發後幾小時追上？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">解釋點解「來回同一路線，全程平均速率 ≠ (去程速率+回程速率)÷2」。用數字例子說明。</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">一個環形跑道一圈 300 m。小明速率 5 m/s，小華速率 3 m/s。同向出發，幾秒後小明第一次追上小華？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">船在靜水中速率 20 km/h。河流速率 4 km/h。A、B 兩地相距 96 km。(a) 順流需時多少？(b) 逆流需時多少？(c) 來回全程平均速率？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">兩人從相距 15 km 的兩地同時出發相向步行，速率分別為 4 km/h 和 6 km/h。一條狗以 10 km/h 在兩人之間來回跑（從一人跑到另一人再回頭）。當兩人相遇時，狗一共跑了多少 km？</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">兩列火車各長 150 m 和 200 m。它們在平行路軌上相向行駛，速率分別為 54 km/h 和 72 km/h。從兩車頭相遇開始到兩車尾分離，需時多少秒？</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>平均速率=速率的平均：</strong>(60+80)÷2=70</td><td>總距離÷總時間，時間長的速率影響更大</td></tr>
+    <tr><td>2</td><td><strong>相對速度方向混淆：</strong>面對面用減法</td><td>迎面→相加；同向追及→相減（快減慢）</td></tr>
+    <tr><td>3</td><td><strong>起步時間不同未處理：</strong>直接設相遇時間</td><td>先到者已走距離要扣減，或分時段處理</td></tr>
+    <tr><td>4</td><td><strong>環形跑道當直線：</strong>用直線公式計算</td><td>同向：追及=多跑一圈；反向：相遇=合共一圈</td></tr>
+    <tr><td>5</td><td><strong>單位換算出錯：</strong>km/h 同 m/s、min 同 h</td><td>先統一單位：1 m/s = 3.6 km/h，1 h = 60 min</td></tr>
+    <tr><td>6</td><td><strong>火車過橋/隧道長度漏計：</strong>只計隧道長</td><td>總距離 = 隧道長 + 火車長度</td></tr>
+    <tr><td>7</td><td><strong>來回去程距離不同誤設：</strong>假設兩段距離一樣</td><td>確認題目是否「同一路線」，如不是則各自計算</td></tr>
+  </table>
+
+  <div class="mn">口訣：<br>「平均速率總除總，面對面加背對背加，同向追及大減細；環形跑道計圈數，起步時間要扣數！」</div>
+
+  <div class="h1">八、解題策略卡（4 步法）</div>
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">畫圖標方向</div><div class="d">畫出起點、方向、距離關係</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">判斷相對關係</div><div class="d">迎面→相加 同向→相減</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">處理時間差</div><div class="d">不同時出發要扣減先行距離</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">統一單位+驗算</div><div class="d">km/h↔m/s，驗證距離=速率×時間</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L28</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L08 平均數與速率 · L09 速率應用 · L14 速率進階</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 6頁 · 50題 | LF-P6-下-L28 v6
+</div>
+</body>
+</html>

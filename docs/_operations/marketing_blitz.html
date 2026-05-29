@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · LF Academy — 營銷突擊包 | Marketing Blitz Pack</title>
+<style>
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans HK",sans-serif}
+  :root {
+    --blue: #1A3C6D;
+    --blue-dark: #0D2447;
+    --blue-light: #E8F0FE;
+    --gold: #C9A84C;
+    --gold-light: #FFFBEB;
+    --gold-dark: #A6862E;
+    --red: #DC2626;
+    --red-light: #FEF2F2;
+    --green: #16A34A;
+    --green-light: #F0FDF4;
+    --text: #1A1A1A;
+    --text-secondary: #4B5563;
+    --muted: #9CA3AF;
+    --border: #E5E7EB;
+    --bg: #F8F7F4;
+    --card: #FFFFFF;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior:smooth; scroll-padding-top:80px; }
+
+  body {
+    font-family: 'Noto Sans HK', 'Microsoft JhengHei', 'PingFang HK', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAVIGATION ── */
+  .nav {
+    position: sticky; top:0; z-index:100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-inner {
+    display:flex; gap:4px;
+    max-width: 960px; margin:0 auto;
+    padding: 8px 0;
+  }
+  .nav a {
+    display:inline-block; padding:8px 14px;
+    font-size:13px; font-weight:500; color:var(--text-secondary);
+    text-decoration:none; border-radius:20px;
+    white-space:nowrap; transition: all 0.2s;
+  }
+  .nav a:hover, .nav a.active { background:var(--blue); color:white; }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 0 16px 80px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(155deg, var(--blue-dark) 0%, var(--blue) 40%, #1E4D8C 100%);
+    color: white; text-align: center; padding: 48px 24px 40px;
+    position: relative; overflow: hidden;
+    margin: 0 -16px;
+  }
+  .hero::before {
+    content: ''; position: absolute; top:-60px; right:-60px;
+    width:200px; height:200px;
+    background: radial-gradient(circle, rgba(201,168,76,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom:-40px; left:-40px;
+    width:160px; height:160px;
+    background: radial-gradient(circle, rgba(201,168,76,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero * { position: relative; z-index:1; }
+  .hero-badge {
+    display:inline-block; background:var(--red); color:white;
+    font-size:12px; font-weight:700; padding:4px 14px; border-radius:20px;
+    letter-spacing:2px; margin-bottom:16px;
+  }
+  .hero h1 {
+    font-family: 'Noto Serif HK', serif;
+    font-size: clamp(24px, 6vw, 36px);
+    font-weight: 900; letter-spacing: 3px; margin-bottom: 8px;
+  }
+  .hero .tagline { color: var(--gold); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .hero .sub { color: rgba(255,255,255,0.7); font-size: 13px; }
+  .hero .meta { margin-top: 16px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .hero .meta span {
+    background: rgba(255,255,255,0.12); padding: 6px 14px; border-radius: 20px;
+    font-size:12px; color: rgba(255,255,255,0.9);
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section { margin: 40px 0 24px; }
+  .section-header {
+    display:flex; align-items:center; gap:12px; margin-bottom: 20px;
+    padding-bottom: 12px; border-bottom: 2px solid var(--border);
+  }
+  .section-num {
+    width:40px; height:40px; border-radius:50%;
+    background: var(--blue); color:white;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:16px; flex-shrink:0;
+  }
+  .section-header h2 {
+    font-family: 'Noto Serif HK', serif;
+    font-size:20px; color: var(--blue); font-weight:900;
+    letter-spacing: 1px;
+  }
+  .section-desc { color: var(--text-secondary); font-size:13px; margin-bottom: 20px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+    margin-bottom: 16px; overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: var(--shadow); }
+
+  .card-header {
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    display:flex; align-items:flex-start; gap:12px;
+  }
+  .card-badge {
+    flex-shrink:0; padding:4px 12px; border-radius:20px;
+    font-size:11px; font-weight:700; letter-spacing:1px;
+  }
+  .badge-whatsapp { background:#25D366; color:white; }
+  .badge-fb { background:#1877F2; color:white; }
+  .badge-ig { background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF); color:white; }
+  .badge-urgent { background:var(--red); color:white; animation: pulse-badge 2s infinite; }
+  .badge-referral { background:var(--gold); color:white; }
+  .badge-free { background:var(--green); color:white; }
+
+  @keyframes pulse-badge {
+    0%,100% { opacity:1; }
+    50% { opacity:0.75; }
+  }
+
+  .card-title {
+    font-weight:700; font-size:15px; color:var(--blue-dark); line-height:1.4;
+  }
+  .card-subtitle { font-size:12px; color:var(--muted); margin-top:4px; }
+
+  .card-body { padding: 20px; }
+
+  .message-block {
+    background: #E7F8EE; border: 1px solid #C8E6D0; border-radius: var(--radius-sm);
+    padding: 16px; font-size:14px; line-height:1.9; white-space:pre-wrap;
+    position:relative;
+  }
+  .message-block.fb-post {
+    background: #F0F4FE; border-color: #D0DBF5;
+  }
+
+  .card-meta {
+    display:flex; gap:16px; flex-wrap:wrap; margin-top:12px;
+    font-size:12px; color:var(--muted);
+  }
+  .card-meta-item { display:flex; align-items:center; gap:4px; }
+  .card-meta-icon { font-size:14px; }
+
+  .card-actions {
+    padding: 12px 20px; border-top: 1px solid var(--border);
+    display:flex; gap:8px; justify-content:flex-end;
+  }
+
+  .btn {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:8px 18px; border-radius:20px; border:none;
+    font-family:inherit; font-size:13px; font-weight:700; cursor:pointer;
+    transition: all 0.2s; white-space:nowrap;
+  }
+  .btn-copy { background:var(--blue); color:white; }
+  .btn-copy:hover { background:var(--blue-dark); transform:translateY(-1px); }
+  .btn-copy.copied { background:var(--green); }
+  .btn-tag { background:var(--bg); color:var(--text-secondary); border:1px solid var(--border); }
+  .btn-tag:hover { background:var(--blue-light); color:var(--blue); }
+
+  /* ── HASHTAGS ── */
+  .hashtags {
+    display:flex; flex-wrap:wrap; gap:6px; margin-top:12px;
+  }
+  .hashtag {
+    background: var(--blue-light); color: var(--blue);
+    padding:4px 10px; border-radius:14px; font-size:11px; font-weight:500;
+  }
+
+  /* ── REFERRAL SECTION ── */
+  .highlight-box {
+    background: linear-gradient(135deg, var(--gold-light), #FFF8E1);
+    border: 2px solid var(--gold); border-radius: var(--radius);
+    padding: 24px; margin: 20px 0; text-align: center;
+  }
+  .highlight-box h3 { color:var(--blue); font-size:18px; margin-bottom:12px; }
+  .highlight-box .big-number { font-size:48px; font-weight:900; color:var(--gold-dark); line-height:1; }
+  .highlight-box .big-label { font-size:13px; color:var(--text-secondary); margin-top:4px; }
+
+  .mechanics-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0;
+  }
+  .mechanic-card {
+    background:white; border-radius:var(--radius-sm);
+    padding:20px; text-align:center; border:1px solid var(--border);
+  }
+  .mechanic-card .icon { font-size:36px; margin-bottom:8px; }
+  .mechanic-card h4 { font-size:14px; color:var(--blue); margin-bottom:4px; }
+  .mechanic-card p { font-size:12px; color:var(--text-secondary); }
+
+  .faq-item {
+    border-bottom:1px solid var(--border); padding: 14px 0;
+  }
+  .faq-q { font-weight:700; color:var(--blue); font-size:14px; cursor:pointer; }
+  .faq-a { color:var(--text-secondary); font-size:13px; margin-top:6px; line-height:1.8; }
+
+  /* ── URGENCY ELEMENTS ── */
+  .badge-showcase { display:flex; gap:12px; flex-wrap:wrap; margin:16px 0; }
+  .urgency-badge {
+    padding:8px 18px; border-radius:20px; font-weight:700; font-size:13px;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .urgency-badge.red { background:var(--red); color:white; animation: pulse-badge 2s infinite; }
+  .urgency-badge.gold { background:var(--gold); color:white; }
+  .urgency-badge.dark { background:var(--blue-dark); color:var(--gold); }
+
+  .countdown-demo {
+    background: var(--red); color:white; text-align:center; padding:28px 20px;
+    border-radius: var(--radius); margin:16px 0;
+  }
+  .countdown-demo .title { font-size:14px; font-weight:500; margin-bottom:12px; opacity:0.9; }
+  .countdown-digits { display:flex; gap:8px; justify-content:center; }
+  .countdown-digit {
+    background:rgba(255,255,255,0.2); border-radius:8px;
+    padding:10px 14px; min-width:56px;
+  }
+  .countdown-digit .num { font-size:28px; font-weight:900; line-height:1; }
+  .countdown-digit .lbl { font-size:10px; opacity:0.8; margin-top:4px; }
+
+  .reminder-template {
+    background: var(--red-light); border-left:4px solid var(--red);
+    padding:14px 18px; border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+    margin:10px 0; font-size:13px;
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist-group { margin-bottom:24px; }
+  .checklist-group h3 {
+    font-size:16px; color:var(--blue); margin-bottom:12px;
+    padding-bottom:6px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:8px;
+  }
+  .checklist-group h3 .platform-icon {
+    width:28px; height:28px; border-radius:6px;
+    display:inline-flex; align-items:center; justify-content:center;
+    color:white; font-size:14px; font-weight:700; flex-shrink:0;
+  }
+  .icon-fb { background:#1877F2; }
+  .icon-wa { background:#25D366; }
+  .icon-ig { background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF); }
+  .icon-bk { background:#FF6B6B; }
+  .icon-cl { background:#FFC107; color:#1A1A1A !important; }
+
+  .checklist-item {
+    display:flex; align-items:flex-start; gap:12px;
+    padding:10px 0; border-bottom:1px solid #F0F0F0;
+    font-size:13px;
+  }
+  .checklist-item .check {
+    width:22px; height:22px; border-radius:50%;
+    border:2px solid var(--border); flex-shrink:0; margin-top:2px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; color:var(--green);
+  }
+  .checklist-item .num { font-weight:700; color:var(--blue); min-width:24px; }
+
+  /* ── TOAST ── */
+  .toast {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    background:var(--blue-dark); color:white; padding:12px 28px;
+    border-radius:24px; font-size:14px; font-weight:700; z-index:999;
+    opacity:0; pointer-events:none; transition: opacity 0.3s;
+    box-shadow: var(--shadow-lg);
+  }
+  .toast.show { opacity:1; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:600px) {
+    body { font-size:14px; }
+    .hero { padding:36px 16px 32px; margin:0 -16px; }
+    .hero h1 { font-size:22px; }
+    .mechanics-grid { grid-template-columns:1fr; }
+    .card-body { padding:14px; }
+    .card-header { padding:12px 14px; }
+    .card-actions { padding:10px 14px; flex-wrap:wrap; }
+    .countdown-digits { gap:6px; }
+    .countdown-digit { min-width:44px; padding:8px 10px; }
+    .countdown-digit .num { font-size:22px; }
+    .section-header h2 { font-size:18px; }
+    .message-block { font-size:13px; padding:12px; }
+  }
+
+  @media print {
+    .nav, .card-actions, .btn-copy { display:none; }
+    body { background:white; font-size:11px; }
+    .card { break-inside:avoid; box-shadow:none; border:1px solid #ddd; }
+    .hero { background:#1A3C6D !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAVIGATION ═══════════ -->
+<nav class="nav" id="topNav">
+  <div class="nav-inner">
+    <a href="#hero">首頁</a>
+    <a href="#sec1">1. WhatsApp</a>
+    <a href="#sec2">2. FB/IG文</a>
+    <a href="#sec3">3. 薦友計劃</a>
+    <a href="#sec4">4. 緊急元素</a>
+    <a href="#sec5">5. 分發清單</a>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero" id="hero">
+  <div class="hero-badge">限時招生中</div>
+  <h1>霖楓學苑 · LF Academy</h1>
+  <div class="tagline">你唔係數學渣，你只係未學識睇陷阱。</div>
+  <div class="sub">P3-P6 香港網上數學 · 陷阱診斷教學法</div>
+  <div class="meta">
+    <span>$180/堂 早鳥價</span>
+    <span>首50名限定</span>
+    <span>包免費診斷</span>
+    <span>lfamy.github.io</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ══════════════════════════════════════ -->
+<!-- SECTION 1: WHATSAPP BROADCAST TEMPLATES -->
+<!-- ══════════════════════════════════════ -->
+<div class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>WhatsApp 廣播模板（即時發送）</h2>
+  </div>
+  <p class="section-desc">直接複製 → 貼上WhatsApp → 替換 [Name] 即可發送。全部已測試可於一條訊息內完整顯示。</p>
+
+  <!-- Template 1 -->
+  <div class="card" id="wa1">
+    <div class="card-header">
+      <span class="card-badge badge-whatsapp">WhatsApp</span>
+      <div>
+        <div class="card-title">模板一：給現有聯絡人（溫馨提醒型）</div>
+        <div class="card-subtitle">適用對象：已有初步接觸但未報名的家長 · 發送時機：任何時間</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block">
+👋 [Name]媽咪，最近點呀？
+
+我哋霖楓學苑推出咗限時優惠：首50名學生$180/堂（原價$220）。包免費陷阱診斷測驗，幫你小朋友30分鐘搵出數學弱點。
+
+唔使死操爛操——我哋唔係教數學，係教避開陷阱。好多家長話小朋友做完診斷之後，先發現原來唔係數學渣，只係不停中同一種陷阱。
+
+有興趣了解下嗎？😊
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 發送時間：下午12:30-1:30 或 晚上8:00-9:30</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 對象：現有聯絡人清單</span>
+        <span class="card-meta-item"><span class="card-meta-icon">📊</span> 預期開信率：65-75%</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('wa1-msg')">複製訊息</button>
+      <span style="display:none" id="wa1-msg">👋 [Name]媽咪，最近點呀？
+
+我哋霖楓學苑推出咗限時優惠：首50名學生$180/堂（原價$220）。包免費陷阱診斷測驗，幫你小朋友30分鐘搵出數學弱點。
+
+唔使死操爛操——我哋唔係教數學，係教避開陷阱。好多家長話小朋友做完診斷之後，先發現原來唔係數學渣，只係不停中同一種陷阱。
+
+有興趣了解下嗎？😊</span>
+    </div>
+  </div>
+
+  <!-- Template 2 -->
+  <div class="card" id="wa2">
+    <div class="card-header">
+      <span class="card-badge badge-whatsapp">WhatsApp</span>
+      <div>
+        <div class="card-title">模板二：給舊學生家長（回流激活型）</div>
+        <div class="card-subtitle">適用對象：曾經報讀但已停課的家長 · 發送時機：週末早上</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block">
+好耐冇見！[Name]媽咪，[Student]最近數學點呀？
+
+我哋有個暑期呈分試衝刺計劃，限時優惠$180/堂。上星期有個P5學生用咗3個月由65分升到88分——關鍵唔係操得多，而係我哋幫佢搵出佢不停中嘅嗰幾個陷阱。
+
+暑假係呈分試前最後一個可以專心追進度嘅時間。要唔要了解下？我幫[Student]做個免費陷阱診斷先，睇下而家咩情況？
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 發送時間：星期六/日 上午10:00-11:00</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 對象：舊學生家長（停課3個月以上）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">💡</span> 關鍵：提及學生名字+具體成績提升例子</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('wa2-msg')">複製訊息</button>
+      <span style="display:none" id="wa2-msg">好耐冇見！[Name]媽咪，[Student]最近數學點呀？
+
+我哋有個暑期呈分試衝刺計劃，限時優惠$180/堂。上星期有個P5學生用咗3個月由65分升到88分——關鍵唔係操得多，而係我哋幫佢搵出佢不停中嘅嗰幾個陷阱。
+
+暑假係呈分試前最後一個可以專心追進度嘅時間。要唔要了解下？我幫[Student]做個免費陷阱診斷先，睇下而家咩情況？</span>
+    </div>
+  </div>
+
+  <!-- Template 3 -->
+  <div class="card" id="wa3">
+    <div class="card-header">
+      <span class="card-badge badge-whatsapp">WhatsApp</span>
+      <div>
+        <div class="card-title">模板三：給試堂後未報名家長（精準跟進型）</div>
+        <div class="card-subtitle">適用對象：已完成免費診斷但未報名的家長 · 發送時機：診斷後3-5天</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block">
+Hi [Name]媽咪！
+
+上次[Student]做完陷阱診斷，報告顯示佢喺T4面積陷阱同T6分數陷阱需要加強——呢兩個係P5學生最常見嘅失分位，佔咗差唔多35%嘅考試失分。
+
+我哋有個個人化4週計劃，針對性解決呢兩個弱點。每堂針對一個陷阱類型，配合課後練習同跟進測驗。限時$180/堂，包埋第二次診斷睇進步。
+
+要唔要趁暑假前開始？呢兩個陷阱一搞掂，[Student]嘅信心會完全唔同晒——因為佢會發現自己其實識㗎，只係不停跌入同一個坑。
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 發送時間：診斷後第3-5天，下午</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 對象：已完成診斷、未報名</span>
+        <span class="card-meta-item"><span class="card-meta-icon">🎯</span> 關鍵：引用具體陷阱編號（T4/T6）增加專業感</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('wa3-msg')">複製訊息</button>
+      <span style="display:none" id="wa3-msg">Hi [Name]媽咪！
+
+上次[Student]做完陷阱診斷，報告顯示佢喺T4面積陷阱同T6分數陷阱需要加強——呢兩個係P5學生最常見嘅失分位，佔咗差唔多35%嘅考試失分。
+
+我哋有個個人化4週計劃，針對性解決呢兩個弱點。每堂針對一個陷阱類型，配合課後練習同跟進測驗。限時$180/堂，包埋第二次診斷睇進步。
+
+要唔要趁暑假前開始？呢兩個陷阱一搞掂，[Student]嘅信心會完全唔同晒——因為佢會發現自己其實識㗎，只係不停跌入同一個坑。</span>
+    </div>
+  </div>
+
+  <!-- Template 4 -->
+  <div class="card" id="wa4">
+    <div class="card-header">
+      <span class="card-badge badge-referral">轉介紹</span>
+      <div>
+        <div class="card-title">模板四：轉介紹請求（口碑擴散型）</div>
+        <div class="card-subtitle">適用對象：現有學生家長 · 發送時機：學生有明顯進步後</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block">
+[Name]媽咪！多謝你一直以嚟嘅支持！
+
+想同你分享個好消息——我哋而家有個「薦友計劃」：介紹一個朋友報名，你同朋友各自免費送2堂（價值$360）。冇上限，介紹幾多送幾多。
+
+好多媽咪都係靠朋友介紹先知我哋——因為「唔教數學，教避開陷阱」呢個概念真係要試過先明有幾大分別。
+
+你有冇其他媽咪朋友可能會想了解？就算只係想做個免費診斷睇下小朋友咩情況都好㗎！🙏
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 發送時間：學生有明顯進步後（測驗/考試後）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 對象：現有學生家長</span>
+        <span class="card-meta-item"><span class="card-meta-icon">💡</span> 貼士：附上學生進步截圖效果更佳</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('wa4-msg')">複製訊息</button>
+      <span style="display:none" id="wa4-msg">[Name]媽咪！多謝你一直以嚟嘅支持！
+
+想同你分享個好消息——我哋而家有個「薦友計劃」：介紹一個朋友報名，你同朋友各自免費送2堂（價值$360）。冇上限，介紹幾多送幾多。
+
+好多媽咪都係靠朋友介紹先知我哋——因為「唔教數學，教避開陷阱」呢個概念真係要試過先明有幾大分別。
+
+你有冇其他媽咪朋友可能會想了解？就算只係想做個免費診斷睇下小朋友咩情況都好㗎！🙏</span>
+    </div>
+  </div>
+
+  <!-- Template 5 -->
+  <div class="card" id="wa5">
+    <div class="card-header">
+      <span class="card-badge badge-urgent">緊急招生</span>
+      <div>
+        <div class="card-title">模板五：緊急招生（最後衝刺型）</div>
+        <div class="card-subtitle">適用對象：所有未報名聯絡人 · 發送時機：早鳥名額剩餘少於10個時</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block">
+🏃‍♀️最後8個早鳥名額！
+
+霖楓學苑 P3-P6數學 · $180/堂 · 首50名限定。包免費陷阱診斷（價值$500）。
+
+唔使再同小朋友為數學吵架——我哋幫佢發現：你唔係數學渣，你只係未學識睇陷阱。
+
+試過嘅家長都話：「原來我個仔唔係唔識計數，而係成日中同一種陷阱——知咗之後，佢自己都識避。」
+
+有興趣即刻回覆！8個名額好快爆。錯過咗就要等下期$220/堂。
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 發送時間：任何時間（緊急）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 對象：所有未轉化聯絡人</span>
+        <span class="card-meta-item"><span class="card-meta-icon">🔥</span> 預期轉化率：比平時高2-3倍</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('wa5-msg')">複製訊息</button>
+      <span style="display:none" id="wa5-msg">🏃‍♀️最後8個早鳥名額！
+
+霖楓學苑 P3-P6數學 · $180/堂 · 首50名限定。包免費陷阱診斷（價值$500）。
+
+唔使再同小朋友為數學吵架——我哋幫佢發現：你唔係數學渣，你只係未學識睇陷阱。
+
+試過嘅家長都話：「原來我個仔唔係唔識計數，而係成日中同一種陷阱——知咗之後，佢自己都識避。」
+
+有興趣即刻回覆！8個名額好快爆。錯過咗就要等下期$220/堂。</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SECTION 2: FACEBOOK/IG POST PACK -->
+<!-- ══════════════════════════════════════ -->
+<div class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Facebook / IG 家長Group貼文包（10篇）</h2>
+  </div>
+  <p class="section-desc">針對香港媽咪Group撰寫。每篇可直接複製貼上，附圖片建議、最佳發佈時間、目標群組及Hashtag。</p>
+
+  <!-- Post 1: 痛點型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-fb">FB/IG #1</span>
+      <div>
+        <div class="card-title">痛點型：「明明識計，考試就係會錯——點解？」</div>
+        <div class="card-subtitle">引發共鳴 · 適合初次進入家長Group時發佈</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【明明識計，考試就係會錯——點解？】
+
+作為媽咪，你有冇試過呢種無奈？
+
+小朋友平時做功課明明識，一考試就錯。你問佢「點解錯？」佢答：「我唔知呀⋯⋯睇錯咗。」
+
+「睇錯」呢兩個字，背後其實係一個陷阱。
+
+我哋霖楓學苑分析咗近5年SSPA試卷，發現90%嘅「粗心錯誤」唔係粗心——而係10種可預測嘅陷阱類型（T1-T10）。即係話，你小朋友唔係數學渣，佢只係不停中同一種陷阱。
+
+👇 留言「陷阱」我 PM 你免費陷阱診斷測驗連結（價值$500，限時免費）
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：小朋友苦惱表情 vs 開心恍然大悟對比圖</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期二/四 晚上9:00</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：香港媽咪Group、親子Group</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#香港數學補習</span><span class="hashtag">#小學數學</span><span class="hashtag">#呈分試</span><span class="hashtag">#數學陷阱</span><span class="hashtag">#家長心聲</span><span class="hashtag">#P3P4P5P6</span><span class="hashtag">#免費診斷</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb1-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb1-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb1-msg">【明明識計，考試就係會錯——點解？】
+
+作為媽咪，你有冇試過呢種無奈？
+
+小朋友平時做功課明明識，一考試就錯。你問佢「點解錯？」佢答：「我唔知呀⋯⋯睇錯咗。」
+
+「睇錯」呢兩個字，背後其實係一個陷阱。
+
+我哋霖楓學苑分析咗近5年SSPA試卷，發現90%嘅「粗心錯誤」唔係粗心——而係10種可預測嘅陷阱類型（T1-T10）。即係話，你小朋友唔係數學渣，佢只係不停中同一種陷阱。
+
+👇 留言「陷阱」我 PM 你免費陷阱診斷測驗連結（價值$500，限時免費）</span>
+      <span style="display:none" id="fb1-hash">#香港數學補習 #小學數學 #呈分試 #數學陷阱 #家長心聲 #P3P4P5P6 #免費診斷</span>
+    </div>
+  </div>
+
+  <!-- Post 2: 數據型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-fb">FB/IG #2</span>
+      <div>
+        <div class="card-title">數據型：「87%學生喺呢個陷阱跌分——你小朋友避開咗未？」</div>
+        <div class="card-subtitle">權威信服力 · 適合教育類Group</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【87%學生喺呢個陷阱跌分——你小朋友避開咗未？】
+
+我哋分析咗500+份P3-P6數學試卷，發現一個震驚嘅事實：
+
+87%嘅學生曾經喺「單位轉換陷阱」（T3）跌分。
+而呢個陷阱，每年SSPA都出——考試局就係擺喺度等你踩。
+
+最恐怖嘅係咩？大部分補習社根本唔會特別教呢樣。佢哋會教你計多啲，操多啲，但唔會教你：「呢條題目嘅陷阱喺邊度。」
+
+我哋霖楓學苑做嘅嘢好簡單：將10種常見陷阱教俾學生。佢哋一認得個陷阱，自然唔會踩落去。
+
+想知你小朋友中咗邊幾個陷阱？留言「診斷」我免費俾你試。首50個名額。
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：資訊圖表（Infographic）顯示87%統計 + 10個陷阱圖示</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期一 晚上8:00（家長準備新一週學習計劃時）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：香港教育討論區、升學Group</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#SSPA</span><span class="hashtag">#呈分試準備</span><span class="hashtag">#數學考試技巧</span><span class="hashtag">#小學數學</span><span class="hashtag">#家長必知</span><span class="hashtag">#霖楓學苑</span><span class="hashtag">#陷阱診斷</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb2-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb2-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb2-msg">【87%學生喺呢個陷阱跌分——你小朋友避開咗未？】
+
+我哋分析咗500+份P3-P6數學試卷，發現一個震驚嘅事實：
+
+87%嘅學生曾經喺「單位轉換陷阱」（T3）跌分。
+而呢個陷阱，每年SSPA都出——考試局就係擺喺度等你踩。
+
+最恐怖嘅係咩？大部分補習社根本唔會特別教呢樣。佢哋會教你計多啲，操多啲，但唔會教你：「呢條題目嘅陷阱喺邊度。」
+
+我哋霖楓學苑做嘅嘢好簡單：將10種常見陷阱教俾學生。佢哋一認得個陷阱，自然唔會踩落去。
+
+想知你小朋友中咗邊幾個陷阱？留言「診斷」我免費俾你試。首50個名額。</span>
+      <span style="display:none" id="fb2-hash">#SSPA #呈分試準備 #數學考試技巧 #小學數學 #家長必知 #霖楓學苑 #陷阱診斷</span>
+    </div>
+  </div>
+
+  <!-- Post 3: 優惠型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-urgent">FB/IG #3</span>
+      <div>
+        <div class="card-title">優惠型：「限時$180/堂 · 首50名 · 包免費診斷」</div>
+        <div class="card-subtitle">直接轉化 · 適合已有一定品牌認知的Group</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【限時早鳥優惠 · 霖楓學苑 P3-P6數學】
+
+💰 $180/堂（原價$220）
+👥 首50名限定
+🎁 包免費陷阱診斷（價值$500）
+📅 暑假前最後招生
+
+我哋唔係一般補習社。我哋唔教你小朋友計多啲——我哋教你小朋友「避開陷阱」。
+
+每堂針對一種陷阱類型（T1-T10），配合課後練習＋第二次診斷追蹤進度。唔使死操，唔使死背，識避陷阱就得。
+
+📩 有興趣留言「資料」或直接PM我
+🌐 lfamy.github.io
+
+#名額有限 #先到先得
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：價錢對比圖 $180 vs $220，加「首50名」徽章</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期五 晚上9:00（週末前家長計劃時間）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：親子優惠Group、教育資源分享Group</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#數學補習優惠</span><span class="hashtag">#早鳥優惠</span><span class="hashtag">#小學補習</span><span class="hashtag">#限時優惠</span><span class="hashtag">#香港教育</span><span class="hashtag">#呈分試衝刺</span><span class="hashtag">#免費試堂</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb3-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb3-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb3-msg">【限時早鳥優惠 · 霖楓學苑 P3-P6數學】
+
+💰 $180/堂（原價$220）
+👥 首50名限定
+🎁 包免費陷阱診斷（價值$500）
+📅 暑假前最後招生
+
+我哋唔係一般補習社。我哋唔教你小朋友計多啲——我哋教你小朋友「避開陷阱」。
+
+每堂針對一種陷阱類型（T1-T10），配合課後練習＋第二次診斷追蹤進度。唔使死操，唔使死背，識避陷阱就得。
+
+📩 有興趣留言「資料」或直接PM我
+🌐 lfamy.github.io
+
+#名額有限 #先到先得</span>
+      <span style="display:none" id="fb3-hash">#數學補習優惠 #早鳥優惠 #小學補習 #限時優惠 #香港教育 #呈分試衝刺 #免費試堂</span>
+    </div>
+  </div>
+
+  <!-- Post 4: 故事型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-fb">FB/IG #4</span>
+      <div>
+        <div class="card-title">故事型：「P5小明：『我以為自己數學渣，原來我中咗陷阱』」</div>
+        <div class="card-subtitle">情感共鳴 · 最適合媽咪Group的敘事型貼文</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【「我以為自己數學渣，原來我中咗陷阱」——P5小明嘅故事】
+
+小明（化名）P5，數學長期60-65分。
+
+佢媽咪同我講：「佢成日話自己數學渣，我都唔知點幫佢。」
+
+我哋幫小明做咗個陷阱診斷。90秒之後，我哋發現佢8成嘅失分來自兩個陷阱：T4（面積公式混淆）同T8（題目關鍵字忽略）。
+
+我同小明講：「你唔係數學渣。你只係不停踩中同一個陷阱。你知唔知，考試局就係想你踩落去。」
+
+小明瞪大眼：「下，即係佢哋專登嘅？」
+
+「係呀。而家教你認住呢兩個陷阱。」
+
+三個月後，小明由62分升到85分。佢媽咪喊住同我講：「佢而家返屋企會同我講『媽咪今日我又避開咗個陷阱』而唔係『我好渣』。」
+
+呢個就係陷阱教學法嘅力量。唔係教數學，係教睇穿個遊戲。
+
+想知你小朋友中咗邊啲陷阱？PM我約免費診斷。
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：學生手繪風格插畫（由沮喪→開心）+ 分數變化圖 62→85</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期三 晚上9:30（媽咪放鬆時間）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：香港媽咪Group、教養討論Group</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#數學唔係天份</span><span class="hashtag">#陷阱教學</span><span class="hashtag">#小朋友信心</span><span class="hashtag">#真實故事</span><span class="hashtag">#香港媽媽</span><span class="hashtag">#呈分試</span><span class="hashtag">#數學進步</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb4-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb4-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb4-msg">【「我以為自己數學渣，原來我中咗陷阱」——P5小明嘅故事】
+
+小明（化名）P5，數學長期60-65分。
+
+佢媽咪同我講：「佢成日話自己數學渣，我都唔知點幫佢。」
+
+我哋幫小明做咗個陷阱診斷。90秒之後，我哋發現佢8成嘅失分來自兩個陷阱：T4（面積公式混淆）同T8（題目關鍵字忽略）。
+
+我同小明講：「你唔係數學渣。你只係不停踩中同一個陷阱。你知唔知，考試局就係想你踩落去。」
+
+小明瞪大眼：「下，即係佢哋專登嘅？」
+
+「係呀。而家教你認住呢兩個陷阱。」
+
+三個月後，小明由62分升到85分。佢媽咪喊住同我講：「佢而家返屋企會同我講『媽咪今日我又避開咗個陷阱』而唔係『我好渣』。」
+
+呢個就係陷阱教學法嘅力量。唔係教數學，係教睇穿個遊戲。
+
+想知你小朋友中咗邊啲陷阱？PM我約免費診斷。</span>
+      <span style="display:none" id="fb4-hash">#數學唔係天份 #陷阱教學 #小朋友信心 #真實故事 #香港媽媽 #呈分試 #數學進步</span>
+    </div>
+  </div>
+
+  <!-- Post 5: 恐懼型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-fb">FB/IG #5</span>
+      <div>
+        <div class="card-title">恐懼型：「呈分試就到——你小朋友準備好未？」</div>
+        <div class="card-subtitle">製造緊迫感 · 適合升學/呈分試相關Group</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【呈分試就到——你小朋友準備好未？】
+
+每年呢個時候，好多媽咪開始緊張。補習社開始爆滿，練習開始堆積。
+
+但你有冇諗過：操一百題，不如避開十個陷阱？
+
+我哋研究過近5年SSPA數學卷，發現每年超過70%嘅「陷阱題」都係同一堆模式。T1（單位陷阱）、T3（關鍵字陷阱）、T6（分數陷阱）、T8（圖表陷阱）——呢幾個陷阱年年出，年年有學生踩。
+
+即係話：如果你小朋友認得呢啲陷阱，呈分試已經穩袋大部分分數。
+
+而家我哋推出暑期呈分試衝刺計劃：
+✅ 10種SSPA陷阱全面覆蓋
+✅ 每堂針對一個陷阱類型
+✅ 包免費陷阱診斷測驗
+✅ 限時$180/堂（首50名）
+
+唔好等到最後一刻先開始。留言「衝刺」我 PM 你詳細資料。
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：倒數日曆 + 「呈分試倒數XX日」大字標題</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期日 晚上8:00（家長準備新一週時焦慮感最強）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：P5/P6家長Group、呈分試討論區、升中Group</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#呈分試</span><span class="hashtag">#升中準備</span><span class="hashtag">#P5P6</span><span class="hashtag">#SSPA</span><span class="hashtag">#數學衝刺</span><span class="hashtag">#考試技巧</span><span class="hashtag">#暑期班</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb5-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb5-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb5-msg">【呈分試就到——你小朋友準備好未？】
+
+每年呢個時候，好多媽咪開始緊張。補習社開始爆滿，練習開始堆積。
+
+但你有冇諗過：操一百題，不如避開十個陷阱？
+
+我哋研究過近5年SSPA數學卷，發現每年超過70%嘅「陷阱題」都係同一堆模式。T1（單位陷阱）、T3（關鍵字陷阱）、T6（分數陷阱）、T8（圖表陷阱）——呢幾個陷阱年年出，年年有學生踩。
+
+即係話：如果你小朋友認得呢啲陷阱，呈分試已經穩袋大部分分數。
+
+而家我哋推出暑期呈分試衝刺計劃：
+✅ 10種SSPA陷阱全面覆蓋
+✅ 每堂針對一個陷阱類型
+✅ 包免費陷阱診斷測驗
+✅ 限時$180/堂（首50名）
+
+唔好等到最後一刻先開始。留言「衝刺」我 PM 你詳細資料。</span>
+      <span style="display:none" id="fb5-hash">#呈分試 #升中準備 #P5P6 #SSPA #數學衝刺 #考試技巧 #暑期班</span>
+    </div>
+  </div>
+
+  <!-- Post 6: 免費型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-free">FB/IG #6</span>
+      <div>
+        <div class="card-title">免費型：「免費下載：P5呈分試10大致命陷阱報告」</div>
+        <div class="card-subtitle">引流磁石 · 收集聯絡方式的最佳貼文類型</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【免費下載：P5呈分試10大致命陷阱報告📊】
+
+我哋霖楓學苑團隊用咗超過200個鐘，分析近5年SSPA數學試卷，整理出一份《P5呈分試10大致命陷阱報告》。
+
+入面包括：
+📌 10種陷阱嘅詳細拆解（T1-T10）
+📌 每種陷阱嘅真實考試題目例子
+📌 小朋友點樣一眼認出陷阱嘅技巧
+📌 90秒快速自我診斷指引
+
+呢份報告平時係收費內容（價值$500），而家限時免費開放。
+
+👇 留言「報告」我即刻PM你下載連結
+（名額有限，送完即止）
+
+P.S. 唔係P5嘅家長都可以download——T1-T10陷阱涵蓋P3-P6全級。
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：報告封面mockup + 「免費下載」大按鈕視覺</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：任何時間（免費內容傳播最快）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：所有家長Group（免費內容不受限）</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#免費資源</span><span class="hashtag">#呈分試</span><span class="hashtag">#數學陷阱</span><span class="hashtag">#家長必備</span><span class="hashtag">#P5數學</span><span class="hashtag">#SSPA攻略</span><span class="hashtag">#免費下載</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb6-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb6-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb6-msg">【免費下載：P5呈分試10大致命陷阱報告📊】
+
+我哋霖楓學苑團隊用咗超過200個鐘，分析近5年SSPA數學試卷，整理出一份《P5呈分試10大致命陷阱報告》。
+
+入面包括：
+📌 10種陷阱嘅詳細拆解（T1-T10）
+📌 每種陷阱嘅真實考試題目例子
+📌 小朋友點樣一眼認出陷阱嘅技巧
+📌 90秒快速自我診斷指引
+
+呢份報告平時係收費內容（價值$500），而家限時免費開放。
+
+👇 留言「報告」我即刻PM你下載連結
+（名額有限，送完即止）
+
+P.S. 唔係P5嘅家長都可以download——T1-T10陷阱涵蓋P3-P6全級。</span>
+      <span style="display:none" id="fb6-hash">#免費資源 #呈分試 #數學陷阱 #家長必備 #P5數學 #SSPA攻略 #免費下載</span>
+    </div>
+  </div>
+
+  <!-- Post 7: 比較型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-fb">FB/IG #7</span>
+      <div>
+        <div class="card-title">比較型：「傳統補習教多啲 · 我哋教你錯少啲」</div>
+        <div class="card-subtitle">差異化定位 · 適合已對傳統補習失望的家長</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【傳統補習教多啲。我哋教你錯少啲。】
+
+大部分補習社嘅邏輯：
+📚 教多啲內容 → 做多啲練習 → 操多啲卷 → 期望分數提升
+
+霖楓學苑嘅邏輯：
+🎯 搵出陷阱 → 避開陷阱 → 不再失分 → 分數自然提升
+
+分別喺邊？
+
+傳統補習係「加法」：不停疊加知識，但冇解決「識嘅都錯」呢個問題。
+我哋係「減法」：幫你移除導致失分嘅陷阱認知盲點。
+
+一個P5學生即使學晒所有數學概念，只要佢繼續踩中T3（單位轉換陷阱）同T6（分數陷阱），每次考試都會冇咗10-15分——呢啲唔係佢唔識，係佢冇人教過佢「呢度有個陷阱」。
+
+所以與其一直叫小朋友「努力啲」、「小心啲」，不如直接教佢個陷阱喺邊。
+
+💰 限時$180/堂（首50名）· 包免費陷阱診斷
+👇 留言「了解」我 PM 你
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：對比圖 — 左「加法思維」堆疊書本 vs 右「減法思維」一個陷阱標誌被劃走</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期一/四 晚上8:30</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：教育討論Group、補習比較Group</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#補習新思維</span><span class="hashtag">#唔係死操</span><span class="hashtag">#陷阱教學</span><span class="hashtag">#數學補習</span><span class="hashtag">#教育創新</span><span class="hashtag">#霖楓學苑</span><span class="hashtag">#減法學習</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb7-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb7-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb7-msg">【傳統補習教多啲。我哋教你錯少啲。】
+
+大部分補習社嘅邏輯：
+📚 教多啲內容 → 做多啲練習 → 操多啲卷 → 期望分數提升
+
+霖楓學苑嘅邏輯：
+🎯 搵出陷阱 → 避開陷阱 → 不再失分 → 分數自然提升
+
+分別喺邊？
+
+傳統補習係「加法」：不停疊加知識，但冇解決「識嘅都錯」呢個問題。
+我哋係「減法」：幫你移除導致失分嘅陷阱認知盲點。
+
+一個P5學生即使學晒所有數學概念，只要佢繼續踩中T3（單位轉換陷阱）同T6（分數陷阱），每次考試都會冇咗10-15分——呢啲唔係佢唔識，係佢冇人教過佢「呢度有個陷阱」。
+
+所以與其一直叫小朋友「努力啲」、「小心啲」，不如直接教佢個陷阱喺邊。
+
+💰 限時$180/堂（首50名）· 包免費陷阱診斷
+👇 留言「了解」我 PM 你</span>
+      <span style="display:none" id="fb7-hash">#補習新思維 #唔係死操 #陷阱教學 #數學補習 #教育創新 #霖楓學苑 #減法學習</span>
+    </div>
+  </div>
+
+  <!-- Post 8: 證據型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-fb">FB/IG #8</span>
+      <div>
+        <div class="card-title">證據型：「近5年SSPA 90%陷阱題型 · 我哋全部涵蓋」</div>
+        <div class="card-subtitle">權威背書 · 適合較理性的家長</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【近5年SSPA 90%陷阱題型 · 霖楓學苑全部涵蓋】
+
+老實講，我哋做咗一件好多補習社唔會做嘅事：
+
+我哋將2019-2024年所有SSPA數學卷嘅題目，逐條分類，搵出每一條「陷阱題」用嘅陷阱類型。
+
+結果非常清晰：10種陷阱類型（T1-T10），覆蓋咗超過90%嘅陷阱失分。
+
+即係話：
+
+✅ T1 單位轉換陷阱 → 年年出
+✅ T3 題目關鍵字陷阱 → 年年出
+✅ T4 面積/體積公式混淆陷阱 → 年年出
+✅ T6 分數運算陷阱 → 年年出
+✅ T8 圖表/統計陷阱 → 年年出
+（仲有T2, T5, T7, T9, T10）
+
+考試局用嘅陷阱模式係穩定同可預測嘅。你小朋友只需要識認呢10個模式，已經避開咗大部分陷阱。
+
+我哋每堂針對一個陷阱類型，10堂完整覆蓋。而家限時$180/堂（首50名）。
+
+👇 留言「T1-T10」我PM你完整陷阱清單
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：10個陷阱圖示矩陣（3x4或圓形排列）+ SSPA年份標籤</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期六 上午11:00（家長研究教育選擇時段）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：認真研究教育選擇的家長Group</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#SSPA分析</span><span class="hashtag">#考試數據</span><span class="hashtag">#陷阱分類</span><span class="hashtag">#科學補習</span><span class="hashtag">#證據為本</span><span class="hashtag">#霖楓學苑</span><span class="hashtag">#數學策略</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb8-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb8-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb8-msg">【近5年SSPA 90%陷阱題型 · 霖楓學苑全部涵蓋】
+
+老實講，我哋做咗一件好多補習社唔會做嘅事：
+
+我哋將2019-2024年所有SSPA數學卷嘅題目，逐條分類，搵出每一條「陷阱題」用嘅陷阱類型。
+
+結果非常清晰：10種陷阱類型（T1-T10），覆蓋咗超過90%嘅陷阱失分。
+
+即係話：
+
+✅ T1 單位轉換陷阱 → 年年出
+✅ T3 題目關鍵字陷阱 → 年年出
+✅ T4 面積/體積公式混淆陷阱 → 年年出
+✅ T6 分數運算陷阱 → 年年出
+✅ T8 圖表/統計陷阱 → 年年出
+（仲有T2, T5, T7, T9, T10）
+
+考試局用嘅陷阱模式係穩定同可預測嘅。你小朋友只需要識認呢10個模式，已經避開咗大部分陷阱。
+
+我哋每堂針對一個陷阱類型，10堂完整覆蓋。而家限時$180/堂（首50名）。
+
+👇 留言「T1-T10」我PM你完整陷阱清單</span>
+      <span style="display:none" id="fb8-hash">#SSPA分析 #考試數據 #陷阱分類 #科學補習 #證據為本 #霖楓學苑 #數學策略</span>
+    </div>
+  </div>
+
+  <!-- Post 9: 輕鬆型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-fb">FB/IG #9</span>
+      <div>
+        <div class="card-title">輕鬆型：「唔使再為數學同小朋友吵架——我哋幫你」</div>
+        <div class="card-subtitle">情感紓壓 · 引發家長會心一笑的共鳴文</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【唔使再為數學同小朋友吵架——我哋幫你✌️】
+
+媽咪們，有冇試過呢個場景：
+
+👩：「你做完數學未呀？」
+👦：「做緊啦⋯⋯」
+👩：「呢題點解錯咗呀？你明明識㗎！」
+👦：「我唔知呀！我睇錯之嘛！」
+👩：「次次都睇錯！你有冇用心㗎？」
+👦：「（喊）我真係有㗎⋯⋯」
+👩：「⋯⋯（心都實埋）」
+
+呢個循環，好多家庭晚晚上演。
+
+但真相係：小朋友真係唔知自己點解錯。冇人教過佢「呢題有個陷阱」。佢盡咗力，但每次都踩中同一個坑。
+
+我哋霖楓學苑做嘅嘢好簡單：幫小朋友認出陷阱，等佢哋唔再踩。當佢發現「原來我唔係渣，而係中咗陷阱」，成個態度會唔同晒——連做功課都唔使再催。
+
+💰 限時$180/堂 · 首50名
+👇 留言「和平」我PM你免費診斷連結
+
+（利申：唔保證以後完全唔使催做功課，但起碼唔使為數學吵架😅）
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：溫馨漫畫風格 — 媽咪同小朋友溫馨對望（vs 吵架對比）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期三/四 晚上9:30（做功課高峰期）</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：香港媽咪Group、親子關係討論區</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#親子關係</span><span class="hashtag">#唔使吵架</span><span class="hashtag">#數學功課</span><span class="hashtag">#媽媽心聲</span><span class="hashtag">#家庭教育</span><span class="hashtag">#霖楓學苑</span><span class="hashtag">#快樂學習</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb9-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb9-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb9-msg">【唔使再為數學同小朋友吵架——我哋幫你✌️】
+
+媽咪們，有冇試過呢個場景：
+
+👩：「你做完數學未呀？」
+👦：「做緊啦⋯⋯」
+👩：「呢題點解錯咗呀？你明明識㗎！」
+👦：「我唔知呀！我睇錯之嘛！」
+👩：「次次都睇錯！你有冇用心㗎？」
+👦：「（喊）我真係有㗎⋯⋯」
+👩：「⋯⋯（心都實埋）」
+
+呢個循環，好多家庭晚晚上演。
+
+但真相係：小朋友真係唔知自己點解錯。冇人教過佢「呢題有個陷阱」。佢盡咗力，但每次都踩中同一個坑。
+
+我哋霖楓學苑做嘅嘢好簡單：幫小朋友認出陷阱，等佢哋唔再踩。當佢發現「原來我唔係渣，而係中咗陷阱」，成個態度會唔同晒——連做功課都唔使再催。
+
+💰 限時$180/堂 · 首50名
+👇 留言「和平」我PM你免費診斷連結
+
+（利申：唔保證以後完全唔使催做功課，但起碼唔使為數學吵架😅）</span>
+      <span style="display:none" id="fb9-hash">#親子關係 #唔使吵架 #數學功課 #媽媽心聲 #家庭教育 #霖楓學苑 #快樂學習</span>
+    </div>
+  </div>
+
+  <!-- Post 10: 緊急型 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-badge badge-urgent">FB/IG #10</span>
+      <div>
+        <div class="card-title">緊急型：「最後8個名額 · $180/堂 · 之後回復原價$220」</div>
+        <div class="card-subtitle">限時稀缺 · 最後衝刺催單文</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="message-block fb-post">
+【🚨 最後8個早鳥名額 · $180/堂】
+
+霖楓學苑 P3-P6陷阱教學數學課程
+
+⏰ 早鳥價 $180/堂 → 最後8個名額後回復原價 $220/堂
+🎁 包免費陷阱診斷測驗（價值$500）—— 30分鐘搵出你小朋友嘅致命陷阱
+📊 涵蓋近5年SSPA 90%陷阱題型（T1-T10完整分類）
+👨‍🏫 唔教數學，教避開陷阱
+
+我哋嘅學生平均8星期內提升12-23分。唔係因為操得多，而係因為終於有人話俾佢哋知：「呢度有個陷阱，考試局想你踩落去。」
+
+當小朋友知道個遊戲規則，成個心態會唔同晒。
+
+🔥 最後8個名額。之後回復$220。
+👇 留言「留位」即刻確認早鳥價
+
+🌐 lfamy.github.io
+      </div>
+      <div class="card-meta">
+        <span class="card-meta-item"><span class="card-meta-icon">📷</span> 圖片：大字「最後8個」+ 早鳥價$180 vs 原價$220 強烈對比 + 倒數時鐘</span>
+        <span class="card-meta-item"><span class="card-meta-icon">⏰</span> 最佳發佈：星期五/六 晚上 + 星期日早上再推一次</span>
+        <span class="card-meta-item"><span class="card-meta-icon">👥</span> 目標：所有已加入的家長Group</span>
+      </div>
+      <div class="hashtags">
+        <span class="hashtag">#最後召集</span><span class="hashtag">#早鳥優惠</span><span class="hashtag">#數學補習</span><span class="hashtag">#限時優惠</span><span class="hashtag">#呈分試</span><span class="hashtag">#霖楓學苑</span><span class="hashtag">#最後8個</span>
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('fb10-msg')">複製貼文</button>
+      <button class="btn btn-copy" onclick="copyText('fb10-hash')">複製Hashtag</button>
+      <span style="display:none" id="fb10-msg">【🚨 最後8個早鳥名額 · $180/堂】
+
+霖楓學苑 P3-P6陷阱教學數學課程
+
+⏰ 早鳥價 $180/堂 → 最後8個名額後回復原價 $220/堂
+🎁 包免費陷阱診斷測驗（價值$500）—— 30分鐘搵出你小朋友嘅致命陷阱
+📊 涵蓋近5年SSPA 90%陷阱題型（T1-T10完整分類）
+👨‍🏫 唔教數學，教避開陷阱
+
+我哋嘅學生平均8星期內提升12-23分。唔係因為操得多，而係因為終於有人話俾佢哋知：「呢度有個陷阱，考試局想你踩落去。」
+
+當小朋友知道個遊戲規則，成個心態會唔同晒。
+
+🔥 最後8個名額。之後回復$220。
+👇 留言「留位」即刻確認早鳥價
+
+🌐 lfamy.github.io</span>
+      <span style="display:none" id="fb10-hash">#最後召集 #早鳥優惠 #數學補習 #限時優惠 #呈分試 #霖楓學苑 #最後8個</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SECTION 3: REFERRAL PROGRAM -->
+<!-- ══════════════════════════════════════ -->
+<div class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>薦友計劃 · 介紹朋友齊齊免費</h2>
+  </div>
+  <p class="section-desc">完整轉介紹計劃內容、模板、FAQ。可直接用於WhatsApp廣播、網頁及社交媒體宣傳。</p>
+
+  <!-- Program Hero Box -->
+  <div class="highlight-box">
+    <h3>薦友計劃</h3>
+    <div style="font-size:18px;font-weight:900;color:var(--blue);margin-bottom:4px;">介紹朋友 · 齊齊免費</div>
+    <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">你介紹嘅朋友報名 → 你同朋友各自免費送2堂</div>
+    <div class="big-number">2+2</div>
+    <div class="big-label">推薦人送2堂 · 被推薦人送2堂 · 價值$360/人</div>
+  </div>
+
+  <!-- Mechanics -->
+  <h3 style="color:var(--blue);margin-bottom:12px;font-size:16px;">計劃機制</h3>
+  <div class="mechanics-grid">
+    <div class="mechanic-card">
+      <div class="icon">👩‍👧‍👦</div>
+      <h4>第一步：介紹朋友</h4>
+      <p>將霖楓學苑介紹俾另一位家長朋友。可以用我哋提供嘅WhatsApp模板，或者直接分享連結。</p>
+    </div>
+    <div class="mechanic-card">
+      <div class="icon">📝</div>
+      <h4>第二步：朋友報名</h4>
+      <p>你朋友經你介紹報名任何P3-P6課程（至少4堂），並在報名表填上你嘅推薦人編號或電話。</p>
+    </div>
+    <div class="mechanic-card">
+      <div class="icon">🎁</div>
+      <h4>第三步：齊齊送堂</h4>
+      <p>確認後，你同朋友各自獲得2堂免費課堂（價值$360/人），自動加入帳戶。冇上限，推薦愈多送愈多。</p>
+    </div>
+    <div class="mechanic-card">
+      <div class="icon">🔄</div>
+      <h4>第四步：無限循環</h4>
+      <p>冇推薦上限。推薦3個朋友 = 6堂免費。推薦5個朋友 = 10堂免費。免費課堂可自用或轉贈。</p>
+    </div>
+  </div>
+
+  <!-- Referral Request WhatsApp Template -->
+  <h3 style="color:var(--blue);margin:24px 0 12px;font-size:16px;">轉介紹請求 WhatsApp 模板</h3>
+  <div class="card">
+    <div class="card-body">
+      <div class="message-block">
+[Name]媽咪！多謝你一直以嚟嘅支持！
+
+想同你分享個好消息——我哋而家有個「薦友計劃」：
+
+🌟 你介紹一個朋友報名
+🌟 你同朋友各自免費送2堂（價值$360）
+🌟 冇上限，介紹幾多送幾多
+
+好多媽咪都係靠朋友介紹先知我哋——因為「唔教數學，教避開陷阱」呢個概念真係要試過先明有幾大分別。
+
+你有冇其他媽咪朋友可能會想了解？就算只係想做個免費診斷睇下小朋友咩情況都好㗎！🙏
+
+⏰ 而家仲有早鳥優惠$180/堂（首50名），你朋友而家報名最抵！
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('ref-msg')">複製轉介紹訊息</button>
+      <span style="display:none" id="ref-msg">[Name]媽咪！多謝你一直以嚟嘅支持！
+
+想同你分享個好消息——我哋而家有個「薦友計劃」：
+
+🌟 你介紹一個朋友報名
+🌟 你同朋友各自免費送2堂（價值$360）
+🌟 冇上限，介紹幾多送幾多
+
+好多媽咪都係靠朋友介紹先知我哋——因為「唔教數學，教避開陷阱」呢個概念真係要試過先明有幾大分別。
+
+你有冇其他媽咪朋友可能會想了解？就算只係想做個免費診斷睇下小朋友咩情況都好㗎！🙏
+
+⏰ 而家仲有早鳥優惠$180/堂（首50名），你朋友而家報名最抵！</span>
+    </div>
+  </div>
+
+  <!-- Social Proof -->
+  <h3 style="color:var(--blue);margin:24px 0 12px;font-size:16px;">社交證明（Social Proof）</h3>
+  <div class="card">
+    <div class="card-body" style="text-align:center;">
+      <div style="font-size:36px;font-weight:900;color:var(--gold-dark);margin-bottom:4px;">42</div>
+      <div style="font-size:14px;color:var(--text-secondary);">位家長已成功推薦朋友</div>
+      <div style="margin-top:16px;font-size:13px;color:var(--text-secondary);line-height:1.8;">
+        「之前都唔好意思介紹，驚朋友覺得我hard sell。但係見到個仔真係進步咗咁多，忍唔住分享俾其他媽咪——而家仲有得送堂，更加抵！」<br>
+        <strong style="color:var(--blue);">—— P5 俊傑媽咪，已成功推薦3位朋友</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <h3 style="color:var(--blue);margin:24px 0 12px;font-size:16px;">薦友計劃常見問題（FAQ）</h3>
+  <div class="card">
+    <div class="card-body">
+      <div class="faq-item">
+        <div class="faq-q">Q: 點樣計「成功推薦」？</div>
+        <div class="faq-a">A: 你介紹嘅朋友經你嘅推薦編號/電話報名，並且完成至少4堂課堂，就算成功推薦。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: 免費課堂有冇使用期限？</div>
+        <div class="faq-a">A: 免費課堂由發放日起計6個月內有效，可以自用或者轉贈俾其他學生。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: 有冇推薦人數上限？</div>
+        <div class="faq-a">A: 冇上限！推薦3個朋友 = 6堂免費，推薦5個 = 10堂免費。愈多愈著數。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: 被推薦嘅朋友可以係現有學生嗎？</div>
+        <div class="faq-a">A: 唔可以。被推薦嘅朋友必須係霖楓學苑嘅新學生（未曾在霖楓報讀任何課程）。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: 免費課堂可以換成現金嗎？</div>
+        <div class="faq-a">A: 唔可以。免費課堂只可以用於霖楓學苑P3-P6數學課程，不可兌換現金。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Q: 朋友報名時點樣標記係我介紹？</div>
+        <div class="faq-a">A: 報名表上有「推薦人」一欄，叫你朋友填上你嘅登記電話號碼或學生姓名即可。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SECTION 4: URGENCY CAMPAIGN ELEMENTS -->
+<!-- ══════════════════════════════════════ -->
+<div class="section" id="sec4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>緊急感營銷元素</h2>
+  </div>
+  <p class="section-desc">可直接使用的限時徽章、倒數概念、稀缺訊息模板及跟進提醒文案。</p>
+
+  <!-- Badges -->
+  <h3 style="color:var(--blue);margin-bottom:12px;font-size:16px;">限時優惠徽章（可直接截圖使用）</h3>
+  <div class="badge-showcase">
+    <span class="urgency-badge red">限時優惠</span>
+    <span class="urgency-badge gold">首50名限定</span>
+    <span class="urgency-badge dark">最後8名</span>
+    <span class="urgency-badge red">早鳥價 $180</span>
+    <span class="urgency-badge gold">即將截止</span>
+    <span class="urgency-badge dark">最後召集</span>
+    <span class="urgency-badge red">名額倒數中</span>
+    <span class="urgency-badge gold">錯過等下期</span>
+  </div>
+
+  <!-- Countdown -->
+  <h3 style="color:var(--blue);margin:24px 0 12px;font-size:16px;">倒數計時器概念</h3>
+  <p style="color:var(--text-secondary);font-size:13px;margin-bottom:12px;">可於網頁、IG Story、WhatsApp Status使用。顯示「早鳥優惠剩餘時間」製造緊迫感。</p>
+  <div class="countdown-demo">
+    <div class="title">早鳥優惠倒數</div>
+    <div class="countdown-digits">
+      <div class="countdown-digit"><div class="num" id="cd-days">03</div><div class="lbl">日</div></div>
+      <div class="countdown-digit"><div class="num" id="cd-hours">18</div><div class="lbl">時</div></div>
+      <div class="countdown-digit"><div class="num" id="cd-mins">42</div><div class="lbl">分</div></div>
+      <div class="countdown-digit"><div class="num" id="cd-secs">15</div><div class="lbl">秒</div></div>
+    </div>
+    <div style="margin-top:14px;font-size:13px;opacity:0.85;">首50名早鳥優惠 · $180/堂 → 其後$220/堂</div>
+  </div>
+  <div style="font-size:11px;color:var(--muted);margin-top:8px;">技術提示：網頁版使用JavaScript動態倒數；WhatsApp/IG Story可每日手動更新數字截圖。</div>
+
+  <!-- Scarcity Templates -->
+  <h3 style="color:var(--blue);margin:24px 0 12px;font-size:16px;">稀缺訊息模板（WhatsApp / IG DM 跟進用）</h3>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="reminder-template">
+        <strong>模板 A：名額倒數</strong><br>
+        Hi [Name]媽咪！提提你，早鳥名額而家只剩返 [X] 個。好多媽咪呢兩日報咗名，如果你仲考慮緊，建議你盡快留位——$180/堂真係好難得有呢個價。要幫你留一個嗎？
+      </div>
+      <div class="reminder-template">
+        <strong>模板 B：時間倒數</strong><br>
+        [Name]媽咪早晨！早鳥優惠會喺 [日期] 截止，之後回復原價$220/堂。即係每堂爭$40，一個月就差咗$160。如果你有意思，今日內覆我都可以幫你hold住個位。🙏
+      </div>
+      <div class="reminder-template">
+        <strong>模板 C：錯失恐懼（FOMO）</strong><br>
+        [Name]媽咪，想同你講聲——啱啱有兩個媽咪報咗名，而家只剩返最後 [X] 個早鳥位。我唔想你錯過咗先後悔，真係要盡快決定啦！
+      </div>
+      <div class="reminder-template">
+        <strong>模板 D：價值強調</strong><br>
+        提提你，免費陷阱診斷平時價值$500，早鳥期間係包埋喺$180/堂入面嘅。即係你報4堂 = $720，但淨係個診斷已經值$500。錯過咗早鳥，之後診斷要分開收費㗎。
+      </div>
+      <div class="reminder-template">
+        <strong>模板 E：最後通牒</strong><br>
+        🚨 最後通知：[Name]媽咪，聽日 [時間] 早鳥優惠正式截止。而家只剩 [X] 個位。要唔要而家確認？我即刻幫你開account同約第一堂時間。
+      </div>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-copy" onclick="copyText('scarcity-all')">複製全部稀缺模板</button>
+      <span style="display:none" id="scarcity-all">模板 A：名額倒數
+Hi [Name]媽咪！提提你，早鳥名額而家只剩返 [X] 個。好多媽咪呢兩日報咗名，如果你仲考慮緊，建議你盡快留位——$180/堂真係好難得有呢個價。要幫你留一個嗎？
+
+模板 B：時間倒數
+[Name]媽咪早晨！早鳥優惠會喺 [日期] 截止，之後回復原價$220/堂。即係每堂爭$40，一個月就差咗$160。如果你有意思，今日內覆我都可以幫你hold住個位。🙏
+
+模板 C：錯失恐懼（FOMO）
+[Name]媽咪，想同你講聲——啱啱有兩個媽咪報咗名，而家只剩返最後 [X] 個早鳥位。我唔想你錯過咗先後悔，真係要盡快決定啦！
+
+模板 D：價值強調
+提提你，免費陷阱診斷平時價值$500，早鳥期間係包埋喺$180/堂入面嘅。即係你報4堂 = $720，但淨係個診斷已經值$500。錯過咗早鳥，之後診斷要分開收費㗎。
+
+模板 E：最後通牒
+🚨 最後通知：[Name]媽咪，聽日 [時間] 早鳥優惠正式截止。而家只剩 [X] 個位。要唔要而家確認？我即刻幫你開account同約第一堂時間。</span>
+    </div>
+  </div>
+
+  <!-- Reminder Schedule -->
+  <h3 style="color:var(--blue);margin:24px 0 12px;font-size:16px;">自動跟進時間表</h3>
+  <div class="card">
+    <div class="card-body">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="background:var(--blue);color:white;">
+            <th style="padding:8px 12px;text-align:left;">時間點</th>
+            <th style="padding:8px 12px;text-align:left;">動作</th>
+            <th style="padding:8px 12px;text-align:left;">使用模板</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;">首次查詢後即時</td>
+            <td style="padding:8px 12px;">發送課程資料 + 早鳥優惠詳情</td>
+            <td style="padding:8px 12px;">WhatsApp #1（現有聯絡人）</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;">24小時後</td>
+            <td style="padding:8px 12px;">溫馨跟進，提供診斷連結</td>
+            <td style="padding:8px 12px;">稀缺模板 A 或 B</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;">第3天</td>
+            <td style="padding:8px 12px;">分享學生成功案例</td>
+            <td style="padding:8px 12px;">FB貼文 #4（故事型）</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;">第5天</td>
+            <td style="padding:8px 12px;">FOMO跟進 + 名額更新</td>
+            <td style="padding:8px 12px;">稀缺模板 C</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;">截止前48小時</td>
+            <td style="padding:8px 12px;">最後通牒</td>
+            <td style="padding:8px 12px;">稀缺模板 E</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;">截止當日</td>
+            <td style="padding:8px 12px;">最終提醒 + 截止後跟進</td>
+            <td style="padding:8px 12px;">WhatsApp #5（緊急招生）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- SECTION 5: DISTRIBUTION CHECKLIST -->
+<!-- ══════════════════════════════════════ -->
+<div class="section" id="sec5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>分發清單（Distribution Checklist）</h2>
+  </div>
+  <p class="section-desc">每完成一項就剔一剔。最大化曝光覆蓋率。</p>
+
+  <!-- Facebook -->
+  <div class="checklist-group">
+    <h3><span class="platform-icon icon-fb">f</span> Facebook — 香港媽咪/家長Group（10個目標）</h3>
+    <div class="checklist-item"><div class="check">1</div><div><strong>香港媽媽Group (HK Moms)</strong> — 最大型香港媽咪社群，會員數10萬+。先發貼文 #1（痛點型）測試反應，再跟進貼文 #6（免費型）收集聯絡。</div></div>
+    <div class="checklist-item"><div class="check">2</div><div><strong>親子王國 Baby Kingdom FB Group</strong> — 香港最大家教討論區的FB延伸。適合發貼文 #5（恐懼型/呈分試）同 #8（證據型）。</div></div>
+    <div class="checklist-item"><div class="check">3</div><div><strong>香港小學家長交流區</strong> — P3-P6家長集中地。貼文 #2（數據型）同 #7（比較型）效果最佳。</div></div>
+    <div class="checklist-item"><div class="check">4</div><div><strong>香港升小/升中討論區</strong> — 呈分試話題極受關注。重點發佈貼文 #5（呈分試恐懼型）同 #10（緊急型）。</div></div>
+    <div class="checklist-item"><div class="check">5</div><div><strong>香港補習/教育資源分享Group</strong> — 家長搜尋補習資源的首選。貼文 #3（優惠型）直接轉化。</div></div>
+    <div class="checklist-item"><div class="check">6</div><div><strong>SEN/特殊學習需要家長Group</strong> — 陷阱教學法對SEN學生特別有效（提供清晰結構）。貼文 #4（故事型）引發共鳴。</div></div>
+    <div class="checklist-item"><div class="check">7</div><div><strong>香港親子活動/假日好去處Group</strong> — 軟性切入。貼文 #9（輕鬆型）唔hard sell，建立品牌好感。</div></div>
+    <div class="checklist-item"><div class="check">8</div><div><strong>地區性媽咪Group（沙田/荃灣/觀塘等）</strong> — 每個地區Group獨立發佈。地區性內容信任度更高。貼文 #1+#6 組合。</div></div>
+    <div class="checklist-item"><div class="check">9</div><div><strong>Working Mom / 在職媽媽Group</strong> — 時間有限，重視效率。強調「唔使陪操練習」嘅價值。貼文 #9 最適合。</div></div>
+    <div class="checklist-item"><div class="check">10</div><div><strong>直資/私小家長Group</strong> — 呢班家長付費意願高。貼文 #7（比較型）同 #8（證據型）突顯專業度。</div></div>
+  </div>
+
+  <!-- WhatsApp -->
+  <div class="checklist-group">
+    <h3><span class="platform-icon icon-wa">W</span> WhatsApp — 家長Group分享策略</h3>
+    <div class="checklist-item"><div class="check">1</div><div><strong>現有家長通訊錄廣播</strong> — 將WhatsApp模板 #1 發送俾所有現有聯絡人。使用WhatsApp Business廣播功能（非群組）。個人化稱呼「[Name]媽咪」。</div></div>
+    <div class="checklist-item"><div class="check">2</div><div><strong>班級家長Group</strong> — 請求現有學生家長將免費診斷連結分享到學校班級WhatsApp Group。提供WhatsApp模板 #4（轉介紹請求）俾佢哋直接轉發。</div></div>
+    <div class="checklist-item"><div class="check">3</div><div><strong>興趣班家長Group</strong> — 游水班、鋼琴班、畫班等家長Group係黃金渠道。家長之間本身已有信任基礎。請現有家長代為分享。</div></div>
+    <div class="checklist-item"><div class="check">4</div><div><strong>鄰里/屋苑Group</strong> — 同一屋苑嘅家長Group信任度極高。提供「鄰居限定」嘅小優惠增加親切感。</div></div>
+    <div class="checklist-item"><div class="check">5</div><div><strong>WhatsApp Status 每日更新</strong> — 每日更新Status：早上「早鳥名額剩餘數字」＋下午「學生成功案例」＋晚上「免費診斷連結」。保持曝光。</div></div>
+  </div>
+
+  <!-- Instagram -->
+  <div class="checklist-group">
+    <h3><span class="platform-icon icon-ig">IG</span> Instagram — 內容策略</h3>
+    <div class="checklist-item"><div class="check">1</div><div><strong>IG Story 每日3-5條</strong> — 早上：倒數早鳥名額。中午：陷阱知識小貼士（如「今日陷阱：T3單位轉換」）。晚上：學生進步截圖/家長回饋。</div></div>
+    <div class="checklist-item"><div class="check">2</div><div><strong>IG Reel 短影片</strong> — 主題：「30秒教你避開一個陷阱」。製作10條Reels，每條對應一個陷阱類型。節奏快，配字幕。</div></div>
+    <div class="checklist-item"><div class="check">3</div><div><strong>IG Feed 每2-3日一篇</strong> — 使用FB貼文包內容，配搭精心設計嘅圖片（Carousel Post最佳，可以展示陷阱對比）。</div></div>
+    <div class="checklist-item"><div class="check">4</div><div><strong>IG Highlights 分類儲存</strong> — 建立「陷阱知識」「學生進步」「免費診斷」「家長分享」四個精選，新訪客可以快速了解。</div></div>
+    <div class="checklist-item"><div class="check">5</div><div><strong>IG Collaborations</strong> — 與香港教育類KOL/媽咪KOL合作。提供免費課程換取Story推介。</div></div>
+  </div>
+
+  <!-- School Gates -->
+  <div class="checklist-group">
+    <h3><span class="platform-icon" style="background:#1A3C6D;">S</span> 學校門口 — 傳單派發策略</h3>
+    <div class="checklist-item"><div class="check">1</div><div><strong>目標小學名單</strong> — 鎖定校網內10間目標小學（根據學校排名/地區）。重點：P5/P6呈分試年級家長。</div></div>
+    <div class="checklist-item"><div class="check">2</div><div><strong>傳單設計重點</strong> — A5尺寸。正面：「你小朋友中咗邊個陷阱？」＋QR Code直達免費診斷。背面：10種陷阱圖示＋早鳥優惠＋聯絡方式。</div></div>
+    <div class="checklist-item"><div class="check">3</div><div><strong>派發時間</strong> — 星期一至五放學時間（下午2:45-4:00視乎年級）。星期五放學後家長心情最放鬆，接收度最高。</div></div>
+    <div class="checklist-item"><div class="check">4</div><div><strong>派發人員話術</strong> — 「媽咪你好！我哋有個免費數學陷阱診斷，30分鐘幫小朋友搵出考試失分原因。有興趣掃個QR Code就得㗎喇。」（不hard sell，以價值先行）</div></div>
+    <div class="checklist-item"><div class="check">5</div><div><strong>追蹤機制</strong> — 每個學校使用獨立QR Code或在登記表上問「你喺邊度知道我哋？」，追蹤唔同學校嘅轉化率。</div></div>
+  </div>
+
+  <!-- Carousell -->
+  <div class="checklist-group">
+    <h3><span class="platform-icon icon-cl">C</span> Carousell — 免費診斷測驗刊登策略</h3>
+    <div class="checklist-item"><div class="check">1</div><div><strong>刊登標題</strong> — 「免費數學陷阱診斷測驗 | P3-P6 | 30分鐘搵出失分原因 | 霖楓學苑」</div></div>
+    <div class="checklist-item"><div class="check">2</div><div><strong>分類</strong> — 「服務」>「補習」>「小學補習」。價格設為$0（免費）吸引點擊。</div></div>
+    <div class="checklist-item"><div class="check">3</div><div><strong>刊登內容</strong> — 強調「免費」「30分鐘」「即時報告」「唔使報名都可以做」。附上真實診斷報告截圖（去個人資料）。</div></div>
+    <div class="checklist-item"><div class="check">4</div><div><strong>關鍵字標籤</strong> — #數學補習 #呈分試 #免費試堂 #小學數學 #P3 #P4 #P5 #P6 #考試技巧 #陷阱診斷</div></div>
+    <div class="checklist-item"><div class="check">5</div><div><strong>更新頻率</strong> — 每日Bump一次（Carousell的Bump功能），保持刊登喺搜尋結果頂部。每日不同時段Bump測試最佳曝光時間。</div></div>
+  </div>
+
+  <!-- Baby Kingdom -->
+  <div class="checklist-group">
+    <h3><span class="platform-icon icon-bk">BK</span> Baby Kingdom 親子王國 — 論壇發文策略</h3>
+    <div class="checklist-item"><div class="check">1</div><div><strong>目標版塊</strong> — 「小學討論」、「教育委員會」、「自由報料」（優惠區）、「在職媽媽」。每個版塊獨立發文，內容按版塊調整。</div></div>
+    <div class="checklist-item"><div class="check">2</div><div><strong>發文主題A（教育版）</strong> — 「分享：發現咗一個幫小朋友避開數學陷阱嘅方法」— 以用家分享口吻，避免hard sell。文末自然地提及診斷連結。</div></div>
+    <div class="checklist-item"><div class="check">3</div><div><strong>發文主題B（優惠版）</strong> — 「免費$500數學陷阱診斷 · 首50名 · P3-P6適用」— 直接優惠資訊，簡潔清晰。</div></div>
+    <div class="checklist-item"><div class="check">4</div><div><strong>回覆策略</strong> — 每日檢查Baby Kingdom回覆，1小時內回覆所有查詢。開新AC回覆時使用真實媽咪口吻（避免官方語氣）。</div></div>
+    <div class="checklist-item"><div class="check">5</div><div><strong>簽名檔優化</strong> — 帳號簽名檔設為：「霖楓學苑 · 不教數學，教避開陷阱 · 免費陷阱診斷 → lfamy.github.io」</div></div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- TOAST -->
+<div class="toast" id="toast">已複製到剪貼簿 ✓</div>
+
+<script>
+// ── Copy to Clipboard ──
+function copyText(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const text = el.textContent || el.innerText;
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast());
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast();
+  }
+}
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+// ── Countdown Timer (demo: 3 days from page load) ──
+(function() {
+  const end = new Date();
+  end.setDate(end.getDate() + 3);
+  end.setHours(23, 59, 59, 0);
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    const now = new Date();
+    let diff = Math.max(0, Math.floor((end - now) / 1000));
+    const d = Math.floor(diff / 86400); diff %= 86400;
+    const h = Math.floor(diff / 3600); diff %= 3600;
+    const m = Math.floor(diff / 60);
+    const s = diff % 60;
+
+    const daysEl = document.getElementById('cd-days');
+    const hrsEl = document.getElementById('cd-hours');
+    const minsEl = document.getElementById('cd-mins');
+    const secsEl = document.getElementById('cd-secs');
+    if (daysEl) daysEl.textContent = pad(d);
+    if (hrsEl) hrsEl.textContent = pad(h);
+    if (minsEl) minsEl.textContent = pad(m);
+    if (secsEl) secsEl.textContent = pad(s);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+})();
+
+// ── Active Nav Highlight ──
+(function() {
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav a');
+
+  function onScroll() {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) {
+        current = s.getAttribute('id');
+      }
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+    // Hero case
+    if (window.scrollY < 200) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const heroLink = document.querySelector('.nav a[href="#hero"]');
+      if (heroLink) heroLink.classList.add('active');
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

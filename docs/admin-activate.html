@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 會員激活管理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+.form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;flex:1;min-width:120px}
+.btn{display:inline-block;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white;font-size:12px;margin:4px}
+.btn-red{background:#DC2626}.btn-green{background:#16A34A}
+.code-box{background:#1A1A1A;color:#25D366;padding:16px;border-radius:10px;font-family:monospace;font-size:16px;text-align:center;margin:12px 0;letter-spacing:2px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+th{background:#F9FAFB;text-align:left;padding:8px;font-size:11px;color:#6B7280;border-bottom:2px solid #E5E7EB}
+td{padding:8px;border-bottom:1px solid #F3F4F6}
+.status-badge{display:inline-block;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:700}
+.status-active{background:#D1FAE5;color:#065F46}
+.status-expired{background:#FEF2F2;color:#991B1B}
+.status-pending{background:#FEF3C7;color:#92400E}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header"><h1>🔐 會員激活管理</h1><p>生成激活碼 · 管理會員 · 追蹤到期</p></div>
+
+<div class="card"><h2>➕ 生成新激活碼</h2>
+<div class="form-row">
+<select id="genPlan"><option value="monthly">Pro 月費 $199/月</option><option value="annual">Pro 年費 $99/月（年付$1,188）</option><option value="trial">首月試用 $99</option></select>
+<select id="genDuration"><option value="1">1個月</option><option value="3">3個月</option><option value="6">6個月</option><option value="12" selected>12個月</option></select>
+<input type="text" id="genParent" placeholder="家長名稱（選填）">
+</div>
+<button class="btn" onclick="generateCode()">🔑 生成激活碼</button>
+<div class="code-box" id="codeDisplay" style="display:none"></div>
+<button class="btn btn-green" id="btnCopyCode" style="display:none" onclick="copyCode()">📋 複製激活碼</button>
+<button class="btn" id="btnWA" style="display:none" onclick="sendWA()">📱 WhatsApp send俾家長</button>
+</div>
+
+<div class="card"><h2>📋 激活碼列表</h2><table><thead><tr><th>激活碼</th><th>方案</th><th>家長</th><th>狀態</th><th>生成日期</th><th>到期日</th><th>操作</th></tr></thead><tbody id="codeTable"><tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:20px">未有激活碼</td></tr></tbody></table></div>
+
+<div class="card"><h2>👥 活躍會員</h2><table><thead><tr><th>家長</th><th>子女</th><th>方案</th><th>到期日</th><th>剩餘</th></tr></thead><tbody id="memberTable"><tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:20px">未有活躍會員</td></tr></tbody></table></div>
+</div>
+
+<script>
+var codes=JSON.parse(localStorage.getItem("lf_activation_codes")||"[]");
+var members=JSON.parse(localStorage.getItem("lf_members")||"[]");
+
+function generateCode(){
+var plan=document.getElementById("genPlan").value;
+var dur=parseInt(document.getElementById("genDuration").value);
+var parent=document.getElementById("genParent").value||"家長";
+var code="LF-"+Date.now().toString(36).toUpperCase().slice(-8);
+var now=new Date();
+var expiry=new Date(now);expiry.setMonth(expiry.getMonth()+dur);
+
+codes.push({code:code,plan:plan,duration:dur,parent:parent,status:"pending",created:now.toISOString(),expiry:expiry.toISOString()});
+localStorage.setItem("lf_activation_codes",JSON.stringify(codes));
+
+document.getElementById("codeDisplay").textContent=code;
+document.getElementById("codeDisplay").style.display="block";
+document.getElementById("btnCopyCode").style.display="inline-block";
+document.getElementById("btnWA").style.display="inline-block";
+renderCodes();
+}
+
+function copyCode(){var c=document.getElementById("codeDisplay").textContent;navigator.clipboard.writeText(c).then(function(){alert("已複製 ✅")})}
+function sendWA(){var c=document.getElementById("codeDisplay").textContent;var plan=document.getElementById("genPlan").value==="monthly"?"$199/月":"$99/月(年付)";window.open("https://wa.me/?text="+encodeURIComponent("你好！呢個係你嘅霖楓學苑激活碼：\n\n🔑 "+c+"\n\n方案："+plan+"\n\n激活步驟：\n1. 打開 lfamy.github.io/docs/activate.html\n2. 輸入激活碼\n3. 即時開通會員\n\n有咩問題隨時問我 😊"),"_blank")}
+
+function toggleCode(i){
+if(codes[i].status==="pending"){
+codes[i].status="active";
+var member={parent:codes[i].parent,plan:codes[i].plan,activated:new Date().toISOString(),expiry:codes[i].expiry,code:codes[i].code};
+members.push(member);
+localStorage.setItem("lf_members",JSON.stringify(members));
+}
+localStorage.setItem("lf_activation_codes",JSON.stringify(codes));
+renderCodes();renderMembers();
+}
+
+function renderCodes(){
+var tbody=document.getElementById("codeTable");
+if(codes.length===0)return;
+tbody.innerHTML=codes.map(function(c,i){return'<tr><td><strong>'+c.code+'</strong></td><td>'+{monthly:"月費",annual:"年費",trial:"試用"}[c.plan]+'</td><td>'+c.parent+'</td><td><span class="status-badge status-'+c.status+'">'+{pending:"待激活",active:"已激活",expired:"已過期"}[c.status]+'</span></td><td>'+c.created.split("T")[0]+'</td><td>'+c.expiry.split("T")[0]+'</td><td>'+(c.status==="pending"?'<button class="btn btn-green" onclick="toggleCode('+i+')">✅ 激活</button>':'<button class="btn btn-red" onclick="codes.splice('+i+',1);localStorage.setItem(\'lf_activation_codes\',JSON.stringify(codes));renderCodes()">✕</button>')+'</td></tr>'}).reverse().join("");
+}
+
+function renderMembers(){
+var tbody=document.getElementById("memberTable");
+var active=members.filter(function(m){return new Date(m.expiry)>new Date()});
+if(active.length===0)return;
+tbody.innerHTML=active.map(function(m){var days=Math.ceil((new Date(m.expiry)-new Date())/(86400000));return'<tr><td><strong>'+m.parent+'</strong></td><td>—</td><td>'+{monthly:"Pro月費",annual:"Pro年費",trial:"試用"}[m.plan]+'</td><td>'+m.expiry.split("T")[0]+'</td><td>'+(days>30?'✅ '+days+'日':days>7?'⚠️ '+days+'日':'🔴 '+days+'日')+'</td></tr>'}).join("");
+}
+renderCodes();renderMembers();
+</script>
+</body></html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 教師全能工作台</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7}
+.topbar{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.topbar h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;font-size:18px}
+.topbar .time{font-size:12px;opacity:0.7}
+.tabs{display:flex;background:white;border-bottom:2px solid #E5E7EB;position:sticky;top:0;z-index:5}
+.tab{flex:1;padding:14px;text-align:center;cursor:pointer;font-weight:700;font-size:13px;border:none;background:white;font-family:inherit;border-bottom:3px solid transparent;transition:all 0.2s}
+.tab:hover{background:#F9FAFB}.tab.active{border-bottom-color:#1A3C6D;color:#1A3C6D}
+.tab .icon{font-size:20px;display:block;margin-bottom:2px}
+.content{padding:16px;max-width:900px;margin:0 auto}
+.card{background:white;border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h3{font-size:14px;color:#374151;margin:12px 0 8px}
+.student-list{display:flex;flex-direction:column;gap:6px}
+.student-chip{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#F9FAFB;border-radius:8px;font-size:13px}
+.student-chip .name{font-weight:700}.student-chip .traps{font-size:11px;color:#6B7280}
+.fp-mini{display:flex;gap:2px}.fp-mini .dot{width:12px;height:12px;border-radius:50%}
+.dot.red{background:#DC2626}.dot.yellow{background:#F59E0B}.dot.green{background:#16A34A}.dot.gray{background:#E5E7EB}
+.quick-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.quick-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 12px;border-radius:12px;border:2px solid #E5E7EB;background:white;cursor:pointer;text-decoration:none;color:inherit;font-size:12px;font-weight:700;transition:all 0.2s;text-align:center}
+.quick-btn:hover{border-color:#1A3C6D;background:#F0F7FF;transform:translateY(-2px)}
+.quick-btn .icon{font-size:28px}
+.classin-guide{background:#E8F5E9;border:1px solid #A5D6A7;border-radius:10px;padding:14px;margin:8px 0;font-size:12px;line-height:1.8}
+.btn{display:inline-block;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white;font-size:12px;margin:4px}
+@media(max-width:600px){.quick-actions{grid-template-columns:repeat(2,1fr)}}
+<style>
+</style>
+
+</style>
+</head>
+<body>
+<div class="topbar"><h1>教師全能工作台</h1><div class="time" id="liveTime"></div></div>
+
+<div class="tabs">
+<button class="tab active" onclick="switchTab('prep')"><span class="icon">📝</span>備課</button>
+<button class="tab" onclick="switchTab('teach')"><span class="icon">🎓</span>上課</button>
+<button class="tab" onclick="switchTab('post')"><span class="icon">📱</span>課後</button>
+</div>
+
+<div class="content" id="tabContent"></div>
+
+<script>
+function updateTime(){document.getElementById("liveTime").textContent=new Date().toLocaleString("zh-HK")}
+updateTime();setInterval(updateTime,30000);
+
+var prepHTML=''+
+'<div class="card"><h2>📝 課前準備</h2><p style="font-size:12px;color:#6B7280;margin-bottom:12px">根據學生陷阱指紋，自動建議今日教學重點</p>'+
+'<div class="student-list" id="prepStudents"><p style="color:#9CA3AF;text-align:center;padding:20px">從老師後台載入中…</p></div></div>'+
+'<div class="card"><h2>⚡ 快速行動</h2><div class="quick-actions">'+
+'<a href="test-generator.html" class="quick-btn" target="_blank"><span class="icon">🤖</span>AI出卷</a>'+
+'<a href="worksheet-generator.html" class="quick-btn" target="_blank"><span class="icon">📝</span>工作紙</a>'+
+'<a href="teacher-manual.html" class="quick-btn" target="_blank"><span class="icon">📖</span>教學手冊</a>'+
+'<a href="#" class="quick-btn" target="_blank"><span class="icon">📚</span>講義庫</a>'+
+'</div></div>'+
+'<div class="card"><h2>🔗 ClassIn 整合</h2><div class="classin-guide"><strong>上堂前：</strong><br>1. 喺霖楓生成今日練習卷 → 下載PDF<br>2. 打開 ClassIn 課室 → 上傳到「文件」區<br>3. 或者直接 share 線上練習連結到 ClassIn 聊天室<br><br><strong>小貼士：</strong>將霖楓練習連結設為 ClassIn「常用連結」，每次一鍵分享。</div></div>';
+
+var teachHTML=''+
+'<div class="card"><h2>🎓 課堂進行中</h2><div class="quick-actions">'+
+'<a href="e-attendance.html" class="quick-btn" target="_blank"><span class="icon">📋</span>點名</a>'+
+'<a href="online-test.html" class="quick-btn" target="_blank"><span class="icon">💻</span>分享練習</a>'+
+'<a href="kids-mode.html" class="quick-btn" target="_blank"><span class="icon">🦊</span>兒童模式</a>'+
+'<a href="teacher-live.html" class="quick-btn" target="_blank"><span class="icon">🖥</span>課堂控制台</a>'+
+'<a href="teacher-substitute.html" class="quick-btn" target="_blank"><span class="icon">🔄</span>代課模式</a>'+
+'<a href="class-weakness.html" class="quick-btn" target="_blank"><span class="icon">🎯</span>弱點分析</a>'+
+'<a href="answer-guide.html" class="quick-btn" target="_blank"><span class="icon">📖</span>答案詳解</a>'+
+'</div></div>'+
+'<div class="card"><h2>📝 隨堂筆記</h2><textarea id="teachNote" placeholder="記錄今日課堂重點…" style="width:100%;padding:12px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;min-height:80px;resize:vertical"></textarea><button class="btn" onclick="saveNote()" style="margin-top:8px">💾 儲存筆記</button></div>'+
+'<div class="card"><h2>🔗 ClassIn 快速工具</h2><div class="classin-guide"><strong>上堂中：</strong><br>• 霖楓練習連結 → 貼上 ClassIn 聊天室 → 學生即時打開<br>• 學生做完 → 喺霖楓後台即時睇到進度<br>• 發現共通弱點 → 用霖楓即時生成針對性練習</div></div>';
+
+var postHTML=''+
+'<div class="card"><h2>📱 課後跟進</h2><div class="quick-actions">'+
+'<a href="student-journey.html" class="quick-btn" target="_blank"><span class="icon">📝</span>快速記錄器</a>'+
+'<a href="homework-tracker.html" class="quick-btn" target="_blank"><span class="icon">📋</span>指派功課</a>'+
+'<a href="post-trial-report.html" class="quick-btn" target="_blank"><span class="icon">📊</span>試堂報告</a>'+
+'<a href="ai-wa-reply.html" class="quick-btn" target="_blank"><span class="icon">💬</span>AI回覆</a>'+
+'<a href="share-card.html" class="quick-btn" target="_blank"><span class="icon">🎴</span>進步卡</a>'+
+'<a href="parent-report-gen.html" class="quick-btn" target="_blank"><span class="icon">📄</span>家長報告</a>'+
+'</div></div>'+
+'<div class="card"><h2>🔗 ClassIn 課後整合</h2><div class="classin-guide"><strong>落堂後：</strong><br>1. 喺霖楓為每位學生生成進度更新 → WhatsApp send俾家長<br>2. 指派下次上堂前嘅練習（自動計入學生進度）<br>3. ClassIn 嘅出席記錄 → 導入霖楓（CSV匯出→匯入）</div></div>';
+
+function switchTab(tab){
+document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
+event.target.classList.add("active");
+var content={"prep":prepHTML,"teach":teachHTML,"post":postHTML};
+document.getElementById("tabContent").innerHTML=content[tab]||prepHTML;
+if(tab==="prep")loadPrepStudents();
+}
+function loadPrepStudents(){
+var students=JSON.parse(localStorage.getItem("lf_class")||"[]");
+var el=document.getElementById("prepStudents");
+if(!el)return;
+if(students.length===0){el.innerHTML='<p style="color:#9CA3AF;text-align:center;padding:20px">未有學生 — 先去老師後台新增</p>';return}
+el.innerHTML=students.map(function(s){var fp="";for(var t=1;t<=8;t++){var tid="T"+t;fp+='<div class="dot '+((s.activeTraps||[]).includes(tid)?"red":"gray")+'"></div>'}return'<div class="student-chip"><div><div class="name">'+s.name+'</div><div class="traps">'+s.grade+'</div></div><div class="fp-mini">'+fp+'</div></div>'}).join("")}
+function saveNote(){var n=document.getElementById("teachNote").value;if(n){var notes=JSON.parse(localStorage.getItem("lf_teach_notes")||"[]");notes.unshift({date:new Date().toISOString(),note:n});localStorage.setItem("lf_teach_notes",JSON.stringify(notes.slice(0,50)));alert("已儲存 ✅");document.getElementById("teachNote").value=""}}
+switchTab("prep");
+</script>
+</body></html>

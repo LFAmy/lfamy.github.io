@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1A3C6D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="霖楓學苑">
+<link rel="manifest" href="/docs/data/manifest.json">
+<title>霖楓學苑 · LF Academy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151;--g900:#1A1A1A;--r:14px;--rs:10px;--safe-bottom:env(safe-area-inset-bottom,0px);--nav-h:60px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:var(--g100);color:var(--g900);font-size:13px;line-height:1.6;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + var(--safe-bottom) + 8px)}
+.topbar{background:linear-gradient(135deg,#0F2440,var(--blue));color:white;padding:12px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
+.topbar .brand{font-family:'Noto Serif HK',serif;font-size:15px;letter-spacing:2px;display:flex;align-items:center;gap:6px}
+.topbar .user-area{display:flex;align-items:center;gap:8px;font-size:11px}
+.topbar .avatar{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer}
+.main{max-width:900px;margin:0 auto;padding:10px 12px}
+
+/* QUICK STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+.stat-chip{background:white;border-radius:var(--rs);padding:10px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.stat-chip .num{font-size:18px;font-weight:900;color:var(--blue)}
+.stat-chip .lbl{font-size:10px;color:var(--g600)}
+
+/* NAV GRID */
+.nav-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:6px;margin:10px 0}
+.nav-card{background:white;border-radius:var(--rs);padding:14px 8px;text-align:center;text-decoration:none;color:var(--g900);box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all 0.15s;border:1px solid transparent}
+.nav-card:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.08);border-color:var(--gold)}
+.nav-card .icon{font-size:24px;display:block;margin-bottom:4px}
+.nav-card .label{font-size:11px;font-weight:700}
+.nav-card .sub{font-size:9px;color:var(--g400);margin-top:1px}
+
+/* SECTION */
+.section{margin:10px 0}
+.section h2{font-size:14px;color:var(--blue);margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:6px}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:6px 0}
+.act-card{background:white;border-radius:var(--rs);padding:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04);display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--g900);transition:all 0.15s;border-left:3px solid var(--gold)}
+.act-card:hover{transform:translateX(2px);box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.act-card .act-icon{font-size:28px;min-width:36px;text-align:center}
+.act-card .act-info{flex:1}
+.act-card .act-title{font-weight:700;font-size:12px}
+.act-card .act-desc{font-size:10px;color:var(--g600)}
+.act-card .arrow{color:var(--g400);font-size:16px}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:8px 0 calc(8px + var(--safe-bottom));box-shadow:0 -2px 10px rgba(0,0,0,0.06);z-index:100}
+.bottom-nav a{text-decoration:none;color:var(--g400);text-align:center;font-size:10px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 12px;transition:all 0.2s}
+.bottom-nav a.on{color:var(--blue)}
+.bottom-nav a .nav-icon{font-size:20px}
+
+/* BADGE */
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700}
+.badge-new{background:#FEF2F2;color:var(--red)}.badge-hot{background:#FFF9E6;color:#D97706}
+.badge-beta{background:#F0FDF4;color:var(--green)}
+
+/* ROLE SWITCH */
+.role-bar{display:flex;gap:0;background:white;border-radius:var(--rs);padding:3px;margin:8px 0;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.role-btn{flex:1;padding:8px;text-align:center;border:none;background:transparent;font-weight:700;font-size:11px;cursor:pointer;border-radius:7px;color:var(--g600);font-family:'Noto Sans HK',sans-serif;transition:all 0.2s}
+.role-btn.on{background:var(--blue);color:white}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal-card{background:white;border-radius:var(--r);padding:24px 20px;max-width:360px;width:90%;text-align:center;animation:fadeIn 0.2s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+<div class="brand"><img src="logo.jpg" alt="霖楓學苑" style="height:32px"></div>
+<div class="user-area">
+<span id="userName">訪客</span>
+<div class="avatar" onclick="toggleLogin()" id="avatarIcon">👤</div>
+</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- Quick Stats -->
+<div class="stats-row">
+<div class="stat-chip"><div class="num">7,940</div><div class="lbl">題庫</div></div>
+<div class="stat-chip"><div class="num">168</div><div class="lbl">精緻講義</div></div>
+<div class="stat-chip"><div class="num">53</div><div class="lbl">SVG 圖形</div></div>
+<div class="stat-chip"><div class="num">$330</div><div class="lbl">P5 每堂</div></div>
+</div>
+
+<!-- Role Switcher -->
+<div class="role-bar">
+<button class="role-btn on" onclick="switchRole('parent',this)">👨‍👩‍👧 家長</button>
+<button class="role-btn" onclick="switchRole('teacher',this)">👩‍🏫 老師</button>
+<button class="role-btn" onclick="switchRole('student',this)">🎒 學生</button>
+</div>
+
+<!-- PARENT VIEW -->
+<div id="viewParent">
+<div class="section"><h2>📋 快速行動</h2>
+<div class="cards-grid">
+<a href="/docs/ai-diagnostic.html" class="act-card"><div class="act-icon">🎯</div><div class="act-info"><div class="act-title">免費陷阱診斷 <span class="badge badge-hot">熱門</span></div><div class="act-desc">3分鐘找出你小朋友最常中的陷阱</div></div><div class="arrow">→</div></a>
+<a href="/docs/pricing.html" class="act-card"><div class="act-icon">💰</div><div class="act-info"><div class="act-title">查看定價</div><div class="act-desc">P3 $250 · P4 $280 · P5 $330 · P6 $330</div></div><div class="arrow">→</div></a>
+<a href="/docs/booking.html" class="act-card"><div class="act-icon">📅</div><div class="act-info"><div class="act-title">預約試堂</div><div class="act-desc">免費試堂 · 65分鐘 · 一對三</div></div><div class="arrow">→</div></a>
+<a href="/docs/parent-center.html" class="act-card"><div class="act-icon">📊</div><div class="act-info"><div class="act-title">家長中心</div><div class="act-desc">課後報告 · 進步追蹤</div></div><div class="arrow">→</div></a>
+</div></div>
+
+<div class="section"><h2>🧠 AI 智能工具</h2>
+<div class="nav-grid">
+<a href="/docs/ai-diagnostic.html" class="nav-card"><span class="icon">🔍</span><span class="label">AI診斷</span></a>
+<a href="/docs/parent-smart-report.html" class="nav-card"><span class="icon">📋</span><span class="label">智能報告</span></a>
+<a href="/docs/parent-weekly-report.html" class="nav-card"><span class="icon">📈</span><span class="label">每週報告</span></a>
+<a href="/docs/parent-academy.html" class="nav-card"><span class="icon">📚</span><span class="label">家長學院</span></a>
+</div></div>
+</div>
+
+<!-- TEACHER VIEW -->
+<div id="viewTeacher" style="display:none">
+<div class="section"><h2>📋 教學工具</h2>
+<div class="cards-grid">
+<a href="/docs/ai-hub.html" class="act-card"><div class="act-icon">🧠</div><div class="act-info"><div class="act-title">AI 智慧中樞 <span class="badge badge-beta">Beta</span></div><div class="act-desc">陷阱指紋 · 課堂副駕駛 · 預測系統</div></div><div class="arrow">→</div></a>
+<a href="/docs/ai-grading.html" class="act-card"><div class="act-icon">📝</div><div class="act-info"><div class="act-title">AI 批改系統</div><div class="act-desc">拍照→分析→個人化練習</div></div><div class="arrow">→</div></a>
+<a href="/docs/teacher-simulator-v5.html" class="act-card"><div class="act-icon">🤖</div><div class="act-info"><div class="act-title">AI 模擬學生 <span class="badge badge-new">新</span></div><div class="act-desc">龜型·兔型·狐型對練</div></div><div class="arrow">→</div></a>
+<a href="/docs/teacher-training-v4.0.html" class="act-card"><div class="act-icon">📖</div><div class="act-info"><div class="act-title">教師培訓 v4.0</div><div class="act-desc">三天極速上手流程</div></div><div class="arrow">→</div></a>
+</div></div>
+
+<div class="section"><h2>🛠️ 常用工具</h2>
+<div class="nav-grid">
+<a href="/docs/ai-question-engine.html" class="nav-card"><span class="icon">✏️</span><span class="label">題庫引擎</span></a>
+<a href="/docs/automation-loop.html" class="nav-card"><span class="icon">🔄</span><span class="label">自動閉環</span></a>
+<a href="/docs/wa-automation-v2.html" class="nav-card"><span class="icon">💬</span><span class="label">WA推送</span></a>
+<a href="/docs/teacher-dashboard.html" class="nav-card"><span class="icon">📊</span><span class="label">工作台</span></a>
+<a href="/docs/teacher-manual.html" class="nav-card"><span class="icon">📘</span><span class="label">教學手冊</span></a>
+<a href="/docs/teacher-lesson-planner.html" class="nav-card"><span class="icon">📅</span><span class="label">備課</span></a>
+</div></div>
+</div>
+
+<!-- STUDENT VIEW -->
+<div id="viewStudent" style="display:none">
+<div class="section"><h2>🎮 開始練習</h2>
+<div class="cards-grid">
+<a href="/docs/practice.html" class="act-card"><div class="act-icon">🕵️</div><div class="act-info"><div class="act-title">陷阱練習平台 <span class="badge badge-hot">熱門</span></div><div class="act-desc">P3-P6 · 自動批改·弱點追蹤</div></div><div class="arrow">→</div></a>
+<a href="/docs/ai-voice-tutor.html" class="act-card"><div class="act-icon">🎤</div><div class="act-info"><div class="act-title">AI 語音導師</div><div class="act-desc">開口問數學</div></div><div class="arrow">→</div></a>
+<a href="/docs/interactive-geometry.html" class="act-card"><div class="act-icon">🎮</div><div class="act-info"><div class="act-title">互動幾何實驗室</div><div class="act-desc">拖動·證明·探索</div></div><div class="arrow">→</div></a>
+<a href="/docs/kids-mode.html" class="act-card"><div class="act-icon">🎪</div><div class="act-info"><div class="act-title">遊戲模式</div><div class="act-desc">Boss挑戰·排行榜</div></div><div class="arrow">→</div></a>
+</div></div>
+
+<div class="section"><h2>📚 學習資源</h2>
+<div class="nav-grid">
+<a href="/docs/trap-workbook.html" class="nav-card"><span class="icon">📝</span><span class="label">陷阱練習冊</span></a>
+<a href="/docs/trap-quiz.html" class="nav-card"><span class="icon">❓</span><span class="label">陷阱測驗</span></a>
+<a href="/docs/ar-handwriting-grading.html" class="nav-card"><span class="icon">📸</span><span class="label">AR批改</span></a>
+<a href="/docs/class-battle.html" class="nav-card"><span class="icon">⚔️</span><span class="label">班級對戰</span></a>
+<a href="/docs/kids-boss-battle.html" class="nav-card"><span class="icon">👾</span><span class="label">Boss戰</span></a>
+<a href="/docs/leaderboard.html" class="nav-card"><span class="icon">🏆</span><span class="label">排行榜</span></a>
+</div></div>
+</div>
+
+<!-- SHARED TOOLS -->
+<div class="section"><h2>🌟 常用工具</h2>
+<div class="nav-grid">
+<a href="/docs/faq.html" class="nav-card"><span class="icon">❓</span><span class="label">常見問題</span></a>
+<a href="/docs/pricing.html" class="nav-card"><span class="icon">💰</span><span class="label">定價</span></a>
+<a href="/docs/seed-firestore.html" class="nav-card"><span class="icon">⚙️</span><span class="label">系統設定</span></a>
+<a href="/docs/system-health.html" class="nav-card"><span class="icon">🔧</span><span class="label">系統健康</span></a>
+<a href="/docs/funnel-dashboard.html" class="nav-card"><span class="icon">📊</span><span class="label">漏斗數據</span></a>
+<a href="/docs/graphics-engine.html" class="nav-card"><span class="icon">🎨</span><span class="label">圖形引擎</span></a>
+</div></div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+<a href="/docs/app.html" class="on"><span class="nav-icon">🏠</span>首頁</a>
+<a href="/docs/ai-diagnostic.html"><span class="nav-icon">🎯</span>診斷</a>
+<a href="/docs/practice.html"><span class="nav-icon">📝</span>練習</a>
+<a href="/docs/ai-hub.html"><span class="nav-icon">🧠</span>AI</a>
+<a href="/docs/login.html"><span class="nav-icon">👤</span>帳戶</a>
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+<script>
+let role = 'parent';
+
+function switchRole(r, btn) {
+    role = r;
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('viewParent').style.display = r==='parent'?'':'none';
+    document.getElementById('viewTeacher').style.display = r==='teacher'?'':'none';
+    document.getElementById('viewStudent').style.display = r==='student'?'':'none';
+    localStorage.setItem('lf_role', r);
+    if (typeof LFEventBus !== 'undefined') LFEventBus.track('role_switch', {role: r});
+}
+
+function toggleLogin() {
+    if (LFCore.isLoggedIn()) {
+        LFCore.setData('current_user', null);
+        document.getElementById('userName').textContent = '訪客';
+        document.getElementById('avatarIcon').textContent = '👤';
+    } else {
+        window.location.href = '/docs/login.html';
+    }
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+    // Restore role
+    const saved = localStorage.getItem('lf_role') || 'parent';
+    switchRole(saved, document.querySelector(`.role-btn`));
+    
+    // Check login
+    const user = LFCore.getData('current_user', null);
+    if (user) {
+        document.getElementById('userName').textContent = user.displayName || user.email;
+        document.getElementById('avatarIcon').textContent = '👩';
+    }
+    
+    if (typeof LFEventBus !== 'undefined') LFEventBus.track('page_view', {page:'app-v2'});
+    if (typeof LF_API !== 'undefined') {
+        LF_API.health().then(s => {
+            console.log('[App] API status:', s);
+        });
+    }
+});
+</script>
+</body>
+</html>

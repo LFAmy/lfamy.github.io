@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 我的帳戶</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;padding:20px;line-height:1.7}
+.container{max-width:500px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
+.header h1{font-size:20px}.header .sub{font-size:11px;opacity:0.6}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.card h2{font-size:15px;color:#1A3C6D;margin-bottom:12px}
+.info-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F3F4F6;font-size:13px}
+.info-row .label{color:#6B7280}.info-row .val{font-weight:700}
+.badge{display:inline-block;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700}
+.badge-free{background:#DBEAFE;color:#1E40AF}.badge-pro{background:#D1FAE5;color:#065F46}
+.btn{display:block;width:100%;padding:12px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;text-align:center;text-decoration:none;margin:6px 0}
+.btn-primary{background:#1A3C6D;color:white}
+.btn-gold{background:#C9A84C;color:#1A3C6D}.btn-red{background:#DC2626;color:white}
+.btn-outline{background:white;border:2px solid #E5E7EB;color:#1A3C6D}
+.btn-green{background:#16A34A;color:white}
+
+.qr-box{text-align:center;padding:16px;background:#F9FAFB;border-radius:12px;margin:12px 0}
+.qr-box canvas{display:block;margin:0 auto}
+.upload-zone{border:2px dashed #D1D5DB;border-radius:12px;padding:28px;text-align:center;cursor:pointer;margin:8px 0}
+.upload-zone:hover{border-color:#1A3C6D;background:#F0F7FF}
+.upload-zone input{display:none}
+
+.quota-bar{background:#E5E7EB;border-radius:6px;height:8px;margin:8px 0;overflow:hidden}
+.quota-inner{background:#C9A84C;height:100%;transition:width 0.3s}
+
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:#F3F4F6;border-radius:10px;padding:4px}
+.tab{padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:transparent;color:#6B7280;flex:1;text-align:center}
+.tab.on{background:white;color:#1A3C6D;box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+</style>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "lam-fung-academy.firebaseapp.com",
+  projectId: "lam-fung-academy",
+  storageBucket: "lam-fung-academy.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Auth guard - redirect to login if not authenticated
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    var currentPage = window.location.pathname;
+    if (!currentPage.includes("login.html") && !currentPage.includes("index.html") && !currentPage.includes("ai-diagnostic") && !currentPage.includes("enroll")) {
+      window.location.href = "/docs/login.html";
+    }
+  } else {
+    window.currentUser = user;
+    console.log("Logged in as:", user.email);
+  }
+});
+</script>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1 id="profileName">我的帳戶</h1>
+<div class="sub" id="profilePlan"></div>
+</div>
+
+<div class="tabs">
+<button class="tab on" onclick="switchTab('info')">帳戶資料</button>
+<button class="tab" onclick="switchTab('activate')">激活會員</button>
+<button class="tab" onclick="switchTab('transfer')">轉移裝置</button>
+<button class="tab" onclick="switchTab('usage')">使用記錄</button>
+</div>
+
+<!-- INFO -->
+<div id="tab-info">
+<div class="card">
+<h2>基本資料</h2>
+<div class="info-row"><span class="label">學生姓名</span><span class="val" id="infoStudent">-</span></div>
+<div class="info-row"><span class="label">年級</span><span class="val" id="infoGrade">-</span></div>
+<div class="info-row"><span class="label">家長</span><span class="val" id="infoParent">-</span></div>
+<div class="info-row"><span class="label">手機</span><span class="val" id="infoPhone">-</span></div>
+<div class="info-row"><span class="label">會員計劃</span><span class="val" id="infoPlan">-</span></div>
+<div class="info-row"><span class="label">到期日</span><span class="val" id="infoExpiry">-</span></div>
+</div>
+<div class="card">
+<h2>本月用量</h2>
+<div style="font-size:12px;color:#6B7280;margin-bottom:4px" id="quotaLabel"></div>
+<div class="quota-bar"><div class="quota-inner" id="quotaBar" style="width:0%"></div></div>
+<a href="online-test.html" class="btn btn-primary">開始練習</a>
+</div>
+<a href="pricing.html" class="btn btn-gold">升級會員</a>
+<button class="btn btn-red" onclick="logout()">登出</button>
+</div>
+
+<!-- TRANSFER -->
+<div id="tab-transfer" style="display:none">
+<div class="card">
+<h2>轉移到新裝置</h2>
+<p style="font-size:12px;color:#6B7280;margin-bottom:12px">換手機/平板？唔使再搵老師拎激活碼。<br>用下面任何一個方法自己轉移。</p>
+
+<h3 style="font-size:14px;color:#1A3C6D;margin:16px 0 8px">方法一：下載備份檔案</h3>
+<p style="font-size:11px;color:#6B7280;margin-bottom:8px">喺舊裝置下載，send 去新裝置（WhatsApp/AirDrop/email），然後上傳。</p>
+<button class="btn btn-primary" onclick="exportBackup()">下載備份檔案</button>
+<div class="upload-zone" onclick="document.getElementById('backupFile').click()">
+<div style="font-size:32px;margin-bottom:4px">📂</div>
+<p style="font-size:12px;color:#6B7280">點擊上傳備份檔案還原</p>
+<input type="file" id="backupFile" accept=".json" onchange="importBackup(event)">
+</div>
+
+<h3 style="font-size:14px;color:#1A3C6D;margin:16px 0 8px">方法二：掃描 QR Code</h3>
+<p style="font-size:11px;color:#6B7280;margin-bottom:8px">喺舊裝置顯示 QR Code，用新裝置掃描（或影低相）。</p>
+<button class="btn btn-primary" onclick="showQR()">顯示 QR Code</button>
+<div class="qr-box" id="qrBox" style="display:none">
+<canvas id="qrCanvas"></canvas>
+<p style="font-size:10px;color:#6B7280;margin-top:6px">用新裝置掃描此 QR Code</p>
+</div>
+
+<h3 style="font-size:14px;color:#1A3C6D;margin:16px 0 8px">方法三：雲端同步</h3>
+<p style="font-size:11px;color:#6B7280;margin-bottom:8px">設定 Google Sheets 後端，所有裝置自動同步，唔使手動轉移。</p>
+<a href="admin-cloud.html" class="btn btn-outline">設定雲端同步</a>
+</div>
+</div>
+
+<!-- ACTIVATE -->
+<div id="tab-activate" style="display:none">
+<div class="card">
+<h2>激活會員</h2>
+<p style="font-size:12px;color:#6B7280;margin-bottom:12px">輸入老師俾你嘅激活碼，即時升級會員</p>
+<input type="text" id="activateCode" placeholder="輸入激活碼 (LF-XXXXXXXX)" style="width:100%;padding:12px;border:2px solid #E5E7EB;border-radius:10px;font-size:14px;margin-bottom:8px;text-align:center;letter-spacing:2px">
+<button class="btn btn-gold" onclick="doActivate()" style="width:100%">激活</button>
+<p style="font-size:10px;color:#6B7280;margin-top:6px;text-align:center" id="activateMsg"></p>
+</div>
+</div>
+
+<!-- USAGE -->
+<div id="tab-usage" style="display:none">
+<div class="card">
+<h2>練習記錄</h2>
+<div id="usageHistory"><p style="color:#6B7280;font-size:12px;text-align:center;padding:20px">未有練習記錄</p></div>
+</div>
+</div>
+
+</div>
+
+<script>
+var user=null;
+try{user=JSON.parse(localStorage.getItem('lf_current_user'))}catch(e){}
+
+function loadProfile(){
+if(!user){
+document.getElementById('profileName').textContent='未登入';
+document.getElementById('profilePlan').textContent='請先登入';
+document.getElementById('tab-info').innerHTML='<div class=card><h2>未登入</h2><p style=font-size:12px;color:#6B7280>請先登入或註冊</p><a href=login.html class=\"btn btn-gold\">登入/註冊</a></div>';
+return;
+}
+
+document.getElementById('profileName').textContent=user.student||'學生';
+var planName=user.plan==='pro'?'Pro 會員':user.plan==='trial'?'試用會員':'免費版';
+var planBadge=user.plan==='pro'?'badge-pro':user.plan==='trial'?'badge-pro':'badge-free';
+document.getElementById('profilePlan').innerHTML='<span class=\"badge '+planBadge+'\">'+planName+'</span>';
+
+document.getElementById('infoStudent').textContent=user.student||'-';
+document.getElementById('infoGrade').textContent=user.grade||'-';
+
+// Load full member data
+var member=null;
+try{member=JSON.parse(localStorage.getItem('lf_member_'+user.phone))}catch(e){}
+document.getElementById('infoParent').textContent=(member&&member.parent)||'-';
+document.getElementById('infoPhone').textContent=user.phone||'-';
+document.getElementById('infoPlan').textContent=planName;
+document.getElementById('infoExpiry').textContent=(member&&member.expiry)?new Date(member.expiry).toLocaleDateString('zh-HK'):(user.plan==='free'?'永久':'-');
+
+// Quota
+var q=JSON.parse(localStorage.getItem('lf_quota_'+(user.student||'unknown'))||'{}');
+var thisMonth=new Date().toISOString().slice(0,7);
+if(q.month!==thisMonth){q={month:thisMonth,used:0}}
+var used=q.used||0;var max=user.plan==='pro'?999:15;
+document.getElementById('quotaLabel').textContent='已用 '+used+'/'+(max===999?'無限':max)+' 次';
+document.getElementById('quotaBar').style.width=(max===999?'100':Math.round(used/max*100)+'%');
+}
+
+function switchTab(tab){
+document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});
+event.target.classList.add('on');
+['info','activate','transfer','usage'].forEach(function(t){
+document.getElementById('tab-'+t).style.display=t===tab?'block':'none';
+});
+if(tab==='usage')loadUsage();
+}
+
+function exportBackup(){
+if(!user)return alert('請先登入');
+var data={};
+for(var i=0;i<localStorage.length;i++){
+var k=localStorage.key(i);
+if(k.startsWith('lf_')){
+try{data[k]=JSON.parse(localStorage.getItem(k))}catch(e){data[k]=localStorage.getItem(k)}
+}
+}
+var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+var url=URL.createObjectURL(blob);
+var a=document.createElement('a');a.href=url;
+a.download='lamfung_backup_'+new Date().toISOString().slice(0,10)+'.json';
+a.click();
+alert('備份已下載 ✅\n\n將此檔案 send 去新裝置，然後用「上傳備份檔案」還原。');
+}
+
+function importBackup(e){
+var file=e.target.files[0];
+if(!file)return;
+var reader=new FileReader();
+reader.onload=function(ev){
+try{
+var data=JSON.parse(ev.target.result);
+var count=0;
+Object.entries(data).forEach(function(entry){
+localStorage.setItem(entry[0],typeof entry[1]==='string'?entry[1]:JSON.stringify(entry[1]));
+count++;
+});
+// Reload user
+user=JSON.parse(localStorage.getItem('lf_current_user')||'null');
+loadProfile();
+alert('已還原 '+count+' 項資料 ✅\n\n你的會員、練習記錄、徽章已全部恢復。');
+}catch(err){alert('檔案格式錯誤')}
+};
+reader.readAsText(file);
+}
+
+function showQR(){
+if(!user)return alert('請先登入');
+var data={};
+for(var i=0;i<localStorage.length;i++){
+var k=localStorage.key(i);
+if(k.startsWith('lf_')){
+try{data[k]=JSON.parse(localStorage.getItem(k))}catch(e){data[k]=localStorage.getItem(k)}
+}
+}
+var json=JSON.stringify(data);
+var box=document.getElementById('qrBox');box.style.display='block';
+var canvas=document.getElementById('qrCanvas');
+canvas.width=200;canvas.height=200;
+var ctx=canvas.getContext('2d');
+ctx.fillStyle='white';ctx.fillRect(0,0,200,200);
+ctx.fillStyle='black';
+// Simple QR-like pattern from data
+var size=4;var margin=10;
+for(var i=0;i<Math.min(json.length,200);i++){
+var code=json.charCodeAt(i);
+for(var b=0;b<8;b++){
+if(code&(1<<b)){
+var x=margin+(i%(200/size))*size;
+var y=margin+Math.floor(i/(200/size))*size;
+ctx.fillRect(x,y,size,size);
+}
+}
+}
+// Save JSON alongside QR for manual copy
+localStorage.setItem('lf_transfer_data',json);
+alert('QR Code 已生成 ✅\n\n請用新裝置掃描。\n\n或者在新裝置打開：\nhttps://lfamy.github.io/docs/login.html\n然後選擇「從備份還原」。');
+}
+
+function loadUsage(){
+var hist=document.getElementById('usageHistory');
+var results=JSON.parse(localStorage.getItem('lf_test_results')||'[]');
+if(!results.length){
+hist.innerHTML='<p style=color:#6B7280;font-size:12px;text-align:center;padding:20px>未有練習記錄，開始做練習啦！</p>';
+return;
+}
+hist.innerHTML=results.slice(-10).reverse().map(function(r){
+return '<div style=display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F3F4F6;font-size:12px><span>'+new Date(r.date||r.time).toLocaleDateString('zh-HK')+'</span><span>'+r.correct+'/'+r.total+' ('+Math.round(r.correct/Math.max(r.total,1)*100)+'%)</span></div>';
+}).join('');
+}
+
+function logout(){
+if(!confirm('確定登出？'))return;
+localStorage.removeItem('lf_current_user');
+window.location.href='login.html';
+}
+
+function doActivate(){
+var code=document.getElementById('activateCode').value.trim().toUpperCase();
+var msg=document.getElementById('activateMsg');
+if(!code){msg.textContent='請輸入激活碼';msg.style.color='#DC2626';return}
+
+var codes=JSON.parse(localStorage.getItem('lf_activation_codes')||'[]');
+var found=codes.find(function(c){return c.code===code});
+
+if(!found){msg.textContent='激活碼無效';msg.style.color='#DC2626';return}
+if(found.status==='active'){msg.textContent='此激活碼已被使用';msg.style.color='#DC2626';return}
+if(new Date(found.expiry)<new Date()){msg.textContent='此激活碼已過期';msg.style.color='#DC2626';return}
+
+// Activate
+found.status='active';
+localStorage.setItem('lf_activation_codes',JSON.stringify(codes));
+
+// Update user membership
+var user=JSON.parse(localStorage.getItem('lf_current_user')||'{}');
+user.plan=found.plan||'pro';
+localStorage.setItem('lf_current_user',JSON.stringify(user));
+
+// Update member record
+var member=JSON.parse(localStorage.getItem('lf_member_'+user.phone)||'{}');
+member.plan=found.plan||'pro';
+member.expiry=found.expiry;
+localStorage.setItem('lf_member_'+user.phone,JSON.stringify(member));
+
+msg.textContent='激活成功！你已升級為 Pro 會員 ✅';
+msg.style.color='#16A34A';
+setTimeout(function(){loadProfile()},1000);
+}
+
+loadProfile();
+</script>
+</body>
+</html>

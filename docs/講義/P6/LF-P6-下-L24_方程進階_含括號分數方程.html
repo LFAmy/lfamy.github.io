@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L24 方程進階（含括號+分數方程）</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  @media print { body { background:white; font-size:11px; } .pb { box-shadow:none; min-height:0; padding:24px 36px; } .pb.cover-page { page-break-after:always; } .page-break { page-break-before:always; } .qt .qw { background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border:1px dashed #9CA3AF; } .qt td { padding:4px 6px; } .qt { font-size:10.5px; } .qt .qtxt { font-size:11.5px; } .h1 { font-size:14px; } .h2 { font-size:12px; } .kp { padding:7px 10px; } .ex { padding:7px 10px; } .ex-q { font-size:12px; } .warn { font-size:10.5px; } .mn { font-size:12px; } .sc { gap:6px; } .sc-i { padding:10px; } .sc-i .n { width:26px;height:26px;font-size:14px; } .sc-i .t { font-size:11px; } .et { font-size:10px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:36px 48px; display:flex; flex-direction:column; }
+  .f { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; } .f .n { font-size:inherit; line-height:1.15; } .f .d { font-size:inherit; line-height:1.15; } .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; } .fd .n { font-size:16px; font-weight:700; line-height:1.15; } .fd .d { font-size:16px; font-weight:700; line-height:1.15; } .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; } .fi .n { font-size:inherit; line-height:1; } .fi .d { font-size:inherit; line-height:1; } .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+  .cover { justify-content:center; align-items:center; text-align:center; }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:16px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:28px; font-weight:900; color:var(--blue); letter-spacing:2px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:18px 24px; font-size:12px; line-height:2; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:17px; font-weight:900; color:var(--blue); padding:7px 12px; margin:18px 0 10px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:14px; font-weight:700; color:var(--blue); margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px); }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; } .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; } .sm { background:#FEF3C7; color:#92400E; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); } .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; } .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; } .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; } .et td { padding:5px 8px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 下學期 第 24 堂 · 學生版講義</div>
+  <div class="cv-title">方程進階（含括號 + 分數方程）</div>
+  <div class="cv-sub">單元十四 · 代數方程進階 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6下B冊 單元十四 ＋ 現代教育 6下B 單元11<br>
+    <b>核心陷阱：</b>T21 括號前負號拆括號正負號反轉遺漏 · T22 LCM乘方程時漏乘某項 · T23 移項符號錯誤<br>
+    <b>SSPA 關聯：</b><span class="ss sh">高頻</span> 方程題型佔卷一約 10-12%<br>
+    <b>前置知識：</b>基本方程（P5）· 分配律（P4-P5）· 分數加減乘除（P5-P6）<br>
+    <b>本堂目標：</b>含括號方程 分數方程 LCM去分母 移項進階 驗算
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">解方程：x + 7 = 15</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">解方程：3x = 18</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">展開：3(x + 4) = ？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">展開：−2(x − 3) = ？（小心負號！）</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">求 <span class="f"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">x</span><span class="b"></span><span class="d">4</span></span> 嘅 LCM（最小公倍數）</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 + 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：含括號方程 — 分配律展開<span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>解含括號方程三步法：</strong><br>
+      1. 展開括號（用分配律）：a(b + c) = ab + ac<br>
+      2. 移項（未知數一邊，常數另一邊）<br>
+      3. 合併同類項 + 求解<br>
+      <strong>終極陷阱：括號前有負號！</strong><br>
+      −(2x + 3) = −2x − 3（括號內每項都要變號！）<br>
+      2 − (x − 5) = 2 − x + 5 = 7 − x（減號後拆括號，裡面 −5 變 +5！）
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題 — 世紀災難</div>
+    <div class="ex-q">例1：解方程 2(x + 3) = 14</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤</div><div class="eq">2x + 3 = 14 → 2x = 11 → x = 5.5</div><div class="why">2只乘咗 x，忘記乘 3！分配律：2要乘括號內每一項！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">2x + 6 = 14 → 2x = 8 → x = 4</div><div class="why">驗算：2(4+3) = 2×7 = 14 ✓</div></div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆：負號拆括號</div>
+    <div class="ex-q">例2：解方程 3x − 2(x − 4) = 5</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">致命錯誤（65% 學生）</div><div class="eq">3x − 2x − 4 = 5<br>x − 4 = 5 → x = 9</div><div class="why">−2(x−4) = −2x + 8，唔係 −2x − 4！負號要乘埋 −4 → +8！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">3x − 2x + 8 = 5<br>x + 8 = 5 → x = −3</div><div class="why">驗算：3(−3) − 2(−3−4) = −9 − 2(−7) = −9 + 14 = 5 ✓</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「拆括號要逐項乘，負號拆括號全部要變面；入面正變負、負變正，漏咗即刻計錯數！」</div>
+  <div class="warn">最高頻死穴：−(x−5) = −x+5，唔係 −x−5！括號前有減號 = 裡面全部正負號反轉！</div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q1</td><td class="qtxt">解方程：3(x + 2) = 21</td><td class="qd d1">基礎</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">Q2</td><td class="qtxt">解方程：4(2x − 1) = 28</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">Q3</td><td class="qtxt">解方程：5x − 3(x + 2) = 8</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">Q4</td><td class="qtxt">解方程：2(x + 5) − 3(x − 1) = 4</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：分數方程 — LCM 去分母法<span class="ss sh">SSPA 終極</span></div>
+    <div class="kp-rules">
+      <strong>分數方程標準解法（LCM法）：</strong><br>
+      1. 找出所有分母的 LCM<br>
+      2. 方程兩邊同時 × LCM（每一項都要乘！）<br>
+      3. 約簡後變成整數方程<br>
+      4. 移項求解<br>
+      <strong>終極關鍵：乘 LCM 時每項都要乘！包括冇分數的項！</strong><br>
+      例：<span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> = 10 → 兩邊 × 6 → 3x + 2x = 60 → 5x = 60 → x = 12
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆：LCM乘漏常數項</div>
+    <div class="ex-q">例3：解方程 <span class="fd"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">x</span><span class="b"></span><span class="d">4</span></span> = 7</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">世紀災難（80% 學生初學時錯）</div><div class="eq">兩邊 ×12: 4x + 3x = 7<br>7x = 7 → x = 1</div><div class="why">忘記右邊的 7 都要 ×12！7 都要變成 84！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">兩邊 ×12: 4x + 3x = 84<br>7x = 84 → x = 12</div><div class="why">驗算：12/3 + 12/4 = 4 + 3 = 7 ✓</div></div>
+    </div>
+  </div>
+
+  <div class="warn">終極陷阱：乘 LCM 時必須乘方程兩邊的每一項！常數項都要乘！呢個錯一出現全題 0 分！</div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q5</td><td class="qtxt">解方程：<span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> = 10</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">Q6</td><td class="qtxt">解方程：<span class="f"><span class="n">x</span><span class="b"></span><span class="d">4</span></span> − <span class="f"><span class="n">x</span><span class="b"></span><span class="d">6</span></span> = 1</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">Q7</td><td class="qtxt">解方程：<span class="f"><span class="n">2x</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span> = 14</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">Q8</td><td class="qtxt">解方程：<span class="f"><span class="n">x+1</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">x−1</span><span class="b"></span><span class="d">2</span></span> = 5</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：混合方程（括號 + 分數）<span class="ss sh">SSPA 高階</span></div>
+    <div class="kp-rules">
+      <strong>處理順序：</strong><br>
+      1. 先 × LCM 去掉所有分母<br>
+      2. 再展開括號<br>
+      3. 移項 + 合併<br>
+      4. 求解<br>
+      <strong>或者：</strong>先展開括號 → 再分項 × LCM<br>
+      <strong>關鍵：</strong>按步就班，唔好跳步！每一步都寫清楚！
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-q">例4：解方程 <span class="fd"><span class="n">2(x+1)</span><span class="b"></span><span class="d">3</span></span> = <span class="fd"><span class="n">x−1</span><span class="b"></span><span class="d">2</span></span></div>
+  </div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q9</td><td class="qtxt">解方程：<span class="f"><span class="n">3(x−2)</span><span class="b"></span><span class="d">4</span></span> = 3</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">Q10</td><td class="qtxt">解方程：<span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = <span class="f"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> + 2</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">Q11</td><td class="qtxt">解方程：<span class="f"><span class="n">5x−1</span><span class="b"></span><span class="d">6</span></span> − <span class="f"><span class="n">2x+3</span><span class="b"></span><span class="d">3</span></span> = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span></td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">Q12</td><td class="qtxt">解方程：2 − <span class="f"><span class="n">x+3</span><span class="b"></span><span class="d">5</span></span> = <span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span></td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B1</td><td class="qtxt">解方程：5(x + 2) = 35</td><td class="qd d1">基礎</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">B2</td><td class="qtxt">解方程：<span class="f"><span class="n">x</span><span class="b"></span><span class="d">5</span></span> + <span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span> = 7</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">B3</td><td class="qtxt">解方程：4x − 3(x − 1) = 9</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">解方程：3(2x + 1) − 2(x − 3) = 25</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">解方程：<span class="f"><span class="n">3x</span><span class="b"></span><span class="d">4</span></span> − <span class="f"><span class="n">x</span><span class="b"></span><span class="d">6</span></span> = 7</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">解方程：<span class="f"><span class="n">x+3</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">x−1</span><span class="b"></span><span class="d">4</span></span> = 5</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C1</td><td class="qtxt">解方程：<span class="f"><span class="n">x−2</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">x+4</span><span class="b"></span><span class="d">4</span></span> = <span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span> + 1</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">C2</td><td class="qtxt">解方程：5 − 2(3x − 1) = 3x + 7</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">C3</td><td class="qtxt">解方程：<span class="f"><span class="n">2x+1</span><span class="b"></span><span class="d">3</span></span> − <span class="f"><span class="n">x−1</span><span class="b"></span><span class="d">5</span></span> = x − 4</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 極限題（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">E1</td><td class="qtxt">解方程：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>(x + 3) − <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>(x − 2) = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>(x + 5)</td><td class="qd d4">極限</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">E2</td><td class="qtxt">對於方程 <span class="f"><span class="n">ax+2</span><span class="b"></span><span class="d">3</span></span> = <span class="f"><span class="n">x+1</span><span class="b"></span><span class="d">2</span></span>，當 a = 2 時，求 x。如果要讓 x = 1，a 應該是多少？</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（SSPA 文字題 — 列方程）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">P1</td><td class="qtxt">一個數的 3 倍加 5 等於 20。求這個數。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">P2</td><td class="qtxt">小明有一些貼紙。佢俾咗一半俾妹妹，再俾咗 3 張俾朋友，最後剩 7 張。小明原有多少張？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">P3</td><td class="qtxt">一個長方形的長是闊的 2 倍，周界是 36 cm。求長和闊。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">P4</td><td class="qtxt">爸爸今年的年齡是小明的 3 倍。5 年後，爸爸的年齡是小明的 2.5 倍。小明今年幾歲？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P5</td><td class="qtxt">一個分數，分子比分母小 3。若分子加 2、分母加 3，分數值變成 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>。求原分數。</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h1">五、終極挑戰專區</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">EC1</td><td class="qtxt">解方程：<span class="f"><span class="n">3</span><span class="b"></span><span class="d">x+1</span></span> = <span class="f"><span class="n">2</span><span class="b"></span><span class="d">x−1</span></span>（提示：交叉相乘）</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">EC2</td><td class="qtxt">如果 3x + a = 2(x − a) 的解是 x = 5，求 a 的值。</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: HOMEWORK ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">解方程：4(x − 1) = 20</td><td class="qd d1">基礎</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">解方程：2x + 3(x + 1) = 18</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">解方程：<span class="f"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">x</span><span class="b"></span><span class="d">5</span></span> = 8</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">解方程：<span class="f"><span class="n">2x−1</span><span class="b"></span><span class="d">4</span></span> = 3</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">解方程：5 − (x + 2) = 2x − 1</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">解方程：<span class="f"><span class="n">x+2</span><span class="b"></span><span class="d">3</span></span> − <span class="f"><span class="n">x−3</span><span class="b"></span><span class="d">2</span></span> = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span></td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個數加 5 再乘 3，等於這個數的 4 倍減 2。求這個數。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">解方程：<span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">x</span><span class="b"></span><span class="d">4</span></span> = 26</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>分配律漏乘：</strong>2(x+3)→2x+3</td><td>2(x+3)=2x+6，乘每一項</td></tr>
+    <tr><td>2</td><td><strong>括號前負號不變號：</strong>−(x−5)→−x−5</td><td>−(x−5)=−x+5，裡面每項正負反轉</td></tr>
+    <tr><td>3</td><td><strong>LCM乘漏常數項：</strong>x/2+x/3=7→3x+2x=7</td><td>右邊 7 都要 ×6：3x+2x=42</td></tr>
+    <tr><td>4</td><td><strong>移項忘記變號：</strong>2x+3=11→2x=11+3</td><td>移項要變號：2x=11−3=8</td></tr>
+    <tr><td>5</td><td><strong>分數方程約簡出錯：</strong>x/3×6=3x（正確係 2x）</td><td>6÷3=2，所以 x/3×6=2x</td></tr>
+    <tr><td>6</td><td><strong>驗算時代返 x 但計錯優先序：</strong>x=−3 代入 −2(−3−4)</td><td>先計括號內：−3−4=−7 → −2×(−7)=+14</td></tr>
+    <tr><td>7</td><td><strong>解到最後忘記寫 x=：</strong>計到 5 就完</td><td>必須寫 ∴ x = 5</td></tr>
+  </table>
+
+  <div class="mn">口訣：<br>「拆括號逐項乘，負號開括號全部變；LCM乘方程每項都要乘，常數遺漏即刻死！」</div>
+
+  <div class="h1">八、解題策略卡（4 步法）</div>
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">去分母</div><div class="d">找LCM，兩邊每項×LCM</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">拆括號</div><div class="d">注意負號：裡面全部反轉</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">移項合併</div><div class="d">未知數一邊，數字另一邊</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">求解+驗算</div><div class="d">代入原方程檢查左右相等</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L24</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L14 代數式認識 · L15 方程應用題 · L31 代數式進階</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 6頁 · 50題 | LF-P6-下-L24 v6
+</div>
+</body>
+</html>

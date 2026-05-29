@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 試堂診斷報告</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g800:#374151}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:var(--g100);color:var(--g800);font-size:14px;line-height:1.7;padding:16px}
+.container{max-width:680px;margin:0 auto}
+/* Header */
+.header{background:linear-gradient(135deg,#0A1A35,var(--b));color:white;border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(201,168,76,0.15);border-radius:50%}
+.header .logo{font-family:'Noto Serif HK',serif;font-size:20px;letter-spacing:3px;margin-bottom:4px}
+.header h1{font-size:17px;font-weight:500;opacity:0.9}
+.header .date{font-size:11px;opacity:0.6;margin-top:6px}
+
+/* Grade Badge */
+.grade-badge{display:inline-block;background:var(--g);color:var(--b);padding:3px 12px;border-radius:20px;font-size:13px;font-weight:900;margin:4px}
+
+
+/* Card Base */
+.card,.score-card,.peer-card,.trap-card,.action-card,.rec-card,.summary-card{background:var(--w);border-radius:14px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+/* Summary Card - the ONE SENTENCE */
+.summary-card{background:linear-gradient(135deg,#FFFDF5,#FFFBEB);border:2px solid var(--g);border-radius:14px;padding:20px;margin-bottom:14px;text-align:center}
+.summary-card .icon-big{font-size:36px;margin-bottom:4px}
+.summary-card .one-liner{font-family:'Noto Serif HK',serif;font-size:17px;font-weight:700;color:var(--b);line-height:1.5}
+.summary-card .sub-text{font-size:12px;color:var(--g600);margin-top:4px}
+
+/* Score Row */
+.score-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.score-card{background:var(--w);border-radius:12px;padding:16px 12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.score-card .big-num{font-size:28px;font-weight:900}
+.score-card .big-num.green{color:var(--gr)}.score-card .big-num.red{color:var(--r)}.score-card .big-num.blue{color:var(--b)}
+.score-card .label{font-size:11px;color:var(--g600);margin-top:2px}
+
+/* Peer Comparison */
+.peer-card{background:var(--w);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.peer-card h3{font-size:14px;color:var(--b);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.peer-bar{margin-bottom:10px}
+.peer-bar .bar-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
+.peer-bar .bar-track{height:8px;background:var(--g200);border-radius:4px;overflow:hidden}
+.peer-bar .bar-fill{height:100%;border-radius:4px;transition:width 0.8s ease}
+.peer-bar .bar-fill.good{background:var(--gr)}.peer-bar .bar-fill.ok{background:var(--g)}.peer-bar .bar-fill.weak{background:var(--r)}
+.peer-note{font-size:11px;color:var(--g600);margin-top:8px;padding:8px 12px;background:var(--g50);border-radius:8px}
+
+/* Trap Found */
+.trap-card{background:var(--w);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.trap-card h3{font-size:14px;color:var(--b);margin-bottom:12px}
+.trap-list{display:flex;flex-wrap:wrap;gap:6px}
+.trap-tag{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700}
+.trap-tag.found{background:#FEE2E2;color:var(--r);border:1px solid #FECACA}
+.trap-tag.ok{background:#D1FAE5;color:var(--gr);border:1px solid #A7F3D0}
+
+/* Action Plan */
+.action-card{background:var(--w);border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.action-card h3{font-size:14px;color:var(--b);margin-bottom:12px}
+.action-steps{list-style:none}
+.action-steps li{padding:10px 14px;margin-bottom:6px;background:var(--g50);border-radius:10px;font-size:13px;display:flex;align-items:flex-start;gap:10px}
+.action-steps .step-num{width:24px;height:24px;background:var(--b);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0}
+
+/* Recommendation */
+.rec-card{background:linear-gradient(135deg,var(--b),#1E4D8C);color:white;border-radius:14px;padding:22px;margin-bottom:14px}
+.rec-card h3{font-size:15px;margin-bottom:8px}
+.rec-card p{font-size:13px;opacity:0.9;margin-bottom:4px}
+.rec-card .price{font-size:24px;font-weight:900;margin:8px 0}
+.rec-card .price span{font-size:13px;opacity:0.7;font-weight:400}
+
+/* CTA Buttons */
+.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.btn{padding:14px;border-radius:12px;border:none;font-size:14px;font-weight:900;cursor:pointer;font-family:inherit;text-align:center;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn:active{transform:scale(0.97)}
+.btn-wa{background:#25D366;color:white}.btn-wa:hover{background:#1EBE5B}
+.btn-share{background:var(--b);color:white}.btn-share:hover{background:#152E52}
+.btn-book{background:var(--r);color:white;width:100%}.btn-book:hover{background:#B91C1C}
+
+/* Edit Mode Toggle */
+.edit-toggle{text-align:center;margin-bottom:10px}
+.edit-toggle button{background:none;border:1px dashed var(--g400);padding:6px 16px;border-radius:20px;font-size:11px;color:var(--g600);cursor:pointer;font-family:inherit}
+.edit-panel{display:none;background:var(--w);border-radius:14px;padding:16px;margin-bottom:14px}
+.edit-panel.show{display:block}
+.edit-panel input,.edit-panel select{width:100%;padding:10px;border:2px solid var(--g200);border-radius:8px;margin-bottom:8px;font-size:13px;font-family:inherit}
+
+/* Mobile */
+@media(max-width:480px){.score-row{grid-template-columns:repeat(3,1fr)}.cta-row{grid-template-columns:1fr}}
+</style>
+<script src="/docs/data/lf-whatsapp.js"></script>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+<div class="logo"><img src="logo.jpg" alt="霖楓學苑" style="height:32px"></div>
+<h1>試堂診斷報告</h1>
+<div class="date" id="reportDate"></div>
+</div>
+
+<!-- ONE-SENTENCE SUMMARY -->
+<div class="summary-card">
+<div class="icon-big" id="summaryIcon">🎯</div>
+<div class="one-liner" id="oneLiner"></div>
+<div class="sub-text" id="subText"></div>
+</div>
+
+<!-- SCORE ROW -->
+<div class="score-row">
+<div class="score-card"><div class="big-num green" id="accuracyNum">--</div><div class="label">整體正確率</div></div>
+<div class="score-card"><div class="big-num blue" id="trapsFound">--</div><div class="label">發現陷阱數</div></div>
+<div class="score-card"><div class="big-num red" id="attentionScore">--</div><div class="label">專注度評分</div></div>
+</div>
+
+<!-- PEER COMPARISON -->
+<div class="peer-card">
+<h3>📊 同級學生對比（{grade}級基準）</h3>
+<div class="peer-bar">
+<div class="bar-label"><span>陷阱避開率</span><span id="trapAvoidRate">--</span></div>
+<div class="bar-track"><div class="bar-fill" id="trapBar" style="width:0%"></div></div>
+</div>
+<div class="peer-bar">
+<div class="bar-label"><span>計算速度</span><span id="speedRate">--</span></div>
+<div class="bar-track"><div class="bar-fill" id="speedBar" style="width:0%"></div></div>
+</div>
+<div class="peer-bar">
+<div class="bar-label"><span>應用題理解</span><span id="appRate">--</span></div>
+<div class="bar-track"><div class="bar-fill" id="appBar" style="width:0%"></div></div>
+</div>
+<div class="peer-note" id="peerNote"></div>
+</div>
+
+<!-- TRAP FOUND -->
+<div class="trap-card">
+<h3>🔍 今次試堂發現嘅陷阱</h3>
+<div class="trap-list" id="trapList"></div>
+</div>
+
+<!-- ACTION PLAN -->
+<div class="action-card">
+<h3>📋 建議行動計劃</h3>
+<ul class="action-steps" id="actionSteps"></ul>
+</div>
+
+<!-- RECOMMENDATION -->
+<div class="rec-card">
+<h3>🎓 建議課程方案</h3>
+<p id="recTitle">8堂系統提升方案</p>
+<div class="price" id="recPrice">$1,760<span>/8堂</span></div>
+<p id="recDetail">每堂65分鐘 · 1對3小班 · 針對性解決陷阱弱項</p>
+</div>
+
+<!-- CTA -->
+<button class="btn btn-book" onclick="bookTrial()">📅 立即預約正式課堂</button>
+<div class="cta-row">
+<button class="btn btn-wa" onclick="shareToWhatsApp()">💬 WhatsApp 分享俾家人</button>
+<button class="btn btn-share" onclick="copyReport()">📋 複製報告文字</button>
+</div>
+
+<!-- EDIT MODE (for teacher data input) -->
+<div class="edit-toggle"><button onclick="toggleEdit()">✏️ 導師編輯數據</button></div>
+<div class="edit-panel" id="editPanel">
+<input type="text" id="editName" placeholder="學生名稱">
+<select id="editGrade"><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<input type="text" id="editAccuracy" placeholder="正確率 %（例: 72）">
+<input type="text" id="editTraps" placeholder="發現陷阱（例: T1,T5,T9）">
+<input type="text" id="editStrength" placeholder="最強課題">
+<input type="text" id="editWeakness" placeholder="最大弱點">
+<button class="btn btn-share" onclick="applyEdit()" style="width:100%;margin-top:10px">套用數據 → 更新報告</button>
+</div>
+
+</div>
+
+<script>
+// ========================================
+// AUTO-GENERATE REPORT with DEMO DATA
+// ========================================
+var studentData = {
+    name: '陳小明',
+    grade: 'P5',
+    accuracy: 68,
+    trapsFound: ['T1','T5','T9'],
+    trapsOk: ['T3','T4','T6','T7','T8','T10'],
+    strength: '分數乘法',
+    weakness: '百分數變化',
+    attention: 85,
+    speed: 62,
+    application: 55
+};
+
+// Benchmark data by grade (percentile based)
+var benchmarks = {
+    P3: {trap:55,speed:50,app:45},
+    P4: {trap:52,speed:52,app:48},
+    P5: {trap:48,speed:55,app:50},
+    P6: {trap:45,speed:58,app:52},
+};
+
+function getPeerLevel(score, benchmark) {
+    if (score >= benchmark + 20) return {level:'Top 25%', cls:'good', text:'高於同級平均水平，表現出色！'};
+    if (score >= benchmark - 5) return {level:'中位數附近', cls:'ok', text:'與同級學生水平相若，繼續努力！'};
+    return {level:'需要關注', cls:'weak', text:'低於同級平均水平，建議針對性加強。'};
+}
+
+function generateReport() {
+    var d = studentData;
+    var bm = benchmarks[d.grade];
+    var now = new Date();
+    
+    // Date
+    document.getElementById('reportDate').textContent = 
+        now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 · '+d.grade+'試堂診斷';
+    
+    // One-liner
+    var strongMsg = d.accuracy >= 80 ? '表現出色' : d.accuracy >= 60 ? '有良好基礎' : '需要重點關注';
+    var trapMsg = d.trapsFound.length <= 1 ? '只發現少量陷阱' : '發現'+d.trapsFound.length+'個常見陷阱';
+    document.getElementById('oneLiner').textContent = 
+        d.name+'今日試堂'+strongMsg+'，'+trapMsg+'。最大弱項係「'+d.weakness+'」，建議針對性訓練。';
+    document.getElementById('subText').textContent = '專注度 '+d.attention+'% · 計算速度 '+d.speed+'% · 應用題 '+d.application+'%';
+    
+    // Icon
+    var icon = d.accuracy >= 80 ? '🌟' : d.accuracy >= 60 ? '💪' : '🎯';
+    document.getElementById('summaryIcon').textContent = icon;
+    
+    // Scores
+    document.getElementById('accuracyNum').textContent = d.accuracy+'%';
+    document.getElementById('trapsFound').textContent = d.trapsFound.length;
+    document.getElementById('attentionScore').textContent = d.attention+'%';
+    
+    // Peer comparison bars
+    var trapScore = 100 - (d.trapsFound.length * 15);
+    var trapLevel = getPeerLevel(trapScore, bm.trap);
+    var speedLevel = getPeerLevel(d.speed, bm.speed);
+    var appLevel = getPeerLevel(d.application, bm.app);
+    
+    document.getElementById('trapAvoidRate').textContent = trapScore+'% ('+trapLevel.level+')';
+    document.getElementById('trapBar').style.width = Math.min(100,trapScore)+'%';
+    document.getElementById('trapBar').className = 'bar-fill ' + trapLevel.cls;
+    
+    document.getElementById('speedRate').textContent = d.speed+'% ('+speedLevel.level+')';
+    document.getElementById('speedBar').style.width = Math.min(100,d.speed)+'%';
+    document.getElementById('speedBar').className = 'bar-fill ' + speedLevel.cls;
+    
+    document.getElementById('appRate').textContent = d.application+'% ('+appLevel.level+')';
+    document.getElementById('appBar').style.width = Math.min(100,d.application)+'%';
+    document.getElementById('appBar').className = 'bar-fill ' + appLevel.cls;
+    
+    document.getElementById('peerNote').textContent = 
+        '對比'+d.grade+'級學生數據：陷阱避開率'+trapLevel.text+' 計算速度'+speedLevel.text+' 應用題理解'+appLevel.text;
+    
+    // Trap tags
+    var trapNames = {T1:'進退位',T2:'單位換算',T3:'運算順序',T4:'漏寫0',T5:'分數',T6:'百分數',T7:'應用題',T8:'圖形面積',T9:'體積容量',T10:'速率'};
+    var trapHtml = '';
+    ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'].forEach(function(t){
+        var isFound = d.trapsFound.indexOf(t) >= 0;
+        trapHtml += '<span class="trap-tag '+(isFound?'found':'ok')+'">'+(isFound?'⚠ ':'✅ ')+trapNames[t]+'</span>';
+    });
+    document.getElementById('trapList').innerHTML = trapHtml;
+    
+    // Action steps
+    var steps = [
+        {num:1, text:'針對「'+d.weakness+'」進行專項訓練，使用霖楓陷阱診斷題庫'},
+        {num:2, text:'每堂65分鐘：5分鐘熱身 + 15分鐘講解 + 30分鐘實戰 + 15分鐘檢討'},
+        {num:3, text:'每週一次陷阱避開率測試，追蹤進步'},
+        {num:4, text:'重點口訣記憶：「'+getMantraForWeakness(d.weakness)+'」'},
+    ];
+    document.getElementById('actionSteps').innerHTML = steps.map(function(s){
+        return '<li><span class="step-num">'+s.num+'</span>'+s.text+'</li>';
+    }).join('');
+    
+    // Recommendation
+    var recs = {
+        P3: {title:'4堂基礎改善',price:'$880',detail:'每堂65分鐘 · 1對3小班 · 建立數學信心'},
+        P4: {title:'6堂系統提升',price:'$1,320',detail:'每堂65分鐘 · 1對3小班 · 全面強化運算與應用'},
+        P5: {title:'8堂SSPA預備',price:'$1,760',detail:'每堂65分鐘 · 1對3小班 · 針對呈分試陷阱'},
+        P6: {title:'8堂SSPA衝刺',price:'$2,000',detail:'每堂65分鐘 · 1對3小班 · 呈分試終極備戰'},
+    };
+    var rec = recs[d.grade];
+    document.getElementById('recTitle').textContent = rec.title;
+    document.getElementById('recPrice').innerHTML = rec.price+'<span>/'+rec.title.split(' ')[0]+'</span>';
+    document.getElementById('recDetail').textContent = rec.detail;
+}
+
+function getMantraForWeakness(weakness) {
+    var map = {
+        '百分數變化':'加完再減，基準唔同，唔會還原',
+        '分數':'先通分LCM，分子跟住乘，分母不變照減',
+        '體積容量':'體積三維要統一，米同厘米唔可以撈埋',
+        '面積':'面積長×闊cm²，周界長加闊乘2cm',
+        '速率':'速率時間單位要一致',
+        '小數':'先當整數計，數晒小數位',
+        '應用題':'文字題，睇清楚每個項目嘅數量',
+    };
+    for (var k in map) { if (weakness.indexOf(k)>=0) return map[k]; }
+    return '逐個步驟拆解，唔好心急';
+}
+
+// ========================================
+// INTERACTIONS
+// ========================================
+function shareToWhatsApp() {
+    var d = studentData;
+    var msg = encodeURIComponent(
+        '【霖楓學苑 · '+d.name+'試堂診斷報告】\n\n'+
+        document.getElementById('oneLiner').textContent+'\n\n'+
+        '📊 正確率：'+d.accuracy+'%\n'+
+        '⚠ 發現陷阱：'+d.trapsFound.length+'個\n'+
+        '💪 最強：'+d.strength+'\n'+
+        '🎯 弱項：'+d.weakness+'\n\n'+
+        '📋 建議：'+document.getElementById('recTitle').textContent+'\n'+
+        document.getElementById('recPrice').textContent+'\n\n'+
+        '👉 預約正式課堂：https://wa.me/852XXXXXXX'
+    );
+    window.open('https://wa.me/?text='+msg, '_blank');
+}
+
+function copyReport() {
+    var d = studentData;
+    var text = 
+        '【霖楓學苑 · '+d.name+' '+d.grade+'試堂診斷報告】\n'+
+        '━━━━━━━━━━━━━━━━\n\n'+
+        '📝 一句話總結：\n'+document.getElementById('oneLiner').textContent+'\n\n'+
+        '📊 成績概覽：\n'+
+        '  正確率：'+d.accuracy+'%\n'+
+        '  發現陷阱：'+d.trapsFound.length+'個\n'+
+        '  專注度：'+d.attention+'%\n'+
+        '  計算速度：'+d.speed+'%\n'+
+        '  應用題理解：'+d.application+'%\n\n'+
+        '📈 同級對比：\n'+document.getElementById('peerNote').textContent+'\n\n'+
+        '🎯 建議方案：'+document.getElementById('recTitle').textContent+' - '+document.getElementById('recPrice').textContent+'\n\n'+
+        '👉 預約：https://wa.me/852XXXXXXX';
+    
+    navigator.clipboard.writeText(text).then(function(){
+        alert('報告已複製！可以貼上 WhatsApp send 俾家長');
+    }).catch(function(){
+        prompt('請手動複製以下報告：', text);
+    });
+}
+
+function bookTrial() {
+    var d = studentData;
+    var msg = encodeURIComponent('你好！我係'+d.name+'嘅家長，想預約'+d.grade+'正式課堂。試堂報告已收到，想了解更多關於'+document.getElementById('recTitle').textContent+'嘅詳情。');
+    window.open('https://wa.me/852XXXXXXX?text='+msg, '_blank');
+}
+
+function toggleEdit() {
+    document.getElementById('editPanel').classList.toggle('show');
+}
+
+function applyEdit() {
+    var traps = document.getElementById('editTraps').value.split(',').map(function(t){return t.trim()}).filter(Boolean);
+    var allTraps = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
+    
+    studentData.name = document.getElementById('editName').value || studentData.name;
+    studentData.grade = document.getElementById('editGrade').value || studentData.grade;
+    studentData.accuracy = parseInt(document.getElementById('editAccuracy').value) || studentData.accuracy;
+    studentData.trapsFound = traps.length > 0 ? traps : studentData.trapsFound;
+    studentData.trapsOk = allTraps.filter(function(t){return traps.indexOf(t)<0});
+    studentData.strength = document.getElementById('editStrength').value || studentData.strength;
+    studentData.weakness = document.getElementById('editWeakness').value || studentData.weakness;
+    
+    generateReport();
+    document.getElementById('editPanel').classList.remove('show');
+}
+
+// ========================================
+// INIT - Auto-generate with demo data
+// ========================================
+generateReport();
+</script>
+</body>
+</html>

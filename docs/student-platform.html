@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 學生平台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Microsoft YaHei','Noto Sans HK',sans-serif;background:linear-gradient(180deg,#0A1A35,#1A3C6D,#1E4D8C);color:white;min-height:100vh;padding:20px}
+.container{max-width:650px;margin:0 auto}
+.header{text-align:center;padding:10px 0}
+.header h1{font-size:22px;margin-bottom:4px}.header .sub{font-size:11px;opacity:0.4}
+
+.profile{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:20px;margin-bottom:12px;text-align:center}
+.profile .avatar{font-size:56px;margin-bottom:4px}
+.profile .name{font-size:18px;font-weight:900}.profile .title{font-size:11px;color:#C9A84C;margin:2px 0}
+.profile .plan{font-size:10px;margin:2px 0}
+
+.level-bar-outer{background:rgba(255,255,255,0.08);border-radius:6px;height:6px;margin:10px 0;overflow:hidden}
+.level-bar-inner{background:linear-gradient(90deg,#C9A84C,#DFC06A);height:100%;width:0;transition:width 0.5s;border-radius:6px}
+
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin:10px 0}
+.st{background:rgba(255,255,255,0.04);border-radius:12px;padding:10px 6px;text-align:center}
+.st .v{font-size:20px;font-weight:900;color:#C9A84C}.st .l{font-size:9px;opacity:0.3}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.act{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;text-align:center;text-decoration:none;color:white;transition:all 0.15s}
+.act:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px)}
+.act.primary{border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.08)}
+.act .icon{font-size:32px;display:block;margin-bottom:4px}.act .n{font-weight:700;font-size:13px}.act .d{font-size:10px;opacity:0.35}
+
+.weak-alert{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:12px;margin:10px 0;font-size:12px;display:flex;align-items:center;gap:10px}
+.weak-alert .icon{font-size:28px}.weak-alert .text{flex:1;line-height:1.6}
+
+.goal-bar{background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:11px;display:flex;align-items:center;gap:8px}
+.goal-bar .check{font-size:18px}.goal-bar .bar-wrap{flex:1;background:rgba(255,255,255,0.06);border-radius:4px;height:6px;overflow:hidden}
+.goal-bar .bar-inner{background:#16A34A;height:100%;transition:width 0.5s}
+
+.nav{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:12px 0}
+.nav a{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px 8px;text-align:center;text-decoration:none;color:white;font-size:10px;transition:all 0.15s}
+.nav a:hover{background:rgba(255,255,255,0.08)}.nav a .icon{font-size:24px;display:block;margin-bottom:2px}
+
+.trap-row{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.trap-dot{width:22px;height:22px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.trap-dot.ok{background:rgba(22,163,74,0.3);border:1px solid rgba(22,163,74,0.5)}
+.trap-dot.mid{background:rgba(245,158,11,0.3);border:1px solid rgba(245,158,11,0.5)}
+.trap-dot.bad{background:rgba(220,38,38,0.3);border:1px solid rgba(220,38,38,0.5)}
+.trap-dot.off{background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.05)}
+</style>
+  <link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+  <link rel="manifest" href="/manifest.json">
+
+<script src="lf-gamification.js"></script>
+
+<script src="data/lf-offline.js"></script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+// Using unified config from lf-firebase-config.js
+const firebaseConfig = LF_FIREBASE_CONFIG || {
+  apiKey: LF_FIREBASE_CONFIG?.apiKey || "YOUR_API_KEY",
+  authDomain: "lam-fung-academy.firebaseapp.com",
+  projectId: "lam-fung-academy",
+  storageBucket: "lam-fung-academy.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+if (!firebase.apps.length) { firebase.initializeApp(LF_FIREBASE_CONFIG); }
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Auth guard - redirect to login if not authenticated
+auth.onAuthStateChanged(function(user) {
+  if (!user) {
+    var currentPage = window.location.pathname;
+    if (!currentPage.includes("login.html") && !currentPage.includes("index.html") && !currentPage.includes("ai-diagnostic") && !currentPage.includes("enroll")) {
+      window.location.href = "/docs/login.html";
+    }
+  } else {
+    window.currentUser = user;
+    console.log("Logged in as:", user.email);
+  }
+});
+</script>
+
+</head>
+<body>
+
+<div class="container" id="main">
+
+<div class="header">
+<h1 id="greeting">歡迎回來！</h1>
+<div class="sub" id="todayDate"></div>
+</div>
+
+<div class="profile">
+<div class="avatar" id="avatar">🎓</div>
+<div class="name" id="studentName">小數學家</div>
+<div class="title" id="studentTitle">新手探險家</div>
+<div class="plan" id="studentPlan"></div>
+<div class="level-bar-outer"><div class="level-bar-inner" id="levelBar" style="width:0%"></div></div>
+<div style="font-size:9px;opacity:0.3;display:flex;justify-content:space-between"><span id="levelLabel">Lv.1</span><span id="xpLabel">0 XP</span></div>
+<div class="trap-row" id="trapRow"></div>
+</div>
+
+<!-- WEAK TRAP ALERT -->
+<div class="weak-alert" id="weakAlert" style="display:none">
+<div class="icon" id="weakIcon">⚠️</div>
+<div class="text" id="weakText">你最需要改善的是...</div>
+</div>
+
+<!-- DAILY GOAL -->
+<div class="goal-bar">
+<span class="check" id="goalIcon">🎯</span>
+<div style="flex:1"><span id="goalLabel">今日目標：完成 10 題練習</span>
+<div class="bar-wrap"><div class="bar-inner" id="goalBar" style="width:0%"></div></div></div>
+<span style="font-size:10px;opacity:0.4" id="goalCount">0/10</span>
+</div>
+
+<div class="stats">
+<div class="st"><div class="v" id="statStreak">0</div><div class="l">連續天</div></div>
+<div class="st"><div class="v" id="statBadges">0</div><div class="l">勳章</div></div>
+<div class="st"><div class="v" id="statMonsters">0</div><div class="l">怪獸</div></div>
+<div class="st"><div class="v" id="statAccuracy">0%</div><div class="l">正確率</div></div>
+</div>
+
+<div class="actions">
+<a href="online-test.html" class="act primary"><span class="icon">📝</span><span class="n">AI 練習</span><span class="d">針對弱項出題</span></a>
+<a href="trap-quiz.html" class="act"><span class="icon">🧪</span><span class="n">陷阱診斷</span><span class="d">2分鐘快速</span></a>
+<a href="kids-mode.html" class="act"><span class="icon">🦊</span><span class="n">冒險模式</span><span class="d">打怪獸學數學</span></a>
+<a href="ai-diagnostic.html" class="act"><span class="icon">🔬</span><span class="n">AI 完整診斷</span><span class="d">20題深度分析</span></a>
+</div>
+
+<div class="nav">
+<a href="kids-boss-battle.html"><span class="icon">💀</span>Boss 挑戰</a>
+<a href="kids-monster-box.html"><span class="icon">🐲</span>怪獸圖鑑</a>
+<a href="kids-badges.html"><span class="icon">🏅</span>勳章</a>
+<a href="kids-quests.html"><span class="icon">📋</span>每日任務</a>
+<a href="kids-leaderboard.html"><span class="icon">🏆</span>排行榜</a>
+<a href="profile.html"><span class="icon">👤</span>我的帳戶</a>
+</div>
+
+</div>
+
+<script>
+var user=null;try{user=JSON.parse(localStorage.getItem('lf_current_user'))}catch(e){}
+
+// Login gate
+if(!user||!user.phone){
+document.getElementById('main').innerHTML='<div style=text-align:center;padding:60px 20px><div style=font-size:64px;margin-bottom:16px>🔑</div><h1>請先登入</h1><p style=opacity:0.4;margin:8px 0>登入後可以睇到你的練習進度、勳章同怪獸</p><a href=login.html style=display:inline-block;padding:14px 36px;background:#C9A84C;color:#1A3C6D;border-radius:25px;text-decoration:none;font-weight:900;font-size:16px;margin-top:12px>登入/註冊</a></div>';
+}else{
+
+document.getElementById('studentName').textContent=user.student||'小數學家';
+document.getElementById('greeting').textContent='歡迎回來，'+user.student+'！';
+document.getElementById('studentPlan').innerHTML=user.plan==='pro'?'<span style=color:#C9A84C>⭐ Pro 會員</span>':'<span style=opacity:0.4>免費版 · 15次/月</span>';
+
+var now=new Date();
+document.getElementById('todayDate').textContent=now.toLocaleDateString('zh-HK',{weekday:'long',month:'long',day:'numeric'});
+
+try{
+var g=JSON.parse(localStorage.getItem('lf_gamification'));
+if(g){
+var lvl=1;var xp=g.xp||0;
+for(var i=1;i<=50;i++){var th=Math.floor(100*Math.pow(1.45,i-1));if(xp>=th)lvl=i+1}
+var nextXp=Math.floor(100*Math.pow(1.45,lvl-1));
+var prevXp=lvl>1?Math.floor(100*Math.pow(1.45,lvl-2)):0;
+var pct=Math.min(100,Math.round((xp-prevXp)/(nextXp-prevXp)*100));
+document.getElementById('levelBar').style.width=pct+'%';
+document.getElementById('levelLabel').textContent='Lv.'+lvl;
+document.getElementById('xpLabel').textContent=xp+' / '+nextXp+' XP';
+
+var titles={50:'數學之神',40:'至尊學者',30:'傳奇大師',20:'精英學者',10:'進階學徒',5:'初級學徒'};
+var t='新手探險家';Object.keys(titles).sort(function(a,b){return b-a}).forEach(function(l){if(lvl>=parseInt(l)&&t==='新手探險家')t=titles[l]});
+document.getElementById('studentTitle').textContent=t;
+
+document.getElementById('statStreak').textContent=g.currentStreak||0;
+document.getElementById('statBadges').textContent=Object.keys(g.badges||{}).length;
+var monsters=0;for(var ti=1;ti<=10;ti++){if((g.monsterStages||{})['T'+ti]>=1)monsters++}
+document.getElementById('statMonsters').textContent=monsters;
+var acc=g.totalQuestions>0?Math.round(g.totalCorrect/g.totalQuestions*100):0;
+document.getElementById('statAccuracy').textContent=acc+'%';
+
+// Trap dots with tooltips
+var icons=['👾','🐉','🤖','👻','🍕','💯','📖','📐','⏰','🔮'];
+var trapNames={T1:'進退位',T2:'單位換算',T3:'運算',T4:'漏0/小數',T5:'分數',T6:'百分數',T7:'應用題',T8:'圖形',T9:'時間體積',T10:'餘數'};
+var dots='';
+var weakest=null;var weakestCount=999;
+for(var ti=1;ti<=10;ti++){
+var d=(g.trapDefeats||{})['T'+ti]||0;
+var cls=d>=20?'ok':d>=5?'mid':d>0?'bad':'off';
+dots+='<div class=\"trap-dot '+cls+'\" title=\"T'+ti+' '+trapNames['T'+ti]+': 擊敗'+d+'次\" onclick=\"alert(\\'T'+ti+' '+trapNames[`T`+ti]+': 已擊敗'+d+'次\\')\">'+icons[ti-1]+'</div>';
+if(d<weakestCount&&d<10){weakest='T'+ti;weakestCount=d}
+}
+document.getElementById('trapRow').innerHTML=dots;
+
+// Weak trap alert
+if(weakest&&weakestCount<10){
+document.getElementById('weakAlert').style.display='flex';
+document.getElementById('weakIcon').textContent=icons[parseInt(weakest.slice(1))-1];
+document.getElementById('weakText').innerHTML='<b>你最需要改善：'+weakest+' '+trapNames[weakest]+'</b><br>只擊敗過 '+weakestCount+' 次 · 點擊下方 AI 練習針對性訓練';
+}
+
+// Daily goal
+var todayStr=now.toISOString().slice(0,10);
+var todayQ=g._todayTotal||0;
+var goalPct=Math.min(100,Math.round(todayQ/10*100));
+document.getElementById('goalBar').style.width=goalPct+'%';
+document.getElementById('goalCount').textContent=todayQ+'/10';
+if(todayQ>=10){document.getElementById('goalIcon').textContent='✅';document.getElementById('goalLabel').textContent='今日目標達成！好叻呀！'}
+}
+
+// Avatar by level
+var avatars={5:'📚',10:'⚡',15:'🎯',20:'💪',25:'⭐',30:'🏅',40:'👑',50:'🏆'};
+var av='🎓';Object.keys(avatars).sort(function(a,b){return b-a}).forEach(function(l){if(lvl>=parseInt(l)&&av==='🎓')av=avatars[l]});
+document.getElementById('avatar').textContent=av;
+}catch(e){}
+
+} // close login gate
+</script>
+  <script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script>
+  <script src="/docs/data/lf-whatsapp.js"></script>
+  <script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+</body>
+</html>
