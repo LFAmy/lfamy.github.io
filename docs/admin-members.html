@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -74,6 +74,17 @@ auth.onAuthStateChanged(function(user) {
 
 </head>
 <body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
 
 <div class="container">
 
@@ -102,7 +113,6 @@ auth.onAuthStateChanged(function(user) {
 </select>
 <button class="btn btn-gold" onclick="showAddModal()">+ 新增會員</button>
 <button class="btn btn-outline" onclick="exportMembers()">匯出名單</button>
-<button class="btn btn-green" onclick="showCsvModal()" style="display:flex;align-items:center;gap:4px"><span style="font-size:14px">📥</span> CSV導入</button>
 </div>
 
 <table>
@@ -182,235 +192,6 @@ document.getElementById('statActive').textContent=active.length;
 document.getElementById('statFree').textContent=free.length;
 document.getElementById('statPro').textContent=pro.length;
 document.getElementById('statExpiring').textContent=expiring.length;
-}
-
-// ========================================
-// CSV IMPORT FUNCTIONS
-// ========================================
-var csvParsedData = [];
-var csvImportStats = { new: 0, update: 0, skip: 0 };
-
-function showCsvModal() {
-    document.getElementById(\u0027csvModal\u0027).classList.add(\u0027show\u0027);
-    resetCsvState();
-}
-
-function closeCsvModal() {
-    document.getElementById(\u0027csvModal\u0027).classList.remove(\u0027show\u0027);
-    resetCsvState();
-}
-
-function resetCsvState() {
-    csvParsedData = [];
-    csvImportStats = { new: 0, update: 0, skip: 0 };
-    document.getElementById(\u0027csvUploadArea\u0027).style.display = \u0027\u0027;
-    document.getElementById(\u0027csvFileInfo\u0027).style.display = \u0027none\u0027;
-    document.getElementById(\u0027csvPreview\u0027).style.display = \u0027none\u0027;
-    document.getElementById(\u0027csvMode\u0027).style.display = \u0027none\u0027;
-    document.getElementById(\u0027csvImportBtn\u0027).style.display = \u0027none\u0027;
-    document.getElementById(\u0027csvFileInput\u0027).value = \u0027\u0027;
-}
-
-function handleCsvDrop(e) {
-    e.preventDefault();
-    e.target.style.borderColor = \u0027#E5E7EB\u0027;
-    e.target.style.background = \u0027transparent\u0027;
-    var file = e.dataTransfer.files[0];
-    if (file) parseCsvFile(file);
-}
-
-function handleCsvFile(e) {
-    var file = e.target.files[0];
-    if (file) parseCsvFile(file);
-}
-
-function parseCsvFile(file) {
-    if (!file.name.endsWith(\u0027.csv\u0027)) {
-        alert(\u0027請上傳 .csv 格式檔案\u0027);
-        return;
-    }
-    if (file.size > 2 * 1024 * 1024) {
-        alert(\u0027檔案不能超過 2MB\u0027);
-        return;
-    }
-
-    var reader = new FileReader();
-    reader.onload = function(e) {
-        var text = e.target.result;
-        var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
-
-        if (lines.length < 2) {
-            alert(\u0027CSV 檔案沒有數據（至少需要標題行和1行數據）\u0027);
-            return;
-        }
-
-        // Parse header to detect columns
-        var header = parseCsvLine(lines[0]);
-        var colMap = detectColumns(header);
-
-        if (!colMap.name) {
-            alert(\u0027找不到「姓名」欄位。請確保 CSV 第一行包含：姓名, 年級, 家長電話, 班級\u0027);
-            return;
-        }
-
-        // Parse data rows
-        csvParsedData = [];
-        for (var i = 1; i < lines.length; i++) {
-            var cols = parseCsvLine(lines[i]);
-            if (cols.length < 2) continue;
-
-            var row = {
-                student: (cols[colMap.name] || \u0027\u0027).trim(),
-                grade: colMap.grade >= 0 ? (cols[colMap.grade] || \u0027\u0027).trim() : \u0027\u0027,
-                phone: colMap.phone >= 0 ? (cols[colMap.phone] || \u0027\u0027).trim() : \u0027\u0027,
-                parent: colMap.parent >= 0 ? (cols[colMap.parent] || \u0027\u0027).trim() : \u0027\u0027,
-                className: colMap.class >= 0 ? (cols[colMap.class] || \u0027\u0027).trim() : \u0027\u0027
-            };
-            if (row.student) csvParsedData.push(row);
-        }
-
-        // Check for duplicates within members
-        csvImportStats = { new: 0, update: 0, skip: 0 };
-        csvParsedData.forEach(function(row) {
-            var exists = members.find(function(m) {
-                return m.phone && row.phone && m.phone === row.phone;
-            });
-            if (exists) {
-                csvImportStats.update++;
-            } else if (row.phone && members.some(function(m) { return m.student === row.student && m.grade === row.grade; })) {
-                csvImportStats.skip++;
-            } else {
-                csvImportStats.new++;
-            }
-        });
-
-        // Show file info
-        document.getElementById(\u0027csvFileName\u0027).textContent = \u0027📄 \u0027 + file.name;
-        document.getElementById(\u0027csvRowCount\u0027).textContent = csvParsedData.length + \u0027 行數據\u0027;
-        document.getElementById(\u0027csvFileInfo\u0027).style.display = \u0027flex\u0027;
-
-        // Show preview
-        renderCsvPreview();
-        document.getElementById(\u0027csvPreview\u0027).style.display = \u0027block\u0027;
-        document.getElementById(\u0027csvMode\u0027).style.display = \u0027block\u0027;
-        document.getElementById(\u0027csvImportBtn\u0027).style.display = \u0027block\u0027;
-    };
-    reader.readAsText(file, \u0027UTF-8\u0027);
-}
-
-function parseCsvLine(line) {
-    var result = [];
-    var current = \u0027\u0027;
-    var inQuotes = false;
-    for (var i = 0; i < line.length; i++) {
-        var ch = line[i];
-        if (ch === \u0027"\u0027) {
-            inQuotes = !inQuotes;
-        } else if (ch === \u0027,\u0027 && !inQuotes) {
-            result.push(current);
-            current = \u0027\u0027;
-        } else {
-            current += ch;
-        }
-    }
-    result.push(current);
-    return result;
-}
-
-function detectColumns(header) {
-    var map = { name: -1, grade: -1, phone: -1, parent: -1, class: -1 };
-    header.forEach(function(h, i) {
-        var hLower = h.toLowerCase().trim();
-        if (hLower.includes(\u0027姓名\u0027) || hLower.includes(\u0027name\u0027) || hLower.includes(\u0027學生\u0027) || hLower.includes(\u0027student\u0027)) map.name = i;
-        if (hLower.includes(\u0027年級\u0027) || hLower.includes(\u0027grade\u0027) || hLower.includes(\u0027p\u0027) && hLower.length <= 3) map.grade = i;
-        if (hLower.includes(\u0027電話\u0027) || hLower.includes(\u0027phone\u0027) || hLower.includes(\u0027tel\u0027) || hLower.includes(\u0027手機\u0027) || hLower.includes(\u0027mobile\u0027)) map.phone = i;
-        if (hLower.includes(\u0027家長\u0027) || hLower.includes(\u0027parent\u0027) || hLower.includes(\u0027聯絡人\u0027)) map.parent = i;
-        if (hLower.includes(\u0027班級\u0027) || hLower.includes(\u0027class\u0027) || hLower.includes(\u0027組別\u0027) || hLower.includes(\u0027group\u0027)) map.class = i;
-    });
-    // Fallback: try positional mapping
-    if (map.name < 0 && header.length >= 1) map.name = 0;
-    if (map.grade < 0 && header.length >= 2 && (header[1] || \u0027\u0027).match(/^[PS]\d$/i)) map.grade = 1;
-    if (map.phone < 0 && header.length >= 3 && (header[2] || \u0027\u0027).match(/^\d/)) map.phone = 2;
-    return map;
-}
-
-function renderCsvPreview() {
-    var html = \u0027\u0027;
-    csvParsedData.forEach(function(row, i) {
-        var status = \u0027\u0027;
-        var statusColor = \u0027\u0027;
-        var exists = members.find(function(m) {
-            return m.phone && row.phone && m.phone === row.phone;
-        });
-        if (exists) {
-            status = \u0027🔄 更新\u0027;
-            statusColor = \u0027#F59E0B\u0027;
-        } else if (row.phone && members.some(function(m) { return m.student === row.student && m.grade === row.grade; })) {
-            status = \u0027⚠️ 同名跳過\u0027;
-            statusColor = \u0027#9CA3AF\u0027;
-        } else {
-            status = \u0027✨ 新增\u0027;
-            statusColor = \u0027#16A34A\u0027;
-        }
-        html += \u0027<tr>\u0027 +
-            \u0027<td>\u0027 + (i + 1) + \u0027</td>\u0027 +
-            \u0027<td><b>\u0027 + escHtml(row.student) + \u0027</b></td>\u0027 +
-            \u0027<td>\u0027 + escHtml(row.grade) + \u0027</td>\u0027 +
-            \u0027<td>\u0027 + escHtml(row.parent) + \u0027</td>\u0027 +
-            \u0027<td style="font-size:10px">\u0027 + escHtml(row.phone) + \u0027</td>\u0027 +
-            \u0027<td>\u0027 + escHtml(row.className) + \u0027</td>\u0027 +
-            \u0027<td style="color:\u0027 + statusColor + \u0027;font-weight:700">\u0027 + status + \u0027</td>\u0027 +
-        \u0027</tr>\u0027;
-    });
-    document.getElementById(\u0027csvPreviewBody\u0027).innerHTML = html;
-    document.getElementById(\u0027csvNewCount\u0027).textContent = \u0027🟢 新增 \u0027 + csvImportStats.new + \u0027 人\u0027;
-    document.getElementById(\u0027csvUpdateCount\u0027).textContent = \u0027🟡 更新 \u0027 + csvImportStats.update + \u0027 人\u0027;
-    document.getElementById(\u0027csvSkipCount\u0027).textContent = \u0027⚪ 跳過 \u0027 + csvImportStats.skip + \u0027 人\u0027;
-}
-
-function escHtml(str) {
-    return (str || \u0027\u0027).replace(/&/g, \u0027&amp;\u0027).replace(/</g, \u0027&lt;\u0027).replace(/>/g, \u0027&gt;\u0027).replace(/"/g, \u0027&quot;\u0027);
-}
-
-function doCsvImport() {
-    if (!csvParsedData.length) return;
-
-    var updateMode = document.getElementById(\u0027csvUpdateMode\u0027).checked;
-    var imported = 0;
-    var updated = 0;
-
-    csvParsedData.forEach(function(row) {
-        if (!row.student) return;
-
-        var exists = members.find(function(m) {
-            return m.phone && row.phone && m.phone === row.phone;
-        });
-
-        if (exists && updateMode) {
-            // Update existing
-            exists.student = row.student;
-            exists.grade = row.grade || exists.grade;
-            exists.parent = row.parent || exists.parent;
-            updated++;
-        } else if (!exists && !(row.phone && members.some(function(m) { return m.student === row.student && m.grade === row.grade; }))) {
-            // New member
-            members.push({
-                student: row.student,
-                grade: row.grade || \u0027P5\u0027,
-                parent: row.parent || \u0027家長\u0027,
-                phone: row.phone || \u0027\u0027,
-                plan: \u0027free\u0027,
-                activated: new Date().toISOString(),
-                expiry: null
-            });
-            imported++;
-        }
-    });
-
-    localStorage.setItem(\u0027lf_members\u0027, JSON.stringify(members));
-    closeCsvModal();
-    renderTable();
-    alert(\u0027✅ 導入完成！\n新增 \u0027 + imported + \u0027 人\n更新 \u0027 + updated + \u0027 人\n總計處理 \u0027 + (imported + updated) + \u0027 筆記錄\u0027);
 }
 
 function renderTable(){

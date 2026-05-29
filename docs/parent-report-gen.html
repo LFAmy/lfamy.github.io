@@ -2,284 +2,116 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>霖楓學苑 · 一鍵家長報告</title>
+<title>霖楓學苑 · 家長報告生成器</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
-:root{--blue:#1A3C6D;--blue-light:#1E4D8C;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-600:#6B7280;--gray-800:#374151;--gray-900:#1A1A1A;--radius:14px;--radius-sm:10px}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:var(--gray-900);font-size:14px;padding:20px;line-height:1.7}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei','SimHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
 .container{max-width:800px;margin:0 auto}
-.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:24px 28px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.header h1{font-family:'Noto Serif HK',serif;font-size:22px}
-.header .sub{font-size:12px;opacity:0.7}
-.card{background:white;border-radius:var(--radius);padding:22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-.card h2{font-size:16px;color:var(--blue);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--gray-200)}
-.btn{display:inline-block;padding:10px 20px;border-radius:25px;font-weight:700;font-size:13px;cursor:pointer;border:none;font-family:inherit;text-decoration:none;transition:all 0.2s;text-align:center}
-.btn-primary{background:var(--blue);color:white}
-.btn-primary:hover{background:var(--blue-light)}
-.btn-green{background:var(--green);color:white}
-.btn-green:hover{background:#15803D}
-.btn-gold{background:var(--gold);color:var(--blue)}
-.btn-gold:hover{background:#DFC06A}
-.btn-red{background:var(--red);color:white}
-.btn-outline{background:white;border:2px solid var(--gray-200);color:var(--gray-800)}
-.btn-outline:hover{border-color:var(--blue)}
-.btn-sm{padding:6px 14px;font-size:11px}
-input,select{padding:10px 14px;border:2px solid var(--gray-200);border-radius:8px;font-size:13px;font-family:inherit;width:100%}
-input:focus,select:focus{border-color:var(--blue);outline:none}
-.form-row{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.form-group{flex:1;min-width:120px}
-.form-group label{display:block;font-size:11px;font-weight:700;color:var(--gray-600);margin-bottom:4px}
-.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}
-.stat-card{background:var(--gray-50);border-radius:10px;padding:14px;text-align:center}
-.stat-card .val{font-size:24px;font-weight:900;color:var(--blue)}
-.stat-card .lbl{font-size:10px;color:var(--gray-600);margin-top:2px}
-.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.bar-label{width:80px;font-size:11px;font-weight:600;text-align:right;flex-shrink:0}
-.bar-track{flex:1;height:10px;background:var(--gray-200);border-radius:5px;overflow:hidden}
-.bar-fill{height:100%;border-radius:5px;transition:width 0.5s}
-.bar-score{width:36px;font-size:11px;font-weight:700;text-align:right}
-.share-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-@media print {
-  body{background:white;padding:0}
-  .header{background:var(--blue)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .btn,.share-btns,#controls{display:none!important}
-  .card{box-shadow:none;border:1px solid #E5E7EB;page-break-inside:avoid}
-}
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.card{background:white;border-radius:14px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h2{font-size:16px;color:#1A3C6D;margin-bottom:14px}
+input,select,textarea{padding:10px 14px;border:2px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;width:100%;margin-bottom:8px}
+textarea{min-height:80px;resize:vertical}
+.form-row{display:flex;gap:10px;flex-wrap:wrap}
+.form-row>*{flex:1;min-width:120px}
+.btn{display:block;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:15px;cursor:pointer;border:none;font-family:inherit;background:#1A3C6D;color:white;margin-top:8px}
+.btn:hover{background:#1E4D8C}
+.btn-copy{background:#25D366}.btn-copy:hover{background:#1EBE5B}
+.report-preview{background:white;border:2px solid #C9A84C;border-radius:14px;padding:28px;margin-top:16px;font-size:13px;line-height:2;display:none}
+.report-preview h3{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;text-align:center;font-size:18px;color:#1A3C6D}
+.report-preview .section-title{font-weight:900;color:#1A3C6D;margin:12px 0 4px;padding-top:8px;border-top:1px solid #E5E7EB}
+.report-preview .highlight{color:#DC2626;font-weight:700}
+.report-preview .good{color:#16A34A;font-weight:700}
+.trap-bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:11px}
+.trap-bar .bar-bg{flex:1;background:#E5E7EB;height:16px;border-radius:8px;overflow:hidden}
+.trap-bar .bar-fill{height:100%;border-radius:8px;transition:width 0.5s}
 </style>
 </head>
 <body>
+<style id="lf-nav-css">
+body{padding-top:48px!important}
+@media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+</style>
+<!-- LF Nav Bar (auto-injected) -->
+<div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
+<a href="/" style="display:flex;align-items:center;gap:6px;text-decoration:none;color:#1A3C6D;font-weight:900;font-size:14px"><img src="logo.png" alt="霖楓學苑" style="height:28px">霖楓學苑</a>
+<a href="/" style="text-decoration:none;color:#6B7280;font-size:12px;font-weight:500;padding:4px 12px;border:1px solid #E5E7EB;border-radius:12px">← 返回首頁</a>
+</div>
+
+
 <div class="container">
+<div class="header"><h1>📊 家長報告生成器</h1><p>填寫資料 → 生成專業進度報告 → WhatsApp/列印 send俾家長</p></div>
 
-<div class="header">
-<div>
-<h1>📊 家長學情報告</h1>
-<div class="sub">一鍵生成 · 即時分享 · 霖楓學苑</div>
-</div>
-<div id="controls">
-<button class="btn btn-gold" onclick="window.print()">🖨️ 列印/另存PDF</button>
-</div>
-</div>
-
-<!-- Controls -->
-<div class="card" id="controls">
-<h2>⚙️ 報告設定</h2>
+<div class="card">
+<h2>學生資料</h2>
 <div class="form-row">
-<div class="form-group">
-<label>選擇學生</label>
-<select id="reportStudent" onchange="generateReport()">
-<option value="">選擇學生...</option>
-</select>
-</div>
-<div class="form-group">
-<label>開始日期</label>
-<input type="date" id="dateFrom" onchange="generateReport()">
-</div>
-<div class="form-group">
-<label>結束日期</label>
-<input type="date" id="dateTo" onchange="generateReport()">
+<input type="text" id="rpName" placeholder="學生名稱">
+<select id="rpGrade"><option value="">年級</option><option>P3</option><option>P4</option><option selected>P5</option><option>P6</option></select>
+<select id="rpPeriod"><option>過去4堂</option><option selected>過去8堂</option><option>過去12堂</option></select>
 </div>
 </div>
+
+<div class="card">
+<h2>進度數據</h2>
 <div class="form-row">
-<div class="form-group">
-<label>導師姓名</label>
-<input type="text" id="teacherName" placeholder="李Sir" onchange="generateReport()">
+<input type="text" id="rpStartAcc" placeholder="初期正確率（例：62%）">
+<input type="text" id="rpCurrentAcc" placeholder="目前正確率（例：78%）">
+<input type="text" id="rpLessons" placeholder="已完成堂數（例：8）">
 </div>
-<div class="form-group">
-<label>備註</label>
-<input type="text" id="reportNote" placeholder="補充說明..." onchange="generateReport()">
-</div>
-</div>
+<textarea id="rpTrapsFixed" placeholder="已解決嘅陷阱（例：T4漏寫0、T2單位換算）"></textarea>
+<textarea id="rpFocus" placeholder="仍需專注嘅陷阱（例：T6百分數應用）"></textarea>
+<textarea id="rpTeacherNote" placeholder="老師評語（選填）"></textarea>
 </div>
 
-<!-- Report Content -->
-<div id="reportContent"></div>
+<button class="btn" onclick="generateReport()">📊 生成報告</button>
 
+<div class="report-preview" id="reportPreview"></div>
+<button class="btn btn-copy" id="btnCopy" style="display:none" onclick="copyReport()">📋 複製報告 → WhatsApp send俾家長</button>
 </div>
-
-<script src="/docs/data/lf-core.js"></script>
-<script src="/docs/demo-data.js"></script>
-<script src="/docs/data/lf-learning-suggestions.js"></script>
 
 <script>
-// Init
-(function() {
-    // Set default dates
-    var now = new Date();
-    var monthAgo = new Date(now.getTime() - 30*86400000);
-    document.getElementById('dateFrom').value = monthAgo.toISOString().slice(0,10);
-    document.getElementById('dateTo').value = now.toISOString().slice(0,10);
+function generateReport(){
+var n=document.getElementById("rpName").value||"同學";
+var g=document.getElementById("rpGrade").value||"P5";
+var p=document.getElementById("rpPeriod").value;
+var sa=document.getElementById("rpStartAcc").value||"__";
+var ca=document.getElementById("rpCurrentAcc").value||"__";
+var l=document.getElementById("rpLessons").value||"__";
+var tf=document.getElementById("rpTrapsFixed").value||"持續進步中";
+var fc=document.getElementById("rpFocus").value||"繼續保持";
+var tn=document.getElementById("rpTeacherNote").value||"";
 
-    // Populate student list
-    var sel = document.getElementById('reportStudent');
-    var demoClass = typeof LF_getDemoClass === 'function' ? LF_getDemoClass() : null;
-    var students = [];
+var improvement=parseInt(ca)-parseInt(sa);
+var impText=improvement>0?'<span class="good">上升 '+improvement+'%</span>':improvement<0?'<span class="highlight">下降了 '+Math.abs(improvement)+'%</span>':'保持穩定';
 
-    if (demoClass && demoClass.students) {
-        students = demoClass.students;
-    }
+var report=''+
+'<h3>霖楓學苑 · 學習進度報告</h3>'+
+'<p style="text-align:center;color:#6B7280">'+n+' · '+g+' · '+p+'</p>'+
 
-    // Also check localStorage members
-    var members = [];
-    try { members = JSON.parse(localStorage.getItem('lf_members') || '[]'); } catch(e) {}
+'<div class="section-title">📊 關鍵數據</div>'+
+'<p>初期正確率：'+sa+' → 目前正確率：'+ca+'（'+impText+'）</p>'+
+'<p>已完成堂數：'+l+'堂</p>'+
 
-    if (students.length === 0) {
-        sel.innerHTML = '<option value="">沒有學生數據 — 請先在示範班級查看</option>';
-    } else {
-        students.forEach(function(s) {
-            var opt = document.createElement('option');
-            opt.value = s.id || s.name;
-            opt.textContent = s.name + ' · ' + s.grade;
-            if (!demoClass || !demoClass.is_demo) {
-                // Use member data if available
-                var member = members.find(function(m) { return m.student === s.name; });
-                if (member) opt.textContent += ' · ' + (member.phone || '');
-            }
-            sel.appendChild(opt);
-        });
-        // Auto-select first student
-        if (students.length > 0) {
-            sel.value = students[0].id || students[0].name;
-            generateReport();
-        }
-    }
-})();
+'<div class="section-title">✅ 已解決嘅陷阱</div>'+
+'<p>'+tf+'</p>'+
 
-function getStudentData() {
-    var sel = document.getElementById('reportStudent');
-    var demoClass = typeof LF_getDemoClass === 'function' ? LF_getDemoClass() : null;
-    if (!demoClass) return null;
+'<div class="section-title">🎯 下階段重點</div>'+
+'<p>'+fc+'</p>'+
+(tn?'<div class="section-title">💬 老師評語</div><p>'+tn+'</p>':'')+
 
-    var found = demoClass.students.find(function(s) {
-        return (s.id || s.name) === sel.value;
-    });
-    return found || demoClass.students[0];
+'<div class="section-title">💡 給家長的建議</div>'+
+'<p>每日只需15分鐘練習，即可保持進步趨勢。建議每星期至少完成3次線上練習。</p>'+
+'<p>如有任何問題，歡迎隨時 WhatsApp 我哋：85294796459</p>'+
+'<p style="text-align:center;color:#9CA3AF;margin-top:12px">霖楓學苑 · 陷阱診斷教學法</p>';
+
+document.getElementById("reportPreview").innerHTML=report;
+document.getElementById("reportPreview").style.display="block";
+document.getElementById("btnCopy").style.display="block";
+document.getElementById("reportPreview").scrollIntoView({behavior:"smooth"});
 }
-
-function generateReport() {
-    var student = getStudentData();
-    if (!student) return;
-
-    var teacherName = document.getElementById('teacherName').value || '導師';
-    var dateFrom = document.getElementById('dateFrom').value || '';
-    var dateTo = document.getElementById('dateTo').value || '';
-    var note = document.getElementById('reportNote').value || '';
-    var now = new Date().toLocaleDateString('zh-HK');
-
-    // Calculate improvement (simulated from demo data)
-    var radar = student.radar || {};
-    var trapLabels = ['T1','T2','T3','T4','T5','T6','T7','T8','T9','T10'];
-    var trapNames = {
-        'T1':'進退位','T2':'小數點','T3':'運算順序','T4':'面積公式','T5':'幾何圖形',
-        'T6':'分數','T7':'百分數','T8':'速率','T9':'方程','T10':'統計圖表'
-    };
-
-    // Build radar bars
-    var radarBars = trapLabels.map(function(t) {
-        var score = radar[t] || 50;
-        var color = score >= 80 ? '#16A34A' : score >= 60 ? '#F59E0B' : '#DC2626';
-        return '<div class="bar-row">' +
-            '<div class="bar-label">' + (trapNames[t] || t) + '</div>' +
-            '<div class="bar-track"><div class="bar-fill" style="width:' + score + '%;background:' + color + '"></div></div>' +
-            '<div class="bar-score">' + score + '%</div>' +
-        '</div>';
-    }).join('');
-
-    var weakList = student.weakTraps || [];
-    var strongList = student.strongTraps || [];
-
-    var html = `
-    <!-- Student Summary -->
-    <div class="card" style="text-align:center;background:linear-gradient(135deg,#0A1A35,var(--blue));color:white">
-        <div style="font-size:12px;opacity:0.7">霖楓學苑 · LF Academy · 學情報告</div>
-        <div style="font-family:\u0027Noto Serif HK\u0027,serif;font-size:24px;margin:6px 0">${student.name} · ${student.grade}</div>
-        <div style="font-size:11px;opacity:0.6">${dateFrom} 至 ${dateTo} · 導師：${teacherName} · 生成日期：${now}</div>
-    </div>
-
-    <!-- Stats -->
-    <div class="stat-row">
-        <div class="stat-card"><div class="val" style="color:${student.accuracy >= 80 ? '#16A34A' : student.accuracy >= 60 ? '#F59E0B' : '#DC2626'}">${student.accuracy}%</div><div class="lbl">整體正確率</div></div>
-        <div class="stat-card"><div class="val">${student.streak || 0}🔥</div><div class="lbl">連續練習日</div></div>
-        <div class="stat-card"><div class="val">${student.totalScore || 0}</div><div class="lbl">累積得分</div></div>
-        <div class="stat-card"><div class="val">6.5h</div><div class="lbl">練習時數</div></div>
-    </div>
-
-    <!-- Strengths & Weaknesses -->
-    <div class="card">
-        <h2>⚠️ 學習狀況分析</h2>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px">
-            <div style="flex:1;min-width:150px;background:#F0FDF4;padding:14px;border-radius:10px">
-                <div style="font-size:11px;color:#065F46;font-weight:700;margin-bottom:6px">✅ 已掌握知識點</div>
-                <div style="font-size:13px;font-weight:700;color:#16A34A">${strongList.length ? strongList.join('、') : '持續觀察中'}</div>
-            </div>
-            <div style="flex:1;min-width:150px;background:#FEF2F2;padding:14px;border-radius:10px">
-                <div style="font-size:11px;color:#991B1B;font-weight:700;margin-bottom:6px">🔴 需要加強</div>
-                <div style="font-size:13px;font-weight:700;color:#DC2626">${weakList.length ? weakList.join('、') : '無明顯弱項'}</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Knowledge Radar -->
-    <div class="card">
-        <h2>📊 知識點掌握度</h2>
-        ${radarBars}
-        <div style="display:flex;gap:16px;justify-content:center;margin-top:12px;font-size:10px;color:var(--gray-600)">
-            <span>🟢 80%+ 掌握</span><span>🟡 60-79% 進階中</span><span>🔴 <60% 需加強</span>
-        </div>
-    </div>
-
-    <!-- Teacher Note -->
-    ${note ? `<div class="card" style="border-left:3px solid var(--gold)"><h2>💬 導師備註</h2><div style="font-size:13px;line-height:1.6">${note}</div></div>` : ''}
-
-    <!-- AI Suggestions -->
-    <div id="aiSuggestSection"></div>
-
-    <!-- Brand Footer -->
-    <div class="card" style="text-align:center;background:var(--gray-50)">
-        <div style="font-family:\u0027Noto Serif HK\u0027,serif;font-size:16px;color:var(--blue);font-weight:900">霖楓學苑 · LF Academy</div>
-        <div style="font-size:11px;color:var(--gray-400);margin-top:4px">不教數學，教避開陷阱 · 呈分試專家</div>
-        <div style="font-size:10px;color:var(--gray-400);margin-top:2px">本報告由 AI 自動生成 · 僅供參考</div>
-    </div>`;
-
-    document.getElementById('reportContent').innerHTML = html;
-
-    // Inject AI suggestions
-    setTimeout(function() {
-        if (typeof LF_SUGGEST !== 'undefined') {
-            var suggestHtml = LF_SUGGEST.render(student.name);
-            document.getElementById('aiSuggestSection').innerHTML = suggestHtml;
-        }
-    }, 100);
-
-    // Share buttons
-    var shareHtml = `
-    <div class="share-btns">
-        <button class="btn btn-green" onclick="shareWhatsApp()">📱 WhatsApp 分享</button>
-        <button class="btn btn-outline" onclick="shareEmail()">📧 Email</button>
-        <button class="btn btn-outline" onclick="copyReportLink()">🔗 複製連結</button>
-    </div>`;
-    document.getElementById('aiSuggestSection').insertAdjacentHTML('beforebegin', shareHtml);
-}
-
-function shareWhatsApp() {
-    var student = getStudentData();
-    var text = '霖楓學苑 · ' + (student ? student.name : '') + ' 學情報告\n' + window.location.href;
-    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
-}
-
-function shareEmail() {
-    var student = getStudentData();
-    var subject = '霖楓學苑 · ' + (student ? student.name : '') + ' 學情報告';
-    window.location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent('請查看附件學情報告：\n' + window.location.href);
-}
-
-function copyReportLink() {
-    navigator.clipboard.writeText(window.location.href).then(function() {
-        alert('✅ 連結已複製！');
-    }).catch(function() {
-        prompt('複製此連結分享：', window.location.href);
-    });
-}
+function copyReport(){var t=document.getElementById("reportPreview").innerText;navigator.clipboard.writeText(t).then(function(){alert("已複製 ✅")})}
 </script>
-</body>
-</html>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-api-client.js"></script>
+<script src="/docs/data/lf-event-bus.js"></script></body></html>
