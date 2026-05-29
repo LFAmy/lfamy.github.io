@@ -174,8 +174,22 @@ var questionBank = [
         document.getElementById('pointsCount').textContent = localStorage.getItem('lf_points')||'0';
         LFGame.recordActivity();
     }
-    // Shuffle and pick 10 questions
-    quiz.questions = questionBank.sort(function(){return Math.random()-0.5}).slice(0,10);
+    // Smart selection: ensure trap diversity (at least 7 different traps in 10 questions)
+    var traps = {};
+    questionBank.forEach(function(q){ if(!traps[q.trap]) traps[q.trap]=[]; traps[q.trap].push(q); });
+    var selected = [];
+    var trapKeys = Object.keys(traps).sort(function(){return Math.random()-0.5});
+    // Pick 1 from each trap first (7 unique traps)
+    trapKeys.forEach(function(t){
+        var pool = traps[t].sort(function(){return Math.random()-0.5});
+        if(selected.length < 7) selected.push(pool[0]);
+    });
+    // Fill remaining from random
+    var remaining = questionBank.filter(function(q){ return selected.indexOf(q)<0; });
+    remaining.sort(function(){return Math.random()-0.5});
+    while(selected.length < 10 && remaining.length > 0) selected.push(remaining.shift());
+    selected.sort(function(){return Math.random()-0.5});
+    quiz.questions = selected;
     renderQuestion();
     // Auto-detect kids mode
     if (typeof LF_KIDS !== 'undefined') LF_KIDS.init();
