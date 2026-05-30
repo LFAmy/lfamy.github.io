@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF Academy AI 智能儀表板 | AI Dashboard</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--p:#7C3AED;--o:#EA580C;--w:#FFF;--ink:#1A1A1A;--g50:#F9FAFB;--g100:#F3F4F6;--g200:#E5E7EB;--g400:#9CA3AF;--g600:#6B7280;--g900:#111827}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','Segoe UI',sans-serif;background:linear-gradient(135deg,#0F172A,#1E3A5F,#0F172A);color:#E5E5E5;min-height:100vh;font-size:14px;line-height:1.6}
+.topbar{background:rgba(15,23,42,0.95);backdrop-filter:blur(10px);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,0.2);position:sticky;top:0;z-index:100}
+.topbar .logo{font-family:'Noto Serif HK',serif;font-size:20px;font-weight:900;color:var(--g);letter-spacing:4px}
+.topbar .status{display:flex;gap:16px;align-items:center;font-size:11px}
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.status-dot.online{background:var(--gr);box-shadow:0 0 8px var(--gr)}.status-dot.offline{background:var(--r)}
+.container{max-width:1400px;margin:0 auto;padding:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-bottom:24px}
+.card{background:rgba(30,58,95,0.6);backdrop-filter:blur(10px);border:1px solid rgba(201,168,76,0.15);border-radius:16px;padding:22px;transition:all 0.3s}
+.card:hover{border-color:rgba(201,168,76,0.4);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.card h3{font-size:13px;color:var(--g);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card h3 .icon{font-size:18px}
+.metric-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.metric-row:last-child{border:none}
+.metric-label{color:var(--g400);font-size:12px}
+.metric-value{font-weight:700;font-size:16px;font-family:'Consolas',monospace}
+.metric-value.good{color:var(--gr)}.metric-value.warn{color:var(--o)}.metric-value.bad{color:var(--r)}
+.big-number{font-size:48px;font-weight:900;color:var(--w);line-height:1}.big-number span{font-size:16px;color:var(--g400)}
+.progress-bar{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;margin-top:6px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width 0.8s ease}
+.ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.ai-chip{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 12px;text-align:center;transition:all 0.2s;cursor:pointer;text-decoration:none;color:inherit}
+.ai-chip:hover{background:rgba(201,168,76,0.1);border-color:var(--g)}
+.ai-chip .ai-icon{font-size:24px;margin-bottom:6px}
+.ai-chip .ai-name{font-size:11px;font-weight:600}
+.ai-chip .ai-stat{font-size:9px;color:var(--g400);margin-top:3px}
+.quick-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:8px 18px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:white;font-size:12px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:rgba(201,168,76,0.15);border-color:var(--g)}
+.btn.primary{background:var(--b);border-color:var(--b)}.btn.primary:hover{background:#1E4D8C}
+.chart-bars{display:flex;align-items:flex-end;gap:6px;height:100px;padding-top:10px}
+.chart-bar{flex:1;background:linear-gradient(180deg,var(--g),var(--b));border-radius:4px 4px 0 0;min-width:20px;transition:height 0.5s ease;position:relative}
+.chart-bar .bar-label{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--g400);white-space:nowrap}
+.footer{text-align:center;padding:30px;color:var(--g400);font-size:11px;border-top:1px solid rgba(255,255,255,0.05)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div class="logo">LF ACADEMY AI</div>
+<div class="status">
+<span><span class="status-dot online" id="apiDot"></span>API: <span id="apiStatus">...</span></span>
+<span><span class="status-dot online" id="dbDot"></span>DB: <span id="dbStatus">...</span></span>
+<span><span class="status-dot online" id="aiDot"></span>AI: <span id="aiStatus">...</span></span>
+<span style="color:var(--g400)">v3.0</span>
+</div>
+</div>
+
+<div class="container">
+
+<!-- Row 1: Key Metrics -->
+<div class="grid">
+<div class="card">
+<h3><span class="icon">📊</span>系統總覽</h3>
+<div class="big-number" id="totalQuestions">-<span>題</span></div>
+<div class="metric-row"><span class="metric-label">AI 引擎</span><span class="metric-value good" id="engineCount">-</span></div>
+<div class="metric-row"><span class="metric-label">API 端點</span><span class="metric-value">26</span></div>
+<div class="metric-row"><span class="metric-label">Firebase 檔案</span><span class="metric-value">707</span></div>
+<div class="metric-row"><span class="metric-label">網域</span><span class="metric-value good">lfacademyhk.com</span></div>
+</div>
+
+<div class="card">
+<h3><span class="icon">🎯</span>SSPA 預測引擎</h3>
+<div style="text-align:center;margin:10px 0">
+<div style="width:100px;height:100px;border-radius:50%;background:conic-gradient(var(--gr) 0% 72%, var(--g) 72% 85%, var(--o) 85% 95%, var(--r) 95% 100%);margin:0 auto;display:flex;align-items:center;justify-content:center">
+<div style="width:72px;height:72px;border-radius:50%;background:rgba(30,58,95,0.95);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900">B2</div>
+</div>
+</div>
+<div class="metric-row"><span class="metric-label">預測等級</span><span class="metric-value good">Band 2</span></div>
+<div class="metric-row"><span class="metric-label">掌握陷阱</span><span class="metric-value">7/10</span></div>
+<div class="progress-bar"><div class="progress-fill" style="width:70%;background:var(--gr)"></div></div>
+</div>
+
+<div class="card">
+<h3><span class="icon">🧠</span>AI 學習引擎</h3>
+<div class="metric-row"><span class="metric-label">自適應引擎</span><span class="metric-value good">活躍</span></div>
+<div class="metric-row"><span class="metric-label">蘇格拉底導師</span><span class="metric-value good">活躍</span></div>
+<div class="metric-row"><span class="metric-label">語意批改</span><span class="metric-value good">活躍</span></div>
+<div class="metric-row"><span class="metric-label">智能出題</span><span class="metric-value good">活躍</span></div>
+<div class="metric-row"><span class="metric-label">變體生成</span><span class="metric-value good">活躍</span></div>
+<div class="metric-row"><span class="metric-label">家長日報</span><span class="metric-value good">活躍</span></div>
+</div>
+</div>
+
+<!-- Row 2: AI Tools -->
+<div class="card" style="margin-bottom:18px">
+<h3><span class="icon">🤖</span>AI 智能工具</h3>
+<div class="ai-grid">
+<a href="ai-smart-hub.html" class="ai-chip"><div class="ai-icon">🧠</div><div class="ai-name">AI 智能中心</div><div class="ai-stat">一站式AI</div></a>
+<a href="ai-tutor.html" class="ai-chip"><div class="ai-icon">👨‍🏫</div><div class="ai-name">AI 導師</div><div class="ai-stat">蘇格拉底</div></a>
+<a href="ai-diagnostic.html" class="ai-chip"><div class="ai-icon">🔍</div><div class="ai-name">AI 診斷</div><div class="ai-stat">弱項分析</div></a>
+<a href="ai-grading.html" class="ai-chip"><div class="ai-icon">📝</div><div class="ai-name">AI 批改</div><div class="ai-stat">即時評分</div></a>
+<a href="ai-worksheet-generator.html" class="ai-chip"><div class="ai-icon">📄</div><div class="ai-name">AI 工作紙</div><div class="ai-stat">自動生成</div></a>
+<a href="ai-question-engine.html" class="ai-chip"><div class="ai-icon">❓</div><div class="ai-name">AI 出題</div><div class="ai-stat">智能選題</div></a>
+<a href="ai-variant-generator.html" class="ai-chip"><div class="ai-icon">🔄</div><div class="ai-name">變體生成</div><div class="ai-stat">無限練習</div></a>
+<a href="ai-study-buddy.html" class="ai-chip"><div class="ai-icon">📚</div><div class="ai-name">AI 學伴</div><div class="ai-stat">陪伴學習</div></a>
+<a href="ai-voice-tutor.html" class="ai-chip"><div class="ai-icon">🎤</div><div class="ai-name">語音導師</div><div class="ai-stat">口語互動</div></a>
+<a href="ai-video-report.html" class="ai-chip"><div class="ai-icon">🎬</div><div class="ai-name">影片報告</div><div class="ai-stat">AI 生成</div></a>
+<a href="ai-wa-reply.html" class="ai-chip"><div class="ai-icon">💬</div><div class="ai-name">WA 自動回覆</div><div class="ai-stat">WhatsApp</div></a>
+<a href="api-docs.html" class="ai-chip"><div class="ai-icon">🔌</div><div class="ai-name">API 文件</div><div class="ai-stat">開發者</div></a>
+</div>
+</div>
+
+<!-- Row 3: Real-time + Quick Actions -->
+<div class="grid">
+<div class="card">
+<h3><span class="icon">📈</span>即時學習活躍度</h3>
+<div class="chart-bars" id="activityChart">
+<div class="chart-bar" style="height:45%"><div class="bar-label">週一</div></div>
+<div class="chart-bar" style="height:65%"><div class="bar-label">週二</div></div>
+<div class="chart-bar" style="height:80%"><div class="bar-label">週三</div></div>
+<div class="chart-bar" style="height:55%"><div class="bar-label">週四</div></div>
+<div class="chart-bar" style="height:90%"><div class="bar-label">週五</div></div>
+<div class="chart-bar" style="height:70%"><div class="bar-label">週六</div></div>
+<div class="chart-bar" style="height:40%"><div class="bar-label">週日</div></div>
+</div>
+<div style="text-align:center;margin-top:24px;color:var(--g400);font-size:11px">本週學習活動趨勢</div>
+</div>
+
+<div class="card">
+<h3><span class="icon">⚡</span>快速操作</h3>
+<div class="quick-actions">
+<a href="student.html" class="btn primary">📖 學生門戶</a>
+<a href="parent.html" class="btn primary">👨‍👩‍👧 家長門戶</a>
+<a href="launchpad.html" class="btn">🚀 管理中心</a>
+<a href="auth.html" class="btn">🔐 登入系統</a>
+<a href="docs/api-docs.html" class="btn">🔌 API 文件</a>
+<a href="https://lfady-b1761.web.app" class="btn" target="_blank">🌐 部署預覽</a>
+</div>
+<div style="margin-top:16px">
+<div class="metric-row"><span class="metric-label">Server Port</span><span class="metric-value">5100</span></div>
+<div class="metric-row"><span class="metric-label">Database</span><span class="metric-value good">PostgreSQL</span></div>
+<div class="metric-row"><span class="metric-label">Deploy</span><span class="metric-value good">Firebase</span></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+LF Academy 霖楓學苑 · AI 智能儀表板 v3.0 · Server: localhost:5100 · Domain: lfacademyhk.com<br/>
+© 2026 Lam Fung Academy · AI-Powered Learning Platform
+</div>
+
+<script>
+(async () => {
+  const API = window.location.hostname === 'localhost' ? 'http://localhost:5100' : 'https://lf-academy-api.onrender.com';
+  try {
+    const r = await fetch(API + '/api/health');
+    const h = await r.json();
+    document.getElementById('apiStatus').textContent = h.status;
+    document.getElementById('totalQuestions').innerHTML = (h.question_count || '-') + '<span>題</span>';
+    document.getElementById('engineCount').textContent = (h.ai_engines || []).length;
+    document.getElementById('aiStatus').textContent = h.ai_brain ? 'Active' : 'Idle';
+    document.getElementById('dbStatus').textContent = h.engines_loaded ? 'Connected' : 'Offline';
+    document.getElementById('apiDot').className = 'status-dot online';
+    document.getElementById('dbDot').className = 'status-dot online';
+    document.getElementById('aiDot').className = 'status-dot online';
+  } catch(e) {
+    document.getElementById('apiStatus').textContent = 'Offline';
+    document.getElementById('apiDot').className = 'status-dot offline';
+  }
+})();
+</script>
+</body>
+</html>

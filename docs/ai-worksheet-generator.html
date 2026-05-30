@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · AI 智能出卷助手</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-600:#6B7280;--gray-800:#374151}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:var(--gray-50);color:var(--gray-800);min-height:100vh;padding-top:52px}
+.container{max-width:900px;margin:0 auto;padding:16px}
+
+.header{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;border-radius:20px;padding:28px;text-align:center;margin-bottom:20px}
+.header h1{font-family:'Noto Serif HK',serif;font-size:22px;margin-bottom:4px}
+.header p{font-size:12px;opacity:0.6}
+
+.card{background:white;border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.card h2{font-size:15px;color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+/* Trap selector */
+.trap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:12px 0}
+.trap-chip{padding:10px 14px;border:2px solid var(--gray-200);border-radius:10px;cursor:pointer;font-size:12px;font-weight:500;text-align:center;transition:all 0.2s;background:white}
+.trap-chip:hover{border-color:var(--blue);background:#F0F7FF}
+.trap-chip.selected{border-color:var(--blue);background:#DBEAFE;font-weight:700}
+.trap-chip .acc{display:block;font-size:18px;font-weight:900;color:var(--blue);margin-bottom:2px}
+.trap-chip .name{display:block;font-size:11px;color:var(--gray-600)}
+.trap-chip.weak{border-color:#F59E0B;background:#FFF7ED}
+.trap-chip.weak .acc{color:#D97706}
+.trap-chip.critical{border-color:var(--red);background:#FEF2F2}
+.trap-chip.critical .acc{color:var(--red)}
+
+/* Options */
+.options-row{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0}
+.option-group{flex:1;min-width:140px}
+.option-group label{display:block;font-size:11px;color:var(--gray-400);font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.option-group select,.option-group input{padding:10px 12px;border:2px solid var(--gray-200);border-radius:8px;font-size:13px;width:100%;font-family:inherit}
+.option-group select:focus,.option-group input:focus{border-color:var(--blue);outline:none}
+
+/* Preview */
+.preview-area{background:var(--gray-50);border:2px dashed var(--gray-200);border-radius:12px;padding:20px;margin:12px 0;min-height:200px;max-height:500px;overflow-y:auto}
+.preview-area .q-item{padding:12px;margin:8px 0;background:white;border-radius:8px;border-left:3px solid var(--blue)}
+.preview-area .q-item .q-num{font-size:10px;color:var(--gray-400);font-weight:700}
+.preview-area .q-item .q-trap{font-size:9px;color:var(--blue);background:#DBEAFE;padding:2px 8px;border-radius:4px;margin-left:8px}
+.preview-area .q-item .q-text{font-size:14px;font-weight:500;margin:6px 0}
+.preview-area .q-item .q-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.preview-area .q-item .q-opt{font-size:11px;padding:2px 8px;background:var(--gray-50);border-radius:4px}
+
+/* Action buttons */
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{padding:12px 24px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit;text-decoration:none;text-align:center}
+.btn-primary{background:var(--blue);color:white}.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(26,60,109,0.3)}
+.btn-gold{background:linear-gradient(135deg,#C9A84C,#DFC06A);color:var(--blue)}
+.btn-green{background:var(--green);color:white}
+.btn-outline{background:white;border:2px solid var(--gray-200);color:var(--blue)}
+.btn-sm{padding:8px 16px;font-size:12px}
+
+/* Stats row */
+.stat-bar{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0}
+.stat-item{background:white;border-radius:10px;padding:12px 16px;text-align:center;min-width:80px;flex:1}
+.stat-item .val{font-size:20px;font-weight:900;color:var(--blue)}
+.stat-item .lbl{font-size:10px;color:var(--gray-400)}
+
+@media(max-width:600px){
+  .trap-grid{grid-template-columns:repeat(3,1fr)}
+  .options-row{flex-direction:column}
+  .trap-chip{padding:8px 10px;font-size:10px}
+}
+</style>
+<link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+<script src="/docs/data/lf-navbar.js"></script>
+<link rel="manifest" href="/manifest.json">
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+  <h1>🤖 AI 智能出卷助手</h1>
+  <p>基於班級弱點數據，自動生成針對性練習工作紙</p>
+</div>
+
+<!-- Class Stats -->
+<div class="card" id="classStats" style="display:none">
+  <h2>📊 班級數據摘要</h2>
+  <div class="stat-bar" id="statBar"></div>
+  <div style="font-size:11px;color:var(--gray-400);margin-top:8px" id="classSummary"></div>
+</div>
+
+<!-- Trap Selection -->
+<div class="card">
+  <h2>🪤 選擇陷阱重點</h2>
+  <div style="font-size:12px;color:var(--gray-400);margin-bottom:8px">點選要重點出題的陷阱類型（基於班級弱點自動推薦）</div>
+  <div class="trap-grid" id="trapGrid"></div>
+  <div style="margin-top:8px;display:flex;gap:8px">
+    <button class="btn btn-sm btn-outline" onclick="selectAll()">全選</button>
+    <button class="btn btn-sm btn-outline" onclick="selectWeak()">只選弱項</button>
+    <button class="btn btn-sm btn-outline" onclick="clearAll()">清除</button>
+  </div>
+</div>
+
+<!-- Options -->
+<div class="card">
+  <h2>⚙️ 出卷設定</h2>
+  <div class="options-row">
+    <div class="option-group">
+      <label>年級</label>
+      <select id="gradeSelect">
+        <option value="all">全年級混合</option>
+        <option value="P3">小三 P3</option>
+        <option value="P4">小四 P4</option>
+        <option value="P5" selected>小五 P5</option>
+        <option value="P6">小六 P6</option>
+      </select>
+    </div>
+    <div class="option-group">
+      <label>題數</label>
+      <input type="number" id="qCount" value="10" min="5" max="40">
+    </div>
+    <div class="option-group">
+      <label>難度分配</label>
+      <select id="diffMode">
+        <option value="mixed" selected>混合難度</option>
+        <option value="easy">偏基礎 (70%簡單)</option>
+        <option value="hard">偏挑戰 (70%進階)</option>
+        <option value="progressive">漸進式 (易→難)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Preview -->
+<div class="card">
+  <h2>📝 試卷預覽</h2>
+  <div class="preview-area" id="preview">
+    <div style="text-align:center;color:var(--gray-400);padding:40px">點選陷阱類型後按「生成試卷」</div>
+  </div>
+  <div class="actions">
+    <button class="btn btn-primary" onclick="generateWorksheet()">🔄 生成試卷</button>
+    <button class="btn btn-gold" onclick="exportWorksheet()" id="exportBtn" disabled>📄 匯出/列印</button>
+    <button class="btn btn-outline" onclick="copyToClipboard()" id="copyBtn" disabled>📋 複製題目</button>
+  </div>
+</div>
+
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-adaptive-engine.js"></script>
+
+<script>
+// ═══ STATE ═══
+var state = {
+    selectedTraps: [],
+    generatedQuestions: [],
+    classData: null,
+};
+
+// ═══ TRAP DEFINITIONS ═══
+var trapDefs = {
+    T1:{name:"計算粗心",cat:"careless"},
+    T2:{name:"小數除法",cat:"decimal"},
+    T3:{name:"運算順序",cat:"order"},
+    T4:{name:"面積公式",cat:"geometry"},
+    T5:{name:"體積混淆",cat:"geometry"},
+    T6:{name:"分數通分",cat:"fraction"},
+    T7:{name:"百分比",cat:"percent"},
+    T8:{name:"速率單位",cat:"speed"},
+    T9:{name:"代數移項",cat:"algebra"},
+    T10:{name:"統計圖表",cat:"stats"},
+};
+
+// ═══ QUESTION BANK (P3-P6) ═══
+var fullBank = [
+    {q:"23 + 45 = ?",opts:["68","78","58","67"],ans:0,trap:"T1",diff:1,grade:"P3"},
+    {q:"100 - 67 = ?",opts:["33","43","47","37"],ans:0,trap:"T1",diff:1,grade:"P3"},
+    {q:"8 x 7 = ?",opts:["56","54","64","49"],ans:0,trap:"T1",diff:1,grade:"P3"},
+    {q:"5.6 / 0.7 = ?",opts:["0.8","8","80","0.08"],ans:1,trap:"T2",diff:2,grade:"P4"},
+    {q:"6.25 x 4 = ?",opts:["25","24.8","25.0","24"],ans:0,trap:"T2",diff:3,grade:"P5"},
+    {q:"4.2 + 3.5 = ?",opts:["7.7","7.0","8.7","7.5"],ans:0,trap:"T2",diff:1,grade:"P3"},
+    {q:"8 + 4 x 3 = ?",opts:["36","20","15","24"],ans:1,trap:"T3",diff:1,grade:"P4"},
+    {q:"24 / (8 - 4) x 2 = ?",opts:["12","3","6","8"],ans:0,trap:"T3",diff:3,grade:"P5"},
+    {q:"平行四邊形底8cm高5cm面積？",opts:["40cm²","20cm²","13cm²","80cm²"],ans:0,trap:"T4",diff:2,grade:"P4"},
+    {q:"三角形底12cm高8cm面積？",opts:["96cm²","48cm²","20cm²","40cm²"],ans:1,trap:"T4",diff:2,grade:"P4"},
+    {q:"梯形上底4cm下底8cm高5cm面積？",opts:["30cm²","20cm²","60cm²","40cm²"],ans:0,trap:"T4",diff:3,grade:"P5"},
+    {q:"正方形邊長5cm周界？",opts:["20cm","25cm","10cm","15cm"],ans:0,trap:"T4",diff:1,grade:"P3"},
+    {q:"長方體5x4x3cm體積？",opts:["60cm³","20cm³","12cm³","47cm³"],ans:0,trap:"T5",diff:2,grade:"P4"},
+    {q:"正方體邊長4cm體積？",opts:["64cm³","16cm³","96cm³","48cm³"],ans:0,trap:"T5",diff:2,grade:"P4"},
+    {q:"1/3 + 2/5 = ?",opts:["3/8","11/15","3/15","5/15"],ans:1,trap:"T6",diff:3,grade:"P5"},
+    {q:"3/4 - 1/6 = ?",opts:["2/2","7/12","2/10","5/12"],ans:1,trap:"T6",diff:3,grade:"P5"},
+    {q:"2/3 x 3/4 = ?",opts:["6/12","1/2","5/7","6/7"],ans:1,trap:"T6",diff:3,grade:"P5"},
+    {q:"原價$200打八折？",opts:["$160","$180","$20","$120"],ans:0,trap:"T7",diff:2,grade:"P5"},
+    {q:"50題答對40題正確率？",opts:["80%","40%","90%","60%"],ans:0,trap:"T7",diff:2,grade:"P5"},
+    {q:"外套$500加20%再八折最終價？",opts:["$480","$400","$500","$520"],ans:0,trap:"T7",diff:4,grade:"P6"},
+    {q:"60km/h行2.5h距離？",opts:["24km","150km","62.5km","120km"],ans:1,trap:"T8",diff:3,grade:"P5"},
+    {q:"3h行240km平均速率？",opts:["80km/h","720km/h","60km/h","120km/h"],ans:0,trap:"T8",diff:2,grade:"P5"},
+    {q:"A到B 360km去90回60平均速率？",opts:["75km/h","72km/h","80km/h","70km/h"],ans:1,trap:"T8",diff:4,grade:"P6"},
+    {q:"3x+7=22 x=?",opts:["5","3","15","9"],ans:0,trap:"T9",diff:2,grade:"P5"},
+    {q:"2x-5=x+3 x=?",opts:["8","-8","2","-2"],ans:0,trap:"T9",diff:3,grade:"P5"},
+    {q:"5(x-3)=2x+6 x=?",opts:["7","3","9","5"],ans:0,trap:"T9",diff:4,grade:"P6"},
+    {q:"棒形圖A5格B8格每格2單位B比A多？",opts:["3","6","10","16"],ans:1,trap:"T10",diff:3,grade:"P5"},
+    {q:"折線圖30/32/28三日平均？",opts:["30","32","28","29"],ans:0,trap:"T10",diff:2,grade:"P5"},
+    {q:"圓形圖數學佔120度佔總分？",opts:["33.3%","30%","25%","40%"],ans:0,trap:"T10",diff:4,grade:"P6"},
+];
+
+// ═══ INIT ═══
+(function(){
+    renderTrapGrid();
+    loadClassData();
+})();
+
+function renderTrapGrid(){
+    var grid = document.getElementById("trapGrid");
+    var mastery = {};
+    try {
+        if (typeof LFAdaptive !== "undefined") mastery = LFAdaptive.getTrapMastery();
+    } catch(e) {}
+
+    var html = "";
+    Object.keys(trapDefs).forEach(function(t){
+        var m = mastery[t] || {};
+        var acc = m.accuracy !== null ? m.accuracy : null;
+        var cls = "";
+        if (acc !== null) {
+            if (acc < 40) cls = " critical";
+            else if (acc < 60) cls = " weak";
+        }
+        var displayAcc = acc !== null ? acc + "%" : "—";
+        html += '<div class="trap-chip' + cls + '" data-trap="' + t + '" onclick="toggleTrap(this,\'' + t + '\')">';
+        html += '<span class="acc">' + displayAcc + '</span>';
+        html += '<span class="name">' + trapDefs[t].name + '</span></div>';
+    });
+    grid.innerHTML = html;
+}
+
+function toggleTrap(el, trapId){
+    el.classList.toggle("selected");
+    var idx = state.selectedTraps.indexOf(trapId);
+    if (idx >= 0) state.selectedTraps.splice(idx, 1);
+    else state.selectedTraps.push(trapId);
+}
+
+function selectAll(){
+    state.selectedTraps = Object.keys(trapDefs);
+    document.querySelectorAll(".trap-chip").forEach(function(el){ el.classList.add("selected"); });
+}
+
+function selectWeak(){
+    state.selectedTraps = [];
+    document.querySelectorAll(".trap-chip").forEach(function(el){
+        if (el.classList.contains("weak") || el.classList.contains("critical")) {
+            el.classList.add("selected");
+            state.selectedTraps.push(el.dataset.trap);
+        } else {
+            el.classList.remove("selected");
+        }
+    });
+    if (state.selectedTraps.length === 0) selectAll();
+}
+
+function clearAll(){
+    state.selectedTraps = [];
+    document.querySelectorAll(".trap-chip").forEach(function(el){ el.classList.remove("selected"); });
+}
+
+function loadClassData(){
+    try {
+        var demoClass = JSON.parse(localStorage.getItem("lf_demo_class") || "null");
+        if (demoClass) {
+            state.classData = demoClass;
+            document.getElementById("classStats").style.display = "block";
+            var statsHtml = "";
+            var stats = [
+                {val: demoClass.students?.length || 0, lbl: "學生人數"},
+                {val: demoClass.avgAccuracy || "—", lbl: "平均正確率"},
+                {val: "T" + (demoClass.topWeakness || "4"), lbl: "最常見弱點"}
+            ];
+            stats.forEach(function(s){
+                statsHtml += '<div class="stat-item"><div class="val">' + s.val + '</div><div class="lbl">' + s.lbl + '</div></div>';
+            });
+            document.getElementById("statBar").innerHTML = statsHtml;
+            document.getElementById("classSummary").textContent = demoClass.summary || "基於班級數據的智能分析";
+        }
+    } catch(e) {}
+}
+
+function generateWorksheet(){
+    if (state.selectedTraps.length === 0) {
+        alert("請先選擇至少一個陷阱類型！");
+        return;
+    }
+
+    var grade = document.getElementById("gradeSelect").value;
+    var count = parseInt(document.getElementById("qCount").value) || 10;
+    var diffMode = document.getElementById("diffMode").value;
+
+    // Filter questions
+    var pool = fullBank.filter(function(q){
+        var trapMatch = state.selectedTraps.indexOf(q.trap) >= 0;
+        var gradeMatch = grade === "all" || q.grade === grade;
+        return trapMatch && gradeMatch;
+    });
+
+    if (pool.length === 0) {
+        // Fall back to all grades for selected traps
+        pool = fullBank.filter(function(q){
+            return state.selectedTraps.indexOf(q.trap) >= 0;
+        });
+    }
+
+    // Sort by difficulty mode
+    if (diffMode === "progressive") {
+        pool.sort(function(a, b){ return (a.diff||2) - (b.diff||2); });
+    } else if (diffMode === "easy") {
+        pool.sort(function(a, b){ return (a.diff||2) - (b.diff||2); });
+    } else if (diffMode === "hard") {
+        pool.sort(function(a, b){ return (b.diff||2) - (a.diff||2); });
+    } else {
+        pool.sort(function(){ return Math.random() - 0.5; });
+    }
+
+    // Pick questions
+    state.generatedQuestions = pool.slice(0, Math.min(count, pool.length));
+
+    // Render preview
+    renderPreview();
+
+    // Enable export buttons
+    document.getElementById("exportBtn").disabled = false;
+    document.getElementById("copyBtn").disabled = false;
+}
+
+function renderPreview(){
+    var preview = document.getElementById("preview");
+    if (state.generatedQuestions.length === 0) {
+        preview.innerHTML = '<div style="text-align:center;color:var(--gray-400);padding:40px">點選陷阱類型後按「生成試卷」</div>';
+        return;
+    }
+
+    var diffs = ["","🌱基礎","🌿進階","🌳挑戰","🏔️極限"];
+    var labels = ["A","B","C","D"];
+    var html = '<div style="font-size:12px;color:var(--gray-400);margin-bottom:8px">共 ' + state.generatedQuestions.length + ' 題</div>';
+
+    state.generatedQuestions.forEach(function(q, i){
+        html += '<div class="q-item">';
+        html += '<span class="q-num">' + (i+1) + '.</span>';
+        html += '<span class="q-trap">' + (trapDefs[q.trap]?.name || q.trap) + '</span>';
+        html += '<span style="font-size:10px;color:var(--gray-400);margin-left:4px">' + (diffs[q.diff]||"") + ' ' + (q.grade||"") + '</span>';
+        html += '<div class="q-text">' + q.q + '</div>';
+        html += '<div class="q-options">';
+        q.opts.forEach(function(o, j){
+            html += '<span class="q-opt">' + labels[j] + '. ' + o + '</span>';
+        });
+        html += '</div></div>';
+    });
+
+    preview.innerHTML = html;
+}
+
+function exportWorksheet(){
+    if (state.generatedQuestions.length === 0) return;
+    var labels = ["A","B","C","D"];
+    var printWindow = window.open("", "_blank");
+    var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>霖楓學苑 · 練習工作紙</title>';
+    html += '<style>body{font-family:"Noto Sans HK",sans-serif;max-width:700px;margin:20px auto;padding:20px}h1{color:#1A3C6D;border-bottom:3px solid #C9A84C;padding-bottom:8px}.q{margin:16px 0;padding:12px;border-left:3px solid #1A3C6D}.q-num{font-weight:900}.q-text{font-size:15px;margin:6px 0}.q-opts{margin-left:20px;font-size:13px}.q-opts span{margin-right:16px}.footer{text-align:center;margin-top:40px;color:#9CA3AF;font-size:10px}@media print{body{font-size:12px}}</style></head><body>';
+    html += '<h1>霖楓學苑 · 數學陷阱練習</h1>';
+    html += '<p style="color:#6B7280;font-size:12px">姓名：____________ 日期：____________ 分數：____/____</p>';
+
+    state.generatedQuestions.forEach(function(q, i){
+        html += '<div class="q"><span class="q-num">' + (i+1) + '.</span> ';
+        html += '<span class="q-text">' + q.q + '</span>';
+        html += '<div class="q-opts">';
+        q.opts.forEach(function(o, j){
+            html += '<span>' + labels[j] + '. ' + o + '</span>  ';
+        });
+        html += '</div></div>';
+    });
+
+    html += '<div class="footer">霖楓學苑 · AI 智能出卷 · 不教數學，教避開陷阱</div>';
+    html += '</body></html>';
+    printWindow.document.write(html);
+    printWindow.document.close();
+}
+
+function copyToClipboard(){
+    if (state.generatedQuestions.length === 0) return;
+    var labels = ["A","B","C","D"];
+    var text = "霖楓學苑 · 數學陷阱練習\n" + "=".repeat(30) + "\n\n";
+    state.generatedQuestions.forEach(function(q, i){
+        text += (i+1) + ". " + q.q + "\n";
+        q.opts.forEach(function(o, j){ text += "   " + labels[j] + ". " + o + "\n"; });
+        text += "\n";
+    });
+    navigator.clipboard.writeText(text).then(function(){
+        alert("已複製 " + state.generatedQuestions.length + " 題到剪貼簿！");
+    }).catch(function(){
+        alert("複製失敗，請手動複製");
+    });
+}
+
+console.log("[AI Worksheet Generator] Ready · " + fullBank.length + " questions · 10 traps");
+</script>
+</body>
+</html>
