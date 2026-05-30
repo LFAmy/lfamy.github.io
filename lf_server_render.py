@@ -147,9 +147,7 @@ def generate_socratic_response(message, topic=""):
 5. If student asks non-math, politely redirect to math
 6. Be encouraging and suitable for primary schoolers"""
 
-    prompt_text = f"Topic: {topic if topic else 'Primary Math'}
-Student: {message}
-Give ONE Socratic guiding question in HK-style Traditional Chinese:"
+    prompt_text = f"Topic: {topic if topic else 'Primary Math'}\nStudent: {message}\nGive ONE Socratic guiding question in HK-style Traditional Chinese:"
 
     result = call_free_ai(prompt_text, system, max_tokens=300)
     if result:

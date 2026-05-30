@@ -129,10 +129,8 @@ body{padding-top:44px}
 
 <script src="/docs/data/lf-api-client.js"></script>
 <script>
-// ═══════ LF DeepSeek AI Fallback ═══════
-
 // ═══════════════════════════════════════
-// FRELLMAPI AI BACKEND
+// FRELLMAPI AI BACKEND (dev only - localhost)
 // ═══════════════════════════════════════
 async function frellmapiAsk(question) {
   try {
@@ -146,26 +144,6 @@ async function frellmapiAsk(question) {
           { role: "user", content: question }
         ],
         max_tokens: 800, temperature: 0.7
-      })
-    });
-    if (!resp.ok) return null;
-    const data = await resp.json();
-    return data.choices?.[0]?.message?.content || null;
-  } catch(e) { return null; }
-}
-
-async function deepseekAsk(question) {
-  try {
-    const resp = await fetch("https://api.deepseek.com/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": "Bearer sk-e422da39eb9840e387134c823609995e" },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: [
-          { role: "system", content: "你係霖楓學苑 AI 數學導師。用繁體中文+廣東話回答。針對香港小學 P3-P6 數學。每次回答包含：1)解題思路 2)逐步運算 3)相關T1-T10陷阱提醒。語氣親切幽默。" },
-          { role: "user", content: question }
-        ],
-        max_tokens: 600, temperature: 0.7
       })
     });
     if (!resp.ok) return null;
@@ -511,20 +489,13 @@ async function freeAsk() {
         const reply = data.response || data.reply || data.message || "";
         if (reply && reply.length > 10) { addMsg(reply, "ai"); saveFreeChat(reply, "ai"); document.getElementById("sendBtn").disabled = false; input.focus(); return; }
       }
-    } catch(e) { /* fall through to DeepSeek */ }
+    } catch(e) { /* fall through to generic */ }
   }
 
-  // Step 4: Try DeepSeek API (backup) (real AI - always available)
-  hideTyping(); showTyping();
-  const dsReply = await deepseekAsk(question);
+  // Step 4: Generic math answer fallback
   hideTyping();
-  if (dsReply) {
-    addMsg(dsReply, "ai"); saveFreeChat(dsReply, "ai");
-  } else {
-    // Step 5: Generic fallback
-    const fb = generateGenericMathAnswer(question);
-    addMsg(fb, "ai"); saveFreeChat(fb, "ai");
-  }
+  const fb = generateGenericMathAnswer(question);
+  addMsg(fb, "ai"); saveFreeChat(fb, "ai");
   document.getElementById("sendBtn").disabled = false; input.focus();
 }
 
@@ -603,3 +574,4 @@ document.addEventListener("keydown", function(e) {
   <script src="/docs/data/lf-analytics.js"></script>
 </body>
 </html>
+
