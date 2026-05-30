@@ -466,35 +466,28 @@ async function freeAsk() {
   showTyping();
   saveFreeChat(question, "user");
 
-  // Step 1: Try local regex math solver (fast)
+  // Step 1: Try local regex math solver (instant for calculations)
   const localAnswer = generateLocalMathAnswer(question);
   if (localAnswer) {
     hideTyping(); addMsg(localAnswer, "ai"); saveFreeChat(localAnswer, "ai");
     document.getElementById("sendBtn").disabled = false; input.focus(); return;
   }
 
-  // Step 2: Try frellmapi (local AI - primary)
-  const frellReply = await frellmapiAsk(question);
-  if (frellReply) {
-    hideTyping(); addMsg(frellReply, "ai"); saveFreeChat(frellReply, "ai");
-    document.getElementById("sendBtn").disabled = false; input.focus(); return;
-  }
-
-  // Step 3: Try Render API
+  // Step 2: Try Render API (primary AI - free AI backend)
   if (apiOnline) {
     try {
       const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
       if (resp.ok) {
         const data = await resp.json(); hideTyping();
         const reply = data.response || data.reply || data.message || "";
-        if (reply && reply.length > 10) { addMsg(reply, "ai"); saveFreeChat(reply, "ai"); document.getElementById("sendBtn").disabled = false; input.focus(); return; }
+        if (reply && reply.length > 15 && !reply.startsWith("[")) { addMsg(reply, "ai"); saveFreeChat(reply, "ai"); document.getElementById("sendBtn").disabled = false; input.focus(); return; }
       }
-    } catch(e) { /* fall through to generic */ }
+    } catch(e) { /* fall through to smart generic */ }
   }
 
-  // Step 4: Generic math answer fallback
+  // Step 3: Smart generic math answer (comprehensive topic coverage)
   hideTyping();
-  const fb = generateGenericMathAnswer(question);
+  const fb = generateSmartMathAnswer(question);
   addMsg(fb, "ai"); saveFreeChat(fb, "ai");
   document.getElementById("sendBtn").disabled = false; input.focus();
 }
@@ -533,16 +526,257 @@ function generateLocalMathAnswer(q) {
   return null;
 }
 
-function generateGenericMathAnswer(q) {
-  const ql = q.toLowerCase();
-  if (ql.includes("分數")||ql.includes("fraction")) return "📖 **分數運算要點：**\n\n1. **加減**：先通分，分子相加減，分母不變\n2. **乘法**：分子×分子，分母×分母，然後約簡\n3. **除法**：÷分數 = ×它的倒數\n\n例：2/3÷4/5 = 2/3×5/4 = 10/12 = 5/6\n\n⚠️ 常見陷阱：加減時直接加分子分母（錯！）\n\n有具體題目想我幫你睇嗎？";
-  if (ql.includes("百分")||ql.includes("percent")||ql.includes("%")||ql.includes("折扣")) return "📖 **百分數要點：**\n\n1. 百分數 = 分數（分母100），25%=1/4\n2. 加價x%：原價×(1+x/100)\n3. 折扣y%：原價×y/100\n\n⚠️ **T8陷阱**：連續百分比不可直接加減！\n例：$100加20%($120)再減20%($96)≠$100";
-  if (ql.includes("面積")||ql.includes("周界")||ql.includes("area")||ql.includes("perimeter")) return "📖 **面積vs周界：**\n\n周界（Perimeter）：圍住圖形嘅總長度\n- 長方形：(長+闊)×2\n\n面積（Area）：圖形佔據嘅空間\n- 長方形：長×闊\n- 三角形：底×高÷2\n\n⚠️ T7陷阱：周界用長度單位(cm)，面積用平方單位(cm²)！";
-  if (ql.includes("體積")||ql.includes("volume")) return "📖 **體積要點：**\n\n長方體體積 = 長×闊×高\n\n⚠️ T9陷阱：體積單位係立方(cm³)\n1m³=1,000,000cm³（唔係100！）";
-  if (ql.includes("hello")||ql.includes("hi")||ql.includes("你好")) return "👋 你好！我係霖楓AI數學導師！\n\n我可以幫你：📐解釋數學概念 · 🧮逐步解答題目 · 📝分析常見陷阱 · 💡提供類似練習\n\n有咩數學問題想問？";
-  return "🤔 好問題！我係專注數學嘅AI導師。你可以：\n\n📐 問我數學概念（如：分數除法點計？）\n🧮 俾條題目我幫你逐步分析\n📝 貼上功課題目\n\n或者轉去「練習模式」揀年級主題做練習～";
-}
+function generateSmartMathAnswer(q) {
+  const ql = q.toLowerCase().replace(/\s+/g,'');
+  
+  // Comprehensive math topic responses - tutorial style, HK Cantonese
+  const topics = [
+    { keys: ['分數','fraction','通分','約分'], resp: `📖 **分數概念全攻略**
 
+分數係用嚟表示「整體嘅一部分」。例如1/2代表將一件嘢分做2份，攞其中1份。
+
+**基本運算：**
+• 加減：必須先通分（分母變相同），然後分子相加減
+  例：1/2 + 1/3 = 3/6 + 2/6 = 5/6
+• 乘法：分子×分子，分母×分母，之後約簡
+  例：2/3 × 3/4 = 6/12 = 1/2
+• 除法：÷分數 = ×佢嘅倒數（分子分母調轉）
+  例：2/3 ÷ 4/5 = 2/3 × 5/4 = 10/12 = 5/6
+
+⚠️ **T4陷阱**：加減千祈唔可以直接加分子分母！1/2+1/3≠2/5！
+⚠️ **T3陷阱**：帶分數要先轉假分數先計！
+
+有具體題目想我幫你拆解嗎？ 😊` },
+    
+    { keys: ['百分','percent','%','折扣','漲價','減價'], resp: `📖 **百分數完全理解**
+
+百分數係「每一百份之中有幾多份」。25% = 25/100 = 1/4。
+
+**核心公式：**
+• 求部分：整體 × 百分數
+  例：200的30% = 200 × 0.3 = 60
+• 求整體：部分 ÷ 百分數
+  例：如果60係30%，整體 = 60 ÷ 0.3 = 200
+• 加價：原價 × (1 + 百分數)
+  例：$100加20% = $100 × 1.2 = $120
+• 折扣：原價 × 折扣率
+  例：$200八折 = $200 × 0.8 = $160
+
+⚠️ **T8陷阱**：連續百分數唔可以直接加減！
+$100加20%再減20% = $96，唔係$100！
+
+想我幫你計下具體題目嗎？` },
+    
+    { keys: ['小數','decimal','小數點'], resp: `📖 **小數運算精要**
+
+小數係分數嘅另一種寫法。0.5 = 5/10 = 1/2。
+
+**運算規則：**
+• 加減：對齊小數點，然後逐位加減
+• 乘法：先當整數計，之後數小數位
+  例：3.5 × 2 = 7.0（1位小數）
+  例：0.3 × 0.4 = 0.12（2位小數）
+• 除法：將除數變整數，被除數小數點同步移位
+  例：4.2 ÷ 0.6 = 42 ÷ 6 = 7
+
+⚠️ **T5陷阱**：小數乘法後小數位數 = 兩數小數位數之和！
+0.3(1位) × 0.02(2位) = 0.006(3位)
+
+有冇具體題目想我幫手？` },
+    
+    { keys: ['面積','周界','area','perimeter','長方形','正方形','三角形','梯形','平行四邊形'], resp: `📖 **面積與周界 — 唔好再撈亂！**
+
+**周界（Perimeter）**：圍住圖形外圍嘅總長度，用「cm」「m」等長度單位。
+**面積（Area）**：圖形內部佔據嘅空間，用「cm²」「m²」等平方單位。
+
+**常用公式：**
+• 正方形：周界=邊長×4 | 面積=邊長×邊長
+• 長方形：周界=(長+闊)×2 | 面積=長×闊
+• 三角形：面積=底×高÷2
+• 平行四邊形：面積=底×高
+• 梯形：面積=(上底+下底)×高÷2
+
+⚠️ **T6陷阱**：單位轉換！1m² = 10,000cm²（唔係100cm²！）
+⚠️ **T7陷阱**：周界用長度單位，面積用平方單位！
+
+要我幫你計具體圖形嗎？ 😊` },
+    
+    { keys: ['體積','volume','容量','正方體','長方體'], resp: `📖 **體積概念**
+
+體積係物體佔據嘅三維空間，用「cm³」「m³」等立方單位。
+
+**基本公式：**
+• 正方體：體積=邊長³
+• 長方體：體積=長×闊×高
+• 柱體：體積=底面積×高
+
+**單位換算：**
+• 1m³ = 1,000,000cm³（一百萬！唔係100！）
+• 1L = 1,000mL = 1,000cm³
+
+⚠️ **T9陷阱**：體積單位係「立方」！1m=100cm，但1m³=1,000,000cm³！
+
+需要幫你計體積題目嗎？` },
+    
+    { keys: ['代數','equation','方程','未知數','x=','y='], resp: `📖 **代數基礎 — 用字母代表未知數**
+
+代數係用英文字母（x, y, n...）代表未知嘅數字。
+
+**基本概念：**
+• 2x 代表 2 × x
+• x + 5 = 12 → x = 7
+• 移項法則：將數字搬去等號另一邊時要變號
+  加法變減法，乘法變除法
+
+**解方程步驟：**
+例：2x + 3 = 11
+1. 移項：2x = 11 - 3 → 2x = 8
+2. 求x：x = 8 ÷ 2 → x = 4
+
+⚠️ **T10陷阱**：移項記得變號！x+3唔係變-x+3！
+
+有方程題目想我幫你解嗎？` },
+    
+    { keys: ['速率','speed','距離','時間'], resp: `📖 **速率 — 唔好俾來回問題陰到！**
+
+速率 = 距離 ÷ 時間
+
+**基本公式（口訣：速率三寶）：**
+• 速率 = 距離 ÷ 時間
+• 距離 = 速率 × 時間
+• 時間 = 距離 ÷ 速率
+
+**單位轉換：**
+• m/s → km/h：×3.6
+• km/h → m/s：÷3.6
+
+⚠️ **T11陷阱**：來回平均速率 ≠ (去速+回速)÷2！
+例：去程60km/h行100km，回程40km/h行100km
+平均速率 = 總距離÷總時間 = 200÷(100/60+100/40) = 48km/h（唔係50！）
+
+想我幫你解速率應用題嗎？` },
+    
+    { keys: ['lcm','hcf','gcd','公倍數','公因數','質數','prime','因數','倍數'], resp: `📖 **LCM同HCF — 兩個成日撈亂嘅概念**
+
+**HCF（最大公因數）**：幾個數嘅共同因數中最大嗰個
+• 例：12同18嘅HCF
+  12嘅因數：1,2,3,4,6,12
+  18嘅因數：1,2,3,6,9,18
+  共同因數：1,2,3,6 → HCF=6
+
+**LCM（最小公倍數）**：幾個數嘅共同倍數中最細嗰個
+• 例：4同6嘅LCM
+  4嘅倍數：4,8,12,16,20,24...
+  6嘅倍數：6,12,18,24,30...
+  共同倍數：12,24... → LCM=12
+
+**口訣：HCF係「因」中最大，LCM係「倍」中最細**
+
+⚠️ **T12陷阱**：HCF≤每個數，LCM≥每個數！
+
+要我幫你計LCM/HCF嗎？` },
+    
+    { keys: ['平均數','average','mean','中位數','median','眾數','mode'], resp: `📖 **平均數、中位數、眾數**
+
+**平均數（Mean）**：所有數加埋÷個數
+• 例：3,7,8,10嘅平均數 = (3+7+8+10)÷4 = 7
+
+**中位數（Median）**：由細到大排好，中間嗰個
+• 單數個數：正中間
+• 雙數個數：中間兩個嘅平均
+• 例：3,7,8,10 → 中位數 = (7+8)÷2 = 7.5
+
+**眾數（Mode）**：出現次數最多嗰個
+• 例：2,3,3,5,7 → 眾數 = 3
+
+⚠️ **T13陷阱**：平均數會被極端值拉高/拉低！
+
+想我幫你做數據分析嗎？` },
+    
+    { keys: ['概率','probability','機會','可能'], resp: `📖 **概率基礎**
+
+概率 = 想要嘅結果數量 ÷ 所有可能結果數量
+
+**例子：**
+• 擲銀仔出「公」嘅概率 = 1/2
+• 擲骰仔出「6」嘅概率 = 1/6
+• 抽一張啤牌係「紅心」嘅概率 = 13/52 = 1/4
+
+⚠️ **T14陷阱**：獨立事件！擲兩次銀仔都係公嘅概率 = 1/2 × 1/2 = 1/4，唔係1/2！
+
+有概率題目想我幫手嗎？` },
+    
+    { keys: ['時間','time','鐘','小時','分鐘','秒'], resp: `📖 **時間計算**
+
+**單位換算：**
+• 1日 = 24小時
+• 1小時 = 60分鐘
+• 1分鐘 = 60秒
+
+**時間加減：**
+例：1小時20分 + 50分 = 2小時10分
+（20分+50分=70分=1小時10分，加埋原本1小時=2小時10分）
+
+⚠️ **T15陷阱**：時間用60進制，唔係10進制！
+1.5小時 = 1小時30分，唔係1小時50分！
+
+需要幫你計時間題目嗎？` },
+    
+    { keys: ['圖形','旋轉','對稱','反射','geometry','shape'], resp: `📖 **圖形與對稱**
+
+**對稱類型：**
+• 反射對稱（鏡像）：對摺後兩邊完全重疊
+• 旋轉對稱：旋轉一定角度後同原本一樣
+  例：正方形有4次旋轉對稱（每90°一次）
+
+**常見圖形對稱：**
+• 等邊三角形：3條對稱軸
+• 正方形：4條對稱軸
+• 長方形：2條對稱軸
+• 圓形：無限條對稱軸
+
+⚠️ 旋轉90°同反射係唔同㗎！旋轉係「轉」，反射係「反」！
+
+有圖形題目想我幫你分析嗎？` },
+    
+    { keys: ['進位','退位','借位','減法','subtract'], resp: `📖 **進退位加減法**
+
+**進位加法：** 個位加埋≥10，進1去十位
+例：27 + 35
+  個位：7+5=12（寫2進1）
+  十位：2+3+1=6
+  答案：62
+
+**退位減法：** 唔夠減時向上一位借
+例：1000 - 456
+  1000 = 999 + 1
+  999 - 456 = 543
+  543 + 1 = 544
+
+⚠️ 被減數有0嘅時候，要一路向左借位！
+
+要我幫你練進退位嗎？` }
+  ];
+  
+  // Try to match the question to a topic
+  for (const t of topics) {
+    for (const k of t.keys) {
+      if (ql.includes(k)) return t.resp;
+    }
+  }
+  
+  // No specific topic matched - give general guidance
+  return `🤔 好問題！雖然我冇辦法即時俾到完整答案，但等我哋一齊思考下：
+
+📐 **建議你試下：**
+1. 將問題拆開做細部分，一步步分析
+2. 畫個圖或者列表幫自己理解
+3. 諗下呢條題目涉及邊個數學概念
+
+💡 你可以試下用**練習模式**（左上角切換），揀返對應年級同主題做練習！
+
+或者重新形容一下你嘅問題，等我幫你更準確咁解答～ 😊`;
+}
 function quickAsk(question) { document.getElementById("userInput").value = question; freeAsk(); }
 
 // ═══════════════ UTILS ═══════════════
