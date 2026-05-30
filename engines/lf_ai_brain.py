@@ -428,7 +428,12 @@ def ai_analyze_student(student_name: str, progress_data: list) -> dict:
     except:
         return {"weak_concepts": ["需要更多數據"], "strength_concepts": [], "learning_style": "待分析", "next_best_action": "繼續練習"}
 
-def ai_daily_summary(student_name: str, today_data: dict) -> str:
+def ai_daily_summary(student_name: str, today_total=0, today_correct=0, weak_areas=None) -> str:
+    # Support both old (student_name, today_data) and new (student_name, total, correct, weak_areas) signatures
+    if isinstance(today_total, dict):
+        today_data = today_total
+    else:
+        today_data = {"total": today_total, "correct": today_correct, "weak_areas": weak_areas or []}
     """AI 生成家長日報"""
     prompt = f"""學生: {student_name}
 今日數據: {json.dumps(today_data, ensure_ascii=False)}

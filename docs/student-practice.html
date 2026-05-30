@@ -105,6 +105,7 @@ body{font-family:'Noto Sans HK',sans-serif;background:linear-gradient(135deg,#0A
 </div>
 
 <script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-adaptive-engine.js"></script>
 <script src="/docs/demo-data.js"></script>
 <script src="/docs/data/lf-kids-mode.js"></script>
 <script src="/docs/data/lf-classroom-utils.js"></script>
@@ -177,7 +178,13 @@ var questionBank = [
         document.getElementById('pointsCount').textContent = localStorage.getItem('lf_points')||'0';
         LFGame.recordActivity();
     }
-    // Smart selection: ensure trap diversity (at least 7 different traps in 10 questions)
+    // Adaptive engine: use personalized question selection
+    if (typeof LFAdaptive !== 'undefined' && LFAdaptive.state.diagnosticComplete) {
+        quiz.questions = LFAdaptive.generatePath(10, questionBank);
+        console.log('[Practice] Using adaptive path · SSPA: ' + (LFAdaptive.state.lastAnalysis?.sspaEstimate?.grade || 'N/A'));
+    } else {
+    }
+    // Fallback: ensure trap diversity (at least 7 different traps in 10 questions)
     var traps = {};
     questionBank.forEach(function(q){ if(!traps[q.trap]) traps[q.trap]=[]; traps[q.trap].push(q); });
     var selected = [];
@@ -258,6 +265,10 @@ function submitAnswer(){
     var card = document.getElementById('questionArea');
     card.className = 'question-card '+(correct?'correct':'wrong');
 
+    // Record in adaptive engine
+    if (typeof LFAdaptive !== 'undefined') {
+        LFAdaptive.recordAnswer(q.trap, correct);
+    }
     // Update score
     if (typeof LFGame !== 'undefined' && correct){
         var pts = parseInt(localStorage.getItem('lf_points')||'0')+10;
@@ -335,6 +346,20 @@ function showResults(){
         localStorage.setItem('lf_total_q',(parseInt(localStorage.getItem('lf_total_q')||'0')+total).toString());
     }
     document.getElementById('accuracyPct').textContent = pct+'%';
+    // Show SSPA prediction after completing
+    if (typeof LFAdaptive !== 'undefined') {
+        LFAdaptive.analyze();
+        var sspaDiv = document.getElementById('sspaEstimate') || document.createElement('div');
+        sspaDiv.id = 'sspaEstimate';
+        var sspa = LFAdaptive.state.lastAnalysis?.sspaEstimate;
+        if (sspa) {
+            sspaDiv.innerHTML = '<div style="margin-top:8px;padding:8px 12px;background:#F0F7FF;border-radius:8px;font-size:11px;text-align:center;color:#1E40AF">🎯 預估SSPA: <strong>' + sspa.grade + '</strong> (' + sspa.band + ')</div>';
+            if (!document.getElementById('sspaEstimate')) {
+                var resultCard = document.getElementById('resultCard');
+                if (resultCard) resultCard.appendChild(sspaDiv);
+            }
+        }
+    }
 }
 
 function toggleVoice(){

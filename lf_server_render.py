@@ -29,16 +29,16 @@ def get_db():
             return psycopg2.connect(db_url + "&connect_timeout=5")
         return psycopg2.connect(db_url + "?connect_timeout=5")
     # Fallback to local
-    return psycopg2.connect("host='localhost' dbname='question_bank' user='postgres' password=''")
+    return psycopg2.connect("host='localhost' dbname='question_bank' user='postgres' password='' connect_timeout=3")
 
 # === Load AI Engines ===
 try:
     from engines.mark_engine import mark_with_feedback
     from engines.adaptive_engine import get_next_question
     from engines.tutor_engine import get_hint, generate_hints, socratic_chat, adaptive_hint_branch, validate_reasoning, generate_session_summary
-from engines.socratic_session import create_session, get_session, end_session, active_sessions
-from engines.payment_engine import create_checkout_session, get_checkout_session, handle_webhook, get_plans, get_plan_by_grade, create_trial_membership, check_membership_status
-from engines.lf_ai_brain import ai_tutor_chat, ai_tutor_solve
+    from engines.socratic_session import create_session, get_session, end_session, active_sessions
+    from engines.payment_engine import create_checkout_session, get_checkout_session, handle_webhook, get_plans, get_plan_by_grade, create_trial_membership, check_membership_status
+    from engines.lf_ai_brain import ai_tutor_chat, ai_tutor_solve
     from engines.misconception_engine import detect_misconceptions
     from engines.ai_orchestrator import smart_pipeline
     ENGINES_LOADED = True
@@ -69,11 +69,11 @@ except:
         from lf_ai_brain import ai_daily_summary, ai_analyze_student, ai_generate_question, check_health
         AI_BRAIN = True
     except:
-    AI_BRAIN = False
-    def ai_daily_summary(*a,**kw): return "AI service unavailable"
-    def ai_analyze_student(*a,**kw): return {}
-    def ai_generate_question(*a,**kw): return {}
-    def check_health(): return {"frellmapi":"offline"}
+        AI_BRAIN = False
+        def ai_daily_summary(*a,**kw): return "AI service unavailable"
+        def ai_analyze_student(*a,**kw): return {}
+        def ai_generate_question(*a,**kw): return {}
+        def check_health(): return {"frellmapi":"offline"}
 
 # Config
 FRELLMAPI_KEY = os.environ.get("FRELLMAPI_KEY", "")
@@ -309,9 +309,9 @@ def api_worksheet(student):
     try:
         try:
             try:
-            from engines.ai_teacher_copilot import ai_generate_worksheet
-        except:
-            from ai_teacher_copilot import ai_generate_worksheet
+                from engines.ai_teacher_copilot import ai_generate_worksheet
+            except:
+                from ai_teacher_copilot import ai_generate_worksheet
             ws = ai_generate_worksheet(topic, difficulty, count, student)
         except:
             ws = {"questions": [], "generated_by": "offline"}
@@ -510,14 +510,29 @@ def api_membership_status():
 
 @app.route("/api/health")
 def health():
+    import signal as _signal
+    q_count = 0
+    db_ok = False
+
+    def _timeout_handler(signum, frame):
+        raise TimeoutError("DB health check timed out")
+
     try:
-        conn = get_db()  # Uses 5s connect_timeout now
+        # Use alarm-based timeout on Unix; on Windows just catch the exception quickly
+        old_handler = _signal.signal(_signal.SIGALRM, _timeout_handler) if hasattr(_signal, 'SIGALRM') else None
+        if hasattr(_signal, 'SIGALRM'):
+            _signal.alarm(4)  # 4s max for health check
+
+        conn = get_db()  # Has 3-5s connect_timeout
         cur = conn.cursor()
         cur.execute("SELECT COUNT(*) FROM questions")
         q_count = cur.fetchone()[0]
         conn.close()
         db_ok = True
-    except:
+
+        if hasattr(_signal, 'SIGALRM'):
+            _signal.alarm(0)
+    except Exception:
         q_count = 0
         db_ok = False
     
@@ -544,3 +559,4 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     print(f"LF Academy Render Server starting on port {port}")
     app.run(host="0.0.0.0", port=port)
+

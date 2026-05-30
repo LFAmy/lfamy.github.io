@@ -42,16 +42,10 @@ button:hover { background:#4338ca; }
 .nav-top{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.95);padding:8px 16px;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 .nav-top a{color:#4f46e5;text-decoration:none;font-weight:600;font-size:.85em}
 .nav-top .brand{font-size:1em;color:#1e293b}
-body{padding-top:44px}
+
 </style>
 </head>
 <body>
-<div class="nav-top">
-  <a href="/" class="brand"><img src="logo.png" alt="霖楓學苑" style="height:44px"></a>
-  <div style="display:flex;gap:12px">
-    <a href="/">🏠 首頁</a>
-    <a href="/parent-dashboard.html">📊 家長</a>
-  </div>
 </div>
 <div class="header">
   <h1>📊 家長 Dashboard</h1>
@@ -102,57 +96,150 @@ body{padding-top:44px}
 </div>
 
 <script>
+function loadLocalData() {
+  // Read from localStorage (works offline!)
+  var points = parseInt(localStorage.getItem("lf_points") || "0");
+  var streak = parseInt(localStorage.getItem("lf_streak") || "0");
+  var totalQ = parseInt(localStorage.getItem("lf_total_q") || "0");
+  var correct = parseInt(localStorage.getItem("lf_total_correct") || "0");
+  var accuracy = totalQ > 0 ? Math.round(correct / totalQ * 100) : 0;
+
+  // Trap mastery data
+  var trapData = {};
+  try { trapData = JSON.parse(localStorage.getItem("lf_trap_mastery") || "{}"); } catch(e) {}
+
+  // Demo class data
+  var demoClass = null;
+  try { demoClass = JSON.parse(localStorage.getItem("lf_demo_class") || "null"); } catch(e) {}
+
+  // Determine badges from points
+  var badges = [];
+  if (points >= 5000) badges.push("🏆 鑽石章");
+  else if (points >= 2000) badges.push("🥇 金章");
+  else if (points >= 500) badges.push("🥈 銀章");
+  else if (points >= 100) badges.push("🥉 銅章");
+  else badges.push("🌱 新手");
+
+  return {
+    points: points,
+    streak: streak,
+    totalQuestions: totalQ,
+    correct: correct,
+    accuracy: accuracy,
+    badges: badges,
+    trapData: trapData,
+    demoClass: demoClass
+  };
+}
+
+function getAIInsight(data) {
+  if (data.totalQuestions === 0) return "尚未開始練習。建議子女每日完成 10 題陷阱練習，培養良好習慣！";
+  if (data.accuracy >= 90) return "表現優異！子女已掌握大部分陷阱，可以挑戰更高難度的題目。";
+  if (data.accuracy >= 70) return "整體表現良好，但仍有改進空間。建議針對弱點陷阱進行專項練習。";
+  if (data.accuracy >= 50) return "子女正在進步中！建議增加練習頻率，特別注意常見陷阱類型。";
+  return "需要多加練習。建議從基礎題目開始，逐步建立信心。";
+}
+
 async function loadDashboard() {
-  const student = document.getElementById("studentName").value || "test_student";
   document.getElementById("loading").style.display = "block";
   document.getElementById("dashboard").style.display = "none";
-  
+
+  // 1. Try to load local data first (instant)
+  var localData = loadLocalData();
+
+  // 2. Try API for richer data
+  var apiData = null;
   try {
+    const student = document.getElementById("studentName").value || "test_student";
     const API = "https://lf-api-f80h.onrender.com/api/ai";
-    const [parentResp, pathResp, modelResp] = await Promise.all([
-      fetch(`${API}/parent/${student}`),
-      fetch(`${API}/learning-path/${student}`),
-      fetch(`${API}/cognitive-model/${student}`)
-    ]);
-    
-    const parent = await parentResp.json();
-    const path = await pathResp.json();
-    const model = await modelResp.json();
-    
-    document.getElementById("todayQuestions").textContent = parent.stats?.total_questions || 0;
-    const correct = parent.stats?.correct || 0;
-    const total = parent.stats?.total_questions || 1;
-    document.getElementById("todayCorrect").textContent = Math.round(correct/total*100) + "%";
-    document.getElementById("points").textContent = parent.stats?.points || 0;
-    document.getElementById("badge").textContent = parent.stats?.badge || "🥉 銅章";
-    document.getElementById("streak").textContent = parent.stats?.streak || 0;
-    document.getElementById("summaryText").textContent = parent.ai_summary || "繼續努力！";
-    
-    // Weak areas
-    const weakList = document.getElementById("weakAreas");
-    weakList.innerHTML = "";
-    (parent.weak_areas || []).slice(0,5).forEach(w => {
-      weakList.innerHTML += `<li>${w} <span class="badge green">需加強</span></li>`;
-    });
-    if (!parent.weak_areas?.length) weakList.innerHTML = "<li>暫無數據</li>";
-    
-    // Chart
-    if (window.progressChart) window.progressChart.destroy();
-    const ctx = document.getElementById("progressChart").getContext("2d");
-    window.progressChart = new Chart(ctx, {
-      type:"line",
-      data:{labels:["周一","周二","周三","周四","周五","周六","周日"],datasets:[{label:"正確率",data:[65,70,75,80,78,85,90],borderColor:"#4f46e5",tension:.3}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
-    });
-    
-    document.getElementById("loading").style.display = "none";
-    document.getElementById("dashboard").style.display = "block";
+    const resp = await fetch(`${API}/parent/${student}`);
+    if (resp.ok) apiData = await resp.json();
   } catch(e) {
-    document.getElementById("loading").innerHTML = "⚠️ 無法連接伺服器，請確認 LF Server 已啟動";
+    console.log("[Parent Dashboard] API unavailable, using local data");
   }
+
+  // 3. Merge data (API takes precedence, local as fallback)
+  var data = {
+    points: apiData?.stats?.points || localData.points,
+    streak: apiData?.stats?.streak || localData.streak,
+    totalQuestions: apiData?.stats?.total_questions || localData.totalQuestions,
+    correct: apiData?.stats?.correct || localData.correct,
+    accuracy: apiData?.stats?.total_questions ? Math.round((apiData.stats.correct || 0) / apiData.stats.total_questions * 100) : localData.accuracy,
+    badges: localData.badges,
+    weakAreas: apiData?.weak_areas || [],
+    aiSummary: apiData?.ai_summary || getAIInsight(localData),
+    trapData: localData.trapData
+  };
+
+  // 4. Render
+  document.getElementById("todayQuestions").textContent = data.totalQuestions || 0;
+  document.getElementById("todayCorrect").textContent = (data.accuracy || 0) + "%";
+  document.getElementById("points").textContent = data.points || 0;
+  document.getElementById("badge").textContent = data.badges[0] || "🥉 銅章";
+  document.getElementById("streak").textContent = data.streak || 0;
+  document.getElementById("summaryText").textContent = data.aiSummary || "繼續努力！";
+
+  // Weak areas - show from trap data if API didn't provide
+  var weakList = document.getElementById("weakAreas");
+  weakList.innerHTML = "";
+  var trapNames = {T1:"計算粗心",T2:"小數除法",T3:"運算順序",T4:"面積公式",T5:"體積混淆",T6:"分數通分",T7:"百分比",T8:"速率單位",T9:"代數移項",T10:"統計圖表"};
+  var weakItems = [];
+  if (data.weakAreas && data.weakAreas.length > 0) {
+    data.weakAreas.slice(0, 5).forEach(function(w) {
+      weakItems.push({name: typeof w === "string" ? w : w.name || w, level: "bad"});
+    });
+  } else if (Object.keys(data.trapData).length > 0) {
+    Object.keys(data.trapData).forEach(function(k) {
+      var t = data.trapData[k];
+      if (t && t.accuracy !== undefined && t.accuracy < 70) {
+        weakItems.push({name: (trapNames[k] || k) + " (" + t.accuracy + "%)", level: t.accuracy < 50 ? "bad" : "ok"});
+      }
+    });
+  }
+  if (weakItems.length > 0) {
+    weakItems.sort(function(a, b) { return a.level === "bad" ? -1 : 1; });
+    weakItems.slice(0, 5).forEach(function(w) {
+      var cls = w.level === "bad" ? "red" : "green";
+      weakList.innerHTML += '<li>' + w.name + ' <span class="badge ' + cls + '">需加強</span></li>';
+    });
+  } else {
+    weakList.innerHTML = "<li>暫無弱項數據，繼續保持！</li>";
+  }
+
+  // Chart - use real data or demo
+  if (window.progressChart) window.progressChart.destroy();
+  var ctx = document.getElementById("progressChart").getContext("2d");
+  var chartData = apiData?.progress || [65, 70, 75, 80, 78, 85, 90];
+  window.progressChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+      datasets: [{label: "正確率", data: chartData, borderColor: "#4f46e5", tension: 0.3, fill: true, backgroundColor: "rgba(79,70,229,0.1)"}]
+    },
+    options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {display: false}}, scales: {y: {min: 0, max: 100}}}
+  });
+
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("dashboard").style.display = "block";
+
+  // Show data source indicator
+  var sourceEl = document.getElementById("dataSource");
+  if (sourceEl) sourceEl.remove();
+  var source = document.createElement("div");
+  source.id = "dataSource";
+  source.style.cssText = "text-align:center;font-size:10px;color:#94a3b8;margin-top:8px";
+  source.textContent = apiData ? "📡 數據來源：伺服器" : "💾 數據來源：本機暫存";
+  document.getElementById("dashboard").appendChild(source);
 }
 
 loadDashboard();
+
+// Inject SSPA prediction widget
+setTimeout(function() {
+    if (typeof LFSSPAWidget !== "undefined") {
+        LFSSPAWidget.inject("#dashboard", document.getElementById("studentName")?.value || "");
+    }
+}, 1500);
 </script>
 </body>
 </html>

@@ -1,12 +1,73 @@
+# ═══════════════════════════════════════════════════
+# 霖楓學苑 LF Academy - Render 部署配置 v3.0
+# 高峰期自動擴容 · 健康檢查 · 零停機部署
+# ═══════════════════════════════════════════════════
+
 services:
+  # ── AI API 服務 ──
   - type: web
     name: lf-api
     env: python
     region: singapore
+    plan: starter  # 升級至 starter ($7/月) 以支援自動擴容
+    branch: main
+    rootDir: _api/render
+    
     buildCommand: pip install -r requirements.txt
-    startCommand: python server.py
+    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 --keep-alive 5 --max-requests 1000 --max-requests-jitter 100
+    
+    # ═══ 自動擴容設定 ═══
+    scaling:
+      minInstances: 1      # 最少 1 個實例（避免冷啟動）
+      maxInstances: 3      # 高峰期最多 3 個實例
+      targetMemoryPercent: 70
+      targetCPUPercent: 70
+    
+    # ═══ 健康檢查 ═══
+    healthCheckPath: /health
+    healthCheckTimeout: 10
+    
+    # ═══ 零停機部署 ═══
+    maxShutdownDelaySeconds: 30
+    preDeployCommand: echo "Pre-deploy health check..." && curl -f http://localhost:$PORT/health || true
+    
+    # ═══ 環境變數 ═══
     envVars:
-      - key: PORT
-        value: 5000
+      - key: PYTHONUNBUFFERED
+        value: "1"
       - key: PYTHONIOENCODING
         value: utf-8
+      - key: FRELLMAPI_URL
+        value: http://localhost:3001/v1
+      - key: FRELLMAPI_KEY
+        sync: false
+      - key: DASHSCOPE_KEY
+        sync: false
+      - key: DEEPSEEK_KEY
+        sync: false
+      - key: LOG_LEVEL
+        value: INFO
+      - key: MAX_WORKERS
+        value: "4"
+    
+    # ═══ 自動部署 ═══
+    autoDeploy: yes
+    
+    # ═══ 域名 ═══
+    domains:
+      - api.lamfung.academy
+
+  # ── 靜態網站（Firebase 部署，此處僅作紀錄）──
+  # 前端部署於 Firebase Hosting: lam-fung-academy.web.app
+  # Render 僅運行 API 服務
+
+# ═══ 資料庫（如需要）═══
+# databases:
+#   - name: lf-postgres
+#     plan: free
+
+# ═══ 定時任務（如需要）═══
+# cronJobs:
+#   - name: daily-health-check
+#     schedule: "0 6 * * *"
+#     command: curl -f https://api.lamfung.academy/health

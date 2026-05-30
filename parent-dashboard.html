@@ -233,6 +233,13 @@ async function loadDashboard() {
 }
 
 loadDashboard();
+
+// Inject SSPA prediction widget
+setTimeout(function() {
+    if (typeof LFSSPAWidget !== "undefined") {
+        LFSSPAWidget.inject("#dashboard", document.getElementById("studentName")?.value || "");
+    }
+}, 1500);
 </script>
 </body>
 </html>

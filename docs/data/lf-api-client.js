@@ -3,13 +3,13 @@
  * 連接前端頁面到 Python lf_ai_brain.py 引擎
  * 使用方式: <script src="/docs/data/lf-api-client.js"></script>
  * 
- * API 伺服器: http://localhost:5000 (開發) / http://localhost:3001 (生產)
+ * API 伺服器: http://localhost:5100 (開發) / http://localhost:3001 (生產)
  */
 
 const LF_API = (() => {
     // Auto-detect environment
     const DEV = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'http://localhost:3001/v1'
+    const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5100' : 'https://lf-academy-api.onrender.com'
     
     // Cache for repeated calls (same input within 5 minutes)
     const _cache = new Map();
@@ -145,7 +145,7 @@ const LF_API = (() => {
         async health() {
             // First try local, then Render
             try {
-                const r = await fetch('http://localhost:5000/health', { signal: AbortSignal.timeout(3000) });
+                const r = await fetch('http://localhost:5100/health', { signal: AbortSignal.timeout(3000) });
                 const j = await r.json();
                 return j.status === 'ok' ? 'local' : 'remote';
             } catch {
@@ -246,4 +246,5 @@ const LF_API = (() => {
 })();
 
 console.log('[LF-API] 🍁 LF AI API Client v1.0 loaded');
-console.log('[LF-API] 📡 API server:', window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'http://localhost:3001');
+console.log('[LF-API] 📡 API server:', window.location.hostname === 'localhost' ? 'http://localhost:5100' : 'http://localhost:3001');
+

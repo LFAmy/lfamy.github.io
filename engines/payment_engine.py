@@ -6,14 +6,20 @@ LF Payment Engine — Stripe 支付整合 + 會員管理
 import os
 import json
 import time
+import hmac
+import hashlib
 import urllib.request
 import urllib.error
 from datetime import datetime, timedelta
 
 # ═══ Stripe 配置 ═══
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 STRIPE_API = "https://api.stripe.com/v1"
 TIMEOUT = 30
+
+# ═══ Idempotency Store (event ID dedup) ═══
+_processed_events = set()  # In production, use DB/Redis with TTL
 
 # ═══ 產品定價 ═══
 PRICING = {
@@ -108,23 +114,71 @@ def get_checkout_session(session_id: str) -> dict:
     return _stripe_request("GET", f"checkout/sessions/{session_id}")
 
 
-def handle_webhook(payload: bytes, signature: str) -> dict:
+def _verify_stripe_signature(payload: bytes, signature: str) -> bool:
+    """Verify Stripe webhook signature (HMAC-SHA256, constant-time compare, 300s tolerance).
+    Reference: Stripe Webhooks End-to-End (2026) + Hookdeck Best Practices.
     """
-    處理 Stripe Webhook 事件。
-    驗證簽名後更新會員狀態到 Firebase。
-    """
-    webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+    if not STRIPE_WEBHOOK_SECRET:
+        return True  # Dev mode: no secret configured, allow all
+    if not signature:
+        return False
 
     try:
+        parts = {}
+        for part in signature.split(","):
+            k, v = part.strip().split("=", 1)
+            parts[k] = v
+        timestamp = parts.get("t", "")
+        sig_v1 = parts.get("v1", "")
+        if not timestamp or not sig_v1:
+            return False
+        # Timestamp tolerance: 300 seconds
+        if abs(int(time.time()) - int(timestamp)) > 300:
+            return False
+        # Recompute HMAC-SHA256
+        signed_payload = f"{timestamp}.{payload.decode('utf-8')}"
+        expected = hmac.new(
+            STRIPE_WEBHOOK_SECRET.encode("utf-8"),
+            signed_payload.encode("utf-8"),
+            hashlib.sha256
+        ).hexdigest()
+        # Constant-time comparison
+        return hmac.compare_digest(expected, sig_v1)
+    except Exception:
+        return False
+
+
+def handle_webhook(payload: bytes, signature: str) -> dict:
+    """
+    Process Stripe Webhook events.
+    Step 1: Verify signature (CRITICAL security gate)
+    Step 2: Parse event JSON
+    Step 3: Idempotency check (event ID dedup)
+    Step 4: Process by event type
+    Step 5: Mark as processed
+    Reference: Stripe Webhooks End-to-End (2026), Hookdeck Best Practices
+    """
+    # Step 1: Verify signature
+    if STRIPE_WEBHOOK_SECRET and not _verify_stripe_signature(payload, signature):
+        return {"error": "Invalid signature", "verified": False}
+
+    # Step 2: Parse event
+    try:
         event = json.loads(payload.decode("utf-8"))
-    except:
+    except Exception:
         return {"error": "Invalid JSON payload"}
 
+    event_id = event.get("id", "")
     event_type = event.get("type", "")
+
+    # Step 3: Idempotency check
+    if event_id in _processed_events:
+        return {"event": event_type, "processed": False, "reason": "duplicate_event", "event_id": event_id}
+
     obj = event.get("data", {}).get("object", {})
+    result = {"event": event_type, "processed": False, "event_id": event_id}
 
-    result = {"event": event_type, "processed": False}
-
+    # Step 4: Process by event type
     if event_type == "checkout.session.completed":
         customer_email = obj.get("customer_details", {}).get("email", "") or obj.get("customer_email", "")
         metadata = obj.get("metadata", {})
@@ -147,7 +201,6 @@ def handle_webhook(payload: bytes, signature: str) -> dict:
             "sessions_remaining": PRICING.get(plan_id, {}).get("sessions_per_month", 4),
         }
 
-        # Save to local record (Firebase integration via frontend)
         result["membership"] = membership
         result["processed"] = True
 
@@ -158,6 +211,13 @@ def handle_webhook(payload: bytes, signature: str) -> dict:
     elif event_type == "invoice.payment_failed":
         result["processed"] = True
         result["action"] = "payment_failed_alert"
+
+    # Step 5: Mark as processed (idempotency)
+    if result["processed"]:
+        _processed_events.add(event_id)
+        # Keep set bounded (in production, use DB with TTL/auto-cleanup)
+        if len(_processed_events) > 10000:
+            _processed_events.clear()
 
     return result
 

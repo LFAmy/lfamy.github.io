@@ -12,6 +12,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'engines'))
 import io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
+import os
+import sys
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -23,6 +26,10 @@ from lf_ai_brain import (
     ai_daily_summary,
     ai_detect_misconceptions,
     ai_generate_question,
+    ai_damping_coefficient,
+    ai_calibrate_difficulty,
+    ai_adjust_confidence,
+    ai_hint_depth_control,
     check_health
 )
 
@@ -41,12 +48,14 @@ def index():
         "status": "online",
         "endpoints": {
             "GET /health": "健康檢查",
-            "POST /api/mark": "語意批改: {student_answer, model_answer, question, max_score}",
-            "POST /api/hints": "蘇格拉底提示: {question, model_answer}",
+            "POST /api/mark": "語意批改: {student_answer, model_answer, question, max_score, student_history?}",
+            "POST /api/hints": "蘇格拉底提示: {question, model_answer, student_history?}",
             "POST /api/analyze": "學生分析: {student_name, progress_data}",
             "POST /api/report": "家長日報: {student_name, today_data}",
             "POST /api/misconceptions": "錯誤分析: {student_name, errors}",
-            "POST /api/generate": "智能出題: {topic, difficulty}"
+            "POST /api/generate": "智能出題: {topic, difficulty, student_history?}",
+            "POST /api/damping": "AI阻尼係數: {student_history}",
+            "POST /api/calibrate": "難度校準: {base_difficulty, student_history}"
         }
     })
 
@@ -154,6 +163,35 @@ def api_generate():
     try:
         question = ai_generate_question(topic, difficulty)
         return jsonify({"status": "ok", "question": question})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/damping', methods=['POST'])
+def api_damping():
+    """AI damping coefficient - personalized parameters from student history"""
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "need JSON body"}), 400
+    try:
+        result = ai_damping_coefficient(data.get('student_history'))
+        return jsonify({"status": "ok", "damping": result})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/api/calibrate', methods=['POST'])
+def api_calibrate():
+    """Difficulty calibration - adjusts question difficulty per student ability"""
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "need JSON body"}), 400
+    try:
+        difficulty = ai_calibrate_difficulty(
+            data.get('base_difficulty', 5),
+            data.get('student_history')
+        )
+        return jsonify({"status": "ok", "calibrated_difficulty": difficulty})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
