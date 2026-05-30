@@ -72,17 +72,35 @@ body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font
 <div class="container">
 <div class="grid">
 
+<!-- CARD: AI 智能快照 v1.0 (NEW) -->
+<div class="card" style="border-left:4px solid #7C3AED;background:linear-gradient(135deg,#FAF5FF,#EDE9FE);">
+<h2>🤖 AI 今日快照 <span class="tag-new" style="font-size:10px;">v1.0</span></h2>
+<div id="aiSnapshot">
+  <div class="stat-row"><span>📅 今日日期</span><span class="val" id="snapDate">--</span></div>
+  <div class="stat-row"><span>📢 今日排程貼文</span><span class="val" id="snapPosts">檢查中...</span></div>
+  <div class="stat-row"><span>🟢 API 狀態</span><span class="val" id="snapAPI">檢查中...</span></div>
+  <div class="stat-row"><span>🧠 AI 引擎</span><span class="val" id="snapAI">檢查中...</span></div>
+  <div class="stat-row"><span>💡 智能建議</span><span class="val" id="snapSuggestion" style="color:#7C3AED;font-size:11px;">載入中...</span></div>
+  <div class="quick-actions" style="margin-top:8px;">
+    <a href="./docs/social/social_calendar_v2.html" class="btn btn-blue btn-sm" style="width:auto;">📅 查看內容日曆</a>
+    <a href="./docs/social/publish/" class="btn btn-gold btn-sm" style="width:auto;">🚀 今日發佈</a>
+    <a href="./ai-tutor.html" class="btn btn-green btn-sm" style="width:auto;">🤖 AI 導師</a>
+  </div>
+</div>
+</div>
+
+
 <!-- CARD: Quick Nav -->
 <div class="card">
 <h2>📚 講義與教學 <span class="tag-web">網頁可用</span></h2>
 
 <div class="quick-actions">
-<a href="#" class="btn btn-blue btn-sm" target="_blank">📚 講義總索引 (208堂)</a>
-<a href="#" class="btn btn-outline btn-sm" target="_blank">✅ 答案冊索引 (173份)</a>
-<a href="#" class="btn btn-green btn-sm" target="_blank">👩‍🏫 教師培訓手冊</a>
+<a href="./docs/system-index.html" class="btn btn-blue btn-sm" target="_blank">📚 講義總索引 (208堂)</a>
+<a href="./_operations/answer_keys/answer_key_index.html" class="btn btn-outline btn-sm" target="_blank">✅ 答案冊索引 (173份)</a>
+<a href="./docs/teacher-training.html" class="btn btn-green btn-sm" target="_blank">👩‍🏫 教師培訓手冊</a>
   <a href="./docs/teacher-training.html" class="btn btn-gold btn-sm" target="_blank">🎓 教師培訓中心 ⭐NEW</a>
   <a href="./docs/teacher-lesson-planner.html" class="btn btn-blue btn-sm" target="_blank">📝 教案生成器 ⭐NEW</a>
-<a href="#" class="btn btn-outline btn-sm" target="_blank">📋 陷阱速查海報</a>
+<a href="./docs/trap-quiz.html" class="btn btn-outline btn-sm" target="_blank">📋 陷阱速查海報</a>
 <a href="./_operations/brand_positioning_v2.html" class="btn btn-outline btn-sm" target="_blank">🎯 品牌定位 v2.0</a>
 </div>
 </div>
@@ -140,6 +158,8 @@ body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font
 <a href="./docs/hub.html" class="btn btn-red btn-sm" target="_blank">🏠 LF Hub</a>
 <a href="./docs/daily-ops.html" class="btn btn-red btn-sm" target="_blank">📋 每日操作</a>
 <a href="./docs/social/publish/" class="btn btn-red btn-sm" target="_blank">🚀 今日發佈</a>
+<a href="./ai-tutor.html" class="btn btn-blue btn-sm" target="_blank">🤖 AI 數學導師 ⭐NEW</a>
+<a href="./docs/social/social_calendar_v2.html" class="btn btn-gold btn-sm" target="_blank">📅 社群內容日曆 v2 ⭐NEW</a>
 <a href="./docs/social/videos/" class="btn btn-blue btn-sm" target="_blank">🎬 影片庫</a>
 <a href="./docs/track.html" class="btn btn-outline btn-sm" target="_blank">📊 UTM 追蹤頁</a>
 <a href="./_operations/efficiency_toolkit.html" class="btn btn-blue btn-sm" target="_blank">⚡ 效率工具箱</a>
@@ -233,7 +253,7 @@ body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font
 <a href="./講義/P5/" class="btn btn-outline" target="_blank">📖 P5 小五 (80堂)</a>
 <a href="./講義/P6/" class="btn btn-outline" target="_blank">📖 P6 小六 (42堂)</a>
 <a href="./講義/EN/" class="btn btn-outline" target="_blank">🌐 EN 英文版</a>
-<a href="#" class="btn btn-blue" target="_blank">🔍 搜尋全部講義</a>
+<a href="./docs/system-index.html" class="btn btn-blue" target="_blank">🔍 搜尋全部講義</a>
 </div>
 
 </div>
@@ -375,6 +395,58 @@ async function loadTeachers() {
     list.innerHTML = "<p style='color:#DC2626;'>載入失敗: " + e.message + "</p>";
   }
 }
+
+// ═══ AI Smart Snapshot ═══
+(function initAISnapshot() {
+  document.getElementById('snapDate').textContent = new Date().toLocaleDateString('zh-HK', {weekday:'short',year:'numeric',month:'short',day:'numeric'});
+  
+  // Check API health
+  fetch('https://lf-api-f80h.onrender.com/api/health')
+    .then(r => r.json().then(d => ({ok:r.ok, data:d})).catch(() => ({ok:false})))
+    .then(r => {
+      document.getElementById('snapAPI').innerHTML = r.ok ? '🟢 正常' : '🔴 離線';
+      document.getElementById('snapAI').innerHTML = (r.ok && r.data && r.data.ai !== 'offline') ? '🟢 在線' : '🟡 備援模式';
+    })
+    .catch(() => {
+      document.getElementById('snapAPI').innerHTML = '🔴 離線';
+      document.getElementById('snapAI').innerHTML = '🔴 不可用';
+    });
+
+  // Smart suggestion based on day of week
+  var d = new Date().getDay();
+  var suggestions = {
+    0: '📅 星期日：適合發佈親子互動/輕鬆內容',
+    1: '📚 星期一：適合發佈教育乾貨（陷阱解密）',
+    2: '🎯 星期二：適合發佈互動測驗/投票',
+    3: '⭐ 星期三：適合發佈Social Proof（真實案例）',
+    4: '⚡ 星期四：適合發佈緊急感內容（SSPA倒數）',
+    5: '💬 星期五：適合發佈人設/創辦人故事',
+    6: '🎬 星期六：適合發佈Reels/短影音'
+  };
+  document.getElementById('snapSuggestion').textContent = suggestions[d] || '📋 查看內容日曆規劃今日貼文';
+  
+  // Check social calendar for today's posts
+  fetch('./docs/social/social_calendar_v2.html')
+    .then(r => r.text())
+    .then(html => {
+      var today = new Date().toISOString().slice(5,10); // MM-DD
+      var match = html.match(new RegExp(today.replace('-','-') + '.*?</div>', 's'));
+      if (match) {
+        var titleMatch = match[0].match(/post-title">([^<]+)</);
+        var count = (html.match(new RegExp(today.replace('-','-'), 'g')) || []).length;
+        document.getElementById('snapPosts').innerHTML = '📝 ' + count + ' 篇待發佈';
+        if (titleMatch) {
+          document.getElementById('snapSuggestion').textContent = '📢 今日貼文：' + titleMatch[1].substring(0,40) + '... → 前往日曆查看';
+        }
+      } else {
+        document.getElementById('snapPosts').innerHTML = '📭 今日暫無排程';
+      }
+    })
+    .catch(() => {
+      document.getElementById('snapPosts').innerHTML = '⚠️ 無法載入';
+    });
+})();
+
 </script>
 
 </body>

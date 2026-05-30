@@ -26,11 +26,37 @@ h1{font-family:'Noto Serif HK','PingFang SC','SimSun','STSong','KaiTi',serif;fon
 .top-bar button{padding:10px 24px;border-radius:25px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:13px}
 .top-bar button.active,.top-bar button:hover{border-color:#1A3C6D;background:#1A3C6D;color:white}
 @media(max-width:768px){.post-grid{grid-template-columns:1f}}
+
+/* ═══ AI Intelligence Styles ═══ */
+.stats-bar{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;padding:14px 20px;background:white;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.stat-item{text-align:center;min-width:80px}
+.stat-item .num{font-size:22px;font-weight:900;color:#1A3C6D}
+.stat-item .label{font-size:10px;color:#6B7280;margin-top:2px}
+.post-card.today{border:2px solid #16A34A!important;box-shadow:0 0 16px rgba(22,163,74,0.2)!important;position:relative}
+.post-card.today::before{content:"📌 今天";position:absolute;top:-10px;right:12px;background:#16A34A;color:white;padding:2px 10px;border-radius:10px;font-size:10px;font-weight:700}
+.post-card.overdue{border-left:4px solid #DC2626!important;opacity:0.75}
+.post-card.overdue::after{content:"⏰ 已過期";position:absolute;top:8px;right:12px;color:#DC2626;font-size:10px;font-weight:700}
+.content-gauge{height:6px;border-radius:3px;background:#E5E7EB;margin-top:4px;overflow:hidden}
+.content-gauge .fill{height:100%;border-radius:3px;transition:width 0.5s}
+
 </style>
 </head><body>
 <style id="lf-nav-css">
 body{padding-top:48px!important}
 @media(max-width:500px){body{padding-top:44px!important}#lf-navbar{padding:6px 12px!important}#lf-navbar a{font-size:12px!important}#lf-navbar img{height:24px!important}}
+
+/* ═══ AI Intelligence Styles ═══ */
+.stats-bar{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;padding:14px 20px;background:white;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.stat-item{text-align:center;min-width:80px}
+.stat-item .num{font-size:22px;font-weight:900;color:#1A3C6D}
+.stat-item .label{font-size:10px;color:#6B7280;margin-top:2px}
+.post-card.today{border:2px solid #16A34A!important;box-shadow:0 0 16px rgba(22,163,74,0.2)!important;position:relative}
+.post-card.today::before{content:"📌 今天";position:absolute;top:-10px;right:12px;background:#16A34A;color:white;padding:2px 10px;border-radius:10px;font-size:10px;font-weight:700}
+.post-card.overdue{border-left:4px solid #DC2626!important;opacity:0.75}
+.post-card.overdue::after{content:"⏰ 已過期";position:absolute;top:8px;right:12px;color:#DC2626;font-size:10px;font-weight:700}
+.content-gauge{height:6px;border-radius:3px;background:#E5E7EB;margin-top:4px;overflow:hidden}
+.content-gauge .fill{height:100%;border-radius:3px;transition:width 0.5s}
+
 </style>
 <!-- LF Nav Bar (auto-injected) -->
 <div id="lf-navbar" style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,0.08);font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif">
@@ -41,6 +67,18 @@ body{padding-top:48px!important}
 <div class="container">
 <h1>霖楓學苑 · 社群內容日曆 v2</h1>
 <div class="subtitle">7 層內容策略：教育 · Social Proof · 互動 · 緊急感 · 人設 · Reels · 差異化</div>
+
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item"><div class="num" id="statTotal">--</div><div class="label">📊 總貼文</div></div>
+  <div class="stat-item"><div class="num" id="statToday">--</div><div class="label">📌 今日排程</div></div>
+  <div class="stat-item"><div class="num" id="statOverdue">--</div><div class="label">⏰ 已過期</div></div>
+  <div class="stat-item"><div class="num" id="statUpcoming">--</div><div class="label">📅 即將發佈</div></div>
+  <div class="stat-item" style="flex:1;min-width:200px;max-width:300px;">
+    <div style="font-size:10px;color:#6B7280;margin-bottom:4px;">📈 內容層分佈</div>
+    <div id="layerGauges"></div>
+  </div>
+</div>
+
 <div class="top-bar">
 <button class="active" onclick="filter('all')">全部</button>
 <button onclick="filter('fb')">FB</button><button onclick="filter('ig')">IG</button><button onclick="filter('xhs')">小紅書</button>
@@ -878,8 +916,77 @@ Share 俾其他家長試下！">📋 複製</button>
 留言你嘅答案 +「診斷」🤍">📋 複製</button>
             </div></div>
         </div></div></div>
+
+<script>
+// ═══ AI Intelligence Engine ═══
+(function(){
+  var today = new Date();
+  var todayStr = today.getFullYear() + '-' + 
+    String(today.getMonth()+1).padStart(2,'0') + '-' + 
+    String(today.getDate()).padStart(2,'0');
+  
+  var cards = document.querySelectorAll('.post-card');
+  var total = cards.length, todayCount = 0, overdueCount = 0, upcomingCount = 0;
+  var layerCount = {};
+  
+  cards.forEach(function(card){
+    var dateEl = card.querySelector('.post-date');
+    if (!dateEl) return;
+    var dateText = dateEl.textContent.trim();
+    // Parse date like "2026-05-25 (一)"
+    var m = dateText.match(/(\d{4}-\d{2}-\d{2})/);
+    if (!m) return;
+    var postDate = m[1];
+    
+    // Count layers
+    var layerEl = card.querySelector('.layer-tag');
+    if (layerEl) {
+      var l = layerEl.textContent.replace(/[🎯📚⭐💬🎬⚡]/g,'').trim();
+      layerCount[l] = (layerCount[l] || 0) + 1;
+    }
+    
+    // Date classification
+    if (postDate === todayStr) {
+      card.classList.add('today');
+      todayCount++;
+    } else if (postDate < todayStr) {
+      card.classList.add('overdue');
+      overdueCount++;
+    } else {
+      upcomingCount++;
+    }
+  });
+  
+  // Update stats
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statToday').textContent = todayCount || '0';
+  document.getElementById('statOverdue').textContent = overdueCount;
+  document.getElementById('statUpcoming').textContent = upcomingCount;
+  
+  // Layer gauges
+  var colors = {'education':'#3B82F6','social_proof':'#8B5CF6','engagement':'#F59E0B','urgency':'#DC2626','personality':'#EC4899','reels':'#06B6D4','differentiation':'#10B981'};
+  var gaugeHtml = '';
+  for (var l in layerCount) {
+    var pct = Math.round(layerCount[l] / total * 100);
+    gaugeHtml += '<div style="display:flex;align-items:center;gap:6px;margin:2px 0;font-size:9px;">' +
+      '<span style="width:60px;text-align:right;color:#6B7280">' + l + '</span>' +
+      '<div class="content-gauge" style="flex:1"><div class="fill" style="width:' + pct + '%;background:' + (colors[l]||'#6B7280') + '"></div></div>' +
+      '<span style="width:24px;color:#1A3C6D;font-weight:700">' + layerCount[l] + '</span></div>';
+  }
+  document.getElementById('layerGauges').innerHTML = gaugeHtml;
+  
+  // Auto scroll to today if exists
+  if (todayCount > 0) {
+    setTimeout(function(){
+      var todayCard = document.querySelector('.post-card.today');
+      if (todayCard) todayCard.scrollIntoView({behavior:'smooth',block:'center'});
+    }, 500);
+  }
+})();
+</script>
+
 <script>
 function copyText(b){var t=b.getAttribute("data-text").replace(/\\n/g,"\n");navigator.clipboard.writeText(t).then(function(){b.textContent="✓";setTimeout(function(){b.textContent="📋 複製"},2000)})}
 function filter(p){document.querySelectorAll(".platform-section").forEach(function(s){s.style.display=(p==="all"||s.querySelector("h2").textContent.includes({"fb":"Facebook","ig":"Instagram","xhs":"小紅書"}[p]))?"block":"none"});document.querySelectorAll(".top-bar button").forEach(function(b){b.classList.remove("active")});event.target.classList.add("active")}
-function copyAll(){var a=[];document.querySelectorAll(".post-card").forEach(function(c){a.push(c.querySelector(".post-body").innerText+"\n"+c.querySelector(".post-cta").innerText)});navigator.clipboard.writeText(a.join("\n\n---\n\n")).then(function(){alert("已複製！")})}
+function copyAll(){var a=[];document.querySelectorAll(".post-card").forEach(function(c){var d=c.querySelector(".post-date");var t=c.querySelector(".post-title");var b=c.querySelector(".post-body");var cta=c.querySelector(".post-cta");var date=d?d.innerText.trim().split(" ")[0]:"";var title=t?t.innerText.trim():"";var body=b?b.innerText.trim():"";var ctaText=cta?cta.innerText.trim():"";var p=(c.classList.contains("overdue")?"[已過期] ":c.classList.contains("today")?"[今天] ":"");a.push(p+date+" | "+title+"\n"+body+"\n"+ctaText)});navigator.clipboard.writeText(a.join("\n\n---\n\n")).then(function(){alert("已複製 "+a.length+" 篇貼文！")})}
 </script></body></html>
