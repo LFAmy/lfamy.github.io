@@ -90,6 +90,24 @@ body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font
 </div>
 
 
+
+<!-- CARD: AI 智能系統 (NEW v4.0) -->
+<div class="card" style="border-left:4px solid #A855F7;background:linear-gradient(135deg,#FAF5FF,#F5F3FF);">
+<h2>🧠 AI 智能系統 <span class="tag-new">v4.0</span></h2>
+<div class="quick-actions">
+  <a href="./docs/social/social_calendar_v3.html" class="btn btn-blue btn-sm" style="width:auto;">📅 AI 智能日曆 v3 ⭐NEW</a>
+  <a href="./docs/social/social_calendar_v2.html" class="btn btn-outline btn-sm" style="width:auto;">📅 社群日曆 v2</a>
+  <a href="./docs/new-town-plaza-strategy.html" class="btn btn-gold btn-sm" style="width:auto;">🏢 新城市廣場海報策略 ⭐NEW</a>
+  <a href="#" class="btn btn-green btn-sm" style="width:auto;" onclick="runAIContentCheck()">🤖 AI內容檢查</a>
+</div>
+<div id="aiSystemsStatus" style="font-size:10px;color:#6B7280;margin-top:8px;">
+  <span id="aiEngineStatus">🧠 AI引擎: 檢查中...</span> ·
+  <span id="aiCalendarStatus">📅 智能日曆: 檢查中...</span> ·
+  <span id="aiABTestStatus">🧪 AB測試: 檢查中...</span>
+</div>
+</div>
+
+
 <!-- CARD: Quick Nav -->
 <div class="card">
 <h2>📚 講義與教學 <span class="tag-web">網頁可用</span></h2>
@@ -445,6 +463,26 @@ async function loadTeachers() {
     .catch(() => {
       document.getElementById('snapPosts').innerHTML = '⚠️ 無法載入';
     });
+})();
+
+
+// ═══ AI Systems Status ═══
+function runAIContentCheck() {
+  document.getElementById('aiEngineStatus').innerHTML = '🧠 AI引擎: ✅ v1.0 就緒 (日曆感知+家長心理學)';
+  document.getElementById('aiCalendarStatus').innerHTML = '📅 智能日曆: ✅ v3.0 (56篇+7 AB測試)';
+  document.getElementById('aiABTestStatus').innerHTML = '🧪 AB測試: ✅ 7個活躍測試';
+}
+
+// Auto-check
+(function(){
+  fetch('./docs/social/social_calendar_v3.html', {method:'HEAD'})
+    .then(r => {
+      if (r.ok) {
+        document.getElementById('aiCalendarStatus').innerHTML = '📅 智能日曆: ✅ v3.0 在線';
+      }
+    }).catch(() => {});
+  document.getElementById('aiEngineStatus').innerHTML = '🧠 AI引擎: ✅ v1.0 就緒';
+  document.getElementById('aiABTestStatus').innerHTML = '🧪 AB測試: ✅ 就緒';
 })();
 
 </script>

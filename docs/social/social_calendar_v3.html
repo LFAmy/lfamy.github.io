@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · AI 智能內容日曆 v3</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:14px;line-height:1.7;padding:20px}
+.container{max-width:1400px;margin:0 auto}
+h1{font-family:'Noto Serif HK',serif;font-size:28px;color:#1A3C6D;margin-bottom:8px;text-align:center}
+.subtitle{text-align:center;color:#6B7280;font-size:13px;margin-bottom:24px}
+.ai-badge{display:inline-block;background:linear-gradient(135deg,#7C3AED,#A855F7);color:white;padding:4px 12px;border-radius:20px;font-size:11px;margin-left:8px;font-weight:700}
+.stats-bar{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;padding:14px 20px;background:white;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.stat-item{text-align:center;min-width:80px}
+.stat-item .num{font-size:22px;font-weight:900;color:#1A3C6D}
+.stat-item .label{font-size:10px;color:#6B7280;margin-top:2px}
+.platform-section{margin-bottom:40px}
+.platform-section h2{font-size:20px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #E5E7EB}
+.post-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:16px}
+.post-card{background:white;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);position:relative}
+.post-card.today{border:2px solid #16A34A!important;box-shadow:0 0 16px rgba(22,163,74,0.2)!important}
+.post-card.today::before{content:"📌 今天";position:absolute;top:-10px;right:12px;background:#16A34A;color:white;padding:2px 10px;border-radius:10px;font-size:10px;font-weight:700}
+.post-card.overdue{border-left:4px solid #DC2626!important;opacity:0.75}
+.post-card.overdue::after{content:"⏰ 已過期";position:absolute;top:8px;right:12px;color:#DC2626;font-size:10px;font-weight:700}
+.post-date{font-size:11px;color:#6B7280;margin-bottom:6px;font-weight:700}
+.layer-tag{background:#F3F4F6;padding:2px 8px;border-radius:4px;font-size:10px;margin-left:6px}
+.urgency-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-left:4px}
+.urgency-high{background:#FEF2F2;color:#DC2626}
+.urgency-mid{background:#FEF3C7;color:#92400E}
+.urgency-low{background:#F0FDF4;color:#16A34A}
+.post-tag{display:inline-block;background:#1A3C6D;color:white;padding:2px 10px;border-radius:4px;font-size:10px;font-weight:700;margin-bottom:8px}
+.post-title{font-size:16px;font-weight:900;color:#1A1A1A;margin-bottom:10px}
+.post-hook{font-size:13px;color:#7C3AED;margin-bottom:8px;font-style:italic;background:#FAF5FF;padding:8px 12px;border-radius:8px;border-left:3px solid #7C3AED}
+.post-meta{font-size:10px;color:#9CA3AF;margin-bottom:8px;display:flex;gap:8px;flex-wrap:wrap}
+.post-cta{font-size:12px;color:#DC2626;font-weight:700;margin-bottom:8px}
+.post-visual{font-size:11px;color:#C9A84C;background:#FEF3C7;display:inline-block;padding:2px 8px;border-radius:4px;margin-bottom:8px}
+.btn-copy{background:#1A3C6D;color:white;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:700}
+.btn-copy:hover{background:#1E4D8C}
+.top-bar{display:flex;gap:12px;margin-bottom:24px;justify-content:center;flex-wrap:wrap}
+.top-bar button{padding:10px 24px;border-radius:25px;border:2px solid #E5E7EB;background:white;cursor:pointer;font-weight:700;font-size:13px}
+.top-bar button.active,.top-bar button:hover{border-color:#1A3C6D;background:#1A3C6D;color:white}
+.ai-insight{background:linear-gradient(135deg,#EDE9FE,#FAF5FF);border:1px solid #C4B5FD;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:12px;color:#5B21B6}
+.ai-insight strong{color:#7C3AED}
+.ab-test-indicator{display:inline-block;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-left:4px}
+@media(max-width:768px){.post-grid{grid-template-columns:1fr}}
+</style>
+</head><body>
+<div class="container">
+<h1>霖楓學苑 · AI 智能內容日曆 <span class="ai-badge">🤖 v3.0 AI-Powered</span></h1>
+<div class="subtitle">7層內容策略 × 時間感知 × 家長心理學 × AB測試優化</div>
+<div class="ai-insight">
+<strong>🧠 AI 今日洞察：</strong>
+當前階段：學期末 | 家長情緒：終極壓力 |
+距SSPA：359日 | 焦點年級：PP5 |
+建議內容層：考試心理, 最後提示, 考後檢討
+</div>
+<div class="stats-bar">
+<div class="stat-item"><div class="num">56</div><div class="label">📊 總貼文</div></div><div class="stat-item"><div class="num">21</div><div class="label">Facebook</div></div><div class="stat-item"><div class="num">18</div><div class="label">Instagram</div></div><div class="stat-item"><div class="num">17</div><div class="label">小紅書</div></div>
+<div class="stat-item"><div class="num">10/10</div><div class="label">⚡ 緊急指數</div></div>
+</div>
+<div class="top-bar">
+<button class="active" onclick="filter('all')">全部</button>
+<button onclick="filter('fb')">FB</button><button onclick="filter('ig')">IG</button><button onclick="filter('xhs')">小紅書</button>
+<button onclick="copyAll()">📋 一鍵複製全部</button>
+</div><div id="calendar">
+<div class="platform-section">
+<h2 style="color:#1877F2">Facebook · 21 篇</h2>
+<div class="post-grid">
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-05-30 (六) <span class="layer-tag">💬 personality</span><span class="urgency-badge urgency-high">⚡10</span><span class="ab-test-indicator">🧪 AB Test #98fd</span></div>
+  <div class="post-tag">P5 · 學期末</div>
+  <div class="post-title">創辦人故事-我都係數學渣</div>
+  <div class="post-hook">💭 點解我開咗間「唔教數學」嘅補習社？</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 personality</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="點解我開咗間「唔教數學」嘅補習社？
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-02 (二) <span class="layer-tag">⚡ urgency</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">暑假倒退2.5個月</div>
+  <div class="post-hook">💭 唔係嚇你，係哈佛研究：暑假數學倒退2.6個月</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：5</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 urgency</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="唔係嚇你，係哈佛研究：暑假數學倒退2.6個月
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-03 (三) <span class="layer-tag">⚡ urgency</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">P5升P6呈分試年規劃</div>
+  <div class="post-hook">💭 P5家長：下年呢個時候就係呈分試</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：5</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 urgency</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="P5家長：下年呢個時候就係呈分試
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-04 (四) <span class="layer-tag">⚡ urgency</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">暑假倒退2.5個月</div>
+  <div class="post-hook">💭 唔係嚇你，係哈佛研究：暑假數學倒退2.6個月</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：5</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 urgency</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="唔係嚇你，係哈佛研究：暑假數學倒退2.6個月
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-05 (五) <span class="layer-tag">⭐ social_proof</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">暑期倒退2.5個月點救</div>
+  <div class="post-hook">💭 哈佛研究：暑假唔溫=倒退2.6個月</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 social_proof</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="哈佛研究：暑假唔溫=倒退2.6個月
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-06 (六) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">百分數連續變化</div>
+  <div class="post-hook">💭 %再減10%=？答</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：10:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="%再減10%=？答
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-09 (二) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">LCM同HCF分唔清</div>
+  <div class="post-hook">💭 因數同倍數係咪成日調轉？一招分清</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="因數同倍數係咪成日調轉？一招分清
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-10 (三) <span class="layer-tag">⭐ social_proof</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">3間補習都冇效嘅血淚史</div>
+  <div class="post-hook">💭 試過3間補習社，間間都係俾練習佢做</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 social_proof</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="試過3間補習社，間間都係俾練習佢做
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-11 (四) <span class="layer-tag">🎯 engagement</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">1m²=? cm² 投票</div>
+  <div class="post-hook">💭 你覺得1平方米=幾多平方厘米？</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 engagement</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="你覺得1平方米=幾多平方厘米？
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-12 (五) <span class="layer-tag">💬 personality</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">一位老師改變咗我嘅人生</div>
+  <div class="post-hook">💭 中三嗰年，有個老師話俾我知一個真相</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 personality</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="中三嗰年，有個老師話俾我知一個真相
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-13 (六) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span><span class="ab-test-indicator">🧪 AB Test #70f1</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">T4陷阱-漏寫0</div>
+  <div class="post-hook">💭 如果你小朋友 408÷2 答 24，呢篇係寫俾你嘅</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：10:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="如果你小朋友 408÷2 答 24，呢篇係寫俾你嘅
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-16 (二) <span class="layer-tag">🔮 differentiation</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">操100題vs操20題嘅分別</div>
+  <div class="post-hook">💭 做100題都唔知點解錯 vs 做20題已經知</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：4</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 differentiation</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="做100題都唔知點解錯 vs 做20題已經知
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-17 (三) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">LCM同HCF分唔清</div>
+  <div class="post-hook">💭 因數同倍數係咪成日調轉？一招分清</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="因數同倍數係咪成日調轉？一招分清
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-18 (四) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">體積單位換算</div>
+  <div class="post-hook">💭 1m³=1,000,000cm³，唔係1000！</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="1m³=1,000,000cm³，唔係1000！
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-19 (五) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">體積單位換算</div>
+  <div class="post-hook">💭 1m³=1,000,000cm³，唔係1000！</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="1m³=1,000,000cm³，唔係1000！
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-20 (六) <span class="layer-tag">⭐ social_proof</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">SSPA前3個月由唔合格到Band1</div>
+  <div class="post-hook">💭 如果3個月前你問我，我唔敢信</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 social_proof</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="如果3個月前你問我，我唔敢信
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-23 (二) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">1m²=幾多cm²</div>
+  <div class="post-hook">💭 10個小朋友9個答錯嘅萬年陷阱</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="10個小朋友9個答錯嘅萬年陷阱
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-24 (三) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">應用題-題目問A你答B</div>
+  <div class="post-hook">💭 「佢識計㗎！只係睇錯題目」—講過幾多次？</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="「佢識計㗎！只係睇錯題目」—講過幾多次？
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-25 (四) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">LCM同HCF分唔清</div>
+  <div class="post-hook">💭 因數同倍數係咪成日調轉？一招分清</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="因數同倍數係咪成日調轉？一招分清
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-26 (五) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">速率三公式</div>
+  <div class="post-hook">💭 距離÷時間=速率，但你小朋友係咪成日除錯數？</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="距離÷時間=速率，但你小朋友係咪成日除錯數？
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #1877F2">
+  <div class="post-date">2026-06-27 (六) <span class="layer-tag">⭐ social_proof</span><span class="urgency-badge urgency-mid">⚡7</span><span class="ab-test-indicator">🧪 AB Test #7a2b</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">SSPA前3個月由唔合格到Band1</div>
+  <div class="post-hook">💭 如果3個月前你問我，我唔敢信</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：21:00</span>
+    <span>🎯 旅程階段：4</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 social_proof</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="如果3個月前你問我，我唔敢信
+
+">📋 複製</button>
+</div></div></div>
+<div class="platform-section">
+<h2 style="color:#E4405F">Instagram · 18 篇</h2>
+<div class="post-grid">
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-05-30 (六) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-high">⚡10</span><span class="ab-test-indicator">🧪 AB Test #45b9</span></div>
+  <div class="post-tag">P5 · 學期末</div>
+  <div class="post-title">速率三公式</div>
+  <div class="post-hook">💭 距離÷時間=速率，但你小朋友係咪成日除錯數？</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="距離÷時間=速率，但你小朋友係咪成日除錯數？
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-05-31 (日) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-high">⚡10</span></div>
+  <div class="post-tag">P5 · 學期末</div>
+  <div class="post-title">圓形面積vs圓周</div>
+  <div class="post-hook">💭 πr²定2πr？3秒口訣永世不忘</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="πr²定2πr？3秒口訣永世不忘
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-02 (二) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">百分數連續變化</div>
+  <div class="post-hook">💭 %再減10%=？答</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：21:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="%再減10%=？答
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-04 (四) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">應用題-題目問A你答B</div>
+  <div class="post-hook">💭 「佢識計㗎！只係睇錯題目」—講過幾多次？</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：21:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="「佢識計㗎！只係睇錯題目」—講過幾多次？
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-06 (六) <span class="layer-tag">⚡ urgency</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">P5升P6呈分試年規劃</div>
+  <div class="post-hook">💭 P5家長：下年呢個時候就係呈分試</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：5</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 urgency</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="P5家長：下年呢個時候就係呈分試
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-07 (日) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">體積單位換算</div>
+  <div class="post-hook">💭 1m³=1,000,000cm³，唔係1000！</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：10:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="1m³=1,000,000cm³，唔係1000！
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-09 (二) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">T4陷阱-漏寫0</div>
+  <div class="post-hook">💭 如果你小朋友 408÷2 答 24，呢篇係寫俾你嘅</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="如果你小朋友 408÷2 答 24，呢篇係寫俾你嘅
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-11 (四) <span class="layer-tag">⚡ urgency</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">暑假倒退2.5個月</div>
+  <div class="post-hook">💭 唔係嚇你，係哈佛研究：暑假數學倒退2.6個月</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：5</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 urgency</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="唔係嚇你，係哈佛研究：暑假數學倒退2.6個月
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-13 (六) <span class="layer-tag">💬 personality</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">一位老師改變咗我嘅人生</div>
+  <div class="post-hook">💭 中三嗰年，有個老師話俾我知一個真相</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 personality</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="中三嗰年，有個老師話俾我知一個真相
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-14 (日) <span class="layer-tag">⭐ social_proof</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">40分→85分真實見證</div>
+  <div class="post-hook">💭 「最大改變唔係分數，係佢肯主動拎練習」</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：10:00</span>
+    <span>🎯 旅程階段：4</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 social_proof</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="「最大改變唔係分數，係佢肯主動拎練習」
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-16 (二) <span class="layer-tag">🎯 engagement</span><span class="urgency-badge urgency-mid">⚡7</span><span class="ab-test-indicator">🧪 AB Test #a168</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">邊個係正確嘅分數除法？</div>
+  <div class="post-hook">💭 2/3÷4/5=? 四個選項等你挑戰</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：21:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 engagement</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="2/3÷4/5=? 四個選項等你挑戰
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-18 (四) <span class="layer-tag">🎯 engagement</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">邊個係正確嘅分數除法？</div>
+  <div class="post-hook">💭 2/3÷4/5=? 四個選項等你挑戰</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：21:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 engagement</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="2/3÷4/5=? 四個選項等你挑戰
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-20 (六) <span class="layer-tag">⭐ social_proof</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">暑期倒退2.5個月點救</div>
+  <div class="post-hook">💭 哈佛研究：暑假唔溫=倒退2.6個月</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：10:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 social_proof</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="哈佛研究：暑假唔溫=倒退2.6個月
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-21 (日) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">LCM同HCF分唔清</div>
+  <div class="post-hook">💭 因數同倍數係咪成日調轉？一招分清</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：21:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="因數同倍數係咪成日調轉？一招分清
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-23 (二) <span class="layer-tag">⭐ social_proof</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">40分→85分真實見證</div>
+  <div class="post-hook">💭 「最大改變唔係分數，係佢肯主動拎練習」</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：21:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 social_proof</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="「最大改變唔係分數，係佢肯主動拎練習」
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-25 (四) <span class="layer-tag">🎯 engagement</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">90%家長都答錯嘅數學題</div>
+  <div class="post-hook">💭 俾你3秒：408÷2=? (A)24 (B)204 (C)240</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：21:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 engagement</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="俾你3秒：408÷2=? (A)24 (B)204 (C)240
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-27 (六) <span class="layer-tag">⚡ urgency</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">P5升P6呈分試年規劃</div>
+  <div class="post-hook">💭 P5家長：下年呢個時候就係呈分試</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：5</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 urgency</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="P5家長：下年呢個時候就係呈分試
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #E4405F">
+  <div class="post-date">2026-06-28 (日) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">LCM同HCF分唔清</div>
+  <div class="post-hook">💭 因數同倍數係咪成日調轉？一招分清</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="因數同倍數係咪成日調轉？一招分清
+
+">📋 複製</button>
+</div></div></div>
+<div class="platform-section">
+<h2 style="color:#FF2442">小紅書 · 17 篇</h2>
+<div class="post-grid">
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-05-31 (日) <span class="layer-tag">⚡ urgency</span><span class="urgency-badge urgency-high">⚡10</span><span class="ab-test-indicator">🧪 AB Test #e2fd</span></div>
+  <div class="post-tag">P5 · 學期末</div>
+  <div class="post-title">SSPA最後倒數</div>
+  <div class="post-hook">💭 如果你小朋友而家P6，每一日都影響緊派位</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：5</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 urgency</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="如果你小朋友而家P6，每一日都影響緊派位
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-01 (一) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">T4陷阱-漏寫0</div>
+  <div class="post-hook">💭 如果你小朋友 408÷2 答 24，呢篇係寫俾你嘅</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：22:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="如果你小朋友 408÷2 答 24，呢篇係寫俾你嘅
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-03 (三) <span class="layer-tag">🔮 differentiation</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">一般補習vs陷阱診斷</div>
+  <div class="post-hook">💭 你知唔知點解試咗咁多間都冇進步？</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 differentiation</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="你知唔知點解試咗咁多間都冇進步？
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-05 (五) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">體積單位換算</div>
+  <div class="post-hook">💭 1m³=1,000,000cm³，唔係1000！</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：22:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="1m³=1,000,000cm³，唔係1000！
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-07 (日) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">圓形面積vs圓周</div>
+  <div class="post-hook">💭 πr²定2πr？3秒口訣永世不忘</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="πr²定2πr？3秒口訣永世不忘
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-08 (一) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">百分數連續變化</div>
+  <div class="post-hook">💭 %再減10%=？答</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="%再減10%=？答
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-10 (三) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">1m²=幾多cm²</div>
+  <div class="post-hook">💭 10個小朋友9個答錯嘅萬年陷阱</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="10個小朋友9個答錯嘅萬年陷阱
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-12 (五) <span class="layer-tag">🔮 differentiation</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">操100題vs操20題嘅分別</div>
+  <div class="post-hook">💭 做100題都唔知點解錯 vs 做20題已經知</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：4</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 differentiation</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="做100題都唔知點解錯 vs 做20題已經知
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-14 (日) <span class="layer-tag">🎬 reels</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">圓形面積vs圓周</div>
+  <div class="post-hook">💭 πr²定2πr？3秒口訣永世不忘</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 reels</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="πr²定2πr？3秒口訣永世不忘
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-15 (一) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">圓形面積vs圓周</div>
+  <div class="post-hook">💭 πr²定2πr？3秒口訣永世不忘</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="πr²定2πr？3秒口訣永世不忘
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-17 (三) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span><span class="ab-test-indicator">🧪 AB Test #5038</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">百分數連續變化</div>
+  <div class="post-hook">💭 %再減10%=？答</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：12:00</span>
+    <span>🎯 旅程階段：1</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="%再減10%=？答
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-19 (五) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">1m²=幾多cm²</div>
+  <div class="post-hook">💭 10個小朋友9個答錯嘅萬年陷阱</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="10個小朋友9個答錯嘅萬年陷阱
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-21 (日) <span class="layer-tag">🔮 differentiation</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">操100題vs操20題嘅分別</div>
+  <div class="post-hook">💭 做100題都唔知點解錯 vs 做20題已經知</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：10:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 differentiation</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="做100題都唔知點解錯 vs 做20題已經知
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-22 (一) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">體積單位換算</div>
+  <div class="post-hook">💭 1m³=1,000,000cm³，唔係1000！</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="1m³=1,000,000cm³，唔係1000！
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-24 (三) <span class="layer-tag">🎯 engagement</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">90%家長都答錯嘅數學題</div>
+  <div class="post-hook">💭 俾你3秒：408÷2=? (A)24 (B)204 (C)240</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：3</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 engagement</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="俾你3秒：408÷2=? (A)24 (B)204 (C)240
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-26 (五) <span class="layer-tag">📚 education</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">1m²=幾多cm²</div>
+  <div class="post-hook">💭 10個小朋友9個答錯嘅萬年陷阱</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：20:00</span>
+    <span>🎯 旅程階段：2</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 education</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="10個小朋友9個答錯嘅萬年陷阱
+
+">📋 複製</button>
+</div>
+<div class="post-card" style="border-left:4px solid #FF2442">
+  <div class="post-date">2026-06-28 (日) <span class="layer-tag">⚡ urgency</span><span class="urgency-badge urgency-mid">⚡7</span></div>
+  <div class="post-tag">P5 · 考試/暑假前</div>
+  <div class="post-title">P5升P6呈分試年規劃</div>
+  <div class="post-hook">💭 P5家長：下年呢個時候就係呈分試</div>
+  <div class="post-meta">
+    <span>🕐 最佳發布：14:00</span>
+    <span>🎯 旅程階段：5</span>
+  </div>
+  <div class="post-cta">💬 留言了解更多</div>
+  <div class="post-visual">🎨 urgency</div>
+  <button class="btn-copy" onclick="copyText(this)" data-text="P5家長：下年呢個時候就係呈分試
+
+">📋 複製</button>
+</div></div></div></div></div>
+<script>
+function copyText(b){var t=b.getAttribute("data-text").replace(/\n/g,"\n");navigator.clipboard.writeText(t).then(function(){b.textContent="✓";setTimeout(function(){b.textContent="📋 複製"},2000)})}
+function filter(p){document.querySelectorAll(".platform-section").forEach(function(s){s.style.display=(p==="all"||s.querySelector("h2").textContent.includes({"fb":"Facebook","ig":"Instagram","xhs":"小紅書"}[p]))?"block":"none"});document.querySelectorAll(".top-bar button").forEach(function(b){b.classList.remove("active")});event.target.classList.add("active")}
+function copyAll(){var a=[];document.querySelectorAll(".post-card").forEach(function(c){var t=c.querySelector(".post-title"),h=c.querySelector(".post-hook"),ct=c.querySelector(".post-cta");a.push((t?t.innerText:"")+"\n"+(h?h.innerText.replace("💭 ",""):"")+"\n"+(ct?ct.innerText.replace("💬 ",""):""))});navigator.clipboard.writeText(a.join("\n\n---\n\n")).then(function(){alert("已複製 "+a.length+" 篇！")})}
+
+// Highlight today
+(function(){
+var today=new Date().toISOString().slice(0,10);
+document.querySelectorAll(".post-date").forEach(function(el){if(el.textContent.startsWith(today)){el.closest(".post-card").classList.add("today");setTimeout(function(){el.closest(".post-card").scrollIntoView({behavior:"smooth",block:"center"})},500)}});
+document.querySelectorAll(".post-date").forEach(function(el){var d=el.textContent.slice(0,10);if(d<today){el.closest(".post-card").classList.add("overdue")}});
+})();
+</script></body></html>
