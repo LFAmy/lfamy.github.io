@@ -130,6 +130,30 @@ body{padding-top:44px}
 <script src="/docs/data/lf-api-client.js"></script>
 <script>
 // ═══════ LF DeepSeek AI Fallback ═══════
+
+// ═══════════════════════════════════════
+// FRELLMAPI AI BACKEND
+// ═══════════════════════════════════════
+async function frellmapiAsk(question) {
+  try {
+    const resp = await fetch("http://localhost:3001/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "auto",
+        messages: [
+          { role: "system", content: "你係霖楓學苑 AI 數學導師（ClassIn網課平台）。用繁體中文+廣東話回答。針對香港小學 P3-P6 數學。每次回答包含：1)解題思路 2)逐步運算 3)陷阱提醒 4)練習建議。語氣親切幽默、鼓勵性。如果問題唔清楚，用蘇格拉底式提問引導。" },
+          { role: "user", content: question }
+        ],
+        max_tokens: 800, temperature: 0.7
+      })
+    });
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || null;
+  } catch(e) { return null; }
+}
+
 async function deepseekAsk(question) {
   try {
     const resp = await fetch("https://api.deepseek.com/chat/completions", {
@@ -252,7 +276,8 @@ function selectTopic(topic, form) {
   ["actionsArea","inputArea","statsBar"].forEach(id => document.getElementById(id).style.display="flex");
   document.getElementById("chat").innerHTML = "";
   addMsg("📚 主題：" + topic.replace(/_/g," ") + " (" + form + ") · 準備開始！", "system");
-  apiOnline ? loadQuestionFromAPI() : generateLocalQuestion(topic, form);
+  // P3-P6 topics use local question bank directly (no DB for primary levels)
+  generateLocalQuestion(topic, form);
 }
 
 async function loadQuestionFromAPI() {
@@ -410,10 +435,54 @@ function skipQuestion() {
 }
 
 // ═══════════════ FREE-FORM AI ═══════════════
+
+// ═══════════════════════════════════════
+// MATH QUESTION FILTER
+// ═══════════════════════════════════════
+function isMathQuestion(q) {
+  const ql = q.toLowerCase().replace(/\s+/g,'');
+  
+  // Math keywords (Chinese + English)
+  const mathKeywords = [
+    '加','減','乘','除','分數','小數','百分','面積','體積','周界','周長',
+    '速率','方程','代數','圖形','圓形','三角','長方','正方','梯形',
+    '因數','倍數','lcm','hcf','gcd','質數','質因數','prime',
+    '單位','換算','cm','m','km','mm','ml','g','kg',
+    '÷','×','+','-','=','%','π','²','³',
+    'plus','minus','times','divide','fraction','decimal','percent',
+    'area','volume','perimeter','speed','algebra','equation','geometry',
+    '數學','題目','計算','答案','幾多','等於','點計','點樣計',
+    '口訣','陷阱','trap','診斷','test','練習','考試','測驗',
+    '除數','餘數','進位','退位','約簡','通分','擴分',
+    'probability','ratio','average','mean','median','mode',
+  ];
+  
+  // Check for math keywords
+  for (const kw of mathKeywords) {
+    if (ql.includes(kw)) return true;
+  }
+  
+  // Check for number patterns (calculations)
+  if (/[\d.]+\s*[+\-×x*÷\/]\s*[\d.]+/.test(q)) return true;
+  if (/\d+%/.test(q)) return true;
+  
+  // Check for common math question patterns
+  if (/[=＝]/.test(q) && /\d/.test(q)) return true;
+  if (/幾多|等於|點計|答案|計出/.test(q)) return true;
+  
+  return false;
+}
+
 async function freeAsk() {
   const input = document.getElementById("userInput");
   const question = input.value.trim();
   if (!question) return;
+
+  // Math filter: reject non-math questions
+  if (!isMathQuestion(question)) {
+    addMsg("🤔 我係專注數學嘅AI導師！請問我數學相關嘅問題：\n\n📐 數學概念解釋（如：分數除法點計？）\n🧮 逐步解答題目\n📝 分析常見陷阱\n💡 口訣記憶技巧\n\n你可以轉去「練習模式」揀年級做練習～", "ai");
+    input.value = ""; document.getElementById("sendBtn").disabled = false; input.focus(); return;
+  }
   addMsg(question, "user"); input.value = "";
   document.getElementById("sendBtn").disabled = true;
   showTyping();
@@ -426,7 +495,14 @@ async function freeAsk() {
     document.getElementById("sendBtn").disabled = false; input.focus(); return;
   }
 
-  // Step 2: Try Render API
+  // Step 2: Try frellmapi (local AI - primary)
+  const frellReply = await frellmapiAsk(question);
+  if (frellReply) {
+    hideTyping(); addMsg(frellReply, "ai"); saveFreeChat(frellReply, "ai");
+    document.getElementById("sendBtn").disabled = false; input.focus(); return;
+  }
+
+  // Step 3: Try Render API
   if (apiOnline) {
     try {
       const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
@@ -438,14 +514,14 @@ async function freeAsk() {
     } catch(e) { /* fall through to DeepSeek */ }
   }
 
-  // Step 3: Try DeepSeek API (real AI - always available)
+  // Step 4: Try DeepSeek API (backup) (real AI - always available)
   hideTyping(); showTyping();
   const dsReply = await deepseekAsk(question);
   hideTyping();
   if (dsReply) {
     addMsg(dsReply, "ai"); saveFreeChat(dsReply, "ai");
   } else {
-    // Step 4: Generic fallback
+    // Step 5: Generic fallback
     const fb = generateGenericMathAnswer(question);
     addMsg(fb, "ai"); saveFreeChat(fb, "ai");
   }
