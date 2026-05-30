@@ -410,7 +410,7 @@ function skipQuestion() {
 }
 
 // ═══════════════ FREE-FORM AI ═══════════════
-async async function freeAsk() {
+async function freeAsk() {
   const input = document.getElementById("userInput");
   const question = input.value.trim();
   if (!question) return;
@@ -432,7 +432,7 @@ async async function freeAsk() {
       const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
       if (resp.ok) {
         const data = await resp.json(); hideTyping();
-        const reply = data.reply || data.message || "";
+        const reply = data.response || data.reply || data.message || "";
         if (reply && reply.length > 10) { addMsg(reply, "ai"); saveFreeChat(reply, "ai"); document.getElementById("sendBtn").disabled = false; input.focus(); return; }
       }
     } catch(e) { /* fall through to DeepSeek */ }
@@ -449,16 +449,6 @@ async async function freeAsk() {
     const fb = generateGenericMathAnswer(question);
     addMsg(fb, "ai"); saveFreeChat(fb, "ai");
   }
-  document.getElementById("sendBtn").disabled = false; input.focus();
-}
-  if (apiOnline) {
-    try {
-      const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
-      const data = await resp.json(); hideTyping();
-      const reply = data.reply || data.message || generateGenericMathAnswer(question);
-      addMsg(reply, "ai"); saveFreeChat(reply, "ai");
-    } catch(e) { hideTyping(); const fb = generateGenericMathAnswer(question); addMsg(fb, "ai"); saveFreeChat(fb, "ai"); }
-  } else { hideTyping(); const fb = generateGenericMathAnswer(question); addMsg(fb, "ai"); saveFreeChat(fb, "ai"); }
   document.getElementById("sendBtn").disabled = false; input.focus();
 }
 
