@@ -79,6 +79,92 @@ except:
 FRELLMAPI_KEY = os.environ.get("FRELLMAPI_KEY", "")
 FRELLMAPI_URL = os.environ.get("FRELLMAPI_URL", "http://localhost:3001/v1")
 
+# === Free AI Providers (0 cost, works from Render) ===
+# Setup: Set GEMINI_API_KEY or CF_ACCOUNT_ID+CF_API_TOKEN in Render env vars
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+CF_ACCOUNT_ID = os.environ.get("CF_ACCOUNT_ID", "")
+CF_API_TOKEN = os.environ.get("CF_API_TOKEN", "")
+
+def call_gemini_free(prompt, system_prompt="", max_tokens=512, timeout=12):
+    """Google Gemini free tier - great Chinese support, 15 RPM"""
+    if not GEMINI_API_KEY:
+        return ""
+    try:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
+        contents = []
+        if system_prompt:
+            contents.append({"role": "user", "parts": [{"text": system_prompt}]})
+            contents.append({"role": "model", "parts": [{"text": "OK"}]})
+        contents.append({"role": "user", "parts": [{"text": prompt}]})
+        body = json.dumps({"contents": contents, "generationConfig": {"maxOutputTokens": max_tokens, "temperature": 0.7}}).encode("utf-8")
+        req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
+        resp = urllib.request.urlopen(req, timeout=timeout)
+        data = json.loads(resp.read().decode("utf-8"))
+        return data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+    except Exception as e:
+        print(f"[FreeAI] Gemini: {e}", file=sys.stderr)
+        return ""
+
+def call_cf_workers_ai(prompt, system_prompt="", max_tokens=512, timeout=15):
+    """Cloudflare Workers AI free tier - 10K requests/day"""
+    if not CF_ACCOUNT_ID or not CF_API_TOKEN:
+        return ""
+    try:
+        url = f"https://api.cloudflare.com/client/v4/accounts/{CF_ACCOUNT_ID}/ai/run/@cf/deepseek-ai/deepseek-r1-distill-qwen-32b"
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+        body = json.dumps({"messages": messages, "max_tokens": max_tokens}).encode("utf-8")
+        req = urllib.request.Request(url, data=body, headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {CF_API_TOKEN}"
+        })
+        resp = urllib.request.urlopen(req, timeout=timeout)
+        data = json.loads(resp.read().decode("utf-8"))
+        return data.get("result", {}).get("response", "")
+    except Exception as e:
+        print(f"[FreeAI] CF: {e}", file=sys.stderr)
+        return ""
+
+def call_free_ai(prompt, system_prompt="", max_tokens=512):
+    """Try Gemini -> CF Workers -> return empty"""
+    result = call_gemini_free(prompt, system_prompt, max_tokens)
+    if result:
+        return result
+    result = call_cf_workers_ai(prompt, system_prompt, max_tokens)
+    if result:
+        return result
+    return ""
+
+def generate_socratic_response(message, topic=""):
+    """Socratic tutor response using free AI"""
+    system = """You are an AI Math Tutor for Hong Kong primary students (P3-P6). Use Socratic dialogue. Rules:
+1. Ask ONE guiding question only, never give the answer directly
+2. If student is correct, encourage and ask next step
+3. If student is wrong, don't say 'wrong', guide them to rethink
+4. Use Traditional Chinese with HK Cantonese style
+5. If student asks non-math, politely redirect to math
+6. Be encouraging and suitable for primary schoolers"""
+
+    prompt_text = f"Topic: {topic if topic else 'Primary Math'}
+Student: {message}
+Give ONE Socratic guiding question in HK-style Traditional Chinese:"
+
+    result = call_free_ai(prompt_text, system, max_tokens=300)
+    if result:
+        return result
+    # Local fallback
+    fallbacks = [
+        "好問題！等我哋一齊諗下～你覺得呢條題目涉及咩數學概念？",
+        "一步一步嚟！題目俾咗咩數字你？寫出嚟睇下？",
+        "試下將題目拆開做細步驟，第一步你會點做？",
+        "有冇類似嘅題目你做過？諗下用同樣方法得唔得？",
+        "畫個圖或者列表幫自己理解題目，之後你見到咩？",
+    ]
+    import random as _random
+    return _random.choice(fallbacks)
+
 # ==================== TOPIC BROWSER APIs ====================
 @app.route("/api/topics")
 def api_topics():
@@ -374,7 +460,14 @@ def api_tutor_chat():
             'key_concepts': result.get('key_concepts_used', []),
         })
     except Exception as e:
-        return jsonify({'response': '讓我幫你思考這道題目。你能告訴我題目中給了哪些數字和條件嗎？', 'error': str(e)})
+        # Fallback: try free AI (Gemini/CF Workers)
+        try:
+            free_response = generate_socratic_response(message, topic)
+            if free_response and len(free_response) > 10:
+                return jsonify({'response': free_response, 'mode': mode, 'session_id': session_id, 'situation': 'stuck', 'topic': topic, 'ai_provider': 'free_ai'})
+        except:
+            pass
+        return jsonify({'response': '讓我幫你思考這道題目。你可以先告訴我題目中給了哪些數字和條件？', 'error': str(e)[:100]})
 
 @app.route('/api/ai/tutor/solve', methods=['POST'])
 def api_tutor_solve():
