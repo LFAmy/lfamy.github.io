@@ -76,7 +76,7 @@ except:
         def check_health(): return {"frellmapi":"offline"}
 
 # Config
-FRELLMAPI_KEY = os.environ.get("FRELLMAPI_KEY", "freellmapi-62aba54641319d6581f6421b736b4d530c8e2140fa82f4de")
+FRELLMAPI_KEY = os.environ.get("FRELLMAPI_KEY", "freellmapi-f672a67d7f6ef4a707a062e0be44e2611b3fc3124269d45a")
 FRELLMAPI_URL = os.environ.get("FRELLMAPI_URL", "https://watches-organized-mission-vision.trycloudflare.com/v1")
 
 # === Free AI Providers (0 cost, works from Render) ===

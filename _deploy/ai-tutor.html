@@ -102,7 +102,7 @@ body{padding-top:44px}
   <div id="topicView"></div>
   <div id="qArea"><span class="topic-tag" id="qTopic"></span><div class="qtext" id="qText"></div><div class="meta"><span id="qDiff"></span> · <span id="qMarks"></span>分 · 編號: <span id="qId"></span></div></div>
   <div class="chat-area" id="chat">
-    <div class="welcome" id="welcomeScreen"><div class="icon">🤖</div><h2>AI 數學導師</h2><p>選擇練習模式做題目，或者自由問答直接問數學問題。AI 會逐步引導你。</p></div>
+    <div class="welcome" id="welcomeScreen" style="display:flex"><div class="icon">🤖</div><h2>AI 數學導師</h2><p>選擇練習模式做題目，或者自由問答直接問數學問題。AI 會逐步引導你。</p></div>
   </div>
   <div class="quick-actions" id="quickActions" style="display:none">
     <button class="quick-btn" onclick="quickAsk('呢題點樣開始諗？')">🤔 點開始諗？</button>
@@ -134,18 +134,21 @@ body{padding-top:44px}
 // ═══════════════════════════════════════
 async function frellmapiAsk(question) {
   try {
+    const controller = new AbortController();
+    const t = setTimeout(function() { controller.abort(); }, 5000);
     const resp = await fetch("http://localhost:3001/v1/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "auto",
         messages: [
-          { role: "system", content: "你係霖楓學苑 AI 數學導師（ClassIn網課平台）。用繁體中文+廣東話回答。針對香港小學 P3-P6 數學。每次回答包含：1)解題思路 2)逐步運算 3)陷阱提醒 4)練習建議。語氣親切幽默、鼓勵性。如果問題唔清楚，用蘇格拉底式提問引導。" },
-          { role: "user", content: question }
+          { role: "user", content: "你係霖楓學苑AI數學導師。用繁體中文+廣東話。\n\n學生問：" + question }
         ],
         max_tokens: 800, temperature: 0.7
-      })
+      }),
+      signal: controller.signal
     });
+    clearTimeout(t);
     if (!resp.ok) return null;
     const data = await resp.json();
     return data.choices?.[0]?.message?.content || null;
@@ -158,10 +161,13 @@ let currentMode = "practice";
 let currentQ = null, currentTopic = null, currentForm = null;
 let hintLevel = 0, apiOnline = true;
 let stats = { correct: 0, hints: 0, total: 0 };
+let chatHistory = [];  // AI conversation memory
+let studentGrade = "";  // detected student grade
 
 (function init() {
   checkAPIStatus();
-  showTopics();
+  // Show welcome screen on load - user picks mode first
+  document.getElementById("welcomeScreen").style.display = "flex";
   const saved = localStorage.getItem("lf_tutor_session");
   if (saved) { try { const s = JSON.parse(saved); stats = s.stats || stats; updateStats(); } catch(e) {} }
 })();
@@ -184,9 +190,12 @@ function switchMode(mode) {
   document.getElementById("welcomeScreen").style.display = "none";
   document.getElementById("chat").innerHTML = "";
   if (mode === "practice") {
+    document.getElementById("welcomeScreen").style.display = "none";
     document.getElementById("quickActions").style.display = "none";
+    document.getElementById("qArea").style.display = "none";
     showTopics();
   } else {
+    document.getElementById("welcomeScreen").style.display = "none";
     document.getElementById("topicView").style.display = "none";
     document.getElementById("qArea").style.display = "none";
     document.getElementById("actionsArea").style.display = "none";
@@ -414,41 +423,67 @@ function skipQuestion() {
 
 // ═══════════════ FREE-FORM AI ═══════════════
 
+
+
 // ═══════════════════════════════════════
-// MATH QUESTION FILTER
+// FRELLMAPI TUNNEL - 99 models, 12 providers
 // ═══════════════════════════════════════
-function isMathQuestion(q) {
-  const ql = q.toLowerCase().replace(/\s+/g,'');
-  
-  // Math keywords (Chinese + English)
-  const mathKeywords = [
-    '加','減','乘','除','分數','小數','百分','面積','體積','周界','周長',
-    '速率','方程','代數','圖形','圓形','三角','長方','正方','梯形',
-    '因數','倍數','lcm','hcf','gcd','質數','質因數','prime',
-    '單位','換算','cm','m','km','mm','ml','g','kg',
-    '÷','×','+','-','=','%','π','²','³',
-    'plus','minus','times','divide','fraction','decimal','percent',
-    'area','volume','perimeter','speed','algebra','equation','geometry',
-    '數學','題目','計算','答案','幾多','等於','點計','點樣計',
-    '口訣','陷阱','trap','診斷','test','練習','考試','測驗',
-    '除數','餘數','進位','退位','約簡','通分','擴分',
-    'probability','ratio','average','mean','median','mode',
-  ];
-  
-  // Check for math keywords
-  for (const kw of mathKeywords) {
-    if (ql.includes(kw)) return true;
+const TUNNEL_URL = "https://watches-organized-mission-vision.trycloudflare.com/v1";
+const TUNNEL_KEY = "freellmapi-f672a67d7f6ef4a707a062e0be44e2611b3fc3124269d45a";
+
+async function tunnelAsk(question) {
+  try {
+    const qtype = detectQuestionType(question);
+    const gradeHint = studentGrade ? "\n學生年級：" + studentGrade : "";
+    const systemPrompt = "你係霖楓學苑AI數學導師（霖楓老師）。用繁體中文+廣東話口語。針對香港小學P3-P6數學（包括呈分試SSPA）。\n【重要規則】\n1. 任何同數學有關嘅問題都要認真回答（數學概念、計法、應用題、陷阱分析、考試技巧）\n2. 完全同數學無關嘅問題，先用友善語氣輕輕帶過，然後自然引導返數學話題。唔好直接拒絕，用「呢個都幾有趣～不如我哋傾下數學？」嘅方式過渡\n3. 你係AI導師，唔係計數機！要解釋概念、引導思考、分析陷阱、分享口訣\n4. 保持親切鼓勵語氣，適時讚賞學生\n回應風格：" + qtype.style + "\n" + qtype.instruction + "\n每次回答100-350字。語氣親切鼓勵。結尾可加一個思考問題。";
+
+    const messages = [{ role: "system", content: systemPrompt + gradeHint }];
+    const recentHistory = chatHistory.slice(-6);
+    for (let i = 0; i < recentHistory.length; i++) {
+      const h = recentHistory[i];
+      messages.push({ role: h.role === "學生" ? "user" : "assistant", content: h.text });
+    }
+    messages.push({ role: "user", content: question });
+
+    const controller = new AbortController();
+    const timeout = setTimeout(function() { controller.abort(); }, 8000);
+    const resp = await fetch(TUNNEL_URL + "/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + TUNNEL_KEY },
+      body: JSON.stringify({ model: "auto", messages: messages, max_tokens: 500, temperature: 0.7 }),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || null;
+  } catch(e) { return null; }
+}
+
+
+function detectQuestionType(q) {
+  const ql = q.toLowerCase();
+  if (/咩係|什麼是|what is|解釋|概念|定義|意思/.test(ql)) {
+    return { style: "詳細教學模式", instruction: "完整解釋概念，包括：定義→生活例子→運算方法→常見陷阱→記憶口訣。" };
   }
-  
-  // Check for number patterns (calculations)
-  if (/[\d.]+\s*[+\-×x*÷\/]\s*[\d.]+/.test(q)) return true;
-  if (/\d+%/.test(q)) return true;
-  
-  // Check for common math question patterns
-  if (/[=＝]/.test(q) && /\d/.test(q)) return true;
-  if (/幾多|等於|點計|答案|計出/.test(q)) return true;
-  
-  return false;
+  if (/點計|點樣計|點解|點樣做|solve|計算|答案/.test(ql)) {
+    return { style: "蘇格拉底引導模式", instruction: "唔好直接俾答案！用引導式問題幫學生自己發現解法。每次一個問題。" };
+  }
+  if (/錯|陷阱|中招|扣分|trap/.test(ql)) {
+    return { style: "陷阱診斷模式", instruction: "分析常見錯誤原因，解釋點解會錯，俾正確方法同口訣避免。" };
+  }
+  if (/比較|分別|vs|對比/.test(ql)) {
+    return { style: "對比分析模式", instruction: "清楚列出兩個概念嘅分別，用表格或並列例子說明。" };
+  }
+  return { style: "綜合引導模式", instruction: "根據問題靈活回應。概念題詳細解釋，計算題引導思考。" };
+}
+
+
+// Unified chat history helper - keeps last 10 exchanges
+function addToHistory(question, answer) {
+  chatHistory.push({ role: "學生", text: question });
+  chatHistory.push({ role: "霖楓老師", text: answer });
+  if (chatHistory.length > 20) chatHistory.splice(0, 4);
 }
 
 async function freeAsk() {
@@ -456,41 +491,54 @@ async function freeAsk() {
   const question = input.value.trim();
   if (!question) return;
 
-  // Math filter: reject non-math questions
-  if (!isMathQuestion(question)) {
-    addMsg("🤔 我係專注數學嘅AI導師！請問我數學相關嘅問題：\n\n📐 數學概念解釋（如：分數除法點計？）\n🧮 逐步解答題目\n📝 分析常見陷阱\n💡 口訣記憶技巧\n\n你可以轉去「練習模式」揀年級做練習～", "ai");
-    input.value = ""; document.getElementById("sendBtn").disabled = false; input.focus(); return;
-  }
   addMsg(question, "user"); input.value = "";
   document.getElementById("sendBtn").disabled = true;
   showTyping();
   saveFreeChat(question, "user");
 
-  // Step 1: Try local regex math solver (instant for calculations)
+  // Step 1: Local regex (instant)
   const localAnswer = generateLocalMathAnswer(question);
   if (localAnswer) {
     hideTyping(); addMsg(localAnswer, "ai"); saveFreeChat(localAnswer, "ai");
+    addToHistory(question, localAnswer);
     document.getElementById("sendBtn").disabled = false; input.focus(); return;
   }
 
-  // Step 2: Try Render API (primary AI - free AI backend)
+  // Step 2: frellmapi Tunnel (8s timeout)
+  const tunnelReply = await tunnelAsk(question);
+  if (tunnelReply) {
+    hideTyping(); addMsg(tunnelReply, "ai"); saveFreeChat(tunnelReply, "ai");
+    addToHistory(question, tunnelReply);
+    document.getElementById("sendBtn").disabled = false; input.focus(); return;
+  }
+
+  // Step 3: Render API (6s timeout)
   if (apiOnline) {
     try {
-      const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}) });
+      const ctrl = new AbortController();
+      const t = setTimeout(function() { ctrl.abort(); }, 6000);
+      const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}), signal: ctrl.signal });
+      clearTimeout(t);
       if (resp.ok) {
         const data = await resp.json(); hideTyping();
         const reply = data.response || data.reply || data.message || "";
-        if (reply && reply.length > 15 && !reply.startsWith("[")) { addMsg(reply, "ai"); saveFreeChat(reply, "ai"); document.getElementById("sendBtn").disabled = false; input.focus(); return; }
+        if (reply && reply.length > 15 && !reply.startsWith("[")) {
+          addMsg(reply, "ai"); saveFreeChat(reply, "ai");
+          addToHistory(question, reply);
+          document.getElementById("sendBtn").disabled = false; input.focus(); return;
+        }
       }
-    } catch(e) { /* fall through to smart generic */ }
+    } catch(e) {}
   }
 
-  // Step 3: Smart generic math answer (comprehensive topic coverage)
+  // Step 4: Smart fallback
   hideTyping();
   const fb = generateSmartMathAnswer(question);
   addMsg(fb, "ai"); saveFreeChat(fb, "ai");
+  addToHistory(question, fb);
   document.getElementById("sendBtn").disabled = false; input.focus();
 }
+
 
 function generateLocalMathAnswer(q) {
   const ql = q.toLowerCase();
@@ -765,8 +813,23 @@ $100加20%再減20% = $96，唔係$100！
     }
   }
   
-  // No specific topic matched - give general guidance
-  return `🤔 好問題！雖然我冇辦法即時俾到完整答案，但等我哋一齊思考下：
+  // No specific topic matched - friendly redirection
+  return `😊 我係霖楓AI數學導師，專幫香港小學生搞掂數學！
+
+你可以隨便問我：
+📐 **概念解釋**：咩係分數除法？LCM同HCF有咩分別？
+🧮 **逐步引導**：俾條題目我，我唔會直接講答案，而係引導你自己諗出嚟
+📝 **陷阱分析**：成日喺同一個位扣分？話我知，我幫你搵出問題
+💡 **口訣記憶**：獨家口訣幫你記實公式同概念
+🎯 **呈分試攻略**：P5/P6呈分試常考題型同應試技巧
+📊 **應用題拆解**：文字題睇唔明？我教你點樣從題目搵關鍵數字
+
+或者切換去「📝 練習模式」揀年級做練習啦！
+
+你想問咩數學問題？ 😊`
+
+  // Old general guidance (kept as reference)
+  const _unused = `🤔 好問題！雖然我冇辦法即時俾到完整答案，但等我哋一齊思考下：
 
 📐 **建議你試下：**
 1. 將問題拆開做細部分，一步步分析

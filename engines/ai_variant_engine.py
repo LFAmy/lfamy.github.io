@@ -8,7 +8,7 @@ try:
     AI_AVAILABLE = True
 except:
     AI_AVAILABLE = False
-    def _call_frellmapi(*a, **kw): return ""
+    # _call_frellmapi now works via DeepSeek direct
 
 def ai_generate_variants(question_text: str, answer: str, topic: str, count: int = 3) -> list:
     """AI generates semantic variants of a question — same topic, new scenario/numbers"""
