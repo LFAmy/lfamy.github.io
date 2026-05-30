@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S1-L14 Algebraic expression recognition + simple equations (one step) — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── ALGEBRAIC DISPLAY ── */
+  .alg { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:700; color:var(--blue); letter-spacing:1px; }
+  .eqn { display:inline-block; padding:2px 6px; background:#FFFBEB; border:1px solid var(--gold); border-radius:3px; font-family:'Noto Serif HK',serif; font-weight:700; margin:2px 4px; }
+  .scale { display:flex; justify-content:center; align-items:flex-end; gap:8px; margin:10px 0; font-size:16px; font-weight:700; }
+  .scale-pan { border:2px solid var(--blue); border-radius:50%; width:50px; height:50px; display:flex; align-items:center; justify-content:center; background:#EFF6FF; }
+  .scale-beam { width:120px; height:6px; background:var(--blue); border-radius:3px; align-self:center; position:relative; }
+  .scale-pivot { width:0; height:0; border-left:12px solid transparent; border-right:12px solid transparent; border-bottom:20px solid var(--blue); margin:0 auto; }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · 14th Lesson · Student Handout</div>
+<div class="cv-title">Algebraic expression recognition + simple equations (one step)</div>
+<div class="cv-sub">Unit 5 · Algebra introduction · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5, Volume A, Unit 5 + Modern Education, Volume 5, Unit 12<br/>
+<b>Core Traps:</b>🪤 T3 Text→Algebraic Translation + T7 Reverse Thinking of Equations<br/>
+<b>SSPA Related:</b><span class="ss sh">🔴 High Frequency</span>Presents the basics of algebra in the sub-test, which is required every year and accounts for about 10-15% of Paper 1<br/>
+<b>Prerequisite knowledge:</b>Class 13 (Decimal approximation · Four arithmetic operations · Unit conversion)<br/>
+<b>Class objectives:</b>❶ Use letters to represent unknown numbers ❷ Understand equations based on the principle of the balance ❸ Solve one-step addition, subtraction/multiplication and division equations ❹ Solve word problems using column equations</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space (write out complete process)</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Fill in the blanks with the appropriate number:<br/>(a) 8 + ___ = 15    (b) ___ − 7 = 9    (c) 20 − ___ = 13</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Fill in the blanks with the appropriate number:<br/>(a) 6 × ___ = 42    (b) ___ ÷ 5 = 8    (c) 72 ÷ ___ = 9</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">"A number plus 7 equals 19" - What is this "unknown number"? How did you find out?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">The older brother is 3 times older than the younger brother. If the younger brother is<strong>y</strong>years old this year, use an algebraic expression containing<strong>y</strong>to express the older brother's age.</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">One apple sells for $a, how much does it cost to buy 5 apples? (Use algebraic expression) If a = 4, how much will be paid in total?</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge Point 1: Algebraic Expressions - Use letters to represent unknown numbers 🔴 SSPA</div>
+<div class="kp-rules">
+      ① <strong>Why letters?</strong>When a quantity is unknown or will change, use letters (such as x, y, a, n) to represent it<br/>
+      ② <strong>How to write algebraic expressions |||SEP|||: numbers × letters → numbers are written in front, and the multiplication sign is omitted. For example: 5 × y is written as</strong>Common translations |||SEP|||: "3 more than<span class="alg">5y</span><br/>
+      ③ <strong>Common translations</strong>: "3 more than x" →<span class="alg">x + 3</span>; "2 times of y" →<span class="alg">2y</span>; "Half of n"→<span class="f"><span class="n">n</span><span class="b"></span><span class="d">2</span></span><br/>
+      ④ <strong>Substitution evaluation</strong>: When you know the numerical value of the letter, substitute it into the algebraic formula to calculate the result</div>
+</div>
+
+<div class="why-box" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #EA580C;border-radius:10px;padding:14px 18px;margin:14px 0;">
+<div style="font-weight:900;color:#9A3412;font-size:14px;margin-bottom:6px;">WHY BOX：解方程的「天秤原理」</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>方程就像一個天秤：</b>等號兩邊必須保持平衡。<br/>
+3x + 5 = 20<br/>
+→ 兩邊 -5：3x = 15<br/>
+→ 兩邊 ÷3：x = 5 ✅<br/><br/>
+<b>核心原則：</b>對一邊做的任何運算，另一邊也要做同樣的運算。<br/>
+加減乘除都可以，只要兩邊一起做！<br/><br/>
+<b>常見陷阱：</b>2(x + 3) = 14<br/>
+→ 有些學生會寫成 2x + 3 = 14 ❌<br/>
+→ 正確：2x + 6 = 14，然後 x = 4 ✅<br/>
+<em style="color:#6B7280;">記住：括號內的每一項都要乘！</em>
+</div>
+</div>
+
+<div class="game-box"><div class="game-title">🧮 方程解謎·計時挑戰</div><div class="game-desc">解出方程才能過關！每題限時90秒。小心陷阱：移項錯、符號錯、忘記驗算！</div><div class="game-action">🔢 開始解謎 →</div></div>
+
+<div class="ex">
+<div class="ex-title">🪤 Trap detonation example (T3: text → algebraic translation)</div>
+<div class="ex-q">Write "3 times a plus 5" as an algebraic expression.</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (50% students)</div><div class="eq">a × 3 + 5 = a8 (random merge)<br/>or 3 + 5a (order reversed)</div><div class="why">Adding a and 5 becomes a8, confusing the concept of "term"</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq"><span class="alg">3a + 5</span></div><div class="why">"3 times a" = 3×a = 3a, "add 5" = +5, the result is 3a + 5 (cannot be combined!)</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "Letters represent unknown numbers, the multiplication sign is omitted and the number goes first; different letters cannot be added, so be careful when substituting them for evaluation."</div>
+<div class="warn">⚠️ The most frequent error: writing 3a + 5 as 8a - 3a and 5 are different categories and cannot be added!</div>
+<div class="warn">⚠️ The second most frequent error: confusing "3 times a plus 5" (3a+5) and "3 times a plus 5" (3(a+5))</div>
+<div class="h2">Knowledge Point - Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">Expressed algebraically: "8 is more than n" and "4 times m is 3 less".</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt">If p = 6, find the value of the algebraic expression 2p + 3.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge Point 2: Simple Equation - Balance Principle (x + a = b, x − a = b) 🔴 SSPA required test</div>
+<div class="kp-rules">
+<strong>Principle of the balance (basic properties of equations):</strong><br/>① Both sides of the balance are equal → Do the same operation on both sides of the equation at the same time, the equation still holds<br/>
+      ② <strong>Solution x + a = b</strong>: Subtract a from both sides at the same time → x = b − a<br/>
+      ③ <strong>Solution x − a = b</strong>: Add a to both sides at the same time → x = b + a<br/>
+      ④ <strong>Test |||SEP|||: Substitute the answer into the original equation, the left side = the right side is correct</strong>: Substitute the answer into the original equation. The left side = the right side is correct.</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">write equations</div><div class="d">Translate words into equations</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">reverse operation</div><div class="d">Add change subtract change add</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">Find x</div><div class="d">Calculate the value of x</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">Check calculation</div><div class="d">Substitute into the original formula left = right?</div></div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 3: Solve the equation x + 7 = 15 (write down the steps + check)</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 4: Solve the equation x − 9 = 23 (write down the steps + check)</div></div>
+<div class="h2">Knowledge Point 2: Synchronization practice (must write out the step of "both sidesat the same time +/- moreless")</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">Solve the equation: x + 12 = 30</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">Solve the equation: x − 8 = 17</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">Solve the equation: 25 + x = 41</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">Solve the equation: x − 15 = 9</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">Solve the equation: x + 4.5 = 10.2</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Knowledge point 3: Simple equations—multiplication and division (ax = b, x ÷ a = b)🔴 SSPA Advanced</div>
+<div class="kp-rules">
+<strong>Reverse thinking of multiplication and division equations (T7 trap focus):</strong><br/>
+      ① <strong>Solution ax = b |||SEP|||: Divide both sides by a → x = b ÷ a</strong>Solution x ÷ a = b |||SEP|||: Multiply both sides by a → x = b × a<br/>
+      ② <strong>: Many students mistakenly "divide by a" instead of "multiply by a" when x ÷ a = b</strong>Notation<br/>
+      ③ <strong>: Multiply → use division to solve; division → use multiplication to solve (reverse operation!)</strong>: Many students mistakenly “divide by a” instead of “multiply by a” when x ÷ a = b<br/>
+      ④ <strong>notation</strong>: Multiplication → Use division to solve; Division → Use multiplication to solve (reverse operation!)</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 5: Solve the equation 6x = 42</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 6: Solve the equation x ÷ 5 = 9</div></div>
+<div class="ex">
+<div class="ex-title">🪤 T7 trap comparison questions</div>
+<div class="ex-q">Solve the equation: x ÷ 3 = 12</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ T7 trap: reverse thinking error</div><div class="eq">x = 12 ÷ 3 = 4</div><div class="why">When you see "÷3", use "÷3" to solve → Big mistake! The opposite operation should be done on both sides of the equation</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct: Reverse operation</div><div class="eq">x = 12 × 3 = 36</div><div class="why">x ÷ 3 = 12, ×3 on both sides: x = 12×3 = 36. Calculation: 36÷3=12 ✓</div></div>
+</div>
+</div>
+<div class="h2">Knowledge Point 3 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">Solve the equation: 8x = 56</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">Solve the equation: x ÷ 7 = 11</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 5 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">Expressed algebraically: "x plus 15" and "7 times y".</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">Find the values ​​of a + 8 and 3a − 5 when a = 10.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">Solve the equation: x + 9 = 21</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">Solve the equation: x − 6 = 14</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">Solve the equation: 5x = 35</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 5 questions, 🚶🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">18</td><td class="qtxt">Solve the equation: x + 2.8 = 9.6</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">Solve the equation: x ÷ 4 = 25</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">Solve the equation: 4x = 100</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">If 3n + 7 = 28, what is n? (Hint: Find the value of 3n first)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">Expressed algebraically: "5 times a number minus 8 equals 32." Then solve this number.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (total 5 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">23</td><td class="qtxt">Solve the equation: 2x + 3x = 30 (hint: combine like terms first)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">If x ÷ 3 + 5 = 12, find x. (Hint: Two steps - first process +5, then ÷3)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">Solve the equation:<span class="f"><span class="n">x</span><span class="b"></span><span class="d">4</span></span>= 7 (that is, x ÷ 4 = 7, expressed in fractional form)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">The sum of two consecutive numbers is 37. If the smaller number is x. (a) Express larger numbers using algebraic expressions. (b) Write an equation to find x.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">The length of a rectangle is 2 times its width. If the width is w cm. (a) Express the length algebraically. (b) If the perimeter is 36 cm, use the equation to find w.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 4: Solve word problems of equations (subject to sub-test text questions) 🔴 SSPA required test</div>
+<div class="kp-rules">
+<strong>Five steps to solve the problem (T3+T7 double trap protection):</strong><br/>
+      ① <strong>Let the unknown number |||SEP|||: Let x be the required quantity (start with "Let...")</strong>Translation relationship |||SEP|||: Translate the text into algebraic expressions sentence by sentence (be careful with T3!)<br/>
+      ② <strong>Make equations</strong>: Write an equation based on the equivalence relationship<br/>
+      ③ <strong>Solve the equation</strong>: Use reverse operation (be careful with T7!)<br/>
+      ④ <strong>Check + answer sentence</strong>: Substitute check + write "Answer:..."<br/>
+      ⑤ <strong>Check + Answer</strong>: Substitute check + write "Answer:..."</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 7: Xiao Ming has some stickers. After giving 15 stickers to his sister, there are still 28 stickers left. How many stickers does Xiao Ming originally have? (Suppose x → list of equations → solution → answer)</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 8: A box of candies is divided equally among 6 people, and each person gets 8 pieces. How many candies are there in this box?</div></div>
+<div class="h2">applicationquestionpractice (all must do, let x → column equation → solution → answer sentence)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">28</td><td class="qtxt">Xiaomei has x yuan. After spending 35 yuan, she has 42 yuan left. How much money did she originally have?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">The weight of a bag of rice is n kg. 5 packages of the same rice weigh a total of 40 kg. Find n.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">The older brother is 3 times older than the younger brother. If the older brother is 27 years old, how old is the younger brother? (Suppose the younger brother is y years old)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">A rope is L cm long. After cutting off 28 cm, what remains is the original |||SEP|||. Find L. (Hint: remainder = L − 28, while remainder =<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>. Find L. (Hint: remainder = L − 28, while remainder =<span class="f"><span class="n">L</span><span class="b"></span><span class="d">3</span></span>）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">There are Chinese and English books on the bookshelf. There are 12 more Chinese books than English books. If there are x English books, (a) use an algebraic expression to express the number of Chinese books. (b) If there are 58 books in total, find x.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">33</td><td class="qtxt">A rectangle is 3 times as long as it is wide. If the perimeter is 64 cm, (a) Let the width be w and express the length algebraically. (b) Express the perimeter algebraically. (c) Use a series of equations to find w and length.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">IV.🏔️ Ultimate challenge area</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">The sum of three consecutive numbers is 72. Let the smallest number be n. (a) Express the three numbers using algebraic expressions. (b) Make an equation to find out what each of the three numbers is.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">A and B have a total of $180. The amount of A is 2 times that of B. Let B have $x. (a) List the equations. (b) Find how many dollars each A and B have.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">The father is 40 years old and the son is 12 years old. How many years later will the father be twice as old as the son? (Suppose y years later → 40+y = 2(12+y))</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">V. Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 5 questions, must write stepandcheck)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">Expressed algebraically: "m is 6 times more than 9" and "p divided by 3 plus 2".</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">Find the value of 5k − 8 when k = 12.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">Solve the equation: x + 13 = 37</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">Solve the equation: x − 11 = 26</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">Solve the equation: 7x = 84</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced choose doquestion (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">Solve the equations: x ÷ 3 = 18 and 4x + 3x = 49</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">There are x eggs in a carton. Mom used 8 and had 22 left. How many eggs are there in this box? (Solution to a column of equations)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">A and B have a total of $240, and A has three times as much as B. Let B have $x. (a) List the equations. (b) Find how many dollars each person has.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">VI. The Lessoncorecommon errorsummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>T3: Literal → Algebraic translation error |||SEP|||: "3 times more than x 5" → 3x+5 (wrong)</strong>: "3 times more than x 5" → 3x+5 (wrong)</td><td>"5 more than x" → x+5, "3 times of" → 3(x+5), pay attention to the brackets!</td></tr>
+<tr><td>2</td><td><strong>Forced merging of items of different categories</strong>：3a + 5 = 8a</td><td>3a and 5 are of different types and cannot be added! 3a+5 is the simplest</td></tr>
+<tr><td>3</td><td><strong>T7: "Add a" when solving x+a=b</strong>：x+7=12 → x=19</td><td>Reverse thinking: addition, change and subtraction! x+7=12 → x=12−7=5</td></tr>
+<tr><td>4</td><td><strong>T7: Wrong division by a when solving x÷a=b</strong>：x÷5=10 → x=2</td><td>Divide and multiply! x÷5=10 → x=10×5=50</td></tr>
+<tr><td>5</td><td><strong>Forgot to check |||SEP|||: Don’t check after getting the x value</strong>: Do not check after getting x value</td><td>Must be substituted into the original equation: left side = right side? If it’s not right, do it again.</td></tr>
+<tr><td>6</td><td><strong>Algebraic expression writing format error |||SEP|||: x×7 should be written as 7x</strong>:x×7 should be written as 7x</td><td>Numbers come first, letters come last, and the multiplication sign is omitted: 7x ✓, x7 ✗</td></tr>
+<tr><td>7</td><td><strong>The application question misses "assume x" and the answer sentence</strong></td><td>Must write: Let x be ___ → List equation → Solution → Answer: ______</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「Algebraic expression recognition + simple equations (one step)」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「Algebraic expression recognition + simple equations (one step)」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚Related topics: L14 Understanding algebraic expressions · L15 Equation word problems · L31 Advanced algebraic expressions</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 7 pages · 57 questions | LF-P5-S1-L14 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt" style="font-size:11px">Fill in the blanks with the appropriate number:(a) 8 + ___ = 15    (b) ___ − 7 =</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">2</td><td class="qtxt" style="font-size:11px">Fill in the blanks with the appropriate number:(a) 6 × ___ = 42    (b) ___ ÷ 5 =</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">3</td><td class="qtxt" style="font-size:11px">"A number plus 7 equals 19" - What is this "unknown number"? How did you find ou</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">4</td><td class="qtxt" style="font-size:11px">The older brother is 3 times older than the younger brother. If the younger brot</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">5</td><td class="qtxt" style="font-size:11px">One apple sells for $a, how much does it cost to buy 5 apples? (Use algebraic ex</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+</table>
+<div style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！🟢=自動計算 🟡=請向老師確認</div>
+</div>
+
+</body>
+</html>

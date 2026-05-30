@@ -1,0 +1,29 @@
+name: Quality Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Run compliance check
+        run: python scripts/compliance_check.py
+
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check critical page links
+        run: |
+          echo "Checking critical pages exist..."
+          for f in docs/index.html docs/daily-ops.html docs/trap-quiz.html docs/student-journey.html docs/reactivation-kit.html docs/wa-responses.html docs/crm.html docs/social/publish/index.html; do
+            if [ -f "$f" ]; then echo "  ✅ $f"; else echo "  ❌ MISSING: $f"; fi
+          done

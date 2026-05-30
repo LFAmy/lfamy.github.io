@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 付款成功</title>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:linear-gradient(135deg,#16A34A,#059669);min-height:100vh;display:flex;align-items:center;justify-content:center}
+.card{background:white;border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.card .icon{font-size:64px;margin-bottom:16px}
+.card h1{color:#16A34A;font-size:1.6em;margin-bottom:8px}
+.card p{color:#6B7280;margin-bottom:20px;line-height:1.7}
+.card .info{background:#F0FDF4;border-radius:12px;padding:16px;margin-bottom:20px;text-align:left}
+.card .info .row{display:flex;justify-content:space-between;padding:6px 0;font-size:.9em}
+.card .info .row .label{color:#6B7280}.card .info .row .val{font-weight:700;color:#1A3C6D}
+.btn{display:inline-block;padding:14px 32px;background:#4f46e5;color:white;border-radius:30px;text-decoration:none;font-weight:700;font-size:1em;margin:4px;transition:all .2s}
+.btn:hover{background:#4338ca;transform:translateY(-1px)}
+.btn.outline{background:white;color:#4f46e5;border:2px solid #4f46e5}
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid #E5E7EB;border-top-color:#4f46e5;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:400px){.card{padding:24px}.card h1{font-size:1.3em}}
+</style>
+
+  <script src="/docs/data/lf-navbar.js"></script>
+</head>
+<body>
+<div class="card">
+  <div class="icon" id="statusIcon">⏳</div>
+  <h1 id="statusTitle">確認付款中...</h1>
+  <p id="statusMsg">正在驗證你的付款，請稍候</p>
+  <div class="info" id="details" style="display:none"></div>
+  <a href="/ai-tutor.html" class="btn">🚀 開始學習</a>
+  <a href="/parent-dashboard.html" class="btn outline">📊 家長 Dashboard</a>
+</div>
+
+<script>
+firebase.initializeApp(LF_FIREBASE_CONFIG);
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+async function verifyPayment() {
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+
+  if (!sessionId) {
+    document.getElementById('statusIcon').textContent = '✅';
+    document.getElementById('statusTitle').textContent = '試堂已開通！';
+    document.getElementById('statusMsg').textContent = '歡迎來到霖楓學苑！你有一堂免費試堂。';
+    showTrialDetails();
+    return;
+  }
+
+  try {
+    const API = 'https://lf-api-f80h.onrender.com';
+    const resp = await fetch(`${API}/api/payment/session/${sessionId}`);
+    const data = await resp.json();
+
+    if (data.payment_status === 'paid' || data.status === 'complete' || data.mock) {
+      document.getElementById('statusIcon').textContent = '🎉';
+      document.getElementById('statusTitle').textContent = '付款成功！';
+      document.getElementById('statusMsg').textContent = '歡迎加入霖楓學苑！你的會員已開通。';
+
+      // Save membership to Firestore
+      const user = auth.currentUser;
+      if (user && !data.mock) {
+        const membership = {
+          email: user.email,
+          plan: data.metadata?.plan_id || 'monthly',
+          grade: data.metadata?.grade || '',
+          status: 'active',
+          stripe_session_id: sessionId,
+          amount: (data.amount_total || 0) / 100,
+          currency: data.currency || 'hkd',
+          created_at: new Date().toISOString(),
+          sessions_remaining: data.metadata?.plan_id?.includes('annual') ? 48 : 4,
+        };
+        await db.collection('memberships').doc(user.uid).set(membership, {merge: true});
+        localStorage.setItem('lf_active_membership', JSON.stringify(membership));
+      } else if (data.mock) {
+        const membership = {
+          email: 'demo@lfacademy.hk',
+          plan: 'trial',
+          status: 'active',
+          created_at: new Date().toISOString(),
+          expiry: new Date(Date.now() + 7*86400000).toISOString(),
+          sessions_remaining: 1,
+        };
+        localStorage.setItem('lf_active_membership', JSON.stringify(membership));
+      }
+    } else {
+      document.getElementById('statusIcon').textContent = '⚠️';
+      document.getElementById('statusTitle').textContent = '付款處理中';
+      document.getElementById('statusMsg').textContent = '付款仍在處理中，請稍後再試或聯絡我們。';
+    }
+  } catch(e) {
+    showTrialDetails();
+  }
+}
+
+function showTrialDetails() {
+  const membership = {
+    plan: 'trial',
+    status: 'active',
+    created_at: new Date().toISOString(),
+    expiry: new Date(Date.now() + 7*86400000).toISOString(),
+    sessions_remaining: 1,
+  };
+  localStorage.setItem('lf_active_membership', JSON.stringify(membership));
+}
+
+verifyPayment();
+</script>
+</body>
+</html>

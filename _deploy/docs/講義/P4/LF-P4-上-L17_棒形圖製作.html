@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P4-上-L17 棒形圖製作 — 學生版講義</title>
+<style>
+<link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; }
+@media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; margin:10px 0 6px; } .h2 { font-size:11px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex { padding:6px 9px; } .ex-q { font-size:11px; } .warn { font-size:10px; } .mn { font-size:11px; } .et { font-size:9.5px; } }
+.container { max-width:1000px; margin:0 auto; }
+.pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+.cover { justify-content:center; align-items:center; text-align:center; }
+.cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+.cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+.cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+.cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+.cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+.cv-info b { color:var(--blue); }
+.cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+.cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+.h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+.h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+.kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+.kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+.kp-rules { font-size:12px; line-height:1.7; } .ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+.ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+.ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+.warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+.mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+.qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+.qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; text-align:left; }
+.qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+.qt tr:nth-child(even) td { background:#FAFBFC; }
+.qt .qn { width:32px; text-align:center; font-weight:700; }
+.qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+.qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+.qt .qtxt { font-size:12.5px; line-height:1.65; }
+.d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+.d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+.ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+.sh { background:#FEE2E2; color:#991B1B; }
+.et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+.et th { background:var(--red); color:white; padding:4px 7px; }
+.et td { padding:4px 7px; border:1px solid var(--borderc); }
+.end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+.sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+.sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+.sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+.sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+.sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+.bar-chart-area { border:2px dashed var(--borderc); padding:12px; margin:10px 0; background:#FAFBFC; text-align:center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小四 · 第 17 堂 · 學生版講義</div>
+  <div class="cv-title">棒形圖製作</div>
+  <div class="cv-sub">從數據表畫棒形圖 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》4下B冊 單元十（續）<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🔴 高頻</span> 製作棒形圖係呈分試卷二必出題型（5-6分）<br>
+    <b>前置知識：</b>L16 棒形圖閱讀 · 確認刻度 · 讀取數據<br>
+    <b>本堂目標：</b>❶ 選擇合適刻度 ❷ 根據數據表畫棒形 ❸ 添加標題和軸標籤 ❹ 檢查圖表完整性<br>
+    <b>核心陷阱：</b>🪤 T49 刻度選擇不當（太大或太小）· T50 棒形高度畫錯 · T51 漏標題或軸標籤
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">數據：蘋果15個、橙25個、蕉20個。最大數據係幾多？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">如果數據最大值=30，縱軸分6格，一格=幾多最合適？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">棒形圖必需有以下邊三樣嘢？（A.標題 B.顏色 C.軸標籤 D.刻度 E.簽名）</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">如果一格代表5，數據=18的棒應該畫到第幾格？（提示：18÷5=3.6→3格半再多啲）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">為什麼棒形圖的棒與棒之間要有空隙？（唔係貼住）</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：選擇合適的刻度 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>Step 1：</b>找出數據中的<b>最大值</b>。縱軸最高點必須 >= 最大值<br>
+      ② <b>Step 2：</b>根據最大值同可用格數，決定<b>一格代表幾多</b><br>
+      &nbsp;&nbsp;常用刻度：一格=1、2、5、10、20、50、100<br>
+      ③ <b>準則：</b>棒形唔好太矮（睇唔清）或太高（出界）。理想係最高棒用到約80%的縱軸高度<br>
+      ④ <b>案例：</b>數據最大=45，縱軸5格→一格=10（5格×10=50，剛好包住45）
+    </div>
+  </div>
+<div class="ex"><div class="ex-title">🪤 陷阱引爆：刻度要均勻！</div><div class="ex-q">畫棒形圖時，縱軸刻度應該點樣設定？</div>
+<div class="tc"><div class="tc-w"><div class="lbl">❌ 常見錯誤</div><div class="eq">刻度：0, 5, 20, 30, 50<br>（間距唔均勻）</div><div class="why">縱軸刻度必須均勻！每個間距要一樣大。唔可以隨意設定。</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確做法</div><div class="eq">刻度：0, 10, 20, 30, 40, 50<br>（每格代表10·間距均勻）</div><div class="why">用等距刻度：每格=2/5/10/20/50/100。取決於最大值。</div></div></div></div>
+
+
+  <div class="kp">
+    <div class="kp-title">知識點二：畫棒形圖的完整步驟 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>畫軸：</b>畫橫軸（底線）同縱軸（左線），形成 L 形<br>
+      ② <b>標刻度：</b>在縱軸標上數字（0在最底，逐格標示）<br>
+      ③ <b>寫分類：</b>在橫軸下方寫上每個分類的名稱<br>
+      ④ <b>畫棒形：</b>每條棒由橫軸向上畫到對應高度。棒要一樣闊，棒與棒之間有空隙<br>
+      ⑤ <b>加標題和軸標籤：</b>標題寫清楚「什麼的統計圖」，縱軸標「數量（單位）」
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例1</div><div class="ex-q">根據數據表畫棒形圖：蘋果=20、橙=35、香蕉=25、提子=15。揀一格=5，畫出四條棒。</div></div>
+  <div class="ex"><div class="ex-title">例2</div><div class="ex-q">數據：一月=120、二月=85、三月=150、四月=95。最大值=150。縱軸6格，揀一格=？</div></div>
+
+  <div class="warn">⚠️ 刻度陷阱：數據最大=48但你揀一格=20→棒形最高只得2格半→太矮睇唔清！應該揀一格=10（5格=50）。</div>
+  <div class="warn">⚠️ 棒形寬度不一：四條棒要一樣闊！棒與棒之間空隙也要一致。用間尺或數格仔！</div>
+</div>
+
+<div class="pb">
+  <div class="h1">三、課堂實踐：在空白圖表上畫棒形圖</div>
+
+  <div class="h2">🌱 練習一：根據以下數據，在空白棒形圖上畫出棒形</div>
+  <table class="qt">
+    <tr><th>水果</th><th>蘋果</th><th>橙</th><th>香蕉</th><th>提子</th><th>梨</th></tr>
+    <tr><td>數量（個）</td><td>35</td><td>50</td><td>25</td><td>40</td><td>20</td></tr>
+  </table>
+
+  <div class="bar-chart-area">
+    <div style="font-weight:700;color:var(--blue);margin-bottom:6px;">請在下方空白棒形圖上畫出棒形（一格 = 5 個）</div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 320" width="500" height="320">
+      <line x1="75" y1="30" x2="75" y2="280" stroke="#374151" stroke-width="2"/>
+      <line x1="75" y1="280" x2="460" y2="280" stroke="#374151" stroke-width="2"/>
+      <text x="65" y="284" text-anchor="end" font-size="10" fill="#6B7280">0</text>
+      <line x1="70" y1="255" x2="460" y2="255" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="259" text-anchor="end" font-size="10" fill="#6B7280">5</text>
+      <line x1="70" y1="230" x2="460" y2="230" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="234" text-anchor="end" font-size="10" fill="#6B7280">10</text>
+      <line x1="70" y1="205" x2="460" y2="205" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="209" text-anchor="end" font-size="10" fill="#6B7280">15</text>
+      <line x1="70" y1="180" x2="460" y2="180" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="184" text-anchor="end" font-size="10" fill="#6B7280">20</text>
+      <line x1="70" y1="155" x2="460" y2="155" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="159" text-anchor="end" font-size="10" fill="#6B7280">25</text>
+      <line x1="70" y1="130" x2="460" y2="130" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="134" text-anchor="end" font-size="10" fill="#6B7280">30</text>
+      <line x1="70" y1="105" x2="460" y2="105" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="109" text-anchor="end" font-size="10" fill="#6B7280">35</text>
+      <line x1="70" y1="80" x2="460" y2="80" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="84" text-anchor="end" font-size="10" fill="#6B7280">40</text>
+      <line x1="70" y1="55" x2="460" y2="55" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="59" text-anchor="end" font-size="10" fill="#6B7280">45</text>
+      <line x1="70" y1="30" x2="460" y2="30" stroke="#E5E7EB" stroke-width="0.5"/><text x="65" y="34" text-anchor="end" font-size="10" fill="#6B7280">50</text>
+      <text x="15" y="155" text-anchor="middle" font-size="10" fill="#1A3C6D" transform="rotate(-90,15,155)">數量（個）</text>
+      <text x="125" y="298" text-anchor="middle" font-size="11">蘋果</text>
+      <text x="200" y="298" text-anchor="middle" font-size="11">橙</text>
+      <text x="275" y="298" text-anchor="middle" font-size="11">香蕉</text>
+      <text x="350" y="298" text-anchor="middle" font-size="11">提子</text>
+      <text x="425" y="298" text-anchor="middle" font-size="11">梨</text>
+      <rect x="95" y="30" width="45" height="250" fill="none" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="170" y="30" width="45" height="250" fill="none" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="245" y="30" width="45" height="250" fill="none" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="320" y="30" width="45" height="250" fill="none" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="395" y="30" width="45" height="250" fill="none" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="265" y="22" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">水果數量統計圖</text>
+    </svg>
+  </div>
+
+  <div class="h2">🌿 練習二：自行選擇刻度並畫圖</div>
+  <div style="margin:8px 0;padding:8px;background:#F0F9FF;border-radius:5px;">
+    <b>數據：</b>四個月銷售額 — 一月$80、二月$120、三月$95、四月$60<br>
+    <b>任務：</b>①揀合適刻度（一格=？）②在下方框內畫出完整棒形圖（包括標題、軸標籤、刻度）
+  </div>
+  <div class="bar-chart-area" style="min-height:250px;">
+    <div style="font-size:11px;color:var(--gray);">（請在此區域內自行畫出完整棒形圖。提示：最大值=120，可用一格=20，縱軸6格=120）</div>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">四、應用題（SSPA 考試題）</div>
+
+  <div class="ex"><div class="ex-title">例3</div><div class="ex-q">根據下表，畫一個棒形圖（提供方格紙）。揀一格=5。畫完後回答：(a)哪項最多？(b)總數=？(c)平均=？
+  <br>數據：中文書=25、英文書=35、數學書=20、常識書=15</div></div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">用以下數據畫棒形圖（一格=2）：A班=12人、B班=18人、C班=14人、D班=10人。寫出完整標題。</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">判斷：數據=3,7,12,5,9。以下哪個刻度最不合適？A.一格=1 B.一格=2 C.一格=20 D.一格=5</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">根據你畫的練習一棒形圖回答：最多的水果比最少的多幾個？總共有幾多個水果？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">設計一個棒形圖來顯示你一星期內每日的溫習時間（自己填數據）。揀刻度，畫圖，寫標題。</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">如果數據表中最大=68，而你只有5格縱軸空間。揀哪個刻度最好？為什麼？A.一格=10 B.一格=12 C.一格=14 D.一格=20</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">五、課後功課</div>
+  <div class="h2">基礎必做（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">數據：5, 10, 15, 20, 25。揀一格=5畫棒形圖。最高棒=幾格？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">用以下數據畫棒形圖（一格=10）：A=30, B=50, C=40, D=20。</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">一個棒形圖如果冇標題，會出現咩問題？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">為什麼棒形圖的棒不可以貼在一起？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">一星期氣溫數據：一18°C、二20°C、三22°C、四19°C、五21°C、六24°C、日23°C。揀一格=2°C，畫棒形圖。</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+  <div class="h2">進階選做（共 2 題，🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">同一組數據，用「一格=5」和「一格=10」畫出的棒形圖有什麼不同？哪個更容易讀取精確數據？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">搜集屋企一星期用水的數據（自己記錄），畫一個棒形圖。要有完整標題、軸標籤、刻度。</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr>
+    <tr><td>1</td><td><b>刻度太大</b>：數據=48揀一格=20→棒太矮</td><td>刻度應令最高棒用到大約80%縱軸。48→一格=10</td></tr>
+    <tr><td>2</td><td><b>刻度太小</b>：數據=200揀一格=1→棒衝出紙</td><td>大數據用大刻度。200→一格=20或50</td></tr>
+    <tr><td>3</td><td><b>棒形高度計錯</b>：數據=35,一格=5→畫7格（啱）但有時計錯</td><td>高度=數據÷一格數值。35÷5=7格。雙重驗算！</td></tr>
+    <tr><td>4</td><td><b>漏標題/軸標籤</b></td><td>完整棒形圖=標題+橫軸標籤+縱軸標籤+刻度。缺一不可！</td></tr>
+    <tr><td>5</td><td><b>棒形闊度不一</b></td><td>所有棒要一樣闊，用間尺輔助。棒間空隙也要均等。</td></tr>
+    <tr><td>6</td><td><b>縱軸唔係由0開始</b>（故意誤導除外）</td><td>學生自行畫圖時，縱軸必須由0開始，否則比例失真</td></tr>
+    <tr><td>7</td><td><b>數據同刻度唔配合</b>：數據=7用一格=5（要半格）</td><td>揀刻度時考慮數據係咪刻度嘅倍數。7唔係5的倍數→OK但要小心半格</td></tr>
+  </table>
+
+  <div class="mn">🧠 口訣：「揀刻度睇最大值，一格乘格數要包得住。棒形由底向上畫，標題軸標唔好漏。」</div>
+
+  <div class="h1">七、解題四步卡</div>
+  <div class="sc">
+    <div class="sc-card"><div class="snum">1</div><div class="stitle">搵最大</div><div class="sdetail">睇數據表，搵出最大值。縱軸頂部必須>=最大值。</div></div>
+    <div class="sc-card"><div class="snum">2</div><div class="stitle">揀刻度</div><div class="sdetail">最大值÷可用格數≈一格幾多。揀整齊數字（1,2,5,10,20,50,100）。</div></div>
+    <div class="sc-card"><div class="snum">3</div><div class="stitle">畫棒形</div><div class="sdetail">數據÷刻度=棒的高度（格數）。由底向上畫。所有棒一樣闊！</div></div>
+    <div class="sc-card"><div class="snum">4</div><div class="stitle">加標籤</div><div class="sdetail">寫標題（什麼統計圖）、橫軸標籤（分類）、縱軸標籤（數量+單位）。</div></div>
+  </div>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-上-L17</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L16 棒形圖閱讀 · L17 棒形圖製作 · L32 複合棒形圖</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L17 | 35題 · 棒形圖製作
+</div>
+</body>
+</html>

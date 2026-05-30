@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="小學五年級數學練習：複合棒形圖+數據分析。涵蓋小學數學 練習。霖楓學苑呈分試專家，陷阱題診斷教學法。" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小學五年級數學 複合棒形圖+數據分析 | 霖楓學苑 LF Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+    .chart-svg { max-width:100%; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* Data table style */
+  .dt { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; text-align:center; }
+  .dt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; }
+  .dt td { padding:4px 8px; border:1px solid var(--borderc); }
+  .dt tr:nth-child(even) td { background:#FAFBFC; }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P5 講義",
+      "item": "https://lfamy.github.io/講義/P5/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "複合棒形圖+數據分析"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div style="text-align:center;margin:24px 0"><img src="../_svg/p5_composite_bar.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+
+
+<div style="text-align:center;margin:24px 0"><img src="../_svg/bar_chart.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)" onerror="this.style.display='none'"></div>
+
+<div style="background:#FEF3C7;border:2px solid #C9A84C;border-radius:10px;padding:16px;margin:20px;text-align:center"><span style="font-size:18px;font-weight:900;color:#1A3C6D">📝 答案鍵 (Answer Key)</span><br><span style="font-size:13px;color:#6B7280">紅字標示為正確答案</span></div>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">霖楓學苑 <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">小五 · 第 32 堂 · 學生版講義</div>
+<div class="cv-title">複合棒形圖＋數據分析</div>
+<div class="cv-sub">單元十 · 統計與數據處理 · 65 分鐘 · 一對三線上課程</div>
+<div class="cv-info">
+<b>對應教材：</b>《小學數學新思維（第二版）》5下B冊 單元十 ＋ 現代教育 5下B 單元19<br/>
+<b>核心陷阱：</b>🪴 T10 統計與數據 — 混淆不同組別棒形 · 忽略圖例 · 單位換算錯誤<br/>
+<b>SSPA 關聯：</b><span class="ss sm">🟡 中高頻</span> 呈分試卷一常出 6-8 分讀圖題<br/>
+<b>前置知識：</b>P4 簡單棒形圖閱讀、P5 上學期數據收集與整理、長度/重量/容量單位<br/>
+<b>本堂目標：</b>❶ 讀懂複合棒形圖（含圖例、刻度、雙重分類）❷ 比較與分析數據 ❸ 根據數據表繪製棒形圖 ❹ 平均數與統計推理
+  </div>
+<div class="cv-row">
+<span>學生姓名：<span class="ln"></span></span>
+<span>班級：<span class="ln"></span></span>
+<span>日期：<span class="ln"></span></span>
+<span>完成時長：<span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+<div class="h1">一、熱身啟動題 （5 分鐘）（共 6 題，5 分鐘）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 1</td><td class="qtxt">棒形圖中，一條棒的高度代表 25 個學生。如果棒的高度對應刻度為 4，該棒代表多少個學生？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 2</td><td class="qtxt">看下面的簡單棒形圖：<br/>5A班 30人、5B班 28人、5C班 32人、5D班 26人。哪一班人數最多？5A班比5D班多幾人？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 3</td><td class="qtxt">棒形圖縱軸每一格代表 10 本書。如果一支棒佔了 7 格半，代表多少本書？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 4</td><td class="qtxt">下面是某商店四個月銷售數據表：<br/><table class="dt"><tr><th>月份</th><th>一月</th><th>二月</th><th>三月</th><th>四月</th></tr><tr><td>銷量(件)</td><td>120</td><td>150</td><td>180</td><td>140</td></tr></table>哪個月份銷量最高？比最低的月份多幾件？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 5</td><td class="qtxt">下表是兩班同學喜愛水果統計。把數據畫成簡單棒形圖需要幾個「棒」？<br/><table class="dt"><tr><th></th><th>蘋果</th><th>香蕉</th><th>橙</th></tr><tr><td>5A</td><td>12</td><td>8</td><td>15</td></tr><tr><td>5B</td><td>10</td><td>14</td><td>9</td></tr></table></td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 6</td><td class="qtxt">小文統計了四個月借書數量：120、95、150、135。求這四個月的<strong>平均</strong>每月借書數量。</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">二、核心知識精講 （15 分鐘） ＋ 例題練習</div>
+<div class="kp">
+<div class="kp-title">知識點一：複合棒形圖的閱讀<span class="ss sm">🟡 SSPA</span></div>
+<div class="kp-rules">
+      ❶ <strong>複合棒形圖</strong> = 在同一圖表中顯示<strong>兩組或以上</strong>數據，每組用不同顏色/花紋區分<br/>
+      ❷ <strong>三大關鍵閱讀步驟</strong>：先看<strong>圖例</strong>（Legend）→ 再看<strong>橫軸</strong>（x軸，分類）→ 再看<strong>縱軸</strong>（y軸，數值／刻度）<br/>
+      ❸ 每個分類位置有多條棒（代表不同組別），必須<strong>對照圖例</strong>確認每條棒代表甚麼<br/>
+      ❹ 讀取數值時：從棒的<strong>頂端水平對過去</strong>縱軸刻度，一格一格仔細數
+    </div>
+</div>
+<!-- Composite bar chart SVG: Stationery store sales -->
+<div style="text-align:center; margin:10px 0; padding:8px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">📊 參考圖表：文具店季度銷售數據複合棒形圖</strong>
+<svg class="chart-svg" style="max-width:100%;" viewbox="0 0 700 380" xmlns="http://www.w3.org/2000/svg">
+<!-- Background grid -->
+<defs>
+<pattern height="6" id="hatchA" patternunits="userSpaceOnUse" width="6"><rect fill="#3B82F6" height="6" width="6"></rect><line stroke="#fff" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern>
+<pattern height="6" id="hatchB" patternunits="userSpaceOnUse" width="6"><rect fill="#F97316" height="6" width="6"></rect><line stroke="#fff" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern>
+<pattern height="6" id="hatchC" patternunits="userSpaceOnUse" width="6"><rect fill="#1D4ED8" height="6" width="6"></rect><line stroke="#93C5FD" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern>
+<pattern height="6" id="hatchD" patternunits="userSpaceOnUse" width="6"><rect fill="#EA580C" height="6" width="6"></rect><line stroke="#FED7AA" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern>
+</defs>
+<!-- Grid lines -->
+<line stroke="#333" stroke-width="1.5" x1="80" x2="80" y1="30" y2="330"></line>
+<line stroke="#333" stroke-width="1.5" x1="80" x2="680" y1="330" y2="330"></line>
+<!-- Y-axis grid & labels -->
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="334">0</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="330" y2="330"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="274">50</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="270" y2="270"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="214">100</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="210" y2="210"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="154">150</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="150" y2="150"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="94">200</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="90" y2="90"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="42">250</text>
+<!-- Y-axis label -->
+<text fill="#333" font-size="13" text-anchor="middle" transform="rotate(-90,20,180)" x="20" y="180">銷售數量（件）</text>
+<!-- Group 1: January -->
+<rect fill="url(#hatchA)" height="120" stroke="#2563EB" stroke-width="1" width="28" x="105" y="210"></rect>
+<text fill="#2563EB" font-size="9" font-weight="700" text-anchor="middle" x="119" y="205">100</text>
+<rect fill="url(#hatchB)" height="84" stroke="#C2410C" stroke-width="1" width="28" x="137" y="246"></rect>
+<text fill="#C2410C" font-size="9" font-weight="700" text-anchor="middle" x="151" y="241">70</text>
+<rect fill="url(#hatchC)" height="156" stroke="#1E40AF" stroke-width="1" width="28" x="169" y="174"></rect>
+<text fill="#1E40AF" font-size="9" font-weight="700" text-anchor="middle" x="183" y="169">130</text>
+<rect fill="url(#hatchD)" height="108" stroke="#9A3412" stroke-width="1" width="28" x="201" y="222"></rect>
+<text fill="#9A3412" font-size="9" font-weight="700" text-anchor="middle" x="215" y="217">90</text>
+<text fill="#333" font-size="13" font-weight="700" text-anchor="middle" x="167" y="348">一月</text>
+<!-- Group 2: February -->
+<rect fill="url(#hatchA)" height="144" stroke="#2563EB" stroke-width="1" width="28" x="260" y="186"></rect>
+<text fill="#2563EB" font-size="9" font-weight="700" text-anchor="middle" x="274" y="181">120</text>
+<rect fill="url(#hatchB)" height="108" stroke="#C2410C" stroke-width="1" width="28" x="292" y="222"></rect>
+<text fill="#C2410C" font-size="9" font-weight="700" text-anchor="middle" x="306" y="217">90</text>
+<rect fill="url(#hatchC)" height="180" stroke="#1E40AF" stroke-width="1" width="28" x="324" y="150"></rect>
+<text fill="#1E40AF" font-size="9" font-weight="700" text-anchor="middle" x="338" y="145">150</text>
+<rect fill="url(#hatchD)" height="120" stroke="#9A3412" stroke-width="1" width="28" x="356" y="210"></rect>
+<text fill="#9A3412" font-size="9" font-weight="700" text-anchor="middle" x="370" y="205">100</text>
+<text fill="#333" font-size="13" font-weight="700" text-anchor="middle" x="322" y="348">二月</text>
+<!-- Group 3: March -->
+<rect fill="url(#hatchA)" height="180" stroke="#2563EB" stroke-width="1" width="28" x="415" y="150"></rect>
+<text fill="#2563EB" font-size="9" font-weight="700" text-anchor="middle" x="429" y="145">150</text>
+<rect fill="url(#hatchB)" height="144" stroke="#C2410C" stroke-width="1" width="28" x="447" y="186"></rect>
+<text fill="#C2410C" font-size="9" font-weight="700" text-anchor="middle" x="461" y="181">120</text>
+<rect fill="url(#hatchC)" height="216" stroke="#1E40AF" stroke-width="1" width="28" x="479" y="114"></rect>
+<text fill="#1E40AF" font-size="9" font-weight="700" text-anchor="middle" x="493" y="109">180</text>
+<rect fill="url(#hatchD)" height="156" stroke="#9A3412" stroke-width="1" width="28" x="511" y="174"></rect>
+<text fill="#9A3412" font-size="9" font-weight="700" text-anchor="middle" x="525" y="169">130</text>
+<text fill="#333" font-size="13" font-weight="700" text-anchor="middle" x="477" y="348">三月</text>
+<!-- Group 4: April -->
+<rect fill="url(#hatchA)" height="156" stroke="#2563EB" stroke-width="1" width="28" x="570" y="174"></rect>
+<text fill="#2563EB" font-size="9" font-weight="700" text-anchor="middle" x="584" y="169">130</text>
+<rect fill="url(#hatchB)" height="132" stroke="#C2410C" stroke-width="1" width="28" x="602" y="198"></rect>
+<text fill="#C2410C" font-size="9" font-weight="700" text-anchor="middle" x="616" y="193">110</text>
+<rect fill="url(#hatchC)" height="192" stroke="#1E40AF" stroke-width="1" width="28" x="634" y="138"></rect>
+<text fill="#1E40AF" font-size="9" font-weight="700" text-anchor="middle" x="648" y="133">160</text>
+<rect fill="url(#hatchD)" height="144" stroke="#9A3412" stroke-width="1" width="28" x="666" y="186"></rect>
+<text fill="#9A3412" font-size="9" font-weight="700" text-anchor="middle" x="680" y="181">120</text>
+<text fill="#333" font-size="13" font-weight="700" text-anchor="middle" x="632" y="348">四月</text>
+<!-- Legend -->
+<rect fill="url(#hatchA)" height="12" stroke="#2563EB" stroke-width="0.5" width="16" x="140" y="358"></rect>
+<text fill="#333" font-size="11" x="160" y="369">A店筆記本</text>
+<rect fill="url(#hatchB)" height="12" stroke="#C2410C" stroke-width="0.5" width="16" x="250" y="358"></rect>
+<text fill="#333" font-size="11" x="270" y="369">A店文件夾</text>
+<rect fill="url(#hatchC)" height="12" stroke="#1E40AF" stroke-width="0.5" width="16" x="370" y="358"></rect>
+<text fill="#333" font-size="11" x="390" y="369">B店筆記本</text>
+<rect fill="url(#hatchD)" height="12" stroke="#9A3412" stroke-width="0.5" width="16" x="490" y="358"></rect>
+<text fill="#333" font-size="11" x="510" y="369">B店文件夾</text>
+</svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ 以上複合棒形圖為本堂主要參考圖表，大部分例題和練習題均以此圖數據為基礎</div>
+</div>
+<div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">📊 簡單棒形圖示例：比賽得分</strong>
+<svg height="320" viewbox="0 0 360 320" width="360" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="340" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">4</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">8</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">12</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">16</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">20</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">24</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">28</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(分)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">得分</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="116.875" y="308">紅隊</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="180.625" y="308">藍隊</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="244.375" y="308">綠隊</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="308.125" y="308">黃隊</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="180" y="25">比賽得分</text><rect fill="#3B82F6" height="163.92857142857144" stroke="#1D4ED8" stroke-width="1" width="44" x="94" y="126.07142857142856"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="116" y="116.07142857142856">18</text><rect fill="#3B82F6" height="218.57142857142856" stroke="#1D4ED8" stroke-width="1" width="44" x="156" y="71.42857142857144"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="178" y="61.428571428571445">24</text><rect fill="#3B82F6" height="127.5" stroke="#1D4ED8" stroke-width="1" width="44" x="218" y="162.5"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="240" y="152.5">14</text><rect fill="#3B82F6" height="182.14285714285714" stroke="#1D4ED8" stroke-width="1" width="44" x="280" y="107.85714285714286"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="302" y="97.85714285714286">20</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ 每格代表2分。紅隊18分=9格，藍隊24分=12格。注意：軸標籤要清楚、刻度要均勻。</div>
+</div>
+<div class="ex">
+<div class="ex-title">💡 棒形圖 vs 折線圖 — 何時用哪種？</div>
+<div class="ex-q">棒形圖用來比較不同類別的數量；折線圖用來顯示同一數據隨時間的變化趨勢。以下同一組數據的兩種表示：</div>
+<div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:10px 0;">
+<div style="flex:1; min-width:280px;"><svg height="320" viewbox="0 0 344 320" width="344" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="324" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">175</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(本)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">借書量</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="114.875" y="308">一月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="174.625" y="308">二月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="234.375" y="308">三月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="294.125" y="308">四月</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="172" y="25">四個月借書數量</text><rect fill="#3B82F6" height="174.85714285714286" stroke="#1D4ED8" stroke-width="1" width="40" x="94" y="115.14285714285714"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="114" y="105.14285714285714">120</text><rect fill="#3B82F6" height="138.42857142857142" stroke="#1D4ED8" stroke-width="1" width="40" x="152" y="151.57142857142858"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="172" y="141.57142857142858">95</text><rect fill="#3B82F6" height="218.57142857142856" stroke="#1D4ED8" stroke-width="1" width="40" x="210" y="71.42857142857144"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="230" y="61.428571428571445">150</text><rect fill="#3B82F6" height="196.71428571428572" stroke="#1D4ED8" stroke-width="1" width="40" x="268" y="93.28571428571428"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="288" y="83.28571428571428">135</text></svg></div>
+<div style="flex:1; min-width:280px;"><svg height="320" viewbox="0 0 370 320" width="370" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="350" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">175</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(件)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">銷量</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="118.125" y="308">一月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="184.375" y="308">二月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="250.625" y="308">三月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="316.875" y="308">四月</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="185" y="25">A店筆記本銷量走勢</text><circle cx="115" cy="144.2857142857143" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="115" y="132.2857142857143">100</text><circle cx="175" cy="115.14285714285714" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="175" y="103.14285714285714">120</text><circle cx="235" cy="71.42857142857144" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="235" y="59.428571428571445">150</text><circle cx="295" cy="100.57142857142856" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="295" y="88.57142857142856">130</text><polyline fill="none" points="115,144.2857142857143 175,115.14285714285714 235,71.42857142857144 295,100.57142857142856" stroke="#DC2626" stroke-linejoin="round" stroke-width="2.5"></polyline></svg></div>
+</div>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ 左：棒形圖（強調各月數值比較）| 右：折線圖（強調上升/下降趨勢）— 注意兩者使用場景不同！</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪴 陷阱引爆例題（本堂最重要的示範）</div>
+<div class="ex-q">根據上方的複合棒形圖：一月「A店筆記本」賣了多少件？一月「B店筆記本」賣了多少件？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ 常見錯誤（不看圖例）</div><div class="eq">一月 = 只看第一條棒 = 100<br/>但分不清是哪間店</div><div class="why">混淆 A店筆記本 和 B店筆記本！沒有對照圖例確認每條棒的含義。</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">A店筆記本(一月) = 100件<br/>B店筆記本(一月) = 130件</div><div class="why">先看圖例→確認斜紋方向→A店筆記本第一組第一條=100，B店筆記本第一組第三條=130</div></div>
+</div>
+</div>
+<div class="mn">🧠 口訣：「先睇圖例辨花紋，再搵月份對位置，水平拉線讀刻度，答案單位要寫齊」</div>
+<div class="warn">⚠️ 最高頻錯誤：不先看圖例就直接讀數，把A店當B店、把筆記本當文件夾！</div>
+<div class="warn">⚠️ 第二高頻錯誤：縱軸格數數錯。每格 = 25件（50÷2），不是10件也不是100件！</div>
+<div class="h2">知識點一 例題練習（先看圖例 → 找分類 → 讀刻度 → 寫答案＋單位）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 例1</td><td class="qtxt">根據複合棒形圖：二月份「B店文件夾」賣了多少件？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 例2</td><td class="qtxt">根據複合棒形圖：三月份「A店筆記本」和「A店文件夾」的銷量相差多少件？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">知識點一 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 7</td><td class="qtxt">根據複合棒形圖：一月份「A店筆記本」和「B店筆記本」合共賣了多少件？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 8</td><td class="qtxt">根據複合棒形圖：四月份「B店筆記本」賣了多少件？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 9</td><td class="qtxt">根據複合棒形圖：哪一個月份「A店文件夾」銷量最高？賣了多少件？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 10</td><td class="qtxt">根據複合棒形圖：二月份所有商品（四條棒）合共賣了多少件？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb page-break">
+<div style="text-align:center;margin:0 0 8px 0;padding:4px 8px;background:#FFFBEB;border:1px solid var(--borderc);border-radius:5px;"><strong style="font-size:11px;color:var(--blue);">📊 文具店季度銷售數據（參考圖表）</strong><svg height="91" viewbox="0 0 540 175" width="280" xmlns="http://www.w3.org/2000/svg"><defs><pattern height="6" id="m-hatchA" patternunits="userSpaceOnUse" width="6"><rect fill="#3B82F6" height="6" width="6"></rect><line stroke="#fff" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern><pattern height="6" id="m-hatchB" patternunits="userSpaceOnUse" width="6"><rect fill="#F97316" height="6" width="6"></rect><line stroke="#fff" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern><pattern height="6" id="m-hatchC" patternunits="userSpaceOnUse" width="6"><rect fill="#1D4ED8" height="6" width="6"></rect><line stroke="#93C5FD" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern><pattern height="6" id="m-hatchD" patternunits="userSpaceOnUse" width="6"><rect fill="#EA580C" height="6" width="6"></rect><line stroke="#FED7AA" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern></defs><line stroke="#333" stroke-width="1" x1="50" x2="50" y1="20" y2="128"></line><line stroke="#333" stroke-width="1" x1="50" x2="530" y1="128" y2="128"></line><text fill="#666" font-size="8" text-anchor="end" x="42" y="132">0</text><text fill="#666" font-size="8" text-anchor="end" x="42" y="84">100</text><line stroke="#E5E7EB" stroke-width="0.3" x1="50" x2="530" y1="84" y2="84"></line><text fill="#666" font-size="8" text-anchor="end" x="42" y="40">200</text><line stroke="#E5E7EB" stroke-width="0.3" x1="50" x2="530" y1="40" y2="40"></line><rect fill="url(#m-hatchA)" height="44" stroke="#2563EB" stroke-width="0.5" width="14" x="68" y="84"></rect><rect fill="url(#m-hatchB)" height="32" stroke="#C2410C" stroke-width="0.5" width="14" x="84" y="96"></rect><rect fill="url(#m-hatchC)" height="56" stroke="#1E40AF" stroke-width="0.5" width="14" x="100" y="72"></rect><rect fill="url(#m-hatchD)" height="38" stroke="#9A3412" stroke-width="0.5" width="14" x="116" y="90"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="109" y="138">一月</text><rect fill="url(#m-hatchA)" height="52" stroke="#2563EB" stroke-width="0.5" width="14" x="168" y="76"></rect><rect fill="url(#m-hatchB)" height="38" stroke="#C2410C" stroke-width="0.5" width="14" x="184" y="90"></rect><rect fill="url(#m-hatchC)" height="64" stroke="#1E40AF" stroke-width="0.5" width="14" x="200" y="64"></rect><rect fill="url(#m-hatchD)" height="44" stroke="#9A3412" stroke-width="0.5" width="14" x="216" y="84"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="209" y="138">二月</text><rect fill="url(#m-hatchA)" height="64" stroke="#2563EB" stroke-width="0.5" width="14" x="268" y="64"></rect><rect fill="url(#m-hatchB)" height="52" stroke="#C2410C" stroke-width="0.5" width="14" x="284" y="76"></rect><rect fill="url(#m-hatchC)" height="72" stroke="#1E40AF" stroke-width="0.5" width="14" x="300" y="56"></rect><rect fill="url(#m-hatchD)" height="56" stroke="#9A3412" stroke-width="0.5" width="14" x="316" y="72"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="309" y="138">三月</text><rect fill="url(#m-hatchA)" height="56" stroke="#2563EB" stroke-width="0.5" width="14" x="368" y="72"></rect><rect fill="url(#m-hatchB)" height="46" stroke="#C2410C" stroke-width="0.5" width="14" x="384" y="82"></rect><rect fill="url(#m-hatchC)" height="68" stroke="#1E40AF" stroke-width="0.5" width="14" x="400" y="60"></rect><rect fill="url(#m-hatchD)" height="52" stroke="#9A3412" stroke-width="0.5" width="14" x="416" y="76"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="409" y="138">四月</text><rect fill="url(#m-hatchA)" height="7" stroke="#2563EB" stroke-width="0.3" width="10" x="110" y="153"></rect><text fill="#333" font-size="7" x="123" y="160">A店筆記本</text><rect fill="url(#m-hatchB)" height="7" stroke="#C2410C" stroke-width="0.3" width="10" x="180" y="153"></rect><text fill="#333" font-size="7" x="193" y="160">A店文件夾</text><rect fill="url(#m-hatchC)" height="7" stroke="#1E40AF" stroke-width="0.3" width="10" x="250" y="153"></rect><text fill="#333" font-size="7" x="263" y="160">B店筆記本</text><rect fill="url(#m-hatchD)" height="7" stroke="#9A3412" stroke-width="0.3" width="10" x="320" y="153"></rect><text fill="#333" font-size="7" x="333" y="160">B店文件夾</text></svg><div style="font-size:8px;color:var(--gray);">▲ 請參考以上圖表作答。完整版見第2頁。</div></div>
+<div class="kp">
+<div class="kp-title">知識點二：數據比較與分析<span class="ss sm">🟡 SSPA</span></div>
+<div class="kp-rules">
+<strong>從複合棒形圖中做數據比較的四種基本問題：</strong><br/>
+      ❶ <strong>求差</strong>：兩條棒的高度差 = 數值相減（「多幾多」「少幾多」「相差」）<br/>
+      ❷ <strong>求和</strong>：多條棒合計 = 各數值相加（「共」「合共」「總共」）<br/>
+      ❸ <strong>求倍數</strong>：一條棒是另一條的幾倍 = 較大值 ÷ 較小值<br/>
+      ❹ <strong>比較趨勢</strong>：同一顏色棒在四個月份的走勢 → 上升／下降／先升後降
+    </div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">❶</div><div class="t">求差</div><div class="d">大的減小的<br/>「相差」「多幾多」</div></div>
+<div class="sc-i"><div class="n">❷</div><div class="t">求和</div><div class="d">全部加起來<br/>「合共」「總共」</div></div>
+<div class="sc-i"><div class="n">❸</div><div class="t">求倍數</div><div class="d">大的 ÷ 小的<br/>「是…的幾倍」</div></div>
+<div class="sc-i"><div class="n">❹</div><div class="t">看趨勢</div><div class="d">同一組別<br/>逐月變化方向</div></div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：根據複合棒形圖，哪一個月份「A店筆記本」銷量最高？該月A店筆記本銷量是B店文件夾銷量的多少倍？（取至整數）</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：根據複合棒形圖，描述「B店筆記本」由一月至四月的銷量變化趨勢。</div></div>
+<div class="h2">知識點二 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 11</td><td class="qtxt">根據複合棒形圖：三月份，A店筆記本比A店文件夾多賣多少件？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 12</td><td class="qtxt">根據複合棒形圖：一月份，B店兩類商品合共賣了多少件？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 13</td><td class="qtxt">根據複合棒形圖：四月份，B店筆記本銷量是A店文件夾銷量的多少倍？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 14</td><td class="qtxt">根據複合棒形圖：哪一間店舖（A店或B店）在一至四月的「筆記本」總銷量較高？高出多少件？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">知識點三：製作複合棒形圖<span class="ss sm">🟡 SSPA</span></div>
+<div class="kp-rules">
+<strong>從數據表繪製複合棒形圖的步驟：</strong><br/>
+      ❶ <strong>定縱軸刻度</strong>：找出數據中最大值，確定每格代表多少（通常取 2、5、10、20、25、50、100）<br/>
+      ❷ <strong>畫坐標軸</strong>：橫軸寫分類名稱（如月份），縱軸標刻度數字和單位<br/>
+      ❸ <strong>畫棒</strong>：每組內依序畫出不同花紋的棒（圖例順序）；棒的高度 = 數據值 ÷ 每格代表值 × 格高<br/>
+      ❹ <strong>加圖例</strong>：在圖表旁邊或下方標示每種花紋代表甚麼<br/>
+      ❺ <strong>寫標題</strong>：圖表上方寫清楚標題
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例5：下表是兩班同學課外活動人數。如要用複合棒形圖表示，縱軸每一格代表5人合適嗎？為甚麼？<br/><table class="dt"><tr><th></th><th>足球</th><th>籃球</th><th>游泳</th><th>跑步</th></tr><tr><td>5A班</td><td>12</td><td>8</td><td>15</td><td>10</td></tr><tr><td>5B班</td><td>10</td><td>14</td><td>9</td><td>11</td></tr></table></div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例6：根據上表數據，計算 5A班 和 5B班 各活動總人數，並判斷哪個活動最受歡迎。</div></div>
+<div class="warn">⚠️ 製作陷阱：縱軸格值選太大 → 棒太矮難分辨；選太小 → 棒超出圖表範圍！</div>
+<div class="mn">📐 刻度口訣：「睇最大值，除格數，取整數（2/5/10倍），一格一格畫清楚」</div>
+<div class="h2">知識點三 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 15</td><td class="qtxt">下表為兩店四個月銷售總額。若縱軸每格代表 100 元，畫出最高值需多少格？<br/><table class="dt"><tr><th>月份</th><th>一月</th><th>二月</th><th>三月</th><th>四月</th></tr><tr><td>A店總額($)</td><td>300</td><td>450</td><td>520</td><td>380</td></tr><tr><td>B店總額($)</td><td>280</td><td>500</td><td>480</td><td>420</td></tr></table></td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 16</td><td class="qtxt">承上題數據表：如果要繪製複合棒形圖，每格代表 50 元，B店三月銷量的棒應畫多少格？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 17</td><td class="qtxt">下表是兩組學生的測驗分數（滿分100）。如果縱軸由 60 分開始而不是由 0 開始，會有甚麼問題？<br/><table class="dt"><tr><th></th><th>中文</th><th>英文</th><th>數學</th></tr><tr><td>甲組平均</td><td>72</td><td>68</td><td>75</td></tr><tr><td>乙組平均</td><td>80</td><td>75</td><td>85</td></tr></table></td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 18</td><td class="qtxt">根據複合棒形圖中的數據，自行繪製一個簡單的數據表，記錄 A店 四個月筆記本銷量。（不用畫圖，只寫數據表）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1" style="margin-top:12px;">📐 繪圖實戰區 — 從數據到圖表</div>
+<div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">🖊️ 練習一：根據下表繪製簡單棒形圖</strong>
+<svg height="320" viewbox="0 0 344 320" width="344" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="324" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="258.125" y2="258.125"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="262.125">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="226.25" y2="226.25"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="230.25">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="194.375" y2="194.375"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="198.375">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="162.5" y2="162.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="166.5">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="130.625" y2="130.625"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="134.625">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="98.75" y2="98.75"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="102.75">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="66.875" y2="66.875"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="70.875">175</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">200</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(件)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">銷售量</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="114.875" y="308">一月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="174.625" y="308">二月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="234.375" y="308">三月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="294.125" y="308">四月</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="172" y="25">請根據數據繪製棒形圖</text><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="94" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="152" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="210" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="268" y="35"></rect><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="172" y="322">（請在虛線框內畫出棒形）</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ 數據：一月100件、二月120件、三月150件、四月130件。每格代表25件，請在虛線框內畫出棒形。</div>
+</div>
+<div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">🖊️ 練習二：根據下表繪製複合棒形圖</strong>
+<svg height="380" viewbox="0 0 406 380" width="406" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="386" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="271.25" y2="271.25"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="275.25">5</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="192.5" y2="192.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="196.5">10</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="113.75" y2="113.75"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="117.75">15</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">20</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(人)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">人數</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="122.625" y="368">足球</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="197.875" y="368">籃球</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="273.125" y="368">游泳</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="348.375" y="368">跑步</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="203" y="25">請根據數據表繪製複合棒形圖</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="169" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="243" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="273" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="317" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="347" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="133" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="149" y="387">5A班</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="203" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="219" y="387">5B班</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="203" y="402">（請在虛線框內按數據畫出棒形）</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ 數據請參考上方「兩班課外活動人數」複合棒形圖。注意：先畫5A班（藍色），再畫5B班（橙色），每組兩條棒並排。</div>
+</div>
+</div>
+<!-- ═══════════════ PAGE 4: KP4 + TIERED PRACTICE ═══════════════ -->
+<div class="pb page-break">
+<div style="text-align:center;margin:0 0 8px 0;padding:4px 8px;background:#FFFBEB;border:1px solid var(--borderc);border-radius:5px;"><strong style="font-size:11px;color:var(--blue);">📊 文具店季度銷售數據（參考圖表）</strong><svg height="91" viewbox="0 0 540 175" width="280" xmlns="http://www.w3.org/2000/svg"><defs><pattern height="6" id="m2-hatchA" patternunits="userSpaceOnUse" width="6"><rect fill="#3B82F6" height="6" width="6"></rect><line stroke="#fff" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern><pattern height="6" id="m2-hatchB" patternunits="userSpaceOnUse" width="6"><rect fill="#F97316" height="6" width="6"></rect><line stroke="#fff" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern><pattern height="6" id="m2-hatchC" patternunits="userSpaceOnUse" width="6"><rect fill="#1D4ED8" height="6" width="6"></rect><line stroke="#93C5FD" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern><pattern height="6" id="m2-hatchD" patternunits="userSpaceOnUse" width="6"><rect fill="#EA580C" height="6" width="6"></rect><line stroke="#FED7AA" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern></defs><line stroke="#333" stroke-width="1" x1="50" x2="50" y1="20" y2="128"></line><line stroke="#333" stroke-width="1" x1="50" x2="530" y1="128" y2="128"></line><text fill="#666" font-size="8" text-anchor="end" x="42" y="132">0</text><text fill="#666" font-size="8" text-anchor="end" x="42" y="84">100</text><line stroke="#E5E7EB" stroke-width="0.3" x1="50" x2="530" y1="84" y2="84"></line><text fill="#666" font-size="8" text-anchor="end" x="42" y="40">200</text><line stroke="#E5E7EB" stroke-width="0.3" x1="50" x2="530" y1="40" y2="40"></line><rect fill="url(#m2-hatchA)" height="44" stroke="#2563EB" stroke-width="0.5" width="14" x="68" y="84"></rect><rect fill="url(#m2-hatchB)" height="32" stroke="#C2410C" stroke-width="0.5" width="14" x="84" y="96"></rect><rect fill="url(#m2-hatchC)" height="56" stroke="#1E40AF" stroke-width="0.5" width="14" x="100" y="72"></rect><rect fill="url(#m2-hatchD)" height="38" stroke="#9A3412" stroke-width="0.5" width="14" x="116" y="90"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="109" y="138">一月</text><rect fill="url(#m2-hatchA)" height="52" stroke="#2563EB" stroke-width="0.5" width="14" x="168" y="76"></rect><rect fill="url(#m2-hatchB)" height="38" stroke="#C2410C" stroke-width="0.5" width="14" x="184" y="90"></rect><rect fill="url(#m2-hatchC)" height="64" stroke="#1E40AF" stroke-width="0.5" width="14" x="200" y="64"></rect><rect fill="url(#m2-hatchD)" height="44" stroke="#9A3412" stroke-width="0.5" width="14" x="216" y="84"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="209" y="138">二月</text><rect fill="url(#m2-hatchA)" height="64" stroke="#2563EB" stroke-width="0.5" width="14" x="268" y="64"></rect><rect fill="url(#m2-hatchB)" height="52" stroke="#C2410C" stroke-width="0.5" width="14" x="284" y="76"></rect><rect fill="url(#m2-hatchC)" height="72" stroke="#1E40AF" stroke-width="0.5" width="14" x="300" y="56"></rect><rect fill="url(#m2-hatchD)" height="56" stroke="#9A3412" stroke-width="0.5" width="14" x="316" y="72"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="309" y="138">三月</text><rect fill="url(#m2-hatchA)" height="56" stroke="#2563EB" stroke-width="0.5" width="14" x="368" y="72"></rect><rect fill="url(#m2-hatchB)" height="46" stroke="#C2410C" stroke-width="0.5" width="14" x="384" y="82"></rect><rect fill="url(#m2-hatchC)" height="68" stroke="#1E40AF" stroke-width="0.5" width="14" x="400" y="60"></rect><rect fill="url(#m2-hatchD)" height="52" stroke="#9A3412" stroke-width="0.5" width="14" x="416" y="76"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="409" y="138">四月</text><rect fill="url(#m2-hatchA)" height="7" stroke="#2563EB" stroke-width="0.3" width="10" x="110" y="153"></rect><text fill="#333" font-size="7" x="123" y="160">A店筆記本</text><rect fill="url(#m2-hatchB)" height="7" stroke="#C2410C" stroke-width="0.3" width="10" x="180" y="153"></rect><text fill="#333" font-size="7" x="193" y="160">A店文件夾</text><rect fill="url(#m2-hatchC)" height="7" stroke="#1E40AF" stroke-width="0.3" width="10" x="250" y="153"></rect><text fill="#333" font-size="7" x="263" y="160">B店筆記本</text><rect fill="url(#m2-hatchD)" height="7" stroke="#9A3412" stroke-width="0.3" width="10" x="320" y="153"></rect><text fill="#333" font-size="7" x="333" y="160">B店文件夾</text></svg><div style="font-size:8px;color:var(--gray);">▲ 請參考以上圖表作答。完整版見第2頁。</div></div>
+<div class="kp">
+<div class="kp-title">知識點四：統計應用 — 平均數、估算與推理<span class="ss sm">🟡 SSPA</span></div>
+<div class="kp-rules">
+<strong>從複合棒形圖做統計分析：</strong><br/>
+      ❶ <strong>平均數</strong> = 總和 ÷ 項數。例如：A店筆記本四個月的月均銷量 = 四個月銷量總和 ÷ 4<br/>
+      ❷ <strong>估算</strong>：根據走勢推測下一個月的銷量（看趨勢是升是降，再給合理數字）<br/>
+      ❸ <strong>推理</strong>：分析為甚麼某月銷量特別高／低（可能節日、考試季節、天氣等）<br/>
+      ❹ <strong>綜合</strong>：把讀圖＋計算＋推理結合，回答較複雜的開放式問題
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例7：根據複合棒形圖，求「A店筆記本」在一至四月的月平均銷量。</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例8：根據複合棒形圖中「B店筆記本」一至四月的變化趨勢，你估計五月份 B店筆記本的銷量大約是多少？為甚麼？</div></div>
+<div class="h2">知識點四 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 19</td><td class="qtxt">根據複合棒形圖：求「A店文件夾」在一至四月的月平均銷量。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 20</td><td class="qtxt">根據複合棒形圖：四個月中，「B店文件夾」的總銷量是多少？平均每月多少件？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 21</td><td class="qtxt">根據複合棒形圖：A店總銷量（筆記本＋文件夾，四個月合計）和B店總銷量，哪間店較高？相差多少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 22</td><td class="qtxt">如果五月份兩店都做「買二送一」大減價，你預計五月銷量會怎樣變化？為甚麼？（開放題，合理即可）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">三、課堂分層同步練習 （20 分鐘）</div>
+<div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 23</td><td class="qtxt">根據複合棒形圖：三月份哪一種商品的銷量最高？是多少件？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 24</td><td class="qtxt">根據複合棒形圖：一月份 A店兩種商品的銷量相差多少件？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 25</td><td class="qtxt">根據複合棒形圖：四個月中，所有商品總銷量最低的是哪一個月？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">🌿 進階層（共 3 題，🚶 🚀 選做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 26</td><td class="qtxt">根據複合棒形圖：比較「A店筆記本」和「B店筆記本」的銷售走勢（一至四月），兩者走勢有甚麼異同？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 27</td><td class="qtxt">根據複合棒形圖：四個月中，筆記本類（A店＋B店合計）在哪個月銷量最高？文件夾類呢？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 28</td><td class="qtxt">根據複合棒形圖：如果一月的數據不小心被遮蓋了 B店文件夾那一條棒，你能從其他月份的走勢推測大約數字嗎？說明理由。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">🌳 挑戰層（共 3 題，🚀 選做，呈分試殺手題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 29</td><td class="qtxt">沒有圖表輔助：下表為甲、乙兩店半年銷售數據。哪間店的月平均銷量較高？相差多少？<br/><table class="dt"><tr><th>月份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th></tr><tr><td>甲店(萬元)</td><td>12</td><td>15</td><td>18</td><td>14</td><td>20</td><td>17</td></tr><tr><td>乙店(萬元)</td><td>14</td><td>13</td><td>19</td><td>16</td><td>18</td><td>22</td></tr></table></td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 30</td><td class="qtxt">下表是學校三個學會的會員人數，要用一個複合棒形圖表示（縱軸每格代表 5 人）。<br/>5A：電腦8、音樂12、美術15   5B：電腦14、音樂9、美術11<br/>(a) 畫出縱軸標籤 (b) 計算每條棒的高度（格數）(c) 繪製簡圖（只需畫出相對位置和高度）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 31</td><td class="qtxt">下表是兩間書店三個月的銷售額，但缺失了部分數據。已知 A店四月銷售額 = B店四月銷售額 + 30，三月兩店合共賣出 720。<br/><table class="dt"><tr><th>月份</th><th>二月</th><th>三月</th><th>四月</th></tr><tr><td>A店($)</td><td>250</td><td>?</td><td>?</td></tr><tr><td>B店($)</td><td>200</td><td>380</td><td>?</td></tr></table>求：(a) A店三月銷售額 (b) 如果A店四月比三月少50，四月B店銷售額是多少？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + HOMEWORK ═══════════════ -->
+<div class="pb page-break">
+<div style="text-align:center;margin:0 0 8px 0;padding:4px 8px;background:#FFFBEB;border:1px solid var(--borderc);border-radius:5px;"><strong style="font-size:11px;color:var(--blue);">📊 文具店季度銷售數據（參考圖表）</strong><svg height="91" viewbox="0 0 540 175" width="280" xmlns="http://www.w3.org/2000/svg"><defs><pattern height="6" id="m3-hatchA" patternunits="userSpaceOnUse" width="6"><rect fill="#3B82F6" height="6" width="6"></rect><line stroke="#fff" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern><pattern height="6" id="m3-hatchB" patternunits="userSpaceOnUse" width="6"><rect fill="#F97316" height="6" width="6"></rect><line stroke="#fff" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern><pattern height="6" id="m3-hatchC" patternunits="userSpaceOnUse" width="6"><rect fill="#1D4ED8" height="6" width="6"></rect><line stroke="#93C5FD" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern><pattern height="6" id="m3-hatchD" patternunits="userSpaceOnUse" width="6"><rect fill="#EA580C" height="6" width="6"></rect><line stroke="#FED7AA" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern></defs><line stroke="#333" stroke-width="1" x1="50" x2="50" y1="20" y2="128"></line><line stroke="#333" stroke-width="1" x1="50" x2="530" y1="128" y2="128"></line><text fill="#666" font-size="8" text-anchor="end" x="42" y="132">0</text><text fill="#666" font-size="8" text-anchor="end" x="42" y="84">100</text><line stroke="#E5E7EB" stroke-width="0.3" x1="50" x2="530" y1="84" y2="84"></line><text fill="#666" font-size="8" text-anchor="end" x="42" y="40">200</text><line stroke="#E5E7EB" stroke-width="0.3" x1="50" x2="530" y1="40" y2="40"></line><rect fill="url(#m3-hatchA)" height="44" stroke="#2563EB" stroke-width="0.5" width="14" x="68" y="84"></rect><rect fill="url(#m3-hatchB)" height="32" stroke="#C2410C" stroke-width="0.5" width="14" x="84" y="96"></rect><rect fill="url(#m3-hatchC)" height="56" stroke="#1E40AF" stroke-width="0.5" width="14" x="100" y="72"></rect><rect fill="url(#m3-hatchD)" height="38" stroke="#9A3412" stroke-width="0.5" width="14" x="116" y="90"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="109" y="138">一月</text><rect fill="url(#m3-hatchA)" height="52" stroke="#2563EB" stroke-width="0.5" width="14" x="168" y="76"></rect><rect fill="url(#m3-hatchB)" height="38" stroke="#C2410C" stroke-width="0.5" width="14" x="184" y="90"></rect><rect fill="url(#m3-hatchC)" height="64" stroke="#1E40AF" stroke-width="0.5" width="14" x="200" y="64"></rect><rect fill="url(#m3-hatchD)" height="44" stroke="#9A3412" stroke-width="0.5" width="14" x="216" y="84"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="209" y="138">二月</text><rect fill="url(#m3-hatchA)" height="64" stroke="#2563EB" stroke-width="0.5" width="14" x="268" y="64"></rect><rect fill="url(#m3-hatchB)" height="52" stroke="#C2410C" stroke-width="0.5" width="14" x="284" y="76"></rect><rect fill="url(#m3-hatchC)" height="72" stroke="#1E40AF" stroke-width="0.5" width="14" x="300" y="56"></rect><rect fill="url(#m3-hatchD)" height="56" stroke="#9A3412" stroke-width="0.5" width="14" x="316" y="72"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="309" y="138">三月</text><rect fill="url(#m3-hatchA)" height="56" stroke="#2563EB" stroke-width="0.5" width="14" x="368" y="72"></rect><rect fill="url(#m3-hatchB)" height="46" stroke="#C2410C" stroke-width="0.5" width="14" x="384" y="82"></rect><rect fill="url(#m3-hatchC)" height="68" stroke="#1E40AF" stroke-width="0.5" width="14" x="400" y="60"></rect><rect fill="url(#m3-hatchD)" height="52" stroke="#9A3412" stroke-width="0.5" width="14" x="416" y="76"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="409" y="138">四月</text><rect fill="url(#m3-hatchA)" height="7" stroke="#2563EB" stroke-width="0.3" width="10" x="110" y="153"></rect><text fill="#333" font-size="7" x="123" y="160">A店筆記本</text><rect fill="url(#m3-hatchB)" height="7" stroke="#C2410C" stroke-width="0.3" width="10" x="180" y="153"></rect><text fill="#333" font-size="7" x="193" y="160">A店文件夾</text><rect fill="url(#m3-hatchC)" height="7" stroke="#1E40AF" stroke-width="0.3" width="10" x="250" y="153"></rect><text fill="#333" font-size="7" x="263" y="160">B店筆記本</text><rect fill="url(#m3-hatchD)" height="7" stroke="#9A3412" stroke-width="0.3" width="10" x="320" y="153"></rect><text fill="#333" font-size="7" x="333" y="160">B店文件夾</text></svg><div style="font-size:8px;color:var(--gray);">▲ 請參考以上圖表作答。完整版見第2頁。</div></div>
+<div class="kp">
+<div class="kp-title">知識點五：統計應用題（呈分試文字題專項）<span class="ss sm">🟡 SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>解題四步法：</strong>❶ <strong>圈關鍵詞</strong>（「平均」「合共」「相差」「幾倍」→ 選對運算）❷ <strong>從圖表提取數據</strong> ❸ <strong>列式計算</strong> ❹ <strong>寫完整答句</strong>（不寫答句扣步驟分！）
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例9：小文統計了過去四個月圖書館的借書量（本）：270、310、290、330。(a)繪製簡單棒形圖（每格代表50本）(b)求月平均借書量 (c)若五月借書量是前四個月的平均值，問五月比一月多幾本？</div></div>
+<div class="h2">應用題練習（全部必做，列式 → 計算 → 答句）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 32</td><td class="qtxt">超級市場統計了三種飲品的月銷量（箱）：<br/>可樂 240 箱、橙汁 180 箱、檸檬茶 210 箱。<br/>如果把數據畫成棒形圖，縱軸每格代表 30 箱，各需多少格？（每種飲品分別計算）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 33</td><td class="qtxt">玩具店一月賣了 85 件，二月賣了 95 件，三月賣了 120 件，四月賣了 100 件。<br/>(a) 求月平均銷量<br/>(b) 哪個月的銷量高於平均值？高出多少？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 34</td><td class="qtxt">下表是兩班捐贈圖書數量。用複合棒形圖表示（每格代表 10 本）。<br/><table class="dt"><tr><th></th><th>故事書</th><th>科普書</th><th>漫畫</th></tr><tr><td>5A(本)</td><td>40</td><td>30</td><td>50</td></tr><tr><td>5B(本)</td><td>35</td><td>45</td><td>25</td></tr></table>(a) 5A班漫畫數是多少格？(b) 哪一類書兩班合計最多？多少本？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 35</td><td class="qtxt">根據複合棒形圖數據：如果把 A店和 B店 合併成「連鎖店集團」，一至四月每月集團總銷量是多少？繪製一條集團總銷量的折線圖的數據表（不用畫圖，只列數據）。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 36</td><td class="qtxt">根據複合棒形圖數據：(a) A店筆記本銷量佔A店總銷量的幾分之幾？(b) B店文件夾銷量佔B店總銷量的幾分之幾？（答案以最簡分數表示）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h1">四、課後功課</div>
+<div class="h2">基礎必做題（共 4 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> H1</td><td class="qtxt">根據複合棒形圖，四月份哪間店的總銷量（筆記本＋文件夾）較高？高多少件？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> H2</td><td class="qtxt">根據複合棒形圖，一至四月「A店筆記本」的總銷量是多少？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> H3</td><td class="qtxt">下表為比賽得分，畫簡單棒形圖（每格代表 2 分），求每條棒需要幾格。<br/><table class="dt"><tr><th>隊伍</th><th>紅隊</th><th>藍隊</th><th>綠隊</th><th>黃隊</th></tr><tr><td>得分</td><td>18</td><td>24</td><td>14</td><td>20</td></tr></table></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> H4</td><td class="qtxt">根據複合棒形圖，計算一至四月「B店筆記本」的月平均銷量。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">進階選做題（共 3 題，🚀 選做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> H5</td><td class="qtxt">下表是兩店銷售數據，畫複合棒形圖。如果縱軸每格代表 20，各棒需幾格？<br/><table class="dt"><tr><th></th><th>第一季</th><th>第二季</th></tr><tr><td>X店(件)</td><td>80</td><td>100</td></tr><tr><td>Y店(件)</td><td>60</td><td>120</td></tr></table></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> H6</td><td class="qtxt">下表為小食部三天營業額（$）。畫複合棒形圖，每格代表 $100。<br/><table class="dt"><tr><th></th><th>星期一</th><th>星期二</th><th>星期三</th></tr><tr><td>上午($)</td><td>450</td><td>380</td><td>520</td></tr><tr><td>下午($)</td><td>600</td><td>550</td><td>480</td></tr></table>(a) 星期三上午的棒應畫多少格？(b) 哪個時段（上午或下午）的總營業額較高？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> H7</td><td class="qtxt">根據複合棒形圖，回答：如果五月份兩店合計總銷量比四月上升 15%，五月的總銷量大約是多少件？（取整數）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<div class="h1">📐 綜合繪圖練習 — 三種圖表全覆蓋</div>
+<div class="kp"><div class="kp-title">呈分試必備：能讀圖，更要能畫圖！</div><div class="kp-rules">
+SSPA 卷一常見題型：給你一個數據表，要求你 (a) 繪製棒形圖 (b) 繪製折線圖 (c) 回答數據問題。<br/>
+以下三題提供了空白圖表模板，請根據題目數據完成繪製。
+</div></div>
+<table class="qt">
+<tr><th class="qn">繪1</th><th>題目</th><th class="qd">圖表</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 📊</td><td class="qtxt">超級市場統計了三種飲品的月銷量（箱）：可樂 240 箱、橙汁 180 箱、檸檬茶 210 箱。請在下方空白棒形圖中畫出棒形。</td><td class="qd"><svg height="320" viewbox="0 0 286 320" width="286" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="266" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="266" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="266" y1="247.5" y2="247.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="251.5">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="266" y1="205.0" y2="205.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="209.0">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="266" y1="162.5" y2="162.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="166.5">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="266" y1="120.0" y2="120.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="124.0">200</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="266" y1="77.5" y2="77.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="81.5">250</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="266" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">300</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(箱)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">銷量</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="115.16666666666667" y="308">可樂</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="175.5" y="308">橙汁</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="235.83333333333334" y="308">檸檬茶</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="143" y="25">請繪製飲品銷量棒形圖</text><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="94" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="152" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="210" y="35"></rect><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="143" y="322">（請在虛線框內畫出棒形）</text></svg></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 📊</td><td class="qtxt">下表是兩班捐贈圖書數量，請在下方空白複合棒形圖中畫出。<br/><table class="dt"><tr><th></th><th>故事書</th><th>科普書</th><th>漫畫</th></tr><tr><td>5A(本)</td><td>40</td><td>30</td><td>50</td></tr><tr><td>5B(本)</td><td>35</td><td>45</td><td>25</td></tr></table></td><td class="qd"><svg height="380" viewbox="0 0 332 380" width="332" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="312" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="312" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="312" y1="297.5" y2="297.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="301.5">10</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="312" y1="245.0" y2="245.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="249.0">20</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="312" y1="192.5" y2="192.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="196.5">30</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="312" y1="140.0" y2="140.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="144.0">40</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="312" y1="87.5" y2="87.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="91.5">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="312" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">60</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(本)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">圖書數量</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="122.83333333333334" y="368">故事書</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="198.50000000000003" y="368">科普書</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="274.1666666666667" y="368">漫畫</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="166" y="25">請根據Q34數據繪製複合棒形圖</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="169" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="243" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="273" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="96" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="112" y="387">5A班</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="166" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="182" y="387">5B班</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="166" y="402">（請在虛線框內按數據畫出棒形）</text></svg></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 📈</td><td class="qtxt">根據複合棒形圖數據，計算 A店+B店 合併後一至四月的每月集團總銷量，然後在下方折線圖中標出數據點並連線。</td><td class="qd"><svg height="320" viewbox="0 0 370 320" width="370" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="350" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="247.5" y2="247.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="251.5">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="205.0" y2="205.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="209.0">200</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="162.5" y2="162.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="166.5">300</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="120.0" y2="120.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="124.0">400</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="77.5" y2="77.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="81.5">500</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">600</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(件)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">銷量</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="118.125" y="308">一月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="184.375" y="308">二月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="250.625" y="308">三月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="316.875" y="308">四月</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="185" y="25">請根據Q35數據繪製集團總銷量折線圖</text><circle cx="115" cy="162" fill="#E5E7EB" r="2" stroke="none"></circle><circle cx="175" cy="162" fill="#E5E7EB" r="2" stroke="none"></circle><circle cx="235" cy="162" fill="#E5E7EB" r="2" stroke="none"></circle><circle cx="295" cy="162" fill="#E5E7EB" r="2" stroke="none"></circle><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="185" y="322">（請按數據標出點並連線）</text></svg></td></tr>
+</table>
+<div style="text-align:center; margin:12px 0;">
+<strong style="font-size:14px; color:var(--blue);">📊 圓形圖（餅圖）示例 — 文具銷售佔比</strong>
+<svg height="310" viewbox="0 0 380 310" width="380" xmlns="http://www.w3.org/2000/svg"><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="190" y="22">文具銷售佔比</text><path d="M 140,135 L 140.0,55.0 A 80,80 0 0,1 196.5685424949238,191.5685424949238 Z" fill="#3B82F6" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="188.0417356905869" y="119.10046151701533">38%</text><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="250" y="105"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="114">筆記本 (450)</text><path d="M 140,135 L 196.5685424949238,191.5685424949238 A 80,80 0 0,1 65.31356588022386,163.669435963624 Z" fill="#F97316" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="129.18859207747653" y="189.8636752381579">32%</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="250" y="127"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="136">文件夾 (380)</text><path d="M 140,135 L 65.31356588022386,163.669435963624 A 80,80 0 0,1 83.43145750507618,78.4314575050762 Z" fill="#10B981" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="89.1363247618421" y="128.1885920774765">18%</text><rect fill="#10B981" height="10" stroke="none" stroke-width="0" width="12" x="250" y="149"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="158">鉛筆 (220)</text><path d="M 140,135 L 83.43145750507618,78.4314575050762 A 80,80 0 0,1 139.99999999999997,55.0 Z" fill="#EF4444" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="120.10046151701535" y="90.95826430941308">12%</text><rect fill="#EF4444" height="10" stroke="none" stroke-width="0" width="12" x="250" y="171"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="180">橡皮 (150)</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ 圓形圖用來表示「部分佔整體的幾分之幾」。扇形愈大 = 佔比愈高。</div>
+</div>
+<div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">🏔️ 博物館入場複合棒形圖（🌳1 配套模板）</strong>
+<svg height="380" viewbox="0 0 526 380" width="526" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="506" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="287.0" y2="287.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="291.0">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="224.0" y2="224.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="228.0">200</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="161.0" y2="161.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="165.0">300</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="98.0" y2="98.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="102.0">400</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">500</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(人)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">入場人數</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="137.625" y="368">一月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="242.875" y="368">二月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="348.125" y="368">三月</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="453.375" y="368">四月</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="263" y="25">請根據🌳1數據繪製博物館入場複合棒形圖</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="155" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="229" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="259" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="303" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="333" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="363" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="407" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="437" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="467" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="158" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="174" y="387">成人</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="228" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="244" y="387">學生</text><rect fill="#10B981" height="10" stroke="none" stroke-width="0" width="12" x="298" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="314" y="387">長者</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="263" y="402">（請在虛線框內按數據畫出棒形）</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ 三種花紋（成人/學生/長者）× 四個月。先用鉛筆畫草稿，確認高度正確後再上色。</div>
+</div>
+<!-- ═══════════════ PAGE 6: ERROR SUMMARY ═══════════════ -->
+<div class="pb page-break">
+<div style="text-align:center;margin:0 0 8px 0;padding:4px 8px;background:#FFFBEB;border:1px solid var(--borderc);border-radius:5px;"><strong style="font-size:11px;color:var(--blue);">📊 文具店季度銷售數據（參考圖表）</strong><svg height="91" viewbox="0 0 540 175" width="280" xmlns="http://www.w3.org/2000/svg"><defs><pattern height="6" id="m4-hatchA" patternunits="userSpaceOnUse" width="6"><rect fill="#3B82F6" height="6" width="6"></rect><line stroke="#fff" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern><pattern height="6" id="m4-hatchB" patternunits="userSpaceOnUse" width="6"><rect fill="#F97316" height="6" width="6"></rect><line stroke="#fff" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern><pattern height="6" id="m4-hatchC" patternunits="userSpaceOnUse" width="6"><rect fill="#1D4ED8" height="6" width="6"></rect><line stroke="#93C5FD" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern><pattern height="6" id="m4-hatchD" patternunits="userSpaceOnUse" width="6"><rect fill="#EA580C" height="6" width="6"></rect><line stroke="#FED7AA" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern></defs><line stroke="#333" stroke-width="1" x1="50" x2="50" y1="20" y2="128"></line><line stroke="#333" stroke-width="1" x1="50" x2="530" y1="128" y2="128"></line><text fill="#666" font-size="8" text-anchor="end" x="42" y="132">0</text><text fill="#666" font-size="8" text-anchor="end" x="42" y="84">100</text><line stroke="#E5E7EB" stroke-width="0.3" x1="50" x2="530" y1="84" y2="84"></line><text fill="#666" font-size="8" text-anchor="end" x="42" y="40">200</text><line stroke="#E5E7EB" stroke-width="0.3" x1="50" x2="530" y1="40" y2="40"></line><rect fill="url(#m4-hatchA)" height="44" stroke="#2563EB" stroke-width="0.5" width="14" x="68" y="84"></rect><rect fill="url(#m4-hatchB)" height="32" stroke="#C2410C" stroke-width="0.5" width="14" x="84" y="96"></rect><rect fill="url(#m4-hatchC)" height="56" stroke="#1E40AF" stroke-width="0.5" width="14" x="100" y="72"></rect><rect fill="url(#m4-hatchD)" height="38" stroke="#9A3412" stroke-width="0.5" width="14" x="116" y="90"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="109" y="138">一月</text><rect fill="url(#m4-hatchA)" height="52" stroke="#2563EB" stroke-width="0.5" width="14" x="168" y="76"></rect><rect fill="url(#m4-hatchB)" height="38" stroke="#C2410C" stroke-width="0.5" width="14" x="184" y="90"></rect><rect fill="url(#m4-hatchC)" height="64" stroke="#1E40AF" stroke-width="0.5" width="14" x="200" y="64"></rect><rect fill="url(#m4-hatchD)" height="44" stroke="#9A3412" stroke-width="0.5" width="14" x="216" y="84"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="209" y="138">二月</text><rect fill="url(#m4-hatchA)" height="64" stroke="#2563EB" stroke-width="0.5" width="14" x="268" y="64"></rect><rect fill="url(#m4-hatchB)" height="52" stroke="#C2410C" stroke-width="0.5" width="14" x="284" y="76"></rect><rect fill="url(#m4-hatchC)" height="72" stroke="#1E40AF" stroke-width="0.5" width="14" x="300" y="56"></rect><rect fill="url(#m4-hatchD)" height="56" stroke="#9A3412" stroke-width="0.5" width="14" x="316" y="72"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="309" y="138">三月</text><rect fill="url(#m4-hatchA)" height="56" stroke="#2563EB" stroke-width="0.5" width="14" x="368" y="72"></rect><rect fill="url(#m4-hatchB)" height="46" stroke="#C2410C" stroke-width="0.5" width="14" x="384" y="82"></rect><rect fill="url(#m4-hatchC)" height="68" stroke="#1E40AF" stroke-width="0.5" width="14" x="400" y="60"></rect><rect fill="url(#m4-hatchD)" height="52" stroke="#9A3412" stroke-width="0.5" width="14" x="416" y="76"></rect><text fill="#333" font-size="8" font-weight="700" text-anchor="middle" x="409" y="138">四月</text><rect fill="url(#m4-hatchA)" height="7" stroke="#2563EB" stroke-width="0.3" width="10" x="110" y="153"></rect><text fill="#333" font-size="7" x="123" y="160">A店筆記本</text><rect fill="url(#m4-hatchB)" height="7" stroke="#C2410C" stroke-width="0.3" width="10" x="180" y="153"></rect><text fill="#333" font-size="7" x="193" y="160">A店文件夾</text><rect fill="url(#m4-hatchC)" height="7" stroke="#1E40AF" stroke-width="0.3" width="10" x="250" y="153"></rect><text fill="#333" font-size="7" x="263" y="160">B店筆記本</text><rect fill="url(#m4-hatchD)" height="7" stroke="#9A3412" stroke-width="0.3" width="10" x="320" y="153"></rect><text fill="#333" font-size="7" x="333" y="160">B店文件夾</text></svg><div style="font-size:8px;color:var(--gray);">▲ 請參考以上圖表作答。完整版見第2頁。</div></div>
+<div class="h1">五、🏔️ 終極挑戰專區</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 🏔1</td><td class="qtxt">博物館入場人數統計（人）：<br/><table class="dt"><tr><th></th><th>一月</th><th>二月</th><th>三月</th><th>四月</th></tr><tr><td>成人</td><td>320</td><td>280</td><td>450</td><td>380</td></tr><tr><td>學生</td><td>180</td><td>150</td><td>220</td><td>200</td></tr><tr><td>長者</td><td>90</td><td>85</td><td>110</td><td>95</td></tr></table>(a) 用複合棒形圖表示（三種花紋）(b) 哪個月總入場人數最多？(c) 學生的月平均入場人數是多少？(d) 如果五月總入場人數比四月多 10%，估計五月入場人數。</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn"><span style="color:#DC2626;font-weight:700">✓</span> 🏔2</td><td class="qtxt">根據複合棒形圖的原始數據，重組下表，並找出：<br/>(a) 哪間店哪個月份的哪類商品銷量最高？<br/>(b) 如A店每件筆記本賺$8、文件夾賺$5，B店每件筆記本賺$7、文件夾賺$6，哪間店總利潤較高？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h1">六、本堂核心易錯點總結 （8 分鐘）</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+<tr><td>1</td><td><strong>不先看圖例就讀數</strong>：把A店當B店，把筆記本當文件夾</td><td>第一步必須看圖例（Legend），確認每種花紋代表甚麼</td></tr>
+<tr><td>2</td><td><strong>數錯縱軸格數</strong>：忽略每格代表的值，直接數格數當答案</td><td>先確認「每格 = ?」，用格數 × 每格值 = 實際數值</td></tr>
+<tr><td>3</td><td><strong>混淆「相差」和「倍數」</strong>：把減法題用除法、倍數題用減法</td><td>「相差/多幾多」→減法；「是…的幾倍」→除法</td></tr>
+<tr><td>4</td><td><strong>平均數計算錯誤</strong>：忘記除以項數，或加漏數據</td><td>先列出所有數據→求和→除以項數→檢查項數是否正確</td></tr>
+<tr><td>5</td><td><strong>製作棒形圖時刻度不當</strong>：格值過大或過小</td><td>用最大值 ÷ 預計格數 → 取最接近的整數（2/5/10的倍數）</td></tr>
+<tr><td>6</td><td><strong>忘記寫單位</strong>：答案只寫數字，漏了「件」「人」「元」等</td><td>每一步答案都必須帶單位；答句也要寫單位</td></tr>
+<tr><td>7</td><td><strong>忽略圖表標題提供的背景資訊</strong>（如時間、地點、單位）</td><td>閱讀圖表標題 → 了解背景 → 再做數據分析</td></tr>
+</table>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「複合棒形圖＋數據分析」</b>。<br/>
+<b>最易錯嘅 3 個陷阱：</b> 🪴 T10 統計與數據 — 混淆不同組別棒形 · 忽略圖例 · 單位換算錯誤<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「複合棒形圖＋數據分析」嘅最重要口訣俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+<div class="end-note">🪴 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P5-下-L32</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L16 棒形圖閱讀 · L17 棒形圖製作 · L32 複合棒形圖</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  🖨️ Ctrl+P 列印 PDF  |  6頁 · 64題  |  LF-P5-下-L32 v6
+</div>
+</body>
+</html>

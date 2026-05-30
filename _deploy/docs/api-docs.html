@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF Academy API 文件 | API Documentation</title>
+<style>
+:root{--b:#1A3C6D;--g:#C9A84C;--r:#DC2626;--gr:#16A34A;--w:#FFF;--ink:#1A1A1A;--g50:#F9FAFB;--g200:#E5E7EB;--g600:#6B7280}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','Segoe UI',sans-serif;background:#F3F4F6;color:var(--ink);font-size:14px;line-height:1.7}
+.topbar{background:linear-gradient(135deg,#0A0A1A,var(--b));color:white;padding:28px 24px;text-align:center}
+.topbar h1{font-size:24px;letter-spacing:2px}.topbar .sub{font-size:12px;opacity:0.6;margin-top:6px}
+.container{max-width:1000px;margin:0 auto;padding:20px}
+.status-bar{background:white;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;gap:20px;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--gr);display:inline-block;margin-right:6px}
+.endpoint{background:white;border-radius:10px;padding:18px 22px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);border-left:4px solid var(--b)}
+.endpoint.GET{border-left-color:var(--gr)}.endpoint.POST{border-left-color:var(--g)}
+.endpoint .method{display:inline-block;padding:3px 10px;border-radius:4px;font-weight:700;font-size:11px;margin-right:10px}
+.method.GET{background:#DCFCE7;color:#15803D}.method.POST{background:#FEF3C7;color:#92400E}
+.endpoint .path{font-family:'Consolas','Source Code Pro',monospace;font-size:14px;font-weight:700;color:var(--b)}
+.endpoint .desc{color:var(--g600);font-size:12px;margin-top:4px}
+.endpoint .params{font-size:11px;color:var(--g600);margin-top:6px;padding:6px 10px;background:var(--g50);border-radius:4px}
+code{background:#F3F4F6;padding:2px 6px;border-radius:3px;font-size:12px}
+.section-title{font-size:16px;font-weight:900;color:var(--b);margin:20px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--g200)}
+.footer{text-align:center;color:var(--g600);font-size:11px;padding:30px;border-top:1px solid var(--g200);margin-top:20px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<h1>LF Academy API</h1>
+<div class="sub">霖楓學苑 · AI 智能學習平台 · API 文件 v3.0</div>
+</div>
+
+<div class="container">
+
+<div class="status-bar">
+<div><span class="status-dot"></span><b>Server:</b> <span id="serverStatus">Checking...</span></div>
+<div><b>Version:</b> <span id="apiVersion">-</span></div>
+<div><b>Questions:</b> <span id="qCount">-</span></div>
+<div><b>Engines:</b> <span id="engines">-</span></div>
+</div>
+
+<div class="section-title">Health & Info</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/health</span>
+<div class="desc">Server health check - returns status, version, question count, loaded engines</div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/</span>
+<div class="desc">API index - returns all available endpoints</div>
+</div>
+
+<div class="section-title">Content & Questions</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/topics</span>
+<div class="desc">List all topics with question counts</div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/question/{id}</span>
+<div class="desc">Get a specific question by ID</div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/questions/random</span>
+<div class="desc">Get random questions with optional filters</div>
+<div class="params">Body: <code>{"grade": "P6", "topic": "fractions", "count": 5}</code></div>
+</div>
+
+<div class="section-title">AI Engines</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/tutor/hint</span>
+<div class="desc">Socratic hint generation - progressive hints for stuck students</div>
+<div class="params">Body: <code>{"question": "...", "student_name": "name"}</code></div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/tutor/chat</span>
+<div class="desc">Free-form AI tutor chat with Socratic guidance</div>
+<div class="params">Body: <code>{"message": "...", "mode": "math_tutor", "session_id": "optional"}</code></div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/tutor/solve</span>
+<div class="desc">Full solution with step-by-step explanation</div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/ai/tutor/session</span>
+<div class="desc">Get active tutoring session info</div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/tutor/reasoning</span>
+<div class="desc">Validate student reasoning and provide feedback</div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/tutor/summary</span>
+<div class="desc">Generate session summary for student/parent</div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/mark</span>
+<div class="desc">AI-powered answer marking with detailed feedback</div>
+<div class="params">Body: <code>{"question_id": 1, "student_answer": "x=5"}</code></div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/smart</span>
+<div class="desc">Smart pipeline: mark -> diagnose -> recommend -> hint in one call</div>
+<div class="params">Body: <code>{"question_id": 1, "student_answer": "x=5", "student": "name"}</code></div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/ai/diagnose/{student}</span>
+<div class="desc">Student misconception diagnosis and weak area detection</div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/ai/parent/{student}</span>
+<div class="desc">AI-generated parent briefing / daily report</div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/ai/learning-path/{student}</span>
+<div class="desc">Personalized learning path recommendation</div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/generate-question</span>
+<div class="desc">AI question generation with calibrated difficulty</div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/ai/cognitive-model/{student}</span>
+<div class="desc">Student cognitive model (mastery levels, learning style)</div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/ai/generate-variants</span>
+<div class="desc">Generate variant questions from a base question</div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/ai/worksheet/{student}</span>
+<div class="desc">Auto-generate personalized practice worksheet</div>
+</div>
+
+<div class="section-title">Payment</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/payment/plans</span>
+<div class="desc">List all pricing plans (P3-P6 monthly/annual/trial)</div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/payment/checkout</span>
+<div class="desc">Create Stripe checkout session</div>
+<div class="params">Body: <code>{"plan_id": "P6_monthly", "student_name": "...", "email": "..."}</code></div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/payment/webhook</span>
+<div class="desc">Stripe webhook receiver (automated by Stripe)</div>
+</div>
+
+<div class="endpoint GET">
+<span class="method GET">GET</span><span class="path">/api/payment/session/{id}</span>
+<div class="desc">Check Stripe checkout session status</div>
+</div>
+
+<div class="endpoint POST">
+<span class="method POST">POST</span><span class="path">/api/payment/membership/status</span>
+<div class="desc">Check membership status by email</div>
+<div class="params">Body: <code>{"email": "student@example.com"}</code></div>
+</div>
+
+</div>
+
+<div class="footer">
+LF Academy 霖楓學苑 · API v3.0-render · Server: localhost:5100<br/>
+Documentation auto-generated · 2026
+</div>
+
+<script>
+// Auto-fetch server status
+(async () => {
+  try {
+    const base = window.location.hostname === 'localhost' ? 'http://localhost:5100' : 'https://lf-academy-api.onrender.com';
+    const r = await fetch(base + '/api/health');
+    const h = await r.json();
+    document.getElementById('serverStatus').innerHTML = '<span class="status-dot"></span>' + h.status;
+    document.getElementById('apiVersion').textContent = h.version || '-';
+    document.getElementById('qCount').textContent = h.question_count || '-';
+    document.getElementById('engines').textContent = (h.ai_engines || []).join(', ');
+  } catch(e) {
+    document.getElementById('serverStatus').innerHTML = '<span class="status-dot" style="background:#DC2626"></span>Offline';
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-T1-L01 Decimal Division (÷ Integer + ÷ Decimal) + Remainder Placement — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">Lam Fung Academy · LF Academy</div>
+  <div class="cv-badge">P6 · Lesson 1 · Student Handout</div>
+  <div class="cv-title">Decimal Division (÷ Integer + ÷ Decimal) + Remainder Placement</div>
+  <div class="cv-sub">Unit 1 · Decimal Operations · 65 min · 1-to-3 Online Lesson</div>
+
+  <div class="cv-info">
+    <b>Textbook Alignment:</b> New Thinking in Primary Mathematics (2nd Ed.) P6 Book A, Unit 1 + Modern Education P6A Unit 1<br>
+    <b>Core Traps:</b> T2 Decimal Division — Forgetting to restore the remainder's decimal point after shifting the divisor &middot; Misplacing the decimal point in the quotient<br>
+    <b>SSPA Relevance:</b> <span class="ss sh">High Frequency</span> Tested every year, accounts for approximately 12–18% of Paper 1<br>
+    <b>Prerequisites:</b> P5 Decimal Multiplication (Lessons 6–7) &middot; Integer Division (P4) &middot; Decimal Addition & Subtraction (P4–P5)<br>
+    <b>Lesson Objectives:</b> Decimal ÷ Integer &middot; Decimal ÷ Decimal (synchronised shifting) &middot; Remainder decimal point placement &middot; Application problems
+  </div>
+
+  <div class="cv-row">
+    <span>Student Name: <span class="ln"></span></span>
+    <span>Class: <span class="ln"></span></span>
+    <span>Date: <span class="ln"></span></span>
+    <span>Duration: <span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="h1">I. Warm-Up Questions (5 questions, 5 minutes)</div>
+  
+<div class="game-box"><div class="game-title">🔢 小數點獵人</div><div class="game-desc">追蹤小數點位置！乘法向右、除法向左。小心0的數量陷阱！</div><div class="game-action">🎯 開始追蹤 →</div></div>
+<table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working (show full working steps)</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">Calculate 48 ÷ 6 = ?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">Calculate 125 ÷ 5 = ?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">Calculate 3.6 + 2.4 = ? (P5 decimal addition review)</td><td class="qd d1">Basic</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">Calculate 5.8 − 2.3 = ? (P5 decimal subtraction review)</td><td class="qd d1">Basic</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">Express $4.50 as "___ dollars ___ cents"</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:44px;"></td></tr>
+  </table>
+
+  <div class="h1">II. Core Knowledge + Worked Examples</div>
+
+  <div class="kp">
+    <div class="kp-title">KP1: Decimal ÷ Integer <span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>Calculation Steps (column method):</strong><br>
+      The decimal point in the quotient must <strong>align with the decimal point in the dividend</strong>.<br>
+      If there is a remainder, append "0" to the remainder and continue dividing.<br>
+      When the dividend digit is smaller than the divisor, write "0" in the quotient — never skip a place.<br>
+      <strong>Key memory point:</strong> "Quotient decimal point = dividend decimal point"
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">Trap-Detonating Example (the most important demonstration of this lesson)</div>
+    <div class="ex-q">Calculate: 7.5 ÷ 5 = ?</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">Common Error (60% of students)</div><div class="eq">7.5 ÷ 5 = 15</div><div class="why">Forgot to place the decimal point in the quotient — 7.5 ÷ 5 = 1.5, not 15</div></div>
+      <div class="tc-r"><div class="lbl">Correct Method</div><div class="eq">7.5 ÷ 5 = 1.5</div><div class="why">5 × 1 = 5, remainder 2.5; 5 × 0.5 = 2.5, quotient = 1.5</div></div>
+    </div>
+  </div>
+
+  <div class="mn">Mnemonic: "The quotient's decimal point aligns with the dividend's; if there is a remainder, append a zero and keep dividing."<br><span style="font-size:11px;color:var(--gray);">(Cantonese original: 「商的小數點，對齊被除數；餘數補個零，繼續除落去」)</span></div>
+  <div class="warn">Most Frequent Error: Forgetting to place the decimal point in the quotient. Remember: 7.5 ÷ 5 = 1.5, NOT 15!</div>
+  <div class="warn">Second Most Frequent Error: Forgetting to append 0 to the remainder and continue dividing, leading to an inaccurate quotient.</div>
+
+  <div class="h2">KP1 Example Practice (show column working)</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">Ex1</td><td class="qtxt">3.6 ÷ 3 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">Ex2</td><td class="qtxt">9.2 ÷ 4 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">KP2: Decimal ÷ Decimal (Synchronised Shifting Method) <span class="ss sh">SSPA Must-Know</span></div>
+    <div class="kp-rules">
+      <strong>Three-Step Synchronised Shifting Method:</strong><br>
+      When the divisor is a <strong>decimal</strong>, use the property that multiplying the dividend and divisor by the same number preserves the quotient:<br>
+      Divisor has 1 decimal place → multiply both numbers by 10<br>
+      Divisor has 2 decimal places → multiply both numbers by 100<br>
+      Divisor has 3 decimal places → multiply both numbers by 1000<br>
+      <strong>Essence:</strong> Convert "decimal ÷ decimal" into "integer ÷ integer" for calculation.
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">Example</div><div class="ex-q">Ex3: 3.6 ÷ 1.2 = ? (Divisor has 1 decimal place → multiply both by 10: 36 ÷ 12)</div></div>
+  <div class="ex"><div class="ex-title">Example</div><div class="ex-q">Ex4: 0.75 ÷ 0.15 = ? (Divisor has 2 decimal places → multiply both by 100: 75 ÷ 15)</div></div>
+
+  <div class="h2">KP2 Synchronised Practice</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">4.8 ÷ 0.6 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">5.4 ÷ 0.9 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">2.4 ÷ 1.2 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">7.2 ÷ 2.4 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">9.1 ÷ 1.3 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3: KP3 + PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">KP3: Remainder Decimal Point Placement — "Catastrophe" Special Drill <span class="ss sh">SSPA Ultimate Trap</span></div>
+    <div class="kp-rules">
+      <strong>Core Rule (extremely error-prone!):</strong><br>
+      After synchronised shifting, <strong>the remainder's decimal point = the dividend's <u>original</u> decimal point position</strong><br>
+      <br>
+      E.g.: 1.5 ÷ 0.4 → synchronised × 10 → 15 ÷ 40<br>
+      15 ÷ 40 = 0 remainder 15 (but this is the shifted remainder!)<br>
+      <strong>Restore:</strong> remainder 15 must be ÷ 10 → the true remainder is <strong>1.5</strong><br>
+      <br>
+      Or calculate directly by column method: 1.5 ÷ 0.4 = 3 remainder 0.3<br>
+      <strong>Check:</strong> 0.4 × 3 + 0.3 = 1.2 + 0.3 = 1.5 ✓
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">Catastrophe Example</div>
+    <div class="ex-q">Ex5: 2.3 ÷ 0.6 = ? (Find the quotient and remainder)</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">Catastrophe (85% of students wrong)</div><div class="eq">2.3 ÷ 0.6 = 3 rem 5</div><div class="why">After synchronised × 10: 23 ÷ 6 = 3 rem 5, forgot to ÷ 10 to restore the remainder!</div></div>
+      <div class="tc-r"><div class="lbl">Correct Answer</div><div class="eq">2.3 ÷ 0.6 = 3 rem 0.5</div><div class="why">Check: 0.6 × 3 + 0.5 = 1.8 + 0.5 = 2.3 ✓</div></div>
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">Example</div><div class="ex-q">Ex6: 3.7 ÷ 0.8 = ? (Find the quotient and remainder)</div></div>
+
+  <div class="mn">Mnemonic: "After shifting and dividing, restore the remainder; the remainder follows the original decimal point. Verify by multiplying quotient by divisor and adding the remainder — without checking, disaster strikes."<br><span style="font-size:11px;color:var(--gray);">(Cantonese: 「移位計完要還原，餘數跟返原小數點；驗算乘除加餘數，唔驗算實出事」)</span></div>
+  <div class="warn">Catastrophe: After synchronised shifting, the remainder must be restored! When shifting by ×10/×100, the remainder must be ÷10/÷100 to restore!</div>
+
+  <div class="h2">KP3 Synchronised Practice (Find quotient AND remainder for each; must verify)</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">1.7 ÷ 0.5 = ? (Find quotient and remainder)</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">2.5 ÷ 0.7 = ? (Find quotient and remainder)</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">4.3 ÷ 1.2 = ? (Find quotient and remainder)</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">5.8 ÷ 1.6 = ? (Find quotient and remainder)</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">3.2 ÷ 0.9 = ? (Find quotient and remainder)</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">KP4: Application Problems <span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>Four-Step Problem-Solving Method:</strong> Circle keywords → Write the expression → Calculate (shift + column method) → Write a complete answer statement<br>
+      Pay attention to unit consistency — dollars/cents, metres/centimetres must be unified before calculation.<br>
+      Pay attention to the practical meaning of the remainder — "how much money remains", "how many metres are left"
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">Example</div><div class="ex-q">Ex7: A ribbon is 6.4 m long. It is cut into pieces of 0.8 m each. What is the maximum number of pieces? How many metres are left?</div></div>
+  <div class="ex"><div class="ex-title">Example</div><div class="ex-q">Ex8: Mum has $50. Each bag of sweets costs $3.50. What is the maximum number of bags she can buy? How much money is left?</div></div>
+
+  <div class="h2">Application Practice</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">16</td><td class="qtxt">A rope is 9.6 m long. It is cut into pieces of 2.4 m each. How many pieces can be cut?</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">Siu Ming has $20. Each pencil costs $3.20. What is the maximum number of pencils he can buy? How much money is left?</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">III. Tiered In-Class Practice</div>
+
+  <div class="h2">Basic Tier (6 questions, all students must complete)</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">6.4 ÷ 2 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">8.1 ÷ 3 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">4.5 ÷ 5 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">2.4 ÷ 0.4 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">6.3 ÷ 0.9 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">3.6 ÷ 1.2 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">Advanced Tier (6 questions, optional)</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">24</td><td class="qtxt">9.75 ÷ 2.5 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">14.4 ÷ 3.6 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">0.84 ÷ 0.12 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">27</td><td class="qtxt">1.26 ÷ 0.3 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">2.8 ÷ 0.7 = ? (Find quotient and remainder)</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">3.5 ÷ 0.6 = ? (Find quotient and remainder)</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">Challenge Tier (5 questions, SSPA killer questions)</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">30</td><td class="qtxt">5.76 ÷ 1.8 = ?</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">0.056 ÷ 0.007 = ?</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">32</td><td class="qtxt">4.7 ÷ 1.3 = ? (Find quotient and remainder; quotient to be an integer)</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">33</td><td class="qtxt">A ribbon is 15.6 m long. Each bow requires 2.4 m of ribbon. What is the maximum number of bows that can be made? How many metres of ribbon are left?</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">34</td><td class="qtxt">3.85 ÷ 1.1 = ? (Find the quotient correct to 1 decimal place, and state the remainder)</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+  <div class="h1">IV. Application Problem Drill (SSPA Word Problems)</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">35</td><td class="qtxt">A bottle of orange juice contains 2.4 L. It is shared equally among 6 people. How many litres of orange juice does each person get?</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">36</td><td class="qtxt">There are 5.5 kg of rice. The rice is packed into bags of 0.5 kg each. How many bags can be filled?</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">37</td><td class="qtxt">The area of a rectangular piece of paper is 18.6 cm². Its length is 6.2 cm. What is its width in cm?</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">38</td><td class="qtxt">Dad drove for 3.5 hours and travelled 227.5 km. What was his average speed in km per hour?</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">39</td><td class="qtxt">The perimeter of a rectangular garden is 18.4 m. Its width is 3.6 m. What is its length in m?</td><td class="qd d3"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">40</td><td class="qtxt">Siu Mei spent $38.50 on 5.5 kg of apples. What is the cost per kg of apples?</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="h1">V. Ultimate Challenge Zone</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">Calculate: (8.4 − 2.7) ÷ 1.9 = ? (Do the subtraction inside the brackets first, then divide)</td><td class="qd d4"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">Siu Ming has $100. He buys 3 books at $15.80 each. With the remaining money, what is the maximum number of pens at $3.50 each that he can buy? How much money is left?</td><td class="qd d4"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">Orange juice at the supermarket: Brand A — 2.5 L for $32.50; Brand B — 1.8 L for $25.20. Which brand is cheaper per litre? By how much? (Give your answer correct to 1 decimal place)</td><td class="qd d4"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+  <div class="h1">VI. Homework</div>
+  <div class="h2">Compulsory Basic Questions (6 questions — must show column working)</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">7.2 ÷ 3 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">9.6 ÷ 4 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">5.6 ÷ 0.8 = ?</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">3.6 ÷ 1.2 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">4.5 ÷ 0.9 = ?</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">2.8 ÷ 0.7 = ? (Find quotient and remainder)</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">Advanced Optional Questions (3 questions, optional)</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working</th></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">8.64 ÷ 2.4 = ?</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">A rope is 12.8 m long. It is cut into pieces of 3.2 m each. How many pieces can be obtained?</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H9</td><td class="qtxt">3.85 ÷ 0.55 = ? (Hint: the divisor has 2 decimal places; multiply both by 100)</td><td class="qd d4"></td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">VII. Core Error Summary for This Lesson</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">Learning Objectives Review — By the end of this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">Identify all trap types in this lesson</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">Independently solve Basic questions (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">Tackle Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">Explain this lesson's mnemonics to a classmate</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>Error Point</th><th>Correct Approach</th></tr>
+    <tr><td>1</td><td><strong>Misplaced decimal point in quotient:</strong> Writing 7.5 ÷ 5 as 15 instead of 1.5</td><td>Align the quotient's decimal point with the dividend's decimal point</td></tr>
+    <tr><td>2</td><td><strong>Shifting only the divisor:</strong> For 3.6 ÷ 1.2, only multiplying 1.2 by 10</td><td>Both dividend and divisor must be shifted synchronously (multiplied by the same factor)</td></tr>
+    <tr><td>3</td><td><strong>Forgetting to restore the remainder after shifting (catastrophe):</strong> Writing 2.3 ÷ 0.6 as 3 rem 5</td><td>Divide the remainder by the shift factor to restore it, or verify by checking</td></tr>
+    <tr><td>4</td><td><strong>Forgetting to write "0" in the quotient when the digit is too small:</strong> For 1.2 ÷ 5, the quotient should be 0.24, not 24</td><td>Every place must have a quotient digit; write 0 when the dividend digit is too small</td></tr>
+    <tr><td>5</td><td><strong>Not appending 0 to continue dividing:</strong> 7 ÷ 4 = 1.75, not 1 rem 3</td><td>When there is a remainder, append 0 and continue dividing until the division terminates or the specified number of decimal places is reached</td></tr>
+    <tr><td>6</td><td><strong>Forgetting unit conversion in application problems:</strong> Mixing dollars and cents, metres and centimetres</td><td>Unify all units before calculation</td></tr>
+    <tr><td>7</td><td><strong>Missing answer statement / missing remainder in application problems:</strong> Only writing the quotient, not "how much remains"</td><td>A complete answer statement includes both the quotient and the remainder; otherwise method marks are deducted</td></tr>
+  </table>
+
+  <div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance. · LF-P6-T1-L01</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF &nbsp;|&nbsp; 6 pages · 45 questions &nbsp;|&nbsp; LF-P6-T1-L01 v6 EN
+</div>
+
+</body>
+</html>

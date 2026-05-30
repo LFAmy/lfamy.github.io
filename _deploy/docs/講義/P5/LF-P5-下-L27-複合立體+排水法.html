@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF Academy · P5-下-L27 複合立體+排水法 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:90px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:16px; color:var(--red); }
+  .tc-r .eq { font-size:16px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .svg-wrap { text-align:center; margin:10px 0; }
+  .svg-wrap svg { max-width:100%; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+  <div class="cv-badge">小五 · 第 27 堂 · 學生版講義</div>
+  <div class="cv-title">複合立體 + 排水法</div>
+  <div class="cv-sub">單元一/四 · 立體進階 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》5下B冊 單元一、四 ＋ 現代教育 5下B 單元一、四<br>
+    <b>核心陷阱：</b>&#x1FAB4; T1 複合立體 — 重疊部分重複計算 · T4 排水法 — 水位上升 vs 溢出混淆<br>
+    <b>SSPA 關聯：</b><span class="ss sh">&#x1F534; 高頻</span> 呈分試卷二常見，佔約 8-10%<br>
+    <b>前置知識：</b>堂26（長方體/正方體體積與表面面積）· P4 體積基本概念<br>
+    <b>本堂目標：</b>&#x2776; 複合立體分割法求體積 &#x2777; 排水法求不規則物體體積 &#x2778; 溢出問題 &#x2779; 綜合應用
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">長方體 8×6×4 cm。體積 = ？</td><td class="qd d1">&#x1F331; 基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">正方體邊長 5 cm。體積 = ？</td><td class="qd d1">&#x1F331; 基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">長方體水箱 20×15×10 cm，最多可盛水多少 cm³？</td><td class="qd d1">&#x1F331; 基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">計算：12³ = ？（即 12×12×12）</td><td class="qd d2">&#x1F33F; 進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">一個 L 形狀的立體（由兩個長方體組成），你打算怎樣計算它的體積？寫出你的方法。</td><td class="qd d2">&#x1F33F; 進階</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：複合立體的體積（分割法 / 補足法）<span class="ss sh">&#x1F534; SSPA</span></div>
+    <div class="kp-rules">
+      <strong>複合立體 = 由兩個或以上簡單立體組合而成的形狀。兩種求解方法：</strong><br>
+      &#x2460; <strong>分割法（推薦）</strong>：把複合立體切成幾個長方體/正方體 → 分別求體積 → 加總<br>
+      &#x2461; <strong>補足法</strong>：把缺角補成完整長方體 → 求大體積 → 減去補上的部分<br>
+      &#x2462; <strong>關鍵：不要重複計算重疊的部分！</strong><br>
+      &#x2463; 步驟：畫輔助線 → 標註各段尺寸 → 分段計算 → 加總
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">&#x1FAB4; 陷阱引爆例題（最常見錯誤）</div>
+    <div class="ex-q">下圖是一個 L 形複合立體：底層 10×6×3 cm，上層在右側 4×6×4 cm。總體積 = ？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">&#x274C; 常見錯誤（55% 學生）</div><div class="eq">全部當一個大長方體：<br>V = 10×6×7 = 420 cm³ &#x274C;</div><div class="why">L 形不是完整長方體，左上角是空的！直接乘會多算了空的部分。</div></div>
+      <div class="tc-r"><div class="lbl">&#x2705; 正確解法（分割法）</div><div class="eq">底層：10×6×3 = 180 cm³<br>上層：4×6×4 = 96 cm³<br>總 = 180+96 = <strong>276 cm³</strong></div><div class="why">切成兩個長方體，各自計算再加總。</div></div>
+    </div>
+  </div>
+
+  <div class="mn">&#x1F9E0; 口訣：「複合立體要分割，畫條線切開佢，逐件體積計清楚，加埋就係總體積！」</div>
+  <div class="warn">&#x26A0;&#xFE0F; 最高頻錯誤：把複合立體當成完整長方體，直接用外圍尺寸相乘。</div>
+  <div class="warn">&#x26A0;&#xFE0F; 第二高頻錯誤：分割後重疊部分被計算兩次。分割線必須在邊界處，不要重疊。</div>
+
+  
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">🔷 L形複合立體 — 分割法示例</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 120" width="220" height="120"><rect x="30" y="15" width="100" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><text x="80" y="111" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">100</text><rect x="130" y="55" width="60" height="40" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="3"/><text x="160" y="111" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">60</text><line x1="130" y1="15" x2="130" y2="95" stroke="#6B7280" stroke-width="1" stroke-dasharray="5,2"/></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">底層 w₁×h₁ + 右側上層 w₂×h₂。分割線（灰色虛線）把L形切成兩個長方體，各自計算體積後相加。</div>
+</div>
+
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:8px 0;">
+<div style="flex:1; min-width:200px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">🔶 T形複合立體</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 130" width="180" height="130"><rect x="30" y="15" width="120" height="35" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><text x="90" y="64" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">120</text><rect x="65" y="50" width="50" height="55" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="3"/><text x="90" y="119" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">50</text><line x1="65" y1="50" x2="115" y2="50" stroke="#6B7280" stroke-width="1" stroke-dasharray="4,2"/></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">下層橫條 w_top×h_top + 上層豎條 w_bot×h_bot。同樣用分割法：切成上下兩件分別計。</div>
+</div></div>
+<div style="flex:1; min-width:200px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">🔲 挖空立體 — 補足法示例</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130" width="200" height="130"><rect x="30" y="15" width="140" height="90" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><rect x="77" y="37" width="45" height="45" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="6,3"/><text x="99" y="59" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">挖去</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">完整長方體 − 挖去的立體 = 餘下體積。補足法：先計大長方體，再減去挖空部分。</div>
+</div></div>
+</div>
+
+<div class="h2">知識點一 例題練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">例1</td><td class="qtxt">T 形複合立體：下層 12×8×3 cm，上層（中間豎起）6×8×5 cm。總體積 = ？（畫圖分割計算）</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">例2</td><td class="qtxt">階梯形立體（三層）：底層 10×5×2 cm，中層 8×5×2 cm，頂層 6×5×2 cm。總體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">例3</td><td class="qtxt">用補足法求：一個長方體 8×6×5 cm，切去右上角（3×3×2 cm）。餘下體積 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+
+  <div class="h2">知識點一 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">L 形立體：底層 8×5×2 cm，上層在右側 3×5×3 cm。總體積 = ？</td><td class="qd d1">&#x1F331;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">T 形立體：下橫 14×6×3 cm，上豎（中央）4×6×5 cm。總體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">長方體 10×8×6 cm，切去一角（4×4×3 cm）。餘下體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3: KP1 cont + KP2 ═══════════════ -->
+<div class="pb">
+  <div class="h2">知識點一 進階練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">9</td><td class="qtxt">十字形複合立體：水平長方體 20×5×3 cm，垂直長方體 5×12×5 cm 穿過中心。總體積 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">複合立體由正方體 A（邊長 8 cm）和正方體 B（邊長 5 cm）貼合而成（一面完全貼合）。總體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">用 3 個相同的正方體（邊長 4 cm）排成一排黏貼。複合立體的總體積 = ？表面面積 = ？（注意黏貼面不計入 SA）</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：排水法 —— 求不規則物體的體積 <span class="ss sh">&#x1F534; SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>阿基米德原理（排水法）：</strong><br>
+      &#x2460; 把物體完全浸入水中 → 水位上升的體積 = 物體的體積<br>
+      &#x2461; <strong>核心公式：物體體積 = 容器底面積 × 水位上升高度</strong><br>
+      &#x2462; 即：V<sub>物</sub> = L<sub>容器</sub> × W<sub>容器</sub> × (h<sub>後</sub> − h<sub>前</sub>)<br>
+      &#x2463; <strong>前提條件</strong>：物體必須<strong>完全浸沒</strong>在水中；水不能溢出
+    </div>
+  </div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">&#x2776;</div><div class="t">浸入前</div><div class="d">記錄原水位<br>高度 h&#x2081;</div></div>
+    <div class="sc-i"><div class="n">&#x2777;</div><div class="t">完全浸入</div><div class="d">物體沒入水中<br>不可露出水面</div></div>
+    <div class="sc-i"><div class="n">&#x2778;</div><div class="t">浸入後</div><div class="d">記錄新水位<br>高度 h&#x2082;</div></div>
+    <div class="sc-i"><div class="n">&#x2779;</div><div class="t">計算</div><div class="d">V = 底面積<br>× (h&#x2082;−h&#x2081;)</div></div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">&#x1FAB4; 陷阱引爆例題</div>
+    <div class="ex-q">長方體水箱 20×15×10 cm，原有水深 4 cm。放入一塊石頭（完全浸沒）後，水位上升至 7 cm。石頭的體積 = ？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">&#x274C; 常見錯誤（40% 學生）</div><div class="eq">V = 20×15×7 = 2100 cm³ &#x274C;</div><div class="why">這計算的是「現在水+石的總體積」，不是石的體積！</div></div>
+      <div class="tc-r"><div class="lbl">&#x2705; 正確解法</div><div class="eq">底面積 = 20×15 = 300 cm²<br>水位上升 = 7−4 = 3 cm<br>石體積 = 300×3 = <strong>900 cm³</strong></div><div class="why">關鍵：上升的「水位差」× 底面積 = 物體體積</div></div>
+    </div>
+  </div>
+
+  <div class="mn">&#x1F9E0; 口訣：「排水法求體積，唔係求總水體積！底面積乘水位差，升幾多乘幾多！」</div>
+  <div class="warn">&#x26A0;&#xFE0F; 致命錯誤：用「浸入後的水位」直接乘底面積，忘記減去「原有水位」。</div>
+</div>
+
+<!-- ═══════════════ PAGE 4: KP2 practice + KP3 ═══════════════ -->
+<div class="pb">
+  
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">💧 排水法示意圖 — 阿基米德原理</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 190" width="390" height="190"><rect x="15" y="15" width="160" height="90" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="15" y="75" width="160" height="30" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="7" y1="75" x2="183" y2="75" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="189" y="79" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">30cm</text><text x="95" y="125" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入前</text><rect x="215" y="15" width="160" height="90" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="215" y="50" width="160" height="55" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="207" y1="50" x2="383" y2="50" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="389" y="54" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">55cm</text><rect x="272" y="60" width="45" height="45" fill="#93C5FD" stroke="#1A3C6D" stroke-width="2.5"/><text x="294" y="82" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">石頭</text><text x="295" y="125" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入後（完全浸沒）</text><line x1="187" y1="75" x2="187" y2="50" stroke="#DC2626" stroke-width="2.5"/><polygon points="183,54 191,54 187,48" fill="#DC2626"/><text x="201" y="62" text-anchor="start" font-size="13" fill="#DC2626" font-weight="700">+25cm</text><text x="195" y="157" text-anchor="middle" font-size="14" fill="#16A34A" font-weight="700">水面上升 = 物體體積 ÷ 底面積</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">左：投入前水位 wb cm。右：投入後水位 wa cm。水位上升 = wa−wb cm。物體體積 = 容器底面積 × (wa−wb)。關鍵：物體必須完全浸沒！</div>
+</div>
+
+<div class="mn">🧠 排水法三部曲：① 計底面積（容器長×闊）② 計水位差（新−舊）③ 體積 = 底面積 × 水位差</div>
+
+<div class="h2">知識點二 例題練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">例4</td><td class="qtxt">水箱 25×10×15 cm，原水深 5 cm。放入鐵塊後水位升至 9 cm。鐵塊體積 = ？</td><td class="qd d1">&#x1F331;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">例5</td><td class="qtxt">水箱底面積 200 cm²，原水深 6 cm。放入物體後水位升高了 4 cm。物體體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">例6</td><td class="qtxt">水箱 30×20×20 cm，原水深 8 cm。放入體積 1200 cm³ 的物體（完全浸沒）。新水位 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+
+  <div class="h2">知識點二 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">12</td><td class="qtxt">水箱 15×10×12 cm，原水深 3 cm。放入石塊後水位升至 8 cm。石塊體積 = ？</td><td class="qd d1">&#x1F331;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">水箱底面積 150 cm²，原水深 5 cm。放入金屬塊後水位上升了 6 cm。金屬塊體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">水箱 40×25×30 cm，原水深 10 cm。放入體積 2000 cm³ 的物體。新水位 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">正方體水箱邊長 20 cm，原水深 8 cm。放入一個邊長 10 cm 的正方體鐵塊（完全浸沒）。新水位 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：溢出問題（水位超過容器高度）<span class="ss sh">&#x1F534; SSPA 殺手題</span></div>
+    <div class="kp-rules">
+      <strong>當放入的物體太大，水位超過容器高度時：</strong><br>
+      &#x2460; 先計算：放入物體後理論水位 = 原水位 + 物體體積÷底面積<br>
+      &#x2461; 若理論水位 > 容器高度 → 水會溢出<br>
+      &#x2462; <strong>溢出水量 = (理論水位 − 容器高度) × 底面積</strong><br>
+      &#x2463; 或：溢出水量 = 物體體積 − (容器內可用空間)<br>
+      &#x2464; 容器內可用空間 = 底面積 × (容器高度 − 原水位)
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">&#x1FAB4; 陷阱引爆例題</div>
+    <div class="ex-q">水箱 20×15×10 cm，原有水深 6 cm。放入體積 1500 cm³ 的石頭（完全浸沒）。溢出多少 cm³ 的水？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">&#x274C; 常見錯誤（60% 學生）</div><div class="eq">理論水位 = 6 + 1500÷(20×15)<br>= 6 + 5 = 11 cm<br>11 > 10，所以溢出 1 cm 高的水<br>溢出 = 20×15×1 = 300 cm³<br>答案 300 cm³? 其實是對的...但</div><div class="why">多數學生的錯誤是：沒檢查是否溢出就直接用排水法公式！或忘了減去可用空間。</div></div>
+      <div class="tc-r"><div class="lbl">&#x2705; 正確解法（可用空間法）</div><div class="eq">可用空間 = 20×15×(10−6)<br>= 300×4 = 1200 cm³<br>1500 > 1200，故溢出<br>溢出 = 1500−1200<br>= <strong>300 cm³</strong></div><div class="why">兩法皆可。用「可用空間法」更直觀——先算還能裝多少。</div></div>
+    </div>
+  </div>
+
+  <div class="mn">&#x1F9E0; 口訣：「先計可用空間有幾多，物件體積大過佢就會瀉——瀉幾多 = 物件體積 − 可用空間」</div>
+  <div class="warn">&#x26A0;&#xFE0F; 最容易漏的步驟：看到「溢出問題」時，必須先檢查水位是否超過容器高度！不檢查直接套排水公式會錯。</div>
+
+  <div class="h2">知識點三 例題練習 + 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">例7</td><td class="qtxt">水箱 15×10×8 cm，原水深 5 cm。放入體積 600 cm³ 的物體。水會溢出嗎？溢出多少？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">例8</td><td class="qtxt">水箱 30×20×15 cm，水深 12 cm。放入邊長 10 cm 的正方體鐵塊。水會溢出嗎？溢出多少？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">水箱 20×10×10 cm，原水深 7 cm。放入體積 500 cm³ 的物體。溢出水量 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">水箱 25×20×12 cm，水深 10 cm。放入體積 800 cm³ 的物體。溢出水量 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: SVG + TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="svg-wrap">
+    <img src="_svg/L27_disp.svg" style="max-width:100%;height:auto;">
+  </div>
+
+  
+<div class="h1">📐 立體參考圖（以下練習題均需參考這些圖形）</div>
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0;">
+<div style="flex:1; min-width:160px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">L形複合立體</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 120" width="220" height="120"><rect x="30" y="15" width="100" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><text x="80" y="111" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">100</text><rect x="130" y="55" width="60" height="40" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="3"/><text x="160" y="111" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">60</text><line x1="130" y1="15" x2="130" y2="95" stroke="#6B7280" stroke-width="1" stroke-dasharray="5,2"/></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">參考Q1,Q3,Q6,Q18,Q23</div>
+</div></div>
+<div style="flex:1; min-width:160px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">T形複合立體</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 130" width="180" height="130"><rect x="30" y="15" width="120" height="35" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><text x="90" y="64" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">120</text><rect x="65" y="50" width="50" height="55" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="3"/><text x="90" y="119" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">50</text><line x1="65" y1="50" x2="115" y2="50" stroke="#6B7280" stroke-width="1" stroke-dasharray="4,2"/></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">參考Q7</div>
+</div></div>
+<div style="flex:1; min-width:160px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">挖空立體</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 130" width="200" height="130"><rect x="30" y="15" width="140" height="90" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><rect x="77" y="37" width="45" height="45" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="6,3"/><text x="99" y="59" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">挖去</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">參考Q3,Q8,Q20</div>
+</div></div>
+</div>
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0;">
+<div style="flex:1; min-width:200px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">標準長方體</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 170" width="230" height="170"><rect x="25" y="35" width="120" height="70" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polygon points="25,35 45,15 165,15 145,35" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polygon points="145,35 165,15 165,85 145,105" fill="#BFDBFE" stroke="#1A3C6D" stroke-width="3"/><text x="85" y="121" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">l</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">長(l)×闊(w)×高(h)。V=l×w×h。SA=2(lw+lh+wh)。</div>
+</div></div>
+<div style="flex:1; min-width:280px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">排水法標準示意（完全浸沒·水位上升）</strong><br>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 190" width="390" height="190"><rect x="15" y="15" width="160" height="90" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="15" y="75" width="160" height="30" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="7" y1="75" x2="183" y2="75" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="189" y="79" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">30cm</text><text x="95" y="125" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入前</text><rect x="215" y="15" width="160" height="90" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="215" y="50" width="160" height="55" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="207" y1="50" x2="383" y2="50" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="389" y="54" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">55cm</text><rect x="272" y="60" width="45" height="45" fill="#93C5FD" stroke="#1A3C6D" stroke-width="2.5"/><text x="294" y="82" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">石頭</text><text x="295" y="125" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入後（完全浸沒）</text><line x1="187" y1="75" x2="187" y2="50" stroke="#DC2626" stroke-width="2.5"/><polygon points="183,54 191,54 187,48" fill="#DC2626"/><text x="201" y="62" text-anchor="start" font-size="13" fill="#DC2626" font-weight="700">+25cm</text><text x="195" y="157" text-anchor="middle" font-size="14" fill="#16A34A" font-weight="700">水面上升 = 物體體積 ÷ 底面積</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">🔴紅字標註水位變化。底面積×水位差=物體體積（不是底面積×新水位！）</div>
+</div></div>
+</div>
+
+<div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">&#x1F331; 基礎層（共 5 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">L 形立體：底層 6×4×2 cm，上層右側 2×4×3 cm。總體積 = ？</td><td class="qd d1">&#x1F331;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">水箱 20×10×15 cm，原水深 5 cm。放入石塊後水位升至 9 cm。石塊體積 = ？</td><td class="qd d1">&#x1F331;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">長方體 15×10×8 cm，切去一角（5×5×4 cm）。餘下體積 = ？</td><td class="qd d1">&#x1F331;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">水箱底面積 120 cm²，原水深 4 cm。放入物體後水位上升了 5 cm。物體體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">水箱 18×12×10 cm，水深 8 cm。有沒有空間再放入一個體積 360 cm³ 的物體而不溢出？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h2">&#x1F33F; 進階層（共 5 題，&#x1F6B6;&#x1F680; 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">23</td><td class="qtxt">複合立體：正方體 A（邊長 6 cm）上面放正方體 B（邊長 4 cm，居中）。總體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">水箱 30×20×25 cm，原水深 10 cm。放入體積 3000 cm³ 物體。新水位 = ？水會溢出嗎？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">正方體水箱邊長 15 cm，水深 10 cm。放入一個邊長 8 cm 的正方體鐵塊。新水位 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">水箱 24×16×18 cm，水深 14 cm。放入邊長 6 cm 的正方體。溢出水量 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">27</td><td class="qtxt">一個空水箱 20×15×12 cm。先注入 2400 cm³ 水，再放入一個體積 600 cm³ 的石頭。最終水深 = ？水溢出嗎？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: CHALLENGE + APPLICATION ═══════════════ -->
+<div class="pb">
+  <div class="h2">&#x1F333; 挑戰層（共 3 題，&#x1F680; 選做，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">28</td><td class="qtxt"><div class="svg-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 80" width="220" height="80"><rect x="15" y="20" width="40" height="40" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/><text x="35" y="40" text-anchor="middle" font-size="8" fill="#1A3C6D" font-weight="700">5x5</text><text x="35" y="50" text-anchor="middle" font-size="7" fill="#1A3C6D">正方</text><rect x="55" y="35" width="80" height="25" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="2.5"/><text x="95" y="50" text-anchor="middle" font-size="8" fill="#1A3C6D" font-weight="700">8x5x3</text><text x="95" y="60" text-anchor="middle" font-size="7" fill="#1A3C6D">連接長方體</text><rect x="135" y="20" width="40" height="40" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/><text x="155" y="40" text-anchor="middle" font-size="8" fill="#1A3C6D" font-weight="700">5x5</text><text x="155" y="50" text-anchor="middle" font-size="7" fill="#1A3C6D">正方</text></svg></div>一個 U 形複合立體（兩側各有一個正方體，中間以長方體連接）：左正方體邊長 5 cm，右正方體邊長 5 cm，中間連接長方體 8×5×3 cm。總體積 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">水箱 50×30×40 cm，水深 25 cm。先放入 A 物體（體積 9000 cm³），再放入 B 物體（體積 6000 cm³）。最終水深 = ？過程中水有溢出嗎？如有，溢出多少？</td><td class="qd d4">&#x1F3D4;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">30</td><td class="qtxt">長方體水箱 30×20×15 cm，水深 10 cm。先取出 400 cm³ 的水，再放入一塊石頭（體積 700 cm³）。最終水深 = ？</td><td class="qd d4">&#x1F3D4;</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h1">四、應用題專項（呈分試文字題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（列式 → 計算 → 答句）</th></tr>
+    <tr><td class="qn">31</td><td class="qtxt">一個 L 形花槽由兩部分組成：底層長 100 cm、闊 40 cm、高 30 cm；上層在右側長 40 cm、闊 40 cm、高 50 cm。花槽的總體積是多少 cm³？合多少 m³？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">32</td><td class="qtxt">一個長方體魚缸內部長 50 cm、闊 30 cm、高 40 cm，原有水深 25 cm。放入一座假山（完全浸沒）後，水位升至 32 cm。假山的體積是多少 cm³？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">33</td><td class="qtxt">一個長方體水箱 40×25×20 cm，水深 15 cm。放入一塊體積 4000 cm³ 的石頭。(a) 水會溢出嗎？(b) 如有溢出，溢出多少 cm³？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">34</td><td class="qtxt">正方體水箱邊長 20 cm，原水深 12 cm。放入一個邊長 8 cm 的正方體金屬塊。(a) 金屬塊的體積 = ？(b) 水位上升了多少 cm？(c) 最終水深 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">35</td><td class="qtxt">一個水缸內部長 60 cm、闊 40 cm、高 30 cm。缸內有水，水深 20 cm。把 5 個相同的正方體金屬塊（每個邊長 6 cm）全部放入水中。(a) 5 個金屬塊總體積 = ？(b) 水位會溢出嗎？(c) 最終水深 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 7: MORE APP + HOMEWORK ═══════════════ -->
+<div class="pb">
+  <div class="h2">應用題（續）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">36</td><td class="qtxt">一個複合立體由一個長方體（20×10×8 cm）和一個正方體（邊長 6 cm）組成，正方體貼在長方體頂部的正中央。總體積 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">37</td><td class="qtxt">水箱 35×25×18 cm，水深 12 cm。投入一個不規則石塊（完全浸沒）後，水深變為 16 cm。石塊體積 = ？如果把石塊取出後再放入一個體積為 2000 cm³ 的物體，水會溢出嗎？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h1">五、&#x1F3D4;&#xFE0F; 終極挑戰專區</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">&#x1F3D4;1</td><td class="qtxt"><div class="svg-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80"><rect x="20" y="10" width="70" height="60" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="20" y="35" width="70" height="35" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><text x="55" y="30" text-anchor="middle" font-size="9" fill="#DC2626" font-weight="700">水高=h</text><rect x="130" y="10" width="70" height="60" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="130" y="10" width="70" height="60" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><text x="165" y="50" text-anchor="middle" font-size="9" fill="#DC2626" font-weight="700">滿！15cm</text></svg></div>水箱 30×20×15 cm。先注入一些水，水深 h cm。放入一個邊長 10 cm 的正方體後，水位剛好滿（15 cm）且沒有溢出。求原有水深 h。</td><td class="qd d4">&#x1F3D4;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">&#x1F3D4;2</td><td class="qtxt"><div class="svg-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 90" width="200" height="90"><rect x="60" y="45" width="70" height="30" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><text x="95" y="63" text-anchor="middle" font-size="8" fill="#1A3C6D" font-weight="700">邊長10cm</text><rect x="73" y="25" width="44" height="20" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="2.5"/><text x="95" y="37" text-anchor="middle" font-size="8" fill="#1A3C6D" font-weight="700">邊長7cm</text><rect x="83" y="12" width="24" height="13" fill="#FEF3C7" stroke="#1A3C6D" stroke-width="2"/><text x="95" y="21" text-anchor="middle" font-size="7" fill="#1A3C6D" font-weight="700">4cm</text></svg></div>一個複合立體由三個正方體疊成（金字塔形）：底層正方體邊長 10 cm，中層邊長 7 cm，頂層邊長 4 cm，全部居中堆疊。(a) 總體積 = ？(b) 如果把這個複合立體放入一個裝有水的正方體水箱（邊長 15 cm，水深 8 cm），水會溢出嗎？溢出多少？（假設完全浸沒）</td><td class="qd d4">&#x1F3D4;</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">&#x1F3D4;3</td><td class="qtxt"><div class="svg-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80"><rect x="15" y="10" width="55" height="60" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="2.5"/><rect x="15" y="25" width="55" height="45" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1"/><text x="42" y="90" text-anchor="middle" font-size="8" fill="#1A3C6D" font-weight="700">A:h=10</text><rect x="90" y="10" width="55" height="60" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="2.5"/><rect x="90" y="33" width="55" height="37" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1"/><text x="117" y="90" text-anchor="middle" font-size="8" fill="#1A3C6D" font-weight="700">B:h=7</text><text x="80" y="45" text-anchor="middle" font-size="8" fill="#DC2626" font-weight="700">1200cm³→</text></svg></div>水箱 A（30×20×15 cm，水深 10 cm）和水箱 B（25×15×12 cm，水深 7 cm）。從水箱 A 取出 1200 cm³ 水倒入水箱 B。(a) 水箱 A 的新水深 = ？(b) 水箱 B 的新水深 = ？(c) 水箱 B 有水溢出嗎？</td><td class="qd d4">&#x1F3D4;</td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">L 形立體：底層 10×6×4 cm，上層右側 4×6×3 cm。總體積 = ？</td><td class="qd d1">&#x1F331;</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">水箱 25×12×15 cm，原水深 6 cm。放入石塊後水位升至 11 cm。石塊體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">水箱 20×15×10 cm，水深 8 cm。放入體積 500 cm³ 的物體。水會溢出嗎？如有，溢出多少？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">長方體 18×12×10 cm，切去一角（6×4×5 cm）。餘下體積 = ？</td><td class="qd d2">&#x1F33F;</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">正方體水箱邊長 18 cm，水深 12 cm。放入邊長 6 cm 的正方體鐵塊。最終水深 = ？（精確至小數點後 1 位）</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">水箱 40×20×25 cm，水深 15 cm。先放入 A 石（體積 3000 cm³），再取出 1000 cm³ 水，最後放入 B 石（體積 2000 cm³）。最終水深 = ？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個空水箱 30×20×18 cm。倒入 6 L 水（1 L = 1000 cm³），再放入邊長 8 cm 的正方體。最終水深 = ？水會溢出嗎？</td><td class="qd d3">&#x1F333;</td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 8: ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>複合立體當完整長方體計</strong>：L 形直接用外圍尺寸相乘</td><td>必須分割成幾個簡單立體，各自計算後加總</td></tr>
+    <tr><td>2</td><td><strong>分割後重疊部分重複計算</strong>：兩個分割塊的重疊區域算了兩次</td><td>分割線必須在邊界，確保各塊互不重疊</td></tr>
+    <tr><td>3</td><td><strong>排水法用錯水位</strong>：V = 底面積 × 新水位（錯！）</td><td>V = 底面積 × (新水位 − 原水位) = 底面積 × 水位差</td></tr>
+    <tr><td>4</td><td><strong>溢出問題不檢查</strong>：直接套排水公式，沒檢查理論水位是否超過容器高度</td><td>第一步先計可用空間；第二步判斷是否溢出；第三步才計溢出量</td></tr>
+    <tr><td>5</td><td><strong>底面積取錯</strong>：用了物體的底面積而非容器的底面積</td><td>排水法公式中的底面積是<strong>容器的底面積</strong>，不是物體的</td></tr>
+    <tr><td>6</td><td><strong>單位混淆</strong>：L（升）和 cm³ 之間忘記轉換（1 L = 1000 cm³）</td><td>所有體積先統一為 cm³，最後才轉換所需單位</td></tr>
+    <tr><td>7</td><td><strong>多次操作（加水、取水、放物體）次序混亂</strong></td><td>按時間順序分步計算，每一步求出新水位後再做下一步</td></tr>
+  </table>
+
+  <div class="end-note">&#x1FAB4; 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P5-下-L27 v6</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L25 體積應用題 · L27 複合立體 · L16 容量體積進階</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  &#x1F5A8;&#xFE0F; Ctrl+P 列印 PDF &nbsp;|&nbsp; 8頁 · 45題 &nbsp;|&nbsp; LF-P5-下-L27 v6
+</div>
+
+</body>
+</html>

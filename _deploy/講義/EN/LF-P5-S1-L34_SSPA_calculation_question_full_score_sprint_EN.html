@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S1-L34 SSPA special project - full score sprint for calculation questions — Student Handout v6 (EN)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · Lesson 34 · Student Handout</div>
+<div class="cv-title">SSPA Specialty - Calculation Questions Sprint for Full Score</div>
+<div class="cv-sub">T1 morenumber of digits + T2 decimal + T9 fraction · Three major calculatetrap total attacks · 75 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>Calculation questions in the first test paper (accounting for about 40-50% of the paper) · Multi-digit · Decimal · Fraction<br/>
+<b>Core traps:</b>🪤 T1 Multi-digit calculation · T2 Decimal operation · T9 Fraction operation -<span class="ss sh">🔴 SSPA compulsory exam</span><br/>
+<b>SSPA related:</b><span class="ss sh">🔴 High frequency</span>The average score loss rate for the first calculation question in the scored paper is as high as 35%, mostly due to carelessness rather than ignorance<br/>
+<b>Prerequisite knowledge:</b>L1–L3 multi-digit · L12–L13 decimal · L7–L10 fraction<br/>
+<b>|||SEP||| ❶ Multiple digits + zero decimal errors ❷ Automation of common fractions ❸ Comprehensive calculation verification habits</b>❶ Zero mistakes in multi-digit + decimal places ❷ Automated fraction division ❸ Comprehensive calculation verification habits</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+═══════════════ PAGE 2: KP1 Multi-digit + decimal calculation trap ═══════════════
+<div class="pb">
+<div class="h1">I.calculate warm-up (total 5 questions, 5 minutes)</div>
+
+<div class="game-box"><div class="game-title">🏆 SSPA衝刺·限時挑戰</div><div class="game-desc">模擬真實SSPA考試！限時作答，每題計分。答對率達80%解鎖「SSPA戰士」勳章！</div><div class="game-action">⚡ 開始模擬考 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">W1</td><td class="qtxt">Calculate 12,345 + 987,654 = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">W2</td><td class="qtxt">Calculate 3.4 + 0.56 = ? (Align the decimal points!)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">W3</td><td class="qtxt">Calculate LCM(6, 8) = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">W4</td><td class="qtxt">Calculate 0.6 × 5 = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">W5</td><td class="qtxt">Divide<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>and<span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span>(write two equivalent fractions).</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge + Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: Multi-digit + decimal calculation traps (T1 + T2) 🔴 SSPA required exam</div>
+<div class="kp-rules">
+<strong>The four iron laws of multi-digit calculations:</strong><br/>
+      ① <strong>Alignment rules |||SEP|||: Addition and subtraction → Align the same digits (ones digits to ones, tenths to tenths)</strong>Carry mark |||SEP|||: Mark "small 1" on the previous line when adding and carrying, and mark "small dot" when subtracting and borrowing<br/>
+      ② <strong>Decimal addition and subtraction |||SEP|||: The decimal points must be aligned! Fill in the missing digits with 0 (for example, 3.4 + 0.56 → 3.40 + 0.56)</strong>Decimal multiplication |||SEP|||: Multiply integers first → Count the total decimal places → Point the decimal point from right to left<br/>
+      ③ <strong>Verification habits |||SEP|||: Mental arithmetic estimation (for example, 12,345+987,654 ≈ 120,000 + 990,000 = approximately 1.11 million)</strong>: The decimal points must be aligned! Fill in missing bits with 0 (e.g. 3.4 + 0.56 → 3.40 + 0.56)<br/>
+      ④ <strong>Decimal multiplication</strong>: First multiply integers → count the total number of decimal places → click the decimal point from right to left<br/>
+      ⑤ <strong>Verification Habits</strong>: Mental arithmetic estimation (for example, 12,345+987,654 ≈ 120,000+990,000 = about 1.11 million)</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example KP1-1: Multi-digit addition (including carry)</div>
+<div class="ex-q">Calculation: 2,345,678 + 8,765,432 = ?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">10,110,110</div><div class="why">Forgot to add to the previous level when carrying</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">11,111,110</div><div class="why">Bit-by-bit alignment, carry mark at each level, level-by-level inspection</div></div>
+</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example KP1-2: Decimal multiplication trap</div>
+<div class="ex-q">Calculation: 0.35 × 0.4 = ?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">0.35 × 0.4 = 1.40</div><div class="why">35×4=140, just write 140 and forget the decimal point</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">0.35 × 0.4 = 0.140 = 0.14</div><div class="why">35×4=140, 2+1=3 decimal places → 0.140 → the simplest 0.14</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "Align the digits for addition and subtraction. Treat as an integer first for multiplication. After counting the decimal places, start from the right point."</div>
+<div class="warn">⚠️ T2 most frequent error: 0.3 × 0.4 = 1.2 (forgetting to multiply decimals will get smaller and smaller! Verification: 0.4 times of 0.3 &lt; 0.3, the answer must be &lt; 0.3)</div>
+<div class="h2">KP1 Synchronization practice — morenumber of digits + decimal (question 1-10)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">3,456,789 + 2,543,211 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">10,000,000 − 3,456,789 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">0.45 + 0.8 = ? (Tip: Align the decimal points)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">0.6 × 0.7 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">5,678,900 − 987,654 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">6</td><td class="qtxt">0.25 × 0.4 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">23,456,789 + 87,654,321 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">0.125 × 0.8 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">99,999,999 + 1 = ? (Test you: Where to carry?)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">0.05 × 0.02 = ? (How many zeros after the decimal point?)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+═══════════════ PAGE 3: KP2 score calculation trap ═══════════════
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge Point 2: Score Calculation Trap Total Attack (T9) 🔴 SSPA Required Exam</div>
+<div class="kp-rules">
+<strong>Five-step verification method for fraction calculation:</strong><br/>
+      ① <strong>Look at the denominator |||SEP|||: Same? Direct addition and subtraction. different? First common denominator</strong>Find LCM |||SEP|||: Use short division to find the least common multiple (not just find a common multiple!)<br/>
+      ② <strong>Common denominator |||SEP|||: Numerator = original numerator × (LCM ÷ original denominator) ——</strong>must be expanded simultaneously<br/>
+      ③ <strong>Calculation</strong>: The denominator remains unchanged, the numerators are added and subtracted<strong>Reduction</strong><br/>
+      ④ <strong>: Find the HCF of the numerator and denominator → reduce to the simplest → convert improper fractions into mixed numbers</strong>: The denominator remains unchanged, and the numerators are added and subtracted.<br/>
+      ⑤ <strong>reduce</strong>: Find HCF of numerator and denominator → reduce to the simplest → convert improper fractions into mixed numbers</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">Looking for LCM</div><div class="d">Short division least common multiple</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">common points</div><div class="d">The numerator and denominator change simultaneously to LCM.</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">calculate</div><div class="d">Adding and subtracting numerators without changing the denominator</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">reduce</div><div class="d">Simplest false fraction→mixed fraction</div></div>
+</div>
+<div class="ex">
+<div class="ex-title">Example KP2-1: Addition of different denominators</div>
+<div class="ex-q"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> + <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">12</span></span> = ？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq"><span class="fd"><span class="n">8</span><span class="b"></span><span class="d">20</span></span></div><div class="why">Numerator + numerator, denominator + denominator: 3+5=8, 8+12=20</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq"><span class="fd"><span class="n">19</span><span class="b"></span><span class="d">24</span></span></div><div class="why">LCM(8,12)=24 → <span class="f"><span class="n">9</span><span class="b"></span><span class="d">24</span></span>+<span class="f"><span class="n">10</span><span class="b"></span><span class="d">24</span></span>=<span class="f"><span class="n">19</span><span class="b"></span><span class="d">24</span></span></div></div>
+</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example KP2-2: Subtraction with mixed numbers</div>
+<div class="ex-q">2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> − 1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">2−1=1, <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>−<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>=<span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> → 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span></div><div class="why">Subtract whole numbers and fractions separately, but 13−12 should be 26−36=−16</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span></div><div class="why">Conversion to false fraction: 73−32 → LCM(3,2)=6 → 146−96=56</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "If you add points, turn them into false ones first, find LCM through points, and follow the multiplication of the numerator, the answer will definitely be the same."</div>
+<div class="h2">KP2 synchronization practice — fractioncalculate (question 11-25)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">11</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">9</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> − <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt"><span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + 2<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">3<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> − 1<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> + <span class="f"><span class="n">5</span><span class="b"></span><span class="d">12</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt"><span class="f"><span class="n">7</span><span class="b"></span><span class="d">10</span></span> − <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">2<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> + 1<span class="f"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt"><span class="f"><span class="n">4</span><span class="b"></span><span class="d">9</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">1<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + 2<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt"><span class="f"><span class="n">8</span><span class="b"></span><span class="d">15</span></span> + <span class="f"><span class="n">7</span><span class="b"></span><span class="d">10</span></span> = ？（LCM(15,10)=？）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+═══════════════ PAGE 4: KP3 Comprehensive Calculation Strategy ═══════════════
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 3: Comprehensive calculation strategy - verification = full score 🔴 SSPA</div>
+<div class="kp-rules">
+<strong>Strategies for getting full marks on calculation questions (don’t just complete the calculation, you need to verify!):</strong><br/>
+      ① <strong>Estimation verification method |||SEP|||: Approximate mental arithmetic value (for example, 2.98 × 4.1 ≈ 3×4 = 12, the answer should be close to 12)</strong>Inverse operation verification |||SEP|||: Use subtraction to test addition, and use division to test multiplication<br/>
+      ② <strong>Unit check</strong>: Is the answer in the correct unit? Is the decimal point position reasonable?<br/>
+      ③ <strong>Mantissa check |||SEP|||: only look at the single digit/last digit, quick verification</strong>Special value alert<br/>
+      ④ <strong>mantissa check</strong>: Only look at single digits/last digit, quick verification<br/>
+      ⑤ <strong>Special value alert</strong>：×0.5 = ÷2，÷0.5 = ×2，÷0.1 = ×10
+    </div>
+</div>
+<div class="ex">
+<div class="ex-title">Example question KP3-1: Estimation verification</div>
+<div class="ex-q">Calculate 198 × 52 = ? First use the estimate to determine which of the following answers is reasonable: A. 1,029 B. 10,296 C. 102,960</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Choose without estimating</div><div class="eq">Choose A or C</div><div class="why">No habit of estimating = giving away points to a trap</div></div>
+<div class="tc-r"><div class="lbl">✅ Estimate verification</div><div class="eq">B. 10,296</div><div class="why">198≈200, 200×50=10,000 → Only B is close</div></div>
+</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example KP3-2: Mixing fractions and decimals</div>
+<div class="ex-q">Calculate<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>+ 0.25 = ? (Convert to decimals or fractions)</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Error</div><div class="eq">Add directly:<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>+0.25=0.50.25=?</div><div class="why">Fractions and decimals cannot be added directly!</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct</div><div class="eq">0.5 + 0.25 = 0.75 = <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span></div><div class="why">Convert to decimals: 12=0.5, 0.5+0.25=0.75</div></div>
+</div>
+</div>
+<div class="warn">⚠️ 35% of the points lost for the calculation questions in the first paper were due to "no verification" rather than "not knowing how to calculate". Get into the habit of estimating!</div>
+<div class="h2">KP3 comprehensivecalculatepractice (question 26-35)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">26</td><td class="qtxt">Estimate: 4,987 × 31 ≈ ? Which one is closest? A. 15,000 B. 155,000 C. 1,550,000</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>+ 0.5 = ? (Convert to decimal calculation)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">Verify with estimate: 12,345 + 87,655 approximately = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">0.75 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>=? (Unified score calculation)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">2.5 × 4.2 = ? Use estimates first (2.5×4=10), and then calculate arithmetic.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">Verify using the inverse operation: If 3,456 ÷ 12 = 288, verify using multiplication.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>+ 0.6 = ? (Unification: 0.4 + 0.6 = ?)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">33</td><td class="qtxt">Estimate: 0.48 × 9.7 ≈ ? Which one is closest? A. 0.4656 B. 4.656 C. 46.56</td><td class="qd d2">🌿</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">34</td><td class="qtxt">1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + 0.75 = ？（1.25 + 0.75 = ?）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">35</td><td class="qtxt">Calculate 1 −<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>− 0.25 = ? (Add and subtract one after another, pay attention to the order)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Sprint speed-up practice (question 36-45 · time limit 15 minutes)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">36</td><td class="qtxt">45,678 + 54,322 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">37</td><td class="qtxt">0.8 × 0.25 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">38</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">39</td><td class="qtxt">1,000,000 − 456,789 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">40</td><td class="qtxt">0.06 × 0.5 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">41</td><td class="qtxt"><span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − <span class="f"><span class="n">2</span><span class="b"></span><span class="d">9</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:44px;"></td></tr>
+<tr><td class="qn">42</td><td class="qtxt">2,345 × 67 = ? (Use estimates to verify the rationality of the answers)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">43</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>=? (Three numbers can be divided into three numbers)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">44</td><td class="qtxt">0.125 + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> = ？（0.125 = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span>）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">45</td><td class="qtxt">4<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 2<span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>=? (Mixed addition and subtraction - it is recommended to convert all improper fractions)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">III.The Lessoncorecommon errorssummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>common error</th><th>trap</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Multi-digit addition and subtraction misaligned</strong></td><td>T1</td><td>Units place to units place, tens place to tens place, hierarchical alignment</td></tr>
+<tr><td>2</td><td><strong>Carry/Borrow Missing Flag</strong></td><td>T1</td><td>Carries are marked with a small number on the upper row, borrows are marked with a small dot on the borrowed number.</td></tr>
+<tr><td>3</td><td><strong>Decimal points are not aligned for decimal addition and subtraction</strong></td><td>T2</td><td>The decimal points must be aligned, and any missing digits must be padded with 0</td></tr>
+<tr><td>4</td><td><strong>Forgetting the decimal point when multiplying decimals</strong></td><td>T2</td><td>First multiply integers → count the total number of decimal places → click from right to left</td></tr>
+<tr><td>5</td><td><strong>0.3 × 0.4 = 1.2</strong></td><td>T2</td><td>The more you multiply a decimal, the smaller it gets: 0.3×0.4=0.12</td></tr>
+<tr><td>6</td><td><strong>Direct addition and subtraction of fractions with different denominators</strong></td><td>T9</td><td>Must be divided first → LCM → simultaneous expansion of molecules</td></tr>
+<tr><td>7</td><td><strong>After the common denominator, only the denominator is changed and the numerator is forgotten.</strong></td><td>T9</td><td>Numerator = original numerator × (LCM ÷ original denominator)</td></tr>
+<tr><td>8</td><td><strong>The answer is not reduced</strong></td><td>T9</td><td>Find HCF → reduce to the simplest → false → mixed fraction</td></tr>
+<tr><td>9</td><td><strong>Error in adding and subtracting mixed numbers</strong></td><td>T9</td><td>Recommendation: Convert all false scores and then calculate</td></tr>
+<tr><td>10</td><td><strong>No verification habit</strong></td><td>T1/T2/T9</td><td>Use estimates to determine the reasonableness of answers</td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Comprehensive method to submit calculation questions for score test 🔴 Must read</div>
+<div class="kp-rules">
+<strong>Three principles of not doing:</strong><br/>
+      ① <strong>Do not do it if it is not aligned |||SEP|||: Calculate multiple digits and decimals, never start counting if the digits are not aligned</strong>Do not do it without common denominator |||SEP|||: Fractions with different denominators, LCM is not found, never start adding or subtracting<br/>
+      ② <strong>Do not hand in the paper without verification</strong>: Calculate each question mentally once, if the answer is unreasonable, recalculate immediately<br/>
+      ③ <strong>Submission test strategy:</strong>Calculation questions account for 40-50% of Paper 1, which is the easiest part to get full marks! Because there are standard answers, it is not an open question. Achieving "zero mistakes" in calculation questions = half of the success in the sub-test.<br/><br/>
+<strong>Sub-test strategy:</strong>Calculation questions account for 40-50% of Paper 1, which is the easiest part to get full marks! Because there are standard answers, it is not an open question. Achieving "zero mistakes" in calculation questions = half of the success in the sub-test.</div>
+</div>
+<div class="mn">🧠 Tips for calculating full marks: "Align the bits, divide first, then multiply the points, reduce the tail, and estimate the test."</div>
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 6 pages · 55 questions | LF-P5-S1-L34 v6 EN
+</div>
+</body>
+</html>

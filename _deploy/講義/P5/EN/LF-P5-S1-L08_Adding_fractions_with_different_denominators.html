@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF Academy — P5-S1-L08 Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:80px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy · LF Academy</div>
+<div class="cv-badge">Primary 5 · 8th Lesson · Student Handout</div>
+<div class="cv-title">Adding fractions with different denominators</div>
+<div class="cv-sub">Unit 3 · Fraction operation · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5A Unit 3 + Modern Education 5A Unit 10<br/>
+<b>Core Trap:</b>🪤 T9 Fraction Operations - After the common division, the numerator forgets to expand simultaneously · The result is not reduced<br/>
+<b>SSPA Association:</b><span class="ss sh">🔴 High frequency</span>The score test is compulsory every year, accounting for about 15-20% of Paper 1<br/>
+<b>Prerequisite knowledge:</b>Class 7 (Comparison of different denominators and common fractions · LCM calculation · Equivalent fractions and extended fractions)<br/>
+<b>Objectives of this class:</b>❶ Understand that different parts cannot be added directly ❷ Be proficient in the three-step method ❸ Addition of mixed numbers ❹ Application problems</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Calculate LCM(4, 6) = ?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Calculate LCM(3, 5) = ?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Divide<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>and<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>(write the two equivalent fractions after the common denominator)</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Calculate<span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">8</span></span>= ? (Adding with the same denominator, P4 basics)</td><td class="qd d1">Basic</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">Compare<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>and<span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>which one is bigger? Write down the judgment process.</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: Why can’t fractions with different denominators be added directly? 🔴SSPA</div>
+<div class="kp-rules">① The denominator represents "the number of parts the whole is cut into." Different denominators = different sizes of each portion<br/>② For example:<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>is cut into<strong>2 parts</strong>，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>is cut into<strong>3 parts</strong>——The two parts are different sizes!<br/>③ To add, it must first become<strong>the same parts</strong>→ This is the<strong>common fraction</strong><br/>④ The essence of the common fraction: use "equivalent fractions" (extended fractions) to change the denominator into LCM<div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:480px;height:auto;" viewbox="0 0 480 130"><defs><marker id="arr" markerheight="6" markerwidth="8" orient="auto" refx="8" refy="3"><path d="M0,0 L8,3 L0,6 Z" fill="#6B7280"></path></marker></defs>
+<!-- 1/2 bar -->
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="60" y="18">1/2 (larger serving)</text>
+<rect fill="#DBEAFE" height="28" rx="2" stroke="#1A3C6D" stroke-width="1.5" width="100" x="10" y="24"></rect>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="60" x2="60" y1="24" y2="52"></line>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="35" y="44">1</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="85" y="44">1</text>
+<!-- 1/3 bar -->
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="240" y="18">1/3 (smaller serving)</text>
+<rect fill="#FEF3C7" height="28" rx="2" stroke="#C9A84C" stroke-width="1.5" width="100" x="190" y="24"></rect>
+<line stroke="#C9A84C" stroke-width="1.5" x1="256.7" x2="256.7" y1="24" y2="52"></line>
+<line stroke="#C9A84C" stroke-width="1.5" x1="223.3" x2="223.3" y1="24" y2="52"></line>
+<text fill="#92400E" font-size="11" font-weight="700" text-anchor="middle" x="213" y="44">1</text>
+<text fill="#92400E" font-size="11" font-weight="700" text-anchor="middle" x="240" y="44">1</text>
+<text fill="#92400E" font-size="11" font-weight="700" text-anchor="middle" x="267" y="44">1</text>
+<!-- arrow -->
+<line marker-end="url(#arr)" stroke="#6B7280" stroke-dasharray="4,3" stroke-width="1.5" x1="115" x2="182" y1="38" y2="38"></line>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="150" y="30">Sizes vary!</text>
+<!-- bottom label -->
+<text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="150" y="85">❌ Cannot directly 1/2 + 1/3 = 2/5</text>
+<text fill="#16A34A" font-size="11" font-weight="700" text-anchor="middle" x="150" y="105">✅ Must be divided first: 1/2=3/6, 1/3=2/6 → 5/6</text>
+<!-- equals bar -->
+<rect fill="#E5E7EB" height="10" rx="2" stroke="#9CA3AF" stroke-width="1" width="240" x="30" y="115"></rect>
+<line stroke="#9CA3AF" stroke-width="1" x1="110" x2="110" y1="115" y2="125"></line>
+<line stroke="#9CA3AF" stroke-width="1" x1="190" x2="190" y1="115" y2="125"></line>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="150" y="129">Cut the whole into 6 parts (LCM=6)</text>
+</svg>
+</div>
+</div>
+<div class="game-box"><div class="game-title">🍕 分數大作戰</div><div class="game-desc">通分、約分、四則混合！避開分母陷阱。連續答對分數翻倍！</div><div class="game-action">⚡ 開始挑戰 →</div></div>
+
+</div>
+<div class="ex">
+<div class="ex-title">🪤 Example of trap detonation (the most important demonstration in this class)</div>
+<div class="ex-q">calculate:<span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (80% students)</div><div class="eq"><span class="fd"><span class="n">4</span><span class="b"></span><span class="d">2</span></span> = 2</div><div class="why">Direct numerator minus numerator, denominator minus denominator</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq"><span class="fd"><span class="n">7</span><span class="b"></span><span class="d">12</span></span></div><div class="why">LCM(6,4)=12 → <span class="f"><span class="n">10</span><span class="b"></span><span class="d">12</span></span> − <span class="f"><span class="n">3</span><span class="b"></span><span class="d">12</span></span> = <span class="f"><span class="n">7</span><span class="b"></span><span class="d">12</span></span></div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "First understand the LCM, then multiply the numerator and keep the denominator unchanged. The answer must be simplified."</div>
+<div class="warn">⚠️ The most frequent error: adding and subtracting different denominators directly without common denominators. Remember: the denominators are different → be sure to connect the denominators first!</div>
+<div class="warn">⚠️ The second most frequent error: only changing the denominator when dividing the whole number, forgetting to expand the numerator simultaneously. "The molecules follow and ride"!</div>
+<div class="h2">Knowledge Point - Worked Examples (write out ①LCM ②find a common denominator ③calculate ④simplify)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:85px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 2: General addition of fractions with different denominators (LCM is greater than the denominator itself) 🔴 SSPA required test</div>
+<div class="kp-rules">
+<strong>Standard common three-step method:</strong><br/>
+      ① <strong>LCM |||SEP|||: Short division to find the least common multiple ②</strong>Common branch<strong>|||SEP|||: simplest fraction/false → band</strong>: Simultaneous expansion of molecules ③<strong>calculate</strong>: Addition of numerators with the denominator unchanged ④<strong>reduce</strong>: Simplest fraction/false→band<div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:520px;height:auto;" viewbox="0 0 520 150">
+<defs><marker id="arr2" markerheight="6" markerwidth="8" orient="auto" refx="8" refy="3"><path d="M0,0 L8,3 L0,6 Z" fill="#1A3C6D"></path></marker></defs>
+<!-- Step 1: original fractions -->
+<text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="85" y="16">Original form</text>
+<rect fill="#DBEAFE" height="22" rx="2" stroke="#1A3C6D" stroke-width="1.2" width="150" x="10" y="22"></rect>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="60" x2="60" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="110" x2="110" y1="22" y2="44"></line>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="35" y="38">2</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="85" y="38">2</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="135" y="38">2</text>
+<text fill="#1A3C6D" font-size="12" font-weight="700" x="180" y="38">+</text>
+<rect fill="#FEF3C7" height="22" rx="2" stroke="#C9A84C" stroke-width="1.2" width="100" x="195" y="22"></rect>
+<line stroke="#C9A84C" stroke-width="1.2" x1="245" x2="245" y1="22" y2="44"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="220" x2="220" y1="22" y2="44"></line>
+<text fill="#92400E" font-size="10" font-weight="700" text-anchor="middle" x="210" y="38">3</text>
+<text fill="#92400E" font-size="10" font-weight="700" text-anchor="middle" x="235" y="38">3</text>
+<text fill="#92400E" font-size="10" font-weight="700" text-anchor="middle" x="260" y="38">3</text>
+<!-- Arrow -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="320" y="38">→ LCM=15</text>
+<!-- Step 2: converted fractions -->
+<text fill="#16A34A" font-size="10" font-weight="700" text-anchor="middle" x="435" y="16">After split</text>
+<rect fill="#DBEAFE" height="22" rx="2" stroke="#1A3C6D" stroke-width="1.2" width="150" x="350" y="22"></rect>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="375" x2="375" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="400" x2="400" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="425" x2="425" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="450" x2="450" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="475" x2="475" y1="22" y2="44"></line>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="387.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="412.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="437.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="462.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="487.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="10" x="340" y="38">2/3=</text>
+<!-- Second converted fraction -->
+<rect fill="#FEF3C7" height="22" rx="2" stroke="#C9A84C" stroke-width="1.2" width="150" x="350" y="50"></rect>
+<line stroke="#C9A84C" stroke-width="1.2" x1="380" x2="380" y1="50" y2="72"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="410" x2="410" y1="50" y2="72"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="440" x2="440" y1="50" y2="72"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="470" x2="470" y1="50" y2="72"></line>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="395" y="66">9</text>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="425" y="66">9</text>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="455" y="66">9</text>
+<text fill="#C9A84C" font-size="10" x="340" y="66">3/5=</text>
+<!-- Result -->
+<text fill="#1A3C6D" font-size="12" font-weight="700" x="350" y="95">10/15 + 9/15 = 19/15 = 1</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="462" y="95">4</text>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="455" x2="470" y1="90" y2="90"></line>
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="462" y="100">15</text>
+<!-- Bottom label -->
+<text fill="#6B7280" font-size="9" x="350" y="120">LCM(3,5)=15 → 2/3=10/15, 3/5=9/15</text>
+<text fill="#6B7280" font-size="9" x="350" y="135">10/15+9/15=19/15=1 and 4/15</text>
+</svg>
+</div>
+</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">Looking for LCM</div><div class="d">Find the lowest common multiple using short division</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">common points</div><div class="d">The numerator and denominator change simultaneously to LCM</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">calculate</div><div class="d">Adding numerators with the denominator unchanged</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">reduce</div><div class="d">Simplest false fraction→mixed fraction</div></div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 3:<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = ？</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 4:<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> + <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> = ？</div></div>
+<div class="h2">Knowledge Point 2 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Knowledge Point 3: Addition of Different Denominators with Mixed Fractions 🔴 SSPA Advanced</div>
+<div class="kp-rules">
+<strong>Recommended method (conversion to improper fraction method - the least error-prone):</strong><br/>① Mixed fraction → Improper fraction (integer × denominator + numerator) ② Common fraction (find LCM) ③ Calculation ④ Answer → Mixed fraction + reduction<div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:520px;height:auto;" viewbox="0 0 520 130">
+<!-- 1 1/2 visual -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="90" y="14">1 and 1/2</text>
+<rect fill="#1A3C6D" height="24" rx="2" stroke="#1A3C6D" stroke-width="1.2" width="60" x="10" y="20"></rect>
+<text fill="#FFF" font-size="10" font-weight="700" text-anchor="middle" x="40" y="37">1</text>
+<rect fill="#DBEAFE" height="24" rx="2" stroke="#1A3C6D" stroke-width="1.2" width="30" x="74" y="20"></rect>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="104" x2="104" y1="20" y2="44"></line>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="89" y="37">1</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="119" y="37">1</text>
+<!-- + -->
+<text fill="#1A3C6D" font-size="14" font-weight="700" x="145" y="37">+</text>
+<!-- 2 2/3 visual -->
+<text fill="#C9A84C" font-size="10" font-weight="700" text-anchor="middle" x="230" y="14">2 and 2/3</text>
+<rect fill="#C9A84C" height="24" rx="2" stroke="#C9A84C" stroke-width="1.2" width="60" x="165" y="20"></rect>
+<text fill="#FFF" font-size="10" font-weight="700" text-anchor="middle" x="195" y="37">2</text>
+<rect fill="#FEF3C7" height="24" rx="2" stroke="#C9A84C" stroke-width="1.2" width="30" x="229" y="20"></rect>
+<line stroke="#C9A84C" stroke-width="1.2" x1="244" x2="244" y1="20" y2="44"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="259" x2="259" y1="20" y2="44"></line>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="237" y="37">2</text>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="252" y="37">2</text>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="275" y="37">2</text>
+<!-- Arrow down -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="160" y="60">↓ Convert to false fraction ↓</text>
+<!-- 3/2 + 8/3 -->
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="80">3/2</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" x="130" y="80">+</text>
+<text fill="#C9A84C" font-size="11" font-weight="700" text-anchor="middle" x="170" y="80">8/3</text>
+<!-- Arrow right -->
+<text fill="#6B7280" font-size="10" font-weight="700" x="210" y="80">→</text>
+Common fraction result
+<text fill="#6B7280" font-size="10" text-anchor="middle" x="250" y="80">LCM=6</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="290" y="80">9/6</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="315" y="80">+</text>
+<text fill="#C9A84C" font-size="10" font-weight="700" text-anchor="middle" x="345" y="80">16/6</text>
+<!-- Arrow right -->
+<text fill="#6B7280" font-size="10" font-weight="700" x="375" y="80">=</text>
+<!-- Final result -->
+<text fill="#16A34A" font-size="12" font-weight="900" text-anchor="middle" x="410" y="80">25/6</text>
+<text fill="#16A34A" font-size="10" font-weight="700" x="450" y="80">=</text>
+<!-- Result as mixed number -->
+<text fill="#16A34A" font-size="13" font-weight="900" text-anchor="middle" x="475" y="75">4</text>
+<text fill="#16A34A" font-size="8" font-weight="700" x="462" y="88">1</text>
+<line stroke="#16A34A" stroke-width="1.5" x1="456" x2="470" y1="83" y2="83"></line>
+<text fill="#16A34A" font-size="8" font-weight="700" x="462" y="96">6</text>
+<!-- Bottom summary -->
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="260" y="115">1 and 1/2 + 2 and 2/3 → 3/2 + 8/3 → 9/6 + 16/6 = 25/6 = 4 and 1/6</text>
+</svg>
+</div>
+</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 5:1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + 2<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 6:2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</div></div>
+<div class="h2">Knowledge Point 3 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + 2<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">1<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> + 2<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 5 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">13</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">9</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 5 questions, 🚶🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">18</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + 2<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (total 3 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">23</td><td class="qtxt">2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>=? (Mixture of three fractions, including mixed numbers)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:65px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">A rope is divided into three sections: the first section is<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>meters, the second section is<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>meters longer than the first section, and the third section is<span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span>meters. How many meters is the total length of the rope? (You need to find the length of the second paragraph first)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 4: Application questions on addition of fractions (subject to sub-test word questions) 🔴 SSPA compulsory exam</div>
+<div class="kp-rules">
+<strong>Four steps to solve the problem:</strong>① <strong>Circle keywords</strong>("Total" "Total" = addition) ②<strong>Column</strong> ③ <strong>Calculation of common score</strong> ④ <strong>Write a complete answer sentence</strong>(Step points will be deducted if you do not write an answer sentence!)</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 7: Xiao Ming has<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>Pizzas, and Xiaohua has<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>Pizzas. How many pizzas do they have in total?</div></div>
+<div class="h2">applicationquestionpractice (all must do, column → find a common denominator → calculate → answer sentence)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">26</td><td class="qtxt">Xiao Mei drank<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>liters of orange juice, and Xiao Ming drank<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>liters. How many liters did they drink in total?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">A box of chocolate, my sister ate<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>boxes, my brother ate<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>boxes. How many boxes did the two of them eat in total?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">The original water bottle contains<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>liters, then pour<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>liters into it. How many liters are there now? (Answer with mixed fractions)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:62px;"></td></tr>
+</table>
+<div class="h2">advancedapplicationquestion (🚶🚀 choose do, SSPAPaper 2commonquestion type)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">29</td><td class="qtxt">The cake shop sold<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>pieces in the morning and<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>pieces in the afternoon. How many were sold in total throughout the day?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">The first section of rope is 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>meters, the second section is 2<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>meters. How many meters are the total length of the two sections? (Answer with fractions)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:62px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">|||SEP||| in the garden grows roses,<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>grows chrysanthemums. What percentage of the garden is occupied by flowers?<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>Plant chrysanthemums. What percentage of the garden is occupied by flowers?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:62px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">|||SEP||| in the granary is for white rice,<span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>is for brown rice, and<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>is for red rice. What fraction of the granary is occupied by rice? What percentage is the remainder?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>Put red rice. What fraction of the granary is occupied by rice? What percentage is the remainder?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:68px;"></td></tr>
+</table>
+<div class="h1">IV.🏔️ Ultimate challenge area</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>=? (Adding four fractions with different denominators - find LCM(2,3,4,6))</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">A bottle of juice contains 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>liter. I drank<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>liters for breakfast and<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>liters for lunch. How many liters are left? (This class is learning addition, but this question uses subtraction!)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">Normal points account for |||SEP|||, tests account for |||SEP|||, exams account for |||SEP|||. What percentage of the total score do the three items account for? What's left? (Total score = 1)<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>, the test accounts for<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>, the exam accounts for<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>. What percentage of the total score do the three items account for? What's left? (Total score = 1)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">V. Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 6 questions, must write find a common denominator step)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">9</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">Xiao Ming has<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>pieces of chocolate, and Xiaohua gives him<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>pieces. How many lines does Xiao Ming have now?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">Advanced choose doquestion (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H7</td><td class="qtxt">A bottle of juice<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>liters, then pour<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>liters of water. How many liters are there now? (Answer with fractions)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:62px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">Compare<span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>and<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>which one is bigger? How much difference?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:62px;"></td></tr>
+<tr><td class="qn">H9</td><td class="qtxt">1<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + 2<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:68px;"></td></tr>
+</table>
+<div class="h1">VI. The Lessoncorecommon errorsummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Add the different denominators directly</strong>：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>+<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>=<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span></td><td>Different denominators → Be sure to connect the denominators first!</td></tr>
+<tr><td>2</td><td><strong>After splitting, the molecules forget to expand simultaneously.</strong></td><td>"Multiply the numerator" - multiply the denominator by the same number and multiply the numerator by the same number</td></tr>
+<tr><td>3</td><td><strong>The answer is not reduced</strong>：<span class="f"><span class="n">6</span><span class="b"></span><span class="d">12</span></span>when the answer</td><td>The final step must be to check the common factors</td></tr>
+<tr><td>4</td><td><strong>Improper fractions are not converted to mixed fractions</strong></td><td>Numerator &gt; Denominator → Convert into mixed numbers (subject to the requirements of the division test)</td></tr>
+<tr><td>5</td><td><strong>LCM error finding</strong>(use the larger common multiple)</td><td>Short division is confirmed to be the true "minimum"</td></tr>
+<tr><td>6</td><td><strong>Mixed fractions are added before they are converted to false</strong></td><td>It is recommended to use the "improper fraction conversion method" which is the least error-prone</td></tr>
+<tr><td>7</td><td><strong>Missing sentences/units in application questions</strong></td><td>Must write "Answer:..." + unit, otherwise step points will be deducted</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「Adding fractions with different denominators」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「Adding fractions with different denominators」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related topics: L07 Comparison of fractions with different denominators · L09 Multiplication of fractions · L22 Division of fractions</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 7 pages · 58 questions | LF-P5-S1-L08 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Calculate38 + 28= ? (Adding with the same denominator, P4 ba</td><td style="font-weight:900;color:var(--green);padding:5px 10px">66</td></tr>
+<tr><td class="qn">2</td><td class="qtxt">213 + 112 + 34=? (Mixture of three fractions, including mixe</td><td style="font-weight:900;color:var(--green);padding:5px 10px">146</td></tr>
+<tr><td class="qn">3</td><td class="qtxt">12 + 13 + 14 + 16=? (Adding four fractions with different de</td><td style="font-weight:900;color:var(--green);padding:5px 10px">30</td></tr>
+</table>
+<div style="font-size:10px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！直接抄答案 = 呃自己 = 考試會出事！</div>
+</div>
+
+</body>
+</html>

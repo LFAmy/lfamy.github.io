@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 學生練習平台</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-600:#6B7280;--gray-800:#374151;--gray-900:#1A1A1A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK',sans-serif;background:linear-gradient(135deg,#0A1A35,#1A3C6D);color:white;min-height:100vh;overflow-x:hidden}
+.container{max-width:600px;margin:0 auto;padding:20px 16px 80px}
+.header{text-align:center;padding:20px 0;animation:fadeIn 0.5s ease}
+.header .greeting{font-size:13px;opacity:0.6}.header h1{font-family:'Noto Serif HK',serif;font-size:24px;margin:4px 0}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes celebrate{0%{transform:scale(0) rotate(0)}50%{transform:scale(1.3) rotate(10deg)}100%{transform:scale(1) rotate(0)}}
+
+/* Stats bar */
+.stats-bar{display:flex;gap:8px;margin:16px 0;animation:slideUp 0.4s ease}
+.stat-pill{flex:1;background:rgba(255,255,255,0.1);border-radius:20px;padding:12px 8px;text-align:center;backdrop-filter:blur(4px)}
+.stat-pill .val{font-size:22px;font-weight:900}.stat-pill .lbl{font-size:9px;opacity:0.5;margin-top:2px}
+.stat-pill.streak .val{color:#F59E0B}.stat-pill.accuracy .val{color:#16A34A}.stat-pill.points .val{color:var(--gold)}
+
+/* Question card */
+.question-card{background:white;color:var(--gray-900);border-radius:20px;padding:24px;margin:16px 0;box-shadow:0 8px 32px rgba(0,0,0,0.2);animation:slideUp 0.5s ease;transition:all 0.3s}
+.question-card.correct{border:3px solid #16A34A;box-shadow:0 0 32px rgba(22,163,74,0.2)}
+.question-card.wrong{border:3px solid #DC2626;box-shadow:0 0 32px rgba(220,38,38,0.2)}
+.q-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--gray-600);margin-bottom:12px}
+.q-trap{background:#FEF2F2;color:#DC2626;padding:3px 10px;border-radius:8px;font-weight:700;font-size:11px}
+.q-text{font-size:16px;font-weight:700;line-height:1.6;margin-bottom:16px}
+.q-options{display:grid;gap:8px;margin:12px 0}
+.q-option{padding:14px 16px;border:2px solid var(--gray-200);border-radius:12px;cursor:pointer;font-size:14px;font-weight:500;transition:all 0.2s;text-align:left;background:white}
+.q-option:hover{border-color:var(--blue);background:#F0F7FF}
+.q-option.selected{border-color:var(--blue);background:#DBEAFE;font-weight:700}
+.q-option.correct-answer{border-color:#16A34A;background:#F0FDF4}
+.q-option.wrong-answer{border-color:#DC2626;background:#FEF2F2}
+.q-actions{display:flex;gap:8px;margin-top:12px}
+.btn{padding:12px 24px;border-radius:25px;font-weight:900;font-size:14px;cursor:pointer;border:none;transition:all 0.2s;flex:1;text-align:center}
+.btn-primary{background:var(--blue);color:white}.btn-primary:hover{transform:translateY(-1px)}
+.btn-green{background:var(--green);color:white}.btn-red{background:var(--red);color:white}
+.btn-outline{background:white;border:2px solid var(--gray-200);color:var(--gray-800)}
+.btn-sm{padding:8px 16px;font-size:12px;flex:none}
+
+/* Hint */
+.hint-box{background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin:12px 0;font-size:13px;color:#92400E;animation:slideUp 0.3s ease}
+.hint-box .hint-label{font-weight:700;margin-bottom:4px;font-size:11px}
+
+/* Result overlay */
+.result-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn 0.3s ease}
+.result-card{background:white;border-radius:24px;padding:32px;text-align:center;max-width:340px;width:90%;animation:celebrate 0.5s ease}
+.result-card .emoji{font-size:56px;margin-bottom:8px}
+.result-card h2{font-size:20px;color:var(--gray-900);margin-bottom:4px}
+.result-card .score{font-size:42px;font-weight:900;margin:12px 0}
+.result-card .detail{font-size:12px;color:var(--gray-600);margin-bottom:16px}
+
+/* Voice button */
+.voice-btn{position:fixed;bottom:100px;right:20px;width:48px;height:48px;border-radius:50%;background:var(--blue);color:white;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.3);z-index:50;transition:all 0.2s;display:flex;align-items:center;justify-content:center}
+.voice-btn:hover{transform:scale(1.1)}.voice-btn.speaking{background:var(--red);animation:pulse 1s infinite}
+
+@media(max-width:400px){.q-text{font-size:14px}.q-option{font-size:13px;padding:12px}}
+</style>
+<link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+
+  <script src="/docs/data/lf-navbar.js"></script>
+</head>
+<body>
+<!-- Accessibility: Skip to content -->
+<a href="#main-content" class="lf-skip-link" style="position:absolute;top:-100px;left:8px;background:#1A3C6D;color:white;padding:8px 16px;border-radius:0 0 8px 8px;z-index:99999;font-weight:700;text-decoration:none;transition:top 0.2s">跳至主要內容</a>
+
+<div class="container">
+
+<div class="header">
+<div class="greeting" id="greeting"></div>
+<h1>🎯 陷阱練習</h1>
+</div>
+
+<div class="stats-bar">
+<div class="stat-pill streak"><div class="val" id="streakCount">0</div><div class="lbl">連續日</div></div>
+<div class="stat-pill accuracy"><div class="val" id="accuracyPct">-</div><div class="lbl">正確率</div></div>
+<div class="stat-pill points"><div class="val" id="pointsCount">0</div><div class="lbl">積分</div></div>
+<div class="stat-pill"><div class="val" id="qProgress">0/10</div><div class="lbl">進度</div></div>
+</div>
+
+<div class="question-card" id="questionArea">
+<div class="q-meta"><div class="q-trap" id="trapLabel">T4 面積陷阱</div><div id="qDifficulty">🌿 進階</div></div>
+<div class="q-text" id="qText">載入題目中...</div>
+<div class="q-options" id="qOptions"></div>
+<div id="hintArea"></div>
+<div class="q-actions">
+<button class="btn btn-outline btn-sm" onclick="showHint()">💡 提示</button>
+<button class="btn btn-outline btn-sm" onclick="showSolution()">📐 睇解法</button>
+<span style="flex:1"></span>
+<button class="btn btn-primary" id="submitBtn" onclick="submitAnswer()" disabled>確認答案</button>
+</div>
+</div>
+
+</div>
+
+<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="語音讀題">🔊</button>
+
+<!-- Result overlay (hidden) -->
+<div class="result-overlay" id="resultOverlay" style="display:none">
+<div class="result-card" id="resultCard"></div>
+</div>
+
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/data/lf-adaptive-engine.js"></script>
+<script src="/docs/demo-data.js"></script>
+<script src="/docs/data/lf-kids-mode.js"></script>
+<script src="/docs/data/lf-classroom-utils.js"></script>
+<script src="/docs/lf-gamification.js"></script>
+<script src="/docs/data/lf-ux-enhance.js"></script>
+
+<script>
+// Quiz state
+var quiz = {
+    questions: [],
+    currentIndex: 0,
+    answers: [],
+    selectedOption: null,
+    submitted: false,
+    correctCount: 0,
+    hintsUsed: 0
+};
+
+// Question bank (simplified)
+var questionBank = [
+    // ═══ P3 基礎 (T1-T4) ═══
+    {q:'23 + 45 = ?', opts:['68','78','58','67'], ans:0, trap:'T1', diff:1, grade:'P3', sol:'23 + 45 = 68。直式加法：個位 3+5=8，十位 2+4=6，所以答案是 68。'},
+    {q:'8 × 7 = ?', opts:['56','54','64','49'], ans:0, trap:'T1', diff:1, grade:'P3', sol:'8 × 7 = 56。基本乘法口訣，檢查是否背熟。'},
+    {q:'100 − 67 = ?', opts:['33','43','47','37'], ans:0, trap:'T1', diff:1, grade:'P3', sol:'100 − 67 = 33。借位減法：個位 0-7 不夠，向十位借 1，10-7=3。'},
+    {q:'正方形邊長 5cm，周界是多少？', opts:['20 cm','25 cm','10 cm','15 cm'], ans:0, trap:'T4', diff:1, grade:'P3', sol:'正方形周界 = 邊長 × 4 = 5 × 4 = 20 cm。記住：周界是四條邊的總和！'},
+    {q:'長方形長 8cm、闊 3cm，面積是多少？', opts:['24 cm²','11 cm²','22 cm²','48 cm²'], ans:0, trap:'T4', diff:1, grade:'P3', sol:'長方形面積 = 長 × 闊 = 8 × 3 = 24 cm²。不要和「周界」混淆！'},
+    {q:'4.2 + 3.5 = ?', opts:['7.7','7.0','8.7','7.5'], ans:0, trap:'T2', diff:1, grade:'P3', sol:'4.2 + 3.5 = 7.7。小數加減：對齊小數點！'},
+    
+    // ═══ P3-P4 進階 ═══
+    {q:'5.6 ÷ 0.7 = ?', opts:['0.8','8','80','0.08'], ans:1, trap:'T2', diff:2, grade:'P4', sol:'5.6 ÷ 0.7 = 56 ÷ 7 = 8。小數除法：把小數點同時向右移！'},
+    {q:'8 + 4 × 3 = ?', opts:['36','20','15','24'], ans:1, trap:'T3', diff:1, grade:'P4', sol:'先乘除後加減：4 × 3 = 12，然後 8 + 12 = 20。如果從左到右計就會錯成 36！'},
+    {q:'平行四邊形底 8cm，高 5cm，面積？', opts:['40 cm²','20 cm²','13 cm²','80 cm²'], ans:0, trap:'T4', diff:2, grade:'P4', sol:'平行四邊形面積 = 底 × 高 = 8 × 5 = 40 cm²。注意：不是三角形，不用除 2！'},
+    {q:'三角形底 12cm，高 8cm，面積？', opts:['96 cm²','48 cm²','20 cm²','40 cm²'], ans:1, trap:'T4', diff:2, grade:'P4', sol:'三角形面積 = 底 × 高 ÷ 2 = 12 × 8 ÷ 2 = 48 cm²。如果不除 2 就會錯成 96！'},
+    {q:'長方體長 5cm、闊 4cm、高 3cm，體積？', opts:['60 cm³','20 cm³','12 cm³','47 cm³'], ans:0, trap:'T5', diff:2, grade:'P4', sol:'長方體體積 = 長 × 闊 × 高 = 5 × 4 × 3 = 60 cm³。不是表面面積！'},
+    {q:'正方體邊長 4cm，體積是多少？', opts:['64 cm³','16 cm³','96 cm³','48 cm³'], ans:0, trap:'T5', diff:2, grade:'P4', sol:'正方體體積 = 邊長 × 邊長 × 邊長 = 4 × 4 × 4 = 64 cm³。'},
+    
+    // ═══ P4-P5 挑戰 ═══
+    {q:'1/3 + 2/5 = ?', opts:['3/8','11/15','3/15','5/15'], ans:1, trap:'T6', diff:3, grade:'P5', sol:'先通分：1/3 = 5/15，2/5 = 6/15。相加：5/15 + 6/15 = 11/15。分母不同的分數不能直接加分子！'},
+    {q:'3/4 − 1/6 = ?', opts:['2/2','7/12','2/10','5/12'], ans:1, trap:'T6', diff:3, grade:'P5', sol:'通分：3/4 = 9/12，1/6 = 2/12。9/12 − 2/12 = 7/12。分母不同不能直接減！'},
+    {q:'2/3 × 3/4 = ?', opts:['6/12','1/2','5/7','6/7'], ans:1, trap:'T6', diff:3, grade:'P5', sol:'分數乘法：分子乘分子、分母乘分母。2×3=6，3×4=12，6/12 = 1/2。記得約簡！'},
+    {q:'一件商品原價 $200，打八折後多少錢？', opts:['$160','$180','$20','$120'], ans:0, trap:'T7', diff:2, grade:'P5', sol:'八折 = 80% = 0.8。$200 × 0.8 = $160。注意：打八折不是減 $80！'},
+    {q:'考試有 50 題，答對 40 題，正確率是？', opts:['80%','40%','90%','60%'], ans:0, trap:'T7', diff:2, grade:'P5', sol:'正確率 = 答對數 ÷ 總數 × 100% = 40 ÷ 50 × 100% = 80%。'},
+    {q:'一件外套原價 $500，先加價 20%，再打八折。最終售價是？', opts:['$480','$400','$500','$520'], ans:0, trap:'T7', diff:4, grade:'P5', sol:'加價後：$500 × 1.2 = $600。打折後：$600 × 0.8 = $480。陷阱：不能直接用原價乘！'},
+    
+    // ═══ P5-P6 高階 ═══
+    {q:'小明以 60 km/h 行了 2.5 小時，行了多遠？', opts:['24 km','150 km','62.5 km','120 km'], ans:1, trap:'T8', diff:3, grade:'P5', sol:'距離 = 速率 × 時間 = 60 × 2.5 = 150 km。注意：2.5 小時不是 2 小時 5 分鐘！'},
+    {q:'汽車 3 小時行 240 km，平均速率是？', opts:['80 km/h','720 km/h','60 km/h','120 km/h'], ans:0, trap:'T8', diff:2, grade:'P5', sol:'速率 = 距離 ÷ 時間 = 240 ÷ 3 = 80 km/h。'},
+    {q:'A 城到 B 城 360 km。去程 90 km/h，回程 60 km/h。全程平均速率是？', opts:['75 km/h','72 km/h','80 km/h','70 km/h'], ans:1, trap:'T8', diff:4, grade:'P6', sol:'去程時間：360÷90=4h。回程時間：360÷60=6h。總距離：720km÷10h=72 km/h。陷阱：不是 (90+60)÷2！'},
+    {q:'3x + 7 = 22，x = ?', opts:['5','3','15','9'], ans:0, trap:'T9', diff:2, grade:'P5', sol:'3x + 7 = 22 → 3x = 15 → x = 5。先移項，再除係數。'},
+    {q:'2x − 5 = x + 3，x = ?', opts:['8','−8','2','−2'], ans:0, trap:'T9', diff:3, grade:'P5', sol:'2x − 5 = x + 3 → 2x − x = 3 + 5 → x = 8。小心符號！'},
+    {q:'5(x − 3) = 2x + 6，x = ?', opts:['7','3','9','5'], ans:0, trap:'T9', diff:4, grade:'P6', sol:'5x − 15 = 2x + 6 → 3x = 21 → x = 7。拆括號時小心每個項都要乘！'},
+    
+    // ═══ P5-P6 統計圖表 ═══
+    {q:'棒形圖中 A 項有 5 格，B 項有 8 格，每格代表 2 個單位。B 比 A 多幾個單位？', opts:['3','6','10','16'], ans:1, trap:'T10', diff:3, grade:'P5', sol:'A = 5×2 = 10，B = 8×2 = 16。相差 = 16−10 = 6。陷阱：每格代表 2，不是直接減格數！'},
+    {q:'折線圖顯示：星期一 30°C、星期二 32°C、星期三 28°C。三日平均溫度？', opts:['30°C','32°C','28°C','29°C'], ans:0, trap:'T10', diff:2, grade:'P5', sol:'平均 = (30+32+28)÷3 = 90÷3 = 30°C。小心不要只看最大或最小值。'},
+    {q:'圓形圖中，數學佔 120°。數學佔總分的百分之幾？', opts:['33.3%','30%','25%','40%'], ans:0, trap:'T10', diff:4, grade:'P6', sol:'圓形圖 360°，120°÷360°×100% = 1/3 ×100% ≈ 33.3%。'},
+    
+    // ═══ 混合陷阱 ═══
+    {q:'梯形上底 4cm、下底 8cm、高 5cm，面積？', opts:['30 cm²','20 cm²','60 cm²','40 cm²'], ans:0, trap:'T4', diff:3, grade:'P5', sol:'梯形面積 = (上底+下底) × 高 ÷ 2 = (4+8)×5÷2 = 30 cm²。'},
+    {q:'6.25 × 4 = ?', opts:['25','24.8','25.0','24'], ans:0, trap:'T2', diff:3, grade:'P5', sol:'6.25 × 4 = 25。小數乘法：先當整數 625×4=2500，再點小數點 2 位 → 25.00 = 25。'},
+    {q:'24 ÷ (8 − 4) × 2 = ?', opts:['12','3','6','8'], ans:0, trap:'T3', diff:3, grade:'P5', sol:'先括號：8−4=4。24÷4×2=12。有括號先算括號！從左到右計乘除。'},
+];
+
+// Init
+(function(){
+    document.getElementById('greeting').textContent = new Date().getHours()<12?'🌅 早晨！':new Date().getHours()<18?'☀️ 午安！':'🌙 晚安！';
+    // Load streak/points
+    if (typeof LFGame !== 'undefined') {
+        document.getElementById('streakCount').textContent = LFGame.getStreak();
+        document.getElementById('pointsCount').textContent = localStorage.getItem('lf_points')||'0';
+        LFGame.recordActivity();
+    }
+    // Adaptive engine: use personalized question selection
+    if (typeof LFAdaptive !== 'undefined' && LFAdaptive.state.diagnosticComplete) {
+        quiz.questions = LFAdaptive.generatePath(10, questionBank);
+        console.log('[Practice] Using adaptive path · SSPA: ' + (LFAdaptive.state.lastAnalysis?.sspaEstimate?.grade || 'N/A'));
+    } else {
+    }
+    // Fallback: ensure trap diversity (at least 7 different traps in 10 questions)
+    var traps = {};
+    questionBank.forEach(function(q){ if(!traps[q.trap]) traps[q.trap]=[]; traps[q.trap].push(q); });
+    var selected = [];
+    var trapKeys = Object.keys(traps).sort(function(){return Math.random()-0.5});
+    // Pick 1 from each trap first (7 unique traps)
+    trapKeys.forEach(function(t){
+        var pool = traps[t].sort(function(){return Math.random()-0.5});
+        if(selected.length < 7) selected.push(pool[0]);
+    });
+    // Fill remaining from random
+    var remaining = questionBank.filter(function(q){ return selected.indexOf(q)<0; });
+    remaining.sort(function(){return Math.random()-0.5});
+    while(selected.length < 10 && remaining.length > 0) selected.push(remaining.shift());
+    selected.sort(function(){return Math.random()-0.5});
+    quiz.questions = selected;
+    renderQuestion();
+    // Auto-detect kids mode
+    if (typeof LF_KIDS !== 'undefined') LF_KIDS.init();
+})();
+
+function renderQuestion(){
+    if (quiz.currentIndex >= quiz.questions.length){ showResults(); return; }
+    var q = quiz.questions[quiz.currentIndex];
+    quiz.selectedOption = null;
+    quiz.submitted = false;
+
+    document.getElementById('qText').textContent = q.q;
+    document.getElementById('trapLabel').textContent = q.trap + ' 陷阱';
+    var diffs = ['','🌱 基礎','🌿 進階','🌳 挑戰','🏔️ 極限'];
+    document.getElementById('qDifficulty').textContent = diffs[q.diff]||'進階';
+    document.getElementById('qProgress').textContent = quiz.currentIndex+'/'+quiz.questions.length;
+    document.getElementById('hintArea').innerHTML = '';
+    document.getElementById('submitBtn').textContent = '確認答案';
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').className = 'btn btn-primary';
+
+    var card = document.getElementById('questionArea');
+    card.className = 'question-card';
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = 'slideUp 0.5s ease';
+
+    var optHtml = '';
+    var labels = ['A','B','C','D'];
+    q.opts.forEach(function(o,i){
+        optHtml += '<button class="q-option" onclick="selectOption('+i+',this)" id="opt'+i+'">'+labels[i]+'. '+o+'</button>';
+    });
+    document.getElementById('qOptions').innerHTML = optHtml;
+
+    // Update accuracy
+    if (quiz.answers.length > 0){
+        var acc = Math.round(quiz.correctCount/quiz.answers.length*100);
+        document.getElementById('accuracyPct').textContent = acc+'%';
+    }
+}
+
+function selectOption(index, el){
+    if (quiz.submitted) return;
+    quiz.selectedOption = index;
+    document.querySelectorAll('.q-option').forEach(function(o){o.classList.remove('selected')});
+    el.classList.add('selected');
+    document.getElementById('submitBtn').disabled = false;
+}
+
+function submitAnswer(){
+    if (quiz.selectedOption === null || quiz.submitted) return;
+    quiz.submitted = true;
+    var q = quiz.questions[quiz.currentIndex];
+    var correct = quiz.selectedOption === q.ans;
+
+    if (correct){ quiz.correctCount++; }
+    quiz.answers.push({q:q.q, selected:quiz.selectedOption, correct:correct});
+
+    // Highlight answers
+    document.getElementById('opt'+q.ans).classList.add('correct-answer');
+    if (!correct) document.getElementById('opt'+quiz.selectedOption).classList.add('wrong-answer');
+
+    var card = document.getElementById('questionArea');
+    card.className = 'question-card '+(correct?'correct':'wrong');
+
+    // Record in adaptive engine
+    if (typeof LFAdaptive !== 'undefined') {
+        LFAdaptive.recordAnswer(q.trap, correct);
+    }
+    // Update score
+    if (typeof LFGame !== 'undefined' && correct){
+        var pts = parseInt(localStorage.getItem('lf_points')||'0')+10;
+        localStorage.setItem('lf_points',pts.toString());
+        document.getElementById('pointsCount').textContent = pts;
+    }
+
+    // Next button
+    document.getElementById('submitBtn').textContent = quiz.currentIndex<quiz.questions.length-1?'下一題 →':'睇結果 🎉';
+    document.getElementById('submitBtn').className = 'btn '+(correct?'btn-green':'btn-red');
+    document.getElementById('submitBtn').onclick = function(){
+        quiz.currentIndex++;
+        renderQuestion();
+        document.getElementById('submitBtn').onclick = submitAnswer;
+    };
+}
+
+// Dynamic hint generation based on trap type
+var trapHints = {
+    'T1':['計數時小心對齊數位','檢查有冇進位或借位','用直式覆算一次'],
+    'T2':['小數點對齊咗未？','試下將小數點向右移，變成整數','除數和被除數要同時移小數點'],
+    'T3':['記住：先乘除，後加減','有括號要先計括號入面','從左到右依序計算'],
+    'T4':['諗下要用邊條面積公式？','平行四邊形唔使除2，三角形要','梯形：(上底+下底)×高÷2'],
+    'T5':['體積同面積嘅公式唔同！','體積單位係 cm³，唔係 cm²','正方體：邊長×邊長×邊長'],
+    'T6':['分母唔同要先通分','通分即係搵最小公倍數','分數乘法：分子×分子，分母×分母'],
+    'T7':['幾折即係幾多%？','八折 = 80%，唔係減$80','正確率 = 對÷總×100%'],
+    'T8':['距離 = 速率 × 時間','速率 = 距離 ÷ 時間','單位要一致（km/h 配 h）'],
+    'T9':['先將未知數放一邊','移項時要變號（+變−）','最後除係數就搵到答案'],
+    'T10':['每格代表幾多個單位？','平均 = 總和 ÷ 數量','圓形圖：角度÷360°×100%']
+};
+
+function showHint(){
+    if (quiz.submitted) return;
+    quiz.hintsUsed++;
+    var q = quiz.questions[quiz.currentIndex];
+    var trapH = trapHints[q.trap] || ['仔細觀察題目中嘅數字同單位','諗下應該用邊條公式','試下將題目嘅數字代入公式'];
+    // Pick hint based on how many times hints used for this question
+    var idx = quiz.hintsUsed % trapH.length;
+    var hint = trapH[idx];
+    document.getElementById('hintArea').innerHTML = '<div class="hint-box"><div class="hint-label">💡 提示 (' + q.trap + '陷阱)</div>' + hint + '</div>';
+}
+
+function showSolution(){
+    var q = quiz.questions[quiz.currentIndex];
+    document.getElementById('hintArea').innerHTML = '<div class="hint-box" style="background:#F0FDF4;border-color:#BBF7D0;color:#065F46"><div class="hint-label">📐 解法</div>'+q.sol+'</div>';
+}
+
+function showResults(){
+    var total = quiz.questions.length;
+    var correct = quiz.correctCount;
+    var pct = Math.round(correct/total*100);
+    var emoji = pct>=90?'🏆':pct>=70?'🎉':pct>=50?'💪':'📚';
+    var msg = pct>=90?'你係陷阱獵人！':pct>=70?'做得好好！繼續加油！':pct>=50?'仲有進步空間，下次一定會更好！':'唔緊要，每個錯誤都係學習機會！';
+
+    document.getElementById('resultCard').innerHTML = `
+        <div class="emoji">${emoji}</div>
+        <h2>${msg}</h2>
+        <div class="score" style="color:${pct>=70?'#16A34A':pct>=50?'#F59E0B':'#DC2626'}">${correct}/${total}</div>
+        <div class="detail">正確率 ${pct}% · 用咗 ${quiz.hintsUsed} 次提示</div>
+        <button class="btn btn-primary" onclick="location.reload()" style="width:100%">🔄 再嚟一次</button>
+        <button class="btn btn-outline" onclick="window.location.href='student-platform.html'" style="width:100%;margin-top:8px">📊 睇學習報告</button>
+    `;
+    document.getElementById('resultOverlay').style.display = 'flex';
+
+    // Record in gamification
+    if (typeof LFGame !== 'undefined'){
+        LFGame.recordActivity();
+        LFGame.checkBadges({
+            streak: LFGame.getStreak(),
+            accuracy: pct,
+            totalQuestions: (parseInt(localStorage.getItem('lf_total_q')||'0'))+total,
+            consecutiveCorrect: 0,
+            perfectRound: pct===100
+        });
+        localStorage.setItem('lf_total_q',(parseInt(localStorage.getItem('lf_total_q')||'0')+total).toString());
+    }
+    document.getElementById('accuracyPct').textContent = pct+'%';
+    // Show SSPA prediction after completing
+    if (typeof LFAdaptive !== 'undefined') {
+        LFAdaptive.analyze();
+        var sspaDiv = document.getElementById('sspaEstimate') || document.createElement('div');
+        sspaDiv.id = 'sspaEstimate';
+        var sspa = LFAdaptive.state.lastAnalysis?.sspaEstimate;
+        if (sspa) {
+            sspaDiv.innerHTML = '<div style="margin-top:8px;padding:8px 12px;background:#F0F7FF;border-radius:8px;font-size:11px;text-align:center;color:#1E40AF">🎯 預估SSPA: <strong>' + sspa.grade + '</strong> (' + sspa.band + ')</div>';
+            if (!document.getElementById('sspaEstimate')) {
+                var resultCard = document.getElementById('resultCard');
+                if (resultCard) resultCard.appendChild(sspaDiv);
+            }
+        }
+    }
+}
+
+function toggleVoice(){
+    var q = quiz.questions[quiz.currentIndex];
+    if (!q) return;
+    var btn = document.getElementById('voiceBtn');
+    if (typeof LF_UTILS !== 'undefined' && LF_UTILS.voiceReader){
+        if (LF_UTILS.voiceReader.speaking){
+            LF_UTILS.voiceReader.stop();
+            btn.classList.remove('speaking');
+            btn.textContent = '🔊';
+        } else {
+            LF_UTILS.voiceReader.readQuestion(q.q);
+            btn.classList.add('speaking');
+            btn.textContent = '🔇';
+            setTimeout(function(){btn.classList.remove('speaking');btn.textContent='🔊'},5000);
+        }
+    } else {
+        alert('請使用 Chrome 或 Edge 瀏覽器以使用語音功能');
+    }
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown',function(e){
+    if (quiz.submitted && e.key==='Enter'){ document.getElementById('submitBtn').click(); return; }
+    if (quiz.submitted) return;
+    var keys = { '1':0,'2':1,'3':2,'4':3, 'a':0,'b':1,'c':2,'d':3 };
+    if (keys[e.key.toLowerCase()] !== undefined){
+        var idx = keys[e.key.toLowerCase()];
+        selectOption(idx, document.getElementById('opt'+idx));
+    }
+    if (e.key==='Enter' && quiz.selectedOption !== null){ submitAnswer(); }
+    if (e.key==='h'){ showHint(); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S1-L20 Simulation 2 Review + Winter Break SSPA Plan — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── CHECKLIST (L20 custom) ── */
+  .chk { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; }
+  .chk td { padding:5px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .chk tr:nth-child(even) td { background:#FAFBFC; }
+  .chk .chk-box { width:28px; text-align:center; }
+  .chk .chk-q { font-size:12px; line-height:1.6; }
+  .chk .chk-lvl { width:80px; text-align:center; font-size:10px; font-weight:700; }
+
+  /* ── PLAN TABLE ── */
+  .plan { width:100%; border-collapse:collapse; margin:8px 0; font-size:11px; }
+  .plan th { background:var(--green); color:white; padding:4px 6px; font-size:10px; }
+  .plan td { padding:5px 7px; border:1px solid var(--borderc); }
+  .plan .day { text-align:center; font-weight:700; width:40px; }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · 20th Lesson · Student Handout</div>
+<div class="cv-title">Simulation 2 Review + Winter Vacation SSPA Special Training Plan</div>
+<div class="cv-sub">Semester 1 Final Lesson · Review and Reflection · 75 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>L19 SSPA Mock Exam (2) Review + Winter Vacation Independent Practice Plan<br/>
+<b>Core Traps:</b>🪤 T1 Multi-digit · T2 Decimal · T3 Reverse Questions · T5 Area · T9 Score - Simulation 2 Five Major Score-Losing Areas<br/>
+<b>SSPA Related:</b><span class="ss sh">🔴 High frequency</span>Integrated diagnosis of sub-test traps, personalized weakness location<br/>
+<b>Pre-requisite knowledge:</b>L1–L18 full semester content + L19 mock exam<br/>
+<b>Objective of this class:</b>❶ Diagnose the reasons for losing points in the five major traps in Simulation 2 ❷ Self-assessment of personal weaknesses ❸ Develop a 15-minute daily exercise plan during winter vacation ❹ Targeted error correction exercises</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: TOP 5 TRAP ANALYSIS ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Mock Exam2 SSPA five major trap disaster areas (L19 review)</div>
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<div class="kp">
+<div class="kp-title">Trap 1: T1 multi-digit number - "rounding" approximation trap 🔴 SSPA</div>
+<div class="kp-rules">① When taking approximate values, you must clearly see "which digit to take" - tens of thousands, thousands, hundreds?<br/>② Key rules: Look at the target position<strong>The next digit</strong>The number determines whether to "enter" or "round"<br/>③ Common mistakes: when you get to the "ten thousand digits", you stop after looking at the thousands digits, without confirming the value of the tens of thousands digits<br/>④ Another mistake: forgetting to clear all subsequent digits after placing them (for example, 345,678 rounded to the nearest ten thousand = 350,000, not 35,000)</div>
+</div>
+<div class="game-box"><div class="game-title">🏆 SSPA衝刺·限時挑戰</div><div class="game-desc">模擬真實SSPA考試！限時作答，每題計分。答對率達80%解鎖「SSPA戰士」勳章！</div><div class="game-action">⚡ 開始模擬考 →</div></div>
+
+<div class="ex">
+<div class="ex-title">Example questions T1-1: Similar questions to Question 5 of Simulation 2</div>
+<div class="ex-q">Round 2,847,563 to the nearest hundred thousand digits.</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">2,800,000</div><div class="why">I only looked at 4 (round) in the tens of thousands place, but the hundreds of thousands place is 8. I need to look at the next level in the millions place.</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">2,800,000</div><div class="why">The hundred thousand digit = 8, look at the ten thousand digit = 4 (&lt;5, round down) → 2,800,000</div></div>
+</div>
+</div>
+<div class="kp">
+<div class="kp-title">Trap 2: T2 Decimal — Decimal Point Position Trap for Decimal Multiplication 🔴 SSPA</div>
+<div class="kp-rules">① Multiply decimals: first multiply the integers, then count the total number of decimal places and add the decimal point<br/>
+      ② <strong>The most frequent error |||SEP|||: 0.3 × 0.4 = 1.2 (correct = 0.12) - Forgetting that multiplying decimals by decimals will get smaller and smaller</strong>③ The second error: the decimal point is placed in the wrong position - it should be from the far right of<br/>|||SEP||| Start counting to the left<strong>④ Verification formula: "Multiplier &lt; 1 → Product &lt; Multiplicand" (0.3 × 0.4 → The answer must be &lt; 0.3)</strong>Start counting to the left<br/>④ Verification formula: "Multiplier &lt; 1 → product &lt; multiplicand" (0.3 × 0.4 → the answer must be &lt; 0.3)</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example questions T2-1: Similar questions to Question 2 of Simulation 2</div>
+<div class="ex-q">Calculate 0.25 × 0.4 = ?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">0.25 × 0.4 = 1.00</div><div class="why">Directly 25×4=100, I forgot to count from the right at the decimal point</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">0.25 × 0.4 = 0.100 = 0.1</div><div class="why">25×4=100, the total number of decimal places is 2+1=3 → 0.100 → the simplest 0.1</div></div>
+</div>
+</div>
+<div class="kp">
+<div class="kp-title">Pitfall 3: T5 Area — Trapezoidal/Polygonal Area Unit Confusion 🔴 SSPA</div>
+<div class="kp-rules">① Area of trapezoid = (upper base + lower base) × height ÷ 2 ——<strong>not</strong>(upper base + lower base + height) × 2<br/>② Area of parallelogram = base × height (|||SEP||| not<strong>base × hypotenuse)</strong>③ Area of triangle = base × height ÷ 2 —— Must divide |||SEP|||<br/>③ Area of ​​triangle = base × height ÷ 2 —— required<strong>divide by 2</strong>！<br/>④ Combined graphics: first divide into basic graphics, find the area respectively, and then add the sum</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example T5-1: Simulation 2 trapezoid area problem</div>
+<div class="ex-q">The upper base of the trapezoid is 8 cm, the lower base is 12 cm, and the height is 5 cm. Area = ?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">(8+12+5) × 2 = 50 cm²</div><div class="why">Confusing the perimeter and area formulas - adding the height and multiplying by 2</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">(8+12)×5÷2 = 50 cm²</div><div class="why">(Upper bottom + Lower bottom)×Height÷2 = 20×5÷2 = 50 cm²</div></div>
+</div>
+</div>
+<div class="kp">
+<div class="kp-title">Trap 4: T9 fractions - addition and subtraction with different denominators "straight addition and straight subtraction" 🔴 SSPA</div>
+<div class="kp-rules">① Fractions with different denominators<strong>cannot</strong>direct addition and subtraction - they must be divided first<br/>② Three steps: find LCM → expand the numerator simultaneously → add the numerators with the same denominator<br/>③ The answer must be reduced to<strong>The simplest fraction |||SEP|||, the improper fraction must be transformed</strong>Mixed fractions<strong>④ Adding and subtracting mixed fractions: Recommended to convert to improper fractions (least error-prone)</strong><br/>④ Adding and subtracting mixed numbers: It is recommended to convert to improper fractions (least error-prone)</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example T9-1: Simulation 2 Fraction Questions</div>
+<div class="ex-q"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">7</span></span></div><div class="why">Numerator + numerator, denominator + denominator - different denominators can never be added directly!</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq"><span class="fd"><span class="n">11</span><span class="b"></span><span class="d">12</span></span></div><div class="why">LCM(3,4)=12 → <span class="f"><span class="n">8</span><span class="b"></span><span class="d">12</span></span>+<span class="f"><span class="n">3</span><span class="b"></span><span class="d">12</span></span>=<span class="f"><span class="n">11</span><span class="b"></span><span class="d">12</span></span></div></div>
+</div>
+</div>
+<div class="kp">
+<div class="kp-title">Trap 5: T3 inverse question - find the original number when the result is known 🔴 SSPA</div>
+<div class="kp-rules">① The key to the reverse question: start from the final result of<strong>|||SEP||| Auxiliary: Assume the unknown → Column → Solve the equation</strong>④ Verification: Substitute the answer back to the original question to check whether it is reasonable<strong>Push back</strong>Operation<br/>② When working backwards, addition and subtraction are reciprocal, and multiplication and division are reciprocal: the original "addition" becomes "subtraction" when working backwards.<br/>③ Best to use<strong>equation</strong>Auxiliary: Assume unknowns → List → Solve equations<br/>④ Verification: Substitute the answer back to the original question to check whether it is reasonable</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example T3-1: Simulation 2 reverse question</div>
+<div class="ex-q">Xiao Ming has some candy. After taking |||SEP|||, I bought 15 more pills and now I have 45 pills. How many grains were there?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>Later, I bought 15 more pills, and now I have 45 pills. How many grains were there?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">45 + 15 = 60，60 × <span class="fi"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = 20</div><div class="why">Calculate forward, not backward - you bought 15 before reaching 45, you should subtract 15 first</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">(45 − 15) ÷ (1 − <span class="fi"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>) = 30 ÷ <span class="fi"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = 45</div><div class="why">Working backward: there were 30 pills before buying 15, this is the remaining 23 after eating 13</div></div>
+</div>
+</div>
+<div class="mn">🧠 General tips for the five major traps: "Looking at multiple digits, decimal points, memorizing area formulas, dividing fractions first, and working backwards"</div>
+</div>
+<!-- ═══════════════ PAGE 3: SELF-DIAGNOSIS + WINTER PLAN ═══════════════ -->
+<div class="pb">
+<div class="h1">II. Self-Assessment Checklist of Personal Weaknesses (Self-Assessment Checklist)</div>
+<div class="warn">⚠️ Please honestly self-assess the following 10 items and check the ones where you often make mistakes. This is the "bullseye" for your winter vacation training!</div>
+<table class="chk">
+<tr><th class="chk-box">✓</th><th>Weakness description</th><th class="chk-lvl">Trap category</th><th class="chk-lvl">SSPA frequency</th></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q1.</b>When approximating multiple digits, the wrong target digit is taken (for example, rounding to the thousands digit is regarded as rounding to the 10,000 digit)</td><td class="chk-lvl">T1 multi-digit</td><td class="chk-lvl"><span class="ss sh">🔴 high</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q2.</b>After approximating multiple digits, forget to clear the following digits to zero.</td><td class="chk-lvl">T1 multi-digit</td><td class="chk-lvl"><span class="ss sh">🔴 high</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q3.</b>Wrong decimal point position in decimal multiplication (especially the 0.3 × 0.4 category)</td><td class="chk-lvl">T2 decimal</td><td class="chk-lvl"><span class="ss sh">🔴 high</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q4.</b>The decimal point position of the quotient of decimal division is wrong</td><td class="chk-lvl">T2 decimal</td><td class="chk-lvl"><span class="ss sm">🟡 medium</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q5.</b>Forgot to divide the area of ​​the trapezoid by 2, or use the wrong formula (for example, add the height and then multiply)</td><td class="chk-lvl">T5 area</td><td class="chk-lvl"><span class="ss sh">🔴 high</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q6.</b>Area of ​​combined graphics: Forgot to divide or overlapping parts are calculated incorrectly</td><td class="chk-lvl">T5 area</td><td class="chk-lvl"><span class="ss sh">🔴 high</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q7.</b>Direct addition and subtraction of fractions with different denominators (numerator + numerator, denominator + denominator)</td><td class="chk-lvl">T9 score</td><td class="chk-lvl"><span class="ss sh">🔴 high</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q8.</b>I forgot to reduce the fraction answer, or the improper fraction was not converted into a mixed number.</td><td class="chk-lvl">T9 score</td><td class="chk-lvl"><span class="ss sh">🔴 high</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q9.</b>When working backwards in the reverse problem, the direction of operation is reversed (when adding, subtracting, forgetting to change)</td><td class="chk-lvl">T3 reverse</td><td class="chk-lvl"><span class="ss sh">🔴 high</span></td></tr>
+<tr><td class="chk-box">☐</td><td class="chk-q"><b>Q10.</b>Missing answer sentences for application questions/Missing units/Confusing columns</td><td class="chk-lvl">T7 Application</td><td class="chk-lvl"><span class="ss sm">🟡 medium</span></td></tr>
+</table>
+<div class="h1">III.Winter SSPA per day 15 minutes special training plan (two weeks = 14 days)</div>
+<div class="kp">
+<div class="kp-title">Planning Principles 🔴 SSPA Preparation</div>
+<div class="kp-rules">① Only<strong>15 minutes</strong>——The focus is<strong>continuous</strong>rather than long-term<br/>② Focus on<strong>1 trap |||SEP|||, practice the five major traps in turn (can be cycled twice in two weeks)</strong>Each exercise: 3 minutes to review the rules → 10 minutes to do the questions → 2 minutes to mark the answers<br/>④ Rest on Sunday (or make up for unfinished exercises during the week)<br/>④ Rest on Sunday (or make up for unfinished exercises during the week)</div>
+</div>
+<table class="plan">
+<tr><th class="day">day</th><th>date</th><th>focus trap</th><th>Exercise content (15 minutes)</th><th>✓</th></tr>
+<tr><td class="day">1</td><td>Day 1</td><td>T1 multi-digit</td><td>5 questions on taking approximate values ​​+ 5 questions on reading and writing numbers</td><td>☐</td></tr>
+<tr><td class="day">2</td><td>Day 2</td><td>T2 decimal</td><td>5 questions on multiplication of decimals + 5 questions on division of decimals</td><td>☐</td></tr>
+<tr><td class="day">3</td><td>Day 3</td><td>T5 area</td><td>3 questions on the area of ​​a trapezoid + 3 questions on the area of ​​a triangle + 2 questions on combined figures</td><td>☐</td></tr>
+<tr><td class="day">4</td><td>Day 4</td><td>T9 score</td><td>5 questions on adding and subtracting different denominators + 5 questions on adding and subtracting mixed fractions</td><td>☐</td></tr>
+<tr><td class="day">5</td><td>Day 5</td><td>T3 reverse</td><td>5 inverse problems (with equation assistance) + 3 application problems</td><td>☐</td></tr>
+<tr><td class="day">6</td><td>Day 6</td><td>T1+T2 mixed</td><td>Multi-digit + decimal mixed exercises 10 questions (timed 12 minutes)</td><td>☐</td></tr>
+<tr><td class="day">7</td><td>Day 7</td><td colspan="2" style="text-align:center;color:var(--green);font-weight:700;">🌿 Rest days (or make up for unfinished questions from Day 1-6)</td><td>☐</td></tr>
+<tr><td class="day">8</td><td>Day 8</td><td>T5 area</td><td>10 questions on mixed areas of all shapes (timed 12 minutes)</td><td>☐</td></tr>
+<tr><td class="day">9</td><td>Day 9</td><td>T9 score</td><td>Four mixed fractions 5 questions + 5 application questions</td><td>☐</td></tr>
+<tr><td class="day">10</td><td>Day 10</td><td>T3 reverse</td><td>5 questions on converse problems + 5 questions on application of equations</td><td>☐</td></tr>
+<tr><td class="day">11</td><td>Day 11</td><td>T2 decimal</td><td>10 mixed decimal questions (including approximate values)</td><td>☐</td></tr>
+<tr><td class="day">12</td><td>Day 12</td><td>comprehensive</td><td>Selected 10 questions from the mock paper (limited to 15 minutes)</td><td>☐</td></tr>
+<tr><td class="day">13</td><td>Day 13</td><td>Personally the weakest</td><td>For the traps with the most incorrect marks on Days 1-12, do 10 more questions.</td><td>☐</td></tr>
+<tr><td class="day">14</td><td>Day 14</td><td colspan="2" style="text-align:center;color:var(--blue);font-weight:700;">📋 Summary: Count the wrong questions in the past two weeks and make a list of "still need to improve"</td><td>☐</td></tr>
+</table>
+<div class="warn">⚠️ Key rules: After each exercise, you must "correct the answer + mark the wrong question + understand the cause of the error." Doing nothing = doing nothing.</div>
+</div>
+<!-- ═══════════════ PAGE 4: REVIEW QUESTIONS (1-20) ═══════════════ -->
+<div class="pb">
+<div class="h1">IV.L19 Common Mistake for correctness reviewquestion (total 20 question · Focus on the five traps)</div>
+<div class="h2">Group A — T1 morenumber of digitsapproximate value (questions 1-4)</div>
+<div style="margin:12px 0;padding:10px 14px;background:linear-gradient(135deg,#FEF2F2,#FFF8E7);border:2px solid var(--red);border-radius:6px;">
+<strong style="color:#991B1B;">🎫 Exam tips (SSPA must read)</strong>
+<p style="font-size:11px;margin:4px 0;color:#1A1A1A;">① Do the questions you know first, don’t get stuck on one!<br/>② Check the unit for each question (cm vs cm² vs cm³)!<br/>③ Geometry questions: If there is an elevation in the picture, use the height. If there is no elevation, use the formula to find it!<br/>④ Application question: Write an answer sentence! Points will be deducted for not writing steps!<br/>⑤ 5 minutes left: Check if the MC has been filled in and if the unit is correct!</p>
+</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">R1</td><td class="qtxt">Approximate 3,456,789 to the "hundredthousandth digit".</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R2</td><td class="qtxt">Round 67,890,123 to the nearest million.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R3</td><td class="qtxt">Round 4,507,632 to the nearest ten thousand. And write which digit you are looking at.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">R4</td><td class="qtxt">Which of the following is a correct approximation to the millionth place of 29,876,543? A. 29,000,000 B. 30,000,000 C. 29,900,000 D. 20,000,000</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Group B — T2 decimalcalculate (questions 5-8)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">R5</td><td class="qtxt">Calculate 0.6 × 0.3 = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R6</td><td class="qtxt">Calculate 0.25 × 0.8 = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R7</td><td class="qtxt">Calculate 0.15 × 0.4 = ? (Write the correct decimal point position after 15×4=60)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R8</td><td class="qtxt">Calculate 0.05 × 0.02 = ? (Note: How many zeros are there after the decimal point?)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Group C - T5 areatrap (questions 9-12)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">R9</td><td class="qtxt">The upper base of the trapezoid is 6 cm, the lower base is 10 cm, and the height is 4 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R10</td><td class="qtxt">Triangular base 8 cm, height 5 cm. Area = ? (Careful: Did you divide by 2?)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R11</td><td class="qtxt">The parallelogram has a base of 9 cm, a height of 6 cm, and a hypotenuse of 7 cm. Area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R12</td><td class="qtxt">A combined figure consists of a trapezoid and a parallelogram. Trapezoid: (4+8)×3÷2, parallelogram: 5×3. Total area = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">Group D - T9 fraction operation (questions 13-16)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">R13</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>=? (Get points first!)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R14</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>=? (Remember to keep it simple!)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">R15</td><td class="qtxt">1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + 2<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>=? (Tip: Convert Improper Fractions)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">R16</td><td class="qtxt"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>=? (Three fractions are combined)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h2">Group E — T3 reverse towardquestion (questions 17-20)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">R17</td><td class="qtxt">Add 15 to a number and then multiply it by 3. The result is 90. Find this number. (Use backwards reasoning)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">R18</td><td class="qtxt">After Xiao Ming used the saved |||SEP|||, he deposited another $30, and now he has $90. How many yuan was it originally?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>After you use it, you deposit another $30 and now you have $90. How many yuan was it originally?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">R19</td><td class="qtxt">If you subtract 28 from a number, divide it by 4, and then add 10, the result is 25. Find the original number.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">R20</td><td class="qtxt">There is some water in the bucket. After pouring out the |||SEP|||, add another 3 liters, now you have 10 liters. How many liters did it originally have?<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>Then, add another 3 liters and now you have 10 liters. How many liters did it originally have?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: EXTRA PRACTICE + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">V. Additional reinforcement of practice (total 22 questions · full trap mix)</div>
+<div class="h2">Basic layer (question 21-28 · Everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">21</td><td class="qtxt">Round 12,345,678 to the nearest million.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">Calculate 0.4 × 0.7 = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">Triangular base 10 cm, height 6 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">Round 5,678,900 to the nearest hundred thousand digits.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">Calculate 0.8 × 0.05 = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">The upper base of the trapezoid is 5 cm, the lower base is 7 cm, and the height is 6 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">9</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (question 29-36 · 🚶🚀 Select do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">29</td><td class="qtxt">Take 67,543,210 to the nearest tens of millions and write the Chinese pronunciation.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">Calculate 0.35 × 0.6 = ? (Multiply the integers first, then count the decimal places)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">The parallelogram has a base of 12 cm and a height of 5 cm. Area = ? (Don’t use a bevel!)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？（LCM(5,3)=？）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">33</td><td class="qtxt">Three times a number plus 12 equals 48. Find a certain number. (Backward calculation: 48−12=36, 36÷3=?)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">34</td><td class="qtxt">Calculate 0.45 ÷ 0.5 = ? (Hint: divide by 0.5 = multiply by 2)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">35</td><td class="qtxt">The upper base of the trapezoid is 3 cm, the lower base is 9 cm, and the height is 8 cm. Area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">36</td><td class="qtxt">2<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>=? (convert improper fractions first)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (question 37-42 · 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">37</td><td class="qtxt">If you multiply a number by 0.5 and then add 8, the result is 23. Find the original number.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">38</td><td class="qtxt">A rectangle is 15 cm long and 8 cm wide. Cut out a triangle from it (base 8 cm, height 5 cm). Remaining area = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">39</td><td class="qtxt"><span class="f"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>=? (Three numbers can be divided into three numbers, LCM(8,4,2)=?)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">40</td><td class="qtxt">For a barrel of oil,<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>was used on the first day, and the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>was used on the second day, leaving 12 liters. How many liters did it originally have? (Double reverse!)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">41</td><td class="qtxt">Round 99,876,543 to the nearest million. And explain: why not 100,000,000?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">42</td><td class="qtxt">Calculate 0.125 × 0.8 = ? Write out the complete process of "first multiply integers → count decimal places → point decimal points".</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="h1">VI. The Lessoncorecommon errorsummary</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Take approximations to see misalignment</strong></td><td>Circle the target position first → look at the next digit → ≥5 and &lt;5 will be rounded → clear the rest</td></tr>
+<tr><td>2</td><td><strong>Wrong decimal point when multiplying decimals</strong></td><td>After multiplying the integers → count the total number of decimal places → click from right to left</td></tr>
+<tr><td>3</td><td><strong>The area of ​​the trapezoid is forgotten ÷2</strong></td><td>Remember the formula: (upper base + lower base) × height ÷ 2, not multiplied by 2</td></tr>
+<tr><td>4</td><td><strong>Parallelogram uses hypotenuse</strong></td><td>Area = base × height (height is the vertical distance, not the hypotenuse)</td></tr>
+<tr><td>5</td><td><strong>Direct addition of fractions with different denominators</strong></td><td>LCM must be found first through the denominator → the numerator is expanded simultaneously → the denominator remains unchanged</td></tr>
+<tr><td>6</td><td><strong>The answer is not reduced</strong></td><td>Final step: Check if the numerator and denominator have common factors</td></tr>
+<tr><td>7</td><td><strong>Reverse question inference</strong></td><td>Work backwards from the final result: addition, subtraction, multiplication, division, order reversal</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「Simulation 2 Review + Winter Vacation SSPA Special Training Plan」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「Simulation 2 Review + Winter Vacation SSPA Special Training Plan」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 6 pages · 50 questions | LF-P5-S1-L20 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">13 + 16=? (Get points first!)</td><td style="font-weight:900;color:var(--green);padding:5px 10px">29</td></tr>
+<tr><td class="qn">2</td><td class="qtxt">34 − 16=? (Remember to keep it simple!)</td><td style="font-weight:900;color:var(--green);padding:5px 10px">18</td></tr>
+<tr><td class="qn">3</td><td class="qtxt">112 + 223=? (Tip: Convert Improper Fractions)</td><td style="font-weight:900;color:var(--green);padding:5px 10px">335</td></tr>
+<tr><td class="qn">4</td><td class="qtxt">23 + 14 + 16=? (Three fractions are combined)</td><td style="font-weight:900;color:var(--green);padding:5px 10px">30</td></tr>
+<tr><td class="qn">5</td><td class="qtxt">Three times a number plus 12 equals 48. Find a certain numbe</td><td style="font-weight:900;color:var(--green);padding:5px 10px">12</td></tr>
+<tr><td class="qn">6</td><td class="qtxt">213 + 114=? (convert improper fractions first)</td><td style="font-weight:900;color:var(--green);padding:5px 10px">327</td></tr>
+<tr><td class="qn">7</td><td class="qtxt">58 + 34 + 12=? (Three numbers can be divided into three numb</td><td style="font-weight:900;color:var(--green);padding:5px 10px">46</td></tr>
+</table>
+<div style="font-size:10px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！直接抄答案 = 呃自己 = 考試會出事！</div>
+</div>
+
+</body>
+</html>

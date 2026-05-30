@@ -1,0 +1,52 @@
+name: Generate Math Figures (tkz-euclide)
+
+on:
+  push:
+    paths:
+      - "_operations/graphics_pipeline/latex_templates/**"
+      - ".github/workflows/generate-figures.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-figures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeXLive + tkz-euclide
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-recommended texlive-latex-extra texlive-pictures texlive-luatex texlive-fonts-recommended
+
+      - name: Compile LaTeX → PDF
+        run: |
+          cd _operations/graphics_pipeline/latex_templates
+          for f in lf_core_figures.tex; do
+            echo "Compiling $f..."
+            lualatex -interaction=nonstopmode -output-directory=../output_svg "$f"
+          done
+
+      - name: Convert PDF → SVG
+        run: |
+          sudo apt-get install -y pdf2svg
+          cd _operations/graphics_pipeline/output_svg
+          for f in *.pdf; do
+            echo "Converting $f to SVG..."
+            pdf2svg "$f" "${f%.pdf}.svg"
+          done
+
+      - name: Copy SVGs to lecture directory
+        run: |
+          mkdir -p 講義/_svg
+          cp _operations/graphics_pipeline/output_svg/*.svg 講義/_svg/
+
+      - name: Commit SVGs
+        run: |
+          git config user.name "LF Graphics Bot"
+          git config user.email "bot@lamfung.edu"
+          git add 講義/_svg/*.svg
+          git diff --staged --quiet || git commit -m "📐 Auto: Regenerated math figures via tkz-euclide"
+          git push

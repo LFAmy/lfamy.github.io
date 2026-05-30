@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L32 SSPA跨課題殺手題（應用+幾何篇） — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+    .timer { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:28px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:80px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .timer-box { background:var(--lightbg); border:2px solid var(--red); border-radius:6px; padding:8px 12px; margin:4px 0; text-align:center; font-weight:700; color:var(--red); font-size:13px; }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .diagram-box { border:1px solid var(--borderc); border-radius:8px; padding:14px; margin:8px 0; text-align:center; background:var(--lightbg); }
+  .diagram-box svg { max-width:100%; height:auto; }
+
+  .killer-tag { display:inline-block; background:#991B1B; color:white; padding:2px 8px; border-radius:3px; font-size:9px; font-weight:900; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ══════ PAGE 1: COVER ══════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 32 堂 · 學生版講義</div>
+  <div class="cv-title">SSPA跨課題殺手題（應用+幾何篇）</div>
+  <div class="cv-sub">下學期 · SSPA終極衝刺 · 75 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>本堂定位：</b>SSPA應用題+幾何題終極密集操練 · 每題含3+數學概念 · 全真SSPA殺手題模式<br>
+    <b>核心陷阱：</b>T4 百分數連續變化 · T5 圓周/圓面積混淆 · T6 三角形梯形忘除2 · T7 速率公式方向 · T8 排水法用水面高度<br>
+    <b>SSPA 關聯：</b><span class="ss sh">必考</span> 呈分試卷二長答題佔40-50%，跨課題壓軸題決定A級<br>
+    <b>前置知識：</b>L01-L30 全部課題<br>
+    <b>本堂目標：</b>① 每題分解出3+數學概念 ② 幾何+應用混合題零失誤 ③ 掌握SSPA壓軸題解題框架
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 2: WARM-UP ══════ -->
+<div class="pb">
+  <div class="h1">一、熱身陷阱掃描（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">一個圓形花園的半徑是 7 m。求它的周界和面積。（取 &pi; = <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">三角形底 12 cm，高 8 cm。求面積。畫出呢個三角形並標示底和高。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">一件貨品原價$800，先加價15%，再以九折出售。最終售價？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">長方形水箱底面積400 cm²，放入石頭後水面升了3 cm。石頭體積？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">汽車以80 km/h行駛2.5小時，再用1.5小時行完餘下90 km路程。求全程平均速率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h1">二、殺手題型一：幾何 + 百分數 + 比較（T5+T4混合）</div>
+
+  <div class="kp">
+    <div class="kp-title">殺手組合A：圓形面積變化 + 百分數增減 <span class="ss sh">SSPA必考壓軸</span></div>
+    <div class="kp-rules">
+      ① <strong>陷阱1（T5圓形公式）</strong>：半徑變 → 面積變 r² 倍，不是 r 倍！<br>
+      ② <strong>陷阱2（T4增減方向）</strong>：半徑增加20%，新面積 = (1.2r)² × &pi; = 1.44&pi;r² = 原面積的144%<br>
+      ③ <strong>陷阱3（比較基準量）</strong>：面積增加了44%，不是20%！<br>
+      ④ 公式：新面積 = 原面積 × (1 + r%)²
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 圓形面積變化殺手題</div>
+    <div class="ex-q">一個圓的半徑增加了25%。新面積是原面積的多少倍？增加了百分之幾？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 世紀災難</div><div class="eq">新面積 = 1.25 × 原面積（錯！）<br>增加了25%（錯！）</div><div class="why">60%學生會咁答！面積 ∝ r² → (1.25)² = 1.5625倍，增加了56.25%</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">(1.25)² = 1.5625倍<br>增加了 56.25%</div><div class="why">記住：面積跟半徑平方成正比！A=πr²，r變k倍 → A變k²倍</div></div>
+    </div>
+  </div>
+
+  <!-- SVG diagram for circle area change -->
+  <div class="diagram-box">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180" width="400" height="180">
+      <circle cx="120" cy="90" r="50" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/>
+      <circle cx="120" cy="90" r="3" fill="#1A3C6D"/>
+      <text x="120" y="86" text-anchor="middle" font-size="13" fill="#DC2626" font-weight="700">r</text>
+      <text x="120" y="158" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">原圓 (r)</text>
+      <text x="120" y="174" text-anchor="middle" font-size="10" fill="#6B7280">A = πr²</text>
+
+      <circle cx="300" cy="90" r="62.5" fill="#DCFCE7" stroke="#16A34A" stroke-width="2.5"/>
+      <circle cx="300" cy="90" r="3" fill="#16A34A"/>
+      <text x="300" y="82" text-anchor="middle" font-size="13" fill="#16A34A" font-weight="700">1.25r</text>
+      <text x="300" y="158" text-anchor="middle" font-size="12" fill="#16A34A" font-weight="700">新圓 (1.25r)</text>
+      <text x="300" y="174" text-anchor="middle" font-size="10" fill="#6B7280">A' = 1.5625πr²</text>
+
+      <text x="210" y="90" text-anchor="middle" font-size="18" fill="#DC2626" font-weight="900">→</text>
+      <text x="210" y="108" text-anchor="middle" font-size="10" fill="#DC2626">+56.25%</text>
+    </svg>
+  </div>
+
+  <div class="warn">⚠️ 呢題係SSPA最經典殺手題之一！面積變化 ≠ 半徑變化%，一定要平方！</div>
+
+  <div class="h2">組合A同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">圓的半徑減少10%。新面積是原面積的多少%？減少了幾多%？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">圓A的半徑是圓B的1.5倍。圓A的面積是圓B的多少倍？圓B的面積是圓A的幾%？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">一個圓的面積增加了69%。問它的半徑大約增加了多少%？（提示：1.69開方=1.3）</td><td class="qd d4">極限</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 3: KILLER COMBO B + C ══════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">殺手組合B：排水法 + 體積 + 速率/時間（T8+T7+T9混合）</div>
+    <div class="kp-rules">
+      ① <strong>陷阱1（T8排水法）</strong>：物體體積 = 底面積 × 水位差（唔係新水位！）<br>
+      ② <strong>陷阱2（T7速率）</strong>：時間 = 距離 ÷ 速率，單位要一致<br>
+      ③ <strong>陷阱3（單位換算）</strong>：cm³ → mL/L，m³ → L 轉換錯誤<br>
+      ④ 組合：計算石頭體積 → 已知注水速率 → 求注水時間或溢出問題
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 排水法+速率三合一</div>
+    <div class="ex-q">一個長方體水箱，底面積500 cm²，原有水深12 cm。放入一塊石頭後，水深升至16.5 cm。（a）求石頭的體積。（b）如果每分鐘注水250 cm³，要令水深由12 cm升至20 cm（不放入石頭），需要多少分鐘？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 常見錯誤</div><div class="eq">石頭體積 = 500×16.5 = 8250 cm³（用水面高度！）<br>時間 = 500×20÷250 = 40分鐘（計錯目標水位）</div><div class="why">體積用新水位係致命錯誤！正確用：高度差 = 16.5-12 = 4.5cm</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">(a) V = 500×(16.5-12)=500×4.5=<strong>2250 cm³</strong><br>(b) 水體積=500×(20-12)=4000cm³, 時間=4000÷250=<strong>16分鐘</strong></div><div class="why">排水法關鍵：用高度差，唔係新高度！注水計目標水量，唔係總水量</div></div>
+    </div>
+  </div>
+
+  <div class="h2">組合B同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B1</td><td class="qtxt">水箱底面積300cm²，水深10cm。放入金屬塊後水深升至14cm。金屬塊體積？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">B2</td><td class="qtxt">水箱50cm×40cm×30cm。注水速率每秒200cm³。由空箱注至 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 滿需要幾多分鐘？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">B3</td><td class="qtxt">水箱底面積600cm²，原有水15cm深。放入3塊相同的石頭（每塊400cm³），水深升至幾多？若再以每秒50cm³注水，要令水深達25cm需時幾耐？</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">殺手組合C：複合圖形面積 + 百分數應用 + 成本利潤（T6+T4+T3混合）</div>
+    <div class="kp-rules">
+      ① <strong>陷阱1（T6複合圖形）</strong>：分割法 / 填補法選錯 → 面積計錯<br>
+      ② <strong>陷阱2（T4利潤%）</strong>：利潤% = (售價-成本)÷成本 ×100%，唔係÷售價！<br>
+      ③ <strong>陷阱3（單位統一）</strong>：m² 同 cm² 轉換（1m²=10000cm²）<br>
+      ④ 組合：計花園面積 → 鋪草皮成本 → 加利潤求售價
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 面積+利潤三合一</div>
+    <div class="ex-q">一個長方形花園長15m、闊12m，中間有一個半徑3m的圓形水池。餘下部分鋪草皮。（a）草皮面積是多少m²？（b）草皮成本每m² $40，園丁以成本加利潤25%報價。總報價是多少？（取&pi;=3.14）</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 常見錯誤</div><div class="eq">草皮=15×12-3.14×3²=180-28.26=151.74m²<br>報價=151.74×40×25%=1517.4（錯！）</div><div class="why">利潤25%意思是售價=成本×125%，唔係成本×25%！</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">(a) 草皮=180-28.26=<strong>151.74 m²</strong><br>(b) 成本=151.74×40=$6069.6, 報價=6069.6×1.25=<strong>$7587</strong></div><div class="why">利潤%基於成本，售價=成本×(1+利潤%)</div></div>
+    </div>
+  </div>
+
+  <div class="h2">組合C同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C1</td><td class="qtxt">梯形花圃：上底8m、下底12m、高5m。每m²種6棵花。共可種幾棵？若每棵成本$3，以利潤40%出售，總收入？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">C2</td><td class="qtxt">長方形地20m×15m，內有一條闊2m的直路貫穿全地。餘下面積鋪磚，每m² $120。鋪磚費用以八折優惠計算，最終付款？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">C3</td><td class="qtxt">正方形地邊長10m，四角各有一個半徑1.5m的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 圓形花槽。餘下面積鋪草皮。（取&pi;=3.14）（a）草皮面積？（b）草皮每m²成本$50，加30%利潤再加$500運輸費，總報價？</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 4: KILLER COMBO D + SPEED WORKSHOP ══════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">殺手組合D：速率相遇追及 + 圓形圖 + 平均數（T7+T9+T3四合一）</div>
+    <div class="kp-rules">
+      ① <strong>陷阱1（T7速率相遇）</strong>：相遇時間 = 總距離 ÷ 速率和<br>
+      ② <strong>陷阱2（T9圓形圖）</strong>：角度→百分比，百分比總和必須=100%<br>
+      ③ <strong>陷阱3（T3加權平均）</strong>：來回平均速率 ≠ (去速+回速)÷2<br>
+      ④ 組合：圓形圖顯示路程比例 → 各段速率不同 → 求全程平均速率
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 終極四合一殺手題</div>
+    <div class="ex-q">A、B兩城相距240km。圓形圖顯示：汽車以90km/h完成全程的35%，以72km/h完成45%，餘下路程以60km/h完成。（a）各段路程的距離？（b）全程所需總時間？（c）全程平均速率？（取一位小數）</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 世紀災難</div><div class="eq">平均速率 = (90+72+60)÷3 = 74 km/h（簡單平均！）<br>各段距離：35%×240=84km, 45%×240=108km, 20%×240=48km</div><div class="why">平均速率要用總距離÷總時間！不同速率行不同距離，不能簡單平均</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">T1=84÷90=0.933h, T2=108÷72=1.5h, T3=48÷60=0.8h<br>總時間=3.233h, 平均=240÷3.233=<strong>74.2 km/h</strong></div><div class="why">此題巧合接近簡單平均，但一定要用總距離÷總時間！</div></div>
+    </div>
+  </div>
+
+  <div class="h2">組合D同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">D1</td><td class="qtxt">全程300km：首<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>以80km/h，次<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>以60km/h，餘下以90km/h。求全程平均速率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">D2</td><td class="qtxt">圓形圖：A段佔30%（速率100km/h），B段佔50%（速率80km/h），C段佔20%（速率？km/h）。全程400km，平均速率85km/h。求C段速率。</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h1">三、跨課題殺手題速解工作坊（10題，25分鐘）</div>
+  <div class="timer-box">⏱ 25分鐘 · 10題 · 每題寫出涉及的概念標籤（T?+T?+T?）</div>
+
+  <div class="h2">第一部分：混合殺手題（T1-T5）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目 <span style="font-size:9px;color:#6B7280;">（圈出涉及陷阱）</span></th><th class="qd">分</th><th>作答區</th></tr>
+    <tr><td class="qn">T1</td><td class="qtxt">一個半圓形花圃，直徑14m。（a）求周界（含直徑）。（b）求面積。（c）若沿 curved edge 每米放3盆花，要幾多盆？（取&pi;=<span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>） <span class="killer-tag">陷阱：T5+T6</span></td><td class="qd d3">/6</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">T2</td><td class="qtxt">貨品原價$P，連續兩週價格變化：+15%，-10%。最終售價$414。求P。 <span class="killer-tag">陷阱：T4</span></td><td class="qd d3">/5</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">T3</td><td class="qtxt">梯形面積72cm²，上底8cm，下底10cm。求高。若高增加25%，新面積？ <span class="killer-tag">陷阱：T6+T4</span></td><td class="qd d3">/6</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">T4</td><td class="qtxt">水箱60cm×40cm×50cm。水面離頂10cm。放入體積9600cm³的物體後，水會唔會溢出？如果會，溢出幾多cm³？ <span class="killer-tag">陷阱：T8+T9</span></td><td class="qd d4">/6</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">T5</td><td class="qtxt">甲地到乙地120km。去程速率60km/h，回程速率40km/h。全程平均速率？跟住再用這個平均速率行多60km，總共用了幾多時間？ <span class="killer-tag">陷阱：T7+T3</span></td><td class="qd d4">/6</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h2">第二部分：終極殺手題（T6-T10）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">分</th><th>作答區</th></tr>
+    <tr><td class="qn">T6</td><td class="qtxt">一個圓的半徑增加了r%。圓的面積增加了44%。求r。 <span class="killer-tag">陷阱：T5+T4</span></td><td class="qd d4">/5</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">T7</td><td class="qtxt">全班40人：男生平均68分，女生平均76分，全班平均71.6分。求男女生人數各多少？ <span class="killer-tag">陷阱：T3</span></td><td class="qd d4">/5</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">T8</td><td class="qtxt">複合圖形：長方形20cm×12cm，上方疊一個半徑6cm的半圓（直徑與長方形長邊對齊）。求整個圖形的總面積和周界。（取&pi;=3.14） <span class="killer-tag">陷阱：T5+T6</span></td><td class="qd d4">/6</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">T9</td><td class="qtxt">水箱底面積800cm²，水深15cm。以每秒120cm³注水。同時以每秒80cm³排水。求90秒後的水深。 <span class="killer-tag">陷阱：T8+T7</span></td><td class="qd d4">/6</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">T10</td><td class="qtxt">正方形邊長增加20%。（a）周界增加幾%？（b）面積增加幾%？（c）如果原邊長10cm，新正方形比原正方形面積大幾多cm²？ <span class="killer-tag">陷阱：T5+T4</span></td><td class="qd d4">/6</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td colspan="4" style="text-align:center;font-weight:700;">速解工作坊總分：____/62 &nbsp;&nbsp; 正確率：____% &nbsp;&nbsp; 完成時間：____ 分鐘</td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 5: TIERED PRACTICE + APPLICATION ══════ -->
+<div class="pb">
+  <div class="h1">四、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 5 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">22</td><td class="qtxt">圓半徑5cm。求周長和面積。（取&pi;=3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">三角形底16cm，高9cm。求面積。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">梯形上底6cm、下底10cm、高8cm。求面積。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">水箱底面積200cm²，放入石頭後水位由8cm升至11cm。石頭體積？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">貨品原價$500，加價20%後售價？再以九折出售，最終售價？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 5 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">27</td><td class="qtxt">圓A半徑是圓B的2倍。圓A面積是圓B的多少倍？</td><td class="qd d2">進階</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">梯形面積100cm²，上底+下底=20cm。求高。</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">水箱40cm×30cm×25cm。注水速率每秒150cm³。由空箱注滿需時幾耐？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">30</td><td class="qtxt">全程180km，首<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>以90km/h，餘下以60km/h。全程時間？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">長方形地18m×12m，四邊鋪一條闊1.5m的石路。石路面積？</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題，SSPA壓軸級）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">32</td><td class="qtxt">正方形邊長增加30%。（a）周界增加幾%？（b）面積增加幾%？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">33</td><td class="qtxt">水箱50cm×30cm×40cm。原有水深15cm。放入金屬後水深升至22cm。（a）金屬體積？（b）取出金屬後，以每秒200cm³注水，由15cm升至35cm需時？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">34</td><td class="qtxt">全程240km，分三段行駛：40%路程速率100km/h，35%路程速率80km/h，25%路程速率50km/h。求全程平均速率。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 極限挑戰（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">35</td><td class="qtxt">一個圓的半徑為r。新圓的面積是原圓的2.25倍。求新半徑是原半徑的多少倍？如果新圓周長比原圓周長多了15.7cm，求原半徑。（取&pi;=3.14）</td><td class="qd d4">極限</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">36</td><td class="qtxt">水箱內有一塊長方形金屬板（40cm×30cm×5cm），完全浸沒在水中。水箱底面積600cm²。取出金屬板後，水面下降了多少cm？若用一個圓柱體（半徑10cm，高？）放入，水面回升的幅度與金屬板相同，求圓柱體的高。（取&pi;=3.14）</td><td class="qd d4">極限</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 6: APPLICATION + HOMEWORK + ERROR TABLE ══════ -->
+<div class="pb">
+  <div class="h1">五、SSPA應用殺手題（5 題，全真壓軸模式）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">圓形花園半徑8m。外圍建一條闊2m的環形小路。（a）小路的面積？（b）小路鋪磚，每m²成本$150，加25%利潤報價。總報價？（取&pi;=3.14）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">一件貨品標價$600，先以八折出售，再因反應熱烈加價15%。最終售價？與原標價相比升定跌？升跌幾%？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">A城至B城180km。上午8:00以速率72km/h出發。上午9:30到達C城（在A、B之間）。C城距離B城仲有多少km？若由C城加速至90km/h，何時到達B城？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">A4</td><td class="qtxt">梯形花圃面積150m²，上底12m，高10m。求下底。若花圃周邊要建圍欄，圍欄每米$80，加人工費$1200，總費用？（需計算梯形周界：已知兩腰各長11m）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">A5</td><td class="qtxt">長方體水箱80cm×50cm×60cm。注水速率每分鐘12L。（a）由空箱注滿需時多少分鐘？（b）水箱原有水至 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 高度。放入一個體積36000cm³的裝飾品，水會唔會溢出？如會，溢出多少升？（1L=1000cm³）</td><td class="qd d4">極限</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">圓形半徑10cm。求周長和面積。（取&pi;=3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">三角形底20cm，高12cm。求面積。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">水箱底面積350cm²，石頭放入後水位由9cm升至13cm。石頭體積？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">貨品$400，先加價25%再八折。最終售價？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">全程150km。首<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>以90km/h，餘下以60km/h。求全程時間。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">圓半徑增加50%。新面積是原面積的多少倍？增加了幾%？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">梯形面積84cm²，上底=下底的 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>，高8cm。求上底和下底。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">水箱底面積500cm²，水深20cm。以每秒180cm³注水，同時以每秒60cm³排水。2分鐘後的水深？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>圓形面積變化% ≠ 半徑變化%</strong>：r+20% → A+44%</td><td>面積跟r²成正比，新面積 = (1+r%)² × 原面積</td></tr>
+    <tr><td>2</td><td><strong>排水法用水面新高度</strong>：誤用新水位乘底面積</td><td>用水位差（新水位−舊水位）× 底面積</td></tr>
+    <tr><td>3</td><td><strong>利潤%基準量錯誤</strong>：利潤% = (售−本)÷本，不是÷售</td><td>售價 = 成本 × (1+利潤%)</td></tr>
+    <tr><td>4</td><td><strong>平均速率用簡單平均</strong>：(v1+v2+v3)÷3</td><td>平均速率 = 總距離 ÷ 總時間</td></tr>
+    <tr><td>5</td><td><strong>複合圖形分割/填補法選錯</strong></td><td>畫圖分析，確認每個子圖形的公式和數據</td></tr>
+    <tr><td>6</td><td><strong>單位換算遺漏</strong>：m²↔cm², cm³↔L</td><td>1m²=10000cm², 1L=1000cm³, 1m³=1000L</td></tr>
+    <tr><td>7</td><td><strong>跨課題題目只解決第一個問題</strong></td><td>列出所有涉及的陷阱→逐一擊破→驗算整合</td></tr>
+  </table>
+
+  <div class="mn">口訣：「圓面積跟r平方變，排水法用高度差；利潤基準係成本，平均速率總除總。」</div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">拆解概念</div><div class="d">圈出題目中所有數學概念（T?+T?+T?）</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">畫圖標數</div><div class="d">幾何題必畫圖，標齊所有已知數字</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">分步驗算</div><div class="d">每步計算後驗證答案合理性</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">整合答案</div><div class="d">檢查單位、精確度、答題格式</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L32</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P PDF | 6頁 · 55題 | LF-P6-下-L32 v6
+</div>
+
+</body>
+</html>

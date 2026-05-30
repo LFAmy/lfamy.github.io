@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P4-下-L34 數據與概率入門 — 學生版講義</title>
+<style>
+<link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; }
+@media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex-q { font-size:11px; } .warn { font-size:10px; } .mn { font-size:11px; } .et { font-size:9.5px; } }
+.container { max-width:1000px; margin:0 auto; } .pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+.cover { justify-content:center; align-items:center; text-align:center; }
+.cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+.cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+.cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+.cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+.cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+.cv-info b { color:var(--blue); }
+.cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+.cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+.h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+.h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+.kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+.kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+.kp-rules { font-size:12px; line-height:1.7; }
+.ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+.ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+.ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+.warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+.mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+.qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+.qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; }
+.qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+.qt tr:nth-child(even) td { background:#FAFBFC; }
+.qt .qn { width:32px; text-align:center; font-weight:700; }
+.qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+.qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+.qt .qtxt { font-size:12.5px; line-height:1.65; }
+.d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+.d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+.ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+.sh { background:#FEE2E2; color:#991B1B; }
+.tc { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:12px; text-align:center; }
+.tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:12px; text-align:center; }
+.et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+.et th { background:var(--red); color:white; padding:4px 7px; }
+.et td { padding:4px 7px; border:1px solid var(--borderc); }
+.end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+.sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+.sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+.sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+.sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+.sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+.game-box { background:#FFFBEB; border:2px dashed var(--gold); border-radius:10px; padding:12px; margin:8px 0; text-align:center; }
+.chart-box { text-align:center; margin:8px 0; padding:8px; background:#FFF; border:1px solid var(--borderc); border-radius:6px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小四 · 第 34 堂 · 學生版講義</div>
+  <div class="cv-title">數據與概率入門</div>
+  <div class="cv-sub">可能性 · 平均數初探 · 簡單棒形圖 · 65 分鐘</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》4下D冊 單元三-四<br>
+    <b>核心陷阱：</b>🪤 可能性≠確定性 · 平均數≠中間數 · 棒形圖刻度睇錯<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🟡 中高頻</span> 呈分試數據題常見，P5-P6延伸至折線圖圓形圖<br>
+    <b>前置知識：</b>P3 簡單棒形圖閱讀 · 整數加減乘除<br>
+    <b>本堂目標：</b>❶ 閱讀和繪製簡單棒形圖 ❷ 理解「一定、可能、不可能」❸ 平均數概念初探 ❹ 數據分析基本
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">擲一粒骰仔，擲出「6」係：A.一定 B.可能 C.不可能</td><td class="qd d1">🌱</td><td class="qw" style="min-height:36px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">擲一粒骰仔，擲出「7」係：A.一定 B.可能 C.不可能</td><td class="qd d1">🌱</td><td class="qw" style="min-height:36px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">小明考試分數：85, 90, 78, 92, 88。估算平均大約幾多？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:42px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">睇棒形圖回答：邊個科目最高分？最低分？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:52px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">一個袋有 3 粒紅波子、1 粒藍波子。抽出一粒，邊種顏色「較可能」抽到？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:42px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：可能性 — 一定·可能·不可能 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>一定：</b>必定發生。例：太陽從東方升起。<br>
+      ② <b>可能：</b>有機會發生，但唔係一定。例：聽日落雨。<br>
+      ③ <b>不可能：</b>絕對唔會發生。例：擲一粒骰擲出 7。<br>
+      ④ <b>較可能 vs 較不可能：</b>比較機會大小。紅波 3 粒 vs 藍波 1 粒 → 抽到紅色較可能<br>
+      ⑤ <b>公平：</b>每種結果機會相同 → 公平。機會唔同 → 不公平
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例1</div><div class="ex-q">一個袋有 5 粒紅色、2 粒藍色波子。抽出一粒：(a)抽到紅色係？（一定/可能/不可能）(b)抽到綠色係？(c)邊種顏色較可能？</div></div>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：棒形圖閱讀 — 睇刻度、比高低 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>標題：</b>睇清楚棒形圖講緊咩<br>
+      ② <b>橫軸（x軸）：</b>分類（科目、水果、月份等）<br>
+      ③ <b>縱軸（y軸）：</b>數量/數值。注意一格代表幾多！<br>
+      ④ <b>棒嘅高度：</b>對應縱軸刻度 → 讀出數值<br>
+      ⑤ <b>比較：</b>棒愈高 = 數值愈大。相差 = 高減低
+    </div>
+  </div>
+
+  <div class="chart-box">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 260" width="350" height="260">
+      <text x="175" y="18" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">四甲班課外活動參加人數</text>
+      <line x1="55" y1="40" x2="55" y2="230" stroke="#1A3C6D" stroke-width="2"/>
+      <line x1="55" y1="230" x2="330" y2="230" stroke="#1A3C6D" stroke-width="2"/>
+      <line x1="55" y1="230" x2="330" y2="230" stroke="#E5E7EB" stroke-width="0.5"/><text x="48" y="234" text-anchor="end" font-size="9" fill="#6B7280">0</text>
+      <line x1="55" y1="192" x2="330" y2="192" stroke="#E5E7EB" stroke-width="0.5"/><text x="48" y="196" text-anchor="end" font-size="9" fill="#6B7280">5</text>
+      <line x1="55" y1="154" x2="330" y2="154" stroke="#E5E7EB" stroke-width="0.5"/><text x="42" y="158" text-anchor="end" font-size="9" fill="#6B7280">10</text>
+      <line x1="55" y1="116" x2="330" y2="116" stroke="#E5E7EB" stroke-width="0.5"/><text x="42" y="120" text-anchor="end" font-size="9" fill="#6B7280">15</text>
+      <line x1="55" y1="78" x2="330" y2="78" stroke="#E5E7EB" stroke-width="0.5"/><text x="42" y="82" text-anchor="end" font-size="9" fill="#6B7280">20</text>
+      <rect x="75" y="154" width="44" height="76" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/><text x="97" y="148" text-anchor="middle" font-size="9" fill="#1A3C6D">10</text>
+      <text x="97" y="248" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="600">足球</text>
+      <rect x="140" y="192" width="44" height="38" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/><text x="162" y="186" text-anchor="middle" font-size="9" fill="#1A3C6D">5</text>
+      <text x="162" y="248" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="600">籃球</text>
+      <rect x="205" y="116" width="44" height="114" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/><text x="227" y="110" text-anchor="middle" font-size="9" fill="#1A3C6D">15</text>
+      <text x="227" y="248" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="600">游泳</text>
+      <rect x="270" y="78" width="44" height="152" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/><text x="292" y="72" text-anchor="middle" font-size="9" fill="#1A3C6D">20</text>
+      <text x="292" y="248" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="600">田徑</text>
+    </svg>
+  </div>
+
+  <div class="ex"><div class="ex-title">例2</div><div class="ex-q">根據上圖：(a)最多人參加的課外活動是？有多少人？(b)足球比籃球多幾人？(c)總共有多少人？</div></div>
+</div>
+
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：平均數初探 <span class="ss sh">🟡 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>平均數 = 總和 ÷ 個數</b>。例：80,90,85,88,82 → 總和=425 → 平均=425÷5=85<br>
+      ② <b>平均數唔等於中間數！</b>平均係「拉勻」，唔係排中間嗰個<br>
+      ③ <b>估算平均：</b>所有數大約圍住邊個數 → 平均大概係嗰個範圍<br>
+      ④ <b>平均數的陷阱：</b>如果有一個極端數值（特別大或細），會拉高/低平均
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例3</div><div class="ex-q">小明 5 次默書分數：72, 85, 90, 78, 88。平均分 = ？</div></div>
+  <div class="ex"><div class="ex-title">例4</div><div class="ex-q">四人平均身高 140 cm。三人身高：138, 142, 139 cm。第四人身高 = ？</div></div>
+
+  <div class="kp">
+    <div class="kp-title">知識點四：簡單數據分析 <span class="ss sh">🟡 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>最多/最少：</b>從棒形圖直接睇最高/最低嘅棒<br>
+      ② <b>總數：</b>所有棒嘅數值相加<br>
+      ③ <b>相差：</b>最高 - 最低<br>
+      ④ <b>一半/倍數：</b>A 係 B 的幾倍 = A ÷ B
+    </div>
+  </div>
+
+  <div class="game-box">
+    <div class="gtitle">🎮 遊戲：擲骰預測王</div>
+    <div class="grule">每人預測擲 10 次骰仔，每面會出現幾多次？記錄結果，比較預測同實際！</div>
+  </div>
+
+  <div class="h2">知識點一至四 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">一個袋有 4 紅、2 藍、4 綠波子。抽出一粒：(a)抽到黃色係？(b)邊種最可能？(c)遊戲公平嗎？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:55px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">根據上面棒形圖，參加人數最多的活動比最少的活動多多少人？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:45px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">計算平均：四人的體重：32kg, 35kg, 28kg, 33kg。平均 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:48px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（全體必做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">9</td><td class="qtxt">判斷事件：一定/可能/不可能<br>(a)擲銀仔出「公」___ (b)太陽從西方升起 ___ (c)12月25日係聖誕節 ___</td><td class="qd d1">🌱</td><td class="qw" style="min-height:52px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">三科分數：88, 92, 96。平均分 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:48px;"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">睇棒形圖（上面四甲班），總共有多少學生參加課外活動？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:48px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（🚶🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">12</td><td class="qtxt">小明5次測驗：78, 82, x, 85, 80。平均82分。x = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:55px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">一個袋有3紅、？藍波子。如要令「抽到紅色」同「抽到藍色」機會相同，要加幾多粒藍色？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:52px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">根據以下資料畫棒形圖：蘋果12個、橙8個、香蕉15個、提子10個。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:68px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">15</td><td class="qtxt">兩組平均比較：A組4人平均85分；B組5人平均90分。兩組合共平均分 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:60px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">擲兩粒骰仔，點數和係「7」同「12」，邊個較可能？列出所有可能組合證明。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">六人平均年齡 12 歲。如果加埋老師（40歲），七人平均年齡 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:58px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 終極挑戰（🚀 選做，共 1 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">一個袋有紅、藍、綠波子共 20 粒。抽到紅色的機會是抽到藍色的 2 倍，抽到綠色的機會是抽到藍色的 1/2。各色有幾粒？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">四、應用題（SSPA 文字題，共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">19</td><td class="qtxt">一個不透明袋有5粒糖（3草莓+2薄荷）。唔睇抽一粒，抽到草莓係「一定/可能/不可能」？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:48px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">水果店一周賣出：蘋果30個、橙25個、香蕉40個、梨15個。畫棒形圖並找出最多和最少的相差。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:68px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">五位同學身高：130, 135, 128, 140, 132 cm。平均身高 = ？哪幾位高於平均？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:58px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">抽獎箱有 100 張券，其中 5 張中獎。抽一張，中獎的可能性和不中獎的可能性，哪個較大？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:50px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">下表係四甲班最喜愛水果的統計。畫棒形圖並回答：最多人喜愛的水果比最少的多幾人？全班共多少人？<br>蘋果:8 香蕉:12 橙:6 提子:10 芒果:4</td><td class="qd d3">🌳</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h1">五、課後功課</div>
+  <div class="h2">基礎必做（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">判斷：(a)擲銀仔出「公」___ (b)聽日係星期五 ___ (c)擲骰出「8」___（一定/可能/不可能）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:50px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">計算平均：23, 45, 67, 89, 31</td><td class="qd d1">🌱</td><td class="qw" style="min-height:45px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">睇棒形圖：A=15, B=25, C=10, D=20。最多係？最少係？總數 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:52px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">一個袋有 8 紅、4 藍波子。加幾多粒藍色可以令紅藍機會相同？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:48px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">5 本書頁數：120, 85, 150, 95, 110。平均頁數 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:50px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做（共 3 題，🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">四人平均分 85。三人分數：88, 82, 90。第四人分數 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:52px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">擲兩粒骰，點數和為偶數同奇數，邊個較可能？定係一樣？解釋。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:58px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">調查班上 30 人最愛季節：春5人、夏12人、秋8人、冬5人。畫棒形圖，找出最多人愛的季節比最少多幾人？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:68px;"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr>
+    <tr><td>1</td><td><b>「可能」當「一定」</b>：聽日「可能」落雨≠聽日「一定」落雨</td><td>可能=有機會。一定=必定發生。兩者完全不同</td></tr>
+    <tr><td>2</td><td><b>平均數=中間數</b>（❌）</td><td>平均=總和÷個數。1,2,100平均=34.33，中間數=2</td></tr>
+    <tr><td>3</td><td><b>棒形圖刻度睇錯</b>：一格=1定2定5定10？</td><td>睇清楚縱軸標籤。check 一格代表幾多先讀數</td></tr>
+    <tr><td>4</td><td><b>可能性相同≠公平</b>概念混淆</td><td>公平=每個結果機會相等。不公平=機會唔同</td></tr>
+    <tr><td>5</td><td><b>平均計算加法出錯</b></td><td>先加晒所有數→檢查總和→除法。步驟要對</td></tr>
+    <tr><td>6</td><td><b>「較可能」意思誤解</b></td><td>較可能=機會較大。唔係一定發生！</td></tr>
+    <tr><td>7</td><td><b>總數vs平均混淆</b></td><td>總數=所有加埋。平均=總÷個數。問咩答咩</td></tr>
+  </table>
+
+  <div class="mn">🧠 口訣：「一定必定會發生，可能代表有機會，不可能永遠唔會。平均數係總數除個數，棒形圖睇刻度先讀數。」</div>
+
+  <div class="h1">七、解題四步卡</div>
+  <div class="sc">
+    <div class="sc-card"><div class="snum">1</div><div class="stitle">睇情境</div><div class="sdetail">係概率題定數據題？概率→睇有幾多種可能結果</div></div>
+    <div class="sc-card"><div class="snum">2</div><div class="stitle">讀數據</div><div class="sdetail">棒形圖：睇標題→睇刻度→讀每條棒高度→記錄數字</div></div>
+    <div class="sc-card"><div class="snum">3</div><div class="stitle">計算</div><div class="sdetail">平均=總÷個數。相差=大減細。總數=全部相加</div></div>
+    <div class="sc-card"><div class="snum">4</div><div class="stitle">判斷</div><div class="sdetail">概率：比較機會大小。數據：誰最多/最少/相差？答完整句子</div></div>
+  </div>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-下-L34</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L34 | 32題 · 數據概率·棒形圖·平均數
+</div>
+</body>
+</html>

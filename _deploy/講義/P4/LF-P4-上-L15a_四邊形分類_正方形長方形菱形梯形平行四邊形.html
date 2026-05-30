@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LF-P4-上-L15a 四邊形分類：正方形、長方形、菱形、梯形、平行四邊形 — 學生版講義</title><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--ink:#1A1A1A;--gray:#6B7280;--lightbg:#F9FAFB;--borderc:#D1D5DB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans HK',sans-serif;background:#E5E5E5;color:var(--ink);font-size:13px;line-height:1.65;}
+@media print{body{background:white;font-size:10.5px;}.pb{box-shadow:none;padding:20px 30px;}.pb.cover-page{page-break-after:always;}.no-print{display:none!important;}.qt .qw{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px);border:1px dashed #9CA3AF;}.qt td{padding:3px 5px;}.qt{font-size:10px;}.qt .qtxt{font-size:11px;}.h1{font-size:13px;margin:10px 0 6px;}.h2{font-size:11px;}.kp{padding:6px 9px;}.kp-rules{font-size:10px;}.ex{padding:6px 9px;}.ex-q{font-size:11px;}.warn{font-size:10px;}.mn{font-size:11px;}.et{font-size:9.5px;}}
+.container{max-width:1000px;margin:0 auto;}
+.pb{width:100%;background:var(--white);padding:32px 42px;display:flex;flex-direction:column;}
+.cover{justify-content:center;align-items:center;text-align:center;}
+.cv-logo{font-family:'Noto Serif HK',serif;font-size:20px;font-weight:900;color:var(--blue);letter-spacing:6px;}
+.cv-badge{display:inline-block;border:1.5px solid var(--gold);color:var(--gold);padding:5px 22px;border-radius:20px;font-size:12px;letter-spacing:3px;margin:14px 0;}
+.cv-title{font-family:'Noto Serif HK',serif;font-size:30px;font-weight:900;color:var(--blue);letter-spacing:3px;margin:10px 0 5px;}
+.cv-sub{font-size:13px;color:var(--gray);margin-bottom:20px;}
+.cv-info{display:inline-block;text-align:left;background:var(--lightbg);border:1px solid var(--borderc);border-radius:8px;padding:16px 22px;font-size:12px;line-height:1.9;}
+.cv-info b{color:var(--blue);}
+.cv-row{margin-top:20px;font-size:13px;display:flex;gap:24px;}
+.cv-row .ln{display:inline-block;width:90px;border-bottom:1px solid var(--borderc);}
+.h1{font-family:'Noto Serif HK',serif;font-size:16px;font-weight:900;color:var(--blue);padding:6px 10px;margin:14px 0 8px;border-left:4px solid var(--gold);background:#FFFBEB;}
+.h2{font-family:'Noto Serif HK',serif;font-size:13px;font-weight:700;color:var(--blue);margin:12px 0 5px;padding-bottom:2px;border-bottom:1px solid var(--borderc);}
+.kp{margin:8px 0;padding:10px 12px;background:var(--lightbg);border:1px solid var(--borderc);border-radius:5px;}
+.kp-title{font-size:13px;font-weight:900;color:var(--blue);margin-bottom:3px;}
+.kp-rules{font-size:12px;line-height:1.7;}
+.ex{border:2px solid var(--gold);border-radius:7px;padding:10px 12px;margin:7px 0;background:#FFFDF5;}
+.ex-title{font-size:12px;font-weight:900;color:#92400E;margin-bottom:4px;}
+.ex-q{font-size:13px;font-weight:700;margin:4px 0;line-height:1.7;}
+.warn{background:#FEF2F2;border-left:3px solid var(--red);padding:5px 8px;margin:6px 0;font-size:11px;font-weight:600;color:#991B1B;}
+.mn{background:linear-gradient(135deg,#FFF8E7,#FFEDD5);border:2px solid var(--gold);border-radius:7px;padding:9px 12px;margin:6px 0;text-align:center;font-size:14px;font-weight:900;color:var(--blue);}
+.qt{width:100%;border-collapse:collapse;margin:5px 0;font-size:11.5px;}
+.qt th{background:var(--blue);color:white;padding:4px 7px;font-size:10px;font-weight:600;text-align:left;}
+.qt td{padding:5px 7px;border:1px solid var(--borderc);vertical-align:top;}
+.qt tr:nth-child(even) td{background:#FAFBFC;}
+.qt .qn{width:32px;text-align:center;font-weight:700;}
+.qt .qd{width:48px;text-align:center;font-size:10px;font-weight:700;}
+.qt .qw{min-height:80px;background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px);}
+.qt .qtxt{font-size:12.5px;line-height:1.65;}
+.d1{background:#FEF3C7;color:#92400E;}.d2{background:#DCFCE7;color:#166534;}
+.d3{background:#DBEAFE;color:#1E40AF;}.d4{background:#F3E8FF;color:#7C3AED;}
+.ss{display:inline-block;padding:1px 5px;border-radius:2px;font-size:8px;font-weight:700;}
+.sh{background:#FEE2E2;color:#991B1B;}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:7px 0;}
+.tc-w{background:#FEF2F2;border:2px solid #FECACA;border-radius:8px;padding:12px;text-align:center;}
+.tc-r{background:#F0FDF4;border:2px solid #BBF7D0;border-radius:8px;padding:12px;text-align:center;}
+.tc-w .lbl,.tc-r .lbl{font-size:13px;font-weight:900;margin-bottom:3px;}
+.tc-w .lbl{color:var(--red);}.tc-r .lbl{color:var(--green);}
+.et{width:100%;border-collapse:collapse;margin:5px 0;font-size:10.5px;}
+.et th{background:var(--red);color:white;padding:4px 7px;}
+.et td{padding:4px 7px;border:1px solid var(--borderc);}
+.end-note{text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--borderc);font-size:10px;color:var(--gray);}
+.sc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0;}
+.sc-card{background:var(--lightbg);border:1.5px solid var(--borderc);border-radius:6px;padding:10px 8px;text-align:center;font-size:10.5px;}
+.sc-card .snum{display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--blue);color:white;font-size:11px;font-weight:900;line-height:20px;margin-bottom:4px;}
+.sc-card .stitle{font-weight:700;color:var(--blue);margin:2px 0;}
+.sc-card .sdetail{font-size:10px;color:var(--ink);line-height:1.4;}
+.game-box{background:linear-gradient(135deg,#FEF3C7,#FFEDD5);border:2px dashed var(--gold);border-radius:8px;padding:12px 14px;margin:8px 0;text-align:center;}
+.game-box .game-title{font-size:14px;font-weight:900;color:#92400E;}
+.game-box .game-desc{font-size:11px;color:#78350F;margin-top:3px;}
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body><div class="container"><div class="pb cover-page cover">
+<div class="cv-logo">霖楓學苑 · LF Academy</div>
+<div class="cv-badge">小四 · 補充課題 · 學生版講義</div>
+<div class="cv-title">四邊形分類</div>
+<div class="cv-sub">正方形 · 長方形 · 菱形 · 梯形 · 平行四邊形 · 65 分鐘 · 一對三線上課程</div>
+<div class="cv-info"><b>對應教材：</b>《小學數學新思維（第二版）》4上B冊 單元三<br>
+<b>EDB 要求：</b><span class="ss sh">🔴 必修</span> 香港教育局P4明確要求<br>
+<b>前置知識：</b>P3 基本圖形認識、P4 L11-L14 面積<br>
+<b>本堂目標：</b>❶ 辨認五種四邊形 ❷ 理解各四邊形的性質 ❸ 四邊形的包含關係<br>
+<b>核心陷阱：</b>🪤 正方形是特殊的長方形 · 菱形和平行四邊形的區別 · 梯形定義（只有一對平行邊）</div>
+<div class="cv-row"><span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span></div>
+</div><div class="pb"><div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">1</td><td class="qtxt">一個有四條邊的圖形叫什麼？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">2</td><td class="qtxt">正方形有幾條邊？幾個角？邊和角有什麼特點？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">3</td><td class="qtxt">長方形和正方形有什麼不同？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">4</td><td class="qtxt">平行四邊形是什麼？它跟長方形有什麼關係？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">5</td><td class="qtxt">梯形是什麼？它跟平行四邊形有什麼不同？</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h1">二、核心知識精講 ＋ 例題練習</div><div class="kp"><div class="kp-title">知識點一：正方形 vs 長方形 <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>正方形：4條邊相等，4個角都是90°</b><br>② <b>長方形：對邊相等，4個角都是90°</b><br>③ <b>正方形是特殊的長方形！</b>（四邊等長的長方形）<br>④ 正方形 ⊂ 長方形（所有正方形都是長方形）<br>⑤ 口訣：「正方四邊一樣長，長方對邊一樣長！」</div></div>
+
+<div class="why-box" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:2px solid #16A34A;border-radius:10px;padding:14px 18px;margin:14px 0;">
+<div style="font-weight:900;color:#166534;font-size:14px;margin-bottom:6px;">WHY BOX：四邊形家族的包含關係</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+四邊形 → 梯形(一對平行) → 平行四邊形(兩對平行)<br/>
+→ 長方形(+直角) → 正方形(+四邊相等)<br/>
+→ 菱形(+四邊相等)<br/>
+<b>關鍵：</b>正方形既是長方形也是菱形！<br/>
+<em style="color:#6B7280;">「所有正方形都是長方形」✓，「所有長方形都是正方形」✗</em>
+</div>
+</div>
+<div class="kp"><div class="kp-title">知識點二：平行四邊形（Parallelogram） <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>定義：兩組對邊分別平行</b><br>② 性質：對邊相等、對角相等<br>③ <b>長方形是特殊的平行四邊形！</b>（角=90°）<br>④ <b>菱形是特殊的平行四邊形！</b>（四邊等長）<br>⑤ 口訣：「兩組對邊都平行，對邊對角各相等！」</div></div><div class="kp"><div class="kp-title">知識點三：菱形（Rhombus） <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>定義：四邊相等的四邊形</b><br>② = 等邊平行四邊形<br>③ <b>正方形是特殊的菱形！</b>（角=90°）<br>④ 性質：對角線互相垂直平分<br>⑤ 菱形 ⊂ 平行四邊形<br>⑥ 口訣：「菱形四邊一樣長，對角線垂直交叉！」</div></div><div class="kp"><div class="kp-title">知識點四：梯形（Trapezoid） <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>定義：只有一對平行邊的四邊形</b><br>② ⚠️ 香港定義：<b>只有一對</b>平行邊<br>③ 如果有兩對平行邊 → 那是平行四邊形！<br>④ <b>梯形不是平行四邊形</b>（平行四邊形有兩對平行邊）<br>⑤ 口訣：「梯形只得一對平行邊，多過一對就變形！」</div></div><div class="kp"><div class="kp-title">知識點五：包含關係圖 <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>四邊形</b>（最大的集合）<br>②　├─ <b>梯形</b>（只有一對平行邊）<br>③　└─ <b>平行四邊形</b>（兩對平行邊）<br>④　　　├─ <b>長方形</b>（平行四邊形+90°角）<br>⑤　　　│　└─ <b>正方形</b>（長方形+四邊相等）<br>⑥　　　└─ <b>菱形</b>（平行四邊形+四邊相等）</div></div><div class="ex"><div class="ex-title">例1</div><div class="ex-q">一個四邊形：四邊相等、四角都是90°。這是？<br>→ 正方形 ✅（同時是：四邊形+平行四邊形+菱形+長方形+正方形）</div></div><div class="ex"><div class="ex-title">例2</div><div class="ex-q">一個四邊形：對邊平行、四個角都是90°。這是？<br>→ 長方形 ✅（如果四邊相等 → 也是正方形）</div></div><div class="ex"><div class="ex-title">例3</div><div class="ex-q">菱形一定是正方形嗎？正方形一定是菱形嗎？<br>→ 菱形不一定（角可以是60°/120°）<br>→ 正方形一定是菱形（四邊相等 ✓）</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>正方形不是長方形？<br><b>❌ 錯！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>正方形是特殊的長方形！<br>長方形的要求：對邊相等+90°角<br>正方形滿足這兩點 → 是長方形<br>只是它「四邊都相等」。</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>梯形有兩對平行邊？<br><b>❌ 錯！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>香港定義：<br>梯形 = 只有一對平行邊<br>有兩對 → 那是平行四邊形<br>不是梯形！</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>菱形四個角都是90°？<br><b>❌ 不一定！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>菱形的要求是四邊相等。<br>角可以是任何度數。<br>只有當角=90°時<br>菱形才是正方形。</div></div><div class="warn">⚠️ 正方形 ⊂ 長方形 ⊂ 平行四邊形 ⊂ 四邊形。這是包含關係鏈，SSPA常考。</div><div class="warn">⚠️ 香港梯形定義：只有一對平行邊。不要跟內地定義混淆。</div><div class="warn">⚠️ 菱形 = 等邊平行四邊形。對角線垂直是菱形的特殊性質。</div></div><div class="pb"><div class="h1">三、課堂分層同步練習</div><div class="h2">🌱 基礎層（共 6 題） 基礎層（全體必做）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">6</td><td class="qtxt">配對：①四邊相等+90°角 ②對邊相等+90°角 ③四邊相等 ④只有一對平行邊 (A)正方形 (B)長方形 (C)菱形 (D)梯形</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">7</td><td class="qtxt">判斷對錯：①正方形是長方形 ②長方形是正方形 ③菱形是平行四邊形</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">8</td><td class="qtxt">畫出正方形、長方形、平行四邊形、菱形、梯形的簡圖。</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">9</td><td class="qtxt">一個四邊形：兩組對邊平行，但角不是90°。叫什麼？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">10</td><td class="qtxt">為什麼正方形既是長方形又是菱形？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">11</td><td class="qtxt">正方形有幾條對稱軸？長方形呢？菱形呢？平行四邊形呢？</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h2">🌳 進階層（共 5 題） 挑戰層（🚀 選做）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">12</td><td class="qtxt">判斷：①所有正方形都是菱形 ②所有菱形都是正方形 ③所有長方形都是平行四邊形 ④所有平行四邊形都是長方形</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">13</td><td class="qtxt">一個四邊形：對角線相等且互相平分。這是什麼四邊形？可能是正方形嗎？</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">14</td><td class="qtxt">畫出包含關係圖：四邊形→梯形/平行四邊形→長方形/菱形→正方形。標註每個層級的條件。</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">15</td><td class="qtxt">如果一個四邊形既是長方形又是菱形，它一定是什麼？為什麼？</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">16</td><td class="qtxt">等腰梯形的定義是什麼？它有什麼對稱性？</td><td class="qd d3">🌳</td><td class="qw"></td></tr></table></div><div class="pb"><div class="h1">四、應用題（SSPA 文字題，共 {len(word_probs)} 題）</div>{qt_table(word_probs)}</div><div class="pb"><div class="h1">五、課後功課</div><div class="h2">基礎必做（共 4 題）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">H1</td><td class="qtxt">正方形是長方形嗎？為什麼？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">H2</td><td class="qtxt">菱形是平行四邊形嗎？為什麼？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">H3</td><td class="qtxt">梯形和平行四邊形的區別是什麼？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">H4</td><td class="qtxt">畫出所有你能想到的四邊形，並標註它們的名稱。</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h2">進階選做（共 0 題 🚀）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr></table></div><div class="pb"><div class="h1">六、本堂核心易錯點總結</div><table class="et"><tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr><tr><td>1</td><td><b>正方形vs長方形</b></td><td>正方形⊂長方形。所有正方形都是長方形，但長方形不一定是正方形。</td></tr><tr><td>2</td><td><b>菱形vs平行四邊形</b></td><td>菱形⊂平行四邊形。菱形=等邊平行四邊形。</td></tr><tr><td>3</td><td><b>梯形定義</b></td><td>香港：只有一對平行邊。有兩對→平行四邊形。</td></tr><tr><td>4</td><td><b>包含關係</b></td><td>正方形⊂長方形⊂平行四邊形⊂四邊形。正方形⊂菱形⊂平行四邊形。</td></tr><tr><td>5</td><td><b>對稱軸</b></td><td>正方形4條、長方形2條、菱形2條、一般平行四邊形0條、等腰梯形1條。</td></tr></table><div class="mn">🧠 口訣：「正方係特殊長方形，長方係特殊平行邊。菱形四邊一樣長，梯形只得一對平。包含關係要記清，SSPA幾何唔會驚！」</div><div class="h1">七、解題四步卡</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">認形</div><div class="sdetail">看邊：四邊相等？對邊相等？看角：90°？看平行：幾對平行邊？</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">分類</div><div class="sdetail">根據性質把四邊形歸類。一個形狀可以同時屬於多個類別。</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">包含</div><div class="sdetail">理解子集關係。正方形⊂長方形⊂平行四邊形。</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">畫圖</div><div class="sdetail">格點圖畫四邊形。標註邊長、角度、平行關係。</div></div></div><div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-上-L15a · EDB補充課題 · 建議插入L15(方向與位置)之後</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 LF-P4-上-L15a · EDB補充課題 · 建議插入L15(方向與位置)之後</div></div></div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">Ctrl+P | LF-P4-上-L15a · EDB補充課題 · 建議插入L15(方向與位置)之後</div>
+</body></html>

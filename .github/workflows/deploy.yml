@@ -1,0 +1,36 @@
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Sync docs to _deploy
+        run: |
+          mkdir -p _deploy/docs
+          cp -r docs/* _deploy/docs/
+          cp -r 講義/* _deploy/講義/ 2>/dev/null || true
+          echo "Synced docs to _deploy"
+
+      - name: Deploy to Firebase
+        run: firebase deploy --only hosting --project lfady-b1761 --token "${{ secrets.FIREBASE_TOKEN }}"
+
+      - name: Deployment Summary
+        run: |
+          echo "Deployed to https://lfady-b1761.web.app"
+          echo "Custom domain: https://lfacademyhk.com"

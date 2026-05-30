@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-上-L18 綜合：圖表+幾何+測量 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* FRACTIONS */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* COVER */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .svg-center { text-align:center; margin:10px 0; }
+  .svg-center svg { max-width:100%; height:auto; }
+
+  .blank-chart { border:2px dashed #9CA3AF; background:#FAFBFC; border-radius:8px; padding:16px; text-align:center; margin:10px 0; min-height:200px; }
+  .blank-chart .hint { font-size:11px; color:var(--gray); margin-top:8px; }
+  .draw-area { border:2px dashed #9CA3AF; background:#FAFBFC; border-radius:8px; padding:20px; text-align:center; margin:10px 0; min-height:200px; }
+  .draw-area .hint { font-size:11px; color:var(--gray); margin-top:8px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ══════ PAGE 1: COVER ══════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 18 堂 · 學生版講義</div>
+  <div class="cv-title">綜合：圖表 + 幾何 + 測量</div>
+  <div class="cv-sub">跨課題整合 · 設計+測量+呈現 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6上B冊 綜合練習 ＋ 呈分試跨課題卷<br>
+    <b>核心陷阱：</b>T10 跨課題混淆 — 幾何圖形計算選錯公式 · 圖表讀數單位不一致<br>
+    <b>SSPA 關聯：</b><span class="ss sh">殺手題</span> 呈分試跨課題綜合題，每屆必出 1-2 題（10-15分）<br>
+    <b>前置知識：</b>堂1-5（小數/分數/百分數）· 堂6-10（面積/體積）· 堂16-17（排水法/圓形圖）<br>
+    <b>本堂目標：</b>跨課題整合思維 · 從量度數據到製作圖表 · 綜合應用場景解難
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 2: WARM-UP + KP1 ══════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">長方形長 12 cm、闊 8 cm。面積是多少 cm<sup>2</sup>？周界是多少 cm？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">三角形底 10 cm、高 6 cm。面積是多少 cm<sup>2</sup>？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">閱讀棒形圖：一月45、二月52、三月48。哪個月最高？三個月的平均是多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">一個梯形上底 6 cm、下底 10 cm、高 5 cm。面積是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">圓的半徑是 7 cm（&pi; &asymp; <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）。圓周長是多少？面積是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：圖表+數據整合 — 讀取、計算、呈現一條龍<span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>綜合題的「讀取-計算-呈現」循環：</strong>
+      <ol>
+        <li><strong>讀取：</strong>從圖表（棒形圖/折線圖/圓形圖）中提取數據</li>
+        <li><strong>計算：</strong>應用幾何公式、百分比、平均數等進行計算</li>
+        <li><strong>呈現：</strong>將計算結果以另一種圖表形式呈現或補完原圖表</li>
+      </ol>
+      <strong>常見綜合模式：</strong>棒形圖 + 平均數 · 折線圖 + 速率 · 圓形圖 + 百分數 · 幾何圖形 + 量度數據繪圖
+    </div>
+  </div>
+
+  <div class="svg-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 320" width="440" height="306">
+      <line x1="85" y1="35" x2="85" y2="255" stroke="#374151" stroke-width="2"/>
+      <line x1="85" y1="255" x2="425" y2="255" stroke="#374151" stroke-width="2"/>
+      <text x="14" y="155" text-anchor="middle" font-size="11" fill="#1A3C6D" transform="rotate(-90,14,155)">溫度 (°C)</text>
+      <line x1="85" y1="255" x2="425" y2="255" stroke="#E5E7EB" stroke-width="0.5"/>
+      <line x1="85" y1="218" x2="425" y2="218" stroke="#E5E7EB" stroke-width="0.5"/>
+      <line x1="85" y1="182" x2="425" y2="182" stroke="#E5E7EB" stroke-width="0.5"/>
+      <line x1="85" y1="146" x2="425" y2="146" stroke="#E5E7EB" stroke-width="0.5"/>
+      <line x1="85" y1="109" x2="425" y2="109" stroke="#E5E7EB" stroke-width="0.5"/>
+      <line x1="85" y1="73" x2="425" y2="73" stroke="#E5E7EB" stroke-width="0.5"/>
+      <line x1="85" y1="36" x2="425" y2="36" stroke="#E5E7EB" stroke-width="0.5"/>
+      <text x="78" y="259" text-anchor="end" font-size="10" fill="#6B7280">0</text>
+      <text x="78" y="222" text-anchor="end" font-size="10" fill="#6B7280">5</text>
+      <text x="78" y="186" text-anchor="end" font-size="10" fill="#6B7280">10</text>
+      <text x="78" y="149" text-anchor="end" font-size="10" fill="#6B7280">15</text>
+      <text x="78" y="113" text-anchor="end" font-size="10" fill="#6B7280">20</text>
+      <text x="78" y="76" text-anchor="end" font-size="10" fill="#6B7280">25</text>
+      <text x="78" y="40" text-anchor="end" font-size="10" fill="#6B7280">30</text>
+      <rect x="115" y="218" width="40" height="37" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="135" y="210" text-anchor="middle" font-size="10" fill="#1A3C6D">18</text>
+      <rect x="175" y="203" width="40" height="52" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="195" y="195" text-anchor="middle" font-size="10" fill="#1A3C6D">20</text>
+      <rect x="235" y="182" width="40" height="73" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="255" y="174" text-anchor="middle" font-size="10" fill="#1A3C6D">23</text>
+      <rect x="295" y="161" width="40" height="94" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="315" y="153" text-anchor="middle" font-size="10" fill="#1A3C6D">26</text>
+      <rect x="355" y="146" width="40" height="109" fill="#3B82F6" stroke="#1D4ED8" stroke-width="1"/>
+      <text x="375" y="138" text-anchor="middle" font-size="10" fill="#1A3C6D">29</text>
+      <text x="135" y="275" text-anchor="middle" font-size="11" fill="#1A3C6D">一月</text>
+      <text x="195" y="275" text-anchor="middle" font-size="11" fill="#1A3C6D">二月</text>
+      <text x="255" y="275" text-anchor="middle" font-size="11" fill="#1A3C6D">三月</text>
+      <text x="315" y="275" text-anchor="middle" font-size="11" fill="#1A3C6D">四月</text>
+      <text x="375" y="275" text-anchor="middle" font-size="11" fill="#1A3C6D">五月</text>
+      <text x="260" y="22" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">上半年平均氣溫</text>
+    </svg>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題（圖表讀數+幾何混合）</div>
+    <div class="ex-q">上圖顯示某城市上半年每月平均氣溫。(a) 求六個月的平均氣溫。(b) 若要在一個長方形花園（長 20 m、闊 15 m）種植，每平方米可種 3 棵植物，三月份適合種的植物種類是該月溫度一半（取整數），求可種多少棵？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤</div><div class="eq">直接用一個月溫度計算<br>或不理會圖表數據直接瞎猜</div><div class="why">跨課題題必須先準確讀取圖表數據<br>再應用幾何公式<br>兩步都要對！</div></div>
+      <div class="tc-r"><div class="lbl">正確思路</div><div class="eq">先讀圖: 各月數據 → 求平均<br>面積 = 20×15 = 300 m²<br>三月份適合數 = 23÷2 &asymp; 11<br>可種 = 300×11 = 3300棵</div><div class="why">分步：圖表→數字→幾何→計算<br>每步驗證後才下一步</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「先讀圖表取數據，再套公式去計算；單位一致最要緊，跨課題目分步解」</div>
+  <div class="warn">跨課題第一陷阱：忘記單位換算。棒形圖用 cm 但幾何題用 m，必須先統一單位！</div>
+
+  <div class="h2">知識點一 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">參照上圖氣溫棒形圖。求一月至六月氣溫的平均數、中位數、和最高與最低的相差。</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">參照上圖。一個正方形花園邊長 15 m，若每 m² 的面積需要水量 = 當月平均溫度(L)，求三月和五月共需多少 L 水？</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 3: KP2-KP3 ══════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：幾何圖形+數據 — 量度、計算、製表<span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>常見模式：</strong>給出複合圖形的尺寸數據 → 計算面積/體積 → 以圖表呈現<br>
+      <br>
+      <strong>複合圖形面積三步：</strong>分割為基本圖形 → 分別計算面積 → 加減組合<br>
+      <br>
+      <strong>跨課題關鍵對照表：</strong>
+      <table style="width:100%;font-size:11px;margin-top:4px;border-collapse:collapse;">
+        <tr style="background:#DBEAFE;"><td style="padding:4px 6px;border:1px solid #D1D5DB;font-weight:700;">圖形</td><td style="padding:4px 6px;border:1px solid #D1D5DB;font-weight:700;">公式</td><td style="padding:4px 6px;border:1px solid #D1D5DB;font-weight:700;">可對應圖表類型</td></tr>
+        <tr><td style="padding:4px 6px;border:1px solid #D1D5DB;">長方形</td><td style="padding:4px 6px;border:1px solid #D1D5DB;">A = l &times; w</td><td style="padding:4px 6px;border:1px solid #D1D5DB;">棒形圖（長度代表面積）</td></tr>
+        <tr><td style="padding:4px 6px;border:1px solid #D1D5DB;">三角形</td><td style="padding:4px 6px;border:1px solid #D1D5DB;">A = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> bh</td><td style="padding:4px 6px;border:1px solid #D1D5DB;">折線圖（面積變化趨勢）</td></tr>
+        <tr><td style="padding:4px 6px;border:1px solid #D1D5DB;">梯形</td><td style="padding:4px 6px;border:1px solid #D1D5DB;">A = <span class="f"><span class="n">(a+b)h</span><span class="b"></span><span class="d">2</span></span></td><td style="padding:4px 6px;border:1px solid #D1D5DB;">棒形圖（複合棒形）</td></tr>
+        <tr><td style="padding:4px 6px;border:1px solid #D1D5DB;">圓形</td><td style="padding:4px 6px;border:1px solid #D1D5DB;">A = &pi;r²</td><td style="padding:4px 6px;border:1px solid #D1D5DB;">圓形圖（扇形面積比）</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">例題（複合圖形 + 數據記錄）</div>
+    <div class="ex-q">一個花園設計如下：長方形（長 25 m、闊 16 m）+ 半圓形（直徑 = 長方形的闊）。計算總面積後，需在棒形圖上標出各部分面積（長方形和半圓形），並求哪部分佔總面積的百分比較大。（&pi; 取 3.14）</div>
+  </div>
+
+  <div class="h2">知識點二 練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">3</td><td class="qtxt">一個L形複合圖形由兩個長方形組成：豎向 8 cm &times; 3 cm，橫向 5 cm &times; 4 cm。求總面積。</td><td class="qd d2"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">一個T形複合圖形：頂部長方形 12 cm &times; 3 cm，柱身 5 cm &times; 7 cm。求總面積。</td><td class="qd d2"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">在方格紙上畫出一個複合圖形，量度各邊長，記錄數據，計算面積，並畫棒形圖表示各部分的面積。</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：設計+測量+呈現循環 — 真實場景解難<span class="ss sh">SSPA 殺手題</span></div>
+    <div class="kp-rules">
+      <strong>完整解難流程（Design-Measure-Present Cycle）：</strong>
+      <ol>
+        <li><strong>設計 (Design)：</strong>讀題，理解場景，確定需要計算哪些量</li>
+        <li><strong>量度/計算 (Measure/Calculate)：</strong>從題目/圖表中提取數據，應用公式計算</li>
+        <li><strong>呈現 (Present)：</strong>將結果以適當的圖表形式（棒形圖/折線圖/圓形圖/表格）呈現</li>
+      </ol>
+      <strong>SSPA常見場景：</strong>設計花園 · 裝修房間計用料 · 學校統計活動 · 店舖銷售分析
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">例題（完整場景）</div>
+    <div class="ex-q">學校要在操場建造一個花園。花園由一個長方形（18 m &times; 12 m）和兩個相同的半圓形（直徑 = 12 m）組成。(a) 計算總面積。(b) 如果種植成本為每平方米 $80，長方形部分種花（成本如上），兩個半圓形部分種草（成本為每平方米 $35），求總成本。(c) 請用棒形圖表示花和草各自的成本。（&pi; 取 3.14）</div>
+  </div>
+
+  <div class="h2">知識點三 場景練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">一個房間長 6 m、闊 4 m、高 3 m。(a) 求牆壁的總面積（四面牆，不計天花板和地板）。(b) 如每罐油漆可塗 10 m²，需要買幾罐？(c) 畫棒形圖表示四面牆的面積。</td><td class="qd d3"></td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">一個梯形花圃：上底 8 m、下底 14 m、高 6 m。花圃分成兩半，一半種玫瑰（每m²可種 4 棵），一半種向日葵（每m²可種 2 棵）。求：(a) 總面積；(b) 各可種多少棵？(c) 畫圓形圖表示兩種花所佔面積的比例。</td><td class="qd d3"></td><td class="qw" style="min-height:92px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 4: TIERED PRACTICE ══════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">8</td><td class="qtxt">一個長方形長 15 cm、闊 10 cm。求面積和周界。</td><td class="qd d1"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">以下棒形圖數據：A=30, B=45, C=25, D=50。求：(a) 總和 (b) 平均數 (c) D比C多多少？</td><td class="qd d1"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">一個正方形花園邊長 9 m，外圍有一條闊 1 m 的小路。求小路的面積。（提示：大正方形 − 小正方形）</td><td class="qd d2"></td><td class="qw" style="min-height:65px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">一個房間的平面圖是複合圖形（L形）：主體 8 m &times; 6 m，凸出部分 3 m &times; 2 m。求總面積。若要鋪地磚（每塊 0.25 m²），需要多少塊？</td><td class="qd d2"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">以下折線圖顯示小明六次數學測驗分數：72, 68, 78, 82, 76, 88。(a) 求平均分。 (b) 哪一次進步最大？(c) 若60分合格，不合格的有幾次？</td><td class="qd d2"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">某公園有兩個區域：遊樂場（梯形：上底 20 m、下底 30 m、高 15 m）和草地（長方形：25 m &times; 18 m）。求：(a) 各區域面積 (b) 總面積 (c) 畫棒形圖表示兩個區域的面積。</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">14</td><td class="qtxt">一個圓形水池（半徑 7 m）旁邊有一條闊 2 m 的環形小路。求小路的面積。（&pi; 取 <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">學校禮堂的地面是一個複合圖形：長方形（30 m &times; 20 m）+ 半圓形（直徑 = 20 m，連接在長方形一側）。(a) 求總面積。 (b) 若鋪設地板每平方米 $120，求總成本。 (c) 將長方形和半圓形的面積以圓形圖表示兩者比例。（&pi; 取 3.14）</td><td class="qd d3"></td><td class="qw" style="min-height:92px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">一個長方體水箱長 50 cm、闊 30 cm、高 40 cm，裝了 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 滿的水。放入一塊石頭完全浸沒後，水面升至 35 cm。(a) 求石頭體積。 (b) 若從該水箱取走石頭後，將水倒入一個正方體水箱（邊長 25 cm），正方體水箱的水面有多高？ (c) 以棒形圖表示兩個水箱的水的體積。</td><td class="qd d4"></td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 終極挑戰（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">17</td><td class="qtxt">一個社區花園分為四部分：A（正方形，邊長 12 m）、B（長方形，18 m &times; 8 m）、C（三角形，底 14 m、高 10 m）、D（梯形，上底 8 m、下底 16 m、高 7 m）。(a) 求各部分面積。 (b) 求總面積。 (c) 計算各部分佔總面積的百分比。 (d) 在下方繪圖區繪製圓形圖表示四部分所佔的比例。</td><td class="qd d4"></td><td class="qw" style="min-height:98px;"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">一個長方形地皮（50 m &times; 30 m）要劃分為三個區域：房屋（佔 50%）、花園（佔 30%）、車道（佔 20%）。房屋的地基需要向下挖 2 m 深，挖出的泥土用來填高花園（花園需填高 0.5 m）。問：(a) 挖出的泥土體積是多少？(b) 花園需要的泥土體積是多少？(c) 剩餘或不足的泥土有多少立方米？(d) 用複合棒形圖表示挖出和需要的泥土體積。</td><td class="qd d4"></td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 5: HOMEWORK + ERROR TABLE ══════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（跨課題綜合應用）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">19</td><td class="qtxt">以下棒形圖顯示某店四個月的營業額：一月 $12000、二月 $15000、三月 $10000、四月 $18000。(a) 求四個月的總營業額和平均營業額。(b) 若五月預計營業額比四月增加 25%，五月營業額是多少？(c) 畫折線圖表示五個月的營業額變化。</td><td class="qd d3"></td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">一個圓形花園半徑 10 m。花園中央有一個正方形水池（邊長 6 m）。求：(a) 花園總面積 (b) 水池面積 (c) 可種植面積 (d) 可種植面積佔花園總面積的百分比。（&pi; 取 3.14）</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">一個教室長 10 m、闊 8 m、高 3.5 m。(a) 求四面牆的面積（扣除門窗共 12 m²）。(b) 如每罐油漆覆蓋 15 m²，需買幾罐？(c) 以圓形圖表示四面牆各佔的面積比例（前後牆各 10&times;3.5，左右牆各 8&times;3.5）。</td><td class="qd d3"></td><td class="qw" style="min-height:92px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">學校圖書館三類書的借閱數據：小說（每月平均 120 本）、科普（每月平均 80 本）、漫畫（每月平均 100 本）。(a) 求各佔總借閱量的百分比。(b) 以圓形圖表示。(c) 若下月總借閱量預計增加 15%，求下月各類書的預計借閱量。</td><td class="qd d3"></td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">一個公園分為三個區域：A區（長方形 40 m &times; 25 m）、B區（三角形 底 30 m、高 20 m）、C區（半圓形 直徑 14 m，&pi;=<span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）。(a) 求各區面積。(b) 求總面積。(c) 畫複合棒形圖比較各區面積。(d) 計算各區佔總面積的百分比，用圓形圖表示。</td><td class="qd d4"></td><td class="qw" style="min-height:98px;"></td></tr>
+  </table>
+
+  <div class="draw-area">
+    <p style="font-weight:700;color:var(--blue);margin-bottom:12px;">繪圖區 — 請在此繪製所需圖表</p>
+    <div style="min-height:150px;display:flex;align-items:center;justify-content:center;color:var(--gray);font-size:12px;">（棒形圖 / 圓形圖 / 折線圖繪製空間）</div>
+  </div>
+</div>
+
+<!-- ══════ PAGE 6: HOMEWORK + ERROR SUMMARY ══════ -->
+<div class="pb">
+  <div class="h1">五、課後功課</div>
+
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">長方形長 14 cm、闊 9 cm。求面積。若長增加 2 cm、闊不變，新面積是多少？增加了多少%？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">三角形底 16 cm、高 9 cm。求面積。</td><td class="qd d1"></td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">一個棒形圖顯示五個月的銷售量：100, 120, 90, 150, 140。求平均月銷售量。</td><td class="qd d1"></td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">梯形上底 5 cm、下底 11 cm、高 6 cm。求面積。</td><td class="qd d2"></td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">L形複合圖形：豎向長方形 10 cm &times; 4 cm，橫向長方形 6 cm &times; 5 cm。求總面積。</td><td class="qd d2"></td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">一個花園由長方形（20 m &times; 12 m）+ 半圓形（直徑 = 12 m）組成。(a) 求總面積。(b) 若長方形部分種花（每m² $60），半圓形部分種草（每m² $30），求總成本。(c) 畫棒形圖。（&pi; 取 3.14）</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個長方體水箱長 40 cm、闊 25 cm、高 30 cm，原有水深 18 cm。放入一塊 4500 cm³ 的石頭。(a) 水會否溢出？(b) 如果溢出，溢出多少？(c) 畫一個簡單的排水法示意圖。</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">一個社區的三類廢物回收量（公斤）：塑膠 240、紙張 360、金屬 150、玻璃 90。(a) 求全體總數。(b) 計算各類所佔的百分比和圓心角。(c) 繪製圓形圖。</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>跨課題時公式用錯：</strong>三角形面積忘了除2</td><td>背熟公式：三角形 A = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> bh；梯形 A = <span class="f"><span class="n">(a+b)h</span><span class="b"></span><span class="d">2</span></span></td></tr>
+    <tr><td>2</td><td><strong>單位不統一：</strong>圖表用 cm，計算用 m，不換算</td><td>提取數據後第一步：統一單位（1 m = 100 cm）</td></tr>
+    <tr><td>3</td><td><strong>複合圖形分割錯誤：</strong>重複計算重疊部分</td><td>畫輔助線分割，確保每個部分只計算一次</td></tr>
+    <tr><td>4</td><td><strong>圖表讀數不準確：</strong>棒形圖刻度看不準</td><td>仔細對照Y軸刻度，一格一格數；可以用間尺輔助</td></tr>
+    <tr><td>5</td><td><strong>環形/小路問題計算錯誤：</strong>用了半徑差而非面積差</td><td>大圓面積 − 小圓面積，不是 &pi;(R−r)²</td></tr>
+    <tr><td>6</td><td><strong>繪圖時數據轉換錯誤：</strong>百分比轉角度計算錯誤</td><td>角度 = 360&deg; &times; (部分/全體)，用小數計算</td></tr>
+    <tr><td>7</td><td><strong>忘記驗證圖表完整性：</strong>百分比總和、角度總和未檢查</td><td>百分比總和必須=100%，角度總和必須=360&deg;</td></tr>
+  </table>
+
+  <div class="mn">本堂核心口訣：「跨課題目分三步，讀取計算再呈現；公式單位先確認，複合圖形分割計」</div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">讀取數據</div><div class="d">從圖表/題目提取數字</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">單位統一</div><div class="d">cm→m, mL→L, etc.</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">公式計算</div><div class="d">確認圖形→套公式</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">圖表呈現</div><div class="d">選合適圖表→繪圖+標註</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱 · LF-P6-上-L18</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF &nbsp;|&nbsp; 6頁 · 43題 &nbsp;|&nbsp; LF-P6-上-L18 v6
+</div>
+
+</body>
+</html>

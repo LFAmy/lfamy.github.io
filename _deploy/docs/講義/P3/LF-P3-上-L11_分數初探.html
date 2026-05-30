@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>LF-P3-上-L11 分數初探</title>
+<style><link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--ink:#1A1A1A;--gray:#6B7280;--lightbg:#F9FAFB;--borderc:#D1D5DB}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans HK',sans-serif;background:#E5E5E5;color:var(--ink);font-size:14px;line-height:1.7}
+@media print{body{background:white;font-size:12px}.pb{box-shadow:none;min-height:0;padding:24px 36px}.pb.cover-page{page-break-after:always}.no-print{display:none!important}.qt .qw{background:none;border:1px dashed #D1D5DB}.qt td{padding:5px 7px}.qt{font-size:11px}}
+.container{max-width:1000px;margin:0 auto}.pb{width:100%;background:var(--white);padding:36px 48px;display:flex;flex-direction:column}
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px}.f .n{font-size:inherit;line-height:1.15}.f .d{font-size:inherit;line-height:1.15}.f .b{width:100%;height:1.4px;background:currentColor;margin:2px 0;min-width:16px}
+.fd{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px}.fd .n{font-size:20px;font-weight:700;line-height:1.15}.fd .d{font-size:20px;font-weight:700;line-height:1.15}.fd .b{width:100%;height:2px;background:currentColor;min-width:24px;margin:3px 0}
+.cover{justify-content:center;align-items:center;text-align:center}
+.cv-logo{font-family:'Noto Serif HK',serif;font-size:22px;font-weight:900;color:var(--blue);letter-spacing:6px}
+.cv-badge{display:inline-block;border:1.5px solid var(--gold);color:var(--gold);padding:5px 22px;border-radius:20px;font-size:13px;letter-spacing:3px;margin:16px 0}
+.cv-title{font-family:'Noto Serif HK',serif;font-size:30px;font-weight:900;color:var(--blue);letter-spacing:3px;margin:12px 0 6px}
+.cv-sub{font-size:14px;color:var(--gray);margin-bottom:24px}
+.cv-info{display:inline-block;text-align:left;background:var(--lightbg);border:1px solid var(--borderc);border-radius:8px;padding:18px 24px;font-size:13px;line-height:2.1}.cv-info b{color:var(--blue)}
+.cv-row{margin-top:24px;font-size:14px;display:flex;gap:28px;flex-wrap:wrap;justify-content:center}.cv-row .ln{display:inline-block;width:100px;border-bottom:1px solid var(--borderc)}
+.h1{font-family:'Noto Serif HK',serif;font-size:18px;font-weight:900;color:var(--blue);padding:8px 14px;margin:20px 0 12px;border-left:4px solid var(--gold);background:#FFFBEB}
+.h2{font-family:'Noto Serif HK',serif;font-size:15px;font-weight:700;color:var(--blue);margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--borderc)}
+.kp{margin:10px 0;padding:12px 16px;background:var(--lightbg);border:1px solid var(--borderc);border-radius:6px}.kp-title{font-size:15px;font-weight:900;color:var(--blue);margin-bottom:6px}.kp-rules{font-size:13px;line-height:1.8}
+.ex{border:2px solid var(--gold);border-radius:8px;padding:12px 16px;margin:10px 0;background:#FFFDF5}.ex-title{font-size:14px;font-weight:900;color:#92400E;margin-bottom:6px}.ex-q{font-size:15px;font-weight:700;margin:6px 0;line-height:1.8}
+.warn{background:#FEF2F2;border-left:3px solid var(--red);padding:7px 12px;margin:8px 0;font-size:13px;font-weight:600;color:#991B1B}
+.tip{background:#F0FDF4;border-left:3px solid var(--green);padding:7px 12px;margin:8px 0;font-size:13px;font-weight:600;color:#166534}
+.mn{background:linear-gradient(135deg,#FFF8E7,#FFEDD5);border:2px solid var(--gold);border-radius:8px;padding:12px 16px;margin:10px 0;text-align:center;font-size:16px;font-weight:900;color:var(--blue)}
+.qt{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}.qt th{background:var(--blue);color:white;padding:6px 10px;font-size:12px;font-weight:600;text-align:left}.qt td{padding:7px 10px;border:1px solid var(--borderc);vertical-align:top}.qt tr:nth-child(even) td{background:#FAFBFC}.qt .qn{width:36px;text-align:center;font-weight:700}.qt .qd{width:56px;text-align:center;font-size:11px;font-weight:700}.qt .qw{min-height:80px;background:repeating-linear-gradient(transparent,transparent 26px,#E5E7EB 26px,#E5E7EB 27px)}.qt .qtxt{font-size:14px;line-height:1.8}
+.d1{background:#FEF3C7;color:#92400E}.d2{background:#DCFCE7;color:#166534}.d3{background:#DBEAFE;color:#1E40AF}.d4{background:#F3E8FF;color:#7C3AED}
+.ss{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700}.sh{background:#FEE2E2;color:#991B1B}.sm{background:#FEF3C7;color:#92400E}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}.tc-w{background:#FEF2F2;border:2px solid #FECACA;border-radius:8px;padding:14px;text-align:center}.tc-r{background:#F0FDF4;border:2px solid #BBF7D0;border-radius:8px;padding:14px;text-align:center}.tc-w .lbl{font-size:14px;font-weight:900;color:var(--red)}.tc-r .lbl{font-size:14px;font-weight:900;color:var(--green)}.tc-w .eq{font-size:18px;color:var(--red)}.tc-r .eq{font-size:18px;color:var(--green)}.tc-w .why{font-size:11px;color:#991B1B;margin-top:4px}.tc-r .why{font-size:11px;color:#14532D;margin-top:4px}
+.sc{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}.sc-i{background:var(--lightbg);border:2px solid var(--borderc);border-radius:10px;padding:14px;text-align:center}.sc-i .n{width:34px;height:34px;border-radius:50%;background:var(--blue);color:white;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}.sc-i .t{font-size:14px;font-weight:900}.sc-i .d{font-size:11px;color:var(--gray);line-height:1.4;margin-top:3px}
+.et{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px}.et th{background:var(--red);color:white;padding:6px 10px}.et td{padding:6px 10px;border:1px solid var(--borderc)}
+.end-note{text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid var(--borderc);font-size:12px;color:var(--gray)}.star{color:#F59E0B;font-size:16px}
+.frac-diag{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:10px 0}.frac-diag svg{max-width:160px;height:auto}
+</style></head><body><div class="container">
+
+<div class="pb cover-page cover">
+<div class="cv-logo">霖楓學苑 · LF Academy</div>
+<div class="cv-badge">小三 · 第 11 堂 · 學生版講義</div>
+<div class="cv-title">分數初探</div>
+<div class="cv-sub">單元四 · 一半、四分之一、三分之一 · 65 分鐘</div>
+<div class="cv-info">
+<b>核心陷阱：</b>🪤 分數不是兩個數！分母代表切幾份，分子代表攞幾份<br>
+<b>前置知識：</b>除法概念（堂8-10）<br>
+<b>本堂目標：</b>❶ 理解分數 = 整體的一部分 ❷ 認識 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> ❸ 分數大小比較<br>
+<b>對應教材：</b>《小學數學新思維》3上A冊 單元六
+</div>
+<div class="cv-row">
+<span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+</div></div>
+
+<div class="pb">
+<div class="h1">一、熱身啟動題（共 5 題）<span class="star">⭐</span></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">🍕 一個 Pizza 切成 2 份一樣大細嘅，每份係幾分之幾？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">🎂 一個蛋糕切成 4 等份，每份係＿＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">🍫 一排朱古力有 8 格，食咗 3 格。食咗嘅佔整排嘅幾分之幾？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">12 的一半係幾多？12 &divide; 2 = ＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">下面哪個圖的陰影部分代表 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>？點解？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+</table>
+
+<div class="h1">二、核心知識精講</div>
+
+<div class="kp"><div class="kp-title">知識點一：咩嘢係分數？<span class="ss sm">⭐ 最重要！</span></div>
+<div class="kp-rules">
+  ① 分數 = <strong>整體的一部分</strong><br>
+  ② <strong>分母（下面個數）</strong>：將整體切成幾多等份<br>
+  ③ <strong>分子（上面個數）</strong>：你攞咗幾多份<br>
+  ④ 例如：<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = 切 4 份，攞 1 份<br>
+  ⑤ 分數符號「—」代表 <strong>除以</strong>！<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = 1 &divide; 2 = 一半
+</div></div>
+
+<div class="game-box" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:2px dashed var(--blue);border-radius:12px;padding:16px;margin:10px 0;text-align:center;">
+<div style="font-size:26px;">🎂 Pizza 分數遊戲！</div>
+<div style="font-size:14px;margin-top:6px;">想像一個 Pizza 🍕<br>切 2 等份 → 每份係 <strong><span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span></strong>（一半）<br>切 4 等份 → 每份係 <strong><span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span></strong>（四分之一）<br>切 3 等份 → 每份係 <strong><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span></strong>（三分之一）<br>切愈多份 → 每份愈細！</div>
+</div>
+
+<div class="ex"><div class="ex-title">例題 1：認識一半 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span></div>
+<div class="ex-q">一個蛋糕切成 2 等份，每份係？</div>
+<div style="font-size:14px;">每份 = <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 個蛋糕（讀作：<strong>二分之一</strong>）<br>一半 = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = 1 &divide; 2</div></div>
+
+<div class="ex"><div class="ex-title">🪤 例題 2：唔同大小嘅「一半」？</div>
+<div class="ex-q">大 Pizza 的一半 vs 小 Pizza 的一半，一樣大嗎？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ 小陷阱怪獸話</div><div class="eq">所有 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 都一樣大！</div><div class="why">錯！分數的大小取決於「整體」有幾大！</div></div>
+<div class="tc-r"><div class="lbl">✅ 真相</div><div class="eq">視乎整體大小</div><div class="why">大 Pizza 的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> &gt; 小 Pizza 的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span></div></div>
+</div></div>
+
+<div class="warn">⚠️ 小陷阱怪獸 #1：分數一定要<strong>等份</strong>！如果切得唔平均，就唔係分數！（3 個小朋友分一個 Pizza，一定要切 3 等份！）</div>
+
+<div class="h2">分數圖形示範（睇圖學分數！）</div>
+<div class="frac-diag">
+  <div style="text-align:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 120" width="140" height="120"><circle cx="65" cy="50" r="40" fill="none" stroke="#1A3C6D" stroke-width="2.5"/><line x1="65" y1="50" x2="65" y2="10" stroke="#1A3C6D" stroke-width="1.5"/><line x1="65" y1="50" x2="65" y2="90" stroke="#1A3C6D" stroke-width="1.5"/><path d="M 65,50 L 65,10 A 40,40 0 0,1 65,90 Z" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="1"/><text x="65" y="110" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">1/2</text></svg><br><span style="font-size:12px;">一半</span></div>
+  <div style="text-align:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 120" width="140" height="120"><circle cx="65" cy="50" r="40" fill="none" stroke="#1A3C6D" stroke-width="2.5"/><line x1="65" y1="50" x2="65" y2="10" stroke="#1A3C6D" stroke-width="1.5"/><line x1="65" y1="50" x2="99.6" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><line x1="65" y1="50" x2="30.4" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><path d="M 65,50 L 65,10 A 40,40 0 0,1 99.6,70 Z" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="1"/><text x="65" y="110" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">1/3</text></svg><br><span style="font-size:12px;">三分之一</span></div>
+  <div style="text-align:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 120" width="140" height="120"><circle cx="65" cy="50" r="40" fill="none" stroke="#1A3C6D" stroke-width="2.5"/><line x1="65" y1="50" x2="65" y2="10" stroke="#1A3C6D" stroke-width="1.5"/><line x1="65" y1="50" x2="105" y2="50" stroke="#1A3C6D" stroke-width="1.5"/><line x1="65" y1="50" x2="65" y2="90" stroke="#1A3C6D" stroke-width="1.5"/><line x1="65" y1="50" x2="25" y2="50" stroke="#1A3C6D" stroke-width="1.5"/><path d="M 65,50 L 65,10 A 40,40 0 0,1 105,50 Z" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="1"/><text x="65" y="110" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">1/4</text></svg><br><span style="font-size:12px;">四分之一</span></div>
+</div>
+
+<div class="h2">知識點一 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">一個圓形分成 3 等份，陰影部分佔 1 份。分數係？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">8 粒糖的一半係幾多粒？8 &divide; 2 = ＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">把一條繩分成 4 等份，每份係＿＿＿。如果攞咗 3 份，分數係＿＿＿</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+</table>
+</div>
+
+<div class="pb">
+<div class="kp"><div class="kp-title">知識點二：分數的大小比較<span class="ss sh">🔴 必考</span></div>
+<div class="kp-rules">
+  <strong>重要規則（P3 級別）：</strong><br>
+  ① 同一整體，分母愈大 → 每份愈細<br>
+  ② <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> &gt; <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> &gt; <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> &gt; <span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> &gt; <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span><br>
+  ③ 原因：切愈多份 = 每份愈細！<br>
+  ④ 分子相同 → 比分母：分母細 = 分數大
+</div></div>
+
+<div class="frac-diag">
+  <div style="text-align:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80" width="260" height="80"><rect x="10" y="12" width="90" height="28" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2"/><text x="55" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/2</text><rect x="100" y="12" width="90" height="28" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="2"/><text x="145" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/2</text><text x="55" y="75" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">1/2</text></svg><br><span style="font-size:11px;">1/2 = 最大份！</span></div>
+  <div style="text-align:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80" width="260" height="80"><rect x="10" y="12" width="60" height="28" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2"/><text x="40" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/3</text><rect x="70" y="12" width="60" height="28" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="2"/><text x="100" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/3</text><rect x="130" y="12" width="60" height="28" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="2"/><text x="160" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/3</text><text x="100" y="75" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">1/3</text></svg><br><span style="font-size:11px;">1/3 = 中等</span></div>
+  <div style="text-align:center;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80" width="260" height="80"><rect x="10" y="12" width="45" height="28" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2"/><text x="32" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/4</text><rect x="55" y="12" width="45" height="28" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="2"/><text x="77" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/4</text><rect x="100" y="12" width="45" height="28" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="2"/><text x="122" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/4</text><rect x="145" y="12" width="45" height="28" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="2"/><text x="167" y="58" text-anchor="middle" font-size="10" fill="#6B7280">1/4</text><text x="100" y="75" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">1/4</text></svg><br><span style="font-size:11px;">1/4 = 最細份！</span></div>
+</div>
+
+<div class="ex"><div class="ex-title">例題 3</div><div class="ex-q">比較：<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 和 <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>，哪個較大？</div>
+<div style="font-size:14px;">同一大小嘅蛋糕：<br>切 2 份 → 每份 = 半個蛋糕（好大！）<br>切 5 份 → 每份 = 五分之一個（好細！）<br>所以：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> &gt; <span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span></div></div>
+
+<div class="ex"><div class="ex-title">例題 4</div><div class="ex-q">由大至小排列：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span>、<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>、<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span></div>
+<div style="font-size:14px;"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> &gt; <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> &gt; <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span>（分母愈大，分數愈細）</div></div>
+
+<div class="h2">知識點二 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">9</td><td class="qtxt">填 &gt; &lt; ：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> ＿＿ <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span></td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">填 &gt; &lt; ：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> ＿＿ <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span></td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">由小至大排列：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">10</span></span>、<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>、<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span></td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> vs <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>，哪個大？（提示：<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> 係 3 份攞 2 份 = 差唔多成個！）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+</table>
+</div>
+
+<div class="pb">
+<div class="h1">三、課堂分層同步練習</div>
+<div class="h2">🌱 基礎層（共 3 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">一個正方形分成 4 等份，塗了 1 份。分數係？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">寫出分數：八分之一 = ＿＿，四分之三 = ＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">10 個蘋果的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 是多少個？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+</table>
+
+<div class="h2">🌿 進階層（共 3 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">16</td><td class="qtxt">24 粒糖的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 是多少粒？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">一條絲帶長 80 cm，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 係幾長？<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 呢？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">陰影部分表示的分數是 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">4</span></span>，可以化簡為哪個等值分數？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+</table>
+
+<div class="h2">🌳 挑戰層（共 3 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">19</td><td class="qtxt">一個蛋糕吃了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>，又吃了餘下的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>。總共吃了蛋糕的幾分之幾？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">把 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">8</span></span> 和 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 比較。它們相等嗎？點解？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">一本書有 60 頁。小明看了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>，小華看了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>。誰看得多？多幾頁？</td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+</table>
+
+<div class="h1">四、生活應用題（共 5 題）<span class="star">🎯</span></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">22</td><td class="qtxt">🍕 一個 Pizza 切成 8 等份，小明吃了 3 份。他吃了 Pizza 的幾分之幾？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">📏 一條絲帶長 36 cm，剪去 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>。剪去了多少 cm？剩下多長？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">🍫 一排朱古力有 12 格。妹妹吃了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>，弟弟吃了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>。誰吃得較多？各吃了幾格？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">💰 媽媽有 120 元，用了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 買生果，餘下的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 買菜。買菜用了多少元？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">🎯 一箱飲品有 24 支。<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 是橙汁，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 是蘋果汁，其餘是提子汁。提子汁有多少支？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+</table>
+</div>
+
+<div class="pb">
+<div class="h1">五、課後功課<span class="star">📝</span></div>
+<div class="h2">基礎必做題（共 5 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">一個圓形分成 2 等份，塗了 1 份。寫出分數。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">填 &gt; &lt; ：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> ＿＿ <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> ； <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> ＿＿ <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span></td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">16 粒糖的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 是多少粒？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">一條繩長 40 米，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 是幾多米？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> 同 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 哪個較大？點解？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+</table>
+
+<div class="h2">進階選做題（共 3 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">50 元買文具用了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>，買零食用了餘下的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>。還剩多少元？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">一塊田地的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 種菜，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 種瓜。哪部分較大？相差幾分之幾？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">100 頁的書，第一天看了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>，第二天看了餘下的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>。兩天共看了多少頁？還剩多少頁？</td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+</table>
+
+<div class="h1">六、本堂核心易錯點總結</div>
+
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+<tr><td>1</td><td><strong>分子分母掉轉</strong></td><td>分母在下 = 切幾份；分子在上 = 攞幾份</td></tr>
+<tr><td>2</td><td><strong>分母大 = 分數大</strong>（倒轉咗！）</td><td>分子相同時，分母大 = 分數細！</td></tr>
+<tr><td>3</td><td><strong>唔同等份當分數</strong></td><td>分數必須係「等份」！唔平均 = 唔係分數</td></tr>
+<tr><td>4</td><td><strong>忘記分數同除法嘅關係</strong></td><td><span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = 1 &divide; 4 = 整體的四分之一</td></tr>
+<tr><td>5</td><td><strong>整體不同時直接比較分數</strong></td><td>大蛋糕的<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>可能大過小蛋糕的<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span></td></tr>
+<tr><td>6</td><td><strong>2/4 唔知道等於 1/2</strong></td><td>等值分數的概念（日後會學）</td></tr>
+<tr><td>7</td><td><strong>應用題中「幾分之幾」的計算</strong></td><td>總數 &divide; 分母 x 分子</td></tr>
+</table>
+
+<div class="mn">🧠 口訣一：「分母係下切幾份，分子係上攞幾份；分母愈大份愈細，呢個道理要記低。」</div>
+<div class="mn">🧠 口訣二：「一半係二分之一，三分之一切三份；分數即係除法變，整體乘除就計到。」</div>
+
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">睇分母</div><div class="d">整體切幾份？</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">睇分子</div><div class="d">攞咗幾多份？</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">比大小</div><div class="d">分母大=分數細</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">計數量</div><div class="d">總數&divide;分母x分子</div></div>
+</div>
+
+<div class="tip" style="text-align:center;font-size:14px;">🌟 分數係數學世界嘅新語言！學識分數，Pizza 點分都難你唔到！加油呀！💪</div>
+
+<div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P3-上-L11</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+LF-P3-上-L11 | 6頁 · 37題 | Ctrl+P 列印</div>
+</body></html>

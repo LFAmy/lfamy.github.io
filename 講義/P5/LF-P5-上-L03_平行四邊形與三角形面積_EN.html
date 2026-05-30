@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="English math worksheet: 平行四邊形與三角形面積. LF Academy Hong Kong primary math. 面積計算 圖形面積 幾何" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>P5 Math 平行四邊形與三角形面積 Worksheet | LF Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS (for formulas) ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .fig-row { display:flex; gap:12px; align-items:flex-start; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+  .fig-card { text-align:center; }
+  .fig-title { font-size:12px; font-weight:700; color:var(--blue); margin-bottom:4px; }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* SVG diagram area */
+  .svg-diag { text-align:center; margin:10px 0; }
+  .svg-diag svg { max-width:100%; }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P5 講義",
+      "item": "https://lfamy.github.io/講義/P5/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "平行四邊形與三角形面積"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div style="text-align:center;margin:24px 0"><img src="../_svg/p5_para_tri_compare.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+
+
+<div style="text-align:center;margin:24px 0"><img src="../_svg/triangle_area.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">LF Academy <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">小五 · 第 3 堂 · Student Edition Handout</div>
+<div class="cv-title">Parallelogram與TriangleArea</div>
+<div class="cv-sub">單元二 · Area · 65 min · 1-on-3 Online Lesson</div>
+<div class="cv-info">
+<b>Textbook Reference：</b>《小學數學新思維（第二版）》5上A冊 單元二 ＋ 現代教育 5上A 單元5<br/>
+<b>核心Trap：</b>T5 圖形錯覺 — 高是垂直距離不是斜邊 · Triangle÷2遺忘 · 鈍角Triangle的高在外面<br/>
+<b>SSPA 關聯：</b><span class="ss sh">🔴 高頻</span> 呈分試每年必考，Area題約佔卷一 10-15%<br/>
+<b>Prerequisites：</b>P4 Rectangle/SquareArea、P4 垂直線與平行線概念、P4 簡單圖形分割<br/>
+<b>Lesson Objectives：</b>❶ 掌握ParallelogramArea公式 ❷ 掌握TriangleArea公式 ❸ 已知Area反求高/底 ❹ Area比較與應用
+  </div>
+<div class="cv-row">
+<span>Student Name：<span class="ln"></span></span>
+<span>Class：<span class="ln"></span></span>
+<span>Date：<span class="ln"></span></span>
+<span>Duration：<span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+<div class="h1">一、Warm-Up（共 5 題，5 min）</div>
+
+<div class="game-box"><div class="game-title">📐 幾何探險家</div><div class="game-desc">計算面積&體積，小心公式陷阱！三角形要除2、梯形上下底唔好調轉！</div><div class="game-action">🔍 開始探險 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area（寫出完整計算過程）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">計算RectangleArea：長 8 cm，闊 5 cm。</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">計算SquareArea：邊長 6 cm。</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">在方格紙上，一點從 A 到 B，向右移 4 格、向上移 3 格。AB 之間的直線距離是斜邊還是垂直距離？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">一個Parallelogram，底边长 10 cm，但標示了一條斜邊長 6 cm。這條斜邊是不是高？為什麼？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">Triangle有幾條底？每條底對應幾條高？（提示：任何一邊都可以當底）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">二、Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">知識點一：ParallelogramArea = 底 × 高（高是垂直距離！）<span class="ss sh">🔴 SSPA</span></div>
+<div class="kp-rules">
+      ① <strong>ParallelogramArea公式</strong>：<strong>Area = 底 × 高</strong><br/>
+      ② <strong>高</strong>：從底邊垂直（90°）向上量到對邊的<strong>垂直距離</strong>，<strong>不是斜邊的長度！</strong><br/>
+      ③ <strong>底</strong>：任何一條邊都可以做底，但高必須是對應那條底的垂直距離<br/>
+      ④ Parallelogram可以「切補」成Rectangle（切割Triangle平移）→ 所以公式跟Rectangle一樣<br/>
+      ⑤ 單位：Area單位是平方單位（cm²、m²、km²）
+    </div>
+</div>
+<!-- SVG: Parallelogram（標底和高） -->
+<div class="svg-diag">
+<svg height="120" viewbox="0 0 250 120" width="250" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="180" x="35" y="15"></rect><polyline fill="none" points="45,15 45,25 35,25" stroke="#1A3C6D" stroke-width="2"></polyline><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="125" y="113">l</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="end" x="21" y="55">w</text></svg>
+</div>
+<div class="ex">
+<div class="ex-title">Trap引爆例題（本堂最重要的示範）</div>
+<div class="ex-q">Parallelogram底 10 cm，斜邊長 8 cm，高 6 cm。求Area。</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common Mistake（70% 學生）</div><div class="eq">10 × 8 = 80 cm²</div><div class="why">用了斜邊當高！斜邊不是垂直距離！</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">10 × 6 = 60 cm²</div><div class="why">高 = 垂直距離 = 6 cm（不是斜邊 8 cm！）</div></div>
+</div>
+</div>
+<div class="mn">🧠 Mnemonic：「底乘高，高垂直；斜邊不是高，量高要直角！」</div>
+<div class="warn">⚠️ 最高頻錯誤：用Parallelogram的斜邊當高！高必須是底邊到對邊的垂直（⊥）距離。</div>
+<div class="warn">⚠️ 第二高頻錯誤：忘記寫Area單位 cm²。Area一定有「平方」兩個字！</div>
+<div class="h2">知識點一 Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">例1</td><td class="qtxt">Parallelogram底 12 cm，高 5 cm。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例2</td><td class="qtxt">Parallelogram底 8 m，高 3.5 m。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + SVG ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點二：TriangleArea = 底 × 高 ÷ 2（任何Triangle都一樣！）<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+      ① <strong>TriangleArea公式</strong>：<strong>Area = 底 × 高 ÷ 2</strong><br/>
+      ② <strong>為什麼要 ÷ 2？</strong>兩個相同Triangle拼起來 = 一個Parallelogram，所以TriangleArea是Parallelogram的<strong>一半</strong><br/>
+      ③ <strong>任何Triangle都可以</strong>：直角Triangle、等腰Triangle、鈍角Triangle——公式都一樣！<br/>
+      ④ <strong>高必須垂直底邊</strong>：用間尺/量角器確認 90°<br/>
+      ⑤ <strong>鈍角Triangle的高在外面</strong>：當底邊的對角是鈍角（&gt;90°），高會落在底邊的<strong>延長線</strong>上
+    </div>
+</div>
+<!-- SVG: Triangle（標底和高） -->
+<div class="fig-row">
+<div class="fig-card">
+<div class="fig-title">一般Triangle</div>
+<svg height="150" viewbox="0 0 190 150" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,100 155,100 95,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="95" x2="95" y1="20" y2="100"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="107" y="60">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="95" y="122">b</text></svg>
+</div>
+<div class="fig-card">
+<div class="fig-title">直角Triangle</div>
+<svg height="150" viewbox="0 0 190 150" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,100 155,100 35,20" stroke="#1A3C6D" stroke-width="3"></polygon><polyline fill="none" points="43,10 43,18 35,18" stroke="#1A3C6D" stroke-width="2"></polyline><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="35" x2="35" y1="20" y2="100"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="21" y="60">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="95" y="122">b</text></svg>
+</div>
+<div class="fig-card">
+<div class="fig-title">鈍角Triangle（高在外面！）</div>
+<svg height="150" viewbox="0 0 190 150" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="5,100 155,100 35,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="35" x2="35" y1="20" y2="100"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="47" y="60">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="95" y="122">b</text></svg>
+</div>
+</div>
+<!-- SVG: Parallelogram vs TriangleArea比較 -->
+<div class="fig-row">
+<div class="fig-card">
+<div class="fig-title">ParallelogramArea = 底 x 高</div>
+<svg height="120" viewbox="0 0 210 120" width="210" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="140" x="35" y="15"></rect><polyline fill="none" points="45,15 45,25 35,25" stroke="#1A3C6D" stroke-width="2"></polyline><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="105" y="113">l</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="end" x="21" y="55">w</text></svg>
+</div>
+<div class="fig-card">
+<div class="fig-title">TriangleArea = 底 x 高 / 2</div>
+<svg height="150" viewbox="0 0 210 150" width="210" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,100 175,100 105,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="105" x2="105" y1="20" y2="100"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="117" y="60">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="105" y="122">b</text></svg>
+</div>
+</div>
+<div style="text-align:center;margin-top:4px;font-size:11px;color:#6B7280;">ParallelogramArea是TriangleArea的 2 倍！同底同高時，TriangleArea是Parallelogram的一半。</div>
+<div class="ex"><div class="ex-title">Trap引爆例題</div><div class="ex-q">Triangle底 10 cm，高 6 cm。求Area。</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common Mistake（50% 學生）</div><div class="eq">10 × 6 = 60 cm²</div><div class="why">忘記 ÷ 2！直接用了Parallelogram公式！</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">10 × 6 ÷ 2 = 30 cm²</div><div class="why">TriangleArea = 底×高÷2，一定記得÷2！</div></div>
+</div>
+<div class="warn">⚠️ 最高頻錯誤：TriangleArea忘記 ÷2！兩個相同Triangle才等於一個Parallelogram！</div>
+<div class="warn">⚠️ 鈍角TriangleTrap：高在Triangle外面（底邊的延長線上），學生找不到高！</div>
+</div>
+<!-- ═══════════════ PAGE 4: KP3 + KP4 + TIERED ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點三：已知Area反求高或底<span class="ss sh">🔴 SSPA 進階</span></div>
+<div class="kp-rules">
+<strong>反向公式（代數思維）：</strong><br/>
+      ① <strong>Parallelogram</strong>：高 = Area ÷ 底｜底 = Area ÷ 高<br/>
+      ② <strong>Triangle</strong>：高 = Area × 2 ÷ 底｜底 = Area × 2 ÷ 高<br/>
+      （Triangle的要先 ×2 變回Parallelogram，再 ÷底求高）<br/>
+      ③ 呈分試常見：給Area和底，求高（或給Area和高，求底）
+    </div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">1</div><div class="t">Parallelogram</div><div class="d">高=Area÷底<br/>底=Area÷高</div></div>
+<div class="sc-i"><div class="n">2</div><div class="t">Triangle</div><div class="d">高=Area×2÷底<br/>底=Area×2÷高</div></div>
+<div class="sc-i"><div class="n">3</div><div class="t">先 ×2</div><div class="d">Triangle要記得<br/>先乘2（補回一半）</div></div>
+<div class="sc-i"><div class="n">4</div><div class="t">單位一致</div><div class="d">Areacm², 底cm<br/>高cm, 單位統一</div></div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：ParallelogramArea 48 cm²，底 8 cm。求高。</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：TriangleArea 24 cm²，底 8 cm。求高。（注意：要先 ×2！）</div></div>
+<div class="h2">知識點一～三 Worked Examples（寫出公式 → 代入 → 答案連單位）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">例5</td><td class="qtxt">Triangle底 15 cm，高 8 cm。求Area。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例6</td><td class="qtxt">TriangleArea 36 cm²，底 9 cm。求高。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例7</td><td class="qtxt">Parallelogram兩組對應的底和高分別是：底₁=10 cm、高₁=4 cm；底₂=5 cm。求高₂。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例8</td><td class="qtxt">TriangleArea 20 cm²，高 5 cm。求底。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">知識點四：Area比較與應用<span class="ss sh">🔴 SSPA 應用</span></div>
+<div class="kp-rules">
+      ① 同底同高的Parallelogram和Triangle → ParallelogramArea是Triangle的<strong>2 倍</strong><br/>
+      ② 比較圖形Area時：先各自計算Area → 再比較 → 最後用「多/少」或「倍」表達<br/>
+      ③ 組合圖形：分割成基本圖形（Rectangle+Triangle）→ 分別計算 → 相加/相減
+    </div>
+</div>
+<div class="h1">三、Tiered Practice</div>
+<div class="h2">🌱 Foundation Tier（共 7 題，All Must Complete）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Parallelogram底 9 cm，高 6 cm。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Triangle底 10 cm，高 4 cm。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Parallelogram底 7 m，高 5 m。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Triangle底 12 cm，高 5 cm。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">ParallelogramArea 72 cm²，底 8 cm。求高。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">6</td><td class="qtxt">Triangle底 6 cm，高 8 cm。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">Parallelogram底 15 m，高 4 m。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: TIERED CONTINUED + APPLICATION ═══════════════ -->
+<div class="pb">
+<div class="h2">🌿 Intermediate Tier（共 5 題，🚶🚀 Optional）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">8</td><td class="qtxt">TriangleArea 40 cm²，底 10 cm。求高。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">ParallelogramArea 96 cm²，高 8 cm。求底。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">一個Parallelogram和一個Triangle有相同的底（12 cm）和高（7 cm）。ParallelogramArea是Triangle的多少倍？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">TriangleArea 54 cm²，高 9 cm。求底。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">一個Parallelogram底 20 cm，Area是 160 cm²。求高。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">🌳 Challenge Tier（共 4 題，🚀 Optional，呈分試殺手題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">一個鈍角Triangle，底 14 cm。從頂點到底邊延長線的垂直距離（高）是 6 cm。求TriangleArea。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">Parallelogram兩組底和高：底<sub>1</sub>=10 cm、高<sub>1</sub>=6 cm；底<sub>2</sub>=8 cm、高<sub>2</sub>=？求高<sub>2</sub>。（提示：同一ParallelogramArea固定）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt"><div class="svg-diag"><svg height="110" viewbox="0 0 170 110" width="170" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,70 135,70 115,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="70"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="67" y="45">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="85" y="92">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="85" y="12">b₁</text></svg></div>一個Trapezoid可分成一個Parallelogram和一個Triangle。Parallelogram底 8 cm、高 5 cm；Triangle底 4 cm、高 5 cm。求整個Trapezoid的Area。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">兩個不同的Triangle A 和 B。A：底 10 cm、高 6 cm。B：底 15 cm、高 4 cm。比較 A 和 B 的Area，哪個大？大多少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h2">AreaWord Problems（全部必做，列式 → 公式 → 計算 → 答句）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">17</td><td class="qtxt">一個Parallelogram花圃，底 15 m，高 8 m。求花圃的Area。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">一塊Triangle草地，底 20 m，高 12 m。每平方米種 3 棵花，草地共可種多少棵花？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">Parallelogram地氈Area 6 m²，底 2.5 m。求高。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">Triangle廣告牌Area 3 m²，高 1.5 m。求底長。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: APP CONT + CHALLENGE + HW ═══════════════ -->
+<div class="pb">
+<div class="h2">進階Word Problems（🚶🚀 Optional，呈分試卷二常見題型）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">21</td><td class="qtxt"><div class="svg-diag"><svg height="120" viewbox="0 0 200 120" width="200" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DCFCE7" points="30,80 150,80 90,45" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="90" x2="90" y1="45" y2="80"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="102" y="63">h₂=4</text><rect fill="#DBEAFE" height="45" stroke="#1A3C6D" stroke-width="3" width="120" x="30" y="80"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="143">底=10cm</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="end" x="16" y="103">h₁=6</text></svg></div>下圖由一個Rectangle和一個Triangle拼成。Rectangle長 10 cm、闊 6 cm；Triangle底 10 cm、高 4 cm（與Rectangle共底）。求全圖Area。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">Parallelogram A：底 12 cm、高 5 cm。Triangle B：底 10 cm、高 6 cm。哪個圖形Area較大？大多少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h1">四、🏔️ 終極挑戰專區</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt"><div class="svg-diag"><svg height="120" viewbox="0 0 200 120" width="200" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="15,85 165,85 90,25" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#6B7280" stroke-dasharray="6,3" stroke-width="1.5" x1="90" x2="90" y1="25" y2="85"></line><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="90" x2="90" y1="25" y2="85"></line><text fill="#1A3C6D" font-size="10" font-weight="700" x="40" y="100">6cm</text><text fill="#1A3C6D" font-size="10" font-weight="700" x="130" y="100">8cm</text><text fill="#DC2626" font-size="11" font-weight="700" x="102" y="55">h=5</text><text fill="#6B7280" font-size="10" font-weight="700" x="55" y="18">中線</text></svg></div>一個大Triangle被一條中線分成兩個小Triangle。兩個小Triangle的底分別是 6 cm 和 8 cm，高都是 5 cm。(a) 兩個小Triangle的Area各是多少？(b) 大Triangle的Area是多少？(c) 驗證：大TriangleArea = 兩個小TriangleArea之和。</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt"><div class="svg-diag"><svg height="120" viewbox="0 0 200 120" width="200" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="30,80 130,80 160,20 60,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="30" x2="160" y1="80" y2="20"></line><text fill="#1A3C6D" font-size="11" font-weight="700" x="12" y="82">A</text><text fill="#1A3C6D" font-size="11" font-weight="700" x="128" y="82">B</text><text fill="#1A3C6D" font-size="11" font-weight="700" x="155" y="18">C</text><text fill="#1A3C6D" font-size="11" font-weight="700" x="42" y="18">D</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="95" y="98">底=15cm</text></svg></div>如圖，Parallelogram ABCD，底 AB = 15 cm，高 = 8 cm。對角線 AC 把Parallelogram分成兩個Triangle。(a) Parallelogram ABCD 的Area是多少？(b) Triangle ABC 的Area是多少？(c) 如果不用公式，怎樣用ParallelogramArea推導出TriangleArea？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">一個組合圖形由一個Parallelogram和一個Triangle重疊而成。Parallelogram底 20 cm、高 10 cm；Triangle底 12 cm、高 8 cm（Triangle完全在Parallelogram內）。問：(a) ParallelogramArea是多少？(b) TriangleArea是多少？(c) Parallelogram未被Triangle覆蓋的部分Area是多少？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:92px;"></td></tr>
+</table>
+<div class="h1">五、Homework</div>
+<div class="h2">Foundation (Required)題（共 6 題，必須寫公式和步驟）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">Parallelogram底 11 cm，高 7 cm。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">Triangle底 8 cm，高 9 cm。求Area。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">ParallelogramArea 84 cm²，底 12 cm。求高。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">TriangleArea 30 cm²，底 6 cm。求高。（注意：先 ×2！）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">Parallelogram地磚底 30 cm，高 20 cm。求地磚的Area。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">Triangle旗幟底 60 cm，高 40 cm。求旗幟的Area。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced (Optional)題（共 2 題，🚀 Optional）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">H7</td><td class="qtxt">Parallelogram和Triangle同底同高，底是 16 cm，高是 10 cm。(a) 分別求兩個圖形的Area。(b) ParallelogramArea是TriangleArea的幾倍？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">鈍角Triangle，最長邊 25 cm。以最長邊為底，頂點到底邊延長線的垂直距離是 12 cm。求TriangleArea。（提示：高在Triangle外面，但公式不變！）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 7: ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">六、Common Error Summary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self Check（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅Trap</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住Mnemonic</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Learning Objectives Review — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有Trap類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂Mnemonic</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>Common Error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Parallelogram：把斜邊當作高</strong>：底×斜邊</td><td>高 = 底邊到對邊的<strong>垂直距離（⊥）</strong>，不是斜邊長度！</td></tr>
+<tr><td>2</td><td><strong>Triangle：忘記 ÷ 2</strong>：底×高當答案</td><td><strong>TriangleArea = 底 × 高 ÷ 2</strong>，兩個Triangle才是一個Parallelogram</td></tr>
+<tr><td>3</td><td><strong>鈍角Triangle：找不到高</strong></td><td>高在<strong>底邊延長線</strong>上（Triangle外面），從頂點向底邊延長線作垂直線</td></tr>
+<tr><td>4</td><td><strong>已知Area反求高/底時忘記Triangle要先 ×2</strong></td><td>Triangle：高 = Area × 2 ÷ 底（不是Area ÷ 底！）</td></tr>
+<tr><td>5</td><td><strong>忘記寫Area單位</strong>：答案寫「60」</td><td>Area單位必須有「平方」：cm²、m²、km²</td></tr>
+<tr><td>6</td><td><strong>底和高不對應</strong>：用了底 A 但量了底 B 對應的高</td><td>每條底有自己對應的高，必須配對使用！</td></tr>
+</table>
+<div class="end-note">🪤 LF Academy · LF Academy · We don't teach math — we teach trap avoidance.。 · LF-P5-上-L03</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related Topics：L03 Parallelogram與TriangleArea · L04 Trapezoid多邊形Area · L05 AreaTrap專項</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  🖨️ Ctrl+P 列印 PDF  |  7頁 · 55題  |  LF-P5-上-L03 v6
+</div>
+</div>
+</body>
+</html>

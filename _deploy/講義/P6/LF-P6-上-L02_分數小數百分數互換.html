@@ -1,0 +1,584 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="小學六年級數學練習：分數小數百分數互換。涵蓋分數運算 分數比較 異分母 小數運算 小數除法 近似值 百分數 折扣 利率。霖楓學苑呈分試專家，陷阱題診斷教學法。" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小學六年級數學 分數小數百分數互換 | 霖楓學苑 LF Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P6 講義",
+      "item": "https://lfamy.github.io/講義/P6/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "分數小數百分數互換"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">霖楓學苑 · LF Academy</div>
+<div class="cv-badge">小六 · 第 2 堂 · 學生版講義</div>
+<div class="cv-title">分數 小數 百分數互換 + 比較</div>
+<div class="cv-sub">單元二 · 數的互換 · 65 分鐘 · 一對三線上課程</div>
+<div class="cv-info">
+<b>對應教材：</b>《小學數學新思維（第二版）》6上A冊 單元二 ＋ 現代教育 6上A 單元2-3<br/>
+<b>核心陷阱：</b>T2 小數運算 + T9 分數陷阱 — 分數化小數時分子分母倒轉 · 0.333... 取近似值混淆<br/>
+<b>SSPA 關聯：</b><span class="ss sh">高頻</span> 呈分試每年必考，佔卷一約 10-15%<br/>
+<b>前置知識：</b>P4-P5 分數基本概念（等值分數、約分、通分）· 小數乘法（P5）· 百分數基本認識<br/>
+<b>本堂目標：</b>分數小數互換 小數百分數互換 三者混合比較 應用題
+  </div>
+<div class="cv-row">
+<span>學生姓名：<span class="ln"></span></span>
+<span>班級：<span class="ln"></span></span>
+<span>日期：<span class="ln"></span></span>
+<span>完成時長：<span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+
+<div class="fig-row" style="margin:10px 0;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" style="max-width:320px;width:100%;height:auto;display:block;margin:8px auto;">
+<rect x="20" y="20" width="280" height="45" fill="none" stroke="#1A3C6D" stroke-width="2"/>
+<rect x="20" y="20" width="210.0" height="45" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="1"/>
+<text x="160.0" y="12" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700" font-family="Noto Sans HK,sans-serif">3/4</text>
+</svg>
+</div>
+<div class="h1">一、熱身啟動題 （5 分鐘）（共 5 題，5 分鐘）</div>
+  <div class="game-box"><div class="game-title">🏆 陷阱獵人·計時挑戰</div><div class="game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！留意題目中嘅「陷阱關鍵字」— 佢會話你知邊度最易出錯！</div><div class="game-action">⭐ 開始挑戰 →</div></div>
+
+  <div class="story-box"><div class="story-title">🛍️ SOGO感謝祭</div>全場八折！一個原價？仲有！買滿！最終慳咗幾多%？記住：每次用新價做基數！</div>一個Pizza切咗8份。小明食咗3份，小華食咗2份。佢哋一共食咗幾多個Pizza？等我哋用分數加法計吓！記住口訣：分母不變，分子相加！</div>Pizza分著食 —「一個Pizza切8份，食咗3份，即係食咗3/8個！」</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">把 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 化為分母是 10 的等值分數</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">把 0.3 寫成分數</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">把 50% 寫成分數（約至最簡）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">比較大小：0.4 和 0.35</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">把 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> 化成小數</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">二、核心知識精講 （15 分鐘） ＋ 例題練習</div>
+<div class="kp">
+<div class="kp-title">知識點一：分數 ↔ 小數<span class="ss sh">SSPA</span></div>
+<div class="kp-rules">
+<strong>分數 → 小數：分子 ÷ 分母</strong><br/>
+      例：<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = 3 ÷ 4 = 0.75<br/>
+      常見分數對應表（必須背）：<br/>
+<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = 0.5    <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = 0.25    <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = 0.75    <span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> = 0.2    <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = 0.125<br/>
+<strong>小數 → 分數：</strong>一位小數 → <span class="f"><span class="n">?</span><span class="b"></span><span class="d">10</span></span>，二位小數 → <span class="f"><span class="n">?</span><span class="b"></span><span class="d">100</span></span>，三位小數 → <span class="f"><span class="n">?</span><span class="b"></span><span class="d">1000</span></span>，再約簡
+    </div>
+</div>
+
+<div class="why-box" style="background:linear-gradient(135deg,#FFF8E7,#FFFDF5);border:2px solid #C9A84C;border-radius:10px;padding:14px 18px;margin:14px 0;">
+<div style="font-weight:900;color:#92400E;font-size:14px;margin-bottom:6px;">WHY BOX：百分數的本質是甚麼？</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>百分數 = 以 100 為分母的分數</b><br/>
+12% = 12/100 = 0.12<br/><br/>
+<b>為甚麼加價 20% 再八折 ≠ 原價？</b><br/>
+加價 20%：原價 × 1.2<br/>
+再八折：原價 × 1.2 × 0.8 = 原價 × 0.96<br/>
+→ 最終是原價的 96%，便宜了 4%！<br/>
+<b>關鍵陷阱：</b>百分數的「基準」一直在變。加價後的 20% 和原價的 20% 是不同的數！<br/>
+<em style="color:#6B7280;">記住：每次百分數運算，先問自己「這個百分數是對誰計算的？」</em>
+</div>
+</div>
+
+<div class="ex">
+<div class="ex-title">陷阱引爆例題（本堂最重要的示範）</div>
+<div class="ex-q">把 <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 化成小數</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">常見錯誤（40% 學生）</div><div class="eq"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = 2.5</div><div class="why">直接把分子寫成整數、分母寫成小數 — 這是錯的！應該用除法</div></div>
+<div class="tc-r"><div class="lbl">正確解法</div><div class="eq"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = 2 ÷ 5 = 0.4</div><div class="why">分數 = 分子 ÷ 分母，不是重新排列數字</div></div>
+</div>
+</div>
+<div class="mn">口訣：「分變小，子除母；小變分，看位數，再約簡」</div>
+<div class="warn">最高頻錯誤：分數化小數時分子分母倒轉！<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = 3 ÷ 4，不是 4 ÷ 3！</div>
+<div class="warn">第二高頻錯誤：小數化分數後忘記約簡。例：0.4 = <span class="f"><span class="n">4</span><span class="b"></span><span class="d">10</span></span> = <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span></div>
+<div class="h2">知識點一 例題練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">例1</td><td class="qtxt">把 <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> 化成小數</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例2</td><td class="qtxt">把 0.35 化成分數（約至最簡）</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">知識點二：小數 ↔ 百分數<span class="ss sh">SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>小數 → 百分數：× 100，加 %</strong>    例：0.45 × 100 = 45%<br/>
+<strong>百分數 → 小數：÷ 100，去 %</strong>    例：75% = 75 ÷ 100 = 0.75<br/>
+<strong>關鍵：</strong>小數點向右移兩位（×100），或向左移兩位（÷100）<br/>
+<strong>小數位不足時補 0：</strong>0.5 = 50%（不是 5%！）
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：把 0.08 化成百分數</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：把 125% 化成小數</div></div>
+<div class="h2">知識點二 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">把 0.6 化成百分數</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">把 0.05 化成百分數</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">把 30% 化成小數</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">把 7.5% 化成小數</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">把 1.2 化成百分數</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP3 + PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點三：分數 ↔ 百分數（通過小數橋樑）<span class="ss sh">SSPA 終極陷阱</span></div>
+<div class="kp-rules">
+<strong>分數 → 百分數：</strong>先化小數（分子 ÷ 分母），再 × 100，加 %<br/>
+<strong>百分數 → 分數：</strong>先化小數（÷ 100），再化分母為 10/100/1000 的分數，約簡<br/>
+<strong>遇無限小數時：</strong><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = 0.333... 33.3%（取至小數點後一位）<br/>
+<strong>「≈」的寫法：</strong>不能整除用「≈」（約等於），不可用「=」
+    </div>
+</div>
+<div class="ex">
+<div class="ex-title">關鍵陷阱例題</div>
+<div class="ex-q">把 <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 化成百分數（答案取至小數點後一位）</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">常見錯誤（60% 學生）</div><div class="eq"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = 33%</div><div class="why">用了「=」而非「≈」；或忘記標明取至小數點後一位</div></div>
+<div class="tc-r"><div class="lbl">正確解法</div><div class="eq"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 0.333... 33.3%</div><div class="why">寫作 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> ≈ 33.3%（取至小數點後一位）</div></div>
+</div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例5：把 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> 化成百分數</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例6：把 45% 化成分數（約至最簡）</div></div>
+<div class="h2">知識點三 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">把 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 化成百分數</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">把 <span class="f"><span class="n">7</span><span class="b"></span><span class="d">10</span></span> 化成百分數</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt">把 60% 化為最簡分數</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">把 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 化成百分數（取至小數點後一位，用「≈」）</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">把 12.5% 化為最簡分數</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">知識點四：三者互換 + 大小比較<span class="ss sh">SSPA 應用</span></div>
+<div class="kp-rules">
+<strong>比較策略：</strong>將所有數化成<strong>同一形式</strong>再比較<br/>
+      建議全化為小數（最容易比較大小）<br/>
+      或全化為百分數（適合百分比相關題目）<br/>
+<strong>切勿混雜直接比較：</strong><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> vs 35% vs 0.3 → 全化小數：0.333... vs 0.35 vs 0.3 → 35% 最大
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例7：把 0.45、<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>、48% 由大至小排列</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例8：比較 <span class="f"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> 和 60%，哪個較大？</div></div>
+<div class="mn">口訣：「分百小混雜，統一化小數；小數點對齊，逐位比較大細」</div>
+<div class="warn">致命陷阱：不可「<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 大過 0.4 因為分母大」— 這是胡亂比較！必須全化小數！</div>
+<div class="h2">知識點四 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">16</td><td class="qtxt">把 0.3、<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>、30% 由小至大排列</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">把 <span class="f"><span class="n">7</span><span class="b"></span><span class="d">10</span></span>、0.68、72% 由大至小排列</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">三、課堂分層同步練習 （20 分鐘）</div>
+<div class="h2">基礎層（共 6 題，全體必做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">18</td><td class="qtxt">把 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 化成小數和百分數</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">把 0.9 化成分數（最簡）和百分數</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">把 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 化成小數和百分數</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">把 20% 化為最簡分數和小數</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">把 <span class="f"><span class="n">4</span><span class="b"></span><span class="d">5</span></span> 化為百分數</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">比較：0.25 和 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span></td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">進階層（共 6 題，選做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">24</td><td class="qtxt">把 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> 化為小數和百分數</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">把 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> 化成百分數（取至小數點後一位，用「≈」）</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">把 0.375 化為最簡分數</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">比較：<span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>、0.55、62% 由大至小排列</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">把 175% 化為帶分數</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">比較：<span class="f"><span class="n">7</span><span class="b"></span><span class="d">8</span></span>、0.85、88% 找出最大值</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">挑戰層（共 5 題，呈分試殺手題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">30</td><td class="qtxt">把 <span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> 化成百分數（取至小數點後一位，用「≈」）</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">把 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">20</span></span>、0.18、12% 由小至大排列</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">一份測驗有 40 題，小明答對 32 題。答對率是多少%？</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">33</td><td class="qtxt">把 <span class="f"><span class="n">11</span><span class="b"></span><span class="d">8</span></span> 化為小數和百分數（百分數取至小數點後一位）</td><td class="qd d4"></td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">34</td><td class="qtxt">比較四數：<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>、0.67、66%、<span class="f"><span class="n">13</span><span class="b"></span><span class="d">20</span></span>，由大至小排列</td><td class="qd d4"></td><td class="qw" style="min-height:62px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+<div class="h1">四、應用題 （12 分鐘）專項（呈分試文字題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">35</td><td class="qtxt">一條絲帶長 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 米。用百分數表示這長度佔 1 米的百分之幾？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">36</td><td class="qtxt">小明有 50 元，用了 20 元。用了的錢佔原有的百分之幾？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">37</td><td class="qtxt">一瓶橙汁有 1.5 升。喝了 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 瓶。喝了多少升？（以小數作答）</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">38</td><td class="qtxt">班上有 40 人，<span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> 是男生。男生人數佔全班的百分之幾？女生佔百分之幾？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">39</td><td class="qtxt">一件貨品原價 200 元，現以 75% 出售。售價是多少元？（先化 75% 為小數再乘）</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">40</td><td class="qtxt">比較三個學生的分數：A 得 <span class="f"><span class="n">17</span><span class="b"></span><span class="d">20</span></span>，B 得 0.82，C 得 88%。誰最高分？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+<div class="h1">五、終極挑戰專區</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">把 <span class="f"><span class="n">7</span><span class="b"></span><span class="d">12</span></span> 化成百分數（取至小數點後一位，用「≈」）</td><td class="qd d4"></td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">一件貨品先加價 20%，再減價 20%。最終價格是原價的百分之幾？比原價貴了還是便宜了？</td><td class="qd d4"></td><td class="qw" style="min-height:68px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">把 0.6、<span class="f"><span class="n">5</span><span class="b"></span><span class="d">8</span></span>、63%、<span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>、0.625 由大至小排列（全部化成小數，取至三位小數）</td><td class="qd d4"></td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">六、課後功課</div>
+<div class="h2">基礎必做題（共 6 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">把 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> 化成小數和百分數</td><td class="qd d1"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">把 0.65 化為最簡分數和百分數</td><td class="qd d1"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">把 <span class="f"><span class="n">4</span><span class="b"></span><span class="d">5</span></span> 化為百分數</td><td class="qd d1"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">把 40% 化為最簡分數和小數</td><td class="qd d1"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">把 <span class="f"><span class="n">7</span><span class="b"></span><span class="d">20</span></span> 化為百分數</td><td class="qd d2"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">比較：0.55、<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>、48% 由大至小排列</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">進階選做題（共 3 題，選做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">H7</td><td class="qtxt">把 <span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> 化成百分數（取至小數點後一位，用「≈」）</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">把 0.125、<span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span>、12.5% 由小至大排列。你發現了什麼？</td><td class="qd d3"></td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H9</td><td class="qtxt">班上有 45 人，女生佔 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>。女生有幾人？女生佔全班的百分之幾？</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+<div class="h1">七、本堂核心易錯點總結</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div></div>
+<table class="et">
+<tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+<tr><td>1</td><td><strong>分數化小數時子母倒轉：</strong><span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> ≠ 4 ÷ 3</td><td>分子 ÷ 分母，不是分母 ÷ 分子</td></tr>
+<tr><td>2</td><td><strong>小數化百分數乘錯倍數：</strong>0.5 = 5%</td><td>× 100，不是 × 10；0.5 = 50%</td></tr>
+<tr><td>3</td><td><strong>百分數化小數時忘記 ÷ 100：</strong>25% = 25 而非 0.25</td><td>百分數 ÷ 100 = 小數</td></tr>
+<tr><td>4</td><td><strong>無限小數用「=」而非「≈」：</strong><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = 33.3%</td><td>必須用「≈」，並標明「取至小數點後X位」</td></tr>
+<tr><td>5</td><td><strong>分數化百分數時小數點位置錯誤：</strong><span class="f"><span class="n">7</span><span class="b"></span><span class="d">8</span></span> = 8.75%</td><td>7 ÷ 8 = 0.875，× 100 = 87.5%，不是 8.75%</td></tr>
+<tr><td>6</td><td><strong>混雜比較時未統一形式：</strong>0.5 vs <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> vs 30% 胡亂比較</td><td>全部化為同一形式（建議小數）再比較</td></tr>
+<tr><td>7</td><td><strong>小數化分數後忘記約簡：</strong>0.25 = <span class="f"><span class="n">25</span><span class="b"></span><span class="d">100</span></span></td><td>必須約至最簡 = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span></td></tr>
+</table>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「分數 小數 百分數互換 + 比較」</b>。<br/>
+<b>最易錯嘅 3 個陷阱：</b> T2 小數運算 + T9 分數陷阱 — 分數化小數時分子分母倒轉 · 0.333... 取近似值混淆<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「分數 小數 百分數互換 + 比較」嘅最重要口訣俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+<div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱 · LF-P6-上-L02</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF  |  6頁 · 66題  |  LF-P6-上-L02 v6
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt" style="font-size:11px">把 12 化為分母是 10 的等值分數</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">2</td><td class="qtxt" style="font-size:11px">把 0.3 寫成分數</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">3</td><td class="qtxt" style="font-size:11px">把 50% 寫成分數（約至最簡）</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">4</td><td class="qtxt" style="font-size:11px">比較大小：0.4 和 0.35</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">5</td><td class="qtxt" style="font-size:11px">把 310 化成小數</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+</table>
+<div style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！🟢=自動計算 🟡=請向老師確認</div>
+</div>
+
+
+
+
+
+<!-- ===== HQ TRAP QUESTIONS ===== -->
+<section class="hq-trap-section">
+    <h2 class="section-title">T 陷阱診斷專區 — 高品質陷阱題</h2>
+    <p class="section-desc">霖楓教研團隊精心設計，每題針對一個常見考試陷阱。3題。</p>
+    <div class="trap-cards-container">
+        <div class="trap-card" data-hq-id="LF-T9-P6-0101">
+            <div class="trap-card-header">
+                <span class="trap-badge">T9 分數</span>
+                <span class="trap-id">LF-T9-P6-0101</span>
+            </div>
+            <div class="trap-card-body">
+                <div class="trap-question">3/4 ÷ 1/2 = ？</div>
+                <div class="trap-wrong"><span class="label">常見錯誤：</span>3/8？除號變乘號，除數顛倒：3/4×2/1=6/4=1½</div>
+                <div class="trap-correct"><span class="label">正確答案：</span>1½</div>
+                <div class="trap-mantra"><span class="label">口訣：</span>「除號變乘號，除數上下倒」</div>
+            </div>
+        </div>
+
+        <div class="trap-card" data-hq-id="LF-T9-P6-0102">
+            <div class="trap-card-header">
+                <span class="trap-badge">T9 分數</span>
+                <span class="trap-id">LF-T9-P6-0102</span>
+            </div>
+            <div class="trap-card-body">
+                <div class="trap-question">2/3 × 3/4 = ？約至最簡</div>
+                <div class="trap-wrong"><span class="label">常見錯誤：</span>6/12？要約簡=1/2</div>
+                <div class="trap-correct"><span class="label">正確答案：</span>1/2</div>
+                <div class="trap-mantra"><span class="label">口訣：</span>「分子乘分子，分母乘分母，約簡」</div>
+            </div>
+        </div>
+
+        <div class="trap-card" data-hq-id="LF-T9-P6-0103">
+            <div class="trap-card-header">
+                <span class="trap-badge">T9 異分</span>
+                <span class="trap-id">LF-T9-P6-0103</span>
+            </div>
+            <div class="trap-card-body">
+                <div class="trap-question">1/3 + 1/6 = ？</div>
+                <div class="trap-wrong"><span class="label">常見錯誤：</span>2/9？通分LCM=6：2/6+1/6=3/6=1/2</div>
+                <div class="trap-correct"><span class="label">正確答案：</span>1/2</div>
+                <div class="trap-mantra"><span class="label">口訣：</span>「搵LCM通分，分子跟住乘」</div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- ===== END HQ TRAP QUESTIONS ===== -->
+
+<div style='text-align:center;margin:20px 0'><img src='/講義/_svg/tkz_fraction.svg' style='max-width:100%;height:auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08)' alt='tkz_fraction'></div>
+</body>
+</html>

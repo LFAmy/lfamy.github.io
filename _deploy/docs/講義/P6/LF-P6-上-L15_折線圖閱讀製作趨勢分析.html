@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<title>LF Academy · P6-上-L15 折線圖閱讀+製作+趨勢分析 — 學生版講義 v6</title>
+<style>
+<link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--ink:#1A1A1A;--gray:#6B7280;--lightbg:#F9FAFB;--borderc:#D1D5DB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans HK',sans-serif;background:#E5E5E5;color:var(--ink);font-size:13px;line-height:1.65;}
+@media print{body{background:white;font-size:11px;}.pb{box-shadow:none;min-height:0;padding:24px 36px;}.pb.cover-page{page-break-after:always;}.page-break{page-break-before:always;}.no-print{display:none!important;}.qt .qw{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px);border:1px dashed #9CA3AF;}.qt td{padding:4px 6px;}.qt{font-size:10.5px;}.qt .qtxt{font-size:11.5px;}.h1{font-size:14px;margin:12px 0 7px;}.h2{font-size:12px;}.kp{padding:7px 10px;}.kp-rules{font-size:10.5px;}.ex{padding:7px 10px;}.ex-q{font-size:12px;}.warn{font-size:10.5px;padding:5px 8px;}.mn{font-size:12px;padding:8px 10px;}.sc{gap:6px;}.sc-i{padding:10px;}.sc-i .n{width:26px;height:26px;font-size:14px;}.sc-i .t{font-size:11px;}.tc{gap:8px;}.tc-w,.tc-r{padding:10px;}.et{font-size:10px;}}
+.container{max-width:1000px;margin:0 auto;}
+.pb{width:100%;background:var(--white);padding:36px 48px;display:flex;flex-direction:column;}
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;font-size:inherit;}
+.f .n{font-size:inherit;line-height:1.15;}.f .d{font-size:inherit;line-height:1.15;}
+.f .b{width:100%;height:1.4px;background:currentColor;margin:2px 0;min-width:16px;}
+.fd{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;}
+.fd .n{font-size:16px;font-weight:700;line-height:1.15;}.fd .d{font-size:16px;font-weight:700;line-height:1.15;}
+.fd .b{width:100%;height:2px;background:currentColor;min-width:22px;margin:3px 0;}
+.fi{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 1px;font-size:inherit;}
+.fi .n{font-size:inherit;line-height:1;}.fi .d{font-size:inherit;line-height:1;}
+.fi .b{width:100%;height:1px;background:currentColor;min-width:12px;}
+.cover{justify-content:center;align-items:center;text-align:center;background:var(--white);}
+.cv-logo{font-family:'Noto Serif HK',serif;font-size:20px;font-weight:900;color:var(--blue);letter-spacing:6px;}
+.cv-badge{display:inline-block;border:1.5px solid var(--gold);color:var(--gold);padding:5px 22px;border-radius:20px;font-size:12px;letter-spacing:3px;margin:16px 0;}
+.cv-title{font-family:'Noto Serif HK',serif;font-size:30px;font-weight:900;color:var(--blue);letter-spacing:3px;margin:12px 0 6px;}
+.cv-sub{font-size:13px;color:var(--gray);margin-bottom:24px;}
+.cv-info{display:inline-block;text-align:left;background:var(--lightbg);border:1px solid var(--borderc);border-radius:8px;padding:18px 24px;font-size:12px;line-height:2;}
+.cv-info b{color:var(--blue);}
+.cv-row{margin-top:24px;font-size:13px;display:flex;gap:28px;}
+.cv-row .ln{display:inline-block;width:100px;border-bottom:1px solid var(--borderc);}
+.h1{font-family:'Noto Serif HK',serif;font-size:17px;font-weight:900;color:var(--blue);padding:7px 12px;margin:18px 0 10px;border-left:4px solid var(--gold);background:#FFFBEB;}
+.h2{font-family:'Noto Serif HK',serif;font-size:14px;font-weight:700;color:var(--blue);margin:14px 0 6px;padding-bottom:3px;border-bottom:1px solid var(--borderc);}
+.kp{margin:10px 0;padding:11px 14px;background:var(--lightbg);border:1px solid var(--borderc);border-radius:5px;}
+.kp-title{font-size:14px;font-weight:900;color:var(--blue);margin-bottom:4px;}
+.kp-rules{font-size:12px;line-height:1.7;}.kp-rules ol,.kp-rules ul{padding-left:18px;}
+.ex{border:2px solid var(--gold);border-radius:7px;padding:11px 14px;margin:8px 0;background:#FFFDF5;}
+.ex-title{font-size:13px;font-weight:900;color:#92400E;margin-bottom:5px;}
+.ex-q{font-size:14px;font-weight:700;margin:5px 0;line-height:1.7;}
+.warn{background:#FEF2F2;border-left:3px solid var(--red);padding:6px 10px;margin:7px 0;font-size:12px;font-weight:600;color:#991B1B;}
+.mn{background:linear-gradient(135deg,#FFF8E7,#FFEDD5);border:2px solid var(--gold);border-radius:7px;padding:10px 14px;margin:7px 0;text-align:center;font-size:15px;font-weight:900;color:var(--blue);}
+.qt{width:100%;border-collapse:collapse;margin:6px 0;font-size:12px;}
+.qt th{background:var(--blue);color:white;padding:5px 8px;font-size:11px;font-weight:600;text-align:left;}
+.qt td{padding:6px 8px;border:1px solid var(--borderc);vertical-align:top;}
+.qt tr:nth-child(even) td{background:#FAFBFC;}
+.qt .qn{width:34px;text-align:center;font-weight:700;}
+.qt .qd{width:52px;text-align:center;font-size:10px;font-weight:700;}
+.qt .qw{min-height:80px;background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px);}
+.qt .qtxt{font-size:13px;line-height:1.7;}
+.d1{background:#FEF3C7;color:#92400E;}.d2{background:#DCFCE7;color:#166534;}
+.d3{background:#DBEAFE;color:#1E40AF;}.d4{background:#F3E8FF;color:#7C3AED;}
+.ss{display:inline-block;padding:1px 5px;border-radius:2px;font-size:8px;font-weight:700;}
+.sh{background:#FEE2E2;color:#991B1B;}.sm{background:#FEF3C7;color:#92400E;}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0;}
+.tc-w{background:#FEF2F2;border:2px solid #FECACA;border-radius:8px;padding:14px;text-align:center;}
+.tc-r{background:#F0FDF4;border:2px solid #BBF7D0;border-radius:8px;padding:14px;text-align:center;}
+.tc-w .lbl{font-size:14px;font-weight:900;color:var(--red);margin-bottom:5px;}
+.tc-r .lbl{font-size:14px;font-weight:900;color:var(--green);margin-bottom:5px;}
+.tc-w .eq{font-size:17px;color:var(--red);}.tc-r .eq{font-size:17px;color:var(--green);}
+.tc-w .why{font-size:10px;color:#991B1B;margin-top:4px;}.tc-r .why{font-size:10px;color:#14532D;margin-top:4px;}
+.sc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0;}
+.sc-i{background:var(--lightbg);border:2px solid var(--borderc);border-radius:8px;padding:12px;text-align:center;}
+.sc-i .n{width:30px;height:30px;border-radius:50%;background:var(--blue);color:white;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;}
+.sc-i .t{font-size:13px;font-weight:900;}.sc-i .d{font-size:10px;color:var(--gray);line-height:1.4;margin-top:2px;}
+.et{width:100%;border-collapse:collapse;margin:6px 0;font-size:11px;}
+.et th{background:var(--red);color:white;padding:5px 8px;}
+.et td{padding:5px 8px;border:1px solid var(--borderc);}
+.end-note{text-align:center;margin-top:20px;padding-top:14px;border-top:1px solid var(--borderc);font-size:11px;color:var(--gray);}
+.dt{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px;text-align:center;}
+.dt th{background:var(--blue);color:white;padding:5px 8px;font-size:11px;}
+.dt td{padding:4px 8px;border:1px solid var(--borderc);}
+.dt tr:nth-child(even) td{background:#FAFBFC;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- PAGE 1: COVER -->
+<div class="pb cover-page cover">
+<div class="cv-logo">霖楓學苑 <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">小六 · 第 15 堂 · 學生版講義</div>
+<div class="cv-title">折線圖閱讀 + 製作 + 趨勢分析</div>
+<div class="cv-sub">單元：統計與數據處理 · 65 分鐘 · 一對三線上課程</div>
+<div class="cv-info">
+<b>對應教材：</b>《小學數學新思維（第二版）》6上B冊 單元統計圖表 ＋ 現代教育 6上B<br>
+<b>核心陷阱：</b>T10 統計與數據 — 混淆斜率與數值 · 忽略水平線=停止 · 刻度讀錯<br>
+<b>SSPA 關聯：</b><span class="ss sm">🟡 中高頻</span> 呈分試卷一常見 6-8 分讀圖+繪圖題<br>
+<b>前置知識：</b>P5 棒形圖閱讀與製作 · 數據收集與整理 · 坐標概念<br>
+<b>本堂目標：</b>① 讀懂折線圖（斜率、趨勢、極值）② 從數據表繪製折線圖 ③ 分析趨勢並作合理預測 ④ 比較棒形圖與折線圖的適用場景
+</div>
+<div class="cv-row">
+<span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+</div>
+</div>
+
+<!-- PAGE 2: WARM-UP + KP1 -->
+<div class="pb">
+<div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">棒形圖和折線圖有甚麼不同？各舉一個適合用該圖表的例子。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">看折線圖時，線條「向上」代表甚麼？「向下」代表甚麼？「平坦」代表甚麼？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">數據：一月10°C、二月12°C、三月15°C、四月18°C。溫度在上升還是下降？每月平均上升多少？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">折線圖中，一月對應 50 件，二月對應 80 件。一月到二月的「變化」是多少件？是上升還是下降？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">下表是某商店上半年營業額。你認為用棒形圖還是折線圖表示更合適？為甚麼？<br><table class="dt"><tr><th>月份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th></tr><tr><td>營業額(萬)</td><td>12</td><td>15</td><td>18</td><td>14</td><td>20</td><td>17</td></tr></table></td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+</table>
+
+<div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+<div class="kp">
+<div class="kp-title">知識點一：折線圖的閱讀<span class="ss sh">🔴 SSPA</span></div>
+<div class="kp-rules">
+① <strong>折線圖</strong> = 用點標示數據，再用線段連接各點，用來顯示數據<strong>隨時間的變化趨勢</strong><br>
+② <strong>三大閱讀步驟</strong>：先看<strong>標題</strong>（了解主題）→ 再看<strong>橫軸和縱軸</strong>（了解單位和刻度）→ 再<strong>逐點讀取</strong>數據<br>
+③ <strong>斜率 = 變化速度</strong>：線段愈陡 = 變化愈快；線段愈平 = 變化愈慢<br>
+④ <strong>水平線 = 停止變化</strong>（數值保持不變）<br>
+⑤ <strong>最高點 = 最大值</strong>（peak）；<strong>最低點 = 最小值</strong>（trough）
+</div>
+</div>
+
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">📈 折線圖示例：上半年月平均溫度變化</strong><br><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 320" width="490" height="320"><line x1="85" y1="35" x2="85" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290" x2="470" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290.0" x2="470" y2="290.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="294.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">0</text><line x1="85" y1="239.0" x2="470" y2="239.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="243.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">5</text><line x1="85" y1="188.0" x2="470" y2="188.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="192.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">10</text><line x1="85" y1="137.0" x2="470" y2="137.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="141.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">15</text><line x1="85" y1="86.0" x2="470" y2="86.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="90.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">20</text><line x1="85" y1="35.0" x2="470" y2="35.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="39.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">25</text><text x="77" y="39" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">(°C)</text><text x="14" y="162" text-anchor="middle" font-size="11" fill="#1A3C6D" transform="rotate(-90,14,162)">溫度</text><text x="117.08333333333334" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">一月</text><text x="181.25000000000003" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">二月</text><text x="245.41666666666669" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">三月</text><text x="309.5833333333333" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">四月</text><text x="373.75" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">五月</text><text x="437.9166666666667" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">六月</text><text x="245" y="25" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">上半年月平均溫度變化</text><circle cx="115" cy="106.4" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="115" y="94.4" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">18</text><circle cx="175" cy="86.0" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="175" y="74.0" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">20</text><circle cx="235" cy="126.79999999999998" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="235" y="114.79999999999998" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">16</text><circle cx="295" cy="65.6" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="295" y="53.599999999999994" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">22</text><circle cx="355" cy="45.20000000000002" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="355" y="33.20000000000002" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">24</text><circle cx="415" cy="75.80000000000001" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="415" y="63.80000000000001" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">21</text><polyline points="115,106.4 175,86.0 235,126.79999999999998 295,65.6 355,45.20000000000002 415,75.80000000000001" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linejoin="round"/></svg><div style="font-size:9px; color:var(--gray); margin-top:3px;">紅點=每月溫度數據。連接線顯示溫度變化趨勢。注意：一月18°C→二月20°C（上升2°C）→三月16°C（下降4°C）→四月22°C（急升6°C）→五月24°C（峰值）→六月21°C（下降）。</div></div>
+
+<div class="ex">
+<div class="ex-title">陷阱引爆例題 — 斜率大 ≠ 數值大</div>
+<div class="ex-q">根據上方折線圖：從三月到四月，溫度上升了6°C。從四月到五月，溫度只上升了2°C。哪一段的「變化速度」較快？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ 常見錯誤</div><div class="eq">四月到五月線段較平 → 變化較慢。所以三月到四月變化快。</div><div class="why">混淆：以為斜線陡=變化大。三月→四月升6°C，四月→五月升2°C——前者確實變化更大。但要小心：變化「量」大≠數值大！</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">三月→四月：22−16=6°C（急升）<br>四月→五月：24−22=2°C（緩升）<br>變化速度：6°C > 2°C → 三月到四月變化更快 ✓</div><div class="why">變化量 = 新值 − 舊值。變化量大的線段自然更陡。</div></div>
+</div>
+</div>
+
+<div class="mn">🧠 口訣：「折線睇趨勢，唔係睇高低。線條向上係升，向下係跌，平線代表冇變化。愈斜變得愈快！」</div>
+<div class="warn">⚠️ 最高頻錯誤：把折線圖當棒形圖讀——直接比較點的高低而不分析變化趨勢！</div>
+<div class="warn">⚠️ 第二高頻錯誤：忽略縱軸起點——若縱軸不從0開始，視覺上會誇大變化幅度！</div>
+
+<div class="h2">知識點一 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">根據上方折線圖：哪個月的溫度最高？是多少°C？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">根據上方折線圖：從一月到六月，溫度整體趨勢是上升還是下降？總共上升了多少°C？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">根據上方折線圖：哪兩個月之間的溫度變化最大？變化了多少°C？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">如果七月的溫度比六月高 3°C，在折線圖上七月的點應該在哪個位置？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+</table>
+</div>
+
+<!-- PAGE 3: KP2 + KP3 -->
+<div class="pb page-break">
+<div class="kp">
+<div class="kp-title">知識點二：繪製折線圖<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>從數據表繪製折線圖的五步驟：</strong><br>
+① <strong>定坐標軸</strong>：橫軸（x軸）= 時間/類別；縱軸（y軸）= 數值<br>
+② <strong>定刻度</strong>：找出數據最大值，確定每格代表多少（取 2/5/10 的倍數）<br>
+③ <strong>標數據點</strong>：在每個 x 位置對應的 y 高度上畫一個「●」點<br>
+④ <strong>連線</strong>：用直線按順序連接所有點（不要跳點！）<br>
+⑤ <strong>寫標題和單位</strong>：圖表上方寫標題，軸旁寫單位
+</div>
+</div>
+
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">定軸</div><div class="d">橫軸=時間<br>縱軸=數值</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">定刻度</div><div class="d">最大值÷格數<br>取2/5/10倍</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">標點</div><div class="d">每個x位<br>對應y高畫●</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">連線</div><div class="d">按順序連接<br>不要跳點</div></div>
+</div>
+
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：下表是玩具店四季銷售額。請畫出折線圖。<br><table class="dt"><tr><th>季度</th><th>第一季</th><th>第二季</th><th>第三季</th><th>第四季</th></tr><tr><td>銷售額(萬元)</td><td>120</td><td>155</td><td>140</td><td>175</td></tr></table></div></div>
+
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">📈 四季銷售額折線圖（參考）</strong><br><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 320" width="370" height="320"><line x1="85" y1="35" x2="85" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290" x2="350" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290.0" x2="350" y2="290.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="294.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">0</text><line x1="85" y1="258.125" x2="350" y2="258.125" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="262.125" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">25</text><line x1="85" y1="226.25" x2="350" y2="226.25" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="230.25" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">50</text><line x1="85" y1="194.375" x2="350" y2="194.375" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="198.375" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">75</text><line x1="85" y1="162.5" x2="350" y2="162.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="166.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">100</text><line x1="85" y1="130.625" x2="350" y2="130.625" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="134.625" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">125</text><line x1="85" y1="98.75" x2="350" y2="98.75" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="102.75" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">150</text><line x1="85" y1="66.875" x2="350" y2="66.875" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="70.875" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">175</text><line x1="85" y1="35.0" x2="350" y2="35.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="39.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">200</text><text x="77" y="39" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">(萬元)</text><text x="14" y="162" text-anchor="middle" font-size="11" fill="#1A3C6D" transform="rotate(-90,14,162)">銷售額</text><text x="118.125" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">第一季</text><text x="184.375" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">第二季</text><text x="250.625" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">第三季</text><text x="316.875" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">第四季</text><text x="185" y="25" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">四季銷售額走勢</text><circle cx="115" cy="137.0" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="115" y="125.0" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">120</text><circle cx="175" cy="92.375" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="175" y="80.375" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">155</text><circle cx="235" cy="111.5" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="235" y="99.5" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">140</text><circle cx="295" cy="66.875" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="295" y="54.875" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">175</text><polyline points="115,137.0 175,92.375 235,111.5 295,66.875" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linejoin="round"/></svg><div style="font-size:9px; color:var(--gray); margin-top:3px;">第一季120萬→第二季155萬（升）→第三季140萬（跌）→第四季175萬（升·全年最高）。整體趨勢：波動上升。</div></div>
+
+<div class="h2">知識點二 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">10</td><td class="qtxt">根據四季銷售額折線圖：哪一季銷售額最低？是多少萬元？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">根據四季銷售額折線圖：從第一季到第四季，總共上升了多少萬元？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">下表是小文六個月的體重記錄。請在下方的空白折線圖上繪製折線圖。<br><table class="dt"><tr><th>月份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th></tr><tr><td>體重(kg)</td><td>32</td><td>33</td><td>34</td><td>35</td><td>36</td><td>37</td></tr></table></td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+</table>
+
+<div style="text-align:center; margin:10px 0;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 320" width="490" height="320"><line x1="85" y1="35" x2="85" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290" x2="470" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290.0" x2="470" y2="290.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="294.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">0</text><line x1="85" y1="258.125" x2="470" y2="258.125" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="262.125" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">25</text><line x1="85" y1="226.25" x2="470" y2="226.25" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="230.25" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">50</text><line x1="85" y1="194.375" x2="470" y2="194.375" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="198.375" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">75</text><line x1="85" y1="162.5" x2="470" y2="162.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="166.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">100</text><line x1="85" y1="130.625" x2="470" y2="130.625" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="134.625" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">125</text><line x1="85" y1="98.75" x2="470" y2="98.75" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="102.75" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">150</text><line x1="85" y1="66.875" x2="470" y2="66.875" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="70.875" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">175</text><line x1="85" y1="35.0" x2="470" y2="35.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="39.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">200</text><text x="77" y="39" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">(件)</text><text x="14" y="162" text-anchor="middle" font-size="11" fill="#1A3C6D" transform="rotate(-90,14,162)">數量</text><text x="117.08333333333334" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">一月</text><text x="181.25000000000003" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">二月</text><text x="245.41666666666669" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">三月</text><text x="309.5833333333333" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">四月</text><text x="373.75" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">五月</text><text x="437.9166666666667" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">六月</text><text x="245" y="25" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">請根據數據表繪製折線圖</text><circle cx="115" cy="162" r="2" fill="#E5E7EB" stroke="none"/><circle cx="175" cy="162" r="2" fill="#E5E7EB" stroke="none"/><circle cx="235" cy="162" r="2" fill="#E5E7EB" stroke="none"/><circle cx="295" cy="162" r="2" fill="#E5E7EB" stroke="none"/><circle cx="355" cy="162" r="2" fill="#E5E7EB" stroke="none"/><circle cx="415" cy="162" r="2" fill="#E5E7EB" stroke="none"/><text x="245" y="322" text-anchor="middle" font-size="10" fill="#6B7280" font-weight="700">（請按數據標出點並連線）</text></svg></div>
+
+<div class="kp" style="margin-top:15px;">
+<div class="kp-title">知識點三：趨勢分析與預測<span class="ss sm">🟡 SSPA 進階</span></div>
+<div class="kp-rules">
+① <strong>趨勢類型</strong>：上升趨勢（總體向上）、下降趨勢（總體向下）、平穩趨勢（變化很小）、波動趨勢（時升時跌）<br>
+② <strong>預測方法</strong>：根據現有趨勢，合理推測未來數據。例如：一直上升→預測繼續上升<br>
+③ <strong>平均變化</strong> = 總變化量 ÷ 時間段數。用來估算「每段大約變化多少」<br>
+④ <strong>預測 ≠ 準確</strong>：預測只是根據趨勢的合理猜測，實際數據可能受其他因素影響
+</div>
+</div>
+
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：根據體重數據（32→33→34→35→36→37 kg），小文每月平均增重多少？預測7月的體重。</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例5：根據折線圖，描述上半年溫度的整體趨勢。你認為七月溫度會是多少？（合理即可）</div></div>
+
+<div class="h2">知識點三 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">根據體重折線圖：描述小文六個月的體重變化趨勢。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">根據體重折線圖：預測小文 7 月的體重。說明你的理由。</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">下表是某城市上半年降雨量。畫出折線圖並描述趨勢。<br><table class="dt"><tr><th>月份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th></tr><tr><td>降雨量(mm)</td><td>40</td><td>55</td><td>80</td><td>120</td><td>180</td><td>210</td></tr></table></td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+</table>
+
+<div style="text-align:center; margin:10px 0;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 320" width="370" height="320"><line x1="85" y1="35" x2="85" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290" x2="350" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290.0" x2="350" y2="290.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="294.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">0</text><line x1="85" y1="258.125" x2="350" y2="258.125" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="262.125" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">25</text><line x1="85" y1="226.25" x2="350" y2="226.25" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="230.25" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">50</text><line x1="85" y1="194.375" x2="350" y2="194.375" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="198.375" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">75</text><line x1="85" y1="162.5" x2="350" y2="162.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="166.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">100</text><line x1="85" y1="130.625" x2="350" y2="130.625" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="134.625" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">125</text><line x1="85" y1="98.75" x2="350" y2="98.75" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="102.75" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">150</text><line x1="85" y1="66.875" x2="350" y2="66.875" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="70.875" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">175</text><line x1="85" y1="35.0" x2="350" y2="35.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="39.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">200</text><text x="77" y="39" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">(萬元)</text><text x="14" y="162" text-anchor="middle" font-size="11" fill="#1A3C6D" transform="rotate(-90,14,162)">營業額</text><text x="118.125" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">第一季</text><text x="184.375" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">第二季</text><text x="250.625" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">第三季</text><text x="316.875" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">第四季</text><text x="185" y="25" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">請根據數據繪製折線圖</text><circle cx="115" cy="162" r="2" fill="#E5E7EB" stroke="none"/><circle cx="175" cy="162" r="2" fill="#E5E7EB" stroke="none"/><circle cx="235" cy="162" r="2" fill="#E5E7EB" stroke="none"/><circle cx="295" cy="162" r="2" fill="#E5E7EB" stroke="none"/><text x="185" y="322" text-anchor="middle" font-size="10" fill="#6B7280" font-weight="700">（請按數據標出點並連線）</text></svg></div>
+</div>
+
+<!-- PAGE 4: TIERED PRACTICE + APPLICATIONS -->
+<div class="pb page-break">
+<div class="h1">三、課堂分層同步練習</div>
+
+<div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">16</td><td class="qtxt">看折線圖：一月30、二月35、三月40、四月45、五月50。趨勢是怎樣的？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">折線圖中，三月到四月的線段是平的。這代表甚麼？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">折線圖中最高點在五月（50），最低點在一月（30）。相差多少？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+</table>
+
+<div class="h2">🌿 進階層（共 3 題，🚶🚀 選做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">19</td><td class="qtxt">折線圖數據：一月20、二月25、三月22、四月28、五月30。哪段時間數據下降了？下降了多少？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">根據18題數據，求5個月的平均數值。</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">下表是某同學五次測驗分數。繪製折線圖，並分析他的成績趨勢。<br><table class="dt"><tr><th>測驗</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr><tr><td>分數</td><td>65</td><td>72</td><td>78</td><td>75</td><td>82</td></tr></table></td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+</table>
+
+<div class="h2">🌳 挑戰層（共 3 題，🚀 選做，呈分試殺手題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">22</td><td class="qtxt">折線圖A和折線圖B顯示同一組數據，但A的縱軸從0開始，B的縱軸從50開始。哪個圖看起來變化更大？為甚麼？（這是常見的「誤導性圖表」陷阱！）</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">下表是兩間公司上半年盈利（百萬元）。在同一張折線圖上畫出兩條線（用不同顏色/標記）。<br><table class="dt"><tr><th>月份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th></tr><tr><td>A公司</td><td>5</td><td>6</td><td>8</td><td>7</td><td>10</td><td>9</td></tr><tr><td>B公司</td><td>8</td><td>7</td><td>6</td><td>9</td><td>8</td><td>11</td></tr></table>(a) 哪間公司整體盈利較高？(b) 哪間公司增長較快？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">根據折線圖趨勢：如果每月持續以相同的平均變化量上升，請估算第12個月的數值（以6個月數據為基礎）。</td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+</table>
+
+<div class="h1">四、應用題專項（呈分試文字題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">25</td><td class="qtxt">小美記錄了她一個星期每天步行步數：星期一8500、星期二7200、星期三9100、星期四6800、星期五10300、星期六12500、星期日9800。(a) 繪製折線圖 (b) 哪天的步數最多？(c) 從星期一到星期日，整體趨勢如何？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">下表為某城市2019-2024年的年均氣溫。繪製折線圖並回答：哪兩年間氣溫上升最多？上升了多少°C？<br><table class="dt"><tr><th>年份</th><th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr><tr><td>氣溫(°C)</td><td>22.5</td><td>23.0</td><td>23.2</td><td>23.8</td><td>24.1</td><td>24.5</td></tr></table></td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">下表是一家餐廳六個月顧客人數。店長說「生意愈來愈好」。你同意嗎？用折線圖數據支持你的答案。<br><table class="dt"><tr><th>月份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th></tr><tr><td>顧客(人)</td><td>450</td><td>420</td><td>480</td><td>510</td><td>490</td><td>530</td></tr></table></td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+</table>
+</div>
+
+<!-- PAGE 5: HOMEWORK + ERROR SUMMARY -->
+<div class="pb page-break">
+<div class="h1">五、課後功課</div>
+<div class="h2">基礎必做題（共 4 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">看折線圖：數據點為 10→15→12→20→18。哪兩點之間上升最多？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">下表是某同學一至五月的零用錢儲蓄。畫出折線圖。<br><table class="dt"><tr><th>月份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr><tr><td>儲蓄($)</td><td>80</td><td>95</td><td>90</td><td>110</td><td>120</td></tr></table></td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">根據H2的折線圖：從一月到五月，儲蓄增加了多少元？平均每月增加多少？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">下表是運動會入場人數。畫折線圖並描述趨勢。<br><table class="dt"><tr><th>時間</th><th>9am</th><th>10am</th><th>11am</th><th>12pm</th><th>1pm</th></tr><tr><td>人數</td><td>200</td><td>350</td><td>500</td><td>480</td><td>300</td></tr></table></td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+</table>
+
+<div class="h2">進階選做題（共 3 題，🚀 選做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">H5</td><td class="qtxt">下表為兩店六個月銷售額。在同一圖表上畫兩條折線進行比較。哪間店表現較好？<br><table class="dt"><tr><th>月份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th></tr><tr><td>甲店($)</td><td>5000</td><td>5200</td><td>5500</td><td>5300</td><td>5800</td><td>6000</td></tr><tr><td>乙店($)</td><td>4800</td><td>5000</td><td>5300</td><td>5600</td><td>5400</td><td>5900</td></tr></table></td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">折線圖顯示某股票六個月價格：$50→$55→$52→$58→$60→$57。(a) 哪個月價格最高？(b) 如果第7個月延續最近趨勢，價格大約是多少？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">下表是某同學三次呈分試模擬成績。畫折線圖，並為每科寫一句趨勢描述。<br><table class="dt"><tr><th></th><th>模擬1</th><th>模擬2</th><th>模擬3</th></tr><tr><td>數學</td><td>72</td><td>78</td><td>85</td></tr><tr><td>中文</td><td>68</td><td>70</td><td>69</td></tr><tr><td>英文</td><td>75</td><td>80</td><td>82</td></tr></table></td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+</table>
+
+<div class="h1">六、本堂核心易錯點總結</div>
+
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+<tr><td>1</td><td><strong>把折線圖當棒形圖讀</strong>：只比較點的高低，不看趨勢</td><td>折線圖重點是「變化趨勢」：看線段方向（升/跌/平），不是只看數值大小</td></tr>
+<tr><td>2</td><td><strong>混淆斜率和變化量</strong>：以為陡=變化大、平=變化小</td><td>斜率=變化速度。計算實際變化量：新值−舊值。陡=變化快，不一定變化量大</td></tr>
+<tr><td>3</td><td><strong>忽略水平線段的含義</strong></td><td>水平線=數值沒變化（不是「沒有數據」也不是「0」）</td></tr>
+<tr><td>4</td><td><strong>繪圖時刻度不當</strong>：格值過大或過小，或縱軸不從0開始</td><td>除非有特別原因，縱軸應從0開始。每格代表值應為2/5/10的倍數</td></tr>
+<tr><td>5</td><td><strong>連線順序錯誤</strong>：跳點或不按順序連接</td><td>必須按橫軸的順序（通常是時間順序）逐點連接，不能跳</td></tr>
+<tr><td>6</td><td><strong>遺漏標題和單位</strong></td><td>完整的折線圖必須有：①標題 ②橫軸標籤+單位 ③縱軸標籤+單位</td></tr>
+<tr><td>7</td><td><strong>趨勢預測過於武斷</strong>：把趨勢當成必然</td><td>趨勢預測只是合理推測。要說「根據趨勢，預測…」而不是「一定會…」</td></tr>
+</table>
+
+<div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-上-L15</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L15 折線圖閱讀 · L27 綜合統計圖表 · L32 複合棒形圖</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+Ctrl+P 列印 PDF | LF-P6-上-L15 v6
+</div>
+</body>
+</html>

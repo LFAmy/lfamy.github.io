@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L35 中一預習：負數+代數式化簡+方程進階 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+    .timer { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:26px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:80px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .bridge-note { background:linear-gradient(135deg,#EFF6FF,#DBEAFE); border:2px solid var(--blue); border-radius:8px; padding:12px; margin:8px 0; text-align:center; font-size:12px; color:var(--blue); font-weight:700; }
+
+  .svg-wrap { text-align:center; margin:10px 0; }
+  .svg-wrap svg { max-width:100%; height:auto; }
+
+  .nl-demo { display:flex; gap:20px; justify-content:center; align-items:center; margin:10px 0; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ══════ PAGE 1: COVER ══════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 35 堂 · 學生版講義</div>
+  <div class="cv-title">中一預習：負數 + 代數式化簡 + 方程進階</div>
+  <div class="cv-sub">下學期 · 中學橋樑課程 · 75 分鐘 · 一對三線上課程 · 程度：高於SSPA</div>
+
+  <div class="cv-info">
+    <b>本堂定位：</b>中一數學預習 — 由「算術思維」過渡到「代數思維」的第一堂<br>
+    <b>三大課題：</b>① 負數概念與運算 ② 代數式化簡（同類項合併） ③ 方程進階（未知數在兩邊）<br>
+    <b>核心陷阱：</b>⚠️ 雙重負號 −(−x)=+x &nbsp;|&nbsp; ⚠️ 拆括號要變號 3x−(2x−5)≠x−5<br>
+    <b>SSPA 關聯：</b><span class="ss sm">中學預習</span> 此內容為中一上學期課程，非SSPA範圍，但提早掌握可建立絕對優勢<br>
+    <b>前置知識：</b>四則運算、簡單方程（如 2x+3=11）、代數符號基本認識<br>
+    <b>本堂目標：</b>① 數線上的負數加減 ② 代數式同類項合併 ③ 解未知數在兩邊的方程
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 2: WARM-UP + NUMBER LINE ══════ -->
+<div class="pb">
+  <div class="bridge-note">🌉 中學橋樑課程 — 呢堂開始，我哋由「計數」進入「代數」世界。內容高於SSPA，係中一上學期預習。掌握得好，升中後你會領先成個學期。</div>
+
+  <div class="h1">一、熱身啟動（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">解方程：2x + 7 = 19</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">化簡：3a + 5a − 2a = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">5 − 8 = ? （你見過負數答案嗎？試下寫出黎）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">溫度由 −3°C 上升 8°C，新溫度是多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">解方程：3x − 5 = 2x + 3</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：負數世界 — 認識數線上的「另一邊」</div>
+    <div class="kp-rules">
+      ① <strong>0 不是最小的數</strong>：0 的左邊仲有 −1, −2, −3...（負整數）<br>
+      ② <strong>負數比較</strong>：越左越細！−5 &lt; −3 &lt; 0 &lt; 2 &lt; 5<br>
+      ③ <strong>負數加法</strong>：加正數 = 向右移；加負數 = 向左移<br>
+      ④ <strong>負數減法</strong>：減正數 = 向左移；減負數 = 向右移！（−(−3) = +3）<br>
+      ⑤ <strong>雙重負號</strong>：兩個負號等於一個正號！−(−x) = +x
+    </div>
+  </div>
+
+  <div class="svg-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 120" width="640" height="120"><line x1="30" y1="55" x2="710" y2="55" stroke="#1A3C6D" stroke-width="2.5"/><polygon points="710,55 700,49 700,61" fill="#1A3C6D"/><line x1="40" y1="40" x2="40" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="40" y="83" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">-10</text><line x1="95" y1="40" x2="95" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="95" y="83" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">-8</text><line x1="150" y1="40" x2="150" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="150" y="83" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">-6</text><line x1="205" y1="40" x2="205" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="205" y="83" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">-4</text><line x1="260" y1="40" x2="260" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="260" y="83" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">-2</text><line x1="315" y1="40" x2="315" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="315" y="83" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">0</text><line x1="370" y1="40" x2="370" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="370" y="83" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">2</text><line x1="425" y1="40" x2="425" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="425" y="83" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">4</text><line x1="480" y1="40" x2="480" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="480" y="83" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">6</text><line x1="535" y1="40" x2="535" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="535" y="83" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">8</text><line x1="590" y1="40" x2="590" y2="70" stroke="#1A3C6D" stroke-width="1.5"/><text x="590" y="83" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">10</text><line x1="315" y1="35" x2="315" y2="75" stroke="#DC2626" stroke-width="3"/><text x="315" y="30" text-anchor="middle" font-size="14" fill="#DC2626" font-weight="700">0</text><text x="35" y="33" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">負數</text><text x="600" y="33" text-anchor="end" font-size="11" fill="#16A34A" font-weight="700">正數</text></svg></div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 雙重負號</div>
+    <div class="ex-q">計算：5 − (−3) = ?</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 常見錯誤</div><div class="eq">5 − (−3) = 5 − 3 = 2</div><div class="why">以為見到減號就減，忽略後面括號內的負號！</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">5 − (−3) = 5 + 3 = <strong>8</strong></div><div class="why">減一個負數 = 加其正數。兩個「負」=「正」</div></div>
+    </div>
+  </div>
+
+  <div class="warn">⚠️ 世紀災難：−(−5) = −5 係錯嘅！兩個負號抵消 → −(−5) = +5。呢個係全中一最多人錯嘅概念！</div>
+
+  <div class="mn">口訣：「減負等於加正，兩個負號變一個正。負負得正唔會變，數線向右唔會亂。」</div>
+</div>
+
+<!-- ══════ PAGE 3: ALGEBRA + EQUATIONS ══════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：代數式化簡 — 同類項合併（Collecting Like Terms）</div>
+    <div class="kp-rules">
+      ① <strong>同類項</strong>：變數和次方完全相同的項 → 可以合併（係數加減）<br>
+      ② 3x 和 5x 是同類項（都係 x）→ 3x + 5x = 8x<br>
+      ③ 3x 和 3x² 不是同類項（次方不同）→ 不能合併<br>
+      ④ <strong>致命陷阱</strong>：拆括號時括號前係減號 → 括號內每一項都要變號！<br>
+      ⑤ 3x − (2x − 5) = 3x − 2x + 5 = x + 5（唔係 x − 5！）
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 拆括號變號</div>
+    <div class="ex-q">化簡：5x − (3x − 8) = ?</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 致命錯誤（60%人中招）</div><div class="eq">5x − (3x − 8) = 5x − 3x − 8 = 2x − 8</div><div class="why">括號前係減號 → 裡面嘅 −8 要變成 +8！</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">5x − (3x − 8) = 5x − 3x + 8 = <strong>2x + 8</strong></div><div class="why">拆括號規則：−(A−B) = −A + B</div></div>
+    </div>
+  </div>
+
+  <div class="h2">KP2 同步練習（代數式化簡）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">化簡：4a + 7a − 3a = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">化簡：3x + 2y + 5x − y = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">化簡：6m − (2m − 4) = ?</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">化簡：5(2x − 3) − 3(x + 1) = ?</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：方程進階 — 未知數在兩邊 <span class="ss sh">中一必考</span></div>
+    <div class="kp-rules">
+      ① <strong>目標</strong>：將所有含 x 的項移到一邊，常數項移到另一邊<br>
+      ② <strong>天秤原理</strong>：等式兩邊同時加/減/乘/除同一個數，等式仍然成立<br>
+      ③ <strong>步驟</strong>：（1）展開括號（2）移項（變號！)（3）合併同類項（4）求解<br>
+      ④ <strong>陷阱</strong>：移項時忘記變號！x+5=3x−1 → 5+1=3x−x → 6=2x → x=3
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 移項變號</div>
+    <div class="ex-q">解方程：4x + 3 = 2x + 11</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 常見錯誤</div><div class="eq">4x − 2x = 11 + 3（移項冇變號！）<br>2x = 14, x = 7</div><div class="why">2x由右邊移到左邊要變 −2x；3由左邊移到右邊要變 −3</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq">4x − 2x = 11 − 3<br>2x = 8, <strong>x = 4</strong></div><div class="why">移項必變號：過對面（等號）→ 符號反轉</div></div>
+    </div>
+  </div>
+
+  <div class="warn">⚠️ 終極陷阱：呢題 x=4 和 x=7 差好遠。移項唔變號 = 成份卷錯晒。記住：「過河要變號」！</div>
+
+  <div class="h2">KP3 同步練習（方程進階）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">10</td><td class="qtxt">解方程：5x − 3 = 2x + 9</td><td class="qd d1">基礎</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">解方程：3x + 8 = 7x − 4</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">解方程：2(x + 3) = 3x − 4</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">解方程：5x − (2x − 7) = 4x + 1</td><td class="qd d4">極限</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 4: NEGATIVE NUMBER OPERATIONS ══════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點四：負數四則運算 — 加減乘除全攻略</div>
+    <div class="kp-rules">
+      <strong>加法規則：</strong><br>
+      ① 正 + 正 = 正（正常）&nbsp; ② 負 + 負 = 負（(−3)+(−5)=−8）<br>
+      ③ 正 + 負：睇邊個絕對值大 → 符號跟大嘅（5+(−8)=−3, 8+(−5)=3）<br>
+      <strong>減法規則：</strong>減一個數 = 加它的相反數 → a−b = a+(−b)<br>
+      ④ 3−8 = 3+(−8) = −5 &nbsp; ⑤ 3−(−8) = 3+8 = 11<br>
+      <strong>乘法規則：</strong><br>
+      ⑥ 正×正=正 &nbsp; 正×負=負 &nbsp; 負×正=負 &nbsp; <strong>負×負=正</strong><br>
+      ⑦ (−3)×(−4) = +12（這個最多人不信！但係真嘅）
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">🪤 陷阱引爆 — 負負得正</div>
+    <div class="ex-q">計算：(−6) × (−5) = ?</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 唔信邪錯誤</div><div class="eq">(−6) × (−5) = −30</div><div class="why">負×負應該係正！兩個負數相乘一定出正數</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確答案</div><div class="eq">(−6) × (−5) = <strong>+30</strong></div><div class="why">規則：同號相乘得正，異號相乘得負</div></div>
+    </div>
+  </div>
+
+  <div class="h2">負數運算同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">14</td><td class="qtxt">(−8) + 5 = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">(−3) − (−7) = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">(−4) × 6 = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">(−12) ÷ (−3) = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">(−2) × (−3) + (−8) ÷ 2 = ?</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">比較：−15, −8, 0, 3, −20 由小至大排列。</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">−(−(−5))) = ? （三層負號！）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">三、混合應用練習（負數 + 代數 + 方程三合一）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">21</td><td class="qtxt">化簡然後求解：3(x − 2) = 2x + (−4)</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">化簡：2a − [3a − (a − 5)]</td><td class="qd d4">極限</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">解方程：2(3x − 1) − (x + 4) = 3x − 8</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 5: TIERED PRACTICE ══════ -->
+<div class="pb">
+  <div class="h1">四、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 5 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">24</td><td class="qtxt">(−7) + 12 = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">化簡：8p − 3p + 2p = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">解方程：x + 7 = 15</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">27</td><td class="qtxt">化簡：6m − (2m + 3) = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">解方程：4x − 5 = 3x + 2</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 5 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">29</td><td class="qtxt">(−5) × 4 + (−8) ÷ (−2) = ?</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">30</td><td class="qtxt">化簡：3(2x − 1) − 2(x + 4) = ?</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">溫度由 −5°C 先升 12°C，再降 8°C。最終溫度？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">32</td><td class="qtxt">解方程：2x + 3(x − 1) = 4x + 5</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">33</td><td class="qtxt">化簡：4a − [2a − (3a − 1) + 5] = ?</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">34</td><td class="qtxt">解方程：3(x − 2) − 2(x + 1) = 5 − x</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">35</td><td class="qtxt">三個連續整數之和是 −9。求這三個數。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">36</td><td class="qtxt">如果 x = −3，求 2x² − 3x + 1 的值。（留意：x² = (−3)² = 9，唔係 −9！）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 極限挑戰（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">37</td><td class="qtxt">解方程：2(3x − 1) − 3(x − 2) = 4 − (x + 2) + 2(x − 5)</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">38</td><td class="qtxt">求 (−2)³ + (−3)² − (−1)⁵ 的值。（留意指數和負號的關係！）</td><td class="qd d4">極限</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 6: APPLICATION + HOMEWORK + ERROR TABLE ══════ -->
+<div class="pb">
+  <div class="h1">五、中一風格應用題（5 題，代數思維訓練）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">小明有 $x。小美比小明多 $15。兩人共有 $85。求 x。<br><small>（列方程：x + (x+15) = 85）</small></td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">一個長方形的長是闊的3倍。周界是48cm。求長和闊。<br><small>（設闊 = x cm，長 = 3x cm）</small></td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">溫度由 −8°C 每小時上升 3°C。多少小時後溫度達到 7°C？<br><small>（方程：−8 + 3t = 7）</small></td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A4</td><td class="qtxt">一個數的3倍加5，等於這個數的5倍減11。求這個數。<br><small>（設該數為 x，列方程）</small></td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A5</td><td class="qtxt">父親現在的年齡是兒子的4倍。5年後，父親的年齡是兒子的3倍。求兒子現在的年齡。<br><small>（設兒子=x，父親=4x；5年後：(4x+5)=3(x+5)）</small></td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">(−6) + (−9) = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">化簡：7x − 3x + 5x = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">化簡：4a − (a − 3) = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">(−8) × (−3) = ?</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">解方程：6x − 2 = 4x + 10</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">化簡：5(2x − 3) − 3(x + 1) + 2x = ?</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">解方程：3(2x − 1) = 4(x + 2) − 5</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">如果 a = −2, b = 3，求 3a² − 2ab + b² 的值。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>雙重負號</strong>：−(−x) 當作 −x</td><td>−(−x) = +x。兩個負號抵銷</td></tr>
+    <tr><td>2</td><td><strong>拆括號不變號</strong>：3x−(2x−5) → 3x−2x−5</td><td>括號前係減 → 裡面全變號 → 3x−2x+5 = x+5</td></tr>
+    <tr><td>3</td><td><strong>負負得正唔信邪</strong>：(−3)×(−4) 以為 = −12</td><td>同號相乘得正：(−3)×(−4)=+12</td></tr>
+    <tr><td>4</td><td><strong>移項唔變號</strong>：4x+3=2x+11 → 4x+2x=11+3</td><td>移過等號要變號：4x−2x=11−3 → 2x=8 → x=4</td></tr>
+    <tr><td>5</td><td><strong>x² 當負數代入出錯</strong>：x=−3時x²=−9</td><td>(−3)²=+9。平方一定係正數（或0）</td></tr>
+    <tr><td>6</td><td><strong>數線比較方向錯</strong>：以為−3>−1</td><td>越左越細：−3 < −1 < 0 < 2</td></tr>
+    <tr><td>7</td><td><strong>同類項判斷錯誤</strong>：3x+2x²=5x³</td><td>3x和2x²次方不同，不能合併</td></tr>
+  </table>
+
+  <div class="mn">口訣：「負負得正係鐵律，拆括減號要變齊；過河移項必變號，代數世界唔使驚。」</div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">數線定位</div><div class="d">負數在0的左邊，越左越細</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">拆括變號</div><div class="d">−( ) → 裡面全部反轉符號</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">過河變號</div><div class="d">移項過等號 → 加變減、減變加</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">代回驗算</div><div class="d">將答案代入原方程驗證</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L35</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L14 代數式認識 · L15 方程應用題 · L31 代數式進階</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P PDF | 6頁 · 52題 | LF-P6-下-L35 v6
+</div>
+
+</body>
+</html>

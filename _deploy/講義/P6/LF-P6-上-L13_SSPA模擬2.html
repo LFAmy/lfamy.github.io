@@ -1,0 +1,530 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="小學六年級數學練習：SSPA模擬2。涵蓋呈分試 SSPA 模擬考試。霖楓學苑呈分試專家，陷阱題診斷教學法。" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小學六年級數學 SSPA模擬2 | 霖楓學苑 LF Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 32px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:15px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:15px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  /* Exam header */
+  .exam-header {
+    text-align:center; border:3px solid var(--blue); padding:18px; margin-bottom:18px;
+    background:var(--lightbg);
+  }
+  .exam-header .school { font-family:'Noto Serif HK',serif; font-size:22px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .exam-header .title { font-size:17px; font-weight:900; color:var(--blue); margin:8px 0; }
+  .exam-header .subtitle { font-size:12px; color:var(--gray); }
+  .exam-info {
+    display:flex; justify-content:space-between; margin-top:14px;
+    font-size:13px; font-weight:700;
+  }
+  .exam-info .ln { display:inline-block; width:90px; border-bottom:1px solid var(--ink); }
+
+  /* Score box */
+  .score-box {
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    margin:10px 0; font-size:13px; font-weight:700;
+  }
+  .score-box div {
+    border:2px solid var(--blue); padding:8px; text-align:center;
+  }
+  .score-box .lbl { background:var(--blue); color:white; font-size:11px; padding:5px; }
+
+  /* Instructions */
+  .instructions {
+    background:var(--lightbg); border:1px solid var(--borderc);
+    padding:12px 16px; margin:12px 0; font-size:11px; line-height:1.8;
+  }
+  .instructions b { color:var(--red); }
+
+  /* Section header */
+  .sec-header {
+    font-family:'Noto Serif HK',serif; font-size:18px; font-weight:900;
+    color:var(--blue); padding:8px 14px; margin:18px 0 10px;
+    border-left:5px solid var(--gold); background:#FFFBEB;
+  }
+
+  /* MC table */
+  .mc-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; }
+  .mc-table th { background:var(--blue); color:white; padding:6px 8px; font-size:11px; text-align:left; }
+  .mc-table td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .mc-table .mc-q { font-size:13px; line-height:1.8; }
+  .mc-table .mc-opt { font-size:11px; padding-top:4px; }
+  .mc-table .mc-w { min-height:75px; background: repeating-linear-gradient(transparent,transparent 17px,#E5E7EB 17px,#E5E7EB 18px); }
+
+  /* Calc table */
+  .calc-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; }
+  .calc-table th { background:var(--blue); color:white; padding:6px 8px; font-size:11px; text-align:left; }
+  .calc-table td { padding:8px 10px; border:1px solid var(--borderc); vertical-align:top; }
+  .calc-table .cq { font-size:13px; line-height:1.8; }
+  .calc-table .cw {
+    min-height:80px;
+    background: repeating-linear-gradient(transparent,transparent 24px,#E5E7EB 24px,#E5E7EB 25px);
+  }
+
+  /* App table */
+  .app-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; }
+  .app-table th { background:var(--blue); color:white; padding:6px 8px; font-size:11px; text-align:left; }
+  .app-table td { padding:8px 10px; border:1px solid var(--borderc); vertical-align:top; }
+  .app-table .aq { font-size:13px; line-height:1.8; }
+  .app-table .aw {
+    min-height:110px;
+    background: repeating-linear-gradient(transparent,transparent 24px,#E5E7EB 24px,#E5E7EB 25px);
+  }
+
+  .end-exam { text-align:center; font-size:16px; font-weight:900; color:var(--red); margin:24px 0; padding:12px; border-top:3px solid var(--red); border-bottom:3px solid var(--red); }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+
+  .footer { text-align:center; margin-top:10px; font-size:10px; color:var(--gray); border-top:1px solid var(--borderc); padding-top:8px; }
+
+  .marks { display:inline-block; background:var(--red); color:white; font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; margin-left:4px; }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+.sspa-story{background:linear-gradient(135deg,#FFFDF5,#FFF7ED);border-left:4px solid #C9A84C;padding:16px 20px;margin:16px 0;border-radius:0 12px 12px 0;font-size:13px;line-height:1.8}
+.sspa-warmup{background:linear-gradient(135deg,#EEF2FF,#E8F0FE);border:2px solid #1A3C6D;border-radius:14px;padding:18px 20px;margin:16px 0;text-align:center}
+.sspa-warmup .wu-title{font-size:15px;font-weight:900;color:#1A3C6D;margin-bottom:4px}
+.sspa-warmup .wu-desc{font-size:12px;color:#6B7280;margin-bottom:8px}
+.sspa-warmup .wu-btn{display:inline-block;padding:8px 24px;background:#1A3C6D;color:white;border-radius:20px;font-size:13px;font-weight:700;text-decoration:none}
+.sspa-traps{background:#FFF5F5;border:1px solid #FECACA;border-radius:12px;padding:14px 18px;margin:16px 0;font-size:12px}
+.sspa-traps .trap-title{color:#DC2626;font-weight:900;margin-bottom:6px}
+.sspa-traps ul{margin:0;padding-left:18px}
+.sspa-traps li{margin-bottom:3px}
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P6 講義",
+      "item": "https://lfamy.github.io/講義/P6/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "SSPA模擬2"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: EXAM COVER ═══════════════ -->
+<div class="pb cover-page">
+<div class="exam-header">
+<div class="school">霖楓學苑 · LF Academy</div>
+<div class="title">2025-2026 上學期 第二次呈分試模擬考試</div>
+<div class="subtitle">數學科 · 卷一 · 時限：75 分鐘 · 總分：100 分</div>
+<div class="exam-info">
+<span>學生姓名：<span class="ln"></span></span>
+<span>班別：<span class="ln"></span></span>
+<span>日期：<span class="ln"></span></span>
+</div>
+</div>
+<div class="score-box">
+<div><div class="lbl">甲部 選擇題</div>____/30</div>
+<div><div class="lbl">乙部 計算題</div>____/40</div>
+<div><div class="lbl">丙部 應用題</div>____/30</div>
+<div><div class="lbl">總分</div>____/100</div>
+</div>
+<div class="sspa-story"><div class="story-title">📖 考前動員</div>陳小明上一次模擬考因為無檢查，錯咗3題陷阱題。今次佢下定决心：<b>每題做完都睇多次單位、小數點、同運算順序！</b>「陷阱唔會消失，但我可以學識避開佢！」</div>
+<div class="sspa-warmup"><div class="game-title">🏆 考前熱身·陷阱速測</div><div class="game-desc">5分鐘快速熱身！測試你對常見陷阱嘅警覺性。答對解鎖「SSPA戰士」心態加成！</div><div class="game-action">⚡ 開始熱身 →</div></div>
+<div class="sspa-traps"><div class="trap-title">⚠️ 考試陷阱提醒</div><ul><li><b>T1 進退位：</b>連續9記得進位，睇清楚萬位定十萬位</li><li><b>T2 小數點：</b>乘除時小數位數要數清，唔好漏</li><li><b>T3 運算順序：</b>先乘除後加減，有括號先做括號</li><li><b>T4 面積公式：</b>三角形要÷2、梯形(上底+下底)×高÷2</li><li><b>T7 應用題：</b>睇清楚題目問咩先列式，單位要一致</li></ul></div>
+
+<div class="instructions">
+<b>考生須知：</b><br/>
+    1. 本試卷共分甲、乙、丙三部，全部題目必須作答。<br/>
+    2. 甲部（選擇題）：共 10 題，每題 3 分，共 30 分。把答案字母填在題號旁的方格內。<br/>
+    3. 乙部（計算題）：共 8 題，每題 5 分，共 40 分。必須寫出完整計算步驟。<br/>
+    4. 丙部（應用題）：共 3 題，每題 10 分，共 30 分。必須列式、計算、寫答句。<br/>
+    5. 取 = 3.14（除非題目另有指示）。<br/>
+    6. 可使用計算機。<br/>
+    7. 答案如為分數，必須約至最簡；如為假分數，必須化為帶分數。
+  </div>
+<div class="footer">霖楓學苑 · LF Academy · LF-P6-上-L13 · SSPA模擬2 · 續下頁</div>
+</div>
+<!-- ═══════════════ PAGE 2: SECTION A (MC) ═══════════════ -->
+<div class="pb">
+<div class="sec-header">甲部：選擇題（10 題，每題 3 分，共 30 分）<span class="marks">30分</span></div>
+<div style="font-size:11px;color:var(--gray);margin-bottom:6px;">選出正確答案，把字母（A/B/C/D）填在方格內。</div>
+<table class="mc-table">
+<tr><th style="width:16px;">題號</th><th>題目</th><th style="width:60px;">答案</th></tr>
+<tr>
+<td style="text-align:center;font-weight:900;">1</td>
+<td class="mc-q">計算 8.4 ÷ 0.12。<br/>
+<span class="mc-opt">A. 0.7   B. 7   C. 70   D. 700</span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">2</td>
+<td class="mc-q">把 0.375 化為最簡分數。<br/>
+<span class="mc-opt">A. <span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span>   B. <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>   C. <span class="f"><span class="n">7</span><span class="b"></span><span class="d">20</span></span>   D. <span class="f"><span class="n">5</span><span class="b"></span><span class="d">8</span></span></span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">3</td>
+<td class="mc-q">五個數的平均數是 24。其中四個是 18, 22, 28, 20。第五個數是多少？<br/>
+<span class="mc-opt">A. 24   B. 28   C. 32   D. 36</span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">4</td>
+<td class="mc-q"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓：半徑5cm</div>
+<div style="display:inline-block;max-width:280px;"><svg height="150" viewbox="0 0 170 150" width="170" xmlns="http://www.w3.org/2000/svg"><circle cx="85" cy="65" fill="#DBEAFE" r="55" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="85" cy="65" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="85" y="58">O</text><line stroke="#1A3C6D" stroke-width="2" x1="85" x2="140" y1="65" y2="65"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="112" y="58">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="140" y1="73" y2="73"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="85" y="87">d=2r</text></svg></div>
+</div>
+圓形半徑 5 cm，面積 = ？（取 = 3.14）<br/>
+<span class="mc-opt">A. 31.4 cm²   B. 78.5 cm²   C. 157 cm²   D. 15.7 cm²</span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">5</td>
+<td class="mc-q">240 的 35% 是多少？<br/>
+<span class="mc-opt">A. 72   B. 84   C. 96   D. 120</span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">6</td>
+<td class="mc-q">一件貨品原價 $500，八折後再九折。最終售價是多少？<br/>
+<span class="mc-opt">A. $360   B. $400   C. $450   D. $320</span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">7</td>
+<td class="mc-q">汽車以 75 km/h 行駛 24 分鐘。行了多少 km？<br/>
+<span class="mc-opt">A. 18 km   B. 24 km   C. 30 km   D. 36 km</span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">8</td>
+<td class="mc-q"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 三角形：底12cm·高9cm</div>
+<div style="display:inline-block;max-width:280px;"><svg height="150" viewbox="0 0 180 150" width="180" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,100 145,100 35,20" stroke="#1A3C6D" stroke-width="3"></polygon><polyline fill="none" points="43,10 43,18 35,18" stroke="#1A3C6D" stroke-width="2"></polyline><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="35" x2="35" y1="20" y2="100"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="21" y="60">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="90" y="122">b</text></svg></div>
+</div>
+三角形底 12 cm，高 9 cm。面積 = ？<br/>
+<span class="mc-opt">A. 108 cm²   B. 54 cm²   C. 21 cm²   D. 216 cm²</span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">9</td>
+<td class="mc-q"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 梯形：上底8·下底14·面積88（逆向求高）</div>
+<div style="display:inline-block;max-width:280px;"><svg height="130" viewbox="0 0 190 130" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,90 155,90 125,20 65,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="65" x2="65" y1="20" y2="90"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="77" y="55">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="112">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="95" y="12">b₁</text></svg></div>
+</div>
+梯形上底 8 cm，下底 14 cm，面積 88 cm²。高是多少？<br/>
+<span class="mc-opt">A. 4 cm   B. 6 cm   C. 8 cm   D. 11 cm</span></td>
+<td class="mc-w"></td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">10</td>
+<td class="mc-q">某數的 12.5% 是 30。該數是多少？<br/>
+<span class="mc-opt">A. 200   B. 220   C. 240   D. 260</span></td>
+<td class="mc-w"></td>
+</tr>
+</table>
+<div class="footer">霖楓學苑 · LF Academy · LF-P6-上-L13 · SSPA模擬2 · 續下頁</div>
+</div>
+<!-- ═══════════════ PAGE 3: SECTION B (CALCULATION) ═══════════════ -->
+<div class="pb">
+<div class="sec-header">乙部：計算題（8 題，每題 5 分，共 40 分）<span class="marks">40分</span></div>
+<div style="font-size:11px;color:var(--gray);margin-bottom:6px;">必須寫出完整計算過程。只寫答案不給步驟分。</div>
+<table class="calc-table">
+<tr><th style="width:50px;">題號</th><th>題目</th></tr>
+<tr>
+<td style="text-align:center;font-weight:900;">1. (5分)</td>
+<td>
+<div class="cq">計算 3.6 ÷ 0.08 + 2.5 × 4。</div>
+<div class="cw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">2. (5分)</td>
+<td>
+<div class="cq">把 0.325 化為最簡分數及百分數。</div>
+<div class="cw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">3. (5分)</td>
+<td>
+<div class="cq">求 48, 72, 84, 56, 90 的平均數。</div>
+<div class="cw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">4. (5分)</td>
+<td>
+<div class="cq">六個數中，五個是 15, 18, 22, 12, 20。平均數是 17，求第六個數。</div>
+<div class="cw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">5. (5分)</td>
+<td>
+<div class="cq"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓：直徑16cm·r=8cm</div>
+<div style="display:inline-block;max-width:280px;"><svg height="170" viewbox="0 0 190 170" width="190" xmlns="http://www.w3.org/2000/svg"><circle cx="95" cy="75" fill="#DBEAFE" r="65" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="95" cy="75" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="95" y="68">O</text><line stroke="#1A3C6D" stroke-width="2" x1="95" x2="160" y1="75" y2="75"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="127" y="68">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="160" y1="83" y2="83"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="95" y="97">d=2r</text></svg></div>
+</div>
+圓形直徑 16 cm。（a）求周界。（b）求面積。（取 = 3.14）</div>
+<div class="cw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">6. (5分)</td>
+<td>
+<div class="cq"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 梯形：上底6·下底14·高8</div>
+<div style="display:inline-block;max-width:280px;"><svg height="135" viewbox="0 0 190 135" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,95 155,95 120,20 70,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="70" x2="70" y1="20" y2="95"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="82" y="58">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="117">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="95" y="12">b₁</text></svg></div>
+</div>
+梯形上底 6 cm，下底 14 cm，高 8 cm。求面積。</div>
+<div class="cw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">7. (5分)</td>
+<td>
+<div class="cq">汽車 48 分鐘行了 72 km。求平均速率（km/h）。</div>
+<div class="cw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">8. (5分)</td>
+<td>
+<div class="cq">一件外套標價 $680，先加價 25%，後六折出售。求最終售價。</div>
+<div class="cw"></div>
+</td>
+</tr>
+</table>
+<div class="footer">霖楓學苑 · LF Academy · LF-P6-上-L13 · SSPA模擬2 · 續下頁</div>
+</div>
+<!-- ═══════════════ PAGE 4: SECTION C (APPLICATION) ═══════════════ -->
+<div class="pb">
+<div class="sec-header">丙部：應用題（3 題，每題 10 分，共 30 分）<span class="marks">30分</span></div>
+<div style="font-size:11px;color:var(--gray);margin-bottom:6px;">必須列式、計算、寫完整答句。漏答句扣 1 分。</div>
+<table class="app-table">
+<tr><th style="width:50px;">題號</th><th>題目</th></tr>
+<tr>
+<td style="text-align:center;font-weight:900;">1. (10分)</td>
+<td>
+<div class="aq">
+          小明中文測驗得 85 分，數學比中文高 12%，英文比數學低 8%。<br/>
+          （a）數學多少分？（4分）<br/>
+          （b）英文多少分？（4分）<br/>
+          （c）三科平均多少分？（2分）
+        </div>
+<div class="aw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">2. (10分)</td>
+<td>
+<div class="aq">
+<div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓形操場：直徑28m（π=22/7）</div>
+<div style="display:inline-block;max-width:280px;"><svg height="180" viewbox="0 0 200 180" width="200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="80" fill="#DBEAFE" r="70" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="100" cy="80" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="100" y="73">O</text><line stroke="#1A3C6D" stroke-width="2" x1="100" x2="170" y1="80" y2="80"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="135" y="73">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="170" y1="88" y2="88"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="100" y="102">d=2r</text></svg></div>
+</div>
+一個圓形操場，直徑 28 m。（取 = 22/7）<br/>
+          （a）求操場的周界。（3分）<br/>
+          （b）求操場的面積。（3分）<br/>
+          （c）若圍繞操場外圍鋪一條闊 2 m 的跑道，求跑道的面積。（4分）
+        </div>
+<div class="aw"></div>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-weight:900;">3. (10分)</td>
+<td>
+<div class="aq">
+          甲車從 A 城出發往 B 城，速率 80 km/h，行了 1.5 小時後在休息站停了 20 分鐘，<br/>
+          再以 100 km/h 行了 1.2 小時到達 B 城。<br/>
+          （a）A 城到 B 城的總距離是多少 km？（5分）<br/>
+          （b）求全程的平均速率。（km/h，準確至一位小數）（5分）
+        </div>
+<div class="aw"></div>
+</td>
+</tr>
+</table>
+<div class="end-exam">—— 全卷完 ——</div>
+<div class="score-box">
+<div><div class="lbl">甲部 /30</div>____</div>
+<div><div class="lbl">乙部 /40</div>____</div>
+<div><div class="lbl">丙部 /30</div>____</div>
+<div><div class="lbl">總分 /100</div>____</div>
+</div>
+<div style="text-align:center;margin-top:8px;font-size:11px;color:var(--gray);">成績等級：A (85-100) · B (70-84) · C (55-69) · D (40-54) · E (0-39)</div>
+<div style="margin-top:18px;padding:10px 14px;background:#FEF3C7;border-left:4px solid #C9A84C;font-size:12px;">
+<b>📋 考後檢討記錄</b>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;font-size:11px;">
+<div>甲部（MC）丟分題號：__________________</div>
+<div>錯誤原因分類：☐計算 ☐陷阱 ☐概念 ☐粗心</div>
+<div>乙部（計算）丟分題號：__________________</div>
+<div>錯誤原因分類：☐公式 ☐步驟 ☐約分 ☐單位</div>
+<div>丙部（應用）丟分題號：__________________</div>
+<div>錯誤原因分類：☐列式 ☐計算 ☐答句 ☐理解</div>
+</div>
+</div>
+</div>
+<!-- ═══════════════ PAGE 5-7: 附錄 考後加強練習 ═══════════════ -->
+<div class="pb page-break">
+<div class="sec-header" style="border-left-color:#DC2626;">附錄：考後加強練習（29 題）</div>
+<div style="font-size:11px;color:var(--gray);margin-bottom:10px;padding:8px 12px;background:#FEF2F2;border-radius:4px;">
+    根據模擬考試暴露的弱點，以下按課題分類加強。先完成丟分最多的課題！
+  </div>
+<div style="font-family:'Noto Serif HK',serif;font-size:14px;font-weight:700;color:var(--blue);margin:12px 0 6px;padding-bottom:4px;border-bottom:2px solid var(--gold);">一、多位數與估算（S1-S5）</div>
+<table class="calc-table">
+<tr><th style="width:50px;">題號</th><th>題目</th></tr>
+<tr><td style="text-align:center;font-weight:900;">S1</td><td><div class="cq">把 8 463 250 四捨五入至萬位。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S2</td><td><div class="cq">計算 45 600 + 78 900 − 23 450。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S3</td><td><div class="cq">估算 398 × 51（先四捨五入至十位再計算）。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S4</td><td><div class="cq">計算 8.4 ÷ 0.07 + 12.5 × 0.8。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S5</td><td><div class="cq">把 620 000 cm² 以 km² 表示。</div><div class="cw"></div></td></tr>
+</table>
+<div style="font-family:'Noto Serif HK',serif;font-size:14px;font-weight:700;color:var(--blue);margin:14px 0 6px;padding-bottom:4px;border-bottom:2px solid var(--gold);">二、小數·分數·百分數互換（S6-S11）</div>
+<table class="calc-table">
+<tr><th style="width:50px;">題號</th><th>題目</th></tr>
+<tr><td style="text-align:center;font-weight:900;">S6</td><td><div class="cq">把 <span class="f"><span class="n">7</span><span class="b"></span><span class="d">8</span></span> 化為小數和百分數。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S7</td><td><div class="cq">把 62.5% 化為最簡分數。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S8</td><td><div class="cq">比較大小：<span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> ____ 0.83（填 &gt;、&lt; 或 =）</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S9</td><td><div class="cq">計算 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> − <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>，答案化為帶分數。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S10</td><td><div class="cq">計算 <span class="f"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> × 2.4 ÷ <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S11</td><td><div class="cq">一數的 37.5% 是 45，求該數。</div><div class="cw"></div></td></tr>
+</table>
+</div>
+<div class="pb page-break">
+<div style="font-family:'Noto Serif HK',serif;font-size:14px;font-weight:700;color:var(--blue);margin:8px 0 6px;padding-bottom:4px;border-bottom:2px solid var(--gold);">三、百分數應用（S12-S17）</div>
+<table class="calc-table">
+<tr><th style="width:50px;">題號</th><th>題目</th></tr>
+<tr><td style="text-align:center;font-weight:900;">S12</td><td><div class="cq">原價 $450 的貨品加價 20% 後再打八五折。求最終售價。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S13</td><td><div class="cq">小華有零用錢的 60% 花了 $126。他原有零用錢多少？</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S14</td><td><div class="cq">存款 $8000，年利率 4.5%，存滿一年的利息是多少？</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S15</td><td><div class="cq">A 商品 $120，B 商品 $200。A 比 B 便宜百分之幾？</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S16</td><td><div class="cq">某校男生佔全校 55%，女生有 360 人。男生有多少人？</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S17</td><td><div class="cq">貨品先加價 25%，再減價 20%。最終價格與原價相比，是加了還是減了？相差百分之幾？</div><div class="cw"></div></td></tr>
+</table>
+<div style="font-family:'Noto Serif HK',serif;font-size:14px;font-weight:700;color:var(--blue);margin:14px 0 6px;padding-bottom:4px;border-bottom:2px solid var(--gold);">四、面積·圓·速率（S18-S24）</div>
+<table class="calc-table">
+<tr><th style="width:50px;">題號</th><th>題目</th></tr>
+<tr><td style="text-align:center;font-weight:900;">S18</td><td><div class="cq">長方形長 15 cm，闊 7.5 cm。求面積和周界。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S19</td><td><div class="cq">三角形底 18 cm，高 10 cm。求面積。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S20</td><td><div class="cq">梯形上底 9 cm，下底 15 cm，高 6 cm。求面積。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S21</td><td><div class="cq">圓形半徑 7 cm，取 π = 22/7，求周界和面積。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S22</td><td><div class="cq">圓形直徑 20 cm，取 π = 3.14，求面積。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S23</td><td><div class="cq">甲乙相距 240 km。甲車速率 60 km/h，乙車速率 80 km/h，相向而行。幾小時後相遇？</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S24</td><td><div class="cq">火車以 90 km/h 行駛，2.5 小時後到站。距離多少 km？</div><div class="cw"></div></td></tr>
+</table>
+</div>
+<div class="pb page-break">
+<div style="font-family:'Noto Serif HK',serif;font-size:14px;font-weight:700;color:var(--blue);margin:8px 0 6px;padding-bottom:4px;border-bottom:2px solid var(--gold);">五、平均數·代數·綜合（S25-S29）</div>
+<table class="calc-table">
+<tr><th style="width:50px;">題號</th><th>題目</th></tr>
+<tr><td style="text-align:center;font-weight:900;">S25</td><td><div class="cq">七個數的平均數是 42，其中六個數的和是 248。第七個數是多少？</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S26</td><td><div class="cq">求 56, 78, 92, 68, 86, 74 的平均數。</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S27</td><td><div class="cq">解方程：4(2x − 3) = 3x + 17</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S28</td><td><div class="cq">解方程：<span class="f"><span class="n">x + 3</span><span class="b"></span><span class="d">4</span></span> − <span class="f"><span class="n">x − 1</span><span class="b"></span><span class="d">3</span></span> = 1</div><div class="cw"></div></td></tr>
+<tr><td style="text-align:center;font-weight:900;">S29</td><td><div class="cq">小明以 $85 購入一件物品，標價比購入價高 60%。最後以八折售出。求盈虧金額。</div><div class="cw"></div></td></tr>
+</table>
+<div style="margin-top:24px;padding:14px;background:var(--lightbg);border:2px solid var(--blue);border-radius:6px;">
+<div style="font-family:'Noto Serif HK',serif;font-size:14px;font-weight:900;color:var(--blue);margin-bottom:8px;">📋 考後加強練習 檢討記錄</div>
+<div style="font-size:11px;line-height:2;">
+      完成日期：____________    用時：____________ 分鐘<br/>
+      正確題數：____/29    正確率：____%<br/>
+      最弱課題：☐多位數 ☐小數分數百分數 ☐百分數應用 ☐面積圓速率 ☐平均數代數<br/>
+      需重做題號：________________________________________________________________<br/>
+      下次模擬目標分數：____/100    進步策略：________________________________
+    </div>
+</div>
+<div class="footer">霖楓學苑 · LF Academy · LF-P6-上-L13 · SSPA模擬2+附錄 · 7頁 · 50題</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P  PDF  |  7頁 · 50題 · 100分  |  LF-P6-上-L13 v6
+</div>
+<div style="text-align:center;margin-top:20px;padding-top:14px;border-top:1px solid var(--borderc);font-size:11px;color:var(--gray);">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。</div>
+<div style='text-align:center;margin:20px 0'><img src='/講義/_svg/tkz_triangle.svg' style='max-width:100%;height:auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08)' alt='tkz_triangle'></div>
+</body>
+</html>

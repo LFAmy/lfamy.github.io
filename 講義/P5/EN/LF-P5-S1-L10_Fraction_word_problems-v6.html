@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S1-L10 Fraction word problems (remainder trap + multiple steps) — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · 10th Lesson · Student Handout</div>
+<div class="cv-title">Fraction word problems (remainder trap + multiple steps)</div>
+<div class="cv-sub">Unit three · fractionapplicationquestion · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5A Unit 3 + Modern Education Volume 5A Unit 11-12<br/>
+<b>Core Trap:</b>🪤 T3 "Remaining Fraction" Baseline Quantity Change + T7 Multi-step Reasoning Chain<br/>
+<b>SSPA Related:</b><span class="ss sh">🔴 High Frequency</span>The two-word question in the score paper is compulsory, accounting for about 25-30% of the application questions<br/>
+<b>Prerequisite knowledge:</b>Class 8 (Addition of different denominators), Class 9 (Multiplication of fractions - cross reduction method), application questions of addition and subtraction of fractions<br/>
+<b>Goal of this class:</b>❶ Fraction "is what fraction of..." ❷ Remaining trap (change in baseline quantity) ❸ Multi-step reasoning chain ❹ Reverse reasoning (finding the original quantity with a known result)</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Calculate<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> × <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>= ? (Cross reduction, Tang 9 basis)</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Calculate 1 −<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>= ? ("remaining" = 1 − used, P4 basis)</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">A rope is 3 meters long and uses |||SEP|||. How many meters were used? ("Fraction of the total length" = multiplication)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>. How many meters were used? ("Fraction of the total length" = multiplication)</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Xiao Ming has 12 candies. After eating |||SEP|||, how many are left? (Please tell me how many pills you have eaten first, and then ask for the rest)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>, how many pills are left? (Please tell me how many pills you have eaten first, and then ask for the rest)</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">Xiaomei has $60. After using |||SEP|||, how many dollars are left? Then use the "remaining |||SEP|||", how much more is used? (Note that the two reference amounts are different!)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>, how many yuan are left? Then use the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>”, how much more was used? (Note that the two reference amounts are different!)</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: Fraction problem - "What fraction of..." 🔴 SSPA</div>
+<div class="kp-rules">
+<strong>Core formula:</strong><br/>
+      ① <strong>"C divided by B of A" = A ×<span class="f"><span class="n">C</span><span class="b"></span><span class="d">B</span></span></strong>(Keyword "of" = multiplication)<br/>
+      ② <strong>"A is a fraction of B" = A ÷ B =<span class="f"><span class="n">A</span><span class="b"></span><span class="d">B</span></span></strong>(Comparative relationship)<br/>
+      ③ <strong>Find "part" |||SEP|||: Total amount × fraction = partial amount</strong>Find "fraction" |||SEP|||: Partial quantity ÷ Total quantity = Fraction (not in depth in this chapter)<br/>
+      ④ <strong>Find the "percentage"</strong>: Part amount ÷ total amount = fraction (this chapter will not go into detail)</div>
+</div>
+<div class="game-box"><div class="game-title">🍕 分數大作戰</div><div class="game-desc">通分、約分、四則混合！避開分母陷阱。連續答對分數翻倍！</div><div class="game-action">⚡ 開始挑戰 →</div></div>
+
+<div class="ex">
+<div class="ex-title">🪤 Trap detonation example</div>
+<div class="ex-q">There are 40 people in the class, and<span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>is a boy. How many boys are there?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">40 ÷ <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = 66.7？</div><div class="why">"The" is multiplication, not division! 40 × 35 is right</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">24 people</div><div class="why">40 × <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = <span class="f"><span class="n">120</span><span class="b"></span><span class="d">5</span></span> = 24</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "When you see "is", multiply, and when you see "yes", divide; the base quantity must be clearly seen, it may be different the first time and the second time."</div>
+<div class="warn">⚠️ Key distinction: "C/B of A" → A × C/B (multiplication). "A is what fraction of B" → A ÷ B (division).</div>
+<div class="h2">Knowledge Point - Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">A bottle of water<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>liters, Xiao Ming drank |||SEP|||. How many liters did you drink?<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>. How many liters did you drink?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt">A ribbon is<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>meters long, cut off |||SEP|||. How many meters were cut off?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>. How many meters were cut off?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 2: "What fraction is left" - the benchmark quantity trap 🔴 SSPA must-take killer questions</div>
+<div class="kp-rules">
+<strong>This is the trap that most students fall into!</strong><br/>
+      ① <strong>The essence of the trap |||SEP|||: After the first use, the "remaining" is no longer the original total</strong>② The base amount of the second operation =<br/>The remaining amount of the first time<strong>(not the original total!)</strong>Standard process<br/>
+      ③ <strong>Step 1: Find the amount used for the first time (original total amount) × fraction ₁)</strong>：<br/>Step 2: Find the amount left in the first time (original total amount − used)<br/>Step 3: Find the amount used in the second time (amount left in the first time × fraction ₂)<br/>Common but wrong |||SEP|||: directly use the original total amount × fraction ₂ (ignoring that the base amount has changed!)<br/>
+      ④ <strong>Common but wrong</strong>: Directly use the original total amount × fraction ₂ (ignoring that the base amount has changed!)</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪤 Trap comparison questions (core of this class)</div>
+<div class="ex-q">A rope is 24 meters long. Use<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>first, and then use the remaining |||SEP|||. How many meters did it take the second time?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>. How many meters did it take the second time?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Typical errors (80% students)</div><div class="eq">24 × <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>= 12 meters</div><div class="why">Just use the original total amount × 1/2, but the base amount has become 16 meters!</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">8 meters</div><div class="why">Step1: 24×13=8 (used) Step2: 24−8=16 (remaining) Step3: 16×12=8 (used for the second time)</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "Every time you use it, count how much is left. The base number will be different the next time you use it!"</div>
+<div class="warn">⚠️ The deadliest trap: "The remaining fraction" - the "base amount" must be re-confirmed before each operation!</div>
+<div class="h2">Knowledge Point 2 Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 3</td><td class="qtxt">There are 24 candies in a box. I ate<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>on the first day and "the remaining |||SEP|||" on the second day. How many pills did you take the next day? (Note that the base amount has changed)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>”. How many pills did you take the next day? (Note that the base amount has changed)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">Example 4</td><td class="qtxt">A barrel of oil is 10 liters, use<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>for the first time, and use the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>for the second time. How many liters were used the second time?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 3: Multi-step fraction word problems (continuous reasoning chain) 🔴 SSPA Advanced</div>
+<div class="kp-rules">
+<strong>Continuous surplus problem - the baseline amount must be recalculated at each step:</strong><br/>
+      ① <strong>Draw a flow chart |||SEP|||: Total amount → First step (used) → Remaining ₁ → Second step (used) → Remaining ₂ → ...</strong>Step-by-step calculation |||SEP|||: Do not skip steps, record "how much is used" and "how much is left" at each step<br/>
+      ② <strong>Verification skills |||SEP|||: Add up the amount of each step + final remaining = total amount (check calculation)</strong>: Don’t skip steps, record “how much is used” and “how much is left” at each step<br/>
+      ③ <strong>Verification skills</strong>: Sum up the amounts used in each step + final remaining = total amount (check calculation)</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">Draw a flow chart</div><div class="d">Total→Use ₁→Left ₁→Use ₂→Left ₂→...</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">Calculate step by step</div><div class="d">Record used + remaining at each step</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">Confirm base amount</div><div class="d">The base amount of points used each time is the remaining amount from the last time</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">Check calculation</div><div class="d">Amount used in each step + final remaining amount = total amount</div></div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 5: Mom has $100, and uses<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>to buy vegetables, and the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>to buy fruits. How much did it cost to buy fruit?</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 6: A bottle of oil<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>liters, use<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>for the first time, and use the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>for the second time. How many liters did you use the second time?</div></div>
+<div class="kp">
+<div class="kp-title">Knowledge Point 4: Reverse Reasoning - Find the Original Quantity from a Known Result 🔴 SSPA Paper 2 Killer Question</div>
+<div class="kp-rules">
+<strong>Reverse reasoning (reduction problem):</strong><br/>① Knowing the final remaining amount, find the original total amount<br/>
+      ② <strong>Key: working backwards!</strong><br/>If<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>is used, the remaining amount = total amount × (1 −<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>) = total amount ×<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span><br/>So: total amount = remaining amount ÷ (1 − fraction)<br/>
+      ③ <strong>Simple formula |||SEP|||: original amount = remaining amount ÷ remaining fraction</strong>: Original amount = remaining amount ÷ remaining fraction</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 7: Xiao Ming has some sugar, and after using |||SEP|||, there are 12 pieces left. How many grains were there? (Hint: What percentage is left?)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>There are 12 pills left. How many grains were there? (Hint: What percentage is left?)</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 8: A box of apples, after selling |||SEP|||, there are 30 apples left. How many were there? (Hint: remaining fraction = 1 −<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>30 are left. How many were there? (Hint: remaining fraction = 1 −<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>）</div></div>
+<div class="mn">🧠 Tip (reverse reasoning): "It doesn't matter how much you use, find out what percentage is left. Divide the remaining percentage by the low amount, and get back to the original!"</div>
+</div>
+<!-- ═══════════════ PAGE 5: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">III. Lesson layered synchronization practice (total 15 questions)</div>
+<div class="h2">Basic layer (total 5 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">9</td><td class="qtxt">There are 36 people in the class,<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>is short-sighted. How many people are nearsighted?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">A ribbon is<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>meters long and uses |||SEP|||. How many meters were used?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>. How many meters were used?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">There are 12 egg tarts in a box and I ate |||SEP|||. How many are left?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>. How many are left?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">Dad’s monthly salary is $30,000, and he uses<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>to pay the rent. How much is the rent?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt">A watermelon weighs 2 kg and is eaten |||SEP|||. How many kilograms did you eat?<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>. How many kilograms did you eat?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 5 questions, 🚶🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">14</td><td class="qtxt">A barrel of oil is 5 liters, use<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>on the first day, and use the "remaining |||SEP|||" on the second day. How many liters will be used the next day?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>”. How many liters will be used the next day?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">A rope is 3 meters long. Use<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>meters first, and then use the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>meters. How many meters are left at the end?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">I have 20 kilograms of rice at home. I eat<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>in the first week and "the remaining |||SEP|||" in the second week. How many kilograms did you eat in the second week?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>”. How many kilograms did you eat in the second week?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">My sister had $240 and used<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>to buy books, and the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>to buy stationery. How much did you spend on stationery?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">For a cake, my father ate |||SEP|||, my mother ate "the remaining |||SEP|||", and my brother ate "the remaining |||SEP|||". What fraction of the whole cake did my brother eat?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>, mother ate "the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>”, the younger brother ate “and the rest<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>”. What fraction of the whole cake did my brother eat?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (total 5 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">19</td><td class="qtxt">The warehouse has 180 bales of rice. Transport<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>on the first day, transport "the remaining |||SEP|||" on the second day, transport "the remaining |||SEP|||" on the third day. How many packages were shipped on the third day?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>”, and on the third day the remaining ones were transported away<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>”. How many packages were shipped on the third day?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">A book has 240 pages. I watched<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>on the first day, "The rest of |||SEP|||" on the second day, and "The rest of |||SEP|||" on the third day. How many pages are left to read?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>”, and on the third day I watched “The rest<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>”. How many pages are left to read?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">A rectangle is long<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>meters and its width is long |||SEP|||. How many square meters is the area? (Find width first, then area)<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>. How many square meters is the area? (Find width first, then area)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">A bottle of juice contains 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>liter. The first time I poured |||SEP|||, the second time I poured "the remaining |||SEP|||". How many liters are left?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>, poured out for the second time "the rest<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>”. How many liters are left?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">Xiaomei has some stickers. I gave<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>to Xiao Hua, and then gave "the remaining |||SEP|||" to Xiao Ming, and finally there were 18 pieces left. How many stickers does Xiaomei have? (reverse reasoning)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>"To Xiao Ming, there are 18 cards left. How many stickers does Xiaomei have? (reverse reasoning)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+<div class="h1">IV.fractionapplicationquestionspecial topic training (total 8 questions, all must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">24</td><td class="qtxt">Residential buildings were built on<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>on one site, and shopping malls were built on the remaining |||SEP|||. What fraction of the floor space does the mall occupy? (Note: the base amount is the “remainder”!)<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>A shopping mall was built. What fraction of the floor space does the mall occupy? (Note: the base amount is the “remainder”!)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">The school has 800 students,<span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span>are primary school students (P1-P3), and the remaining<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>are middle school students (P4-P6). How many middle school students are there?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">One road is 2 kilometers long and has been repaired |||SEP|||. The remaining<span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span>will be repaired next week. How many kilometers will be repaired next week?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>Will fix it next week. How many kilometers will be repaired next week?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">Garden<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>grows flowers, flowers<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>is roses. What percentage of the garden do roses occupy? (Two layers of "的" = continuous multiplication)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">There are 12 liters in a bucket of water. Use<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>first, then add<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>liters. How many liters are there now? (Mixed addition, subtraction and multiplication!)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">Xiao Ming had $150, so he used<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>to buy pencils, "the remaining |||SEP|||" to buy books, and "the last remaining |||SEP|||" to buy snacks. How much did you spend on snacks?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>"Buy the book," the last remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>”Buy snacks. How much did you spend on snacks?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">A rectangular planter is 2<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>meters long and<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>wide. How many square meters is the area? (Mixed fraction × fraction → turn to false first)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">Brother, I have some candy. After he ate |||SEP|||, he had 40 pills left. How many grains were there? (reverse reasoning)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>Afterwards, 40 pills remain. How many grains were there? (reverse reasoning)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+</table>
+<div class="h1">V.🏔️ Ultimate challenge area (total 3 question)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">A book, read<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>on the first day, and read "the remaining |||SEP|||" on the second day, with 40 pages left. How many pages does this book have? (Ultimate reverse reasoning - two-level reduction)<span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>”, with 40 pages left. How many pages does this book have? (Ultimate reverse reasoning - two-level reduction)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">The water tank contains 20 liters of water. Use<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>on the first day, use "the remaining |||SEP|||" on the second day, use "the remaining |||SEP|||" on the third day, and use "the remaining |||SEP|||" on the fourth day. How many liters were used on the fourth day? How many liters are left at the end? (Four-step reasoning chain)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>” and use the rest on the third day<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>” and used the remaining ones on the fourth day.<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>”. How many liters were used on the fourth day? How many liters are left at the end? (Four-step reasoning chain)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">Three children share a box of chocolates. A took |||SEP|||, B took "the remaining |||SEP|||", C took "the remaining |||SEP|||", and finally there were 6 pills left in the box. How many pills are in a box? (Triple reduction reasoning)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>, B took "the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>”, C took “the rest<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>”, and finally there were 6 pills left in the box. How many pills are in a box? (Triple reduction reasoning)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:90px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 7: HOMEWORK + ERROR TABLE ═══════════════ -->
+<div class="pb">
+<div class="h1">VI.Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">A rope is 5 meters long and uses |||SEP|||. How many meters were used?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>. How many meters were used?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">A bottle of juice<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>liters, drank<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>in it. How many liters did you drink?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">There are 24 biscuits in a box and I ate |||SEP|||. How many pieces are left?<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>. How many pieces are left?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">A potted flower is<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>meters high. After watering, it grows taller than the original |||SEP|||. How many meters tall is it now? (Note: I have grown 1/2 of my original height)<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>. How many meters tall is it now? (Note: I have grown 1/2 of my original height)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">My sister had $120, so she used<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>to buy books, and then used the "remaining |||SEP|||" to buy handmade materials. How much did it cost to buy handmade materials?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>"Buy handmade materials. How much did it cost to buy handmade materials?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h2">Advanced choose doquestion (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">A ribbon is 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>meter long and uses |||SEP|||. How many meters were used?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>. How many meters were used?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">One month of<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>is sunny, the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>is rainy, and the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>is cloudy. What fraction of the month is cloudy? (Three levels of residual reasoning)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">A water tank contains several liters of water. After using |||SEP|||, 18 liters remain. How many liters of water did the water tank originally contain? (reverse reasoning)<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>Afterwards, 18 liters remain. How many liters of water did the water tank originally contain? (reverse reasoning)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">VII. The Lessoncorecommon errorsummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>"What fraction is left" is directly multiplied by the original total amount</strong></td><td>Calculate the true remaining amount first, then use the remaining amount × fraction. Baseline amounts may vary each time!</td></tr>
+<tr><td>2</td><td><strong>Skip intermediate calculations in multi-step problems</strong></td><td>Calculate step by step, record "how much is used" and "how much is left" every time, without skipping steps.</td></tr>
+<tr><td>3</td><td><strong>"A's C/B" uses division incorrectly</strong></td><td>"'s" = multiplication: A × C/B. Division is only used if "A is a fraction of B".</td></tr>
+<tr><td>4</td><td><strong>Wrong direction when reasoning backwards</strong></td><td>Reduction formula: original quantity = remaining quantity ÷ (1 − fraction used). Not a ride!</td></tr>
+<tr><td>5</td><td><strong>Calculate mixed numbers without converting them to improper fractions</strong></td><td>For any multiplication or division involving mixed numbers, the first step = converting improper fractions.</td></tr>
+<tr><td>6</td><td><strong>Unit confusion – fractions vs actual quantities</strong></td><td>"1/3" may be a fraction (without unit) or an actual quantity (with unit), please read the context clearly!</td></tr>
+<tr><td>7</td><td><strong>Missing sentences/missing units/missing calculations in application questions</strong></td><td>Must write "Answer:..." + unit. Calculation: Amount used in all steps + final remaining amount = total amount.</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「Fraction word problems (remainder trap + multiple steps)」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「Fraction word problems (remainder trap + multiple steps)」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 8 pages · 53 questions | LF-P5-S1-L10 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Calculate23 × 12= ? (Cross reduction, Tang 9 basis)</td><td style="font-weight:900;color:var(--green);padding:5px 10px">276</td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Calculate 1 −14= ? ("remaining" = 1 − used, P4 basis)</td><td style="font-weight:900;color:var(--green);padding:5px 10px">-13</td></tr>
+</table>
+<div style="font-size:10px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！直接抄答案 = 呃自己 = 考試會出事！</div>
+</div>
+
+</body>
+</html>

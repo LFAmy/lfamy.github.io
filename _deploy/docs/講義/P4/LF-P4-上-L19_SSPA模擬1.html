@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P4-上-L19 SSPA模擬 — 學生版講義</title>
+<style>
+<link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; }
+@media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qw { background:none; border:1px dashed #D1D5DB; min-height:75px; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qtxt { font-size:11px; } .h1 { font-size:13px; margin:10px 0 6px; } }
+.container { max-width:1000px; margin:0 auto; }
+.pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+.cover { justify-content:center; align-items:center; text-align:center; }
+.cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+.cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+.cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+.cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+.cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+.cv-info b { color:var(--blue); }
+.cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+.cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+.h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+.h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+.exam-header { background:var(--blue); color:white; text-align:center; padding:16px; border-radius:6px; margin-bottom:12px; }
+.exam-header .etitle { font-family:'Noto Serif HK',serif; font-size:22px; font-weight:900; }
+.exam-meta { font-size:12px; display:flex; justify-content:space-between; margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.3); }
+.qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+.qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; text-align:left; }
+.qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+.qt tr:nth-child(even) td { background:#FAFBFC; }
+.qn { width:32px; text-align:center; font-weight:700; }
+.qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+.qtxt { font-size:12.5px; line-height:1.65; }
+.d1 { background:#FEF3C7; } .d2 { background:#DCFCE7; } .d3 { background:#DBEAFE; }
+.mc-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:6px 0; }
+.mc-opt { padding:6px 10px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; font-size:12px; }
+.end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+.sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+.sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+.sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+.sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+.sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小四 · 第 19 堂 · 模擬考試</div>
+  <div class="cv-title">SSPA 模擬卷 1</div>
+  <div class="cv-sub">上學期期中考 · 50 分鐘 · 總分 80 分</div>
+  <div class="cv-info">
+    <b>考試範圍：</b>L01-L17（五位數至棒形圖）<br>
+    <b>試卷結構：</b>甲部 MC題 10題（每題3分=30分）· 乙部 計算題 6題（每題5分=30分）· 丙部 應用題 2題（每題10分=20分）<br>
+    <b>目標分數：</b>65+ 分 = A grade · 55-64 = B grade · 45-54 = C grade<br>
+    <b>考試提示：</b>🪤 注意陷阱！複卷時檢查單位（cm²/cm）、運算次序、餘數<除數、HCF/LCM方向<br>
+    <b>時間分配：</b>甲部15分鐘 → 乙部20分鐘 → 丙部10分鐘 → 檢查5分鐘
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>得分：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="exam-header">
+    <div class="etitle">霖楓學苑 · LF Academy</div>
+    <div style="font-size:18px;font-weight:900;margin:4px 0;">小四上學期 SSPA 模擬卷（一）</div>
+    <div class="exam-meta">
+      <span>時間：50分鐘</span><span>滿分：80分</span><span>P4-S1-MOCK1</span>
+    </div>
+  </div>
+
+  <div class="h1">甲部：多項選擇題（10題，每題3分，共30分）</div>
+  <div style="font-size:12px;color:var(--gray);margin-bottom:8px;">請選出正確答案的字母。</div>
+
+  
+<div style="margin:12px 0;padding:10px 14px;background:linear-gradient(135deg,#FEF2F2,#FFF8E7);border:2px solid var(--red);border-radius:6px;">
+<strong style="color:#991B1B;">🎫 考試錦囊（SSPA 必讀）</strong>
+<p style="font-size:11px;margin:4px 0;color:#1A1A1A;">
+① 先做識做嘅題目，唔好卡死喺一條！<br>
+② 每題檢查單位（cm vs cm² vs cm³）！<br>
+③ 幾何題：圖中有標高就係高，冇標就用公式反求！<br>
+④ 應用題：寫答句！唔寫扣步驟分！<br>
+⑤ 剩 5 分鐘：檢查 MC 有冇填漏 + 單位有冇寫啱！
+</p>
+</div>
+<table class="qt">
+    <tr><th class="qn">題號</th><th>題目</th><th style="width:200px;">作答</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">在數字 56,789 中，千位的數字是多少？</td><td><div class="mc-grid"><span class="mc-opt">A. 5</span><span class="mc-opt">B. 6</span><span class="mc-opt">C. 7</span><span class="mc-opt">D. 8</span></div><div class="qw"></div></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">以下哪個數最大？A. 34,567 B. 34,657 C. 34,756 D. 35,467</td><td><div class="mc-grid"><span class="mc-opt">A. 34,567</span><span class="mc-opt">B. 34,657</span><span class="mc-opt">C. 34,756</span><span class="mc-opt">D. 35,467</span></div><div class="qw"></div></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">408 ÷ 17 = ？</td><td><div class="mc-grid"><span class="mc-opt">A. 22</span><span class="mc-opt">B. 23</span><span class="mc-opt">C. 24</span><span class="mc-opt">D. 26</span></div><div class="qw"></div></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">計算 8 + 12 ÷ 4 = ？</td><td><div class="mc-grid"><span class="mc-opt">A. 5</span><span class="mc-opt">B. 11</span><span class="mc-opt">C. 4</span><span class="mc-opt">D. 20</span></div><div class="qw"></div></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">以下哪個是 24 的因數？A. 5 B. 7 C. 8 D. 9</td><td><div class="mc-grid"><span class="mc-opt">A. 5</span><span class="mc-opt">B. 7</span><span class="mc-opt">C. 8</span><span class="mc-opt">D. 9</span></div><div class="qw"></div></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">甲部：多項選擇題（續）</div>
+  <table class="qt">
+    <tr><th class="qn">題號</th><th>題目</th><th style="width:200px;">作答</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">12 和 18 的 HCF = ？</td><td><div class="mc-grid"><span class="mc-opt">A. 3</span><span class="mc-opt">B. 4</span><span class="mc-opt">C. 6</span><span class="mc-opt">D. 9</span></div><div class="qw"></div></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt"><span class="f" style="display:inline-flex;align-items:center;gap:2px;"><span style="border-bottom:2px solid var(--ink);min-width:12px;text-align:center;padding:0 3px;display:inline-block;">3</span><span style="display:block;text-align:center;font-size:10px;">8</span></span> + <span class="f" style="display:inline-flex;align-items:center;gap:2px;"><span style="border-bottom:2px solid var(--ink);min-width:12px;text-align:center;padding:0 3px;display:inline-block;">5</span><span style="display:block;text-align:center;font-size:10px;">8</span></span> = ？</td><td><div class="mc-grid"><span class="mc-opt">A. 1</span><span class="mc-opt">B. 8/8</span><span class="mc-opt">C. 1</span><span class="mc-opt">D. 2/8</span></div><div class="qw"></div></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">正方形邊長 6 cm。面積 = ？</td><td><div class="mc-grid"><span class="mc-opt">A. 24 cm</span><span class="mc-opt">B. 24 cm²</span><span class="mc-opt">C. 36 cm</span><span class="mc-opt">D. 36 cm²</span></div><div class="qw"></div></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">面向東，順時針轉 180 度。面向哪個方向？</td><td><div class="mc-grid"><span class="mc-opt">A. 北</span><span class="mc-opt">B. 南</span><span class="mc-opt">C. 西</span><span class="mc-opt">D. 東南</span></div><div class="qw"></div></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">棒形圖中一格代表 5 個蘋果。若棒高 7 格，代表多少個蘋果？</td><td><div class="mc-grid"><span class="mc-opt">A. 12</span><span class="mc-opt">B. 30</span><span class="mc-opt">C. 35</span><span class="mc-opt">D. 40</span></div><div class="qw"></div></td></tr>
+  </table>
+
+  <div style="margin-top:16px;padding:10px;background:#FEF2F2;border-radius:5px;font-size:11px;">
+    <b>甲部得分：___ / 30</b>（每題3分）
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">乙部：計算題（6題，每題5分，共30分）</div>
+  <div style="font-size:12px;color:var(--gray);margin-bottom:8px;">必須列出計算步驟，只寫答案不給步驟分。</div>
+
+  <table class="qt">
+    <tr><th class="qn">題號</th><th>題目</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">用豎式計算：693 ÷ 21 = ？並用驗算確認。<br><span style="font-size:10px;color:var(--gray);">(3分計算+2分驗算 = 5分)</span></td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">計算：56 + 24 ÷ 6 × 3 - 10 = ？<br><span style="font-size:10px;color:var(--gray);">(必須寫出逐步計算過程)</span></td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">求 18 和 24 的 HCF 和 LCM。</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">計算：2 <span class="f" style="display:inline-flex;align-items:center;gap:2px;"><span style="border-bottom:2px solid var(--ink);min-width:12px;text-align:center;padding:0 3px;display:inline-block;">3</span><span style="display:block;text-align:center;font-size:10px;">8</span></span> + 1 <span class="f" style="display:inline-flex;align-items:center;gap:2px;"><span style="border-bottom:2px solid var(--ink);min-width:12px;text-align:center;padding:0 3px;display:inline-block;">5</span><span style="display:block;text-align:center;font-size:10px;">8</span></span> = ？</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">正方形周界 = 52 cm。(a)邊長 = ？(b)面積 = ？</td><td class="qw" style="min-height:100px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">長方形長 15 cm，闊比長少 7 cm。(a)闊 = ？(b)面積 = ？</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+
+  <div style="margin-top:16px;padding:10px;background:#FEF2F2;border-radius:5px;font-size:11px;">
+    <b>乙部得分：___ / 30</b>（每題5分，步驟分佔2-3分）
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">丙部：應用題（2題，每題10分，共20分）</div>
+  <div style="font-size:12px;color:var(--gray);margin-bottom:8px;">必須列出綜合算式、計算步驟及答案。答案要有單位。</div>
+
+  <table class="qt">
+    <tr><th class="qn">題號</th><th>題目</th><th>作答區</th></tr>
+    <tr><td class="qn">17</td><td class="qtxt">一個長方形花園長 18 m，闊 12 m。<br>
+      (a) 花園面積 = ？m²（3分）<br>
+      (b) 園丁想在花園四周圍籬笆。籬笆總長 = ？m（3分）<br>
+      (c) 如果花園一面靠牆（長邊靠牆），最少需要籬笆 = ？m（4分）<br>
+      (d) 【加分題】靠牆後，用同樣的籬笆長度（c部分答案），可以圍到最大面積的長方形（一面靠牆），長和闊各是多少？最大面積 = ？</td><td class="qw" style="min-height:180px;"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">學校圖書館有中文書 480 本、英文書 360 本。<br>
+      (a) 把這些書平均放到書架上，每個書架放的書數相同。最多可以用幾個書架？（5分）<br>
+      (b) 每個書架有中文書和英文書各幾本？（3分）<br>
+      (c) 如果每個書架最多放 60 本書，最少需要幾個書架？（2分）</td><td class="qw" style="min-height:180px;"></td></tr>
+  </table>
+
+  <div style="margin-top:16px;padding:10px;background:#FEF2F2;border-radius:5px;font-size:11px;">
+    <b>丙部得分：___ / 20</b> | <b>總分：___ / 80</b> | <b>Grade：___</b>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="exam-header">
+    <div style="font-size:18px;font-weight:900;">參考答案與評分標準</div>
+  </div>
+
+  <div class="h2">甲部 MC 答案</div>
+  <table class="qt">
+    <tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>
+    <tr><td>B</td><td>D</td><td>C</td><td>B</td><td>C</td><td>C</td><td>A</td><td>D</td><td>C</td><td>C</td></tr>
+  </table>
+
+  <div class="h2">乙部參考答案</div>
+  <table class="qt">
+    <tr><th>題號</th><th>答案</th><th>評分標準</th></tr>
+    <tr><td>11</td><td>商=33。驗算：21×33=693 ✓</td><td>豎式正確2分+答案正確1分+驗算2分</td></tr>
+    <tr><td>12</td><td>=56+4×3-10=56+12-10=58</td><td>每步1分。先除後乘是關鍵步</td></tr>
+    <tr><td>13</td><td>HCF=6, LCM=72</td><td>HCF正確2分+LCM正確3分</td></tr>
+    <tr><td>14</td><td>=3+8/8=3+1=4 或 =4</td><td>分數部分相加=8/8=1。2+1+1=4</td></tr>
+    <tr><td>15</td><td>(a)邊長=13cm (b)面積=169cm²</td><td>(a)2分 (b)3分（含單位）</td></tr>
+    <tr><td>16</td><td>(a)闊=8cm (b)面積=120cm²</td><td>(a)2分 (b)3分（含單位）</td></tr>
+  </table>
+
+  <div class="h2">丙部參考答案</div>
+  <table class="qt">
+    <tr><th>題號</th><th>答案</th></tr>
+    <tr><td>17</td><td>(a)18×12=216 m² (b)(18+12)×2=60 m (c)靠長邊：只需圍18+12+12=42 m</td></tr>
+    <tr><td>18</td><td>(a)HCF of 480,360=120→最多120個書架 (b)每架中文480÷120=4本·英文360÷120=3本 (c)總書=840本·840÷60=14個架</td></tr>
+  </table>
+
+  <div class="h1">考試後自我檢討</div>
+  <table class="qt">
+    <tr><th>項目</th><th>自我評分</th></tr>
+    <tr><td>陷阱察覺能力（有冇跌入T1-T51任何陷阱？）</td><td class="qw"></td></tr>
+    <tr><td>計算準確度（加減乘除有冇不小心錯誤？）</td><td class="qw"></td></tr>
+    <tr><td>時間管理（夠唔夠時間做晒？邊部分最花時間？）</td><td class="qw"></td></tr>
+    <tr><td>單位意識（面積有冇寫cm²？錢有冇寫$？）</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-上-L19</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L16 棒形圖閱讀 · L17 棒形圖製作 · L32 複合棒形圖</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L19 | SSPA模擬卷
+</div>
+</body>
+</html>

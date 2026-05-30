@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="English math worksheet: 梯形多邊形面積. LF Academy Hong Kong primary math. 面積計算 圖形面積 幾何" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>P5 Math 梯形多邊形面積 Worksheet | LF Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  @media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; min-height:0; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; margin:10px 0 6px; } .h2 { font-size:11px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex { padding:6px 9px; } .ex-q { font-size:11px; } .warn { font-size:10px; padding:4px 7px; } .mn { font-size:11px; padding:7px 9px; } .et { font-size:9.5px; } .fig-label { font-size:9px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+  .cover { justify-content:center; align-items:center; text-align:center; }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+  .cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+  .ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+  .ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+  .qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; text-align:left; }
+  .qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:32px; text-align:center; font-weight:700; }
+  .qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:72px; }
+  .qt .qtxt { font-size:12.5px; line-height:1.65; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:7px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:12px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:12px; text-align:center; }
+  .tc-w .lbl { font-size:13px; font-weight:900; color:var(--red); margin-bottom:3px; }
+  .tc-r .lbl { font-size:13px; font-weight:900; color:var(--green); margin-bottom:3px; }
+  .tc-w .eq { font-size:15px; color:var(--red); }
+  .tc-r .eq { font-size:15px; color:var(--green); }
+  .et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+  .et th { background:var(--red); color:white; padding:4px 7px; }
+  .et td { padding:4px 7px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+  .fig-row { display:flex; gap:18px; align-items:flex-start; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+  .fig-card { text-align:center; }
+  .fig-title { font-size:12px; font-weight:700; color:var(--blue); margin-bottom:4px; }
+  .fig-inline { display:inline-flex; align-items:center; gap:10px; vertical-align:middle; margin:3px 6px; }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P5 講義",
+      "item": "https://lfamy.github.io/講義/P5/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "梯形多邊形面積"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div style="text-align:center;margin:24px 0"><img src="../_svg/p5_trapezoid_area.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+
+
+<div style="text-align:center;margin:24px 0"><img src="../_svg/trapezoid_area.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+
+<div class="container">
+<!-- ══ COVER ══ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">LF Academy <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">小五 · 第 4 堂 · Student Edition Handout</div>
+<div class="cv-title">Trapezoid與多邊形Area</div>
+<div class="cv-sub">Trapezoid公式 · 分割法 · 填補法 · 65 min · 1-on-3 Online Lesson</div>
+<div class="cv-info">
+<b>Textbook Reference：</b>《小學數學新思維（第二版）》5上A冊 ＋ 現代教育 5上A 單元3-4<br/>
+<b>核心Trap：</b>T4 多餘資訊 — Question給不需要的數據干擾判斷<br/>
+                       T5 圖形錯覺 — Trapezoid÷2遺忘 · (上底+下底)÷2混淆 · 分割後尺寸對錯<br/>
+<b>SSPA 關聯：</b><span class="ss sh">🔴 高頻</span> 呈分試幾何題核心，P6Circle形Area基礎<br/>
+<b>Prerequisites：</b>P4 Square/RectangleArea · P5 Parallelogram/TriangleArea<br/>
+<b>Lesson Objectives：</b>❶ TrapezoidArea=(上底+下底)×高÷2 ❷ 分割法求多邊形Area ❸ 填補法求多邊形Area ❹ AreaWord Problems綜合解題
+  </div>
+<div class="cv-row">
+<span>Student Name：<span class="ln"></span></span><span>Class：<span class="ln"></span></span><span>Date：<span class="ln"></span></span><span>Duration：<span class="ln"></span></span>
+</div>
+</div>
+<!-- ══ PAGE 2: WARM-UP + KP1 ══ -->
+<div class="pb">
+<div class="h1">一、Warm-Up（共 5 題，5 min）— 複習Parallelogram與TriangleArea</div>
+
+<div class="game-box"><div class="game-title">📐 幾何探險家</div><div class="game-desc">計算面積&體積，小心公式陷阱！三角形要除2、梯形上下底唔好調轉！</div><div class="game-action">🔍 開始探險 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Parallelogram底 8 cm，高 5 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Triangle底 10 cm，高 6 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Rectangle長 12 cm，闊 7 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">ParallelogramArea 48 cm²，底 8 cm。高 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">
+      下圖Triangle的Area = ？<br/>
+<svg height="130" viewbox="0 0 190 130" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,80 155,80 95,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="95" x2="95" y1="20" y2="80"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="107" y="50">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="95" y="102">b</text></svg>
+</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">二、Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">知識點一：TrapezoidArea公式<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+      ① <strong>Trapezoid</strong>：只有一對平行邊的四邊形。平行的兩條邊叫<strong>上底</strong>和<strong>下底</strong><br/>
+      ② <strong>Area公式：TrapezoidArea = (上底 + 下底) × 高 ÷ 2</strong><br/>
+      ③ 高 = 上底與下底之間的<strong>垂直距離</strong>（不是斜邊！）<br/>
+      ④ 兩個完全相同的Trapezoid可以拼成一個Parallelogram → 所以公式要 <strong>÷2</strong><br/>
+      ⑤ 反求：高 = Area×2 ÷ (上底+下底)；上底+下底 = Area×2 ÷ 高
+    </div>
+</div>
+<div class="fig-row">
+<div class="fig-card">
+<div class="fig-title">TrapezoidArea = (上底+下底)×高÷2</div>
+<svg height="135" viewbox="0 0 210 135" width="210" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,95 175,95 145,20 65,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="65" x2="65" y1="20" y2="95"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="77" y="58">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="105" y="117">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="105" y="12">b₁</text></svg>
+</div>
+<div class="fig-card">
+<div class="fig-title">兩個相同Trapezoid → Parallelogram</div>
+<svg height="145" viewbox="0 0 280 145" width="280" xmlns="http://www.w3.org/2000/svg"><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="140" y="60">兩個相同Trapezoid</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="140" y="85">拼成一個Parallelogram</text><text fill="#DC2626" font-size="13" font-weight="700" text-anchor="middle" x="140" y="115">所以TrapezoidArea必須除2</text></svg>
+</div>
+</div>
+<div class="warn">最高頻錯誤：忘記÷2！Trapezoid公式與Parallelogram不同，一定要除以2。</div>
+<div class="warn">(上底+下底)÷2×高 與 (上底+下底)×高÷2 結果相同，但建議先乘高再÷2，避免Fraction運算錯誤。</div>
+<div class="ex"><div class="ex-title">例題 1</div><div class="ex-q">Trapezoid上底 5 cm，下底 9 cm，高 4 cm。Area = ？<br/><span style="font-size:10px;color:var(--gray);">（直接代入：(5+9)×4÷2）</span></div></div>
+<div class="ex"><div class="ex-title">例題 2</div><div class="ex-q">TrapezoidArea 42 cm²，上底+下底 = 14 cm。高 = ？<br/><span style="font-size:10px;color:var(--gray);">（反求：高 = 42×2÷14 = 6 cm）</span></div></div>
+</div>
+<!-- ══ PAGE 3: KP1續例 + KP2 ══ -->
+<div class="pb">
+<div class="ex"><div class="ex-title">例題 3</div><div class="ex-q">
+    Trapezoid上底 7 cm，下底 13 cm，高 6 cm。Area = ？<br/>
+<span style="font-size:10px;color:var(--gray);">（注意：Question可能同時給斜邊長度10 cm—那是多餘資訊！只取上底下底和高）</span>
+</div></div>
+<div class="ex"><div class="ex-title">例題 4</div><div class="ex-q">TrapezoidArea 80 cm²，高 8 cm，上底 6 cm。下底 = ？<br/><span style="font-size:10px;color:var(--gray);">（先求上底+下底 = 80×2÷8 = 20，下底 = 20−6 = 14 cm）</span></div></div>
+<div class="kp" style="margin-top:10px;">
+<div class="kp-title">知識點二：多邊形Area — 分割法<span class="ss sh">🔴 SSPA</span></div>
+<div class="kp-rules">
+      ① <strong>分割法</strong>：把不規則多邊形<strong>切成</strong>幾個簡單形狀（Rectangle、Square、Triangle、Trapezoid）<br/>
+      ② 分別計算每個簡單形狀的Area，再<strong>全部加起來</strong><br/>
+      ③ 關鍵：分割線要畫在<strong>已知尺寸</strong>的位置，確保每個小形狀都能計算<br/>
+      ④ Mnemonic：「橫切豎切都可以，切完尺寸要對齊。先標A B C，逐一計再相加。」
+    </div>
+</div>
+<div class="fig-row">
+<div class="fig-card">
+<div class="fig-title">L形分割法：切成兩個Rectangle</div>
+<svg height="130" viewbox="0 0 220 130" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="70" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="65" y="121">70</text><rect fill="#DCFCE7" height="40" stroke="#1A3C6D" stroke-width="3" width="90" x="100" y="65"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="145" y="121">90</text><line stroke="#6B7280" stroke-dasharray="5,2" stroke-width="1" x1="100" x2="100" y1="15" y2="105"></line></svg>
+</div>
+<div class="fig-card">
+<div class="fig-title">凸字形分割：切成三塊</div>
+<svg height="130" viewbox="0 0 180 130" width="180" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="35" stroke="#1A3C6D" stroke-width="3" width="120" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="64">120</text><rect fill="#DCFCE7" height="55" stroke="#1A3C6D" stroke-width="3" width="60" x="60" y="50"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="119">60</text><line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="60" x2="120" y1="50" y2="50"></line></svg>
+</div>
+</div>
+<div class="ex"><div class="ex-title">例題 5</div><div class="ex-q">
+    L形圖案（參照上圖左）：豎直部分長 12 cm 闊 6 cm，橫向部分長 8 cm 闊 4 cm。用分割法求總Area。
+  </div></div>
+<div class="ex"><div class="ex-title">例題 6</div><div class="ex-q">
+    凸字形（參照上圖右）：上方凸起部分 3 cm × 2.5 cm，中間橫條 12 cm × 3.2 cm，下方主體 8 cm × 5 cm。總Area = ？
+  </div></div>
+</div>
+<!-- ══ PAGE 4: KP3 + KP4 + 分層🌱 ══ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點三：多邊形Area — 填補法<span class="ss sh">🔴 SSPA</span></div>
+<div class="kp-rules">
+      ① <strong>填補法</strong>：把不規則形狀<strong>補成</strong>一個大的簡單形狀，再<strong>減去</strong>多餘部分<br/>
+      ② 適合有「缺口」、「凹位」的圖形<br/>
+      ③ Mnemonic：「先補成大方，再減多餘位。補要補完整，減要減準確。」
+    </div>
+</div>
+<div class="fig-row">
+<div class="fig-card">
+<div class="fig-title">填補法示意：凹字形</div>
+<svg height="130" viewbox="0 0 200 130" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="140" x="30" y="15"></rect><rect fill="#FFFFFF" height="50" stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2.5" width="50" x="75" y="35"></rect><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="100" y="60">挖去</text></svg>
+</div>
+</div>
+<div class="warn">分割法用「加」，填補法用「減」。看圖形決定用哪種更方便！凹進去的用填補法更快。</div>
+<div class="ex"><div class="ex-title">例題 7</div><div class="ex-q">
+    凹字形圖案（參照上圖）：外框大Rectangle 14 cm × 8 cm，中間挖去一個 6 cm × 4 cm 的小Rectangle。求剩餘Area。
+  </div></div>
+<div class="kp" style="margin-top:10px;">
+<div class="kp-title">知識點四：AreaWord Problems<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+      ① <strong>先判斷形狀</strong>（Trapezoid？L形？組合形？）→ 選對應方法（公式/分割/填補）<br/>
+      ② <strong>單位要一致</strong>：不同單位先換算（cm→m, mm→cm）<br/>
+      ③ Word Problems最後必須寫<strong>答句</strong>和<strong>單位</strong>
+</div>
+</div>
+<div class="ex"><div class="ex-title">例題 8</div><div class="ex-q">Trapezoid花圃上底 6 m，下底 10 m，高 5 m。每 m² 種 3 棵花，共可種多少棵？<br/><span style="font-size:10px;color:var(--gray);">（先求Area → 再乘每m²棵數 → 寫答句）</span></div></div>
+<div class="h1">三、Tiered Practice</div>
+<div class="h2">🌱 Foundation Tier（All Must Complete，共 5 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">Trapezoid上底 6 cm，下底 10 cm，高 4 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">Trapezoid上底 5 cm，下底 8 cm，高 6 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">Trapezoid上底 9 cm，下底 11 cm，高 5 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">
+      L形圖案可分成兩個Rectangle：A（8×3 cm）和 B（5×4 cm），總Area = ？<br/>
+<span style="font-size:10px;color:var(--gray);">（分割法：先計AArea，再計BArea，相加）</span>
+</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">
+      大Rectangle 15 cm × 10 cm，從中挖去一個 7 cm × 4 cm 的小Rectangle。剩餘Area = ？<br/>
+<span style="font-size:10px;color:var(--gray);">（填補法：大方 − 小方）</span>
+</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ══ PAGE 5: 🌿 + 🌳 ══ -->
+<div class="pb">
+<div class="h2">🌿 Intermediate Tier（🚶🚀 Optional，共 5 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">TrapezoidArea 56 cm²，高 7 cm，上底 6 cm。下底 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">Trapezoid上底+下底 = 18 cm，高 = 5 cm。Area = ？<br/><span style="font-size:10px;color:var(--gray);">（不需要分別知道上底和下底！直接用和代入）</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt">
+      下圖組合圖形（左Rectangle+右Rectangle）的Area = ？<br/>
+<svg height="130" viewbox="0 0 220 130" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="70" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="65" y="121">70</text><rect fill="#DCFCE7" height="40" stroke="#1A3C6D" stroke-width="3" width="90" x="100" y="65"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="145" y="121">90</text><line stroke="#6B7280" stroke-dasharray="5,2" stroke-width="1" x1="100" x2="100" y1="15" y2="105"></line></svg>
+</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">
+      下圖是Rectangle上面加一個Triangle，總Area = ？<br/>
+<div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="90" viewbox="0 0 210 90" width="210" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="50" stroke="#1A3C6D" stroke-width="3" width="140" x="35" y="15"></rect><polyline fill="none" points="45,15 45,25 35,25" stroke="#1A3C6D" stroke-width="2"></polyline><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="105" y="83">l</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="end" x="21" y="40">w</text></svg></div><div class="fig-card"><svg height="105" viewbox="0 0 210 105" width="210" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,55 175,55 105,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="105" x2="105" y1="20" y2="55"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="117" y="38">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="105" y="77">b</text></svg></div></div>
+</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">TrapezoidArea 96 cm²，下底 14 cm，上底 10 cm。高 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">🌳 Challenge Tier（🚀 Optional，共 5 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">16</td><td class="qtxt">
+      Trapezoid上底是下底的一半。下底 12 cm，高 5 cm。Area = ？<br/>
+<span style="font-size:10px;color:var(--gray);">（先求上底 = 12÷2 = 6 → 代入公式）</span>
+</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">
+      右圖等腰Trapezoid上底 4 cm，下底 8 cm，高 6 cm。Area = ？<br/>
+<svg height="120" viewbox="0 0 150 120" width="150" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,80 115,80 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="80"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="67" y="50">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="75" y="102">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg>
+</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">
+      組合圖形：可補成 15×10 cm 大Rectangle，再減去一個 5×4 cm 缺口。剩餘Area = ？
+    </td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">
+<div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="104" viewbox="0 0 150 120" width="130" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,70 115,70 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="70"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="67" y="45">h=9</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="75" y="90">b₂</text><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg></div></div>TrapezoidArea 108 cm²，高 9 cm，上底比下底少 4 cm。上底和下底各是多少？<br/>
+<span style="font-size:10px;color:var(--gray);">（先求上底+下底=108×2÷9=24，設下底=x 上底=x−4 → 2x−4=24）</span>
+</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">
+<div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="110" viewbox="0 0 140 110" width="140" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="70" stroke="#1A3C6D" stroke-width="3" width="80" x="30" y="15"></rect><rect fill="#FFFFFF" height="40" stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2.5" width="36" x="52" y="30"></rect><text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="70" y="50">挖去</text></svg></div></div>凹字形Area = ？外框 20 cm × 12 cm，中間Rectangle缺口 10 cm × 6 cm。
+    </td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ══ PAGE 6: Word Problems ══ -->
+<div class="pb">
+<div class="h1">四、AreaWord Problems（共 6 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">21</td><td class="qtxt">Trapezoid花圃上底 4 m，下底 8 m，高 5 m。花圃Area = ？m²</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">一幅Trapezoid牆壁上底 3 m，下底 7 m，高 4 m。要髹油漆，每 m² 用 0.2 L 油漆。共需多少升？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">一個 L 形客廳，可分成兩個Rectangle：6 m × 4 m 和 3 m × 5 m。客廳總Area = ？m²</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">Trapezoid田地上底 20 m，下底 30 m，高 15 m。每 m² 可種 4 棵菜，共可種多少棵？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt"><div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="88" viewbox="0 0 150 120" width="110" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,70 115,70 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="70"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="67" y="45">h</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="75" y="90">b₂</text><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg></div><div class="fig-card"><svg height="68" viewbox="0 0 120 90" width="90" xmlns="http://www.w3.org/2000/svg"><rect fill="#DCFCE7" height="40" stroke="#1A3C6D" stroke-width="3" width="50" x="35" y="15"></rect><polyline fill="none" points="45,15 45,22 35,22" stroke="#1A3C6D" stroke-width="2"></polyline><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="60" y="73">l</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="end" x="21" y="35">w</text></svg></div></div>一個多邊形廣場 = Trapezoid + Rectangle。Trapezoid：上底 5 m、下底 9 m、高 4 m。Rectangle：8 m × 6 m。總Area = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">一塊不規則地皮，從 15 m × 10 m Rectangle中挖去 4 m × 3 m 車位。剩餘Area = ？m²</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">五、🏔️ 終極挑戰專區（共 3 題，🚀 Optional，呈分試壓軸＋競賽級別）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">
+<div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="104" viewbox="0 0 150 120" width="130" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,70 115,70 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="70"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="67" y="45">h=8</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="75" y="90">b₂</text><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg></div></div>TrapezoidArea 120 cm²，高 8 cm。上底比下底少 6 cm。上底和下底各是多少？<br/>
+<span style="font-size:10px;color:var(--gray);">（設下底=x, 上底=x−6 → (2x−6)×8÷2=120 → 解x）</span>
+</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">
+      一個五邊形可分成三個部分：三角（底10高4）+ 長方（10×6）+ Trapezoid（上底6下底10高3）。總Area = ？<br/>
+<svg height="120" style="display:block;margin:4px 0;" viewbox="0 0 240 120" width="240" xmlns="http://www.w3.org/2000/svg"><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="120" y="30">分成三部分計算：</text><text fill="#D97706" font-size="10" text-anchor="middle" x="120" y="50">Triangle A = 底x高/2</text><text fill="#1A3C6D" font-size="10" text-anchor="middle" x="120" y="70">Rectangle B = 長x闊</text><text fill="#16A34A" font-size="10" text-anchor="middle" x="120" y="90">Trapezoid C = (a+b)xh/2</text><text fill="#DC2626" font-size="10" text-anchor="middle" x="120" y="112">總Area = A + B + C</text></svg>
+</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:84px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">
+      一個Trapezoid，上底是下底的 2 倍，高是下底的 3 倍。下底 4 cm。Area = ？<br/>
+<span style="font-size:10px;color:var(--gray);">（推算：上底=8, 高=12 → (8+4)×12÷2）</span>
+</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ══ PAGE 7: 功課 + Common Error ══ -->
+<div class="pb">
+<div class="h1">六、Homework</div>
+<div class="h2">Foundation (Required)（共 5 題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">Trapezoid上底 7 cm，下底 13 cm，高 5 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">Trapezoid上底 4 cm，下底 10 cm，高 8 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">Trapezoid上底 8 cm，下底 12 cm，高 5 cm。Area = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">L形可分成 9×3 cm 和 6×5 cm 兩個Rectangle。總Area = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">大Rectangle 14×10 cm，挖去 6×4 cm。剩餘Area = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced (Optional)（共 3 題，🚀 Optional）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">TrapezoidArea 63 cm²，上底+下底 = 18 cm。高 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">Trapezoid上底是下底的 3 倍，下底 5 cm，高 6 cm。Area = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">TrapezoidArea 90 cm²，高 6 cm，下底是上底的 2 倍。上底和下底各是多少？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">七、Common Error Summary</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Learning Objectives Review — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有Trap類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂Mnemonic</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>Common Error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Trapezoid忘記÷2</strong>：當成Parallelogram計</td><td>Trapezoid=(上底+下底)×高<span style="color:#DC2626;font-weight:900;">÷2</span>。必須÷2！</td></tr>
+<tr><td>2</td><td><strong>(上底+下底)÷2後忘記乘高</strong></td><td>完整公式三步：(上底+下底) → ×高 → ÷2，不可漏步</td></tr>
+<tr><td>3</td><td><strong>高用錯斜邊長度</strong></td><td>高＝兩底之間的<span style="color:#DC2626;font-weight:900;">垂直距離</span>，不是斜邊！</td></tr>
+<tr><td>4</td><td><strong>分割後尺寸對錯</strong>：分割線位置不對導致尺寸錯</td><td>分割後每個小形狀邊長必須能從原圖標註尺寸推出</td></tr>
+<tr><td>5</td><td><strong>填補法減錯</strong>：大方尺寸或缺口尺寸取錯</td><td>確認「大方」和「要減的部分」尺寸是否對應原圖</td></tr>
+<tr><td>6</td><td><strong>多餘資訊干擾（T4Trap）</strong>：用了不需要的數據</td><td>判斷形狀→確定需要什麼數據→只用必要數據，忽略干擾項</td></tr>
+<tr><td>7</td><td><strong>組合圖形漏計某部分</strong></td><td>逐一標記A、B、C，確保每塊都已計算並相加</td></tr>
+</table>
+<div class="end-note">LF Academy · LF Academy · We don't teach math — we teach trap avoidance.。 · LF-P5-上-L04</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related Topics：L03 Parallelogram與TriangleArea · L04 Trapezoid多邊形Area · L05 AreaTrap專項</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | LF-P5-上-L04 | 45題 · 14 SVG圖形
+</div>
+</body>
+</html>

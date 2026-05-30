@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF Academy · P5-下-L38 個人弱項終極補底 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── L38 SPECIAL: diagnostic checklist ── */
+  .diag-box { background:var(--white); border:2px solid var(--blue); border-radius:10px; padding:16px 20px; margin:10px 0; }
+  .diag-box .trap-row { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px dashed var(--borderc); }
+  .diag-box .trap-row:last-child { border-bottom:none; }
+  .diag-box .trap-tag { font-weight:900; font-size:13px; min-width:90px; }
+  .diag-box .trap-desc { flex:1; font-size:12px; }
+  .diag-box .trap-cb { width:24px; height:24px; border:2px solid var(--blue); border-radius:4px; text-align:center; font-size:16px; }
+  .diag-box .trap-mock { font-size:10px; color:var(--gray); min-width:120px; text-align:right; }
+
+  .zone-hdr { display:flex; align-items:center; gap:10px; margin:4px 0; }
+  .zone-tag { display:inline-block; padding:4px 14px; border-radius:20px; font-weight:900; font-size:14px; color:white; }
+  .zone-tag.za { background:var(--red); }
+  .zone-tag.zb { background:#D97706; }
+  .zone-tag.zc { background:#7C3AED; }
+  .zone-inst { font-size:11px; color:var(--gray); }
+
+  .challenge-meter { display:flex; gap:4px; margin:8px 0; align-items:center; }
+  .challenge-meter .cm-bar { height:12px; border-radius:6px; }
+  .challenge-meter .cm-fill { background:var(--green); height:100%; border-radius:6px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+  <div class="cv-badge">小五 · 第 38 堂 · 學生版講義</div>
+  <div class="cv-title">個人弱項終極補底</div>
+  <div class="cv-sub">自主診斷 · 對症下藥 · 補底後再挑戰 · 60 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>課程類型：</b>自主診斷式工作紙（非傳統講義）—— 學生根據模擬考試數據，自行選擇弱項進行針對性補底<br>
+    <b>數據來源：</b>L11（模擬1）、L19（模擬2）、L29（模擬3）、L37（模擬4）四次模擬考試錯誤記錄<br>
+    <b>核心陷阱：</b>🪤 T1-T9 全系列 —— 本堂聚焦學生的「個人化」弱項<br>
+    <b>使用方式：</b>❶ 完成「弱項診斷」→ ❷ 找出你失分最多的 2-3 個陷阱 → ❸ 只做該陷阱對應的練習區 → ❹ 完成「補底後再挑戰」檢測效果<br>
+    <b>預計題量：</b>約 20-25 題（只做自己的弱項區域，無需全做）
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: DIAGNOSIS ═══════════════ -->
+<div class="pb">
+  <div class="h1">第一部分：我的陷阱弱項診斷</div>
+
+  <div class="kp">
+    <div class="kp-title">操作說明：</div>
+    <div class="kp-rules">
+      ① 拿出你的 L11、L19、L29、L37 四份模擬考試卷<br>
+      ② 統計每個陷阱類型的總失分（可參考老師給你的錯誤分析表）<br>
+      ③ 在下方「陷阱診斷表」中，在你<strong>失分最多的 3 個陷阱</strong>旁打 ✓（按失分高低排序）<br>
+      ④ 翻到對應的「補底練習區」，只做你打了 ✓ 的區域<br>
+      ⑤ 完成後，做「補底後再挑戰」5 題驗收
+    </div>
+  </div>
+
+  <div class="diag-box">
+    <div style="font-size:14px; font-weight:900; color:var(--blue); margin-bottom:8px;">🪤 陷阱弱項診斷表（請在失分最多的陷阱旁 ✓ ，最少選 1 個，最多選 3 個）</div>
+    <div class="trap-row">
+      <span class="trap-tag" style="color:var(--red);">🪤 T1</span>
+      <span class="trap-desc"><strong>進位／退位錯誤</strong>：多位數加減時進退位漏計、多位乘法進位疊加錯</span>
+      <span class="trap-cb"></span>
+      <span class="trap-mock">→ 對應 Zone A 第 1-5 題</span>
+    </div>
+    <div class="trap-row">
+      <span class="trap-tag" style="color:var(--red);">🪤 T2</span>
+      <span class="trap-desc"><strong>小數點錯位</strong>：小數乘法積的小數位數錯、除法小數點移錯方向</span>
+      <span class="trap-cb"></span>
+      <span class="trap-mock">→ 對應 Zone A 第 6-10 題</span>
+    </div>
+    <div class="trap-row">
+      <span class="trap-tag" style="color:var(--red);">🪤 T9</span>
+      <span class="trap-desc"><strong>分數運算陷阱</strong>：通分漏同步擴大分子、答案未約簡、假分數未轉帶分數</span>
+      <span class="trap-cb"></span>
+      <span class="trap-mock">→ 對應 Zone A 第 11-15 題</span>
+    </div>
+    <div class="trap-row">
+      <span class="trap-tag" style="color:#D97706;">🪤 T3</span>
+      <span class="trap-desc"><strong>文字題理解錯誤</strong>：關鍵詞判斷錯誤（「餘下」「比...多」方向搞反）</span>
+      <span class="trap-cb"></span>
+      <span class="trap-mock">→ 對應 Zone B 第 1-5 題</span>
+    </div>
+    <div class="trap-row">
+      <span class="trap-tag" style="color:#D97706;">🪤 T7</span>
+      <span class="trap-desc"><strong>單位換算陷阱</strong>：忘記換算單位（cm→m, mL→L, g→kg）、單位不統一代入公式</span>
+      <span class="trap-cb"></span>
+      <span class="trap-mock">→ 對應 Zone B 第 6-10 題</span>
+    </div>
+    <div class="trap-row">
+      <span class="trap-tag" style="color:#7C3AED;">🪤 T4</span>
+      <span class="trap-desc"><strong>幾何公式混淆</strong>：面積公式記混（三角形÷2遺漏、梯形(上底+下底)÷2搞錯）</span>
+      <span class="trap-cb"></span>
+      <span class="trap-mock">→ 對應 Zone C 第 1-5 題</span>
+    </div>
+    <div class="trap-row">
+      <span class="trap-tag" style="color:#7C3AED;">🪤 T5</span>
+      <span class="trap-desc"><strong>立體幾何陷阱</strong>：體積 vs 表面面積概念混淆、排水法理解錯誤</span>
+      <span class="trap-cb"></span>
+      <span class="trap-mock">→ 對應 Zone C 第 6-10 題</span>
+    </div>
+  </div>
+
+  <div style="margin: 10px 0; padding: 10px 14px; background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; font-size:13px;">
+    <strong>✅ 我的選擇（請填寫）：</strong><br>
+    我失分最多的陷阱是：① 🪤T____（失分____）② 🪤T____（失分____）③ 🪤T____（失分____）<br>
+    我將完成以下區域：□ Zone A &nbsp; □ Zone B &nbsp; □ Zone C &nbsp;（在要做的區域打 ✓）
+  </div>
+
+  <div class="warn">⚠️ 重要提醒：你不需要做全部三個區域！只做你診斷出的弱項區域。每個區域 15 題，一般學生做 2 個區域（約 30 題）已足夠。時間有限可只做 1 個區域 ＋ 最後的 5 題挑戰。</div>
+
+</div>
+
+<!-- ═══════════════ PAGE 3: ZONE A — 計算類 T1/T2/T9 ═══════════════ -->
+<div class="pb">
+  <div class="h1">第二部分：補底練習區</div>
+
+  <div class="zone-hdr">
+    <span class="zone-tag za">Zone A</span>
+    <span style="font-weight:900; font-size:15px; color:var(--red);">計算類陷阱補底（T1+T2+T9）</span>
+    <span class="zone-inst">共 15 題 —— 如你診斷結果含 T1/T2/T9 任一，請完成此區</span>
+  </div>
+
+  <div class="h2">A1. 多位數進退位陷阱 T1（第 1-5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">計算 45678 + 29765 = ？（注意連續進位）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">計算 80003 − 45678 = ？（注意跨零退位）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">計算 1234 × 56 = ？（注意中間進位疊加）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A4</td><td class="qtxt">計算 84480 ÷ 24 = ？（長除法，先估商）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A5</td><td class="qtxt">(456 + 789) × 12 − 3456 = ？（多步計算，每步檢查進退位）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+
+  <div class="h2">A2. 小數點錯位陷阱 T2（第 6-10 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A6</td><td class="qtxt">計算 3.14 × 2.5 = ？（積的小數位：2+1=3位）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A7</td><td class="qtxt">計算 0.06 × 0.04 = ？（積的小數位：2+2=4位，注意補零）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A8</td><td class="qtxt">計算 7.2 ÷ 0.12 = ？（除數變整數：被除數同乘100）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A9</td><td class="qtxt">計算 0.56 ÷ 0.8 = ？（除數×10→8，被除數×10→5.6）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A10</td><td class="qtxt">比較：3.14×10 和 3.14÷0.1 的結果相同嗎？計算證明。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="h2">A3. 分數運算陷阱 T9（第 11-15 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A11</td><td class="qtxt">計算 <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？（LCM=12，通分後約簡）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A12</td><td class="qtxt">計算 <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？（注意通分後分子同步擴大）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A13</td><td class="qtxt">計算 <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> × <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？（分子×分子，分母×分母，約簡）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A14</td><td class="qtxt">計算 <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> ÷ <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？（÷分數=×倒數，約簡）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">A15</td><td class="qtxt">計算 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + 2<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？（帶分數→假分數→通分→計算→還原帶分數）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: ZONE B — 文字題類 T3/T7 ═══════════════ -->
+<div class="pb">
+  <div class="zone-hdr">
+    <span class="zone-tag zb">Zone B</span>
+    <span style="font-weight:900; font-size:15px; color:#D97706;">文字題類陷阱補底（T3+T7）</span>
+    <span class="zone-inst">共 15 題 —— 如你診斷結果含 T3/T7 任一，請完成此區</span>
+  </div>
+
+  <div class="h2">B1. 文字題理解陷阱 T3（第 1-5 題——必須圈關鍵詞後作答）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（圈關鍵詞 → 列式 → 計算 → 答句）</th></tr>
+    <tr><td class="qn">B1</td><td class="qtxt">一個籃球原價 $480，現在打八折。小明有 $400，他買得起嗎？相差多少元？（注意：折後價 vs 擁有金額比較方向）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">B2</td><td class="qtxt">一條絲帶長 3 米，用了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 做禮物，再用 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 米做裝飾。<strong>餘下</strong>多少米？（關鍵詞：餘下 = 原長 − 全部用量）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">B3</td><td class="qtxt">小明有 $120，小華的錢<strong>比小明的 2 倍少 $35</strong>。小華有多少元？（「比...倍少」＝乘了再減，方向不要反）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">B4</td><td class="qtxt">倉庫原有米 50 公斤，上午運走 12.5 公斤，下午運入 18.75 公斤。現在倉庫有米多少公斤？（「運走」＝減，「運入」＝加，不要搞反）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">B5</td><td class="qtxt">一本書有 240 頁。第一天看了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>，第二天看了餘下的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>。第三天要看完餘下的頁數，第三天要看多少頁？（餘下的餘下 —— 兩層逆向）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">B2. 單位換算陷阱 T7（第 6-10 題——單位錯了全盤皆錯）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B6</td><td class="qtxt">一個長方形長 2.5 米、闊 150 厘米。面積是多少平方米？（先換算單位：150cm = ？m）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">B7</td><td class="qtxt">一盒果汁 1.5 升。平均倒入 6 個杯子，每個杯子多少毫升？（1L = 1000mL，先轉單位再除）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">B8</td><td class="qtxt">一個長方體：長 0.3 米、闊 20 厘米、高 15 厘米。體積是多少立方厘米？（全部轉 cm 再算）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">B9</td><td class="qtxt">一個水缸可盛水 2.5 升。現有 850 毫升，還可加多少升？（注意單位混用：答題以升為單位）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">B10</td><td class="qtxt">一包糖重 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 公斤。用了 350 克後，還餘多少克？（1kg=1000g，注意：用了克，答案也要克）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+  </table>
+
+  <div class="h2">B3. T3+T7 綜合（第 11-15 題——文字題＋單位換算雙重陷阱）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B11</td><td class="qtxt">一個長方形花園：長 12.5 米、闊 8 米。要在周圍建圍欄，每米 $45。圍欄總價多少元？（先求周界，單位已是米，注意：周界不是面積！T3+T7）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">B12</td><td class="qtxt">水樽原有 1.2 升水，喝了 350 毫升，再加了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 升。現在有多少毫升？（多重單位：升↔毫升，分數+小數）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">B13</td><td class="qtxt">三角形底邊 40 厘米、高 0.3 米。面積是多少平方厘米？（高要轉 cm：0.3m=30cm）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">B14</td><td class="qtxt">一個長方體容器：長 25 厘米、闊 20 厘米、高 0.15 米。裝了 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> 的水。水的體積是多少立方厘米？（先求總體積，再求 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">B15</td><td class="qtxt">一個工程，甲隊做了 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>，乙隊做了 0.35，丙隊做了餘下的。丙隊做了工程的幾分之幾？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: ZONE C — 幾何類 T4/T5 ═══════════════ -->
+<div class="pb">
+  <div class="zone-hdr">
+    <span class="zone-tag zc">Zone C</span>
+    <span style="font-weight:900; font-size:15px; color:#7C3AED;">幾何類陷阱補底（T4+T5）</span>
+    <span class="zone-inst">共 15 題 —— 如你診斷結果含 T4/T5 任一，請完成此區</span>
+  </div>
+
+  <div class="h2">C1. 幾何公式混淆陷阱 T4（第 1-5 題——公式寫在旁邊再代數）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（先寫公式 → 再代數 → 計算 → 答句）</th></tr>
+    <tr><td class="qn">C1</td><td class="qtxt">一個三角形底 12 cm、高 8 cm。面積是多少 cm²？（公式：A = 底×高÷2 —— ÷2 最易漏！）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">C2</td><td class="qtxt">一個梯形：上底 8 cm、下底 12 cm、高 5 cm。面積是多少 cm²？（公式：A=(a+b)×h÷2）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">C3</td><td class="qtxt">一個平行四邊形底 15 cm、高 8 cm。面積是多少 cm²？（公式：A=底×高 —— 注意：用高不是斜邊！）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">C4</td><td class="qtxt">多邊形面積計算：把下圖分成一個長方形(6×4)和一個三角形(底6高3)。總面積=？（複合圖形拆解）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">C5</td><td class="qtxt">比較：底和高都相同的三角形與平行四邊形，面積有何關係？計算證明：底=10cm, 高=6cm。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+  </table>
+
+  <div class="h2">C2. 立體幾何陷阱 T5（第 6-10 題——體積 vs 表面面積勿混淆）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C6</td><td class="qtxt">一個長方體：長 10 cm、闊 6 cm、高 4 cm。體積=？表面面積=？（兩者都要算，寫清楚哪個是哪個）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">C7</td><td class="qtxt">一個正方體邊長 5 cm。體積=？表面面積=？（正方體：V=a³, SA=6a²）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">C8</td><td class="qtxt">排水法：一個長方體水缸 20cm×15cm×10cm，原有水高 5cm。放入石頭後水位升到 7cm。石頭的體積是多少 cm³？（排水法：V=底面積×水位差）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">C9</td><td class="qtxt">一個魚缸內部尺寸：30cm×20cm×25cm。注入 9 升水後，水位有多高？（先轉單位：9L=9000cm³，水位=體積÷底面積）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">C10</td><td class="qtxt">複合立體：一個 L 形立體由兩個長方體組成。A: 8×5×3, B: 4×5×2（B 放在 A 上面的一端）。總體積=？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <div class="h2">C3. T4+T5 綜合（第 11-15 題——面積＋體積雙重陷阱）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C11</td><td class="qtxt">一個長方體禮品盒：外面包裝紙需要多少面積？（表面面積）。盒內可放多少體積的物品？（體積）。盒尺寸：12cm×8cm×5cm。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">C12</td><td class="qtxt">一個三角形底邊 = 一個正方體的邊長（6cm），高 = 正方體的表面面積÷底面積。三角形的面積=？（多步推理，T4+T5混合）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">C13</td><td class="qtxt">一個梯形花圃：上底 5m、下底 8m、高 4m。要在花圃上鋪一層泥土厚 0.3m。需要多少立方米的泥土？（梯形面積 × 厚度 = 體積）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">C14</td><td class="qtxt">一個長方體水箱內部：長 50cm、闊 30cm、高 40cm。原有水高 25cm。放入一個底面積 200cm²、高 15cm 的長方體鐵塊（完全沉沒）。水位會升至多高？（排水法進階）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">C15</td><td class="qtxt">一個平行四邊形和一個長方體有關係：平行四邊形底=長方體長、高=長方體闊。若平行四邊形面積=48cm²，長方體高=5cm。長方體的體積=？（T4+T5跨概念）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:78px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: FINAL CHALLENGE + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+  <div class="h1">第三部分：補底後再挑戰（共 5 題 —— 全體必做，檢測補底效果）</div>
+
+  <div class="kp">
+    <div class="kp-title">挑戰說明：</div>
+    <div class="kp-rules">
+      這 5 題混合了三區（計算＋文字題＋幾何）的精華。完成你選擇的補底區域後，用這 5 題檢測你的進步。<br>
+      <strong>計分方式：</strong>每題 20 分，滿分 100。答對 4 題以上 = 補底成功。答對不足 3 題 = 需要再加強。
+    </div>
+  </div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目（混合 T1-T9）</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">終1</td><td class="qtxt">計算：<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + 0.5 × <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> − 0.125 = ？（分數+小數四則，T2+T9）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">終2</td><td class="qtxt">一條絲帶長 5 米。用了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 後，再用了 80 厘米做裝飾。餘下絲帶是多少厘米？（分數+單位換算，T3+T7+T9）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">終3</td><td class="qtxt">一個梯形：上底 15cm、下底 25cm、高 0.1m。面積是多少 cm²？（先換算單位→梯形公式，T4+T7）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">終4</td><td class="qtxt">一個長方體水箱：50cm×30cm×40cm。原有水高 20cm。放入一個不規則石頭後水位升到 23.5cm。石頭的體積是多少 cm³？合多少升？（排水法 + 單位換算，T5+T7）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">終5</td><td class="qtxt">小明原有儲蓄 $240。用了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 買書，再用餘下的 0.4 買玩具。最後餘下多少元？（雙層餘下+分數+小數，T3+T9+T2）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:82px;"></td></tr>
+  </table>
+
+  <div class="h1">第四部分：補底成果自評</div>
+  
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>終極挑戰題號</th><th>得分（/20）</th><th>錯誤原因分析</th></tr>
+    <tr><td>終1</td><td></td><td></td></tr>
+    <tr><td>終2</td><td></td><td></td></tr>
+    <tr><td>終3</td><td></td><td></td></tr>
+    <tr><td>終4</td><td></td><td></td></tr>
+    <tr><td>終5</td><td></td><td></td></tr>
+    <tr><td><strong>總分</strong></td><td><strong>/100</strong></td><td></td></tr>
+  </table>
+
+  <div style="margin: 10px 0; padding: 12px 16px; background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; font-size:13px;">
+    <strong>📊 診斷結果：</strong><br>
+    □ 80-100 分：補底成功！弱項已明顯改善。<br>
+    □ 60-79 分：部分改善，建議針對錯題再做同類練習。<br>
+    □ 低於 60 分：弱項仍未解決，需要老師一對一跟進。
+  </div>
+
+  <div class="h1">五、本堂核心易錯點總結</div>
+  <table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>T1 進退位</strong>：多位數加減時進退位漏計；乘法中間積進位疊加錯</td><td>每步檢查進退位標記；長乘法中間積要對齊位數</td></tr>
+    <tr><td>2</td><td><strong>T2 小數點</strong>：小數乘法積的小數位數計錯；除法小數點移錯方向</td><td>乘法：a位×b位=a+b位；除法：除數×10ⁿ 同時被除數×10ⁿ</td></tr>
+    <tr><td>3</td><td><strong>T9 分數</strong>：通分漏同步擴大分子；答案未約簡；假分數未轉帶分數</td><td>「分子跟住乘」；最後一步查公因數；假→帶</td></tr>
+    <tr><td>4</td><td><strong>T3 文字題</strong>：關鍵詞判斷錯誤（「餘下」「比...多」方向搞反）</td><td>圈關鍵詞後畫線段圖輔助理解；寫出關係式再列式</td></tr>
+    <tr><td>5</td><td><strong>T7 單位</strong>：忘記換算單位就代入公式；cm和m混用</td><td>所有長度先統一單位再計算；1m=100cm, 1L=1000mL, 1kg=1000g</td></tr>
+    <tr><td>6</td><td><strong>T4 幾何公式</strong>：三角形面積漏÷2；梯形公式與平行四邊形混淆</td><td>先寫公式在旁 → 再代數；三角形÷2、梯形(a+b)×h÷2</td></tr>
+    <tr><td>7</td><td><strong>T5 立體</strong>：體積和表面面積公式混淆；排水法水位差理解錯誤</td><td>體積=長×闊×高；表面面積=各面面積總和；排水V=底面積×Δh</td></tr>
+  </table>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P5-下-L38 v2</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  🖨️ Ctrl+P 列印 PDF &nbsp;|&nbsp; 6頁 · 45題 &nbsp;|&nbsp; LF-P5-下-L38 v2
+</div>
+
+</body>
+</html>

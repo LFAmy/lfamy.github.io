@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>霖楓學苑 · 學生中心</title>
+<link rel="manifest" href="/manifest.json">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--purple:#7C3AED;--white:#FFF;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-400:#9CA3AF;--gray-600:#6B7280;--gray-800:#374151;--gray-900:#1A1A1A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;background:linear-gradient(180deg,#F0F4FF,#F9FAFB);color:var(--gray-900);min-height:100vh;padding-top:52px}
+.container{max-width:700px;margin:0 auto;padding:16px}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#0A1A35,#1A3C6D,#1E4D8C);color:white;border-radius:24px;padding:32px 24px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-30%;width:300px;height:300px;background:radial-gradient(circle,rgba(201,168,76,0.15),transparent 70%);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-40%;left:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(124,58,237,0.1),transparent 70%);border-radius:50%}
+.hero *{position:relative;z-index:1}
+.hero h1{font-family:'Noto Serif HK',serif;font-size:26px;margin-bottom:4px}
+.hero .greeting{font-size:14px;opacity:0.7;margin-bottom:16px}
+.hero .stats-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero .stat-pill{background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:14px 20px;text-align:center;min-width:90px}
+.hero .stat-pill .val{font-size:26px;font-weight:900}
+.hero .stat-pill .lbl{font-size:10px;opacity:0.5;margin-top:2px}
+.hero .stat-pill.streak .val{color:#F59E0B}
+.hero .stat-pill.points .val{color:var(--gold)}
+.hero .stat-pill.accuracy .val{color:var(--green)}
+
+/* Level bar */
+.level-wrap{margin:16px 0 0;text-align:left}
+.level-wrap .level-info{display:flex;justify-content:space-between;font-size:11px;opacity:0.7;margin-bottom:4px}
+.level-bar{background:rgba(255,255,255,0.15);border-radius:8px;height:8px;overflow:hidden}
+.level-bar-fill{background:linear-gradient(90deg,var(--gold),#DFC06A,#F5E6A3);height:100%;border-radius:8px;transition:width 0.8s ease}
+
+/* Section */
+.section{margin-bottom:20px}
+.section-title{font-size:14px;font-weight:900;color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title .icon{font-size:20px}
+
+/* Cards grid */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:white;border-radius:16px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);text-decoration:none;color:var(--gray-900);transition:all 0.2s;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.card:active{transform:scale(0.98)}
+.card.primary{grid-column:1/-1;background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid #C7D2FE;flex-direction:row;align-items:center}
+.card.primary .card-icon{font-size:40px;flex-shrink:0}
+.card.primary .card-content{flex:1}
+.card .card-icon{font-size:32px;line-height:1}
+.card .card-title{font-weight:700;font-size:14px;color:var(--gray-800)}
+.card .card-desc{font-size:11px;color:var(--gray-400);line-height:1.5}
+.card .card-badge{position:absolute;top:10px;right:10px;background:var(--red);color:white;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700}
+
+/* Weakness alert */
+.weak-alert{background:#FFF7ED;border:1px solid #FED7AA;border-radius:14px;padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.weak-alert .alert-icon{font-size:28px;flex-shrink:0}
+.weak-alert .alert-content{flex:1}
+.weak-alert .alert-title{font-weight:700;font-size:13px;color:#C2410C}
+.weak-alert .alert-desc{font-size:11px;color:#9A3412;margin-top:2px}
+.weak-alert .alert-action{font-size:11px;font-weight:700;color:#C2410C;text-decoration:underline;cursor:pointer;white-space:nowrap}
+
+/* Trap chip row */
+.trap-row{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}
+.trap-chip{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:700;display:flex;align-items:center;gap:3px}
+.trap-chip.good{background:#DCFCE7;color:#166534}
+.trap-chip.ok{background:#FEF3C7;color:#92400E}
+.trap-chip.bad{background:#FEE2E2;color:#991B1B}
+.trap-chip.untested{background:#F1F5F9;color:#94A3B8}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,var(--blue),#1E4D8C);color:white;border-radius:20px;padding:24px;text-align:center;margin-top:24px}
+.cta-box h3{font-size:17px;margin-bottom:6px}
+.cta-box p{font-size:12px;opacity:0.7;margin-bottom:16px}
+.cta-btn{display:inline-block;background:var(--gold);color:var(--blue);padding:12px 32px;border-radius:25px;text-decoration:none;font-weight:900;font-size:14px;transition:all 0.2s}
+.cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+
+/* Responsive */
+@media(max-width:500px){
+  .hero{padding:24px 16px;border-radius:20px}
+  .hero h1{font-size:22px}
+  .cards{grid-template-columns:1fr}
+  .card{padding:16px}
+  .hero .stats-row{gap:8px}
+  .hero .stat-pill{padding:10px 14px;min-width:70px}
+  .hero .stat-pill .val{font-size:22px}
+}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeUp 0.5s ease both}
+.animate:nth-child(1){animation-delay:0s}
+.animate:nth-child(2){animation-delay:0.08s}
+.animate:nth-child(3){animation-delay:0.16s}
+.animate:nth-child(4){animation-delay:0.24s}
+</style>
+<link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+</head>
+<body>
+<!-- Accessibility: Skip to content -->
+<a href="#main-content" class="lf-skip-link" style="position:absolute;top:-100px;left:8px;background:#1A3C6D;color:white;padding:8px 16px;border-radius:0 0 8px 8px;z-index:99999;font-weight:700;text-decoration:none;transition:top 0.2s">跳至主要內容</a>
+
+
+<div class="container">
+
+<!-- Hero -->
+<div class="hero animate">
+  <div class="greeting" id="greeting"></div>
+  <h1>歡迎回來！</h1>
+  <div class="stats-row">
+    <div class="stat-pill streak"><div class="val" id="streakDays">0</div><div class="lbl">連續天數</div></div>
+    <div class="stat-pill points"><div class="val" id="totalPoints">0</div><div class="lbl">積分</div></div>
+    <div class="stat-pill accuracy"><div class="val" id="accuracy">-</div><div class="lbl">正確率</div></div>
+  </div>
+  <div class="level-wrap">
+    <div class="level-info"><span>Level <span id="userLevel">1</span></span><span id="xpProgress">0/100 XP</span></div>
+    <div class="level-bar"><div class="level-bar-fill" id="levelFill" style="width:30%"></div></div>
+  </div>
+</div>
+
+<!-- Weakness Alert -->
+<div class="weak-alert animate" id="weakAlert" style="display:none">
+  <div class="alert-icon">⚠️</div>
+  <div class="alert-content">
+    <div class="alert-title" id="weakTitle">需要加強</div>
+    <div class="alert-desc" id="weakDesc"></div>
+  </div>
+  <a class="alert-action" href="/docs/student-practice.html">去練習 →</a>
+</div>
+
+<!-- Quick Actions -->
+<div class="section animate">
+  <div class="section-title"><span class="icon">⚡</span>快速行動</div>
+  <div class="cards">
+    <a href="/docs/student-practice.html" class="card primary">
+      <div class="card-icon">🎯</div>
+      <div class="card-content">
+        <div class="card-title">陷阱練習</div>
+        <div class="card-desc">10大陷阱分類，AI自適應難度，避開常見錯誤</div>
+      </div>
+    </a>
+    <a href="/ai-tutor.html" class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">AI 導師</div>
+      <div class="card-desc">蘇格拉底式引導，逐步解題，即時提示</div>
+      <div class="card-badge">NEW</div>
+    </a>
+    <a href="/docs/student-platform.html" class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-title">學習進度</div>
+      <div class="card-desc">陷阱指紋分析，弱點追蹤，進步曲線</div>
+    </a>
+    <a href="/docs/achievement-wall.html" class="card">
+      <div class="card-icon">🏆</div>
+      <div class="card-title">成就牆</div>
+      <div class="card-desc">32枚勳章，Boss挑戰，好友對戰</div>
+    </a>
+    <a href="/docs/student-journey.html" class="card">
+      <div class="card-icon">🗺️</div>
+      <div class="card-title">學習旅程</div>
+      <div class="card-desc">時間線回顧，里程碑，成長軌跡</div>
+    </a>
+  </div>
+</div>
+
+<!-- Trap Mastery -->
+<div class="section animate" id="trapSection" style="display:none">
+  <div class="section-title"><span class="icon">🪤</span>陷阱掌握度</div>
+  <div class="card" style="padding:16px">
+    <div class="trap-row" id="trapChips"></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-box animate">
+  <h3>🪤 今日陷阱挑戰</h3>
+  <p>每日10題，避開陷阱，提升呈分試成績！</p>
+  <a href="/docs/student-practice.html" class="cta-btn">開始練習 →</a>
+</div>
+
+</div>
+
+<script src="/docs/data/lf-navbar.js"></script>
+<script src="/docs/data/lf-core.js"></script>
+<script src="/docs/lf-gamification.js"></script>
+
+<script>
+(function(){
+  // Greeting
+  var h = new Date().getHours();
+  var g = h<12?'🌅 早晨！':h<18?'☀️ 午安！':'🌙 晚安！';
+  document.getElementById('greeting').textContent = g;
+
+  // Load data
+  var points = parseInt(localStorage.getItem('lf_points')||'0');
+  var streak = parseInt(localStorage.getItem('lf_streak')||'0');
+  document.getElementById('totalPoints').textContent = points;
+  document.getElementById('streakDays').textContent = streak;
+
+  // Calculate level
+  var level = Math.floor(points/100)+1;
+  var xpInLevel = points % 100;
+  var xpPct = Math.round(xpInLevel/100*100);
+  document.getElementById('userLevel').textContent = level;
+  document.getElementById('xpProgress').textContent = xpInLevel+'/100 XP';
+  document.getElementById('levelFill').style.width = xpPct+'%';
+
+  // Trap mastery from localStorage
+  var trapData = null;
+  try {
+    trapData = JSON.parse(localStorage.getItem('lf_trap_mastery')||'null');
+  } catch(e) {}
+
+  var trapNames = {
+    T1:'計算粗心',T2:'小數除法',T3:'運算順序',T4:'面積公式',
+    T5:'體積混淆',T6:'分數通分',T7:'百分比',T8:'速率單位',
+    T9:'代數移項',T10:'統計圖表'
+  };
+
+  if (trapData) {
+    document.getElementById('trapSection').style.display = 'block';
+    var chipsHtml = '';
+    Object.keys(trapNames).forEach(function(k){
+      var acc = trapData[k] ? trapData[k].accuracy : null;
+      var cls = acc===null?'untested':acc>=80?'good':acc>=50?'ok':'bad';
+      var icon = acc===null?'⬜':acc>=80?'✅':acc>=50?'🟡':'🔴';
+      chipsHtml += '<span class="trap-chip '+cls+'">'+icon+' '+trapNames[k]+'</span>';
+    });
+    document.getElementById('trapChips').innerHTML = chipsHtml;
+
+    // Weakest trap
+    var weakest = null, lowest = 100;
+    Object.keys(trapData).forEach(function(k){
+      if (trapData[k] && trapData[k].accuracy < lowest) {
+        lowest = trapData[k].accuracy;
+        weakest = k;
+      }
+    });
+    if (weakest && lowest < 60) {
+      document.getElementById('weakAlert').style.display = 'flex';
+      document.getElementById('weakTitle').textContent = '需要加強：'+trapNames[weakest];
+      document.getElementById('weakDesc').textContent = '正確率只有 '+lowest+'%，建議專注練習這個陷阱類型';
+    }
+  }
+
+  // Accuracy estimate
+  if (trapData) {
+    var totalCorrect = 0, totalAttempts = 0;
+    Object.values(trapData).forEach(function(t){
+      if (t) { totalCorrect += (t.correct||0); totalAttempts += (t.attempts||0); }
+    });
+    if (totalAttempts > 0) {
+      document.getElementById('accuracy').textContent = Math.round(totalCorrect/totalAttempts*100)+'%';
+    }
+  }
+
+  // Gamification
+  if (typeof LFGame !== 'undefined') {
+    LFGame.recordActivity();
+    var s = LFGame.getStreak();
+    if (s) document.getElementById('streakDays').textContent = s;
+  }
+
+  // Kids mode auto-detect
+  if (typeof LF_KIDS !== 'undefined' && LF_KIDS.shouldEnable && LF_KIDS.shouldEnable()) {
+    LF_KIDS.init();
+  }
+
+  console.log('[Student Hub] Initialized · Points: '+points+' · Streak: '+streak);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P3-上-L01 萬以內數的認識</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:14px; line-height:1.7; }
+  @media print { body { background:white; font-size:12px; } .pb { box-shadow:none; min-height:0; padding:24px 36px; } .pb.cover-page { page-break-after:always; } .page-break { page-break-before:always; } .no-print { display:none!important; } .qt .qw { background:none; border:1px dashed #D1D5DB; } .qt td { padding:5px 7px; } .qt { font-size:11px; } .qt .qtxt { font-size:12.5px; } .h1 { font-size:15px; } .kp { padding:8px 11px; } .mn { font-size:13px; padding:9px 12px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:36px 48px; display:flex; flex-direction:column; }
+  .f { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; } .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:18px; font-weight:700; line-height:1.15; } .fd .d { font-size:18px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .cover { justify-content:center; align-items:center; text-align:center; background:var(--white); }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:22px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:13px; letter-spacing:3px; margin:16px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:32px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:14px; color:var(--gray); margin-bottom:24px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:18px 24px; font-size:13px; line-height:2.1; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:14px; display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:18px; font-weight:900; color:var(--blue); padding:8px 14px; margin:20px 0 12px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:15px; font-weight:700; color:var(--blue); margin:16px 0 8px; padding-bottom:4px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:10px 0; padding:12px 16px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:6px; }
+  .kp-title { font-size:15px; font-weight:900; color:var(--blue); margin-bottom:6px; }
+  .kp-rules { font-size:13px; line-height:1.8; }
+  .kp-rules ol,.kp-rules ul { padding-left:20px; }
+  .ex { border:2px solid var(--gold); border-radius:8px; padding:12px 16px; margin:10px 0; background:#FFFDF5; }
+  .ex-title { font-size:14px; font-weight:900; color:#92400E; margin-bottom:6px; }
+  .ex-q { font-size:15px; font-weight:700; margin:6px 0; line-height:1.8; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:7px 12px; margin:8px 0; font-size:13px; font-weight:600; color:#991B1B; }
+  .tip { background:#F0FDF4; border-left:3px solid var(--green); padding:7px 12px; margin:8px 0; font-size:13px; font-weight:600; color:#166534; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:8px; padding:12px 16px; margin:10px 0; text-align:center; font-size:16px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:8px 0; font-size:13px; }
+  .qt th { background:var(--blue); color:white; padding:6px 10px; font-size:12px; font-weight:600; text-align:left; }
+  .qt td { padding:7px 10px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:36px; text-align:center; font-weight:700; }
+  .qt .qd { width:56px; text-align:center; font-size:11px; font-weight:700; }
+  .qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 26px,#E5E7EB 26px,#E5E7EB 27px); }
+  .qt .qtxt { font-size:14px; line-height:1.8; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:2px 6px; border-radius:3px; font-size:9px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; } .sm { background:#FEF3C7; color:#92400E; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:10px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:18px; color:var(--red); } .tc-r .eq { font-size:18px; color:var(--green); }
+  .tc-w .why { font-size:11px; color:#991B1B; margin-top:4px; } .tc-r .why { font-size:11px; color:#14532D; margin-top:4px; }
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:10px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:10px; padding:14px; text-align:center; }
+  .sc-i .n { width:34px;height:34px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:18px; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; }
+  .sc-i .t { font-size:14px; font-weight:900; } .sc-i .d { font-size:11px; color:var(--gray); line-height:1.4; margin-top:3px; }
+  .et { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; }
+  .et th { background:var(--red); color:white; padding:6px 10px; }
+  .et td { padding:6px 10px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:22px; padding-top:16px; border-top:1px solid var(--borderc); font-size:12px; color:var(--gray); }
+  .game-box { background:linear-gradient(135deg,#EFF6FF,#DBEAFE); border:2px dashed var(--blue); border-radius:12px; padding:16px; margin:10px 0; text-align:center; }
+  .game-box .gd { font-size:24px; } .game-box .gt { font-size:14px; font-weight:700; color:var(--blue); }
+  .big-num { font-size:22px; font-weight:900; color:var(--blue); letter-spacing:2px; }
+  .star { color:#F59E0B; font-size:16px; }
+  .pv-box { display:inline-block; border:2px solid var(--blue); border-radius:6px; padding:4px 10px; margin:2px; font-weight:700; text-align:center; min-width:50px; }
+  .pv-box .pv-val { font-size:20px; color:var(--blue); }
+  .pv-box .pv-label { font-size:10px; color:var(--gray); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小三 · 第 1 堂 · 學生版講義</div>
+  <div class="cv-title">萬以內數的認識</div>
+  <div class="cv-sub">單元一 · 位值與比較 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>核心陷阱：</b>🪤 讀數時「零」的位置 · 比較大小時只看最高位<br>
+    <b>前置知識：</b>100以內數的認識（小二）<br>
+    <b>本堂目標：</b>❶ 認識萬以內的數 ❷ 理解位值（個十百千）❸ 比較大小 ❹ 讀寫四位數<br>
+    <b>對應教材：</b>《小學數學新思維》3上A冊 單元一
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）<span class="star">⭐</span></div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">由 3 個百、5 個十、2 個一組成的數是＿＿＿？</td><td class="qd d1">🌱 基礎</td><td class="qw"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">寫出：九百九十九 = ＿＿＿</td><td class="qd d1">🌱 基礎</td><td class="qw"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">數數看：997 → 998 → 999 → ＿＿＿ → ＿＿＿</td><td class="qd d1">🌱 基礎</td><td class="qw"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">在 586 中，數字「8」在什麼位？代表多少？</td><td class="qd d2">🌿 進階</td><td class="qw"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">圈出較大的數：789 和 798，哪個大？點解？</td><td class="qd d2">🌿 進階</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：認識「千」和「萬」<span class="ss sm">⭐ 重點</span></div>
+    <div class="kp-rules">
+      ① <strong>10 個一 = 1 個十</strong>（10）<br>
+      ② <strong>10 個十 = 1 個百</strong>（100）<br>
+      ③ <strong>10 個百 = 1 個千</strong>（1000）<br>
+      ④ <strong>10 個千 = 1 個萬</strong>（10000）<br>
+      ⑤ 記住口訣：「<strong>逢十進一</strong>」——每滿 10 個就升一級！
+    </div>
+  </div>
+
+  <div class="game-box">
+    <div class="gd">🏰</div>
+    <div class="gt">數字城堡大冒險！</div>
+    <div style="font-size:13px;margin-top:4px;">個位係地面層 🏠 → 十位係一樓 🏢 → 百位係二樓 🏬 → 千位係三樓 🏰</div>
+    <div style="font-size:13px;">每上一層樓，數字大 10 倍！由地下行上去，愈高愈大！</div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">例題 1：讀出數字</div>
+    <div class="ex-q"><span class="big-num">3 5 2 8</span></div>
+    <div style="font-size:14px;margin-top:4px;">千位=3（3000） 百位=5（500） 十位=2（20） 個位=8（8）</div>
+    <div style="font-size:15px;font-weight:700;color:var(--green);margin-top:4px;">讀作：<strong>三千五百二十八</strong></div>
+  </div>
+
+  <div class="ex"><div class="ex-title">🪤 例題 2：有「0」時點算？（小陷阱怪獸出沒！）</div>
+    <div class="ex-q"><span class="big-num">4 0 0 5</span></div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">❌ 常見錯誤</div><div class="eq">四千<strong>零零</strong>五</div><div class="why">見到兩個「0」就讀兩次「零」！中間連續的 0 只需讀一次</div></div>
+      <div class="tc-r"><div class="lbl">✅ 正確讀法</div><div class="eq">四千<strong>零</strong>五</div><div class="why">中間連續的 0 只讀一個「零」：四千零五 ✓。規則：中間有零讀一次，尾零唔讀</div></div>
+    </div>
+  </div>
+
+  <div class="warn">⚠️ 小陷阱怪獸 #1：讀數時，數字中間的「0」要讀「零」，但只讀一次！例如：3005 = 三千零五（不是三千零零五）</div>
+  <div class="tip">💡 小貼士：讀數前，先用手指指著每個位（千、百、十、個），逐位讀出黎！</div>
+
+  <div class="h2">知識點一 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">用阿拉伯數字寫出：二千一百四十七 = ＿＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">讀出：7004 = ＿＿＿＿＿＿＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">5030 中的「5」在＿＿位，代表＿＿＿＿</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">圈出正確讀法：2008 = A.二千零八 B.二千零零八 C.二千八十</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：位值（Place Value）<span class="ss sm">⭐ 最重要！</span></div>
+    <div class="kp-rules">
+      每個數字在不同位置，代表的值不同！<br>
+      例：<strong>3</strong> 在千位 = 3000，<strong>3</strong> 在十位 = 30（差 100 倍！）<br>
+      <br>
+      <strong>位值表：</strong><br>
+      <table style="width:100%;text-align:center;margin:8px 0;font-size:16px;border-collapse:collapse;">
+        <tr style="background:var(--blue);color:white;"><td style="padding:8px;border:2px solid var(--blue);">千</td><td style="padding:8px;border:2px solid var(--blue);">百</td><td style="padding:8px;border:2px solid var(--blue);">十</td><td style="padding:8px;border:2px solid var(--blue);">個</td></tr>
+        <tr style="background:#DBEAFE;"><td style="padding:12px;border:2px solid var(--blue);font-size:24px;font-weight:900;">2</td><td style="padding:12px;border:2px solid var(--blue);font-size:24px;font-weight:900;">5</td><td style="padding:12px;border:2px solid var(--blue);font-size:24px;font-weight:900;">8</td><td style="padding:12px;border:2px solid var(--blue);font-size:24px;font-weight:900;">7</td></tr>
+        <tr style="background:#F0FDF4;"><td style="padding:6px;border:2px solid var(--blue);color:var(--green);font-weight:700;">2000</td><td style="padding:6px;border:2px solid var(--blue);color:var(--green);font-weight:700;">500</td><td style="padding:6px;border:2px solid var(--blue);color:var(--green);font-weight:700;">80</td><td style="padding:6px;border:2px solid var(--blue);color:var(--green);font-weight:700;">7</td></tr>
+      </table>
+      2587 = 2000 + 500 + 80 + 7
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題 3</div><div class="ex-q">3469 = 3 個＿＿ + 4 個＿＿ + 6 個＿＿ + 9 個＿＿</div></div>
+  <div class="ex"><div class="ex-title">🪤 例題 4：位值陷阱</div><div class="ex-q">數字「5」在 5231 和 1352 中代表的值一樣嗎？</div>
+  <div class="tc">
+    <div class="tc-w"><div class="lbl">❌ 小陷阱怪獸話</div><div class="eq">一樣，都係 5</div><div class="why">錯！5231 的 5 在千位 = 5000；1352 的 5 在十位 = 50</div></div>
+    <div class="tc-r"><div class="lbl">✅ 正確答案</div><div class="eq">唔同！5000 vs 50</div><div class="why">同一數字，唔同位 = 唔同值！差 100 倍呀！</div></div>
+  </div>
+
+  <div class="h2">知識點二 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">10</td><td class="qtxt">4721：千位是＿＿，代表＿＿＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">8306 = ＿＿個千 + ＿＿個百 + ＿＿個十 + ＿＿個一</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">數字「9」在 9 和 90 和 900 中，哪個最大？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">由 2 個千、0 個百、8 個十、5 個一組成的數是？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：比較大小<span class="ss sm">⭐</span></div>
+    <div class="kp-rules">
+      <strong>比較大小三步法：</strong><br>
+      ① 先睇<strong>位數</strong>：位數多 = 數大（四位數 > 三位數 > 兩位數）<br>
+      ② 位數相同 → 從<strong>最高位</strong>（千位）開始比較<br>
+      ③ 千位相同 → 比較百位 → 十位 → 個位<br>
+      <strong>符號：</strong> &gt;（大於） &lt;（小於） =（等於）
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例題 5</div><div class="ex-q">比較：3526 和 3489，哪個大？</div>
+  <div style="font-size:14px;">千位：3=3（平手！）→ 百位：5&gt;4 → <strong>3526 &gt; 3489</strong></div></div>
+
+  <div class="warn">⚠️ 小陷阱怪獸 #2：有學生見到 3489 個位係「9」，就話 3489 大啲。錯！比較要由<strong>最高位開始</strong>，唔係睇個位！</div>
+
+  <div class="h2">知識點三 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">14</td><td class="qtxt">填 &gt; &lt; = ：999 ＿＿ 1000</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">填 &gt; &lt; = ：4521 ＿＿ 4512</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">把以下數字由小至大排列：3201, 3021, 3210, 3120</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">最大四位數係？最小四位數係？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題，全體必做）<span class="star">⭐⭐⭐</span></div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">18</td><td class="qtxt">寫出：五千零八 = ＿＿＿＿（阿拉伯數字）</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">在 7294 中，百位數字是＿＿，代表＿＿＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">填 &gt; &lt; = ：3641 ＿＿ 3614</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題，🚶選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">21</td><td class="qtxt">由 3 個千、5 個一組成的數是多少？（注意：百位和十位呢？）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">5000 + 300 + 40 + 8 = ？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">用數字 2、5、0、8 組成最大的四位數和最小的四位數</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題，🚀選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">24</td><td class="qtxt">一個四位數，千位是4，百位比千位小1，十位是百位的兩倍，個位是0。這個數是？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">用 6、0、3、1 可以組成多少個不同的四位數？最小的係？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">26</td><td class="qtxt">一個數比 5000 多 372，比 6000 少 628。這個數是？</td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION + HOMEWORK ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、生活應用題（共 5 題）<span class="star">🎮</span></div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">27</td><td class="qtxt">🎪 遊戲樂園入場人數：星期六有 3528 人，星期日有 3671 人。哪一天人多？多多少人？（只比較，唔使計差）</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">28</td><td class="qtxt">🍬 糖果店有 2048 粒糖，讀出這個數量。如果包裝成每 1000 粒一箱，可以裝滿幾箱？剩幾粒？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">29</td><td class="qtxt">📚 圖書館有故事書 4721 本、漫畫 3999 本。哪類書較多？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">30</td><td class="qtxt">🏪 四個商店營業額：A店 2890元、B店 3105元、C店 2980元、D店 3050元。排營業額由高至低</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">31</td><td class="qtxt">🧧 農曆新年，爺爺給利是 1000 元、奶奶給 500 元、爸爸給 200 元、媽媽給 50 元。總共收了多少元？（寫出數字和讀法）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h1">五、課後功課<span class="star">📝</span></div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">讀出：6008 = ＿＿＿＿＿＿＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">寫出阿拉伯數字：四千三百二十 = ＿＿＿</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">2468 = ＿＿個千 + ＿＿個百 + ＿＿個十 + ＿＿個一</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">填 &gt; &lt; =：5780 ＿＿ 5870；4009 ＿＿ 4090</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">用 3、7、0、1 組最大的四位數：＿＿＿</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">一個數的千位是 5，十位是 3，其餘是 0。這個數是？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">把 5048、5480、5084、5804 由大至小排列</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">我有 2754 張貼紙，妹妹有 2999 張。誰較多？多幾張？（先比較，再計算差額）</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: ERROR TABLE + MNEMONIC + STEPS ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>讀數時「0」讀錯</strong>：3005 讀成「三千零零五」</td><td>中間的 0 只讀一次「零」：三千零五</td></tr>
+    <tr><td>2</td><td><strong>寫數漏 0</strong>：二千零五寫成 205（漏了百位和十位的 0）</td><td>二千零五 = 2005（用 0 填補空位！）</td></tr>
+    <tr><td>3</td><td><strong>位值概念混亂</strong>：以為 368 的「3」代表 3</td><td>「3」在百位 = 300，不是 3！</td></tr>
+    <tr><td>4</td><td><strong>比較大小由個位開始睇</strong></td><td>一定要由最高位（千位）開始比較！</td></tr>
+    <tr><td>5</td><td><strong>忘記位數不同時直接比較位數</strong></td><td>四位數一定大過三位數！999 &lt; 1000</td></tr>
+    <tr><td>6</td><td><strong>組成最大/最小數時，0 放在最左邊</strong></td><td>0 不可以放最左邊做首位！最小四位數的千位不能是 0</td></tr>
+    <tr><td>7</td><td><strong>「幾千幾百幾十幾」的讀寫混亂</strong></td><td>記住順序：千 → 百 → 十 → 個，逐個寫</td></tr>
+  </table>
+
+  <div class="mn">🧠 口訣一：「讀數由左至右，千百年個唔會漏；中間有零讀一次，尾零唔讀就最妙。」</div>
+  <div class="mn">🧠 口訣二：「比大小，先睇位數多少；位數同，由高比到低，千百年個順序排。」</div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">①</div><div class="t">睇位數</div><div class="d">數一數有幾多個數字</div></div>
+    <div class="sc-i"><div class="n">②</div><div class="t">定位值</div><div class="d">每個數字代表幾多</div></div>
+    <div class="sc-i"><div class="n">③</div><div class="t">讀/寫出</div><div class="d">千→百→十→個順序</div></div>
+    <div class="sc-i"><div class="n">④</div><div class="t">比大小</div><div class="d">由最高位開始比較</div></div>
+  </div>
+
+  <div class="tip" style="text-align:center;font-size:14px;">🌟 你做得到！小三元嘅數學旅程正式開始！記住：數字唔可怕，陷阱先可怕！我地一齊打敗小陷阱怪獸！💪</div>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P3-上-L01</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  LF-P3-上-L01 | 6頁 · 39題 | Ctrl+P 列印
+</div>
+</body>
+</html>

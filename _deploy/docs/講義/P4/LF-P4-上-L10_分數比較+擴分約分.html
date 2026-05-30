@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P4-上-L10 分數比較與擴分約分 — 學生版講義</title>
+<style>
+<link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; }
+@media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; margin:10px 0 6px; } .h2 { font-size:11px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex { padding:6px 9px; } .ex-q { font-size:11px; } .warn { font-size:10px; } .mn { font-size:11px; } .et { font-size:9.5px; } }
+.container { max-width:1000px; margin:0 auto; }
+.pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+.cover { justify-content:center; align-items:center; text-align:center; }
+.cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+.cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+.cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+.cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+.cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+.cv-info b { color:var(--blue); }
+.cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+.cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+.h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+.h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+.kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+.kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+.kp-rules { font-size:12px; line-height:1.7; } .ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+.ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+.ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+.warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+.mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+.qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+.qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; text-align:left; }
+.qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+.qt tr:nth-child(even) td { background:#FAFBFC; }
+.qt .qn { width:32px; text-align:center; font-weight:700; }
+.qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+.qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+.qt .qtxt { font-size:12.5px; line-height:1.65; }
+.d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+.d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+.ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+.sh { background:#FEE2E2; color:#991B1B; }
+.et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+.et th { background:var(--red); color:white; padding:4px 7px; }
+.et td { padding:4px 7px; border:1px solid var(--borderc); }
+.end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+.sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+.sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+.sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+.sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+.sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+.f { display:inline-flex; align-items:center; gap:2px; }
+.fd { border-bottom:2px solid var(--ink); min-width:12px; text-align:center; padding:0 3px; display:inline-block; }
+.fi { display:block; text-align:center; font-size:10px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小四 · 第 10 堂 · 學生版講義</div>
+  <div class="cv-title">分數比較與擴分約分入門</div>
+  <div class="cv-sub">擴分 · 約分 · 比較分數大小 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》4上B冊 單元六（續）<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🟡 中高頻</span> 擴分約分係P5異分母加減基礎，呈分試必考<br>
+    <b>前置知識：</b>L08 分數類型 · L09 同分母分數加減<br>
+    <b>本堂目標：</b>❶ 同分母分數比較大小 ❷ 擴分（分子分母乘同一數）❸ 約分（分子分母除同一數）❹ 異分母分數比較<br>
+    <b>核心陷阱：</b>🪤 T28 擴分只乘分子 · T29 約分用錯除數 · T30 比較唔同分母直接比分子
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">比較：<span class="f"><span class="fd">3</span><span class="fi">8</span></span> 和 <span class="f"><span class="fd">5</span><span class="fi">8</span></span>，邊個大？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt"><span class="f"><span class="fd">1</span><span class="fi">2</span></span> = <span class="f"><span class="fd">?</span><span class="fi">4</span></span>（擴分：分子分母各乘 2）</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt"><span class="f"><span class="fd">4</span><span class="fi">8</span></span> = <span class="f"><span class="fd">1</span><span class="fi">?</span></span>（約分：分子分母各除 4）</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt"><span class="f"><span class="fd">2</span><span class="fi">3</span></span> 和 <span class="f"><span class="fd">3</span><span class="fi">5</span></span>，邊個大？（提示：擴分成同分母再比較）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">三個分數：<span class="f"><span class="fd">1</span><span class="fi">3</span></span>、<span class="f"><span class="fd">1</span><span class="fi">2</span></span>、<span class="f"><span class="fd">2</span><span class="fi">5</span></span>。由小到大排列。</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：同分母分數比較 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① 分母相同 → <b>分子愈大 = 分數愈大</b>（每份一樣大，份數多 = 大啲）<br>
+      ② 例：<span class="f"><span class="fd">3</span><span class="fi">7</span></span> < <span class="f"><span class="fd">5</span><span class="fi">7</span></span>（3份 < 5份，每份一樣大）<br>
+      ③ 同分子比較：分子相同時，<b>分母愈大 = 分數愈小</b>（分母大 = 每份細）<br>
+      ④ 例：<span class="f"><span class="fd">1</span><span class="fi">3</span></span> > <span class="f"><span class="fd">1</span><span class="fi">5</span></span>（同樣取1份，1/3嗰份大過1/5嗰份）
+    </div>
+  </div>
+
+<div class="ex"><div class="ex-title">🪤 陷阱引爆：分母唔可以就咁加！</div><div class="ex-q">計算：1/4 + 2/4 = ?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ 常見錯誤</div><div class="eq">1/4 + 2/4 = 3/8<br>（分子加分子·分母加分母）</div><div class="why">同分母分數相加：只加分子，分母保持不變！</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確做法</div><div class="eq">1/4 + 2/4 = <strong>3/4</strong><br>分子：1+2=3<br>分母：4（保持不變）</div><div class="why">分母代表「每份有幾大」，相加時份數變多但每份大小不變！</div></div>
+</div></div>
+
+
+  <div class="kp">
+    <div class="kp-title">知識點二：擴分與約分 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>擴分：</b>分子和分母同時乘<b>同一個數</b>（不是0），數值不變<br>
+      &nbsp;&nbsp;例：<span class="f"><span class="fd">1</span><span class="fi">2</span></span> = <span class="f"><span class="fd">1×2</span><span class="fi">2×2</span></span> = <span class="f"><span class="fd">2</span><span class="fi">4</span></span> = <span class="f"><span class="fd">1×3</span><span class="fi">2×3</span></span> = <span class="f"><span class="fd">3</span><span class="fi">6</span></span><br>
+      ② <b>約分：</b>分子和分母同時除<b>同一個數</b>（公因數），數值不變<br>
+      &nbsp;&nbsp;例：<span class="f"><span class="fd">6</span><span class="fi">8</span></span> = <span class="f"><span class="fd">6÷2</span><span class="fi">8÷2</span></span> = <span class="f"><span class="fd">3</span><span class="fi">4</span></span><br>
+      ③ <b>關鍵：</b>擴分同約分都唔會改變分數的數值！只係寫法唔同！
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例1</div><div class="ex-q">比較 <span class="f"><span class="fd">3</span><span class="fi">4</span></span> 和 <span class="f"><span class="fd">2</span><span class="fi">3</span></span>。（擴分成同分母：LCM of 4,3=12 → <span class="f"><span class="fd">9</span><span class="fi">12</span></span> vs <span class="f"><span class="fd">8</span><span class="fi">12</span></span> → <span class="f"><span class="fd">3</span><span class="fi">4</span></span> > <span class="f"><span class="fd">2</span><span class="fi">3</span></span>）</div></div>
+  <div class="ex"><div class="ex-title">例2</div><div class="ex-q">把 <span class="f"><span class="fd">12</span><span class="fi">18</span></span> 約簡到最簡分數。（分子分母除 HCF=6 → <span class="f"><span class="fd">2</span><span class="fi">3</span></span>）</div></div>
+
+  <div class="warn">⚠️ 致命陷阱：擴分只乘分子唔乘分母！<span class="f"><span class="fd">1</span><span class="fi">2</span></span>不能變成<span class="f"><span class="fd">2</span><span class="fi">2</span></span> ❌！分子分母必須一齊乘。否則數值變咗！</div>
+  <div class="warn">⚠️ 約分陷阱：12和18除6變2/3 ✓。但有人除3變4/6（未約到最簡！）。要搵最大公因數！</div>
+</div>
+
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+  <div class="h2">🌱 基礎層（全體必做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">比較：<span class="f"><span class="fd">5</span><span class="fi">9</span></span> 和 <span class="f"><span class="fd">7</span><span class="fi">9</span></span></td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">擴分：<span class="f"><span class="fd">2</span><span class="fi">5</span></span> = <span class="f"><span class="fd">?</span><span class="fi">15</span></span></td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">約分：<span class="f"><span class="fd">8</span><span class="fi">12</span></span> = <span class="f"><span class="fd">?</span><span class="fi">?</span></span></td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（🚶🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">9</td><td class="qtxt">比較：<span class="f"><span class="fd">3</span><span class="fi">4</span></span> 和 <span class="f"><span class="fd">5</span><span class="fi">6</span></span>（擴分成同分母）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">把以下分數由小到大排列：<span class="f"><span class="fd">2</span><span class="fi">3</span></span>、<span class="f"><span class="fd">1</span><span class="fi">2</span></span>、<span class="f"><span class="fd">3</span><span class="fi">4</span></span></td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">以下哪些分數等於 <span class="f"><span class="fd">1</span><span class="fi">2</span></span>？<span class="f"><span class="fd">2</span><span class="fi">4</span></span>、<span class="f"><span class="fd">3</span><span class="fi">5</span></span>、<span class="f"><span class="fd">4</span><span class="fi">8</span></span>、<span class="f"><span class="fd">5</span><span class="fi">10</span></span></td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">12</td><td class="qtxt"><span class="f"><span class="fd">3</span><span class="fi">8</span></span> = <span class="f"><span class="fd">?</span><span class="fi">24</span></span> = <span class="f"><span class="fd">15</span><span class="fi">?</span></span>。填上兩個 ? 的數字。</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">一個分數，約分兩次後變成 <span class="f"><span class="fd">2</span><span class="fi">3</span></span>。第一次除 2，第二次除 3。原來分數 = ？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">五個分數：<span class="f"><span class="fd">3</span><span class="fi">5</span></span>、<span class="f"><span class="fd">2</span><span class="fi">3</span></span>、<span class="f"><span class="fd">7</span><span class="fi">10</span></span>、<span class="f"><span class="fd">1</span><span class="fi">2</span></span>、<span class="f"><span class="fd">4</span><span class="fi">5</span></span>。搵出最大同最小。</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 終極挑戰（🚀 選做，共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">15</td><td class="qtxt">一個分數，分子和分母的和是 48。約簡後變成 <span class="f"><span class="fd">3</span><span class="fi">5</span></span>。原來分數 = ？</td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">介乎 <span class="f"><span class="fd">1</span><span class="fi">3</span></span> 和 <span class="f"><span class="fd">1</span><span class="fi">2</span></span> 之間，分母為 12 的分數 = ？</td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">四、應用題（SSPA 文字題）</div>
+  <div class="ex"><div class="ex-title">例3</div><div class="ex-q">小明用了 <span class="f"><span class="fd">3</span><span class="fi">8</span></span> 小時溫書，小美用了 <span class="f"><span class="fd">1</span><span class="fi">4</span></span> 小時。誰用的時間較多？</div></div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">17</td><td class="qtxt">甲吃了薄餅的 <span class="f"><span class="fd">2</span><span class="fi">5</span></span>，乙吃了 <span class="f"><span class="fd">3</span><span class="fi">10</span></span>。誰吃得較多？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">三條繩：A = <span class="f"><span class="fd">5</span><span class="fi">6</span></span>m，B = <span class="f"><span class="fd">3</span><span class="fi">4</span></span>m，C = <span class="f"><span class="fd">7</span><span class="fi">8</span></span>m。邊條最長？邊條最短？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">一瓶水，第一天飲了 <span class="f"><span class="fd">1</span><span class="fi">3</span></span>，第二天飲了 <span class="f"><span class="fd">2</span><span class="fi">5</span></span>。哪一天飲得多？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">兩款朱古力：A款 <span class="f"><span class="fd">3</span><span class="fi">8</span></span> kg，B款 <span class="f"><span class="fd">5</span><span class="fi">12</span></span> kg。哪款較重？兩款共重多少？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">蛋糕分成 <span class="f"><span class="fd">2</span><span class="fi">5</span></span>、<span class="f"><span class="fd">1</span><span class="fi">4</span></span>、<span class="f"><span class="fd">3</span><span class="fi">10</span></span>。最大的那份是整蛋糕的幾分之幾？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">五、課後功課</div>
+  <div class="h2">基礎必做（共 6 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">比較：<span class="f"><span class="fd">4</span><span class="fi">11</span></span> 和 <span class="f"><span class="fd">7</span><span class="fi">11</span></span></td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">擴分：<span class="f"><span class="fd">3</span><span class="fi">7</span></span> = <span class="f"><span class="fd">?</span><span class="fi">21</span></span></td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">約分：<span class="f"><span class="fd">9</span><span class="fi">15</span></span> = <span class="f"><span class="fd">?</span><span class="fi">?</span></span>（約到最簡）</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">比較：<span class="f"><span class="fd">2</span><span class="fi">3</span></span> 和 <span class="f"><span class="fd">4</span><span class="fi">6</span></span>（擴分或約分後比較）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt"><span class="f"><span class="fd">5</span><span class="fi">6</span></span> 和 <span class="f"><span class="fd">7</span><span class="fi">9</span></span>，邊個大？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">把 <span class="f"><span class="fd">18</span><span class="fi">24</span></span> 約簡到最簡分數。</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+  <div class="h2">進階選做（共 2 題，🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個分數，約簡後 = <span class="f"><span class="fd">3</span><span class="fi">4</span></span>。原分數的分子和分母之和 = 35。原分數 = ？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">搵出兩個分數，他們的數值都在 <span class="f"><span class="fd">1</span><span class="fi">2</span></span> 和 1 之間，而且分母都是 8。</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr>
+    <tr><td>1</td><td><b>擴分只乘分子</b>：<span class="f"><span class="fd">1</span><span class="fi">2</span></span>→<span class="f"><span class="fd">2</span><span class="fi">2</span></span> ❌</td><td>分子分母一齊乘！<span class="f"><span class="fd">1×2</span><span class="fi">2×2</span></span>=<span class="f"><span class="fd">2</span><span class="fi">4</span></span></td></tr>
+    <tr><td>2</td><td><b>約分只用分子除</b>：<span class="f"><span class="fd">6</span><span class="fi">8</span></span>→<span class="f"><span class="fd">3</span><span class="fi">8</span></span> ❌</td><td>分子分母一齊除！<span class="f"><span class="fd">6÷2</span><span class="fi">8÷2</span></span>=<span class="f"><span class="fd">3</span><span class="fi">4</span></span></td></tr>
+    <tr><td>3</td><td><b>異分母直接用分子比</b>：<span class="f"><span class="fd">3</span><span class="fi">4</span></span> vs <span class="f"><span class="fd">5</span><span class="fi">6</span></span> → 5>3 當後者大</td><td>先擴分成同分母！<span class="f"><span class="fd">3</span><span class="fi">4</span></span>=<span class="f"><span class="fd">9</span><span class="fi">12</span></span> > <span class="f"><span class="fd">5</span><span class="fi">6</span></span>=<span class="f"><span class="fd">10</span><span class="fi">12</span></span>→<span class="f"><span class="fd">3</span><span class="fi">4</span></span> < <span class="f"><span class="fd">5</span><span class="fi">6</span></span></td></tr>
+    <tr><td>4</td><td><b>約簡唔徹底</b>：<span class="f"><span class="fd">6</span><span class="fi">9</span></span>→<span class="f"><span class="fd">2</span><span class="fi">3</span></span> ✓，但<span class="f"><span class="fd">8</span><span class="fi">12</span></span>→<span class="f"><span class="fd">4</span><span class="fi">6</span></span> ❌（仲可以再除2）</td><td>要搵最大公因數！8和12的HCF=4→<span class="f"><span class="fd">2</span><span class="fi">3</span></span></td></tr>
+    <tr><td>5</td><td><b>分數比較口訣混淆</b>：同分母睇分子（分子大=大）定睇分母？</td><td>同分母→睇分子（大=大）。同分子→睇分母（大=細！）</td></tr>
+    <tr><td>6</td><td><b>「最簡分數」概念不清</b></td><td>最簡分數=分子和分母的HCF=1（互質）。不能再約。</td></tr>
+    <tr><td>7</td><td><b>擴分倍數揀錯</b>：想擴成同分母但LCM搵錯</td><td>先找分母的LCM，再將每個分數擴到LCM做分母</td></tr>
+  </table>
+
+  <div class="mn">🧠 口訣：「擴分分子分母一齊乘，約分一齊除公因數。同分母睇分子大，異分母先擴分再比較。」</div>
+
+  <div class="h1">七、解題四步卡</div>
+  <div class="sc">
+    <div class="sc-card"><div class="snum">1</div><div class="stitle">睇分母</div><div class="sdetail">分母相同？→直接比分子。分母唔同？→做Step 2。</div></div>
+    <div class="sc-card"><div class="snum">2</div><div class="stitle">搵LCM</div><div class="sdetail">找出兩個分母的LCM。呢個係你要擴成的共同分母。</div></div>
+    <div class="sc-card"><div class="snum">3</div><div class="stitle">擴分</div><div class="sdetail">每個分數擴分：分子分母乘同一個數，令分母=LCM。</div></div>
+    <div class="sc-card"><div class="snum">4</div><div class="stitle">比分子</div><div class="sdetail">分母相同之後，分子大=分數大。答案記得寫原分數！</div></div>
+  </div>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-上-L10</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L10 | 44題 · 擴分約分
+</div>
+</body>
+</html>

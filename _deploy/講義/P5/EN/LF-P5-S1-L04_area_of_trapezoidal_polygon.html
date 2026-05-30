@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S1-L04 Area of ​​trapezoid and polygon — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  @media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; min-height:0; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; margin:10px 0 6px; } .h2 { font-size:11px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex { padding:6px 9px; } .ex-q { font-size:11px; } .warn { font-size:10px; padding:4px 7px; } .mn { font-size:11px; padding:7px 9px; } .et { font-size:9.5px; } .fig-label { font-size:9px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+  .cover { justify-content:center; align-items:center; text-align:center; }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+  .cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+  .ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+  .ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+  .qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; text-align:left; }
+  .qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:32px; text-align:center; font-weight:700; }
+  .qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:72px; }
+  .qt .qtxt { font-size:12.5px; line-height:1.65; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:7px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:12px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:12px; text-align:center; }
+  .tc-w .lbl { font-size:13px; font-weight:900; color:var(--red); margin-bottom:3px; }
+  .tc-r .lbl { font-size:13px; font-weight:900; color:var(--green); margin-bottom:3px; }
+  .tc-w .eq { font-size:15px; color:var(--red); }
+  .tc-r .eq { font-size:15px; color:var(--green); }
+  .et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+  .et th { background:var(--red); color:white; padding:4px 7px; }
+  .et td { padding:4px 7px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+  .fig-row { display:flex; gap:18px; align-items:flex-start; justify-content:center; flex-wrap:wrap; margin:10px 0; }
+  .fig-card { text-align:center; }
+  .fig-title { font-size:12px; font-weight:700; color:var(--blue); margin-bottom:4px; }
+  .fig-inline { display:inline-flex; align-items:center; gap:10px; vertical-align:middle; margin:3px 6px; }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ══ COVER ══ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · 4th Lesson · Student Handout</div>
+<div class="cv-title">Area of ​​trapezoid and polygon</div>
+<div class="cv-sub">trapeziumformula · Segmentation · Filling · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5, Part A, + Modern Education, Part 5, Unit 3-4<br/>
+<b>Core Trap:</b>Correct or wrong size after segmentation<br/>SSPA related:<br/>
+<b>🔴 High frequency</b><span class="ss sh">Presents the core of sub-test geometry questions, P6 basics of circular area</span>Prerequisite knowledge:<br/>
+<b>❶ Trapezoid area = (upper base + lower base) × height ÷ 2 ❷ Find the area of polygons by division method ❸ Find the area of polygons by filling method ❹ Comprehensive solution to area word problems</b>P4 area of ​​square/rectangle · P5 area of ​​parallelogram/triangle<br/>
+<b>Our goals:</b>❶ Trapezoid area = (upper base + lower base) × height ÷ 2 ❷ Find the area of ​​polygons by division method ❸ Find the area of ​​polygons by filling method ❹ Comprehensive solution to area word problems</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span><span>Class: <span class="ln"></span></span><span>Date: <span class="ln"></span></span><span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ══ PAGE 2: WARM-UP + KP1 ══ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）— reviewparallelogramandtrianglearea</div>
+  <div class="story-box"><div class="story-title">🏠 海洋公園熊貓館</div>新起嘅熊貓館係長方形，長15米闊8米。設計師要鋪地板，需要幾多平方米嘅木板？面積=長×闊，即刻計到！</div>海洋公園 —「熊貓館佔地幾多平方米？用面積公式計吓！」</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">The parallelogram has a base of 8 cm and a height of 5 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Triangular base 10 cm, height 6 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">The rectangle is 12 cm long and 7 cm wide. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">The area of ​​a parallelogram is 48 cm² and its base is 8 cm. High = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">The area of ​​the triangle in the figure below = ?<br/>
+<svg height="130" viewbox="0 0 190 130" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,80 155,80 95,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="95" x2="95" y1="20" y2="80"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="107" y="50">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="95" y="102">b</text></svg>
+</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: Trapezoidal area formula 🔴 SSPA required test</div>
+<div class="kp-rules">
+      ① <strong>Trapezoid |||SEP|||: A quadrilateral with only one pair of parallel sides. The two parallel sides are called</strong>upper base<strong>and</strong>lower base<strong>Area formula: trapezoid area = (upper base + lower base) × height ÷ 2</strong><br/>
+      ② <strong>③ Height =</strong><br/>vertical distance between upper base and lower base<strong>(not the hypotenuse!)</strong>④ Two identical trapezoids can be combined into a parallelogram → so the formula is<br/>⑤ Reverse: Height = Area × 2 ÷ (Upper Base + Lower Base); Upper Base + Lower Base = Area × 2 ÷ Height<strong>÷2</strong><br/>⑤ Reverse calculation: height = area × 2 ÷ (upper base + lower base); upper base + lower base = area × 2 ÷ height</div>
+</div>
+<div class="game-box"><div class="game-title">📐 幾何探險家</div><div class="game-desc">計算面積&體積，小心公式陷阱！三角形要除2、梯形上下底唔好調轉！</div><div class="game-action">🔍 開始探險 →</div></div>
+
+<div class="fig-row">
+<div class="fig-card">
+<div class="fig-title">Trapezoidal area = (upper base + lower base) × height ÷ 2</div>
+<svg height="135" viewbox="0 0 210 135" width="210" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,95 175,95 145,20 65,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="65" x2="65" y1="20" y2="95"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="77" y="58">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="105" y="117">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="105" y="12">b₁</text></svg>
+</div>
+<div class="fig-card">
+<div class="fig-title">Two identical trapezoids → parallelogram</div>
+<svg height="145" viewbox="0 0 280 145" width="280" xmlns="http://www.w3.org/2000/svg"><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="140" y="60">Two identical trapezoids</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="140" y="85">form a parallelogram</text><text fill="#DC2626" font-size="13" font-weight="700" text-anchor="middle" x="140" y="115">so the area of ​​the trapezoid must be divided by 2</text></svg>
+</div>
+</div>
+<div class="warn">Most frequent error: forgetting ÷2! The formula for a trapezoid is different from that of a parallelogram and must be divided by 2.</div>
+<div class="warn">(Upper base + lower base) ÷ 2 × height has the same result as (upper base + lower base) × height ÷ 2, but it is recommended to multiply the height first and then ÷ 2 to avoid errors in fraction calculations.</div>
+<div class="ex"><div class="ex-title">Example 1</div><div class="ex-q">The upper base of the trapezoid is 5 cm, the lower base is 9 cm, and the height is 4 cm. Area = ?<br/><span style="font-size:10px;color:var(--gray);">(substitute directly: (5+9)×4÷2)</span></div></div>
+<div class="ex"><div class="ex-title">Example 2</div><div class="ex-q">The area of ​​the trapezoid is 42 cm², upper base + lower base = 14 cm. High = ?<br/><span style="font-size:10px;color:var(--gray);">(reverse calculation: height = 42×2÷14 = 6 cm)</span></div></div>
+</div>
+══ PAGE 3: KP1 continuation + KP2 ══
+<div class="pb">
+<div class="ex"><div class="ex-title">Example 3</div><div class="ex-q">The upper base of the trapezoid is 7 cm, the lower base is 13 cm, and the height is 6 cm. Area = ?<br/>
+<span style="font-size:10px;color:var(--gray);">(Note: The question may also give the length of the hypotenuse 10 cm - that is redundant information! Only take the top, bottom, bottom and height)</span>
+</div></div>
+<div class="ex"><div class="ex-title">Example 4</div><div class="ex-q">The trapezoid has an area of ​​80 cm², a height of 8 cm, and a top and bottom of 6 cm. Bottom = ?<br/><span style="font-size:10px;color:var(--gray);">(First find upper bottom + lower bottom = 80×2÷8 = 20, lower bottom = 20−6 = 14 cm)</span></div></div>
+<div class="kp" style="margin-top:10px;">
+<div class="kp-title">Knowledge point 2: Polygon area - segmentation method 🔴 SSPA</div>
+<div class="kp-rules">
+      ① <strong>Segmentation method |||SEP|||: Cut the irregular polygon</strong>into<strong>several simple shapes (rectangle, square, triangle, trapezoid)</strong>② Calculate the area of each simple shape separately, and then<br/>add them all up<strong>③ Key: The dividing line should be drawn on</strong><br/>Know the position of the size<strong>to ensure that each small shape can be calculated</strong>④ Tip: "It can be cut horizontally or vertically. The dimensions must be aligned after cutting. Mark A B C first, count each one and then add them up."<br/>④ Tip: "You can cut horizontally or vertically. The dimensions must be aligned after cutting. Mark A B C first, count them one by one, and then add them up."</div>
+</div>
+<div class="fig-row">
+<div class="fig-card">
+<div class="fig-title">L-shaped dividing method: cut into two rectangles</div>
+<svg height="130" viewbox="0 0 220 130" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="70" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="65" y="121">70</text><rect fill="#DCFCE7" height="40" stroke="#1A3C6D" stroke-width="3" width="90" x="100" y="65"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="145" y="121">90</text><line stroke="#6B7280" stroke-dasharray="5,2" stroke-width="1" x1="100" x2="100" y1="15" y2="105"></line></svg>
+</div>
+<div class="fig-card">
+<div class="fig-title">Convex-shaped segmentation: cut into three pieces</div>
+<svg height="130" viewbox="0 0 180 130" width="180" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="35" stroke="#1A3C6D" stroke-width="3" width="120" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="64">120</text><rect fill="#DCFCE7" height="55" stroke="#1A3C6D" stroke-width="3" width="60" x="60" y="50"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="119">60</text><line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="60" x2="120" y1="50" y2="50"></line></svg>
+</div>
+</div>
+<div class="ex"><div class="ex-title">Example 5</div><div class="ex-q">L-shaped pattern (refer to the left picture above): the vertical part is 12 cm long and 6 cm wide, and the horizontal part is 8 cm long and 4 cm wide. Find the total area using the division method.</div></div>
+<div class="ex"><div class="ex-title">Example 6</div><div class="ex-q">Convex shape (refer to the right picture above): the upper raised part is 3 cm × 2.5 cm, the middle horizontal bar is 12 cm × 3.2 cm, and the lower body is 8 cm × 5 cm. Total area = ?</div></div>
+</div>
+══ PAGE 4: KP3 + KP4 + Layering🌱 ══
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 3: Polygon area - filling method 🔴 SSPA</div>
+<div class="kp-rules">
+      ① <strong>Filling method |||SEP|||: Fill the irregular shape</strong>into<strong>a large simple shape, and then</strong>subtract the excess part<strong>② Suitable for graphics with "gaps" and "concaves"</strong>③ The formula: "First make up to make it generous, and then reduce the excess. Make up to make it complete, and reduce to make it accurate."<br/>② Suitable for graphics with “gaps” and “concaves”<br/>③ Tip: "First make up to make it generous, and then reduce the excess. Make up to make it complete, and reduce to make it accurate."</div>
+</div>
+<div class="fig-row">
+<div class="fig-card">
+<div class="fig-title">Instructions for filling method: concave shape</div>
+<svg height="130" viewbox="0 0 200 130" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="140" x="30" y="15"></rect><rect fill="#FFFFFF" height="50" stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2.5" width="50" x="75" y="35"></rect><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="100" y="60">dig away</text></svg>
+</div>
+</div>
+<div class="warn">Use "Add" for the division method and "Subtract" for the filling method. Look at the graph to decide which one is more convenient! It is faster to use the filling method for recessed areas.</div>
+<div class="ex"><div class="ex-title">Example 7</div><div class="ex-q">Concave-shaped pattern (refer to the picture above): The outer frame is a large rectangle of 14 cm × 8 cm, and a small rectangle of 6 cm × 4 cm is cut out in the middle. Find the remaining area.</div></div>
+<div class="kp" style="margin-top:10px;">
+<div class="kp-title">Knowledge point 4: Area word questions 🔴 SSPA must take the exam</div>
+<div class="kp-rules">
+      ① <strong>Determine the shape first</strong>(Trapezoid? L-shape? Combined shape?) → Select the corresponding method (formula/split/fill)<br/>
+      ② <strong>The units must be consistent |||SEP|||: Convert different units first (cm→m, mm→cm)</strong>③ At the end of the application question, you must write<br/>Answer<strong>and</strong>unit<strong>unit</strong>
+</div>
+</div>
+<div class="ex"><div class="ex-title">Example 8</div><div class="ex-q">The upper base of the trapezoidal garden bed is 6 m, the lower base is 10 m, and the height is 5 m. If 3 flowers are planted per m², how many flowers can be planted in total?<br/><span style="font-size:10px;color:var(--gray);">(First find the area → then multiply by the number of trees per m² → write the answer)</span></div></div>
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (required by everyone, total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">The upper base of the trapezoid is 6 cm, the lower base is 10 cm, and the height is 4 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">The upper base of the trapezoid is 5 cm, the lower base is 8 cm, and the height is 6 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">The upper base of the trapezoid is 9 cm, the lower base is 11 cm, and the height is 5 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">The L-shaped pattern can be divided into two rectangles: A (8×3 cm) and B (5×4 cm), with total area = ?<br/>
+<span style="font-size:10px;color:var(--gray);">(Segmentation method: first calculate the area of ​​A, then calculate the area of ​​B, and add them together)</span>
+</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">Take a large rectangle of 15 cm × 10 cm and cut out a small rectangle of 7 cm × 4 cm. Remaining area = ?<br/>
+<span style="font-size:10px;color:var(--gray);">(filling method: large − small square)</span>
+</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ══ PAGE 5: 🌿 + 🌳 ══ -->
+<div class="pb">
+<div class="h2">Advanced layer (🚶🚀 choose do, total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">The trapezoid has an area of ​​56 cm², a height of 7 cm, and a top and bottom of 6 cm. Bottom = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">Trapezoidal upper base + lower base = 18 cm, height = 5 cm. Area = ?<br/><span style="font-size:10px;color:var(--gray);">(You don’t need to know the upper and lower bottoms separately! Use and substitute directly)</span></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt">The area of ​​the combined shape (left rectangle + right rectangle) in the figure below = ?<br/>
+<svg height="130" viewbox="0 0 220 130" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="70" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="65" y="121">70</text><rect fill="#DCFCE7" height="40" stroke="#1A3C6D" stroke-width="3" width="90" x="100" y="65"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="145" y="121">90</text><line stroke="#6B7280" stroke-dasharray="5,2" stroke-width="1" x1="100" x2="100" y1="15" y2="105"></line></svg>
+</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">The picture below shows a triangle added to a rectangle. The total area = ?<br/>
+<div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="90" viewbox="0 0 210 90" width="210" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="50" stroke="#1A3C6D" stroke-width="3" width="140" x="35" y="15"></rect><polyline fill="none" points="45,15 45,25 35,25" stroke="#1A3C6D" stroke-width="2"></polyline><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="105" y="83">l</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="end" x="21" y="40">w</text></svg></div><div class="fig-card"><svg height="105" viewbox="0 0 210 105" width="210" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,55 175,55 105,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="105" x2="105" y1="20" y2="55"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="117" y="38">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="105" y="77">b</text></svg></div></div>
+</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">The trapezoid has an area of ​​96 cm², a lower base of 14 cm, and an upper base of 10 cm. High = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (🚀 choose do, total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">16</td><td class="qtxt">The upper base of a trapezoid is half the lower base. Bottom 12 cm, height 5 cm. Area = ?<br/>
+<span style="font-size:10px;color:var(--gray);">(Find the upper and lower parts first = 12÷2 = 6 → Substitute into the formula)</span>
+</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">The upper base of the isosceles trapezoid in the picture on the right is 4 cm, the lower base is 8 cm, and the height is 6 cm. Area = ?<br/>
+<svg height="120" viewbox="0 0 150 120" width="150" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,80 115,80 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="80"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="67" y="50">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="75" y="102">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg>
+</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">Combined graphics: A large rectangle of 15×10 cm can be made up, minus a 5×4 cm gap. Remaining area = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">
+<div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="104" viewbox="0 0 150 120" width="130" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,70 115,70 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="70"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="67" y="45">h=9</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="75" y="90">b₂</text><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg></div></div>The trapezoid has an area of ​​108 cm², a height of 9 cm, and the upper base is 4 cm less than the lower base. How much are the upper and lower bases?<br/>
+<span style="font-size:10px;color:var(--gray);">(First find upper base + lower base = 108×2÷9=24, set lower base = x upper base = x−4 → 2x−4=24)</span>
+</td><td class="qd d3">🌳</td><td class="qw" style="min-height:66px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">
+<div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="110" viewbox="0 0 140 110" width="140" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="70" stroke="#1A3C6D" stroke-width="3" width="80" x="30" y="15"></rect><rect fill="#FFFFFF" height="40" stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2.5" width="36" x="52" y="30"></rect><text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="70" y="50">dig away</text></svg></div></div>Concave glyph area = ? The outer frame is 20 cm × 12 cm, and the middle rectangular gap is 10 cm × 6 cm.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+══ PAGE 6: Application questions ══
+<div class="pb">
+<div class="h1">IV.areaapplicationquestion（total 6 question）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">21</td><td class="qtxt">The upper base of the trapezoidal garden bed is 4 m, the lower base is 8 m, and the height is 5 m. Garden area = ? m²</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">A trapezoidal wall has an upper base of 3 m, a lower base of 7 m, and a height of 4 m. To paint, use 0.2 L of paint per m². How many liters are needed in total?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">An L-shaped living room that can be divided into two rectangles: 6 m × 4 m and 3 m × 5 m. Total living room area = ? m²</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">The terraced field is 20 m above ground, 30 m below ground, and 15 m high. Four vegetables can be planted per m². How many vegetables can be planted in total?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt"><div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="88" viewbox="0 0 150 120" width="110" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,70 115,70 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="70"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="67" y="45">h</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="75" y="90">b₂</text><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg></div><div class="fig-card"><svg height="68" viewbox="0 0 120 90" width="90" xmlns="http://www.w3.org/2000/svg"><rect fill="#DCFCE7" height="40" stroke="#1A3C6D" stroke-width="3" width="50" x="35" y="15"></rect><polyline fill="none" points="45,15 45,22 35,22" stroke="#1A3C6D" stroke-width="2"></polyline><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="60" y="73">l</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="end" x="21" y="35">w</text></svg></div></div>A polygonal square = trapezoid + rectangle. Trapezoid: upper base 5 m, lower base 9 m, height 4 m. Rectangle: 8 m × 6 m. Total area = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">An irregular piece of land, with a 4 m × 3 m parking space dug out from a 15 m × 10 m rectangle. Remaining area = ? m²</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">V.🏔️ Ultimate challenge area (total 3 questions, 🚀 choose do, SSPA finale + competition level)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">
+<div class="fig-row" style="margin:0;"><div class="fig-card"><svg height="104" viewbox="0 0 150 120" width="130" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,70 115,70 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="70"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="67" y="45">h=8</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="75" y="90">b₂</text><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg></div></div>Trapezoidal area 120 cm², height 8 cm. The upper sole is 6 cm less than the lower sole. How much are the upper and lower bases?<br/>
+<span style="font-size:10px;color:var(--gray);">(Set lower base=x, upper base=x−6 → (2x−6)×8÷2=120 → solve x)</span>
+</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">A pentagon can be divided into three parts: triangle (base 10, height 4) + rectangle (10×6) + trapezoid (base 6, base 10, height 3). Total area = ?<br/>
+<svg height="120" style="display:block;margin:4px 0;" viewbox="0 0 240 120" width="240" xmlns="http://www.w3.org/2000/svg"><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="120" y="30">Calculate into three parts:</text><text fill="#D97706" font-size="10" text-anchor="middle" x="120" y="50">Triangle A = Base x Height/2</text><text fill="#1A3C6D" font-size="10" text-anchor="middle" x="120" y="70">Rectangle B = Length</text><text fill="#16A34A" font-size="10" text-anchor="middle" x="120" y="90">梯形 C = (a+b)xh/2</text><text fill="#DC2626" font-size="10" text-anchor="middle" x="120" y="112">總面積 = A + B + C</text></svg>
+</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:84px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">A trapezoid has the upper base twice as high as the lower base and the height as three times the lower base. Bottom 4 cm. Area = ?<br/>
+<span style="font-size:10px;color:var(--gray);">(Calculation: upper bottom=8, height=12 → (8+4)×12÷2)</span>
+</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+══ PAGE 7: Homework + Common Mistakes ══
+<div class="pb">
+<div class="h1">VI.Class afterhomework</div>
+<div class="h2">Basic must-do (total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">The upper base of the trapezoid is 7 cm, the lower base is 13 cm, and the height is 5 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">The upper base of the trapezoid is 4 cm, the lower base is 10 cm, and the height is 8 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">The upper base of the trapezoid is 8 cm, the lower base is 12 cm, and the height is 5 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">The L shape can be divided into two rectangles of 9×3 cm and 6×5 cm. Total area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">Large rectangle 14×10 cm, cut out 6×4 cm. Remaining area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">For advanced, choose do (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">The area of ​​the trapezoid is 63 cm², upper base + lower base = 18 cm. High = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">The upper base of the trapezoid is 3 times the lower base, which is 5 cm and the height is 6 cm. Area = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">The trapezoid has an area of ​​90 cm², a height of 6 cm, and the lower base is twice as large as the upper base. How much are the upper and lower bases?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">VII. The Lessoncorecommon errorsummary</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Forget the trapezoid ÷2 |||SEP|||: Treat it as a parallelogram</strong>: Treated as a parallelogram</td><td>Trapezoid = (upper base + lower base) × height |||SEP|||. Must ÷2!<span style="color:#DC2626;font-weight:900;">÷2</span>. Must ÷2!</td></tr>
+<tr><td>2</td><td><strong>(upper bottom + lower bottom) ÷ 2 and forget to multiply by height</strong></td><td>Three steps of the complete formula: (upper bottom + lower bottom) → × height → ÷2, no steps can be missed</td></tr>
+<tr><td>3</td><td><strong>High use of wrong hypotenuse length</strong></td><td>Height =<span style="color:#DC2626;font-weight:900;">vertical distance</span>between two bases, not the hypotenuse!</td></tr>
+<tr><td>4</td><td><strong>The size after division is correct |||SEP|||: The position of the dividing line is incorrect, resulting in the wrong size</strong>: Incorrect position of dividing line leads to wrong size</td><td>After division, the side length of each small shape must be inferred from the original drawing dimension.</td></tr>
+<tr><td>5</td><td><strong>Filling method to reduce errors |||SEP|||: error in generous size or gap size</strong>: Wrong square size or notch size</td><td>Confirm whether the "generous" and "part to be reduced" dimensions correspond to the original image</td></tr>
+<tr><td>6</td><td><strong>Superfluous information interference (T4 trap) |||SEP|||: Unnecessary data is used</strong>: Used unnecessary data</td><td>Determine the shape→Determine what data is needed→Use only necessary data and ignore interference items</td></tr>
+<tr><td>7</td><td><strong>A certain part of the combined figure is omitted</strong></td><td>Mark A, B, C one by one, making sure each block is calculated and added up</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「Area of ​​trapezoid and polygon」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「Area of ​​trapezoid and polygon」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related topics: L03 Area of ​​parallelograms and triangles · L04 Area of ​​trapezoidal polygons · L05 Special area trap</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 7 pages · 45 questions | LF-P5-S1-L04 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt" style="font-size:11px">The parallelogram has a base of 8 cm and a height of 5 cm. Area = ?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">2</td><td class="qtxt" style="font-size:11px">Triangular base 10 cm, height 6 cm. Area = ?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">3</td><td class="qtxt" style="font-size:11px">The rectangle is 12 cm long and 7 cm wide. Area = ?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">4</td><td class="qtxt" style="font-size:11px">The area of ​​a parallelogram is 48 cm² and its base is 8 cm. High = ?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">5</td><td class="qtxt" style="font-size:11px">The area of ​​the triangle in the figure below = ?
+hb</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+</table>
+<div style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！🟢=自動計算 🟡=請向老師確認</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+name: Daily Blog Generator
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at 8am HKT (UTC+8 = 0:00 UTC)
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate blog post
+        run: python scripts/auto_blog.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "LF Blog Bot"
+          git config user.email "blog-bot@lfamy.github.io"
+          git add docs/blog/ data/published_blogs.json
+          git diff --staged --quiet || (git commit -m "auto: daily blog post $(date +%Y-%m-%d)" && git pull --rebase origin main && git push)

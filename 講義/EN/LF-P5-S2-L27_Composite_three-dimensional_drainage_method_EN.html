@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S2-L27 Composite three-dimensional + drainage method — Student Handout v6 (EN)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:90px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:16px; color:var(--red); }
+  .tc-r .eq { font-size:16px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .svg-wrap { text-align:center; margin:10px 0; }
+  .svg-wrap svg { max-width:100%; }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · Lesson 27 · Student Handout</div>
+<div class="cv-title">Composite three-dimensional + drainage method</div>
+<div class="cv-sub">Unit 1/4 · 3D shapeadvanced · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5B Units 1 and 4 + Modern Education 5B Unit 1 and 4<br/>
+<b>Core traps:</b>🪴 T1 Composite solid - double counting of overlapping parts · T4 Drainage method - rising water level vs overflow confusion<br/>
+<b>SSPA association:</b><span class="ss sh">🔴 High frequency</span>Commonly used in paper two, accounting for about 8-10%<br/>
+<b>Prerequisite knowledge:</b>Class 26 (Volume and surface area of cuboid/cube) · P4 Basic concepts of volume<br/>
+<b>Objective of this class:</b>❶ Calculate the volume by composite solid segmentation method ❷ Calculate the volume of irregular objects by drainage method ❸ Overflow problem ❹ Comprehensive application</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+
+<div class="game-box"><div class="game-title">🏆 陷阱獵人·計時挑戰</div><div class="game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！</div><div class="game-action">⭐ 開始挑戰 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Cuboid 8×6×4 cm. Volume = ?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">The side length of the cube is 5 cm. Volume = ?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">A rectangular water tank is 20×15×10 cm. How many cm³ can it hold at most?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Calculation: 12³ = ? (i.e. 12×12×12)</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">How would you calculate the volume of an L-shaped solid (consisting of two cuboids)? Write out your approach.</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: Volume of a composite solid (division method/complementation method) 🔴 SSPA</div>
+<div class="kp-rules">
+<strong>Compound solid = a shape formed by the combination of two or more simple solids. Two solution methods:</strong><br/>
+      ① <strong>Segmentation method (recommended) |||SEP|||: Cut the composite solid into several cuboids/cubes → find the volumes separately → add up</strong>Complementary method |||SEP|||: Fill the missing corners into a complete cuboid → Find the larger volume → Subtract the supplemented part<br/>
+      ② <strong>Key: Do not repeatedly calculate the overlapping parts!</strong>④ Steps: draw auxiliary lines → mark the dimensions of each segment → calculate by segments → add up<br/>
+      ③ <strong>Key: Don’t double-count overlapping parts!</strong><br/>④ Steps: Draw auxiliary lines → mark the dimensions of each segment → calculate by segments → add up</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪴 Trap detonation example (most common mistakes)</div>
+<div class="ex-q">The picture below shows an L-shaped composite volume: bottom layer 10×6×3 cm, upper layer on the right 4×6×4 cm. Total volume = ?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (55% students)</div><div class="eq">Treat it all as a large cuboid:<br/>V = 10×6×7 = 420 cm³ ❌</div><div class="why">The L shape is not a complete cuboid, the upper left corner is empty! Multiplying directly will overcount the empty part.</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution (segmentation method)</div><div class="eq">Ground floor: 10×6×3 = 180 cm³<br/>Upper layer: 4×6×4 = 96 cm³<br/>Total = 180+96 =<strong>276 cm³</strong></div><div class="why">Cut into two rectangles, calculate each and then add up.</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "A composite solid needs to be divided. Draw a line to cut the canal. Calculate the volume of each piece clearly. Add and bury it to determine the total volume!"</div>
+<div class="warn">⚠️ The most frequent error: treating the composite solid as a complete cuboid and directly multiplying it by the peripheral dimensions.</div>
+<div class="warn">⚠️ The second most frequent error: the overlapping part is counted twice after segmentation. The dividing lines must be at the border and not overlap.</div>
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">🔷L-shaped compound solid - example of segmentation method</strong><br/>
+<svg height="120" viewbox="0 0 220 120" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="100" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="80" y="111">100</text><rect fill="#DCFCE7" height="40" stroke="#1A3C6D" stroke-width="3" width="60" x="130" y="55"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="160" y="111">60</text><line stroke="#6B7280" stroke-dasharray="5,2" stroke-width="1" x1="130" x2="130" y1="15" y2="95"></line></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Bottom w₁×h₁ + right upper layer w₂×h₂. The dividing line (gray dotted line) cuts the L shape into two cuboids, and the volumes are calculated separately and then added.</div>
+</div>
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:8px 0;">
+<div style="flex:1; min-width:200px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">🔶T-shaped composite three-dimensional</strong><br/>
+<svg height="130" viewbox="0 0 180 130" width="180" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="35" stroke="#1A3C6D" stroke-width="3" width="120" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="64">120</text><rect fill="#DCFCE7" height="55" stroke="#1A3C6D" stroke-width="3" width="50" x="65" y="50"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="119">50</text><line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="65" x2="115" y1="50" y2="50"></line></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Lower horizontal bar w_top×h_top + upper vertical bar w_bot×h_bot. Use the same dividing method: cut into upper and lower pieces and count them separately.</div>
+</div></div>
+<div style="flex:1; min-width:200px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">🔲 Hollowing out a solid - example of complementation method</strong><br/>
+<svg height="130" viewbox="0 0 200 130" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="140" x="30" y="15"></rect><rect fill="#FFFFFF" height="45" stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2.5" width="45" x="77" y="37"></rect><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="99" y="59">dig away</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Complete cuboid − removed solid = remaining volume. Complementary method: first calculate the large cuboid, and then subtract the hollowed out part.</div>
+</div></div>
+</div>
+<div class="h2">Knowledge Point - Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">T-shaped composite three-dimensional: lower layer 12×8×3 cm, upper layer (standing in the middle) 6×8×5 cm. Total volume = ? (Picture segmentation calculation)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt">Ladder-shaped three-dimensional (three layers): bottom layer 10×5×2 cm, middle layer 8×5×2 cm, top layer 6×5×2 cm. Total volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">Example 3</td><td class="qtxt">Use the complement method to find: A cuboid is 8×6×5 cm, and the upper right corner is cut off (3×3×2 cm). Remaining volume = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+<div class="h2">Knowledge Point 1 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">L-shaped solid: bottom layer 8×5×2 cm, upper layer on the right side 3×5×3 cm. Total volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">T-shaped three-dimensional: lower width 14×6×3 cm, upper vertical (center) 4×6×5 cm. Total volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">Cuboid 10×8×6 cm, with one corner cut off (4×4×3 cm). Remaining volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP1 cont + KP2 ═══════════════ -->
+<div class="pb">
+<div class="h2">Knowledge Point—advanced practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">9</td><td class="qtxt">Cross-shaped composite solid: horizontal cuboid 20×5×3 cm, vertical cuboid 5×12×5 cm passing through the center. Total volume = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">The composite solid is composed of cube A (side length 8 cm) and cube B (side length 5 cm) laminated together (one side is completely laminated). Total volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">Glue 3 identical cubes (side length 4 cm) in a row. The total volume of the composite solid = ? Surface area = ? (Note that the adhesive surface is not included in SA)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Knowledge point 2: Drainage method - finding the volume of irregular objects 🔴 SSPA required test</div>
+<div class="kp-rules">
+<strong>Archimedes' principle (drainage method):</strong><br/>① Completely immerse the object in the water → the volume of the rising water level = the volume of the object<br/>
+      ② <strong>Core formula: volume of the object = bottom area of the container × rising height of the water level</strong><br/>③ That is: V<sub>object</sub> = L<sub>container</sub> × W<sub>container</sub> × (h<sub>Back</sub> − h<sub>Before</sub>)<br/>
+      ④ <strong>Prerequisites</strong>: Object must<strong>completely submerged</strong>in water; water cannot overflow</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">❶</div><div class="t">before immersion</div><div class="d">Record the original water level height h₁</div></div>
+<div class="sc-i"><div class="n">❷</div><div class="t">fully immersed</div><div class="d">Objects submerged in water must not come out of the water</div></div>
+<div class="sc-i"><div class="n">❸</div><div class="t">after immersion</div><div class="d">Record the new water level height h₂</div></div>
+<div class="sc-i"><div class="n">❹</div><div class="t">calculate</div><div class="d">V = base area × (h₂−h₁)</div></div>
+</div>
+<div class="ex">
+<div class="ex-title">🪴 Trap detonation example</div>
+<div class="ex-q">The rectangular water tank is 20×15×10 cm, with an original water depth of 4 cm. After placing a stone (completely submerged), the water level rose to 7 cm. Volume of stone = ?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (40% students)</div><div class="eq">V = 20×15×7 = 2100 cm³ ❌</div><div class="why">This calculation is "the total volume of water + stone now", not the volume of stone!</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">Base area = 20×15 = 300 cm²<br/>Water level rise = 7−4 = 3 cm<br/>Stone volume = 300×3 =<strong>900 cm³</strong></div><div class="why">Key: rising "water level difference" × bottom area = volume of the object</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "The drainage method is used to find the volume, not the total water volume! Multiply the bottom area by the water level difference, multiply by the amount of the rise!"</div>
+<div class="warn">⚠️ Fatal error: Use the "water level after immersion" to directly multiply the bottom area and forget to subtract the "original water level".</div>
+</div>
+<!-- ═══════════════ PAGE 4: KP2 practice + KP3 ═══════════════ -->
+<div class="pb">
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">💧 Schematic diagram of drainage method — Archimedes’ principle</strong><br/>
+<svg height="190" viewbox="0 0 390 190" width="390" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="90" stroke="#1A3C6D" stroke-width="3" width="160" x="15" y="15"></rect><rect fill="#BAE6FD" height="30" stroke="#7DD3FC" stroke-width="1.5" width="160" x="15" y="75"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="7" x2="183" y1="75" y2="75"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="start" x="189" y="79">30cm</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="125">Before putting in</text><rect fill="#FFFFFF" height="90" stroke="#1A3C6D" stroke-width="3" width="160" x="215" y="15"></rect><rect fill="#BAE6FD" height="55" stroke="#7DD3FC" stroke-width="1.5" width="160" x="215" y="50"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="207" x2="383" y1="50" y2="50"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="start" x="389" y="54">55cm</text><rect fill="#93C5FD" height="45" stroke="#1A3C6D" stroke-width="2.5" width="45" x="272" y="60"></rect><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="294" y="82">Stone</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="295" y="125">After putting in (completely submerged)</text><line stroke="#DC2626" stroke-width="2.5" x1="187" x2="187" y1="75" y2="50"></line><polygon fill="#DC2626" points="183,54 191,54 187,48"></polygon><text fill="#DC2626" font-size="13" font-weight="700" text-anchor="start" x="201" y="62">+25cm</text><text fill="#16A34A" font-size="14" font-weight="700" text-anchor="middle" x="195" y="157">Water surface rise = volume of object ÷ bottom area</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Left: water level before input wb cm. Right: water level wa cm after input. Water level rise = wa−wb cm. Volume of object = bottom area of ​​container × (wa−wb). Key: The object must be completely submerged!</div>
+</div>
+<div class="mn">🧠 Three steps of drainage method: ① Calculate the bottom area (container length × width) ② Calculate the water level difference (new − old) ③ Volume = bottom area × water level difference</div>
+<div class="h2">Knowledge Point 2 Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 4</td><td class="qtxt">The water tank is 25×10×15 cm, and the original water depth is 5 cm. After adding the iron block, the water level rose to 9 cm. Volume of iron block = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">Example 5</td><td class="qtxt">The bottom area of ​​the water tank is 200 cm², and the original water depth is 6 cm. The water level rose by 4 cm after the object was placed. Object volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">Example 6</td><td class="qtxt">The water tank is 30×20×20 cm, and the original water depth is 8 cm. Place an object with a volume of 1200 cm³ (completely submerged). new water level = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+<div class="h2">Knowledge Point 2 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">12</td><td class="qtxt">The water tank is 15×10×12 cm, and the original water depth is 3 cm. The water level rose to 8 cm after placing the stones. Volume of stone = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt">The bottom area of ​​the water tank is 150 cm², and the original water depth is 5 cm. The water level rose by 6 cm after placing the metal block. Volume of metal block = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">The water tank is 40×25×30 cm, and the original water depth is 10 cm. Place an object with a volume of 2000 cm³. new water level = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">The side length of the cube water tank is 20 cm, and the original water depth is 8 cm. Place a cube of iron with side length 10 cm (completely submerged). new water level = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Knowledge point 3: Overflow problem (water level exceeds the height of the container) 🔴 SSPA killer question</div>
+<div class="kp-rules">
+<strong>When the object placed is too large and the water level exceeds the height of the container:</strong><br/>① Calculate first: the theoretical water level after placing the object = original water level + object volume ÷ bottom area<br/>② If the theoretical water level &gt; container height → water will overflow<br/>
+      ③ <strong>Overflow water amount = (theoretical water level − container height) × bottom area</strong><br/>④ Or: Overflow amount of water = volume of object − (available space in container)<br/>⑤ Available space in container = bottom area × (container height − original water level)</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪴 Trap detonation example</div>
+<div class="ex-q">The water tank is 20×15×10 cm, and the original water depth is 6 cm. Place a stone with a volume of 1500 cm³ (completely submerged). How many cm³ of water spilled?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (60% students)</div><div class="eq">Theoretical water level = 6 + 1500÷(20×15)<br/>= 6 + 5 = 11 cm<br/>11 &gt; 10, so water spills 1 cm high<br/>Overflow = 20×15×1 = 300 cm³<br/>The answer 300 cm³? is actually correct...but</div><div class="why">The mistake most students make is: using the drainage method formula without checking whether there is overflow! Or forgot to subtract the free space.</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution (available space method)</div><div class="eq">Available space = 20×15×(10−6)<br/>= 300×4 = 1200 cm³<br/>1500 &gt; 1200, so overflow<br/>Overflow = 1500−1200<br/>= <strong>300 cm³</strong></div><div class="why">Both methods are available. It is more intuitive to use the "available space method" - first calculate how much can be installed.</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "First calculate how much available space there is. If the object is too large, it will leak out - how much it will leak out = object volume - available space."</div>
+<div class="warn">⚠️ The step most likely to leak: When you see the "overflow problem", you must first check whether the water level exceeds the height of the container! It will be wrong to directly apply the drainage formula without checking it.</div>
+<div class="h2">Knowledge Point Three Worked Examples + Synchronous Practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 7</td><td class="qtxt">The water tank is 15×10×8 cm, and the original water depth is 5 cm. Place an object with a volume of 600 cm³. Will the water overflow? How much overflow?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">Example 8</td><td class="qtxt">Water tank 30×20×15 cm, water depth 12 cm. Place a cube of iron with a side length of 10 cm. Will the water overflow? How much overflow?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">The water tank is 20×10×10 cm, and the original water depth is 7 cm. Place an object with a volume of 500 cm³. Overflow water volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">Water tank 25×20×12 cm, water depth 10 cm. Place an object with a volume of 800 cm³. Overflow water volume = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: SVG + TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="svg-wrap">
+<img src="_svg/L27_disp.svg" style="max-width:100%;height:auto;"/>
+</div>
+<div class="h1">📐 3D shape reference pictures (or lesspracticequestions need to refer to these graphics)</div>
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0;">
+<div style="flex:1; min-width:160px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">L-shaped composite three-dimensional</strong><br/>
+<svg height="120" viewbox="0 0 220 120" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="100" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="80" y="111">100</text><rect fill="#DCFCE7" height="40" stroke="#1A3C6D" stroke-width="3" width="60" x="130" y="55"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="160" y="111">60</text><line stroke="#6B7280" stroke-dasharray="5,2" stroke-width="1" x1="130" x2="130" y1="15" y2="95"></line></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Reference Q1, Q3, Q6, Q18, Q23</div>
+</div></div>
+<div style="flex:1; min-width:160px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">T-shaped composite three-dimensional</strong><br/>
+<svg height="130" viewbox="0 0 180 130" width="180" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="35" stroke="#1A3C6D" stroke-width="3" width="120" x="30" y="15"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="64">120</text><rect fill="#DCFCE7" height="55" stroke="#1A3C6D" stroke-width="3" width="50" x="65" y="50"></rect><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="119">50</text><line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="65" x2="115" y1="50" y2="50"></line></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Reference Q7</div>
+</div></div>
+<div style="flex:1; min-width:160px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">Hollow out the three-dimensional</strong><br/>
+<svg height="130" viewbox="0 0 200 130" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="140" x="30" y="15"></rect><rect fill="#FFFFFF" height="45" stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2.5" width="45" x="77" y="37"></rect><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="99" y="59">dig away</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Refer to Q3, Q8, Q20</div>
+</div></div>
+</div>
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:10px 0;">
+<div style="flex:1; min-width:200px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">Standard cuboid</strong><br/>
+<svg height="170" viewbox="0 0 230 170" width="230" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="70" stroke="#1A3C6D" stroke-width="3" width="120" x="25" y="35"></rect><polygon fill="#DBEAFE" points="25,35 45,15 165,15 145,35" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="145,35 165,15 165,85 145,105" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="85" y="121">l</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Length (l) × width (w) × height (h). V=l×w×h. SA=2(lw+lh+wh).</div>
+</div></div>
+<div style="flex:1; min-width:280px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">Drainage method standard diagram (complete submersion, rising water level)</strong><br/>
+<svg height="190" viewbox="0 0 390 190" width="390" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="90" stroke="#1A3C6D" stroke-width="3" width="160" x="15" y="15"></rect><rect fill="#BAE6FD" height="30" stroke="#7DD3FC" stroke-width="1.5" width="160" x="15" y="75"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="7" x2="183" y1="75" y2="75"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="start" x="189" y="79">30cm</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="125">Before putting in</text><rect fill="#FFFFFF" height="90" stroke="#1A3C6D" stroke-width="3" width="160" x="215" y="15"></rect><rect fill="#BAE6FD" height="55" stroke="#7DD3FC" stroke-width="1.5" width="160" x="215" y="50"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="207" x2="383" y1="50" y2="50"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="start" x="389" y="54">55cm</text><rect fill="#93C5FD" height="45" stroke="#1A3C6D" stroke-width="2.5" width="45" x="272" y="60"></rect><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="294" y="82">Stone</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="295" y="125">After putting in (completely submerged)</text><line stroke="#DC2626" stroke-width="2.5" x1="187" x2="187" y1="75" y2="50"></line><polygon fill="#DC2626" points="183,54 191,54 187,48"></polygon><text fill="#DC2626" font-size="13" font-weight="700" text-anchor="start" x="201" y="62">+25cm</text><text fill="#16A34A" font-size="14" font-weight="700" text-anchor="middle" x="195" y="157">Water surface rise = volume of object ÷ bottom area</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">🔴Red letters mark water level changes. Bottom area × water level difference = object volume (not bottom area × new water level!)</div>
+</div></div>
+</div>
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 5 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">18</td><td class="qtxt">L-shaped solid: bottom layer 6×4×2 cm, upper right side 2×4×3 cm. Total volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">The water tank is 20×10×15 cm, and the original water depth is 5 cm. The water level rose to 9 cm after placing the stones. Volume of stone = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">Cuboid 15×10×8 cm, with one corner cut off (5×5×4 cm). Remaining volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">The bottom area of ​​the water tank is 120 cm², and the original water depth is 4 cm. The water level rose by 5 cm after the object was placed. Object volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">Water tank 18×12×10 cm, water depth 8 cm. Is there room to put another object with a volume of 360 cm³ without overflowing?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 5 questions, 🚶🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">23</td><td class="qtxt">Compound solid: cube A (side length 6 cm) is placed on top of cube B (side length 4 cm, centered). Total volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">The water tank is 30×20×25 cm, and the original water depth is 10 cm. Place an object with a volume of 3000 cm³. new water level = ? Will the water overflow?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">The side length of the cube water tank is 15 cm and the water depth is 10 cm. Place a cube of iron with a side length of 8 cm. new water level = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">Water tank 24×16×18 cm, water depth 14 cm. Place a cube with side length 6 cm. Overflow water volume = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">An empty water tank 20×15×12 cm. First, 2400 cm³ of water is injected, and then a stone with a volume of 600 cm³ is placed. Final water depth = ? Is the water overflowing?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: CHALLENGE + APPLICATION ═══════════════ -->
+<div class="pb">
+<div class="h2">🌳 challenge layer (total 3 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">28</td><td class="qtxt"><div class="svg-wrap"><svg height="80" viewbox="0 0 220 80" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="40" stroke="#1A3C6D" stroke-width="2.5" width="40" x="15" y="20"></rect><text fill="#1A3C6D" font-size="8" font-weight="700" text-anchor="middle" x="35" y="40">5x5</text><text fill="#1A3C6D" font-size="7" text-anchor="middle" x="35" y="50">Square</text><rect fill="#DCFCE7" height="25" stroke="#1A3C6D" stroke-width="2.5" width="80" x="55" y="35"></rect><text fill="#1A3C6D" font-size="8" font-weight="700" text-anchor="middle" x="95" y="50">8x5x3</text><text fill="#1A3C6D" font-size="7" text-anchor="middle" x="95" y="60">Connected cuboids</text><rect fill="#DBEAFE" height="40" stroke="#1A3C6D" stroke-width="2.5" width="40" x="135" y="20"></rect><text fill="#1A3C6D" font-size="8" font-weight="700" text-anchor="middle" x="155" y="40">5x5</text><text fill="#1A3C6D" font-size="7" text-anchor="middle" x="155" y="50">Square</text></svg></div>A U-shaped composite solid (there is a cube on each side, connected by a cuboid in the middle): the left cube has a side length of 5 cm, the right cube has a side length of 5 cm, and the middle connecting cuboid is 8×5×3 cm. Total volume = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">Water tank 50×30×40 cm, water depth 25 cm. Place object A (volume 9000 cm³) first, then object B (volume 6000 cm³). Final water depth = ? Did water spill out during the process? If so, how much overflow?</td><td class="qd d4">🏔</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">The rectangular water tank is 30×20×15 cm and the water depth is 10 cm. First remove 400 cm³ of water and then add a stone (volume 700 cm³). Final water depth = ?</td><td class="qd d4">🏔</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+<div class="h1">IV.applicationquestionspecial topic (SSPA text question)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space (column → calculate → answer sentence)</th></tr>
+<tr><td class="qn">31</td><td class="qtxt">An L-shaped planter consists of two parts: the bottom layer is 100 cm long, 40 cm wide and 30 cm high; the upper layer is 40 cm long, 40 cm wide and 50 cm high on the right side. What is the total volume of the planter in cm³? How many m³ is it?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">The internal length of a rectangular fish tank is 50 cm, the width is 30 cm, and the height is 40 cm. The original water depth is 25 cm. After placing a rockery (completely submerged), the water level rose to 32 cm. What is the volume of the rockery in cm³?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">33</td><td class="qtxt">A rectangular water tank is 40×25×20 cm with a water depth of 15 cm. A stone with a volume of 4000 cm³ is placed. (a) Will the water spill? (b) If there is overflow, how many cm³ is overflowed?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">34</td><td class="qtxt">The side length of the cube water tank is 20 cm, and the original water depth is 12 cm. Place a metal cube with a side length of 8 cm. (a) Volume of metal block = ? (b) How many cm did the water level rise? (c) Final water depth = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">35</td><td class="qtxt">The inside of a water tank is 60 cm long, 40 cm wide, and 30 cm high. There is water in the tank, the water depth is 20 cm. Put all 5 identical cube metal blocks (each side is 6 cm long) into the water. (a) Total volume of 5 metal blocks = ? (b) Will the water level overflow? (c) Final water depth = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 7: MORE APP + HOMEWORK ═══════════════ -->
+<div class="pb">
+<div class="h2">applicationquestion (continued)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">36</td><td class="qtxt">A composite solid consists of a cuboid (20 × 10 × 8 cm) and a cube (side length 6 cm), with the cube attached to the center of the top of the cuboid. Total volume = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">37</td><td class="qtxt">Water tank 35×25×18 cm, water depth 12 cm. After dropping an irregular stone block (completely submerged), the water depth becomes 16 cm. Volume of stone = ? If the stone is removed and an object with a volume of 2000 cm³ is placed in it, will the water overflow?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:90px;"></td></tr>
+</table>
+<div class="h1">V.🏔️ Ultimate challenge area</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔1</td><td class="qtxt"><div class="svg-wrap"><svg height="80" viewbox="0 0 200 80" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="60" stroke="#1A3C6D" stroke-width="3" width="70" x="20" y="10"></rect><rect fill="#BAE6FD" height="35" stroke="#7DD3FC" stroke-width="1.5" width="70" x="20" y="35"></rect><text fill="#DC2626" font-size="9" font-weight="700" text-anchor="middle" x="55" y="30">Water height=h</text><rect fill="#FFFFFF" height="60" stroke="#1A3C6D" stroke-width="3" width="70" x="130" y="10"></rect><rect fill="#BAE6FD" height="60" stroke="#7DD3FC" stroke-width="1.5" width="70" x="130" y="10"></rect><text fill="#DC2626" font-size="9" font-weight="700" text-anchor="middle" x="165" y="50">Full! 15cm</text></svg></div>Water tank 30×20×15 cm. First inject some water to a depth of h cm. After placing a cube with a side length of 10 cm, the water level is just full (15 cm) without overflowing. Find the original water depth h.</td><td class="qd d4">🏔</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">🏔2</td><td class="qtxt"><div class="svg-wrap"><svg height="90" viewbox="0 0 200 90" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="30" stroke="#1A3C6D" stroke-width="3" width="70" x="60" y="45"></rect><text fill="#1A3C6D" font-size="8" font-weight="700" text-anchor="middle" x="95" y="63">Side length 10cm</text><rect fill="#DCFCE7" height="20" stroke="#1A3C6D" stroke-width="2.5" width="44" x="73" y="25"></rect><text fill="#1A3C6D" font-size="8" font-weight="700" text-anchor="middle" x="95" y="37">Side length 7cm</text><rect fill="#FEF3C7" height="13" stroke="#1A3C6D" stroke-width="2" width="24" x="83" y="12"></rect><text fill="#1A3C6D" font-size="7" font-weight="700" text-anchor="middle" x="95" y="21">4cm</text></svg></div>A composite solid is formed by stacking three cubes (pyramid-shaped): the bottom cube has a side length of 10 cm, the middle cube has a side length of 7 cm, and the top cube has a side length of 4 cm, all stacked in the center. (a) Total volume = ? (b) If this composite solid is placed in a cubic tank filled with water (side length 15 cm, water depth 8 cm), will the water overflow? How much overflow? (assuming full submersion)</td><td class="qd d4">🏔</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">🏔3</td><td class="qtxt"><div class="svg-wrap"><svg height="80" viewbox="0 0 200 80" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="60" stroke="#1A3C6D" stroke-width="2.5" width="55" x="15" y="10"></rect><rect fill="#BAE6FD" height="45" stroke="#7DD3FC" stroke-width="1" width="55" x="15" y="25"></rect><text fill="#1A3C6D" font-size="8" font-weight="700" text-anchor="middle" x="42" y="90">A:h=10</text><rect fill="#FFFFFF" height="60" stroke="#1A3C6D" stroke-width="2.5" width="55" x="90" y="10"></rect><rect fill="#BAE6FD" height="37" stroke="#7DD3FC" stroke-width="1" width="55" x="90" y="33"></rect><text fill="#1A3C6D" font-size="8" font-weight="700" text-anchor="middle" x="117" y="90">B:h=7</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="80" y="45">1200cm³→</text></svg></div>Tank A (30×20×15 cm, water depth 10 cm) and tank B (25×15×12 cm, water depth 7 cm). Take 1200 cm³ water from water tank A and pour it into water tank B. (a) New water depth in tank A = ? (b) New water depth in tank B = ? (c) Is there any water overflowing from tank B?</td><td class="qd d4">🏔</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">VI.Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">L-shaped three-dimensional: bottom layer 10×6×4 cm, upper right side 4×6×3 cm. Total volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">The water tank is 25×12×15 cm, and the original water depth is 6 cm. The water level rose to 11 cm after placing the stones. Volume of stone = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">Water tank 20×15×10 cm, water depth 8 cm. Place an object with a volume of 500 cm³. Will the water overflow? If so, how much overflow?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">Cuboid 18×12×10 cm, with one corner cut off (6×4×5 cm). Remaining volume = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">The side length of the cube water tank is 18 cm and the water depth is 12 cm. Place a cube of iron with a side length of 6 cm. Final water depth = ? (Accurate to 1 decimal place)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+<div class="h2">For advanced, choose doquestion (total 2 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">Water tank 40×20×25 cm, water depth 15 cm. First put in stone A (volume 3000 cm³), then take out 1000 cm³ of water, and finally put in stone B (volume 2000 cm³). Final water depth = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">An empty water tank 30×20×18 cm. Pour 6 L of water (1 L = 1000 cm³) and place a cube with a side of 8 cm. Final water depth = ? Will the water overflow?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 8: ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">VII. The Lessoncorecommon errorsummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>The composite solid is calculated as a complete cuboid |||SEP|||: The L shape is directly multiplied by the peripheral dimensions</strong>:L shape is directly multiplied by the peripheral dimensions</td><td>It must be divided into several simple solids, calculated separately and then summed.</td></tr>
+<tr><td>2</td><td><strong>Repeat calculation of overlapping parts after segmentation |||SEP|||: The overlapping area of ​​two segmented blocks is calculated twice</strong>: The overlapping area of ​​two divided blocks is counted twice.</td><td>The dividing line must be on the boundary to ensure that the blocks do not overlap each other</td></tr>
+<tr><td>3</td><td><strong>The wrong water level is used in the drainage method |||SEP|||: V = bottom area × new water level (wrong!)</strong>: V = bottom area × new water level (wrong!)</td><td>V = bottom area × (new water level − original water level) = bottom area × water level difference</td></tr>
+<tr><td>4</td><td><strong>Overflow issues are not checked |||SEP|||: Directly apply the drainage formula without checking whether the theoretical water level exceeds the height of the container</strong>: Apply the drainage formula directly without checking whether the theoretical water level exceeds the container height.</td><td>The first step is to calculate the available space; the second step is to determine whether there is overflow; the third step is to calculate the overflow amount.</td></tr>
+<tr><td>5</td><td><strong>Wrong base area |||SEP|||: The base area of ​​the object is used instead of the base area of ​​the container.</strong>: The bottom area of ​​the object is used instead of the bottom area of ​​the container.</td><td>The bottom area in the drainage method formula is<strong>The bottom area of ​​the container |||SEP|||, not the object</strong>, not an object</td></tr>
+<tr><td>6</td><td><strong>Unit confusion</strong>: Forgot to convert between L (litres) and cm³ (1 L = 1000 cm³)</td><td>All volumes are first unified to cm³ and then converted to the required units.</td></tr>
+<tr><td>7</td><td><strong>Multiple operations (adding water, taking water, placing objects) are in chaotic order</strong></td><td>Calculate step by step in chronological order. Find the new water level at each step before proceeding to the next step.</td></tr>
+</table>
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related topics: L25 Volume Word Questions · L27 Composite Solids · L16 Volume Volume Advanced</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 9 pages · 70 questions | LF-P5-S2-L27 v6 EN
+</div>
+</body>
+</html>

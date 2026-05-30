@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-上-L17 圓形圖閱讀+製作 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* FRACTIONS */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* COVER */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .svg-center { text-align:center; margin:10px 0; }
+  .svg-center svg { max-width:100%; height:auto; }
+
+  .blank-pie { width:200px; height:200px; border:2px dashed var(--borderc); border-radius:50%; margin:10px auto; position:relative; }
+  .blank-pie .center { position:absolute; width:6px; height:6px; background:var(--blue); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); }
+  .blank-pie .label { position:absolute; bottom:-24px; width:100%; text-align:center; font-size:11px; color:var(--gray); }
+
+  .draw-area { border:2px dashed #9CA3AF; background:#FAFBFC; border-radius:8px; padding:20px; text-align:center; margin:10px 0; min-height:240px; }
+  .draw-area .hint { font-size:11px; color:var(--gray); margin-top:8px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ══════ PAGE 1: COVER ══════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 17 堂 · 學生版講義</div>
+  <div class="cv-title">圓形圖閱讀 + 製作</div>
+  <div class="cv-sub">餅圖閱讀 · 百分比對應 · 手工繪製 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6上B冊 單元八 ＋ 現代教育 6上 單元9<br>
+    <b>核心陷阱：</b>T9 百分比總和必須=100% · 扇形大小 vs 實際數值混淆<br>
+    <b>SSPA 關聯：</b><span class="ss sh">高頻</span> 呈分試統計圖表題，佔卷一約 8-10%<br>
+    <b>前置知識：</b>百分比與分數互換 · 角度概念（圓周=360&deg;）· 比例計算<br>
+    <b>本堂目標：</b>閱讀及分析圓形圖（計算各類別數值）· 從數據製作圓形圖 · 判斷圖表是否完整
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 2: WARM-UP + KP1 ══════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">將 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 轉為百分數。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">一個圓有 360&deg;，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 個圓是多少度？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">30% 在圓形圖中佔多少度？（提示：360&deg; &times; 30%）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">一個班有 40 人，戴眼鏡的有 10 人。戴眼鏡的佔全班的百分之幾？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">360&deg; &times; 25% = ?&deg;（圓形圖角度計算）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:75px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">圓形圖（餅圖）示例：圖書館藏書佔比</strong><br><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 310" width="380" height="310"><text x="190" y="22" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">圖書館藏書類別佔比</text><path d="M 140,135 L 140.0,55.0 A 80,80 0 0,1 187.02282018339787,199.72135954999578 Z" fill="#3B82F6" stroke="white" stroke-width="2"/><text x="189.454938847348" y="122.93111629250274" text-anchor="middle" font-size="9" fill="white" font-weight="700">40%</text><rect x="250" y="105" width="12" height="10" fill="#3B82F6" stroke="none" stroke-width="0"/><text x="268" y="114" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">中文書 (120)</text><path d="M 140,135 L 187.02282018339787,199.72135954999578 A 80,80 0 0,1 70.7179676972449,175.0 Z" fill="#F97316" stroke="white" stroke-width="2"/><text x="129.18859207747653" y="189.8636752381579" text-anchor="middle" font-size="9" fill="white" font-weight="700">27%</text><rect x="250" y="127" width="12" height="10" fill="#F97316" stroke="none" stroke-width="0"/><text x="268" y="136" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">英文書 (80)</text><path d="M 140,135 L 70.7179676972449,175.0 A 80,80 0 0,1 80.54841396180846,81.46955149129134 Z" fill="#10B981" stroke="white" stroke-width="2"/><text x="88.2848614408498" y="133.56451991008203" text-anchor="middle" font-size="9" fill="white" font-weight="700">20%</text><rect x="250" y="149" width="12" height="10" fill="#10B981" stroke="none" stroke-width="0"/><text x="268" y="158" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">數學書 (60)</text><path d="M 140,135 L 80.54841396180846,81.46955149129134 A 80,80 0 0,1 139.99999999999997,55.0 Z" fill="#EF4444" stroke="white" stroke-width="2"/><text x="118.8496945600584" y="91.49563620258475" text-anchor="middle" font-size="9" fill="white" font-weight="700">13%</text><rect x="250" y="171" width="12" height="10" fill="#EF4444" stroke="none" stroke-width="0"/><text x="268" y="180" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">科普書 (40)</text></svg><div style="font-size:9px; color:var(--gray); margin-top:3px;">圓形圖用扇形面積表示「部分佔整體的幾分之幾」。全部扇形加起來=100%。扇形愈大=佔比愈高。</div></div>
+
+<div class="warn">⚠️ 圓形圖關鍵檢查：所有百分比加起來必須等於 100%！若不等於100%，數據或計算有誤。</div>
+
+<div class="kp">
+    <div class="kp-title">知識點一：圓形圖的結構 — 讀懂圖表<span class="ss sh">SSPA</span></div>
+    <div class="kp-rules">
+      <strong>圓形圖（餅圖 / Pie Chart）的組成：</strong>
+      <ul>
+        <li><strong>整個圓 = 100% = 全部數據</strong></li>
+        <li>每個<strong>扇形（sector）</strong>代表一個類別</li>
+        <li>扇形<strong>角度</strong>比值 = 該類別佔全部的百分比</li>
+        <li>扇形角度 = 360&deg; &times; 該類別百分比</li>
+      </ul>
+      <strong>從圓形圖讀取數據的公式：</strong><br>
+      類別數值 = 全體總數 &times; 該類別百分比<br>
+      類別百分比 = 該類別數值 &divide; 全體總數 &times; 100%<br>
+      類別角度 = 360&deg; &times; 該類別百分比
+    </div>
+  </div>
+
+  <div class="svg-center">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 270" width="350" height="248">
+      <text x="190" y="22" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">小六學生日常時間分配</text>
+      <path d="M 140,135 L 140,55 A 80,80 0 0,1 211,67 Z" fill="#3B82F6" stroke="white" stroke-width="2"/>
+      <path d="M 140,135 L 211,67 A 80,80 0 0,1 199,209 Z" fill="#F97316" stroke="white" stroke-width="2"/>
+      <path d="M 140,135 L 199,209 A 80,80 0 0,1 76,201 Z" fill="#10B981" stroke="white" stroke-width="2"/>
+      <path d="M 140,135 L 76,201 A 80,80 0 0,1 81,69 Z" fill="#EF4444" stroke="white" stroke-width="2"/>
+      <path d="M 140,135 L 81,69 A 80,80 0 0,1 140,55 Z" fill="#8B5CF6" stroke="white" stroke-width="2"/>
+      <text x="172" y="76" text-anchor="middle" font-size="9" fill="white">30%</text>
+      <text x="218" y="128" text-anchor="middle" font-size="9" fill="white">25%</text>
+      <text x="148" y="196" text-anchor="middle" font-size="9" fill="white">20%</text>
+      <text x="72" y="128" text-anchor="middle" font-size="9" fill="white">15%</text>
+      <text x="112" y="74" text-anchor="middle" font-size="9" fill="white">10%</text>
+      <circle cx="140" cy="135" r="3" fill="#1A3C6D"/>
+      <rect x="230" y="65" width="12" height="10" fill="#3B82F6" stroke="none"/>
+      <text x="248" y="74" text-anchor="start" font-size="10" fill="#1A3C6D">睡眠 (30%)</text>
+      <rect x="230" y="87" width="12" height="10" fill="#F97316" stroke="none"/>
+      <text x="248" y="96" text-anchor="start" font-size="10" fill="#1A3C6D">上學 (25%)</text>
+      <rect x="230" y="109" width="12" height="10" fill="#10B981" stroke="none"/>
+      <text x="248" y="118" text-anchor="start" font-size="10" fill="#1A3C6D">做功課 (20%)</text>
+      <rect x="230" y="131" width="12" height="10" fill="#EF4444" stroke="none"/>
+      <text x="248" y="140" text-anchor="start" font-size="10" fill="#1A3C6D">娛樂 (15%)</text>
+      <rect x="230" y="153" width="12" height="10" fill="#8B5CF6" stroke="none"/>
+      <text x="248" y="162" text-anchor="start" font-size="10" fill="#1A3C6D">其他 (10%)</text>
+    </svg>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">例題（從圓形圖計算具體數值）</div>
+    <div class="ex-q">上圖顯示小明一天24小時的時間分配。(a) 睡眠佔多少小時？(b) 上學和做功課共佔多少小時？</div>
+  </div>
+
+  <div class="h2">知識點一 同步練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">參照上圖。小明每天娛樂時間是幾小時？</td><td class="qd d1"></td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">參照上圖。睡眠比做功課多幾小時？</td><td class="qd d1"></td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：圓形圖的陷阱 — 百分比總和驗證<span class="ss sh">SSPA 核心</span></div>
+    <div class="kp-rules">
+      <strong>三大法則（每次讀圖都要檢查）：</strong>
+      <ol>
+        <li><strong>總和法則：</strong>所有扇形的百分比加起來必須等於 100%。不等於100% = 圖表有問題或有「其他」類別隱藏</li>
+        <li><strong>對應法則：</strong>扇形角度大 ≠ 數值大（必須知道全體總數才能比較）<br>例：A班 50% 有 10 人，B班 30% 有 15 人 → 30% 的實際人數更多！</li>
+        <li><strong>剩餘法則：</strong>已知若干類別的百分比，可求剩餘類別 = 100% − 已知百分比總和</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題（百分比總和陷阱）</div>
+    <div class="ex-q">圓形圖顯示各項支出：食物 35%、交通 20%、娛樂 25%、儲蓄 15%。問：百分比總和是多少？如果不夠100%，剩下的可能是什麼？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">學生常犯錯誤</div><div class="eq">直接答總和 = 100%<br>（不加檢查）</div><div class="why">以為所有圓形圖永遠=100%<br>其實 35+20+25+15 = 95%<br>還有 5% 未列出！</div></div>
+      <div class="tc-r"><div class="lbl">正確做法</div><div class="eq">35+20+25+15 = 95%<br>剩餘 = 100−95 = 5%<br>可能屬「其他雜項」</div><div class="why">要先加總各項百分比<br>總和必須=100%，不夠要找出餘數</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「圓形圖表全體百，扇形角度比例來；百分比加總要合一，角度大唔代表數字大」</div>
+  <div class="warn">最高頻錯誤：不驗證百分比總和就開始計算。必須先加總，確認=100%！</div>
+  <div class="warn">第二高頻錯誤：扇形大 = 數值大？錯！不同群組的全體總數不同，不可直接比較扇形大小。</div>
+
+  <div class="h2">知識點一+二 練習</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">3</td><td class="qtxt">一個圓形圖有四個類別：A (40%)、B (25%)、C (20%)、D (15%)。全體總數為 200。求D類別的數量。</td><td class="qd d1"></td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">圓形圖中A扇形為 90&deg;，佔全體的百分之幾？<span class="f"><span class="n">90</span><span class="b"></span><span class="d">360</span></span> = ?%</td><td class="qd d1"></td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">一個圓形圖顯示各項百分比為 28%、22%、30%、15%。百分比總和是多少？有沒有缺失？</td><td class="qd d2"></td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">6</td><td class="qtxt">A班的戴眼鏡學生佔 40%（全班 30 人）；B班的戴眼鏡學生佔 30%（全班 50 人）。哪一班的戴眼鏡人數較多？</td><td class="qd d3"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 3: KP3 + DRAWING ══════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點三：製作圓形圖 — 從數據到圖表<span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>繪製步驟（四步法）：</strong>
+      <ol>
+        <li><strong>計算全體總數：</strong>把所有類別的數值加起來</li>
+        <li><strong>計算各類別百分比：</strong>類別數值 &divide; 全體總數 &times; 100%</li>
+        <li><strong>計算各類別角度：</strong>360&deg; &times; 百分比（用小數計算）</li>
+        <li><strong>繪圖：</strong>用圓規畫圓 → 用量角器由中心逐個標出角度 → 標註類別名稱和百分比</li>
+      </ol>
+      <strong>注意：</strong>所有角度加起來必須等於 360&deg;。最後一個扇形的角度 = 360&deg; − 已繪角度總和（避免累積誤差）。
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">例題（手工製作圓形圖）</div>
+    <div class="ex-q">一個班級喜歡不同水果的人數：蘋果 12 人、橙 8 人、香蕉 10 人、提子 6 人、其他 4 人。請計算各類別的百分比和圓心角，並在下方繪製圓形圖。</div>
+  </div>
+
+  <table class="qt">
+    <tr><th>水果</th><th>人數</th><th>百分比（%）</th><th>圓心角（&deg;）</th></tr>
+    <tr><td>蘋果</td><td>12</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+    <tr><td>橙</td><td>8</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+    <tr><td>香蕉</td><td>10</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+    <tr><td>提子</td><td>6</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+    <tr><td>其他</td><td>4</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+    <tr style="font-weight:700;background:#FFFBEB;"><td>總計</td><td></td><td></td><td></td></tr>
+  </table>
+
+  <div class="draw-area">
+    <p style="font-weight:700;color:var(--blue);margin-bottom:12px;">繪圖區 — 請用圓規+量角器在此繪製圓形圖</p>
+    <div class="blank-pie" style="width:180px;height:180px;"><div class="center"></div><div class="label">（圓形圖繪製區）</div></div>
+    <p class="hint">提示：先在圓心畫一個點，用量角器量出每個扇形角度並畫線，最後標註類別名稱和百分比。</p>
+  </div>
+
+  <div class="warn">繪圖陷阱一：量角器使用不準確，累積誤差導致最後角度不對。可用「360&deg; − 已繪製角度」計算最後一個扇形。</div>
+  <div class="warn">繪圖陷阱二：忘記標註類別名稱和百分比。SSPA 扣分重點：無標註 = 不完整 = 扣分！</div>
+
+  <div class="mn">口訣：「數據先加總，再求百分比；乘三百六十度，量角畫扇形」</div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">加總</div><div class="d">所有類別數值相加 = 全體總數</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">求%</div><div class="d">各類別 ÷ 總數 × 100%</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">求角</div><div class="d">360° × 百分比（用小數）</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">繪圖</div><div class="d">量角器逐個畫 + 標註</div></div>
+  </div>
+
+  <div class="h2">知識點三 練習（計算部分）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">7</td><td class="qtxt">學校興趣小組人數：體育 36 人、音樂 24 人、美術 20 人、科技 12 人、其他 8 人。全體總數是多少？體育組佔全體的百分之幾？</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">承上題，音樂組和美術組所對應的圓心角各是多少度？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">以下數據能否繪成一個完整的圓形圖？為甚麼？<br>食物 45%、交通 25%、住宿 20%、娛樂 15%</td><td class="qd d2"></td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 4: TIERED PRACTICE ══════ -->
+<div class="pb">
+  
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">繪圖練習：請按數據繪製圓形圖</strong><br><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 310" width="380" height="310"><text x="190" y="22" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">圖書種類分佈（示例 — 請依數據自行繪製）</text><path d="M 140,135 L 140.0,55.0 A 80,80 0 0,1 204.7213595499958,182.02282018339784 Z" fill="#3B82F6" stroke="white" stroke-width="2"/><text x="186.33233925779513" y="115.39249401354357" text-anchor="middle" font-size="9" fill="white" font-weight="700">35%</text><rect x="250" y="105" width="12" height="10" fill="#3B82F6" stroke="none" stroke-width="0"/><text x="268" y="114" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">故事書 (35)</text><path d="M 140,135 L 204.7213595499958,182.02282018339784 A 80,80 0 0,1 92.97717981660216,199.72135954999578 Z" fill="#F97316" stroke="white" stroke-width="2"/><text x="148.134592182092" y="190.35979371094714" text-anchor="middle" font-size="9" fill="white" font-weight="700">25%</text><rect x="250" y="127" width="12" height="10" fill="#F97316" stroke="none" stroke-width="0"/><text x="268" y="136" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">漫畫 (25)</text><path d="M 140,135 L 92.97717981660216,199.72135954999578 A 80,80 0 0,1 63.91547869638771,110.27864045000422 Z" fill="#10B981" stroke="white" stroke-width="2"/><text x="90.54506115265201" y="155.06888370749726" text-anchor="middle" font-size="9" fill="white" font-weight="700">20%</text><rect x="250" y="149" width="12" height="10" fill="#10B981" stroke="none" stroke-width="0"/><text x="268" y="158" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">科普 (20)</text><path d="M 140,135 L 63.91547869638771,110.27864045000422 A 80,80 0 0,1 139.99999999999997,55.0 Z" fill="#EF4444" stroke="white" stroke-width="2"/><text x="109.4351668807914" y="96.93111629250274" text-anchor="middle" font-size="9" fill="white" font-weight="700">20%</text><rect x="250" y="171" width="12" height="10" fill="#EF4444" stroke="none" stroke-width="0"/><text x="268" y="180" text-anchor="start" font-size="10" fill="#1A3C6D" font-weight="700">其他 (20)</text></svg><div style="font-size:9px; color:var(--gray); margin-top:3px;">提示：①計算每個類別的百分比 ②百分比×360°=扇形角度 ③用量角器畫出每個扇形 ④標註類別名稱和百分比</div></div>
+
+<div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">10</td><td class="qtxt">圓形圖中A佔 50%。全體總數為 80。A的實際數量是多少？A對應的圓心角是多少度？</td><td class="qd d1"></td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">圓形圖中一個扇形為 72&deg;，佔全體的百分之幾？</td><td class="qd d1"></td><td class="qw" style="min-height:56px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">將以下數據轉為百分比：總數 50，其中A=15、B=20、C=10、D=5。</td><td class="qd d1"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">13</td><td class="qtxt">圓形圖顯示：紅色 (120&deg;)、藍色 (90&deg;)、綠色 (100&deg;)、黃色 (50&deg;)。(a) 各佔全體的百分比是多少？(b) 角度總和是否等於 360&deg;？</td><td class="qd d2"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">一個農場有動物：牛 15 隻、羊 25 隻、雞 40 隻、豬 20 隻。求各動物的百分比和對應圓心角。哪一種動物佔的扇形最大？</td><td class="qd d2"></td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt">小明每月零用錢 $500 的支出如下：文具 40%、零食 25%、儲蓄 20%、其他 15%。他在文具上花了多少元？儲蓄了多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:72px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">16</td><td class="qtxt">一個圓形圖分為A、B、C三個扇形。A是180&deg;，B是120&deg;。C是多少度？佔全體的幾分之幾？</td><td class="qd d3"></td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">圓形圖中各項百分比為：A (35%)、B (25%)、C (20%)、D (x%)。若全體總數為 400，D的數量是64。求 x，並驗證總和是否=100%。（提示：用D的數量反推x）</td><td class="qd d3"></td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">下表是某書店一星期的銷量。請計算各類書的百分比和圓心角，並在下方繪圖區繪製圓形圖。<br>小說:80 漫畫:60 教科書:100 繪本:40 雜誌:20</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="draw-area">
+    <p style="font-weight:700;color:var(--blue);margin-bottom:12px;">繪圖區 — 第18題（請在此繪製圓形圖）</p>
+    <div class="blank-pie" style="width:180px;height:180px;"><div class="center"></div><div class="label">（標註各類別及百分比）</div></div>
+    <p class="hint">總銷量 = 300。各百分比：小說 26.7%、漫畫 20%、教科書 33.3%、繪本 13.3%、雜誌 6.7%。</p>
+  </div>
+
+  <div class="h2">🏔️ 終極挑戰（共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">19</td><td class="qtxt">圓形圖中有A、B、C、D四個扇形。已知A的面積是B的2倍，C和D各佔全體的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span>。若A佔 40%，求B的百分比，並計算各扇形的圓心角。</td><td class="qd d4"></td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">以下是一個不完整的圓形圖：食物 (?%)、交通 25%、住宿 30%、其他 10%。若全體總支出為 $8000，食物支出為 $2800。求食物的百分比和圓心角，並說出此圓形圖還有什麼問題？（提示：加總各項百分比）</td><td class="qd d4"></td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 5: APPLICATION + ERROR TABLE ══════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（呈分試圓形圖應用題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">21</td><td class="qtxt">一個班級課餘活動調查（全班 40 人）：運動 40%、閱讀 25%、音樂 20%、繪畫 15%。(a) 參加運動的有多少人？(b) 閱讀和音樂的共有多少人？(c) 閱讀比繪畫多幾人？</td><td class="qd d2"></td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">22</td><td class="qtxt">圓形圖顯示學校飯盒銷量。全體是 500 個飯盒。A餐佔 40%，B餐佔 35%，C餐佔 25%。求各餐售出的數量。若A餐每個 $28，A餐總收入是多少元？</td><td class="qd d2"></td><td class="qw" style="min-height:82px;"></td></tr>
+    <tr><td class="qn">23</td><td class="qtxt">農場動物分佈的圓形圖：牛 30%、羊 25%、雞 x%、豬 15%。全體動物共 200 隻。已知雞有 60 隻。(a) 求 x。(b) 雞對應的圓心角是多少度？(c) 牛的數量是豬的多少倍？</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+    <tr><td class="qn">24</td><td class="qtxt">下面是一個家庭每月開支的圓形圖（只列出部分）：租金 40%（$12000）、食物 ?%（$6000）、交通 15%、其他 ?%。全體總支出為 $30000。(a) 求食物和其他各佔的百分比。(b) 畫一個完整的圓形圖並標註各項。</td><td class="qd d3"></td><td class="qw" style="min-height:92px;"></td></tr>
+    <tr><td class="qn">25</td><td class="qtxt">下表是學校圖書館各類書的借閱量。請完成表格、計算圓心角，並在下方繪圖區繪製圓形圖。<br>小說:150 科普:100 歷史:75 傳記:50 其他:25</td><td class="qd d3"></td><td class="qw" style="min-height:88px;"></td></tr>
+  </table>
+
+  <div class="draw-area">
+    <p style="font-weight:700;color:var(--blue);margin-bottom:12px;">繪圖區 — 第25題</p>
+    <div class="blank-pie" style="width:180px;height:180px;"><div class="center"></div><div class="label">（標註各類別及百分比）</div></div>
+    <p class="hint">總數 = 400。留意百分比與角度的對應。</p>
+  </div>
+
+  <div class="h1">五、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>不驗證百分比總和：</strong>直接假設總和=100%</td><td>必須手動加總，確認 = 100%；不夠要找「其他」</td></tr>
+    <tr><td>2</td><td><strong>扇形大 = 數值大：</strong>不同群組之間直接比較扇形大小</td><td>必須知道各群組的全體總數才能比較實際數值</td></tr>
+    <tr><td>3</td><td><strong>角度轉百分比計錯：</strong>直接用角度當百分比</td><td>百分比 = 角度 &divide; 360&deg; &times; 100%</td></tr>
+    <tr><td>4</td><td><strong>百分比轉角度計錯：</strong>用百分比直接當角度</td><td>角度 = 360&deg; &times; 百分比（用小數，如30% = 0.3）</td></tr>
+    <tr><td>5</td><td><strong>繪圖時累積誤差：</strong>每個角度逐個加，最後偏差很大</td><td>最後一個扇形 = 360&deg; − 已繪角度總和（避免誤差）</td></tr>
+    <tr><td>6</td><td><strong>遺漏標註：</strong>只畫扇形不寫名稱和百分比</td><td>每個扇形必須標註類別和百分比，SSPA扣分重點</td></tr>
+    <tr><td>7</td><td><strong>遺忘總數：</strong>計角度時忘了先求全體總數</td><td>步驟：先加總 → 求% → 求角 → 繪圖</td></tr>
+  </table>
+
+  <div class="mn">本堂核心口訣：「圓形圖讀要驗證，百分比加總百整；角度數據要分清，總數唔同唔好比拼」</div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱 · LF-P6-上-L17</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF &nbsp;|&nbsp; 5頁 · 40題 &nbsp;|&nbsp; LF-P6-上-L17 v6
+</div>
+
+</body>
+</html>

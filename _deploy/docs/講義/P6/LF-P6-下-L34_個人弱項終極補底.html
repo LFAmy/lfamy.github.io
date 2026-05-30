@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L34 個人弱項終極補底 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:20px 32px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .h1 { font-size:13px; margin:8px 0 6px; }
+    .h2 { font-size:12px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:30px 44px;
+    display:flex; flex-direction:column;
+  }
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:28px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:80px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:10px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:12px; font-weight:900; }
+  .sc-i .d { font-size:9px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .diagnosis-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:10px 0; }
+  .diag-card { border:2px solid var(--borderc); border-radius:8px; padding:14px; }
+  .diag-card.trap-high { border-color:var(--red); background:#FEF2F2; }
+  .diag-card.trap-med { border-color:#F59E0B; background:#FFFBEB; }
+  .diag-card.trap-low { border-color:var(--green); background:#F0FDF4; }
+  .diag-card .dc-title { font-size:14px; font-weight:900; margin-bottom:6px; }
+  .diag-card.trap-high .dc-title { color:var(--red); }
+  .diag-card.trap-med .dc-title { color:#92400E; }
+  .diag-card.trap-low .dc-title { color:var(--green); }
+
+  .self-rubric { width:100%; border-collapse:collapse; margin:8px 0; font-size:11px; }
+  .self-rubric th { background:var(--green); color:white; padding:5px 8px; text-align:center; }
+  .self-rubric td { padding:6px 8px; border:1px solid var(--borderc); text-align:center; }
+
+  .action-plan { border:2px solid var(--gold); border-radius:8px; padding:14px; margin:10px 0; background:#FFFDF5; }
+  .action-plan .ap-title { font-size:14px; font-weight:900; color:#92400E; margin-bottom:8px; }
+
+  .radar-box { border:1px solid var(--borderc); border-radius:8px; padding:14px; margin:10px 0; text-align:center; background:var(--lightbg); }
+
+  .target-box { background:linear-gradient(135deg,#DBEAFE,#EFF6FF); border:2px solid var(--blue); border-radius:8px; padding:16px; margin:10px 0; text-align:center; }
+  .target-box .goal-num { font-size:36px; font-weight:900; color:var(--blue); }
+  .target-box .goal-label { font-size:13px; color:var(--blue); font-weight:700; margin-top:4px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ══════ PAGE 1: COVER ══════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第 34 堂 · 學生版講義</div>
+  <div class="cv-title">個人弱項終極補底</div>
+  <div class="cv-sub">下學期 · SSPA終極衝刺 · 診斷課 · 75 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>本堂定位：</b>個人化弱項診斷與補底（非一般操題課）<br>
+    <b>數據來源：</b>SSPA模擬1-5累積錯題分析 · 十大陷阱追蹤系統<br>
+    <b>核心目標：</b>精準定位個人最弱3個陷阱 → 針對性補底練習 → 制定SSPA最後衝刺策略<br>
+    <b>輸出成果：</b>個人陷阱弱項報告 · 針對性練習包 · SSPA目標分數預測 · 最後10日溫習計劃<br>
+    <b>SSPA 倒數：</b>最後衝刺階段
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>模擬1-5平均分：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 2: TRAP SELF-DIAGNOSIS ══════ -->
+<div class="pb">
+  <div class="h1">一、十大陷阱類型自評表（T1-T10）</div>
+  <div class="h2">請根據模擬考1-5的錯題，在每個陷阱旁評分（1=完全掌握，2=間中犯錯，3=經常犯錯，4=每次都中招）</div>
+
+  <table class="qt" style="font-size:11px;">
+    <tr><th style="width:50px;">編號</th><th style="width:200px;">陷阱名稱</th><th>陷阱描述</th><th style="width:50px;">自評<br>1-4</th><th style="width:80px;">模擬考<br>失分</th><th style="width:200px;">補底行動計劃</th></tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:var(--red);">T1</td>
+      <td><strong>小數除法移位</strong></td>
+      <td>除數小數位數錯，被除數移位不一致</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:var(--red);">T2</td>
+      <td><strong>分數百分數互換</strong></td>
+      <td>轉換方向錯誤、忘÷100、循環小數位數不足</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:var(--red);">T3</td>
+      <td><strong>平均數逆向思維</strong></td>
+      <td>忘還原總和、簡單平均取代加權平均</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:#F59E0B;">T4</td>
+      <td><strong>百分數連續變化</strong></td>
+      <td>基準量轉移、先加後減誤以為不變</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:#F59E0B;">T5</td>
+      <td><strong>圓周長vs圓面積</strong></td>
+      <td>C=2&pi;r vs A=&pi;r² 混淆、面積變化≠半徑變化%</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:#F59E0B;">T6</td>
+      <td><strong>三角形/梯形忘除2</strong></td>
+      <td>直接用底×高、梯形忘(上底+下底)÷2</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:var(--blue);">T7</td>
+      <td><strong>速率公式方向錯誤</strong></td>
+      <td>S=D/T方向用反、平均速率用簡單平均</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:var(--blue);">T8</td>
+      <td><strong>排水法用水面高度</strong></td>
+      <td>用水面新高度乘底面積而非用高度差</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:#7C3AED;">T9</td>
+      <td><strong>圖表百分比不驗證</strong></td>
+      <td>百分比總和≠100%、圓心角未轉換</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-weight:900;color:#7C3AED;">T10</td>
+      <td><strong>跨課題公式混用</strong></td>
+      <td>多陷阱疊加時只解決第一個、單位未統一</td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+      <td class="qw" style="min-height:30px;"></td>
+    </tr>
+  </table>
+
+  <div class="mn">口訣：「知己知彼，百戰百勝。知道邊個陷阱最陰你，你就贏咗一半。」</div>
+</div>
+
+<!-- ══════ PAGE 3: CUMULATIVE ANALYSIS + RUBRIC ══════ -->
+<div class="pb">
+  <div class="h1">二、模擬考1-5累積錯題分析</div>
+
+  <div class="h2">模擬考成績追蹤</div>
+  <table class="qt" style="font-size:10px;">
+    <tr><th>模擬考</th><th>課題</th><th>總分</th><th>MC</th><th>計算</th><th>應用</th><th>最嚴重陷阱</th><th>主要失分原因</th></tr>
+    <tr><td style="text-align:center;font-weight:700;">模擬1</td><td>L07 上學期</td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td></tr>
+    <tr><td style="text-align:center;font-weight:700;">模擬2</td><td>L13 上學期</td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td></tr>
+    <tr><td style="text-align:center;font-weight:700;">模擬3</td><td>L19 上學期</td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td></tr>
+    <tr><td style="text-align:center;font-weight:700;">模擬4</td><td>L28 下學期</td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td></tr>
+    <tr><td style="text-align:center;font-weight:700;color:var(--red);">模擬5</td><td>L33 終極</td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td><td class="qw" style="min-height:20px;"></td></tr>
+  </table>
+
+  <div class="h1">三、個人弱項診斷報告</div>
+  <div class="diagnosis-grid">
+    <div class="diag-card trap-high">
+      <div class="dc-title">🔴 高危陷阱（自評3-4分）</div>
+      <div style="font-size:11px;margin-bottom:4px;">這些是你失分最多的地方，必須優先處理：</div>
+      <div class="qw" style="min-height:80px;background: repeating-linear-gradient(transparent,transparent 22px,#FECACA 22px,#FECACA 23px);"></div>
+    </div>
+    <div class="diag-card trap-med">
+      <div class="dc-title">🟡 中危陷阱（自評2分）</div>
+      <div style="font-size:11px;margin-bottom:4px;">間中犯錯，需要加強練習：</div>
+      <div class="qw" style="min-height:80px;"></div>
+    </div>
+    <div class="diag-card trap-low">
+      <div class="dc-title">🟢 已掌握陷阱（自評1分）</div>
+      <div style="font-size:11px;margin-bottom:4px;">你已能穩定避開的陷阱：</div>
+      <div class="qw" style="min-height:80px;"></div>
+    </div>
+    <div class="diag-card" style="border-color:var(--blue);background:#EFF6FF;">
+      <div class="dc-title" style="color:var(--blue);">🔵 粗心失分統計</div>
+      <div style="font-size:11px;margin-bottom:4px;">非知識性錯誤（計錯數、睇漏單位、抄錯數）：</div>
+      <div class="qw" style="min-height:80px;"></div>
+    </div>
+  </div>
+
+  <div class="h1">四、自我評估量表</div>
+  <table class="self-rubric">
+    <tr><th>能力指標</th><th>1 - 需要幫助</th><th>2 - 基本掌握</th><th>3 - 熟練</th><th>4 - 可教人</th><th>自評</th></tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">小數除法</td>
+      <td>除數移位經常錯</td><td>簡單除數OK</td><td>多位移位正確</td><td>能解釋移位規則</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">分數百分數互換</td>
+      <td>三向轉換混亂</td><td>基本轉換OK</td><td>快速互換比較</td><td>能解釋互換原理</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">平均數逆向</td>
+      <td>只用正向公式</td><td>簡單逆向OK</td><td>加權平均OK</td><td>能處理缺失數據</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">百分數連續變化</td>
+      <td>基準量常錯</td><td>單次變化OK</td><td>連續變化OK</td><td>能解釋點解非不變</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">圓形</td>
+      <td>C vs A公式混亂</td><td>基本計算OK</td><td>半圓扇形OK</td><td>面積變化%正確</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">三角形/梯形</td>
+      <td>忘除2</td><td>基本計算OK</td><td>複合圖形OK</td><td>逆向求高/底</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">速率</td>
+      <td>S=D/T方向亂</td><td>基本計算OK</td><td>平均速率正確</td><td>相遇追及OK</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">排水法</td>
+      <td>用水面新高度</td><td>簡單排水OK</td><td>多重物體OK</td><td>溢出計算OK</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">圖表</td>
+      <td>百分比角度混亂</td><td>基本閱讀OK</td><td>製作圖表OK</td><td>數據分析推理</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+    <tr>
+      <td style="text-align:left;font-weight:700;">跨課題整合</td>
+      <td>一個陷阱就死</td><td>2陷阱可處理</td><td>3陷阱可處理</td><td>多陷阱系統破解</td>
+      <td style="font-weight:900;">___</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 4: TARGETED REMEDIATION ══════ -->
+<div class="pb">
+  <div class="h1">五、針對性補底練習 — 按你最弱的3個陷阱自選</div>
+  <div class="h2">以下每組練習對應特定陷阱。請先找出你在第二頁自評≥3分的陷阱，再完成對應練習組。</div>
+
+  <!-- T1+T2 Group: 小數除法+分數互換 -->
+  <div class="h2">【A組】對應 T1小數除法 + T2分數百分數互換</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">8.4 ÷ 0.028 = ? 寫出移位後算式。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">把 <span class="f"><span class="n">9</span><span class="b"></span><span class="d">25</span></span> 化成小數和百分數。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">0.96 ÷ 0.016 + 45% × 200 = ?</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">A4</td><td class="qtxt">比較 0.375, <span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span>, 38%, 0.38 由大至小排列。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <!-- T3+T4 Group -->
+  <div class="h2">【B組】對應 T3平均數逆向 + T4百分數連續變化</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B1</td><td class="qtxt">五科平均76分，已知四科：82, 70, 78, 74。第五科？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">B2</td><td class="qtxt">貨品$800，先加15%再三折。最終售價？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">B3</td><td class="qtxt">兩組合計：A組30人平均68分，B組25人平均76分。全體平均？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">B4</td><td class="qtxt">貨品先加r%再減r%。原價$500，r=20。最終售價比原價低了多少%？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:70px;"></td></tr>
+  </table>
+
+  <!-- T5+T6 Group -->
+  <div class="h2">【C組】對應 T5圓形 + T6面積公式（三角形/梯形）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C1</td><td class="qtxt">圓半徑7cm，求周界和面積。（取&pi;=<span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">C2</td><td class="qtxt">梯形：上底6cm、下底14cm、高8cm。面積？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">C3</td><td class="qtxt">圓半徑增加30%。新面積是原面積的多少倍？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">C4</td><td class="qtxt">複合圖形：半圓（直徑10cm）疊在長方形（10cm×6cm）上方。總面積？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <!-- T7+T8 Group -->
+  <div class="h2">【D組】對應 T7速率 + T8排水法</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">D1</td><td class="qtxt">汽車以90km/h行3小時。行駛距離？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:44px;"></td></tr>
+    <tr><td class="qn">D2</td><td class="qtxt">水箱底面積400cm²，石頭放入後水位由8cm升至11cm。石頭體積？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">D3</td><td class="qtxt">去程80km/h，回程60km/h（同一路線）。全程平均速率？</td><td class="qd d2">進階</td><td class="qw" style="min-height:70px;"></td></tr>
+    <tr><td class="qn">D4</td><td class="qtxt">水箱底500cm²，水深12cm。注水每秒150cm³，同時排水每秒50cm³。90秒後水深？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="warn" style="background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B;">
+    ⚠️ 請優先完成自評≥3分的陷阱對應練習組。自評1-2分的組別可在課後選做。
+  </div>
+</div>
+
+<!-- ══════ PAGE 5: SSPA TARGET + ACTION PLAN ══════ -->
+<div class="pb">
+  <div class="h1">六、SSPA目標設定與最後衝刺計劃</div>
+
+  <div style="display:flex;gap:16px;margin:10px 0;">
+    <div class="target-box" style="flex:1;">
+      <div class="goal-num">____</div>
+      <div class="goal-label">SSPA目標總分（/100）</div>
+    </div>
+    <div class="target-box" style="flex:1;">
+      <div class="goal-num">____</div>
+      <div class="goal-label">模擬5得分（/100）</div>
+    </div>
+    <div class="target-box" style="flex:1;">
+      <div class="goal-num">____</div>
+      <div class="goal-label">差距（要追幾多分）</div>
+    </div>
+    <div class="target-box" style="flex:1;">
+      <div class="goal-num">____</div>
+      <div class="goal-label">已消滅陷阱數</div>
+    </div>
+  </div>
+
+  <div class="action-plan">
+    <div class="ap-title">最後10日衝刺計劃（請與導師一起填寫）</div>
+    <table class="qt" style="font-size:10px;">
+      <tr><th>日子</th><th>重點溫習陷阱</th><th>練習量</th><th>完成目標</th></tr>
+      <tr><td style="text-align:center;font-weight:700;">Day 1-2</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+      <tr><td style="text-align:center;font-weight:700;">Day 3-4</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+      <tr><td style="text-align:center;font-weight:700;">Day 5-6</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+      <tr><td style="text-align:center;font-weight:700;">Day 7-8</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+      <tr><td style="text-align:center;font-weight:700;">Day 9</td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td><td class="qw" style="min-height:30px;"></td></tr>
+      <tr><td style="text-align:center;font-weight:700;color:var(--red);">Day 10<br>考前一天</td><td class="qw" style="min-height:30px;background:#FEF2F2;"></td><td class="qw" style="min-height:30px;background:#FEF2F2;"></td><td class="qw" style="min-height:30px;background:#FEF2F2;"></td></tr>
+    </table>
+  </div>
+
+  <div class="h1">七、陷阱消滅確認清單</div>
+  
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>陷阱</th><th>補底前自評</th><th>補底後自評</th><th>驗證練習得分</th><th>已消滅？</th></tr>
+    <tr><td>T1</td><td>小數除法移位</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T2</td><td>分數百分數互換</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T3</td><td>平均數逆向思維</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T4</td><td>百分數連續變化</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T5</td><td>圓形公式混淆</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T6</td><td>三角/梯形忘除2</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T7</td><td>速率公式方向</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T8</td><td>排水法水面高度</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T9</td><td>圖表百分比</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+    <tr><td>T10</td><td>跨課題混用</td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td class="qw" style="min-height:24px;"></td><td style="text-align:center;">&#9744;</td></tr>
+  </table>
+
+  <div class="h1">八、SSPA考前宣言</div>
+  <div style="border:2px solid var(--gold);border-radius:8px;padding:14px;margin:10px 0;background:#FFFDF5;">
+    <div style="font-size:14px;font-weight:900;color:#92400E;text-align:center;margin-bottom:8px;">寫下你對自己的承諾</div>
+    <div class="qw" style="min-height:90px;"></div>
+    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--gray);">
+      「我已經準備好。我知道所有陷阱在哪裡。我會在SSPA避開每一個。」<br>
+      <span style="font-weight:700;color:var(--blue);">簽名：________________ &nbsp;&nbsp; 日期：____________</span>
+    </div>
+  </div>
+
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">診斷</div><div class="d">找出最弱陷阱</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">補底</div><div class="d">針對性練習</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">驗證</div><div class="d">重測確認進步</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">上陣</div><div class="d">帶住信心應考</div></div>
+  </div>
+
+  <div class="mn">口訣：「最驚唔係你唔識，最驚你唔知自己唔識啲咩。知道弱點，就係最強武器。」</div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L34</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P PDF | 5頁 · 診斷+補底練習 | LF-P6-下-L34 v6
+</div>
+
+</body>
+</html>

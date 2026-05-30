@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L37 中一預習：面積體積公式擴展（棱柱+圓柱）</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* Fractions */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .fb { display:inline-flex; align-items:baseline; vertical-align:middle; margin:0 2px; }
+  .fb .wh { font-size:inherit; }
+  .fb .fr { display:inline-flex; flex-direction:column; align-items:center; margin:0 1px; }
+  .fb .fr .n { font-size:inherit; line-height:1.15; }
+  .fb .fr .d { font-size:inherit; line-height:1.15; }
+  .fb .fr .b { width:100%; height:1.2px; background:currentColor; min-width:14px; }
+
+  /* Cover */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* Sections */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* KP */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* Example */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* Warn */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* Mnemonic */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* Tables */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:85px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* Trap compare */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  /* SVG Geometry */
+  .geom { text-align:center; margin:8px 0; }
+  .geom svg { max-width:100%; }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* Exam-specific */
+  .exam-header { background:var(--blue); color:white; text-align:center; padding:12px; border-radius:4px; margin-bottom:14px; }
+  .exam-header .e-title { font-family:'Noto Serif HK',serif; font-size:18px; font-weight:900; }
+  .score-box { border:2px solid var(--blue); display:inline-block; padding:8px 20px; text-align:center; margin:8px; }
+  .score-box .sc-big { font-size:22px; font-weight:900; color:var(--blue); }
+  .grade-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:10px; }
+  .grade-table th, .grade-table td { border:1px solid var(--borderc); padding:3px 6px; text-align:center; }
+  .grade-table th { background:var(--blue); color:white; }
+</style>
+
+</head>
+<body>
+<div class="container">
+
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 第37堂 · 學生版講義 v6</div>
+  <div class="cv-title">中一預習：面積體積公式擴展（棱柱+圓柱）</div>
+  <div class="cv-sub">P6 下學期 · 65 分鐘 · 一對三線上課程</div>
+
+  <div class="cv-info">
+    <b>核心陷阱：</b>🪤 T2 圓柱表面積忘加兩個圓面！· T4 棱柱「底」可以是任何形狀 · T1 單位換算陷阱 cm³↔m³↔L↔mL<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🔴 中一必備</span> 中一上學期首兩個月核心內容，預習後輕鬆銜接<br>
+    <b>前置知識：</b>堂16（容量體積基礎）· 堂21-22（圓周圓面積）· 堂29（排水法進階）<br>
+    <b>本堂目標：</b>❶ 棱柱體積=底面積×高 ❷ 圓柱體積=πr²h ❸ 圓柱表面積 ❹ 單位進階換算
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+<div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">1</td><td class="qtxt">長方體體積公式是？底面積和高的關係是什麼？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">2</td><td class="qtxt">計算圓面積：半徑 = 5 cm，面積 = ？（π = 3.14）</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">3</td><td class="qtxt">1 m³ = 多少 cm³？（請寫出換算過程）</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">4</td><td class="qtxt">一個長方體的長=8 cm、闊=5 cm、高=10 cm。它的體積=？表面積=？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr><tr><td class="qn">5</td><td class="qtxt">一個圓的直徑=14 cm，圓周=？圓面積=？（π = <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr></table>
+<div class="h1">二、核心知識精講 ＋ 例題練習</div>
+<div class="kp"><div class="kp-title">知識點一：棱柱（角柱）— 體積 = 底面積 × 高 <span class="ss sh">🔴 中一核心</span></div><div class="kp-rules"><ol>
+<li><strong>棱柱定義：</strong>兩個底面全等且平行，側面為長方形的立體</li>
+<li><strong>體積公式：V = 底面積 × 高</strong>（無論底是什麼形狀！）</li>
+<li>三角柱：底面積 = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × b × h<sub>三角</sub>，V = 底面積 × 柱高</li>
+<li>梯形柱：底面積 = <span class="f"><span class="n">(a+b)×h<sub>梯形</sub></span><span class="b"></span><span class="d">2</span></span>，V = 底面積 × 柱高</li>
+<li><strong>關鍵：</strong>先找出或計算底面面積，再乘以柱體高度</li></ol></div></div>
+<div class="geom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 260" width="300" height="260"><polygon points="110,50 220,50 165,110" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/><polygon points="110,140 220,140 165,200" fill="#BFDBFE" stroke="#1A3C6D" stroke-width="2.5"/><line x1="110" y1="50" x2="110" y2="140" stroke="#1A3C6D" stroke-width="3"/><line x1="220" y1="50" x2="220" y2="140" stroke="#1A3C6D" stroke-width="3"/><line x1="165" y1="110" x2="165" y2="200" stroke="#1A3C6D" stroke-width="3"/><line x1="230" y1="50" x2="230" y2="140" stroke="#16A34A" stroke-width="2" stroke-dasharray="4,2"/><text x="245" y="95" text-anchor="middle" font-size="12" fill="#16A34A" font-weight="700">h</text><text x="165" y="230" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">三角柱 Prism — V=底面積×高</text><text x="165" y="248" text-anchor="middle" font-size="10" fill="#DC2626" font-weight="700">🪤 陷阱：「底」可以係任何形狀！先計底面積</text></svg></div>
+<div class="ex"><div class="ex-title">例題 1（三角柱體積）</div><div class="ex-q">一個三角柱的底面是直角三角形（兩條直角邊分別為 6 cm 和 8 cm），柱體高度為 15 cm。求該三角柱的體積。</div></div>
+<div class="ex"><div class="ex-title">例題 2（梯形柱體積）</div><div class="ex-q">一個梯形柱的底面是梯形（上底 4 cm、下底 10 cm、梯形高 5 cm），柱體高度為 12 cm。求體積。</div></div>
+<div class="tc">
+  <div class="tc-w"><div class="lbl">❌ 常見錯誤：混淆「底面高」和「柱體高」</div><div class="eq">V = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>×(6+8)×15 = 105 cm³</div><div class="why">直接用兩邊長度當成底和高，忘記這不是三角形面積</div></div>
+  <div class="tc-r"><div class="lbl">✅ 正確：V=底面積×柱高</div><div class="eq">V = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>×6×8×15 = 360 cm³</div><div class="why">底面積 = 三角形面積 = 1/2 × b × h，再 × 柱高</div></div>
+</div>
+<div class="kp"><div class="kp-title">知識點二：圓柱體 — 體積與表面積 <span class="ss sh">🔴 中一必考</span></div><div class="kp-rules"><ol>
+<li><strong>體積公式：</strong>V = π × r² × h（底面積 πr² 乘以高）</li>
+<li><strong>表面積公式：</strong>總表面積 = 2πr²（兩個圓面）＋ 2πrh（側面展開為長方形）</li>
+<li><strong>側面積：</strong>側面展開 = 圓周 × 高 = 2πr × h</li>
+<li><strong>🪤 最大陷阱：</strong>表面積 = <strong>兩個圓面 + 側面</strong>，不是一個圓面！許多學生忘記加頂部圓面。</li></ol></div></div>
+<div class="geom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 260" width="280" height="260"><ellipse cx="140" cy="60" rx="80" ry="25" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/><ellipse cx="140" cy="170" rx="80" ry="25" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/><line x1="60" y1="60" x2="60" y2="170" stroke="#1A3C6D" stroke-width="2.5"/><line x1="220" y1="60" x2="220" y2="170" stroke="#1A3C6D" stroke-width="2.5"/><line x1="140" y1="60" x2="220" y2="60" stroke="#DC2626" stroke-width="2" stroke-dasharray="4,2"/><text x="185" y="50" text-anchor="middle" font-size="13" fill="#DC2626" font-weight="700">r</text><line x1="235" y1="60" x2="235" y2="170" stroke="#16A34A" stroke-width="2" stroke-dasharray="4,2"/><text x="250" y="115" text-anchor="middle" font-size="13" fill="#16A34A" font-weight="700">h</text><text x="140" y="215" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">圓柱體 Cylinder</text><text x="140" y="235" text-anchor="middle" font-size="11" fill="#6B7280" font-weight="700">V=πr²h, 表面積=2πr²+2πrh</text></svg></div>
+<div class="ex"><div class="ex-title">例題 3（圓柱體積）</div><div class="ex-q">一個圓柱體的底半徑為 7 cm，高為 20 cm。求它的體積。（π = <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</div></div>
+<div class="ex"><div class="ex-title">例題 4（圓柱表面積 — 陷阱題）</div><div class="ex-q">一個圓柱的底半徑為 5 cm，高為 12 cm。求它的總表面積。（π = 3.14）</div></div>
+<div class="tc">
+  <div class="tc-w"><div class="lbl">❌ 最高頻錯誤：忘加頂部圓面！</div><div class="eq">表面積 = πr² + 2πrh = 78.5 + 376.8 = 455.3 cm²</div><div class="why">只計了一個底面 + 側面，忘記圓柱有頂和底兩個圓面</div></div>
+  <div class="tc-r"><div class="lbl">✅ 正確：圓柱總表面積</div><div class="eq">表面積 = 2πr² + 2πrh = 157 + 376.8 = 533.8 cm²</div><div class="why">2πr² = 兩個圓面（頂+底），不是一個！</div></div>
+</div>
+<div class="mn">🧠 🧠 「圓柱表面積，上下兩個圓，加埋側面長方形。2πr² 加 2πrh，唔好漏咗個頂！」</div>
+</div>
+<div class="page-break"></div>
+<div class="pb">
+<div class="h2">知識點一＋二 同步練習</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">6</td><td class="qtxt">三角柱：底面三角形 b=10 cm, h=6 cm，柱高=8 cm。體積 = ？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr><tr><td class="qn">7</td><td class="qtxt">梯形柱：底面梯形 a=5 cm, b=11 cm, 梯形h=4 cm，柱高=10 cm。體積 = ？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr><tr><td class="qn">8</td><td class="qtxt">圓柱：r=7 cm, h=15 cm。體積 = ？（π=<span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr><tr><td class="qn">9</td><td class="qtxt">圓柱：r=6 cm, h=10 cm。總表面積 = ？（π=3.14）</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:90px;"></td></tr></table>
+<div class="kp"><div class="kp-title">知識點三：複合立體體積 — 拆解 + 組合 <span class="ss sm">🟡 中一進階</span></div><div class="kp-rules"><ol>
+<li>複合立體的體積 = 各部分體積之和（或差）</li>
+<li>拆解策略：將複合體拆成 2-3 個基本立體（棱柱、圓柱、長方體等）</li>
+<li>常見複合：圓柱＋長方體、三角柱＋長方體、兩個不同棱柱的組合</li>
+<li><strong>中空物體：</strong>總體積 = 外部體積 - 中空部分體積</li></ol></div></div>
+<div class="geom"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120"><rect x="30" y="15" width="60" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><text x="60" y="111" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">60</text><rect x="90" y="60" width="80" height="35" fill="#DCFCE7" stroke="#1A3C6D" stroke-width="3"/><text x="130" y="111" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">80</text><line x1="90" y1="15" x2="90" y2="95" stroke="#6B7280" stroke-width="1" stroke-dasharray="5,2"/></svg></div>
+<div class="ex"><div class="ex-title">例題 5（複合體積）</div><div class="ex-q">一個複合立體由一個長方體（長15cm、闊10cm、高8cm）和一個放在上面的三角柱（底為直角三角形，兩邊6cm和8cm，柱長10cm）組成。求總體積。</div></div>
+<div class="ex"><div class="ex-title">例題 6（中空圓柱）</div><div class="ex-q">一個圓柱形管道的內半徑為 4 cm，外半徑為 5 cm，長度為 30 cm。求管道的材料體積。（π=3.14）</div></div>
+<div class="h2">知識點三 同步練習</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">10</td><td class="qtxt">一個複合體由邊長 10 cm 的正方體和放在上面的半徑 5 cm、高 8 cm 的圓柱組成。求總體積。（π=3.14）</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:95px;"></td></tr><tr><td class="qn">11</td><td class="qtxt">一個中空長方體外尺寸 20×15×10 cm，內中空部分 14×9×8 cm。求材料體積。</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:90px;"></td></tr><tr><td class="qn">12</td><td class="qtxt">一個 L 形棱柱的底面為 L 形（參考上圖），柱高為 10 cm。求體積。</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:90px;"></td></tr><tr><td class="qn">13</td><td class="qtxt">一個複合體由三角柱（底三角形面積 24 cm²，柱高 6 cm）放在長方體（8×5×3 cm）上。總體積 = ？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr></table>
+<div class="kp"><div class="kp-title">知識點四：單位換算進階 — 同單位才能乘！<span class="ss sm">🟡 SSPA 中頻</span></div><div class="kp-rules"><ol>
+<li><strong>長度：</strong>1 m = 100 cm，1 cm = 10 mm</li>
+<li><strong>面積：</strong>1 m² = 10000 cm²（100 × 100）</li>
+<li><strong>體積：</strong>1 m³ = 1,000,000 cm³（100 × 100 × 100）</li>
+<li><strong>容量：</strong>1 L = 1000 mL = 1000 cm³，1 m³ = 1000 L</li>
+<li><strong>🪤 終極陷阱：</strong>所有維度必須用同一單位才能相乘！例如長用 m、闊用 cm → 先統一為 cm 或 m。</li></ol></div></div>
+<div class="warn">⚠️ 🪤 致命陷阱：體積換算時 m³ 轉 cm³ 是 ×1,000,000（一百萬），不是 ×100！因為 1 m³ = 100 cm × 100 cm × 100 cm。</div>
+<div class="mn">🧠 🧠 「單位換算三分類：長度百倍、面積萬倍、體積百萬倍！m轉cm乘100，m²轉cm²乘10000，m³轉cm³乘1000000！」</div>
+<div class="h2">知識點四 同步練習</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">14</td><td class="qtxt">換算：3.5 m³ = ？cm³</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">15</td><td class="qtxt">換算：4500000 cm³ = ？m³</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">16</td><td class="qtxt">一個長方體 2 m × 1.5 m × 0.8 m，體積 = ？L（1 m³ = 1000 L）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">17</td><td class="qtxt">一個長方體長 1.2 m、闊 80 cm、高 0.5 m。體積 = ？cm³</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:85px;"></td></tr></table>
+</div>
+<div class="page-break"></div>
+<div class="pb">
+<div class="h1">三、課堂分層同步練習</div>
+<div class="h2">🌱 基礎層（共 3 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">18</td><td class="qtxt">三角柱：底三角形面積 30 cm²，柱高 12 cm。V = ？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">19</td><td class="qtxt">圓柱：r=3 cm, h=10 cm。V = ？（π=3.14）</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">20</td><td class="qtxt">2.5 L = ？cm³</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr></table>
+<div class="h2">🌿 進階層（共 3 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">21</td><td class="qtxt">六角柱：底面正六邊形面積 64 cm²，柱高 15 cm。V = ？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:85px;"></td></tr><tr><td class="qn">22</td><td class="qtxt">圓柱 r=5 cm, h=8 cm。求側面積和總表面積。（π=3.14）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:90px;"></td></tr><tr><td class="qn">23</td><td class="qtxt">一個容器由半徑 10 cm 的圓柱（高 20 cm）和圓柱上方的半個球體組成。假設球體積不用計算，只求圓柱部分體積。（π=3.14）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:90px;"></td></tr></table>
+<div class="h2">🌳 挑戰層（共 3 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">24</td><td class="qtxt">一個中空圓柱（內 r=3 cm, 外 R=5 cm, 高 12 cm）。求材料體積。（π=3.14）</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:95px;"></td></tr><tr><td class="qn">25</td><td class="qtxt">一個複合體由底層長方體（20×12×5 cm）和上層三角柱（底三角形=右三角形 8-6-10，柱長=12 cm）組成。總體積 = ？</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:100px;"></td></tr><tr><td class="qn">26</td><td class="qtxt">圓柱 A（r=4 cm, h=10 cm）vs 圓柱 B（r=8 cm, h=2.5 cm）。哪個體積較大？大多少 %？（π=3.14）</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:100px;"></td></tr></table>
+<div class="h2">🏔️ 極限挑戰（共 2 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">27</td><td class="qtxt">一個複合體由底層圓柱（r=10 cm, h=5 cm）、中層正方體（邊長 14 cm）、頂層三角柱（底為等邊三角形面積 43.3 cm²，柱高 14 cm）組成。總體積 = ？（π=3.14）</td><td class="qd d4">🏔️ 極限</td><td class="qw" style="min-height:110px;"></td></tr><tr><td class="qn">28</td><td class="qtxt">一個圓柱形水箱（r=20 cm, h=50 cm）裝了 80% 的水。放入一個實心圓柱（r=8 cm, h=15 cm）完全浸沒。水位上升多少 cm？（π=3.14）</td><td class="qd d4">🏔️ 極限</td><td class="qw" style="min-height:110px;"></td></tr></table>
+</div>
+<div class="page-break"></div>
+<div class="pb">
+<div class="h1">四、SSPA + 中一銜接應用題（共 5 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">29</td><td class="qtxt">【中一真題型】一個三角柱容器（底為直角三角形：兩直角邊 15 cm 和 20 cm，柱高 30 cm）。問：<br>(a) 底面面積是多少？<br>(b) 容器能裝多少 mL 的水？<br>(c) 如果倒入 3000 mL 水，水位會有多高？</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:110px;"></td></tr><tr><td class="qn">30</td><td class="qtxt">【中一真題型】一個圓柱形水桶（r=14 cm, h=40 cm），裝了 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 的水。（π=<span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）<br>(a) 水桶內有多少 L 水？（1 L = 1000 cm³）<br>(b) 如果把水全部倒入一個正方體容器（邊長 25 cm），正方體容器能裝得下嗎？如果不能，會溢出多少 L？</td><td class="qd d4">🏔️ 極限</td><td class="qw" style="min-height:120px;"></td></tr><tr><td class="qn">31</td><td class="qtxt">【中一真題型】一個複合立體由圓柱（r=5 cm, h=10 cm）和放在上面的圓錐（相同半徑 r=5 cm, h=6 cm）組成。（圓錐體公式 V=<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>πr²h）求總體積。（π=3.14）</td><td class="qd d4">🏔️ 極限</td><td class="qw" style="min-height:110px;"></td></tr><tr><td class="qn">32</td><td class="qtxt">【單位換算挑戰】一個游泳池長 25 m、闊 10 m、平均水深 1.5 m。如果用一個容量 500 L 的水桶加水，最少需要多少桶才能裝滿游泳池？</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:100px;"></td></tr><tr><td class="qn">33</td><td class="qtxt">【設計題】你需要設計一個容量為 1000 cm³ 的圓柱形容器。如果半徑選為 5 cm，高度應該是多少？（π=3.14，答案取至整數 cm）</td><td class="qd d3">🌳 挑戰</td><td class="qw" style="min-height:100px;"></td></tr></table>
+<div class="h1">五、課後鞏固練習（家課）</div>
+<div class="h2">基礎鞏固（5+ 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">HW1</td><td class="qtxt">三角柱：b=12 cm, h=5 cm（三角形高），柱高=8 cm。體積 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">HW2</td><td class="qtxt">圓柱：r=7 cm, h=20 cm。體積 = ？（π=<span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">HW3</td><td class="qtxt">圓柱：r=4 cm, h=15 cm。側面積 = ？總表面積 = ？（π=3.14）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:85px;"></td></tr><tr><td class="qn">HW4</td><td class="qtxt">換算：5000000 cm³ = ？m³ = ？L</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr><tr><td class="qn">HW5</td><td class="qtxt">長方體 80cm × 50cm × 40cm。體積 = ？cm³ = ？L</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr></table>
+<div class="h2">進階挑戰（3+ 題）</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr><tr><td class="qn">HW6</td><td class="qtxt">中空圓柱外 R=6 cm, 內 r=4 cm, h=20 cm。材料體積 = ？（π=3.14）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr><tr><td class="qn">HW7</td><td class="qtxt">複合體：長方體（30×20×10 cm）+ 三角柱（底面積 60 cm², 柱高 20 cm）。總體積 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr><tr><td class="qn">HW8</td><td class="qtxt">一個圓柱形罐頭（r=4 cm, h=10 cm）的標籤紙完全包裹側面。標籤紙的面積是？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:85px;"></td></tr></table>
+</div>
+<div class="page-break"></div>
+<div class="pb">
+<div class="h1">六、常見錯誤辨析表（The Error Table）</div>
+
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et"><tr><th>#</th><th>陷阱類型</th><th>錯誤症狀</th><th>根本原因</th><th>正確解法</th><th>預防方法</th><th>嚴重度</th></tr><tr><td>1</td><td>T1 — 單位混淆</td><td>用 m 和 cm 混合相乘，結果完全錯</td><td>忘記統一單位就相乘</td><td>先將所有尺寸轉為同一單位</td><td>做題前先檢查單位是否一致</td><td>🔴 高</td></tr><tr><td>2</td><td>T2 — 公式混淆</td><td>V = πr²×h 寫成 V = 2πr×h</td><td>混淆圓周公式和圓面積公式</td><td>V 用 πr²（面積），不是 2πr（周長）</td><td>V公式中有 r²，周長公式沒有</td><td>🔴 高</td></tr><tr><td>3</td><td>T4 — 忘加頂面</td><td>表面積只計一個圓面 + 側面</td><td>以為圓柱只有一個底面（像杯子）</td><td>總表面積 = 2πr²（兩個圓面）+ 2πrh</td><td>畫圖標出兩個圓面</td><td>🔴 高</td></tr><tr><td>4</td><td>T3 — 混淆高度</td><td>用三角形的高當作柱體的高</td><td>不清楚「底面高」和「柱體高」的區別</td><td>底面積中用的高是底面圖形的高，再×柱高</td><td>先計底面積，再乘以柱體高度</td><td>🟡 中</td></tr><tr><td>5</td><td>T6 — 換算數量級</td><td>1 m³ = 100 cm³（❌）</td><td>忘記體積是三維換算</td><td>1 m³ = 100×100×100 = 1,000,000 cm³</td><td>m³→cm³ 乘一百萬</td><td>🔴 高</td></tr><tr><td>6</td><td>T5 — 中空計算</td><td>忘記減去中空部分或減錯</td><td>未畫圖標註內外尺寸</td><td>材料體積 = 外部體積 - 內部空間</td><td>畫截面圖輔助理解</td><td>🟡 中</td></tr><tr><td>7</td><td>T7 — 複合拆解</td><td>複合體拆錯或漏計某一部</td><td>複合體結構分析不清楚</td><td>逐一標號拆解，分別計體積再相加</td><td>用不同顏色標出各部分</td><td>🟡 中</td></tr></table>
+<div class="mn">🧠 🧠 「棱柱底面積乘高，圓柱πr²乘高。表面積要計兩個圓，唔好漏咗個頂！單位統一先好乘，m³轉cm³乘一百萬！」</div>
+<div class="h1">七、解題策略卡（4-Step Strategy Cards）</div>
+<div class="sc"><div class="sc-i"><div class="n">①</div><div class="t">統一單位</div><div class="d">檢查所有尺寸的單位，轉換為同一單位（建議全部轉 cm）</div></div><div class="sc-i"><div class="n">②</div><div class="t">識別底形</div><div class="d">看清底面是什麼形狀（三角形/梯形/圓形），計算底面積</div></div><div class="sc-i"><div class="n">③</div><div class="t">套入公式</div><div class="d">體積=底面積×高。圓柱特別注意：V=πr²h，表面積=2πr²+2πrh</div></div><div class="sc-i"><div class="n">④</div><div class="t">驗算單位</div><div class="d">答案的單位是 cm³（體積）或 cm²（表面積），不要混淆</div></div></div>
+<div class="end-note">
+<p>霖楓學苑 · LF Academy · 不教數學，教避開陷阱。</p><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L03 平行四邊形與三角形面積 · L04 梯形多邊形面積 · L05 面積陷阱專項 · 相關課題：L25 體積應用題 · L26 體積概念 · L27 複合立體排水法 · 相關課題：L21 圓的認識 · L22 圓面積進階 · L06 圓周與圓面積</div>
+</div>
+</div>
+</div>
+</body>
+</html>

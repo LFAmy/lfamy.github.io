@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S1-L02 Most estimates — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* SVG diagram area */
+  .svg-diag { text-align:center; margin:10px 0; }
+  .svg-diag svg { max-width:100%; }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · 2nd Lesson · Student Handout</div>
+<div class="cv-title">Most estimates</div>
+<div class="cv-sub">Unit one · more number of digitsandestimation · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5A Unit 1 + Modern Education 5A Unit 2<br/>
+<b>Core traps:</b>🔴 High frequency<br/>
+<b>The sub-test must be taken every year, and the estimation questions account for about 8-12% of Paper 1</b><span class="ss sh">Prerequisite knowledge:</span>Class 1 (multi-digit reading and writing, decimal place value, rounding to approximate values)<br/>
+<b>Objective of this class:</b>❶ Understand the difference between estimation and actuarial science ❷ Master the segmentation method estimation ❸ K/M notation ❹ The strategy of estimating first and then calculating ❺ Estimation word problems<br/>
+<b>Our goals:</b>❶ Understand the difference between estimation and actuarial calculation ❷ Master the segmentation method for estimation ❸ K/M notation ❹ The strategy of estimating first and then calculating ❺ Estimation application questions</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Round 38,562 to the nearest thousand.</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Write 4,725,000 as an approximate value in units of thousands (round to the nearest ten thousand).</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">How much does 1K represent? How much does 1M represent? Write the numbers.</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Using rounding techniques, estimate the result of 398 + 612 (rounded to the nearest hundred).</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">A photo shows the crowd: about 30 people horizontally and about 25 rows vertically. Use the segmentation method to estimate how many people are at the scene?</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: What is an estimate? Estimate ≠ Actuarial 🔴 SSPA</div>
+<div class="kp-rules">
+      ① <strong>Actuarial |||SEP|||: Calculate the exact answer (for example: 398 + 612 = 1010)</strong>Estimation |||SEP|||: Use approximate values to quickly find the "approximate" answer (for example: 400 + 600 ≈ 1000)<br/>
+      ② <strong>③ Purpose of estimation: Quickly judge whether the answer is reasonable, used when precise numbers are not needed in daily life</strong>Segmentation method |||SEP|||: Divide the large area into small grids → Count the number of people/objects in one grid → × Number of grids = Estimated total number<br/>⑤ Write "≈" (approximately equal) in front of the estimated answer, do not use "="<br/>
+      ④ <strong>segmentation method</strong>: Divide a large area into small grids → count the number of people/objects in one grid → × number of grids = estimated total number<br/>⑤ Please write "≈" (approximately equal to) in front of the estimated answer, do not use "="</div>
+</div>
+<div class="game-box"><div class="game-title">🏆 陷阱獵人·計時挑戰</div><div class="game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！留意題目中嘅「陷阱關鍵字」</div><div class="game-action">⭐ 開始挑戰 →</div></div>
+
+SVG: Schematic diagram of crowd estimation using segmentation method
+<div class="svg-diag">
+<svg height="220" viewbox="0 0 460 220" width="460" xmlns="http://www.w3.org/2000/svg">
+<!-- Grid background -->
+<rect fill="#F0F9FF" height="180" rx="4" stroke="#93C5FD" stroke-width="2" width="440" x="10" y="10"></rect>
+<!-- Grid lines -->
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="10" x2="450" y1="70" y2="70"></line>
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="10" x2="450" y1="130" y2="130"></line>
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="120" x2="120" y1="10" y2="190"></line>
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="230" x2="230" y1="10" y2="190"></line>
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="340" x2="340" y1="10" y2="190"></line>
+<!-- People dots in grid cells (dense for crowd) -->
+<!-- Row 1 -->
+<circle cx="35" cy="25" fill="#1E40AF" r="3"></circle><circle cx="55" cy="25" fill="#1E40AF" r="3"></circle><circle cx="75" cy="25" fill="#1E40AF" r="3"></circle><circle cx="95" cy="25" fill="#1E40AF" r="3"></circle>
+<circle cx="35" cy="40" fill="#1E40AF" r="3"></circle><circle cx="55" cy="40" fill="#1E40AF" r="3"></circle><circle cx="75" cy="40" fill="#1E40AF" r="3"></circle><circle cx="95" cy="40" fill="#1E40AF" r="3"></circle>
+<circle cx="35" cy="55" fill="#1E40AF" r="3"></circle><circle cx="55" cy="55" fill="#1E40AF" r="3"></circle><circle cx="75" cy="55" fill="#1E40AF" r="3"></circle><circle cx="95" cy="55" fill="#1E40AF" r="3"></circle>
+<!-- Row 2 -->
+<circle cx="145" cy="25" fill="#1E40AF" r="3"></circle><circle cx="165" cy="25" fill="#1E40AF" r="3"></circle><circle cx="185" cy="25" fill="#1E40AF" r="3"></circle><circle cx="205" cy="25" fill="#1E40AF" r="3"></circle>
+<circle cx="145" cy="40" fill="#1E40AF" r="3"></circle><circle cx="165" cy="40" fill="#1E40AF" r="3"></circle><circle cx="185" cy="40" fill="#1E40AF" r="3"></circle><circle cx="205" cy="40" fill="#1E40AF" r="3"></circle>
+<circle cx="145" cy="55" fill="#1E40AF" r="3"></circle><circle cx="165" cy="55" fill="#1E40AF" r="3"></circle><circle cx="185" cy="55" fill="#1E40AF" r="3"></circle><circle cx="205" cy="55" fill="#1E40AF" r="3"></circle>
+<!-- Row 3 -->
+<circle cx="255" cy="25" fill="#1E40AF" r="3"></circle><circle cx="275" cy="25" fill="#1E40AF" r="3"></circle><circle cx="295" cy="25" fill="#1E40AF" r="3"></circle><circle cx="315" cy="25" fill="#1E40AF" r="3"></circle>
+<circle cx="255" cy="40" fill="#1E40AF" r="3"></circle><circle cx="275" cy="40" fill="#1E40AF" r="3"></circle><circle cx="295" cy="40" fill="#1E40AF" r="3"></circle><circle cx="315" cy="40" fill="#1E40AF" r="3"></circle>
+<circle cx="255" cy="55" fill="#1E40AF" r="3"></circle><circle cx="275" cy="55" fill="#1E40AF" r="3"></circle><circle cx="295" cy="55" fill="#1E40AF" r="3"></circle><circle cx="315" cy="55" fill="#1E40AF" r="3"></circle>
+<!-- Row 4 -->
+<circle cx="365" cy="25" fill="#1E40AF" r="3"></circle><circle cx="385" cy="25" fill="#1E40AF" r="3"></circle><circle cx="405" cy="25" fill="#1E40AF" r="3"></circle><circle cx="425" cy="25" fill="#1E40AF" r="3"></circle>
+<circle cx="365" cy="40" fill="#1E40AF" r="3"></circle><circle cx="385" cy="40" fill="#1E40AF" r="3"></circle><circle cx="405" cy="40" fill="#1E40AF" r="3"></circle><circle cx="425" cy="40" fill="#1E40AF" r="3"></circle>
+<circle cx="365" cy="55" fill="#1E40AF" r="3"></circle><circle cx="385" cy="55" fill="#1E40AF" r="3"></circle><circle cx="405" cy="55" fill="#1E40AF" r="3"></circle><circle cx="425" cy="55" fill="#1E40AF" r="3"></circle>
+<!-- Highlight one cell -->
+<rect fill="none" height="60" rx="2" stroke="#DC2626" stroke-width="3" width="110" x="120" y="70"></rect>
+<text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="175" y="115">1 grid ≈ 12 people</text>
+<!-- Labels -->
+<text fill="#DC2626" font-size="10" text-anchor="middle" x="175" y="93">One grid: 4×3=12 people</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="230" y="200">Division method: total number of grids × number of people per grid = 4×3×12 = 144 people (approx.)</text>
+<!-- Grid count labels -->
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="65" y="202">1 column</text>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="175" y="202">2 columns</text>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="285" y="202">3 columns</text>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="395" y="202">4 columns</text>
+</svg>
+</div>
+<div class="ex">
+<div class="ex-title">Trap detonation example (the most important demonstration in this class)</div>
+<div class="ex-q">The concert venue has approximately 28 seats per row, for a total of 32 rows. Use estimation methods to find approximately how many seats there are?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (60% students)</div><div class="eq">28 × 32 = 896</div><div class="why">Direct actuarial calculation, no "estimation"!</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution (estimate first)</div><div class="eq">30 × 30 ≈ 900 pieces</div><div class="why">28≈30, 32≈30 → 30×30≈900 (estimated answer)</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "Use approximation for estimation, and equal sign for actuarial calculation; first take the approximate value, and then calculate the approximate number."</div>
+<div class="warn">⚠️ The most frequent error: the question requires "estimation" but students did "actuarial calculation". When you see "approximately", "estimate" and "approximately" → be sure to use ≈!</div>
+<div class="warn">⚠️ The second most frequent error: writing the "=" equal sign after estimating. The estimated result is not an exact value and must be written as "≈" (approximately equal to)!</div>
+<div class="h2">Knowledge Point - Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">The picture below is divided into 24 cells, with about 15 people in each cell. Use the segmentation method to estimate the total number of people.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt">There are about 35 books on each shelf, for a total of 18 shelves. Use the estimation method to find approximately how many books there are? (rounded to the nearest ten)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 2: K/M notation (concise representation of large numbers) 🔴 SSPA required test</div>
+<div class="kp-rules">
+<strong>K and M are the internationally accepted "abbreviations for large numbers":</strong><br/>
+      ① <strong>K = Thousand (Kilo)</strong>: 1K = 1,000 (for example: 5K = 5,000, 3.5K = 3,500)<br/>
+      ② <strong>M = Million (Mega)</strong>: 1M = 1,000,000 (for example: 2M = 2,000,000, 1.5M = 1,500,000)<br/>
+      ③ <strong>Common applications</strong>: YouTube views (250K views), property prices (8.5M), population (7.5M)<br/>
+      ④ <strong>K → Number</strong>: Multiply 1,000 (decimal point shifted 3 places to the right)<br/>
+      ⑤ <strong>M → Number</strong>: Multiply by 1,000,000 (decimal point moved 6 places to the right)</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">K</div><div class="t">Kilo</div><div class="d">1K = 1,000<br/>×1,000</div></div>
+<div class="sc-i"><div class="n">M</div><div class="t">Mega</div><div class="d">1M=1,000,000<br/>×1,000,000</div></div>
+<div class="sc-i"><div class="n">→</div><div class="t">K to digital</div><div class="d">×1,000 Decimal point shifted 3 places to the right</div></div>
+<div class="sc-i"><div class="n">→</div><div class="t">M to digital</div><div class="d">×1,000,000 Decimal point shifted 6 places to the right</div></div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 3: Write 45K and 2.5M as ordinary numbers.</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 4: A video has 1,250,000 views, expressed in two ways: K and M.</div></div>
+<div class="kp">
+<div class="kp-title">Knowledge point 3: The strategy of estimating first and then calculating (sequence trap!) 🔴 SSPA Advanced</div>
+<div class="kp-rules">
+<strong>Core Principle: Approximate first, do calculations later – don’t do calculations first and then do approximations!</strong><br/>
+      ① <strong>Correct order |||SEP|||: original data → take approximation → calculation → estimated result</strong>Wrong order |||SEP|||: original data → actuarial → take approximation (the meaning of estimation is lost, and the answer may be different!)<br/>
+      ② <strong>Why "estimate first"?</strong>Because rounding before calculation is different from rounding after actuarial calculation, the result<br/>
+      ③ <strong>may be different</strong>④ Sub-test trap: The question says "Estimate first, then calculate" ↔ Two steps must be shown, no skipping<strong>may be different</strong>！<br/>④ Sub-test trap: The question says "Estimate first, then calculate" ↔ Two steps must be shown, no skipping.</div>
+</div>
+<div class="ex"><div class="ex-title">Trap detonation example</div><div class="ex-q">The fast-food restaurant sold 387 burgers and 614 sodas throughout the day. Estimate first and then calculate how many servings of food were sold in total?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Calculate first and then approximate</div><div class="eq">387+614=1001≈1000</div><div class="why">Wrong order! The question requires "Estimate first and then calculate"</div></div>
+<div class="tc-r"><div class="lbl">✅ Estimate first and then calculate</div><div class="eq">Estimate: 400+600≈1000<br/>Actuarial: 387+614=1001</div><div class="why">First make an approximate estimate and then do an actuarial check</div></div>
+</div>
+<div class="warn">⚠️ SSPA killer question: "Estimate first, calculate later" - You must write ≈ that step first, and the order must not be reversed!</div>
+<div class="warn">⚠️ Unit trap: When estimating, make sure the units are consistent (convert all to the same units before estimating), do not mix K, M, and ordinary numbers!</div>
+<div class="h2">Knowledge Point 2 + 3 Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 5</td><td class="qtxt">There were 23,500 people attending the concert, denoted by K (rounded to one decimal place).</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">Example 6</td><td class="qtxt">Three items from the supermarket: $28.5, $43.2, $19.8. Estimate the total first (round to the nearest ten dollars), then calculate the exact total.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">Example 7</td><td class="qtxt">The minibuses can carry up to 16 people and the school has 318 pupils on the trip. What is the estimated minimum number of minibuses needed? (Hint: 318 ≈ 320, 320 ÷ 16 = ?)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">Example 8</td><td class="qtxt">Population of three cities: A=2.8M, B=1,250K, C=3,100,000. (a) Convert all to M and express (b) Estimate the approximate total population of the three cities, M (rounded to one decimal place).</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 4: Estimation application questions (subject to sub-test text questions) 🔴 SSPA compulsory exam</div>
+<div class="kp-rules">
+<strong>Four-step method for solving application problems on estimation:</strong><br/>
+      ① <strong>Circle keywords</strong>("approximately" "estimate" "approximately" → use ≈; "total" "total" → addition/multiplication)<br/>
+      ② <strong>Take approximate values</strong>(according to the accuracy required by the question, such as rounding to the nearest hundredth/thousandth place)<br/>
+      ③ <strong>Estimate calculation</strong>(Use approximate values to calculate, write ≈ before the answer)<br/>
+      ④ <strong>If necessary, do actuarial comparison</strong>(Some questions require "estimate first and then calculate")</div>
+</div>
+<div class="h2">Basic layer (total 7 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Write 68K as an ordinary number.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Write 3.2M as an ordinary number.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Estimate using rounding method 287 + 514 (rounded to the nearest hundred).</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">A picture is divided into 18 boxes, with approximately 22 people in each box. Use the segmentation method to estimate the total number of people. (rounded to the nearest hundred)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">Let K and M represent 4,800,000 respectively.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">6</td><td class="qtxt">Write the result of 1.2K + 800. (Tip: Convert 1.2K to an ordinary number first and then calculate)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">Estimate using rounding method 495 ÷ 7 (rounded to the nearest ten).</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 5 questions, 🚶🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">8</td><td class="qtxt">One book has 238 pages and the other has 476 pages. First estimate the approximate number of pages in the two books (rounded to the nearest hundred), and then calculate the exact total number of pages.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">The concert sold 1.25K tickets and the other 0.85K tickets. How many copies were sold in the two games? (Use K to estimate first, then convert to numbers)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">A certain housing estate in Hong Kong has eight buildings, each with approximately 320 units. Use an estimate to find out how many units there are in the housing estate? (rounded to the nearest thousand)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">There are 1,250 candies in a box, and there are 6 boxes available. First approximate the total sugar count (rounded to the nearest thousand) and then calculate the exact total.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">The school has 4 levels with 148 students in each level. First estimate the approximate number of people in the school (rounded to the nearest hundred), and then make an arithmetic calculation. What is the difference between estimation and actuarial calculation? Why?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (total 3 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">The views of the three videos are 2.4M, 1.85M and 0.95M respectively. First estimate the total number of views (rounded to M to one decimal place), then calculate the exact total.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">Xiao Ming said: "398+612 ≈ 400+600 ≈ 1000, so the answer is about 1000." Xiao Hua said: "No! 398+612=1010 ≈ 1000, the answer is the same!" Whose statement meets the definition of "estimate"? Why?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">The school auditorium can accommodate 850 people, and there are currently 23 classes with about 32 people in each class. Use estimates to determine whether the auditorium is large enough to accommodate the entire school population? If not, how many seats are still owed? (Tip: Estimate the total number of people first, then compare to 850)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+<div class="h2">estimationapplicationquestion (all must do, must display "estimationstep")</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">16</td><td class="qtxt">Stationery store pencils cost $3.80 each and ball pens cost $5.20 each. Xiao Ming bought 10 pencils and 10 ball pens each. Estimate the total first (round to the nearest ten dollars), then calculate the exact total.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">The school auditorium has 28 seats per row and 36 rows in total. Use the estimation method to find approximately how many seats there are in the auditorium? (rounded to the nearest hundred)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">Attendance at Hong Kong Disneyland on a given day is about 34,500. Let K represent the number of attendees. (Rounded to one decimal place)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">A housing estate has 12 blocks, each with 38 floors and 6 units per floor. Use the estimation method to find out approximately how many units there are in a housing estate? (Tip: estimate in two steps)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">The mall’s three-day attendance: 8,750 on Friday, 15,200 on Saturday and 13,800 on Sunday. First estimate the total number of visitors for the three days (rounded to the nearest thousand), and then calculate the exact total.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">A certain YouTuber’s three most popular videos have been viewed: 1.2M, 850K, and 2.35M. Question: (a) How many M are the total views of the three videos? (b) What is the precise total number of views?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">IV.🏔️ Ultimate challenge area</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">A large concert venue is divided into three areas: A, B, and C. Zone A has 4,850 people, Zone B has 3,920 people and Zone C has 6,180 people. (a) First estimate the total number of people in the venue (rounded to the nearest thousand). (b) Calculate the total number of people in the venue. (c) How much does the estimated result differ from the actuarial result? Is this gap reasonable? Why?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:86px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">City A has a population of approximately 3.5M, City B has a population of approximately 2,800K, and City C has a population of approximately 1,250,000. (a) Let M represent the population of all three cities. (b) What is the total population of the three cities, M? (c) If the three cities are merged, is it more appropriate to use M or K to express the total population? Why?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:92px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">Xiaowen bought 3 items in the supermarket: $12.8, $23.5, and $9.9. (a) First estimate the total (round to the nearest ten dollars). (b) Calculate the exact total. (c) Compare estimates and actuarial differences. (d) If each item is approximated first and then approximated, will the results be different from those first added and then approximated? Use these three numbers as an example.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:92px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">V. Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 6 questions, must write estimation step)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">Write 125K as an ordinary number.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">Write 5.5M as an ordinary number.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">Estimate using rounding method 613 + 289 (rounded to the nearest hundred).</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">The parking lot is divided into 24 bays, with approximately 18 cars in each bay. Use the segmentation method to estimate the total number of vehicles. (rounded to the nearest hundred)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">Let's first express 3,750,000 by K and then by M.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">The games had 2,380 people in the morning and 1,720 in the afternoon. First estimate the total number of people for the day (rounded to the nearest thousand), and then calculate the exact total.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+<div class="h2">For advanced, choose doquestion (total 2 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H7</td><td class="qtxt">The satellite images of the three cities each have 48 grids, 52 grids, and 36 grids, and each grid has about 25 buildings. Use estimates to find out how many buildings there are in the three cities?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">The number of downloads of a certain app in the world: 12.5M in Asia, 8.3M in Europe, 15.7M in the Americas, and 3.9M in other regions. Question: (a) How many M are the total global downloads? (b) How many more M are there in Asia than in Europe?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">VI. The Lessoncorecommon errorsummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Estimate ≠ Actuarial |||SEP|||: The question requires estimation but actuarial calculation is done, or the estimated answer uses the "=" equal sign</strong>: The question requires an estimate but an actuarial calculation is done, or the answer to the estimate uses the "=" equal sign.</td><td>Use "≈" for estimation and "=" for actuarial calculation.</td></tr>
+<tr><td>2</td><td><strong>K/M unit confusion |||SEP|||: 1K = 1,000 but 1M = 1,000,000 (cannot be used as 10,000!)</strong>: 1K = 1,000 but 1M = 1,000,000 (cannot be used as 10,000!)</td><td>1K=×1,000, 1M=×1,000,000</td></tr>
+<tr><td>3</td><td><strong>Actuarial first and then get approximate values ​​|||SEP|||: The order is reversed and the requirement of "estimate first, then calculate" is forgotten.</strong>: The order is reversed and the requirement of "estimate first, then calculate" is forgotten.</td><td>First take the approximate value → calculate → get the estimated result</td></tr>
+<tr><td>4</td><td><strong>Decimal point shift error during K/M conversion |||SEP|||: For example, 2.5K = 250 (should be 2,500)</strong>: e.g. 2.5K = 250 (should be 2,500)</td><td>Decimal point shifted to the right: K=3 digits, M=6 digits</td></tr>
+<tr><td>5</td><td><strong>The number of people per square in the segmentation method is not rounded |||SEP|||: Use precise numbers to count the number of people in each square (for example, 12.3 people per square)</strong>: Use precise numbers to count the number of people per square (for example, 12.3 people per square)</td><td>The number of people in each square should also be an approximate integer</td></tr>
+<tr><td>6</td><td><strong>Mixing different units |||SEP|||: K + ordinary numbers are added directly (for example, 3K + 500)</strong>: K + ordinary numbers are added directly (for example, 3K + 500)</td><td>Unify the units first (convert all to numbers or all to K/M)</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「Most estimates」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「Most estimates」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 7 pages · 53 questions | LF-P5-S1-L02 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">The minibuses can carry up to 16 people and the school has 3</td><td style="font-weight:900;color:var(--green);padding:5px 10px">20</td></tr>
+</table>
+<div style="font-size:10px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！直接抄答案 = 呃自己 = 考試會出事！</div>
+</div>
+
+</body>
+</html>

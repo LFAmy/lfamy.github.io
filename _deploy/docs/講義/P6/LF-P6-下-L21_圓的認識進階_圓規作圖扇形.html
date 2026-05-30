@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-下-L21 圓的認識進階（<div style="text-align:center;margin:8px 0;padding:8px;background:#F0F9FF;border:1px solid var(--borderc);border-radius:5px;"><strong style="font-size:13px;color:var(--blue);">圓規作圖：固定圓心·展開至半徑長度·旋轉畫圓</strong><br><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 180" width="200" height="180"><circle cx="100" cy="80" r="70" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="100" cy="80" r="3" fill="#1A3C6D"/><text x="100" y="73" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="100" y1="80" x2="170" y2="80" stroke="#1A3C6D" stroke-width="2"/><text x="135" y="73" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="88" x2="170" y2="88" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="100" y="102" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+圓規作圖+<div style="text-align:center;margin:8px 0;padding:8px;background:#F0F9FF;border:1px solid var(--borderc);border-radius:5px;"><strong style="font-size:13px;color:var(--blue);">扇形=兩條半徑+一段弧。圓心角θ°的扇形面積=(θ/360)×πr²</strong><br><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 150" width="170" height="150"><circle cx="85" cy="65" r="55" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="85" cy="65" r="3" fill="#1A3C6D"/><text x="85" y="58" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="85" y1="65" x2="140" y2="65" stroke="#1A3C6D" stroke-width="2"/><text x="112" y="58" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="73" x2="140" y2="73" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="85" y="87" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+扇形）</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+  :root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  @media print { body { background:white; font-size:11px; } .pb { box-shadow:none; min-height:0; padding:24px 36px; } .pb.cover-page { page-break-after:always; } .page-break { page-break-before:always; } .qt .qw { background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border:1px dashed #9CA3AF; } .qt td { padding:4px 6px; } .qt { font-size:10.5px; } .qt .qtxt { font-size:11.5px; } .h1 { font-size:14px; margin:12px 0 7px; } .h2 { font-size:12px; } .kp { padding:7px 10px; } .ex { padding:7px 10px; } .ex-q { font-size:12px; } .warn { font-size:10.5px; padding:5px 8px; } .mn { font-size:12px; padding:8px 10px; } .sc { gap:6px; } .sc-i { padding:10px; } .sc-i .n { width:26px;height:26px;font-size:14px; } .sc-i .t { font-size:11px; } .tc { gap:8px; } .tc-w, .tc-r { padding:10px; } .et { font-size:10px; } }
+  .container { max-width:1000px; margin:0 auto; }
+  .pb { width:100%; background:var(--white); padding:36px 48px; display:flex; flex-direction:column; }
+  .f { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; } .f .n { font-size:inherit; line-height:1.15; } .f .d { font-size:inherit; line-height:1.15; } .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; } .fd .n { font-size:16px; font-weight:700; line-height:1.15; } .fd .d { font-size:16px; font-weight:700; line-height:1.15; } .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; } .fi .n { font-size:inherit; line-height:1; } .fi .d { font-size:inherit; line-height:1; } .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+  .cover { justify-content:center; align-items:center; text-align:center; background:var(--white); }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:16px 0; }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:18px 24px; font-size:12px; line-height:2; }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+  .h1 { font-family:'Noto Serif HK',serif; font-size:17px; font-weight:900; color:var(--blue); padding:7px 12px; margin:18px 0 10px; border-left:4px solid var(--gold); background:#FFFBEB; }
+  .h2 { font-family:'Noto Serif HK',serif; font-size:14px; font-weight:700; color:var(--blue); margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc); }
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px); }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; } .d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; } .sm { background:#FEF3C7; color:#92400E; }
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); } .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; } .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; } .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; } .et td { padding:5px 8px; border:1px solid var(--borderc); }
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+  .svg-diagram { text-align:center; margin:12px 0; }
+  .svg-diagram svg { max-width:100%; height:auto; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小六 · 下學期 第 21 堂 · 學生版講義</div>
+  <div class="cv-title">圓的認識進階（圓規作圖 + 扇形）</div>
+  <div class="cv-sub">單元十一 · 圓形進階 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》6下A冊 單元十一 ＋ 現代教育 6下A 單元8<br>
+    <b>核心陷阱：</b>T12 扇形角度與三角形角度混淆 · T13 弧長公式遺漏 ÷360 · T14 圓規作圖半徑誤差<br>
+    <b>SSPA 關聯：</b><span class="ss sh">高頻</span> 呈分試圓形題約佔卷一 8-12%<br>
+    <b>前置知識：</b>P5 圓周與圓面積基礎（L06）· 角度認識（P4）· 量度與作圖（P4-P5）<br>
+    <b>本堂目標：</b>圓規作圖技巧 圓心角與扇形關係 弧長計算 扇形面積計算
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">圓的半徑是 7 cm，直徑是多少？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">圓的直徑是 10 cm，圓周是多少？（取 π = 3.14）</td><td class="qd d1">基礎</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">圓的半徑是 5 cm，圓面積是多少？（取 π = 3.14）</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">一個直角是多少度？一個周角是多少度？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">用量角器量度下面角的大小（課堂出示）</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 + 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：圓的基礎重溫 + 圓規作圖<span class="ss sm">SSPA基礎</span></div>
+    <div class="kp-rules">
+      <strong>圓的關鍵元素：</strong>圓心(O)、半徑(r)、直徑(d = 2r)<br>
+      圓周 C = 2πr = πd &nbsp; 圓面積 A = πr²<br>
+      <strong>圓規作圖三步法：</strong><br>
+      1. 確定圓心位置，用鉛筆輕輕點一點<br>
+      2. 圓規兩腳距離 = 所需半徑（用間尺量度）<br>
+      3. 針腳固定圓心，鉛筆腳旋轉一圈，保持力度均勻<br>
+      <strong>關鍵：</strong>圓規兩腳距離 = 半徑，唔係直徑！呢個係最多人錯嘅位。
+    </div>
+  </div>
+
+  <div class="svg-diagram">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 160" width="180" height="160"><circle cx="90" cy="70" r="60" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="90" cy="70" r="3" fill="#1A3C6D"/><text x="90" y="63" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="90" y1="70" x2="150" y2="70" stroke="#1A3C6D" stroke-width="2"/><text x="120" y="63" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="78" x2="150" y2="78" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="90" y="92" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆例題（本堂最重要的示範）</div>
+    <div class="ex-q">例1：用圓規畫一個半徑 3 cm 的圓。圓規兩腳應相距多少？</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">常見錯誤（50% 學生）</div><div class="eq">圓規兩腳相距 6 cm</div><div class="why">混淆咗半徑同直徑！圓規兩腳距離 = 半徑，唔係直徑！</div></div>
+      <div class="tc-r"><div class="lbl">正確答案</div><div class="eq">圓規兩腳相距 3 cm</div><div class="why">圓規針腳到鉛筆腳的距離 = 半徑 = 3 cm</div></div>
+    </div>
+  </div>
+
+  <div class="mn">口訣：「圓規開幾多，就係半徑唔係直徑；針腳企穩鉛筆轉，一圈就係一個圓！」</div>
+  <div class="warn">致命陷阱：圓規兩腳距離 = 半徑！唔好攞直徑去除以 2 之後仲用直徑 set 圓規！</div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q1</td><td class="qtxt">要畫一個半徑 4 cm 的圓，圓規兩腳應相距多少 cm？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">Q2</td><td class="qtxt">用圓規畫一個直徑 8 cm 的圓，圓規兩腳應相距多少？</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">Q3</td><td class="qtxt">在下面畫出一個半徑 2.5 cm 的圓（需標示圓心 O）</td><td class="qd d2">進階</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">Q4</td><td class="qtxt">半徑為 6 cm 的圓，它的圓周和圓面積各是多少？（π = 3.14）</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+  <div class="kp">
+    <div class="kp-title">知識點二：圓心角與扇形<span class="ss sh">SSPA 必考</span></div>
+    <div class="kp-rules">
+      <strong>圓心角：</strong>以圓心為頂點、兩條半徑為邊的角<br>
+      圓心角 = 360° 時 = 整個圓<br>
+      <strong>扇形：</strong>兩條半徑和一段弧圍成的圖形<br>
+      扇形是圓的一部分，佔整個圓的 <strong>θ/360</strong>（θ = 圓心角）<br>
+      <strong>弧長公式：</strong>弧長 = <span class="fd"><span class="n">θ</span><span class="b"></span><span class="d">360</span></span> × 2πr<br>
+      <strong>扇形面積公式：</strong>扇形面積 = <span class="fd"><span class="n">θ</span><span class="b"></span><span class="d">360</span></span> × πr²<br>
+      <strong>關鍵記憶：</strong>弧長用 2πr（圓周），扇形面積用 πr²（圓面積），兩者都 × θ/360
+    </div>
+  </div>
+
+  <div class="svg-diagram">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 160" width="260" height="160">
+      <circle cx="100" cy="75" r="60" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="2.5"/>
+      <circle cx="100" cy="75" r="2.5" fill="#1A3C6D"/>
+      <text x="100" y="68" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text>
+      <line x1="100" y1="75" x2="160" y2="75" stroke="#DC2626" stroke-width="2"/>
+      <line x1="100" y1="75" x2="130" y2="23.04" stroke="#DC2626" stroke-width="2"/>
+      <path d="M 160,75 A 60,60 0 0,0 130,23.04" fill="none" stroke="#DC2626" stroke-width="2.5"/>
+      <text x="155" y="60" text-anchor="middle" font-size="10" fill="#DC2626" font-weight="700">弧</text>
+      <text x="135" y="65" text-anchor="middle" font-size="11" fill="#C9A84C" font-weight="700">θ</text>
+      <text x="180" y="100" text-anchor="start" font-size="10" fill="#1A3C6D">θ = 圓心角</text>
+      <text x="180" y="115" text-anchor="start" font-size="10" fill="#1A3C6D">扇形 = 陰影部分</text>
+      <text x="180" y="130" text-anchor="start" font-size="10" fill="#DC2626">弧長 = (θ/360)×2πr</text>
+    </svg>
+  </div>
+
+  <div class="ex">
+    <div class="ex-title">陷阱引爆：扇形角度 vs 三角形角度</div>
+    <div class="ex-q">例2：一個扇形的圓心角是 90°，半徑是 6 cm。求扇形面積。</div>
+    <div class="tc">
+      <div class="tc-w"><div class="lbl">世紀災難（60% 學生）</div><div class="eq">扇形面積 = 90 × π × 6²</div><div class="why">完全忘記要 ÷360！90°只是圓心角，唔可以直接乘！</div></div>
+      <div class="tc-r"><div class="lbl">正確解法</div><div class="eq">扇形面積 = (90/360) × 3.14 × 36 = 28.26 cm²</div><div class="why">θ/360 = 90/360 = 1/4，佔整個圓的 1/4</div></div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-q">例3：圓心角 120°，半徑 9 cm。求：(a) 弧長；(b) 扇形面積。（π = 3.14）</div>
+  </div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q5</td><td class="qtxt">圓心角 60°，半徑 10 cm。求扇形面積。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">Q6</td><td class="qtxt">圓心角 180°，半徑 8 cm。求弧長。</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">Q7</td><td class="qtxt">一個扇形的弧長是 9.42 cm，半徑是 6 cm。求圓心角。（π = 3.14）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">Q8</td><td class="qtxt">一個扇形面積是 47.1 cm²，半徑 10 cm。求圓心角。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="kp">
+    <div class="kp-title">知識點三：圓規作圖進階 — 等分圓<span class="ss sm">SSPA技巧</span></div>
+    <div class="kp-rules">
+      <strong>用圓規和直尺等分圓：</strong><br>
+      6 等分法：在半徑長度不變下，在圓周上連續截取 6 次，每次截點 = 下一個圓心<br>
+      → 連接各截點得正六邊形，連接相間截點得正三角形<br>
+      <strong>原理：</strong>正六邊形邊長 = 圓的半徑！<br>
+      <strong>應用：</strong>製作正多邊形、設計圖案、理解弧度概念
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-q">例4：用圓規畫一個半徑 5 cm 的圓，然後用同樣的半徑在圓周上標出 6 個等分點。</div></div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">Q9</td><td class="qtxt">用圓規和直尺，嘗試將一個半徑 4 cm 的圓分成 6 等份。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">Q10</td><td class="qtxt">連接 6 等分點中相間的 3 點，得到甚麼圖形？它的每邊長度是多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+
+  <div class="h2">🌱 基礎層（共 3 題，全體必做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">B1</td><td class="qtxt">圓規兩腳相距 5 cm，求所畫圓的直徑。</td><td class="qd d1">基礎</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">B2</td><td class="qtxt">圓心角 90°，半徑 8 cm。求扇形面積。（π = 3.14）</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">B3</td><td class="qtxt">圓心角 45°，半徑 12 cm。求弧長。（π = 3.14）</td><td class="qd d2">進階</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（共 3 題，選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">A1</td><td class="qtxt">一個扇形的圓心角是 72°，半徑 15 cm。求它的周界。（π = 3.14）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">A2</td><td class="qtxt">兩個扇形有相同半徑 10 cm。扇形A的圓心角 = 120°，扇形B的圓心角 = 150°。扇形B比扇形A的面積大多少？</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">A3</td><td class="qtxt">用圓規畫出一個半徑 3 cm 的圓，並在圓內標出一個 60° 的扇形。計算該扇形面積。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:95px;"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（共 3 題，呈分試殺手題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">C1</td><td class="qtxt">一個鐘面（圓形），時針長 5 cm。時針從 3 點走到 5 點，時針尖端走過的弧長是多少？（π = 3.14）</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">C2</td><td class="qtxt">一個圓的半徑是 R。一個扇形的圓心角是 72°，弧長等於圓周長的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>。驗證呢個關係。</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">C3</td><td class="qtxt">如圖，一個正方形內有一個扇形（圓心在正方形一個頂點，半徑 = 正方形邊長 10 cm）。求陰影（正方形減扇形）的面積。</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 極限題（1 題，SSPA 終極挑戰）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">E1</td><td class="qtxt">一個時鐘的分針長 10 cm，時針長 7 cm。從 12:00 到 12:30：(a) 分針尖端走了多少 cm？(b) 時針尖端走了多少 cm？哪個更長？</td><td class="qd d4">極限</td><td class="qw" style="min-height:105px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 5: APPLICATION ═══════════════ -->
+<div class="pb">
+  <div class="h1">四、應用題專項（SSPA 文字題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">P1</td><td class="qtxt">一個圓形花圃半徑是 8 m。園丁要在花圃外圍建造一條環形小徑，小徑外圍的半徑是 10 m。求小徑的面積。</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P2</td><td class="qtxt">一個扇形蛋糕的圓心角是 45°，半徑是 12 cm。求蛋糕的面積和弧長（外邊）。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P3</td><td class="qtxt">一個圓形操場的半徑是 30 m。小美沿操場邊緣走了 120° 的弧。她走了多少米？</td><td class="qd d2">進階</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P4</td><td class="qtxt">一個鐘面的半徑是 15 cm。時針從 2 點走到 6 點，時針掃過的扇形面積是多少？（π = 3.14）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">P5</td><td class="qtxt">用圓規在紙上畫出下面圖案：一個大半圓（半徑 5 cm）+ 兩個小半圓（半徑 2.5 cm，分別在大半圓的直徑兩端向外）。計算整個圖案的周界。</td><td class="qd d4">極限</td><td class="qw" style="min-height:100px;"></td></tr>
+  </table>
+
+  <div class="h1">五、終極挑戰專區</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">EC1</td><td class="qtxt">三個圓心角分別為 90°、120°、150° 的扇形拼成一個完整的圓嗎？驗證並解釋。</td><td class="qd d4">極限</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">EC2</td><td class="qtxt">一個扇形的弧長正好等於它的半徑的長度。呢個扇形的圓心角是多少度？（答案取至整數，π = 3.14）</td><td class="qd d4">極限</td><td class="qw" style="min-height:80px;"></td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR TABLE ═══════════════ -->
+<div class="pb">
+  <div class="h1">六、課後功課</div>
+  <div class="h2">基礎必做題（共 5 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">要畫一個直徑 14 cm 的圓，圓規兩腳應相距多少 cm？</td><td class="qd d1">基礎</td><td class="qw" style="min-height:95px;"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">半徑 6 cm，圓心角 60°。求扇形面積。（π = 3.14）</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">半徑 9 cm，圓心角 40°。求弧長。（π = 3.14）</td><td class="qd d2">進階</td><td class="qw" style="min-height:75px;"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">一個扇形的弧長是 6.28 cm，圓心角是 60°。求半徑。（π = 3.14）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:80px;"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">用圓規畫一個半徑 4 cm 的圓，然後用同一半徑將圓周 6 等分。標出各分點。</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h2">進階選做題（共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">一個扇形的周界是 21.42 cm，半徑是 5 cm，圓心角是 120°。求弧長並驗證。（π = 3.14）</td><td class="qd d3">挑戰</td><td class="qw" style="min-height:85px;"></td></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">一個鐘面的時針長 6 cm。從 9:00 到 11:00，時針尖端走過的弧長是多少？掃過的面積是多少？</td><td class="qd d4">極限</td><td class="qw" style="min-height:90px;"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">比較：(a) 半徑 10 cm、圓心角 36° 的扇形；(b) 半徑 6 cm、圓心角 100° 的扇形。哪個面積較大？</td><td class="qd d4">極限</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="h1">七、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+    <tr><td>1</td><td><strong>圓規兩腳距離設定為直徑：</strong>要畫半徑 3 cm 的圓卻 set 6 cm</td><td>圓規兩腳距離 = 半徑，不是直徑</td></tr>
+    <tr><td>2</td><td><strong>弧長公式忘記 ÷360：</strong>直接 θ × 2πr</td><td>弧長 = (θ/360) × 2πr，必須先除 360</td></tr>
+    <tr><td>3</td><td><strong>扇形面積公式忘記 ÷360：</strong>直接 θ × πr²</td><td>扇形面積 = (θ/360) × πr²，必須先除 360</td></tr>
+    <tr><td>4</td><td><strong>弧長用了 πr²：</strong>弧長是長度，用錯面積公式</td><td>弧長 = (θ/360) × 2πr（用圓周）</td></tr>
+    <tr><td>5</td><td><strong>扇形周界忘記加兩條半徑：</strong>只計弧長就當周界</td><td>扇形周界 = 弧長 + 2r</td></tr>
+    <tr><td>6</td><td><strong>鐘面角度計錯：</strong>時針每小時走 30°（360÷12），分針每分鐘走 6°（360÷60）</td><td>記住：時針 1 小時 = 30°，分針 1 分鐘 = 6°</td></tr>
+    <tr><td>7</td><td><strong>π 取值混亂：</strong>有時 3.14 有時 <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>，用錯導致答案偏差</td><td>跟題目指示，如無說明則用 3.14 或 π 保留</td></tr>
+  </table>
+
+  <div class="mn">口訣：<br>「圓規開半徑，唔係開直徑；弧長扇形都要除 360，漏咗即刻錯！」</div>
+
+  <div class="h1">八、解題策略卡（4 步法）</div>
+  <div class="sc">
+    <div class="sc-i"><div class="n">1</div><div class="t">分清半徑定直徑</div><div class="d">題目俾 r 定 d？圓規用 r</div></div>
+    <div class="sc-i"><div class="n">2</div><div class="t">確認圓心角 θ</div><div class="d">係咪扇形？θ = 幾多度？</div></div>
+    <div class="sc-i"><div class="n">3</div><div class="t">寫公式 + × θ/360</div><div class="d">弧長→2πr；面積→πr²</div></div>
+    <div class="sc-i"><div class="n">4</div><div class="t">單位 + 驗算</div><div class="d">答案合理嗎？佔圓的幾分之幾？</div></div>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L21</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L03 平行四邊形與三角形面積 · L04 梯形多邊形面積 · L05 面積陷阱專項 · 相關課題：L21 圓的認識 · L22 圓面積進階 · L06 圓周與圓面積</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 6頁 · 48題 | LF-P6-下-L21 v6
+</div>
+</body>
+</html>

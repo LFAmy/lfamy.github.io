@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LF-P6-下-L27 綜合統計圖表：棒形+折線+圓形 — 學生版講義</title><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--ink:#1A1A1A;--gray:#6B7280;--lightbg:#F9FAFB;--borderc:#D1D5DB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans HK',sans-serif;background:#E5E5E5;color:var(--ink);font-size:13px;line-height:1.65;}
+@media print{body{background:white;font-size:10.5px;}.pb{box-shadow:none;padding:20px 30px;}.pb.cover-page{page-break-after:always;}.no-print{display:none!important;}.qt .qw{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px);border:1px dashed #9CA3AF;}.qt td{padding:3px 5px;}.qt{font-size:10px;}.qt .qtxt{font-size:11px;}.h1{font-size:13px;margin:10px 0 6px;}.h2{font-size:11px;}.kp{padding:6px 9px;}.kp-rules{font-size:10px;}.ex{padding:6px 9px;}.ex-q{font-size:11px;}.warn{font-size:10px;}.mn{font-size:11px;}.et{font-size:9.5px;}}
+.container{max-width:1000px;margin:0 auto;}
+.pb{width:100%;background:var(--white);padding:32px 42px;display:flex;flex-direction:column;}
+.cover{justify-content:center;align-items:center;text-align:center;}
+.cv-logo{font-family:'Noto Serif HK',serif;font-size:20px;font-weight:900;color:var(--blue);letter-spacing:6px;}
+.cv-badge{display:inline-block;border:1.5px solid var(--gold);color:var(--gold);padding:5px 22px;border-radius:20px;font-size:12px;letter-spacing:3px;margin:14px 0;}
+.cv-title{font-family:'Noto Serif HK',serif;font-size:30px;font-weight:900;color:var(--blue);letter-spacing:3px;margin:10px 0 5px;}
+.cv-sub{font-size:13px;color:var(--gray);margin-bottom:20px;}
+.cv-info{display:inline-block;text-align:left;background:var(--lightbg);border:1px solid var(--borderc);border-radius:8px;padding:16px 22px;font-size:12px;line-height:1.9;}
+.cv-info b{color:var(--blue);}
+.cv-row{margin-top:20px;font-size:13px;display:flex;gap:24px;}
+.cv-row .ln{display:inline-block;width:90px;border-bottom:1px solid var(--borderc);}
+.h1{font-family:'Noto Serif HK',serif;font-size:16px;font-weight:900;color:var(--blue);padding:6px 10px;margin:14px 0 8px;border-left:4px solid var(--gold);background:#FFFBEB;}
+.h2{font-family:'Noto Serif HK',serif;font-size:13px;font-weight:700;color:var(--blue);margin:12px 0 5px;padding-bottom:2px;border-bottom:1px solid var(--borderc);}
+.kp{margin:8px 0;padding:10px 12px;background:var(--lightbg);border:1px solid var(--borderc);border-radius:5px;}
+.kp-title{font-size:13px;font-weight:900;color:var(--blue);margin-bottom:3px;}
+.kp-rules{font-size:12px;line-height:1.7;}
+.ex{border:2px solid var(--gold);border-radius:7px;padding:10px 12px;margin:7px 0;background:#FFFDF5;}
+.ex-title{font-size:12px;font-weight:900;color:#92400E;margin-bottom:4px;}
+.ex-q{font-size:13px;font-weight:700;margin:4px 0;line-height:1.7;}
+.warn{background:#FEF2F2;border-left:3px solid var(--red);padding:5px 8px;margin:6px 0;font-size:11px;font-weight:600;color:#991B1B;}
+.mn{background:linear-gradient(135deg,#FFF8E7,#FFEDD5);border:2px solid var(--gold);border-radius:7px;padding:9px 12px;margin:6px 0;text-align:center;font-size:14px;font-weight:900;color:var(--blue);}
+.qt{width:100%;border-collapse:collapse;margin:5px 0;font-size:11.5px;}
+.qt th{background:var(--blue);color:white;padding:4px 7px;font-size:10px;font-weight:600;text-align:left;}
+.qt td{padding:5px 7px;border:1px solid var(--borderc);vertical-align:top;}
+.qt tr:nth-child(even) td{background:#FAFBFC;}
+.qt .qn{width:32px;text-align:center;font-weight:700;}
+.qt .qd{width:48px;text-align:center;font-size:10px;font-weight:700;}
+.qt .qw{min-height:80px;background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px);}
+.qt .qtxt{font-size:12.5px;line-height:1.65;}
+.d1{background:#FEF3C7;color:#92400E;}.d2{background:#DCFCE7;color:#166534;}
+.d3{background:#DBEAFE;color:#1E40AF;}.d4{background:#F3E8FF;color:#7C3AED;}
+.ss{display:inline-block;padding:1px 5px;border-radius:2px;font-size:8px;font-weight:700;}
+.sh{background:#FEE2E2;color:#991B1B;}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:7px 0;}
+.tc-w{background:#FEF2F2;border:2px solid #FECACA;border-radius:8px;padding:12px;text-align:center;}
+.tc-r{background:#F0FDF4;border:2px solid #BBF7D0;border-radius:8px;padding:12px;text-align:center;}
+.tc-w .lbl,.tc-r .lbl{font-size:13px;font-weight:900;margin-bottom:3px;}
+.tc-w .lbl{color:var(--red);}.tc-r .lbl{color:var(--green);}
+.et{width:100%;border-collapse:collapse;margin:5px 0;font-size:10.5px;}
+.et th{background:var(--red);color:white;padding:4px 7px;}
+.et td{padding:4px 7px;border:1px solid var(--borderc);}
+.end-note{text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--borderc);font-size:10px;color:var(--gray);}
+.sc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0;}
+.sc-card{background:var(--lightbg);border:1.5px solid var(--borderc);border-radius:6px;padding:10px 8px;text-align:center;font-size:10.5px;}
+.sc-card .snum{display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--blue);color:white;font-size:11px;font-weight:900;line-height:20px;margin-bottom:4px;}
+.sc-card .stitle{font-weight:700;color:var(--blue);margin:2px 0;}
+.sc-card .sdetail{font-size:10px;color:var(--ink);line-height:1.4;}
+.game-box{background:linear-gradient(135deg,#FEF3C7,#FFEDD5);border:2px dashed var(--gold);border-radius:8px;padding:12px 14px;margin:8px 0;text-align:center;}
+.game-box .game-title{font-size:14px;font-weight:900;color:#92400E;}
+.game-box .game-desc{font-size:11px;color:#78350F;margin-top:3px;}
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body><div class="container"><div class="pb cover-page cover">
+<div class="cv-logo">霖楓學苑 · LF Academy</div>
+<div class="cv-badge">小六 · 第 27 堂 · 學生版講義</div>
+<div class="cv-title">綜合統計圖表：棒形圖、折線圖、圓形圖</div>
+<div class="cv-sub">棒形圖 · 折線圖 · 圓形圖 · 功能比較 · 65 分鐘 · 一對三線上課程</div>
+<div class="cv-info"><b>對應教材：</b>《小學數學新思維（第二版）》6B冊 單元四+五<br>
+<b>SSPA 關聯：</b><span class="ss sh">🟡 重要</span> 統計圖表為呈分試數據處理必考<br>
+<b>前置知識：</b>P3-P5 棒形圖、P6上 L15 折線圖、P6上 L17 圓形圖、P6下 L26 圓形圖進階<br>
+<b>本堂目標：</b>❶ 辨別三種圖表的功能 ❷ 根據數據選擇正確圖表 ❸ 綜合圖表閱讀與比較<br>
+<b>核心陷阱：</b>🪤 T19 三種圖表功能混淆（趨勢vs佔比vs比較）· 圖表刻度讀取錯誤</div>
+<div class="cv-row"><span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span></div>
+</div><div class="pb"><div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">1</td><td class="qtxt">以下哪種圖最適合顯示「氣溫變化」？A.棒形圖 B.折線圖 C.圓形圖</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">2</td><td class="qtxt">以下哪種圖最適合顯示「各科成績比較」？A.棒形圖 B.折線圖 C.圓形圖</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">3</td><td class="qtxt">以下哪種圖最適合顯示「班級男女比例」？A.棒形圖 B.折線圖 C.圓形圖</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">4</td><td class="qtxt">折線圖的橫軸通常代表什麼？縱軸呢？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">5</td><td class="qtxt">圓形圖的每個扇形代表什麼？</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h1">二、核心知識精講 ＋ 例題練習</div><div class="kp"><div class="kp-title">知識點一：三種圖表的功能對比 <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>棒形圖：比較數量大小</b>（各類獨立比較）<br>② <b>折線圖：顯示趨勢變化</b>（隨時間的上升/下降）<br>③ <b>圓形圖：顯示部分與整體的佔比</b>（%比例）<br>④ ⚠️ 這是最重要的區分！選錯圖 = 0 分</div></div><div class="kp"><div class="kp-title">知識點二：圖表選擇決策樹 <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① 要看<b>變化趨勢</b>（升/跌/平）？→ 折線圖<br>② 要看<b>佔整體的幾%</b>？→ 圓形圖<br>③ 只看<b>各類數量比較</b>（非佔比）？→ 棒形圖<br>④ 可以<b>同時使用</b>多種圖表展示不同角度！</div></div><div class="kp"><div class="kp-title">知識點三：綜合圖表閱讀 <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① 同一組數據可以用不同圖表展示不同面向<br>② 例：全年銷售數據 → 棒形圖（各月比較）+ 折線圖（趨勢）+ 圓形圖（季度佔比）<br>③ 閱讀時先確認：這是哪種圖？想表達什麼？<br>④ 刻度、標題、圖例是判斷的關鍵</div></div><div class="ex"><div class="ex-title">例1</div><div class="ex-q">以下情況用哪種圖？<br>① 一週每天氣溫 → 折線圖（趨勢）<br>② 投票結果分佈 → 圓形圖或棒形圖<br>③ 三間學校人數比較 → 棒形圖<br>④ 全年雨量變化 → 折線圖</div></div><div class="ex"><div class="ex-title">例2</div><div class="ex-q">看圖判斷：棒形圖顯示 A=50, B=80, C=60, D=40。哪項最多？最少？A比D多幾多？<br>最多 B(80)，最少 D(40)。A比D多 10。</div></div><div class="ex"><div class="ex-title">例3</div><div class="ex-q">圓形圖轉棒形圖：A=25%, B=35%, C=15%, D=25%。全體=400。畫出棒形圖（標數字）。<br>A=100, B=140, C=60, D=100</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>「佔比」用折線圖？<br><b>❌ 錯！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>佔比 = 圓形圖！<br>折線圖係睇趨勢，<br>唔係睇比例分佈。</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>「趨勢」用棒形圖？<br><b>⚠️ 唔適合</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>棒形圖可以睇變化<br>但折線圖更清楚顯示<br>趨勢（上升/下降線）。<br>趨勢首選折線圖！</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>同一組數據只能<br>用一種圖？<br><b>❌ 錯！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>可以根據不同目的<br>用不同圖表展示。<br>比較用棒形，趨勢用折線，<br>佔比用圓形。</div></div><div class="warn">⚠️ 三種圖表功能不同：棒形=比較，折線=趨勢，圓形=佔比。選錯圖=失分！</div><div class="warn">⚠️ 閱讀圖表時先確認：圖表類型→標題→橫縱軸→刻度→圖例。</div><div class="warn">⚠️ 可以從一種圖表數據畫另一種圖表。例如從圓形圖的%計算數量後畫棒形圖。</div></div><div class="pb"><div class="h1">三、課堂分層同步練習</div><div class="h2">🌱 基礎層（共 6 題） 基礎層（全體必做）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">6</td><td class="qtxt">配對：①每日體重變化 ②班中男女比例 ③三班人數 (A)棒形 (B)折線 (C)圓形</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">7</td><td class="qtxt">棒形圖中一格代表 5 人。A 班條形長 8 格，有多少人？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">8</td><td class="qtxt">折線圖中，從 1 月到 3 月線條上升代表什麼？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">9</td><td class="qtxt">圓形圖中 A 佔 120°，等於全體的幾分之幾？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">10</td><td class="qtxt">看棒形圖：A=40, B=60, C=50。畫成圓形圖，B 的扇形角度 = ？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">11</td><td class="qtxt">下列哪項最適合用圓形圖？A.每月雨量 B.全年支出分佈 C.溫度變化</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h2">🌳 進階層（共 5 題） 挑戰層（🚀 選做）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">12</td><td class="qtxt">折線圖顯示某店營業額：1月$50萬→2月$45萬→3月$60萬→4月$55萬。哪個月升幅最大？哪個月跌幅最大？</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">13</td><td class="qtxt">圓形圖數據：A=144°(180人), B=108°, C=72°, D=36°。畫出對應的棒形圖。</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">14</td><td class="qtxt">同一組數據：一月30, 二月45, 三月25, 四月50。說明這組數據用棒形圖和折線圖各自展示了什麼資訊。</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">15</td><td class="qtxt">棒形圖一格=10。但條形頂部在兩格之間。如何讀取？</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">16</td><td class="qtxt">三個圓形圖分別代表三間學校的科目分佈。能否直接比較三校數學人數？為什麼？</td><td class="qd d3">🌳</td><td class="qw"></td></tr></table></div><div class="pb"><div class="h1">四、應用題（SSPA 文字題，共 {len(word_probs)} 題）</div>{qt_table(word_probs)}</div><div class="pb"><div class="h1">五、課後功課</div><div class="h2">基礎必做（共 4 題）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">H1</td><td class="qtxt">列舉三種統計圖的名稱和主要用途。</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">H2</td><td class="qtxt">考試分數走勢最好用哪種圖？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">H3</td><td class="qtxt">圓形圖中某扇形 90°。如果全體 = 200，這個扇形代表多少？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">H4</td><td class="qtxt">棒形圖一格=20。條形佔 3.5 格 = ？</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h2">進階選做（共 2 題 🚀）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">H5</td><td class="qtxt">收集一週每天作業時間數據。畫折線圖並分析趨勢。</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">H6</td><td class="qtxt">用同一組數據畫出棒形圖和圓形圖各一，比較兩者展示的資訊有何不同。</td><td class="qd d3">🌳</td><td class="qw"></td></tr></table></div><div class="pb"><div class="h1">六、本堂核心易錯點總結</div><table class="et"><tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr><tr><td>1</td><td><b>圖表功能混淆</b></td><td>棒形=比較數量；折線=顯示趨勢；圓形=顯示佔比。選錯圖 = 失分！</td></tr><tr><td>2</td><td><b>刻度讀錯</b></td><td>先確認一格代表多少。如果條形在兩格之間，取中間值。</td></tr><tr><td>3</td><td><b>圓形圖不能直接比數量</b></td><td>兩個圓形圖的%不能直接比較實際人數，除非知道全體總數相同。</td></tr><tr><td>4</td><td><b>忽略標題和圖例</b></td><td>標題告訴你圖表的主題。圖例告訴你不同顏色/符號代表什麼。</td></tr></table><div class="mn">🧠 口訣：「棒形比較各類量，折線趨勢睇升降。圓形佔比百分比，三種圖表各所長。選圖先問想睇咩，刻度標題唔好忘！」</div><div class="h1">七、解題四步卡</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">辨圖</div><div class="sdetail">確認圖表類型。理解每種圖的功能：比較/趨勢/佔比。</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">讀數</div><div class="sdetail">確認刻度。準確讀取數據。注意圖例和顏色對應。</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">分析</div><div class="sdetail">提取關鍵資訊：最大/最小/趨勢/佔比。用數據支持結論。</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">轉換</div><div class="sdetail">同一數據可轉換圖表類型。從%計數量，從數量計%。</div></div></div><div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L27 · 相關課題：P6上 L15 折線圖 · P6上 L17 圓形圖 · P6下 L26 圓形圖進階</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 LF-P6-下-L27 · 相關課題：P6上 L15 折線圖 · P6上 L17 圓形圖 · P6下 L26 圓形圖進階</div></div></div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">Ctrl+P | LF-P6-下-L27 · 相關課題：P6上 L15 折線圖 · P6上 L17 圓形圖 · P6下 L26 圓形圖進階</div>
+</body></html>

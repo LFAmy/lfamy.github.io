@@ -1,0 +1,636 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="小學五年級數學練習：異分母分數加法。涵蓋分數運算 分數比較 異分母。霖楓學苑呈分試專家，陷阱題診斷教學法。" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小學五年級數學 異分母分數加法 | 霖楓學苑 LF Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:80px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P5 講義",
+      "item": "https://lfamy.github.io/講義/P5/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "異分母分數加法"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">霖楓學苑 · LF Academy</div>
+<div class="cv-badge">小五 · 第 8 堂 · 學生版講義</div>
+<div class="cv-title">異分母分數加法</div>
+<div class="cv-sub">單元三 · 分數運算 · 65 分鐘 · 一對三線上課程</div>
+<div class="cv-info">
+<b>對應教材：</b>《小學數學新思維（第二版）》5上A冊 單元三 ＋ 現代教育 5上A 單元10<br/>
+<b>核心陷阱：</b>🪤 T9 分數運算 — 通分後分子忘記同步擴大 · 結果未約簡<br/>
+<b>SSPA 關聯：</b><span class="ss sh">🔴 高頻</span> 呈分試每年必考，佔卷一約 15-20%<br/>
+<b>前置知識：</b>堂7（異分母比較與通分 · LCM 計算 · 等值分數與擴分）<br/>
+<b>本堂目標：</b>❶ 理解份數不同不能直加 ❷ 熟練通分三步法 ❸ 帶分數加法 ❹ 應用題
+  </div>
+<div class="cv-row">
+<span>學生姓名：<span class="ln"></span></span>
+<span>班級：<span class="ln"></span></span>
+<span>日期：<span class="ln"></span></span>
+<span>完成時長：<span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">一、熱身啟動題 （5 分鐘）（共 5 題，5 分鐘）</div>
+  <div class="game-box"><div class="game-title">🏆 陷阱獵人·計時挑戰</div><div class="game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！留意題目中嘅「陷阱關鍵字」— 佢會話你知邊度最易出錯！</div><div class="game-action">⭐ 開始挑戰 →</div></div>
+
+  <div class="story-box"><div class="story-title">🍕 Pizza店大冒險</div>一個Pizza切咗8份。小明食咗3份，小華食咗2份。佢哋一共食咗幾多個Pizza？等我哋用分數加法計吓！記住口訣：分母不變，分子相加！</div>一個Pizza切咗8份。小明食咗3份，小華食咗2份。佢哋一共食咗幾多個Pizza？等我哋用分數加法計吓！記住口訣：分母不變，分子相加！</div>Pizza分著食 —「一個Pizza切8份，食咗3份，即係食咗3/8個！」</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區（寫出完整計算過程）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">計算 LCM(4, 6) = ？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">計算 LCM(3, 5) = ？</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">把 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 和 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 通分（寫出通分後的兩個等值分數）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">計算 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">8</span></span> = ？（同分母加法，P4 基礎）</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">比較 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> 和 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> 哪個較大？寫出判斷過程。</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="h1">二、核心知識精講 （15 分鐘） ＋ 例題練習</div>
+<div class="kp">
+<div class="kp-title">知識點一：為什麼異分母分數不能直接相加？<span class="ss sh">🔴 SSPA</span></div>
+<div class="kp-rules">
+      ① 分母代表「將整體切成的份數」。分母不同 ＝ 每份的大小不同<br/>
+      ② 例如：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 是切成 <strong>2 份</strong>，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 是切成 <strong>3 份</strong>——兩份大小不一樣！<br/>
+      ③ 要相加，必須先變成<strong>相同份數</strong>→ 這就是<strong>通分</strong><br/>
+      ④ 通分的本質：利用「等值分數」（擴分），將分母變成 LCM
+      <div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:480px;height:auto;" viewbox="0 0 480 130"><defs><marker id="arr" markerheight="6" markerwidth="8" orient="auto" refx="8" refy="3"><path d="M0,0 L8,3 L0,6 Z" fill="#6B7280"></path></marker></defs>
+<!-- 1/2 bar -->
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="60" y="18">1/2（每份較大）</text>
+<rect fill="#DBEAFE" height="28" rx="2" stroke="#1A3C6D" stroke-width="1.5" width="100" x="10" y="24"></rect>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="60" x2="60" y1="24" y2="52"></line>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="35" y="44">1</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="85" y="44">1</text>
+<!-- 1/3 bar -->
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="240" y="18">1/3（每份較小）</text>
+<rect fill="#FEF3C7" height="28" rx="2" stroke="#C9A84C" stroke-width="1.5" width="100" x="190" y="24"></rect>
+<line stroke="#C9A84C" stroke-width="1.5" x1="256.7" x2="256.7" y1="24" y2="52"></line>
+<line stroke="#C9A84C" stroke-width="1.5" x1="223.3" x2="223.3" y1="24" y2="52"></line>
+<text fill="#92400E" font-size="11" font-weight="700" text-anchor="middle" x="213" y="44">1</text>
+<text fill="#92400E" font-size="11" font-weight="700" text-anchor="middle" x="240" y="44">1</text>
+<text fill="#92400E" font-size="11" font-weight="700" text-anchor="middle" x="267" y="44">1</text>
+<!-- arrow -->
+<line marker-end="url(#arr)" stroke="#6B7280" stroke-dasharray="4,3" stroke-width="1.5" x1="115" x2="182" y1="38" y2="38"></line>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="150" y="30">大小不同！</text>
+<!-- bottom label -->
+<text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="150" y="85">❌ 不能直接 1/2 + 1/3 = 2/5</text>
+<text fill="#16A34A" font-size="11" font-weight="700" text-anchor="middle" x="150" y="105">✅ 必須先通分：1/2=3/6, 1/3=2/6 → 5/6</text>
+<!-- equals bar -->
+<rect fill="#E5E7EB" height="10" rx="2" stroke="#9CA3AF" stroke-width="1" width="240" x="30" y="115"></rect>
+<line stroke="#9CA3AF" stroke-width="1" x1="110" x2="110" y1="115" y2="125"></line>
+<line stroke="#9CA3AF" stroke-width="1" x1="190" x2="190" y1="115" y2="125"></line>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="150" y="129">把整體切通成 6 份（LCM=6）</text>
+</svg>
+</div>
+</div>
+</div>
+
+<div class="why-box" style="background:linear-gradient(135deg,#F0F7FF,#E8F0FE);border:2px solid #1A3C6D;border-radius:10px;padding:14px 18px;margin:14px 0;">
+<div style="font-weight:900;color:#1A3C6D;font-size:14px;margin-bottom:6px;">WHY BOX：為甚麼異分母分數不能直接相加？</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+想像一個 pizza 分成 <b>2 份</b>（1/2），另一個分成 <b>3 份</b>（1/3）。<br/>
+兩份的大小不同！一份是半個 pizza，一份是三分之一個 pizza。<br/>
+<b>關鍵：</b>必須先把它們切成 <b>一樣大小的份數</b>（通分 — 找 LCM），才能比較或相加。<br/>
+1/2 = 3/6，1/3 = 2/6 → 3/6 + 2/6 = 5/6 ✅<br/>
+<em style="color:#6B7280;">數學本質：分數的分母代表「單位大小」，不同單位不能直接相加（就像 1cm + 1m ≠ 2，要先轉換單位）。</em>
+</div>
+</div>
+
+<div class="ex">
+<div class="ex-title">🪤 陷阱引爆例題（本堂最重要的示範）</div>
+<div class="ex-q">計算：<span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ 常見錯誤（80% 學生）</div><div class="eq"><span class="fd"><span class="n">4</span><span class="b"></span><span class="d">2</span></span> = 2</div><div class="why">直接分子減分子、分母減分母</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確解法</div><div class="eq"><span class="fd"><span class="n">7</span><span class="b"></span><span class="d">12</span></span></div><div class="why">LCM(6,4)=12 → <span class="f"><span class="n">10</span><span class="b"></span><span class="d">12</span></span> − <span class="f"><span class="n">3</span><span class="b"></span><span class="d">12</span></span> = <span class="f"><span class="n">7</span><span class="b"></span><span class="d">12</span></span></div></div>
+</div>
+</div>
+<div class="mn">🧠 口訣：「先通分搵 LCM，分子跟住乘，分母不變照計，答案要約簡」</div>
+<div class="warn">⚠️ 最高頻錯誤：異分母不經通分直接加減。記住：分母不同 → 一定要先通分！</div>
+<div class="warn">⚠️ 第二高頻錯誤：通分時只改分母，忘記將分子同步擴大。「分子跟住乘」！</div>
+<div class="h2">知識點一 例題練習（寫出 ①LCM ②通分 ③計算 ④約簡）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">例1</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">例2</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:85px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點二：一般異分母分數加法（LCM 大於分母本身）<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>標準通分三步法：</strong><br/>
+      ① <strong>搵 LCM</strong>：短除法找最小公倍數 ② <strong>通分</strong>：分子同步擴大 ③ <strong>計算</strong>：分母不變分子相加 ④ <strong>約簡</strong>：最簡分數／假→帶
+      <div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:520px;height:auto;" viewbox="0 0 520 150">
+<defs><marker id="arr2" markerheight="6" markerwidth="8" orient="auto" refx="8" refy="3"><path d="M0,0 L8,3 L0,6 Z" fill="#1A3C6D"></path></marker></defs>
+<!-- Step 1: original fractions -->
+<text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="85" y="16">原式</text>
+<rect fill="#DBEAFE" height="22" rx="2" stroke="#1A3C6D" stroke-width="1.2" width="150" x="10" y="22"></rect>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="60" x2="60" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="110" x2="110" y1="22" y2="44"></line>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="35" y="38">2</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="85" y="38">2</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="135" y="38">2</text>
+<text fill="#1A3C6D" font-size="12" font-weight="700" x="180" y="38">+</text>
+<rect fill="#FEF3C7" height="22" rx="2" stroke="#C9A84C" stroke-width="1.2" width="100" x="195" y="22"></rect>
+<line stroke="#C9A84C" stroke-width="1.2" x1="245" x2="245" y1="22" y2="44"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="220" x2="220" y1="22" y2="44"></line>
+<text fill="#92400E" font-size="10" font-weight="700" text-anchor="middle" x="210" y="38">3</text>
+<text fill="#92400E" font-size="10" font-weight="700" text-anchor="middle" x="235" y="38">3</text>
+<text fill="#92400E" font-size="10" font-weight="700" text-anchor="middle" x="260" y="38">3</text>
+<!-- Arrow -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="320" y="38">→ LCM=15</text>
+<!-- Step 2: converted fractions -->
+<text fill="#16A34A" font-size="10" font-weight="700" text-anchor="middle" x="435" y="16">通分後</text>
+<rect fill="#DBEAFE" height="22" rx="2" stroke="#1A3C6D" stroke-width="1.2" width="150" x="350" y="22"></rect>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="375" x2="375" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="400" x2="400" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="425" x2="425" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="450" x2="450" y1="22" y2="44"></line>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="475" x2="475" y1="22" y2="44"></line>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="387.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="412.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="437.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="462.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="487.5" y="38">10</text>
+<text fill="#1A3C6D" font-size="10" x="340" y="38">2/3=</text>
+<!-- Second converted fraction -->
+<rect fill="#FEF3C7" height="22" rx="2" stroke="#C9A84C" stroke-width="1.2" width="150" x="350" y="50"></rect>
+<line stroke="#C9A84C" stroke-width="1.2" x1="380" x2="380" y1="50" y2="72"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="410" x2="410" y1="50" y2="72"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="440" x2="440" y1="50" y2="72"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="470" x2="470" y1="50" y2="72"></line>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="395" y="66">9</text>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="425" y="66">9</text>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="455" y="66">9</text>
+<text fill="#C9A84C" font-size="10" x="340" y="66">3/5=</text>
+<!-- Result -->
+<text fill="#1A3C6D" font-size="12" font-weight="700" x="350" y="95">10/15 + 9/15 = 19/15 = 1</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="462" y="95">4</text>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="455" x2="470" y1="90" y2="90"></line>
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="462" y="100">15</text>
+<!-- Bottom label -->
+<text fill="#6B7280" font-size="9" x="350" y="120">LCM(3,5)=15 → 2/3=10/15, 3/5=9/15</text>
+<text fill="#6B7280" font-size="9" x="350" y="135">10/15+9/15=19/15=1又4/15</text>
+</svg>
+</div>
+</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">搵 LCM</div><div class="d">短除法找<br/>最小公倍數</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">通分</div><div class="d">分子同步<br/>分母變 LCM</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">計算</div><div class="d">分母不變<br/>分子相加</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">約簡</div><div class="d">最簡分數<br/>假→帶分數</div></div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = ？</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> + <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> = ？</div></div>
+<div class="h2">知識點二 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">6</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">知識點三：含帶分數的異分母加法<span class="ss sh">🔴 SSPA 進階</span></div>
+<div class="kp-rules">
+<strong>推薦方法（轉假分數法——最不易出錯）：</strong><br/>
+      ① 帶分數 → 假分數（整數×分母＋分子）② 通分（找 LCM）③ 計算 ④ 答案 → 帶分數＋約簡
+      <div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:520px;height:auto;" viewbox="0 0 520 130">
+<!-- 1 1/2 visual -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="90" y="14">1又1/2</text>
+<rect fill="#1A3C6D" height="24" rx="2" stroke="#1A3C6D" stroke-width="1.2" width="60" x="10" y="20"></rect>
+<text fill="#FFF" font-size="10" font-weight="700" text-anchor="middle" x="40" y="37">1</text>
+<rect fill="#DBEAFE" height="24" rx="2" stroke="#1A3C6D" stroke-width="1.2" width="30" x="74" y="20"></rect>
+<line stroke="#1A3C6D" stroke-width="1.2" x1="104" x2="104" y1="20" y2="44"></line>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="89" y="37">1</text>
+<text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="119" y="37">1</text>
+<!-- + -->
+<text fill="#1A3C6D" font-size="14" font-weight="700" x="145" y="37">+</text>
+<!-- 2 2/3 visual -->
+<text fill="#C9A84C" font-size="10" font-weight="700" text-anchor="middle" x="230" y="14">2又2/3</text>
+<rect fill="#C9A84C" height="24" rx="2" stroke="#C9A84C" stroke-width="1.2" width="60" x="165" y="20"></rect>
+<text fill="#FFF" font-size="10" font-weight="700" text-anchor="middle" x="195" y="37">2</text>
+<rect fill="#FEF3C7" height="24" rx="2" stroke="#C9A84C" stroke-width="1.2" width="30" x="229" y="20"></rect>
+<line stroke="#C9A84C" stroke-width="1.2" x1="244" x2="244" y1="20" y2="44"></line>
+<line stroke="#C9A84C" stroke-width="1.2" x1="259" x2="259" y1="20" y2="44"></line>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="237" y="37">2</text>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="252" y="37">2</text>
+<text fill="#92400E" font-size="9" font-weight="700" text-anchor="middle" x="275" y="37">2</text>
+<!-- Arrow down -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="160" y="60">↓ 轉假分數 ↓</text>
+<!-- 3/2 + 8/3 -->
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="80">3/2</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" x="130" y="80">+</text>
+<text fill="#C9A84C" font-size="11" font-weight="700" text-anchor="middle" x="170" y="80">8/3</text>
+<!-- Arrow right -->
+<text fill="#6B7280" font-size="10" font-weight="700" x="210" y="80">→</text>
+<!-- 通分 result -->
+<text fill="#6B7280" font-size="10" text-anchor="middle" x="250" y="80">LCM=6</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="290" y="80">9/6</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" x="315" y="80">+</text>
+<text fill="#C9A84C" font-size="10" font-weight="700" text-anchor="middle" x="345" y="80">16/6</text>
+<!-- Arrow right -->
+<text fill="#6B7280" font-size="10" font-weight="700" x="375" y="80">=</text>
+<!-- Final result -->
+<text fill="#16A34A" font-size="12" font-weight="900" text-anchor="middle" x="410" y="80">25/6</text>
+<text fill="#16A34A" font-size="10" font-weight="700" x="450" y="80">=</text>
+<!-- Result as mixed number -->
+<text fill="#16A34A" font-size="13" font-weight="900" text-anchor="middle" x="475" y="75">4</text>
+<text fill="#16A34A" font-size="8" font-weight="700" x="462" y="88">1</text>
+<line stroke="#16A34A" stroke-width="1.5" x1="456" x2="470" y1="83" y2="83"></line>
+<text fill="#16A34A" font-size="8" font-weight="700" x="462" y="96">6</text>
+<!-- Bottom summary -->
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="260" y="115">1又1/2 + 2又2/3 → 3/2 + 8/3 → 9/6 + 16/6 = 25/6 = 4又1/6</text>
+</svg>
+</div>
+</div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例5：1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + 2<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例6：2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</div></div>
+<div class="h2">知識點三 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + 2<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">1<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> + 2<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">三、課堂分層同步練習 （20 分鐘）</div>
+<div class="h2">🌱 基礎層（共 5 題，全體必做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">13</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">9</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="h2">🌿 進階層（共 5 題，🚶🚀 選做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">18</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + 2<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">🌳 挑戰層（共 3 題，🚀 選做，呈分試殺手題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">23</td><td class="qtxt">2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？（三個分數混合，含帶分數）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">一根繩子分三段：第一段 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 米，第二段比第一段長 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 米，第三段 <span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> 米。繩子全長多少米？（需先求第二段長度）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點四：分數加法應用題（呈分試文字題專項）<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>解題四步法：</strong>① <strong>圈關鍵詞</strong>（「一共」「總共」= 加法）② <strong>列式</strong> ③ <strong>通分計算</strong> ④ <strong>寫完整答句</strong>（不寫答句扣步驟分！）
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例7：小明有 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 個 Pizza，小華有 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 個 Pizza。他們一共有多少個 Pizza？</div></div>
+<div class="h2">應用題練習（全部必做，列式 → 通分 → 計算 → 答句）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">26</td><td class="qtxt">小美喝了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 升橙汁，小明喝了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 升。他們一共喝了多少升？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">一盒朱古力，姊姊吃了 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 盒，弟弟吃了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 盒。兩人一共吃了多少盒？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">水樽原有水 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 升，再倒入 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 升。現在一共有多少升？（以帶分數作答）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">進階應用題（🚶🚀 選做，呈分試卷二常見題型）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">29</td><td class="qtxt">蛋糕店上午賣了 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 個，下午賣了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 個。全日共賣了多少個？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">第一段繩子 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 米，第二段 2<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 米。兩段共長多少米？（帶分數作答）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">花園的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 種玫瑰，<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 種菊花。種花部分佔花園的幾分之幾？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">糧倉的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> 放白米，<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> 放糙米，<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 放紅米。米共佔糧倉的幾分之幾？餘下佔幾分之幾？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">四、🏔️ 終極挑戰專區</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？（四個分數異分母加法——找 LCM(2,3,4,6)）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">一瓶果汁有 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 升。早餐喝了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 升，午餐喝了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 升。還剩多少升？（本堂學加法，但這題用減法！）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">平時分佔 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>，測驗佔 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>，考試佔 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>。三項共佔總分幾分之幾？餘下是什麼？（總分 = 1）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">五、課後功課 （課後完成）</div>
+<div class="h2">基礎必做題（共 6 題，必須寫通分步驟）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">9</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">小明有 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 條朱古力，小華給他 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 條。小明現在共有多少條？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">進階選做題（共 3 題，🚀 選做）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+<tr><td class="qn">H7</td><td class="qtxt">一瓶果汁 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 升，再倒入 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 升水。現在共多少升？（帶分數作答）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">比較 <span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 和 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> 哪個較大？相差多少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H9</td><td class="qtxt">1<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + 2<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">六、本堂核心易錯點總結 （8 分鐘）</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>易錯點</th><th>正確做法</th></tr>
+<tr><td>1</td><td><strong>異分母直接加</strong>：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>+<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>=<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span></td><td>分母不同 → 一定要先通分！</td></tr>
+<tr><td>2</td><td><strong>通分後分子忘記同步擴大</strong></td><td>「分子跟住乘」——分母乘幾多，分子乘相同數</td></tr>
+<tr><td>3</td><td><strong>答案未約簡</strong>：<span class="f"><span class="n">6</span><span class="b"></span><span class="d">12</span></span> 當答案</td><td>最後一步必須檢查公因數</td></tr>
+<tr><td>4</td><td><strong>假分數未轉帶分數</strong></td><td>分子 &gt; 分母 → 化成帶分數（呈分試要求）</td></tr>
+<tr><td>5</td><td><strong>LCM 找錯</strong>（用較大公倍數）</td><td>短除法確認是真正的「最小」</td></tr>
+<tr><td>6</td><td><strong>帶分數未轉假就加</strong></td><td>推薦用「轉假分數法」最不易出錯</td></tr>
+<tr><td>7</td><td><strong>應用題漏答句／漏單位</strong></td><td>必須寫「答：……」＋單位，否則扣步驟分</td></tr>
+</table>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「異分母分數加法」</b>。<br/>
+<b>最易錯嘅 3 個陷阱：</b> 🪤 T9 分數運算 — 通分後分子忘記同步擴大 · 結果未約簡<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「異分母分數加法」嘅最重要口訣俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+<div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P5-上-L08</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 相關課題：L07 異分母分數比較 · L09 分數乘法 · L22 分數除法</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  🖨️ Ctrl+P 列印 PDF  |  6頁 · 58題  |  LF-P5-上-L08 v6
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt" style="font-size:11px">計算 LCM(4, 6) = ？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">2</td><td class="qtxt" style="font-size:11px">計算 LCM(3, 5) = ？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">3</td><td class="qtxt" style="font-size:11px">把 12 和 13 通分（寫出通分後的兩個等值分數）</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">4</td><td class="qtxt" style="font-size:11px">計算 38 + 28 = ？（同分母加法，P4 基礎）</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">5</td><td class="qtxt" style="font-size:11px">比較 23 和 35 哪個較大？寫出判斷過程。</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">27</td><td class="qtxt" style="font-size:11px">一根繩子分三段：第一段 13 米，第二段比第一段長 14 米，第三段 56 米。繩子全長多少米？（需先求第二段長度）</td><td style="font-weight:900;color:var(--green);padding:5px 10px;font-size:12px">-1</td></tr>
+<tr><td class="qn">35</td><td class="qtxt" style="font-size:11px">12 + 13 + 14 + 16 = ？（四個分數異分母加法——找 LCM(2,3,4,6)）</td><td style="font-weight:900;color:var(--green);padding:5px 10px;font-size:12px">156</td></tr>
+<tr><td class="qn">45</td><td class="qtxt" style="font-size:11px">比較 56 + 14 和 12 + 23 哪個較大？相差多少？</td><td style="font-weight:900;color:var(--green);padding:5px 10px;font-size:12px">42</td></tr>
+</table>
+<div style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！🟢=自動計算 🟡=請向老師確認</div>
+</div>
+
+<div style='text-align:center;margin:20px 0'><img src='/講義/_svg/tkz_fraction.svg' style='max-width:100%;height:auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08)' alt='tkz_fraction'></div>
+</body>
+</html>

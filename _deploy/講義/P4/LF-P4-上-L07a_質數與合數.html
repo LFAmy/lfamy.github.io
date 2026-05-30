@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LF-P4-上-L07a 質數與合數 — 學生版講義</title><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--ink:#1A1A1A;--gray:#6B7280;--lightbg:#F9FAFB;--borderc:#D1D5DB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans HK',sans-serif;background:#E5E5E5;color:var(--ink);font-size:13px;line-height:1.65;}
+@media print{body{background:white;font-size:10.5px;}.pb{box-shadow:none;padding:20px 30px;}.pb.cover-page{page-break-after:always;}.no-print{display:none!important;}.qt .qw{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px);border:1px dashed #9CA3AF;}.qt td{padding:3px 5px;}.qt{font-size:10px;}.qt .qtxt{font-size:11px;}.h1{font-size:13px;margin:10px 0 6px;}.h2{font-size:11px;}.kp{padding:6px 9px;}.kp-rules{font-size:10px;}.ex{padding:6px 9px;}.ex-q{font-size:11px;}.warn{font-size:10px;}.mn{font-size:11px;}.et{font-size:9.5px;}}
+.container{max-width:1000px;margin:0 auto;}
+.pb{width:100%;background:var(--white);padding:32px 42px;display:flex;flex-direction:column;}
+.cover{justify-content:center;align-items:center;text-align:center;}
+.cv-logo{font-family:'Noto Serif HK',serif;font-size:20px;font-weight:900;color:var(--blue);letter-spacing:6px;}
+.cv-badge{display:inline-block;border:1.5px solid var(--gold);color:var(--gold);padding:5px 22px;border-radius:20px;font-size:12px;letter-spacing:3px;margin:14px 0;}
+.cv-title{font-family:'Noto Serif HK',serif;font-size:30px;font-weight:900;color:var(--blue);letter-spacing:3px;margin:10px 0 5px;}
+.cv-sub{font-size:13px;color:var(--gray);margin-bottom:20px;}
+.cv-info{display:inline-block;text-align:left;background:var(--lightbg);border:1px solid var(--borderc);border-radius:8px;padding:16px 22px;font-size:12px;line-height:1.9;}
+.cv-info b{color:var(--blue);}
+.cv-row{margin-top:20px;font-size:13px;display:flex;gap:24px;}
+.cv-row .ln{display:inline-block;width:90px;border-bottom:1px solid var(--borderc);}
+.h1{font-family:'Noto Serif HK',serif;font-size:16px;font-weight:900;color:var(--blue);padding:6px 10px;margin:14px 0 8px;border-left:4px solid var(--gold);background:#FFFBEB;}
+.h2{font-family:'Noto Serif HK',serif;font-size:13px;font-weight:700;color:var(--blue);margin:12px 0 5px;padding-bottom:2px;border-bottom:1px solid var(--borderc);}
+.kp{margin:8px 0;padding:10px 12px;background:var(--lightbg);border:1px solid var(--borderc);border-radius:5px;}
+.kp-title{font-size:13px;font-weight:900;color:var(--blue);margin-bottom:3px;}
+.kp-rules{font-size:12px;line-height:1.7;}
+.ex{border:2px solid var(--gold);border-radius:7px;padding:10px 12px;margin:7px 0;background:#FFFDF5;}
+.ex-title{font-size:12px;font-weight:900;color:#92400E;margin-bottom:4px;}
+.ex-q{font-size:13px;font-weight:700;margin:4px 0;line-height:1.7;}
+.warn{background:#FEF2F2;border-left:3px solid var(--red);padding:5px 8px;margin:6px 0;font-size:11px;font-weight:600;color:#991B1B;}
+.mn{background:linear-gradient(135deg,#FFF8E7,#FFEDD5);border:2px solid var(--gold);border-radius:7px;padding:9px 12px;margin:6px 0;text-align:center;font-size:14px;font-weight:900;color:var(--blue);}
+.qt{width:100%;border-collapse:collapse;margin:5px 0;font-size:11.5px;}
+.qt th{background:var(--blue);color:white;padding:4px 7px;font-size:10px;font-weight:600;text-align:left;}
+.qt td{padding:5px 7px;border:1px solid var(--borderc);vertical-align:top;}
+.qt tr:nth-child(even) td{background:#FAFBFC;}
+.qt .qn{width:32px;text-align:center;font-weight:700;}
+.qt .qd{width:48px;text-align:center;font-size:10px;font-weight:700;}
+.qt .qw{min-height:80px;background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px);}
+.qt .qtxt{font-size:12.5px;line-height:1.65;}
+.d1{background:#FEF3C7;color:#92400E;}.d2{background:#DCFCE7;color:#166534;}
+.d3{background:#DBEAFE;color:#1E40AF;}.d4{background:#F3E8FF;color:#7C3AED;}
+.ss{display:inline-block;padding:1px 5px;border-radius:2px;font-size:8px;font-weight:700;}
+.sh{background:#FEE2E2;color:#991B1B;}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:7px 0;}
+.tc-w{background:#FEF2F2;border:2px solid #FECACA;border-radius:8px;padding:12px;text-align:center;}
+.tc-r{background:#F0FDF4;border:2px solid #BBF7D0;border-radius:8px;padding:12px;text-align:center;}
+.tc-w .lbl,.tc-r .lbl{font-size:13px;font-weight:900;margin-bottom:3px;}
+.tc-w .lbl{color:var(--red);}.tc-r .lbl{color:var(--green);}
+.et{width:100%;border-collapse:collapse;margin:5px 0;font-size:10.5px;}
+.et th{background:var(--red);color:white;padding:4px 7px;}
+.et td{padding:4px 7px;border:1px solid var(--borderc);}
+.end-note{text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--borderc);font-size:10px;color:var(--gray);}
+.sc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0;}
+.sc-card{background:var(--lightbg);border:1.5px solid var(--borderc);border-radius:6px;padding:10px 8px;text-align:center;font-size:10.5px;}
+.sc-card .snum{display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--blue);color:white;font-size:11px;font-weight:900;line-height:20px;margin-bottom:4px;}
+.sc-card .stitle{font-weight:700;color:var(--blue);margin:2px 0;}
+.sc-card .sdetail{font-size:10px;color:var(--ink);line-height:1.4;}
+.game-box{background:linear-gradient(135deg,#FEF3C7,#FFEDD5);border:2px dashed var(--gold);border-radius:8px;padding:12px 14px;margin:8px 0;text-align:center;}
+.game-box .game-title{font-size:14px;font-weight:900;color:#92400E;}
+.game-box .game-desc{font-size:11px;color:#78350F;margin-top:3px;}
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body><div class="container"><div class="pb cover-page cover">
+<div class="cv-logo">霖楓學苑 · LF Academy</div>
+<div class="cv-badge">小四 · 補充課題 · 學生版講義</div>
+<div class="cv-title">質數與合數</div>
+<div class="cv-sub">質數 · 合數 · 1的特殊性 · 65 分鐘 · 一對三線上課程</div>
+<div class="cv-info"><b>對應教材：</b>《小學數學新思維（第二版）》4上B冊 單元一<br>
+<b>EDB 要求：</b><span class="ss sh">🔴 必修</span> 香港教育局P4明確要求<br>
+<b>前置知識：</b>P4 L06 倍數與因數、L05a 整除性規則<br>
+<b>本堂目標：</b>❶ 理解質數定義 ❷ 理解合數定義 ❸ 1的特殊性 ❹ 20以內質數表<br>
+<b>核心陷阱：</b>🪤 1不是質數也不是合數 · 2是唯一偶質數 · 15是質數嗎？</div>
+<div class="cv-row"><span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span></div>
+</div><div class="pb"><div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">1</td><td class="qtxt">列出 12 的所有因數。</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">2</td><td class="qtxt">列出 7 的所有因數。</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">3</td><td class="qtxt">1 有幾個因數？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">4</td><td class="qtxt">除了 1 和自己，還有其他因數的數叫什麼？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">5</td><td class="qtxt">2 是質數嗎？為什麼？</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h1">二、核心知識精講 ＋ 例題練習</div><div class="kp"><div class="kp-title">知識點一：質數（Prime Number） <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>定義：一個大於 1 的整數，只有 1 和自己兩個因數</b><br>② 例：7 → 因數只有 1 和 7 → 質數 ✅<br>③ 例：11 → 因數只有 1 和 11 → 質數 ✅<br>④ <b>2 是唯一的偶質數！</b>其他偶數都有1、2、自己...<br>⑤ 口訣：「只得兩個因數（1同自己）→ 質數！」</div></div>
+
+<div class="why-box" style="background:linear-gradient(135deg,#FFF8E7,#FFFDF5);border:2px solid #C9A84C;border-radius:10px;padding:14px 18px;margin:14px 0;">
+<div style="font-weight:900;color:#92400E;font-size:14px;margin-bottom:6px;">WHY BOX：質數 — 只能被1和自己整除的數</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>質數：</b>只有2個因數（1和自己）。例：2,3,5,7,11...<br/>
+<b>合數：</b>有3個或以上因數。例：4(1,2,4)<br/>
+<b>陷阱：</b>1不是質數！2是唯一的偶質數！<br/>
+<em style="color:#6B7280;">質數像數學的原子 — 所有整數可分解成質因數乘積。</em>
+</div>
+</div>
+<div class="kp"><div class="kp-title">知識點二：合數（Composite Number） <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>定義：一個大於 1 的整數，有多於兩個因數</b><br>② 例：12 → 因數：1,2,3,4,6,12 → 合數 ✅<br>③ 例：15 → 因數：1,3,5,15 → 合數 ✅<br>④ <b>所有大於2的偶數都是合數！</b>（因為至少有1,2,自己）<br>⑤ 口訣：「多過兩個因數 → 合數！」</div></div><div class="kp"><div class="kp-title">知識點三：1的特殊性 <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>1 既不是質數，也不是合數！</b><br>② 原因：質數需要「兩個」因數（1和自己）<br>　但1的「1」和「自己」是同一個數<br>③ 1只有一個因數（就是1自己）<br>④ ⚠️ 這是P4學生最常錯的概念！<br>⑤ 口訣：「1 唔係質數又唔係合數，佢係特別嘅！」</div></div><div class="ex"><div class="ex-title">例1</div><div class="ex-q">判斷以下各數是質數還是合數：<br>① 13 → 因數：1,13 → 質數 ✅<br>② 21 → 因數：1,3,7,21 → 合數 ✅<br>③ 1 → 只有1個因數 → 都不是 ✅<br>④ 2 → 因數：1,2 → 質數 ✅（唯一偶質數！）</div></div><div class="ex"><div class="ex-title">例2</div><div class="ex-q">20以內的質數有幾個？全部列出來。<br>→ 2,3,5,7,11,13,17,19<br>→ 共 8 個<br>→ 記住：2是唯一偶質數，其他都是奇數</div></div><div class="ex"><div class="ex-title">例3</div><div class="ex-q">91是質數嗎？<br>→ 試除：91÷7=13<br>→ 因數有1,7,13,91 → 合數！<br>→ 判斷大數是否質數：試除質數 2,3,5,7,11...</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>1 是質數？<br><b>❌ 錯！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>1不是質數！<br>質數要有兩個因數。<br>1只有一個因數(自己)。<br>1也不是合數。<br>1是特殊的！</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>所有奇數都是質數？<br><b>❌ 錯！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>9=3×3 → 合數<br>15=3×5 → 合數<br>21=3×7 → 合數<br>很多奇數是合數！<br>只有2是偶質數。</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>91是質數？<br><b>⚠️ 小心！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>91=7×13 → 合數<br>判斷大數是否質數：<br>試÷從小質數開始<br>(2,3,5,7,11,13...)</div></div><div class="warn">⚠️ 1不是質數也不是合數。這是必考概念，必須牢記。</div><div class="warn">⚠️ 2是唯一的偶質數。其他所有偶數（>2）都是合數。</div><div class="warn">⚠️ 20以內的8個質數要背熟：2,3,5,7,11,13,17,19。</div><div class="warn">⚠️ 大數判斷質數：用質數逐個試除。如果能被任何一個整除→合數。</div></div><div class="pb"><div class="h1">三、課堂分層同步練習</div><div class="h2">🌱 基礎層（共 6 題） 基礎層（全體必做）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">6</td><td class="qtxt">判斷質數/合數/都不是：① 5 ② 9 ③ 1 ④ 17 ⑤ 25</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">7</td><td class="qtxt">列出 20-30 之間的所有質數。</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">8</td><td class="qtxt">為什麼 2 是質數但其他偶數不是？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">9</td><td class="qtxt">15的因數有哪些？15是質數嗎？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">10</td><td class="qtxt">1-10中有幾個質數？幾個合數？1算什麼？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">11</td><td class="qtxt">如果一個數只有1和自己兩個因數，它叫什麼？如果多於兩個呢？</td><td class="qd d1">🌱</td><td class="qw"></td></tr></table><div class="h2">🌳 進階層（共 5 題） 挑戰層（🚀 選做）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">12</td><td class="qtxt">兩個質數相加等於 20。這兩個質數可能是？寫出所有組合。</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">13</td><td class="qtxt">97是質數嗎？試除哪些數來判斷？</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">14</td><td class="qtxt">三個連續奇數都是質數。這三個數是？</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">15</td><td class="qtxt">100以內有多少個質數？最大的兩位數質數是？</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">16</td><td class="qtxt">如果p是質數，p+2也是質數，這叫「孿生質數」。找出20以內所有孿生質數對。</td><td class="qd d3">🌳</td><td class="qw"></td></tr></table></div><div class="pb"><div class="h1">四、應用題（SSPA 文字題，共 {len(word_probs)} 題）</div>{qt_table(word_probs)}</div><div class="pb"><div class="h1">五、課後功課</div><div class="h2">基礎必做（共 4 題）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">H1</td><td class="qtxt">10以內的質數有哪些？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">H2</td><td class="qtxt">1是質數嗎？為什麼？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">H3</td><td class="qtxt">20以內的質數有哪些？共幾個？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">H4</td><td class="qtxt">51是質數嗎？試判斷。</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h2">進階選做（共 0 題 🚀）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr></table></div><div class="pb"><div class="h1">六、本堂核心易錯點總結</div><table class="et"><tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr><tr><td>1</td><td><b>1的歸屬</b></td><td>1不是質數也不是合數。原因：只有一個因數。</td></tr><tr><td>2</td><td><b>偶質數</b></td><td>2是唯一的偶質數。其他偶數(>2)至少有1,2,自己三個因數。</td></tr><tr><td>3</td><td><b>大數判斷</b></td><td>試除質數：2→3→5→7→11... 直到商的平方根。</td></tr><tr><td>4</td><td><b>15陷阱</b></td><td>15=3×5。個位是5所以學生常誤判為質數。必須養成試除習慣。</td></tr></table><div class="mn">🧠 口訣：「質數只得兩因數，合數多過兩個數。1係特殊唔係質，2係唯一偶質數。二十以內八個質，二三五七唔好漏！」</div><div class="h1">七、解題四步卡</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">定義</div><div class="sdetail">質數=只有1和自己兩個因數(>1)。合數=有多於兩個因數(>1)。</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">判斷</div><div class="sdetail">列出所有因數。數因數的數量。2個=質數，>2個=合數，1個=都不是。</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">試除</div><div class="sdetail">大數用質數試除。能被2,3,5,7,11...整除→合數。</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">記憶</div><div class="sdetail">背熟20以內質數：2,3,5,7,11,13,17,19。</div></div></div><div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-上-L07a · EDB補充課題 · 建議插入L07(HCF與LCM)之前</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 LF-P4-上-L07a · EDB補充課題 · 建議插入L07(HCF與LCM)之前</div></div></div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">Ctrl+P | LF-P4-上-L07a · EDB補充課題 · 建議插入L07(HCF與LCM)之前</div>
+</body></html>

@@ -7,7 +7,7 @@ import sys, os, io, json, re, random, urllib.request
 from pathlib import Path
 
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 try:
     from flask_cors import CORS
     CORS_AVAILABLE = True
@@ -507,6 +507,21 @@ def api_membership_status():
         return jsonify(result)
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})
+
+
+@app.route('/講義/<path:filepath>')
+def serve_lecture(filepath):
+    """Serve lecture HTML files from the _deploy/講義 directory"""
+    import os as _os
+    deploy_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '_deploy', '講義')
+    return send_from_directory(deploy_path, filepath)
+
+@app.route('/docs/<path:filepath>')
+def serve_docs(filepath):
+    """Serve doc HTML files"""
+    import os as _os
+    docs_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '_deploy', 'docs')
+    return send_from_directory(docs_path, filepath)
 
 @app.route("/api/health")
 def health():

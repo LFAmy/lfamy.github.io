@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S2-L30 Mixed Computing Trap Special — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · 30th Lesson · Student Handout</div>
+<div class="cv-title">Mixed Computing Trap Special</div>
+<div class="cv-sub">fraction ＋ decimal Cross-Topic · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" 5th Volume A Unit 1 + Modern Education 5th Class A Unit 1-3<br/>
+<b>Core Traps:</b>🪤 T2 Decimal Operations · T9 Fractional Operations - Non-uniform format direct calculation · Decimal point misalignment<br/>
+<b>SSPA Association:</b><span class="ss sh">🔴 Extremely High Frequency</span>Approximately 25% of the scored test paper contains a mixture of fractions + decimals, which is the most likely unit to lose points in the entire paper<br/>
+<b>Prerequisite knowledge:</b>Chapter 7-10 (four principles of fractions) · Chapter 12-13 (multiplication and division of decimals) · Chapter 16 (comprehensive fractions and decimal equations)<br/>
+<b>Objectives of this class:</b>❶ Unified format strategy (convert all fractions vs. all decimals) ❷ Mix the order of four arithmetic operations ❸ Cross-topic application questions</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Convert 0.5 into a fraction (simplest form)</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Convert<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>into decimal</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Calculate 0.25 +<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>= ? (Tip: unify the format first)</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Calculate<span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>× 0.2 = ? (Tip: Multiply in a unified format)</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">Judgment:<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>+ 0.5 Should the fraction be converted first or the decimal converted first? Why?</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge Point 1: Mixed Addition of Fractions and Decimals — The strategy of unifying the format first🔴 SSPA</div>
+<div class="kp-rules">
+      ① <strong>Core Principle |||SEP|||: Fractions and decimals cannot be added directly! The format must be unified first</strong>Strategy 1 (converting fraction method) |||SEP|||: Convert decimals into fractions → common fraction → calculation → reduction. Applicable to: when decimals can be converted into simple fractions (0.5, 0.25, 0.75, 0.2, 0.125, etc.)<br/>
+      ② <strong>Strategy 2 (conversion to decimals method) |||SEP|||: Convert fractions into decimals → Align decimal points → Calculate. Applicable to: When fractions can be converted into finite decimals (the denominator is 2,4,5,8,10,20,25...)</strong>The key to choosing a strategy |||SEP|||: See which conversion result is more concise. If the denominator is 3,6,7,9, it can usually be converted to a fraction; if the denominator is 2,4,5,8, it can be converted to a decimal.<br/>
+      ③ <strong>Strategy 2 (conversion to decimals)</strong>: Convert fractions into decimals → Align decimal points → Calculate. Applicable to: when the fraction can be converted into a finite decimal (the denominator is 2,4,5,8,10,20,25...)<br/>
+      ④ <strong>The key to choosing a strategy</strong>: See which conversion result is more concise. If the denominator is 3,6,7,9, it can usually be converted to a fraction; if the denominator is 2,4,5,8, it can be converted to a decimal.</div>
+</div>
+<div class="game-box"><div class="game-title">🍕 分數大作戰</div><div class="game-desc">通分、約分、四則混合！避開分母陷阱。連續答對分數翻倍！</div><div class="game-action">⚡ 開始挑戰 →</div></div>
+
+<div class="ex">
+<div class="ex-title">🪤 Example of trap detonation (the most important demonstration in this class)</div>
+<div class="ex-q">calculate:<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + 0.5 = ？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (60% students)</div><div class="eq">0.25 + 0.5 = 0.3 (the decimal point is misplaced)</div><div class="why">Directly correct the decimal places of 0.25 and 0.5, and miscalculate as 0.25+0.05=0.3</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution (conversion to fraction method)</div><div class="eq"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span></div><div class="why">0.5 = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> → <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">4</span></span> = <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span></div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "If the format is not consistent, unify it first. The denominator 3/6/7/9 can be converted into a fraction. The denominator 2/4/5/8 can be a decimal. The answer should be the simplest."</div>
+<div class="warn">⚠️ The most frequent error: adding fractions and decimals directly without conversion, adding the decimal to the numerator as the answer</div>
+<div class="warn">⚠️ The second most frequent error: Decimal point alignment error - tenth place should be aligned with tenth place, and hundredth place should be aligned with hundredth place</div>
+<div class="h2">Knowledge Point - Worked Examples (write out unified format → calculateprocess)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">0.75 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> + 0.2 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 2: Mixed multiplication and division of fractions and decimals🔴 SSPA required test</div>
+<div class="kp-rules">
+<strong>Mixed multiplication and division strategies:</strong><br/>
+      ① <strong>Recommended strategy: Convert all fractions</strong>- After converting the fractions to decimals, use fraction multiplication (numerator times numerator, denominator times denominator), and finally reduce<br/>② Division: After converting fractions "÷ fraction = × reciprocal"<br/>If converting to a decimal: Pay attention to the rules for the number of decimal places in decimal multiplication (a digit × b digit = a+b decimal place)<br/>
+      ④ <strong>Key judgment |||SEP|||: If the decimal is a recurring decimal (such as 0.333...), it must be converted to a fraction.</strong>: If the decimal is a recurring decimal (such as 0.333...), it must be converted to a fraction.</div>
+</div>
+<div class="ex"><div class="ex-title">Example questions (trap demonstration)</div><div class="ex-q">Example 3:<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> × 0.5 = ？</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 4: 0.75 ÷<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</div></div>
+<div class="h2">Knowledge Point 2 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> × 0.8 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">0.6 × <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> ÷ 0.25 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">0.4 ÷ <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × 0.125 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Knowledge point 3: Fractions + decimals in four mixtures (first multiplication and division, then addition and subtraction + unified format) 🔴 SSPA Advanced</div>
+<div class="kp-rules">
+<strong>Mix four strategies (double challenge):</strong><br/>
+      ① <strong>Step 1: Follow the order of operations</strong>——Multiplication and division first, then addition and subtraction, brackets are calculated first if there are parentheses<br/>
+      ② <strong>Step 2: Unify the format of segments</strong>——Convert multiplication and division parts to fractions uniformly, and decide to convert addition and subtraction parts to fractions or decimals<br/>
+      ③ <strong>Recommended overall strategy</strong>: It is safest to convert all fractions (to avoid the problem of endless decimal divisions)<br/>④ If there are parentheses and the parentheses contain fractions + decimals: first process the format within the parentheses to be unified</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 5: 0.5 +<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> × 0.6 = ？</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 6: (<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + 0.25) × <span class="fd"><span class="n">4</span><span class="b"></span><span class="d">5</span></span> = ？</div></div>
+<div class="h2">Knowledge Point 3 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">0.3 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × 0.4 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> × 0.75 + 0.25 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 5 questions, all must do - per question mixed fraction and decimal)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">0.5 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + 0.25 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">0.75 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> + 0.4 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">0.2 + <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 7 questions, 🚶🚀 choose do - mix multiplydivide + four)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">18</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> × 0.6 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">0.8 × <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> ÷ 0.5 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">0.3 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> × 0.8 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × 0.6 + 0.25 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">1.25 − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> ÷ 0.5 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">(0.5 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>) × 0.6 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (total 5 questions, 🚀 choose do——more step mixing + trap)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">25</td><td class="qtxt">0.75 × <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> ÷ 0.25 + 0.5 × <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">1.2 × (<span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − 0.25) = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">(0.6 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>) ÷ (<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> − 0.1) = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">0.125 + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> × 0.4 − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">10</span></span> = ？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: KP4 APPLICATION ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 4: Cross-topic application questions (shopping discounts + recipe portions + engineering measurements) 🔴 SSPA compulsory exam</div>
+<div class="kp-rules">
+<strong>Four steps to solve the problem:</strong>① <strong>Circle keywords</strong>("Total" "After discount" "Each portion") ②<strong>Column</strong>(Uniform format for fractions and decimals) ③<strong>Calculation</strong>(Pay attention to unit conversion) ④<strong>Write a complete answer</strong>(Step points will be deducted if you don’t write an answer!)</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 7: A cake originally priced at $80 is now discounted by 20% (i.e.<span class="f"><span class="n">4</span><span class="b"></span><span class="d">5</span></span>). Xiao Ming has 0.6 pieces of cake. How much does he need to pay?</div></div>
+<div class="h2">applicationquestionpractice (all must do, column → unified format → calculate → answer sentence)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">30</td><td class="qtxt">A pencil<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>yuan, Xiao Ming bought 0.6 pieces (billed on a pro-rata basis). How much does he need to pay? (Answer in decimals)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">Recipe requires<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>kg flour and 0.25 kg sugar. How many kilograms do the two materials weigh in total?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">A ribbon is 2.5 meters long and uses<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>to make a bow. How many meters of ribbon were used for the bow?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+<div class="h2">advancedapplicationquestion (🚶🚀 choose do, SSPAPaper 2commonquestion type)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">33</td><td class="qtxt">A jacket, originally priced at $360, is 25% off (0.75). In addition, use membership<span class="f"><span class="n">1</span><span class="b"></span><span class="d">10</span></span>coupons to get discounts. How much does Xiao Ming have to pay in the end?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:66px;"></td></tr>
+<tr><td class="qn">34</td><td class="qtxt">Recipe: Cake requires<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>cups of milk. How many cups of milk are needed if only 0.75 servings (i.e.<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>servings) are made?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:66px;"></td></tr>
+<tr><td class="qn">35</td><td class="qtxt">The engineering team completed the project in one day |||SEP|||. After 0.5 days, another 0.125 of the project was completed. What fraction of the project has been completed?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span>. After 0.5 days, another 0.125 of the project was completed. What fraction of the project has been completed?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:66px;"></td></tr>
+<tr><td class="qn">36</td><td class="qtxt">The water bottle originally contained 0.75 liters of water. After drinking<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>liters, an additional 0.2 liters was added. How many liters does the water bottle have now?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:70px;"></td></tr>
+</table>
+<div class="h1">IV.🏔️ Ultimate challenge area</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">(0.75 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>) ÷ (<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> − 0.25) × 1.2 = ？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">A water tank has a capacity of 5 liters. The first injection of<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>is 0.8 of the cylinder and the second injection is 1.25 liters. How many liters are there in the cylinder now?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">Three stores: store A’s discount is |||SEP|||, store B’s discount is 0.65, and store C’s discount is |||SEP|||. Which one is the cheapest? Please prove it with calculations. (Tip: Convert all to decimals for comparison)<span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>, the discount for store B is 0.65, and the discount for store C is<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>. Which one is the cheapest? Please prove it with calculations. (Tip: Convert all to decimals for comparison)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:85px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">V. Class afterhomework</div>
+<div class="h2">Basic must doquestion (total 6 questions, perquestionmust mix fractionanddecimal)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">0.5 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> + 0.3 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> × 0.4 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">0.6 ÷ <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">0.3 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × 0.4 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">A kettle holds 1.5 liters of water and uses |||SEP|||. How many liters of water were used?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>. How many liters of water were used?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">Advanced choose doquestion (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H7</td><td class="qtxt">(0.5 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>) × <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">Compare<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>× 0.75 and 0.6 × |||SEP|||, which is larger? How much difference?<span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span>Which one is larger? How much difference?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H9</td><td class="qtxt">An item costs $240, first add<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>(i.e. ×1.25), and then get a 15% discount (0.85). What is the final selling price?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">VI. The Lessoncorecommon errorsummary</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Fractions and decimals are added directly without conversion</strong>：0.5+<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>=1.5/3 (random combination)</td><td>First unify the format: convert all fractions or all decimals, and then calculate</td></tr>
+<tr><td>2</td><td><strong>Decimal point alignment error</strong>：0.25+0.5=0.3</td><td>Tenth place to tenth place, percentile to percentile, add 0 if necessary</td></tr>
+<tr><td>3</td><td><strong>When converting a fraction into a decimal, the divisions cannot be divided but the approximation is taken</strong></td><td>The denominator contains 3, 6, 7, 9, etc. → Convert to fraction, do not convert to decimal</td></tr>
+<tr><td>4</td><td><strong>Mixing four ignores "multiplication and division first, then addition and subtraction"</strong></td><td>Circle the multiplication and division parts first, and then add and subtract after completing the calculation.</td></tr>
+<tr><td>5</td><td><strong>Wrong number of decimal places in decimal multiplication</strong></td><td>a place</td></tr>
+<tr><td>6</td><td><strong>Fraction division without reciprocal conversion</strong></td><td>÷ Fraction = × The reciprocal of the fraction (swapping the numerator and denominator)</td></tr>
+<tr><td>7</td><td><strong>The answer to the application question does not include the unit or the answer is incomplete.</strong></td><td>Must write "Answer:..." + unit, otherwise step points will be deducted</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「Mixed Computing Trap Special」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「Mixed Computing Trap Special」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 7 pages · 62 questions | LF-P5-S2-L30 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Calculate 0.25 +12= ? (Tip: unify the format first)</td><td style="font-weight:900;color:var(--green);padding:5px 10px">37</td></tr>
+</table>
+<div style="font-size:10px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！直接抄答案 = 呃自己 = 考試會出事！</div>
+</div>
+
+</body>
+</html>

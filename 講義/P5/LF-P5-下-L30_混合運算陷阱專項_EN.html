@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="English math worksheet: 混合運算陷阱專項. LF Academy Hong Kong primary math. 陷阱題 常見錯誤 易錯點" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>P5 Math 混合運算陷阱專項 Worksheet | LF Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P5 講義",
+      "item": "https://lfamy.github.io/講義/P5/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "混合運算陷阱專項"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div style="text-align:center;margin:24px 0"><img src="../_svg/basic_addition.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">LF Academy <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">小五 · 第 30 堂 · Student Edition Handout</div>
+<div class="cv-title">混合運算Trap專項</div>
+<div class="cv-sub">Fraction ＋ Decimal 跨課題 · 65 min · 1-on-3 Online Lesson</div>
+<div class="cv-info">
+<b>Textbook Reference：</b>《小學數學新思維（第二版）》5下A冊 單元一 ＋ 現代教育 5下A 單元1-3<br/>
+<b>核心Trap：</b>🪤 T2 Decimal運算 · T9 Fraction運算 — 格式不統一直接計算 · Decimal點對錯位<br/>
+<b>SSPA 關聯：</b><span class="ss sh">🔴 極高頻</span> 呈分試卷一約 25% 含Fraction＋Decimal混合，為全卷最易失分單元<br/>
+<b>Prerequisites：</b>堂7-10（Fraction四則）· 堂12-13（Decimal乘除）· 堂16（綜合FractionDecimalEquation）<br/>
+<b>Lesson Objectives：</b>❶ 統一格式策略（全轉Fraction vs 全轉Decimal）❷ 混合四則運算順序 ❸ 跨課題Word Problems
+  </div>
+<div class="cv-row">
+<span>Student Name：<span class="ln"></span></span>
+<span>Class：<span class="ln"></span></span>
+<span>Date：<span class="ln"></span></span>
+<span>Duration：<span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+<div class="h1">一、Warm-Up（共 5 題，5 min）</div>
+
+<div class="game-box"><div class="game-title">🏆 陷阱獵人·計時挑戰</div><div class="game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！</div><div class="game-action">⭐ 開始挑戰 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area（寫出完整計算過程）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">把 0.5 化成Fraction（最簡形式）</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">把 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 化成Decimal</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">計算 0.25 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = ？（提示：先統一格式）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">計算 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> × 0.2 = ？（提示：統一格式再乘）</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">判斷：<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> + 0.5 應該先轉Fraction還是先轉Decimal？為甚麼？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">二、Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">知識點一：Fraction與Decimal混合Addition — 先統一格式的策略<span class="ss sh">🔴 SSPA</span></div>
+<div class="kp-rules">
+      ① <strong>核心原則</strong>：Fraction和Decimal不能直接相加！必須先統一格式<br/>
+      ② <strong>策略一（轉Fraction法）</strong>：把Decimal化成Fraction → 通分 → 計算 → 約簡。適用於：Decimal可化成簡單Fraction時（0.5, 0.25, 0.75, 0.2, 0.125等）<br/>
+      ③ <strong>策略二（轉Decimal法）</strong>：把Fraction化成Decimal → 對齊Decimal點 → 計算。適用於：Fraction可化成有限Decimal時（分母為 2,4,5,8,10,20,25...）<br/>
+      ④ <strong>選擇策略的關鍵</strong>：看哪個轉換結果更簡潔。分母為 3,6,7,9 通常→轉Fraction；分母為 2,4,5,8 可→轉Decimal
+    </div>
+</div>
+<div class="ex">
+<div class="ex-title">🪤 Trap引爆例題（本堂最重要的示範）</div>
+<div class="ex-q">計算：<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + 0.5 = ？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common Mistake（60% 學生）</div><div class="eq">0.25 + 0.5 = 0.3 （Decimal點對錯位）</div><div class="why">直接把 0.25 和 0.5 的十分位對錯，誤算為 0.25+0.05=0.3</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確解法（轉Fraction法）</div><div class="eq"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span></div><div class="why">0.5 = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> → <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> = <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">4</span></span> = <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span></div></div>
+</div>
+</div>
+<div class="mn">🧠 Mnemonic：「格式不齊先統一，分母3/6/7/9轉Fraction，分母2/4/5/8可Decimal，答案要最簡」</div>
+<div class="warn">⚠️ 最高頻錯誤：Fraction和Decimal不經轉換就直接相加，把分子加Decimal當答案</div>
+<div class="warn">⚠️ 第二高頻錯誤：Decimal點對位錯誤——十分位要對十分位，百分位要對百分位</div>
+<div class="h2">知識點一 Worked Examples（寫出統一格式 → 計算過程）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">例1</td><td class="qtxt">0.75 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">例2</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> + 0.2 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點二：Fraction與Decimal混合乘除<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>混合乘除策略：</strong><br/>
+      ① <strong>推薦策略：全部轉Fraction</strong>——Decimal化Fraction後，用FractionMultiplication（分子乘分子、分母乘分母），最後約簡<br/>
+      ② Division：轉Fraction後「÷ Fraction = × 倒數」<br/>
+      ③ 若轉Decimal：注意DecimalMultiplication的Decimal位數規則（a位×b位= a+b位Decimal）<br/>
+      ④ <strong>關鍵判斷</strong>：若Decimal是循環Decimal（如 0.333...），必須轉Fraction處理
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題（Trap示範）</div><div class="ex-q">例3：<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> × 0.5 = ？</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：0.75 ÷ <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</div></div>
+<div class="h2">知識點二 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">6</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> × 0.8 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">0.6 × <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> ÷ 0.25 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">0.4 ÷ <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × 0.125 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">知識點三：四則混合中的Fraction＋Decimal（先乘除後加減 ＋ 格式統一）<span class="ss sh">🔴 SSPA 進階</span></div>
+<div class="kp-rules">
+<strong>混合四則策略（雙重挑戰）：</strong><br/>
+      ① <strong>第一步：遵守運算順序</strong>——先乘除、後加減，有括號先算括號<br/>
+      ② <strong>第二步：分段統一格式</strong>——乘除部分統一轉Fraction處理，加減部分再決定轉Fraction或Decimal<br/>
+      ③ <strong>推薦整體策略</strong>：全部轉Fraction最安全（避免Decimal除不盡的問題）<br/>
+      ④ 若有括號且括號內含Fraction＋Decimal：先處理括號內格式統一
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例5：0.5 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> × 0.6 = ？</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例6：(<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + 0.25) × <span class="fd"><span class="n">4</span><span class="b"></span><span class="d">5</span></span> = ？</div></div>
+<div class="h2">知識點三 同步練習</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">0.3 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × 0.4 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> × 0.75 + 0.25 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">三、Tiered Practice</div>
+<div class="h2">🌱 Foundation Tier（共 5 題，All Must Complete——每一題混合Fraction與Decimal）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">0.5 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> + 0.25 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">0.75 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">8</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">10</span></span> + 0.4 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">0.2 + <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">🌿 Intermediate Tier（共 7 題，🚶🚀 Optional——混合乘除＋四則）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">18</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> × 0.6 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">0.8 × <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> ÷ 0.5 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">0.3 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> × 0.8 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt"><span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × 0.6 + 0.25 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">1.25 − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> ÷ 0.5 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">(0.5 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>) × 0.6 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="h2">🌳 Challenge Tier（共 5 題，🚀 Optional——多步混合 ＋ Trap）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">25</td><td class="qtxt">0.75 × <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt"><span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> ÷ 0.25 + 0.5 × <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">1.2 × (<span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − 0.25) = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">(0.6 + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>) ÷ (<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> − 0.1) = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">0.125 + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> × 0.4 − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">10</span></span> = ？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: KP4 APPLICATION ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點四：跨課題Word Problems（購物折扣 ＋ 食譜份量 ＋ 工程測量）<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>解題四步法：</strong>① <strong>圈關鍵詞</strong>（「一共」「折扣後」「每份」）② <strong>列式</strong>（Fraction和Decimal統一格式）③ <strong>計算</strong>（注意單位換算）④ <strong>寫完整答句</strong>（不寫答句扣步驟分！）
+    </div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例7：一個蛋糕原價 $80，現在打八折（即 <span class="f"><span class="n">4</span><span class="b"></span><span class="d">5</span></span>）。小明有 0.6 個蛋糕的份量，他需要付多少元？</div></div>
+<div class="h2">Word Problems練習（全部必做，列式 → 統一格式 → 計算 → 答句）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">30</td><td class="qtxt">一支鉛筆 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> 元，小明買了 0.6 支（按比例計費）。他需要付多少元？（以Decimal作答）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">食譜需要 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 公斤麵粉和 0.25 公斤糖。兩種材料共重多少公斤？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">一條絲帶長 2.5 米，用了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 做蝴蝶結。蝴蝶結用了多少米絲帶？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+<div class="h2">進階Word Problems（🚶🚀 Optional，呈分試卷二常見題型）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">33</td><td class="qtxt">一件外套原價 $360，打七五折（0.75）。另外再用會員 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">10</span></span> 優惠券折上折。小明最終需付多少元？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">34</td><td class="qtxt">食譜：蛋糕需要 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> 杯牛奶。如果只做 0.75 份（即 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> 份），需要多少杯牛奶？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">35</td><td class="qtxt">工程隊一天完成工程的 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span>。0.5 天後，又完成了工程的 0.125。共完成了工程的幾分之幾？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">36</td><td class="qtxt">水樽原有水 0.75 升，喝了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> 升，再加了 0.2 升。現在水樽有多少升？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">四、🏔️ 終極挑戰專區</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">(0.75 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>) ÷ (<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> − 0.25) × 1.2 = ？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">一個水缸容量為 5 升。第一次注入 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> 缸的 0.8，第二次注入 1.25 升。現在缸內有多少升？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">三個商店：A店折扣為 <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span>，B店折扣為 0.65，C店折扣為 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>。哪間最便宜？請以計算證明。（提示：全部轉Decimal比較）</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:85px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">五、Homework</div>
+<div class="h2">Foundation (Required)題（共 6 題，每題必須混合Fraction與Decimal）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">0.5 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt"><span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> + 0.3 = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> × 0.4 = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">0.6 ÷ <span class="f"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">0.3 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> × 0.4 = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">一個水壺有 1.5 升水，用了 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>。用了多少升水？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced (Optional)題（共 3 題，🚀 Optional）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">H7</td><td class="qtxt">(0.5 + <span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>) × <span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">比較 <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> × 0.75 和 0.6 × <span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> 哪個較大？相差多少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H9</td><td class="qtxt">一件貨品 $240，先加價 <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>（即 ×1.25），再打八五折（0.85）。最終售價是多少？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">六、Common Error Summary</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Learning Objectives Review — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有Trap類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂Mnemonic</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>Common Error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Fraction和Decimal不經轉換直接相加</strong>：0.5+<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>=1.5/3（胡亂合併）</td><td>先統一格式：全轉Fraction或全轉Decimal，再計算</td></tr>
+<tr><td>2</td><td><strong>Decimal點對位錯誤</strong>：0.25+0.5=0.3</td><td>十分位對十分位，百分位對百分位，必要時補0</td></tr>
+<tr><td>3</td><td><strong>Fraction轉Decimal時除不盡卻硬取近似值</strong></td><td>分母含 3,6,7,9 等 → 轉Fraction處理，不要轉Decimal</td></tr>
+<tr><td>4</td><td><strong>混合四則忽略「先乘除後加減」</strong></td><td>先圈出乘除部分，計算完再做加減</td></tr>
+<tr><td>5</td><td><strong>DecimalMultiplicationDecimal位數計錯</strong></td><td>a位×b位 = a+b位Decimal；積的Decimal部分末尾0要保留至定位後再決定去留</td></tr>
+<tr><td>6</td><td><strong>FractionDivision未轉倒數</strong></td><td>÷ Fraction = × 該Fraction的倒數（分子分母互換）</td></tr>
+<tr><td>7</td><td><strong>Word Problems答案未寫單位或答句不完整</strong></td><td>必須寫「答：……」＋單位，否則扣步驟分</td></tr>
+</table>
+<div class="end-note">🪤 LF Academy · LF Academy · We don't teach math — we teach trap avoidance.。 · LF-P5-下-L30 v2</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  🖨️ Ctrl+P 列印 PDF  |  6頁 · 62題  |  LF-P5-下-L30 v2
+</div>
+</body>
+</html>

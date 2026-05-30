@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S2-L21 round understanding — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* SVG diagram area */
+  .svg-wrap { text-align:center; margin:10px 0; }
+  .svg-wrap svg { max-width:100%; height:auto; }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · Lesson 21 · Student Handout</div>
+<div class="cv-title">round understanding</div>
+<div class="cv-sub">Unit 4 · Basic Geometry · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5A Unit 4 + Modern Education 5A Unit 14<br/>
+<b>Core traps:</b>🪤 T4 Geometry - Confusing radius and diameter · d=2r Reverse relationship · Incorrect compass opening setting<br/>
+<b>SSPA association:</b><span class="ss sh">🔴 High Frequency</span>Sub-test paper 2 Geometry Basics, there must be circle identification questions every year<br/>
+<b>Prerequisite knowledge:</b>❷ Master the relationship d = 2r ❸ Be proficient in drawing circles with a compass ❹ Understand the relationship between circles and other shapes<br/>
+<b>Our goals:</b>❶ Understand the center, radius, and diameter of a circle ❷ Master the relationship d = 2r ❸ Be proficient in drawing a circle with a compass ❹ Understand the relationship between a circle and other figures</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">A square has a side length of 6 cm, what is its perimeter?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">A rectangle is 8 cm long and 5 cm wide. What is its perimeter?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Which of the following graphs<strong>is not</strong>composed of curves?<br/>A. Circle B. Oval C. Square D. All of the above faces</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Measure the length of the following line segment AB (unit: cm)<br/><svg height="30" style="vertical-align:middle" width="120"><line stroke="#1A3C6D" stroke-width="2" x1="10" x2="110" y1="15" y2="15"></line><circle cx="10" cy="15" fill="#DC2626" r="2"></circle><circle cx="110" cy="15" fill="#DC2626" r="2"></circle><text fill="#DC2626" font-size="9" x="5" y="12">A</text><text fill="#DC2626" font-size="9" x="113" y="12">B</text></svg></td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">In life, give three examples of<strong>circles and briefly explain why they are round.</strong>Examples of circles and a brief explanation of why they are round.</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">⭕ The structure of a circle - center (O), radius (r), diameter (d)</strong><br/>
+<svg height="180" viewbox="0 0 200 180" width="200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="80" fill="#DBEAFE" r="70" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="100" cy="80" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="100" y="73">O</text><line stroke="#1A3C6D" stroke-width="2" x1="100" x2="170" y1="80" y2="80"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="135" y="73">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="170" y1="88" y2="88"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="100" y="102">d=2r</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">The center O is the center point of the circle. Radius r is the distance from the center of the circle to the circumference. The diameter d=2r passes through the center of the circle and connects both ends of the circle. Red dashed line = diameter.</div>
+</div>
+<div class="game-box"><div class="game-title">🍕 分數大作戰</div><div class="game-desc">通分、約分、四則混合！避開分母陷阱。連續答對分數翻倍！</div><div class="game-action">⚡ 開始挑戰 →</div></div>
+
+<div class="kp" style="margin-top:10px;">
+<div class="kp-title">circle key relationship</div>
+<div class="kp-rules">
+① <strong>Diameter = 2 × Radius</strong>（d = 2r）<br/>
+② <strong>Radius = Diameter ÷ 2</strong>（r = d ÷ 2）<br/>
+③ <strong>Circumference = π × Diameter = 2πr</strong>（C = πd = 2πr）<br/>
+④ <strong>Circle Area = π × Radius²</strong>（A = πr²）
+</div>
+</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: Center · Radius · Diameter (d = 2r)🔴 SSPA</div>
+<div class="kp-rules">
+      ① <strong>Center of circle (O) |||SEP|||: The exact center of the circle. The distance from every point on the circle to the center of the circle is equal.</strong>Radius (r) |||SEP|||: The distance from the center of the circle to any point on the circumference. All radii within the same circle are equal.<br/>
+      ② <strong>Diameter (d) |||SEP|||: A line segment that passes through the center of the circle and connects two points on the circumference. |||SEP|||, that is, the diameter is twice the radius.</strong>Chord |||SEP|||: A line segment connecting any two points on the circumference. The diameter is the longest chord<br/>
+      ③ <strong>in the circle (because it passes through the center of the circle).</strong>⑤ In the same circle, all diameters have the same length; diameter = radius × 2; radius = diameter ÷ 2.<strong>d = 2r</strong>, that is, the diameter is twice the radius.<br/>
+      ④ <strong>string</strong>: A line segment connecting any two points on the circumference. The diameter is inside the circle<strong>longest string</strong>(Because it passes through the center of the circle).<br/>⑤ In the same circle, all diameters have the same length; diameter = radius × 2; radius = diameter ÷ 2.</div>
+</div>
+<div class="svg-wrap">
+<svg height="240" viewbox="0 0 260 240" width="260" xmlns="http://www.w3.org/2000/svg"><circle cx="130" cy="110" fill="#DBEAFE" r="100" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="130" cy="110" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="130" y="103">O</text><line stroke="#1A3C6D" stroke-width="2" x1="130" x2="230" y1="110" y2="110"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="180" y="103">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="230" y1="118" y2="118"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="130" y="132">d=2r</text></svg>
+</div>
+<div class="ex">
+<div class="ex-title">🪤 Trap detonation example - relationship between radius and diameter</div>
+<div class="ex-q">Example 1: The radius of a circle is 5 cm, what is its diameter?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (40% students)</div><div class="eq">d = 5 ÷ 2 = 2.5 cm</div><div class="why">Put d = r ÷ 2, reversing the relationship</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">d = 5 × 2 = 10 cm</div><div class="why">The diameter is twice the radius: d = 2r</div></div>
+</div>
+</div>
+<div class="ex">
+<div class="ex-title">example</div>
+<div class="ex-q">Example 2: The diameter of a circle is 18 cm, what is the radius?</div>
+</div>
+<div class="mn">🧠 Tip: "Pull the diameter through the center, and reduce the radius by half. Remember d = 2r clearly, r = d ÷ 2, there is no mistake!"</div>
+<div class="warn">⚠️ The most frequent error: reversing the relationship between radius and diameter. Remember: diameter is longer than radius! Diameter = Radius × 2!</div>
+<div class="warn">⚠️ The second most frequent error: the units are not uniform. If r = 3.5 cm, d = 7 cm (not 7 mm or 70 mm).</div>
+<div class="h2">Knowledge Point 1 Synchronous practice (write out ①formula ②substitute ③calculateanswer)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">Radius r = 4 cm, diameter d = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">Radius r = 7.5 cm, diameter d = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">Diameter d = 15 cm, radius r = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">Diameter d = 2.4 cm, radius r = ? (Answer in decimals)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">A circle has two radii OA and OB. OA = 6 cm, what is the length of OB? Why?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 2: Drawing a circle - the use of compasses 🔴 SSPA implementation</div>
+<div class="kp-rules">
+      ① <strong>The two legs of the compass</strong>are: one leg is the<strong>pin</strong>(fixed at the center of the circle), and the other leg is the<strong>pencil leg</strong>(draw the circumference).<br/>
+      ② <strong>Compass opening distance = radius</strong>(not diameter! This is the most frequent error).<br/>③ If the diameter is given in the question, you must first calculate<strong>r = d ÷ 2</strong>and then adjust the compass opening.<br/>④ Steps to draw a circle: ① Determine the center of the circle ② Measure the radius and adjust the opening of the compass ③ Pin the center of the circle with the pin ④ Draw the circumference by going around with the foot of the pencil.<br/>⑤ When drawing a circle, keep the compass vertical to the paper and do it in one go. Do not change the opening midway.</div>
+</div>
+<div class="svg-wrap">
+<svg height="190" viewbox="0 0 300 220" width="260">
+<!-- Draft circle (result) -->
+<circle cx="200" cy="110" fill="#F0F7FF" r="55" stroke="#1A3C6D" stroke-dasharray="5,3" stroke-width="2"></circle>
+<circle cx="200" cy="110" fill="#DC2626" r="2.5"></circle>
+<text fill="#DC2626" font-family="Noto Sans HK,sans-serif" font-size="10" x="210" y="105">O (center of circle)</text>
+<!-- Compass simplified -->
+<line stroke="#6B7280" stroke-width="2.5" x1="95" x2="200" y1="20" y2="110"></line>
+<line stroke="#6B7280" stroke-width="2.5" x1="95" x2="200" y1="200" y2="110"></line>
+<!-- Pivot/needle at O -->
+<circle cx="200" cy="110" fill="#DC2626" r="5"></circle>
+<!-- Pencil tip -->
+<circle cx="95" cy="20" fill="#1A3C6D" r="5"></circle>
+<text fill="#1A3C6D" font-family="Noto Sans HK,sans-serif" font-size="11" x="70" y="12">Pencil leg</text>
+<!-- Opening label -->
+<text fill="#6B7280" font-family="Noto Sans HK,sans-serif" font-size="12" font-weight="700" x="130" y="50">Opening = radius r</text>
+<!-- Pointer lines -->
+<line stroke="#C9A84C" stroke-dasharray="3,2" stroke-width="1" x1="120" x2="200" y1="40" y2="110"></line>
+<!-- Hand holding area -->
+<rect fill="none" height="25" rx="3" stroke="#6B7280" stroke-width="1" width="15" x="88" y="185"></rect>
+<text fill="#6B7280" font-family="Noto Sans HK,sans-serif" font-size="11" x="75" y="200">Handle</text>
+<text fill="var(--gray)" font-family="Noto Sans HK,sans-serif" font-size="11" x="220" y="178">Figure 2: Compass drawing circle</text>
+</svg>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 3: Use a compass to draw a circle with a radius of 3 cm. How high should the compass opening be adjusted?</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 4: Use a compass to draw a circle with a diameter of 8 cm. What should the compass opening be? Write out the complete steps.</div></div>
+<div class="h2">Knowledge Point 2 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">Draw a circle with radius 2.5 cm, compass opening = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">Draw a circle of diameter 6 cm with compass opening = ? r must be calculated first.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt">To draw a circle with a diameter of 14 cm, to what extent should the opening of the compass be adjusted?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">Draw a circle after adjusting the opening of the compass to 5 cm. Of this circle:<br/>(a) Radius = ? (b) Diameter = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Knowledge point 3: The relationship between circles and other shapes 🔴 SSPA Advanced</div>
+<div class="kp-rules">
+      ① <strong>Square inscribed in a circle |||SEP|||: The four vertices of the square are all on the circumference. Diagonal of the square</strong>Diagonal = diameter of the circle<strong>Circle inscribed in the square |||SEP|||: The circle touches all four sides of the square.</strong>。<br/>
+      ② <strong>diameter of a circle = side length of a square</strong>The circumferential angle on the diameter is a right angle |||SEP|||: A triangle with the diameter as the hypotenuse and the vertex on the circumference must be a right triangle.<strong>The vertical line segment from the center of the circle to the chord must bisect the chord</strong>。<br/>
+      ③ <strong>(symmetry property).</strong>⑤ The largest circle that can be drawn within a rectangle: diameter = shorter side (width), radius = width ÷ 2.<br/>
+      ④ <strong>The vertical line segment from the center of the circle to the chord must bisect the chord</strong>(Symmetry property).<br/>⑤ The largest circle that can be drawn within a rectangle: diameter = shorter side (width), radius = width ÷ 2.</div>
+</div>
+<div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:520px;height:auto;" viewbox="0 0 520 220">
+Left: square inscribed in circle
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="130" y="16">Circle inscribed in a square</text>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="130" y="30">The vertex of the square is on the circumference</text>
+<circle cx="130" cy="115" fill="none" r="75" stroke="#1A3C6D" stroke-width="2.5"></circle>
+<!-- Inscribed square (rotated 45°) -->
+<polygon fill="#DBEAFE" points="130,40 207.8,115 130,190 52.2,115" stroke="#C9A84C" stroke-width="2"></polygon>
+<!-- Diagonal = diameter -->
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="52.2" x2="207.8" y1="115" y2="115"></line>
+<text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="130" y="108">Diagonal = d</text>
+<!-- Center dot -->
+<circle cx="130" cy="115" fill="#1A3C6D" r="3"></circle>
+<text fill="#1A3C6D" font-size="9" font-weight="700" x="138" y="120">O</text>
+<!-- Radius -->
+<line stroke="#1A3C6D" stroke-width="1.5" x1="130" x2="207.8" y1="115" y2="115"></line>
+<text fill="#1A3C6D" font-size="9" font-weight="700" x="172" y="112">r</text>
+<!-- Label -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="130" y="210">Diagonal = Diameter = 2r</text>
+Right: circle inscribed in square
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="400" y="16">Square inscribed in the circle</text>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="400" y="30">The circle touches the four sides of the square</text>
+<!-- Square -->
+<rect fill="none" height="150" stroke="#1A3C6D" stroke-width="2.5" width="150" x="325" y="40"></rect>
+<!-- Inscribed circle -->
+<circle cx="400" cy="115" fill="#FEF3C7" r="75" stroke="#C9A84C" stroke-width="2"></circle>
+<!-- Diameter = side length -->
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="325" x2="475" y1="115" y2="115"></line>
+<text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="400" y="108">d = side length a</text>
+<!-- Center dot -->
+<circle cx="400" cy="115" fill="#C9A84C" r="3"></circle>
+<text fill="#C9A84C" font-size="9" font-weight="700" x="408" y="120">O</text>
+<!-- Radius -->
+<line stroke="#C9A84C" stroke-width="1.5" x1="400" x2="475" y1="115" y2="115"></line>
+<text fill="#C9A84C" font-size="9" font-weight="700" x="440" y="112">r</text>
+<!-- Side label -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="400" y="200">side length a = diameter d = 2r</text>
+<!-- Right angle marker -->
+<polyline fill="none" points="325,50 335,50 335,40" stroke="#1A3C6D" stroke-width="1.5"></polyline>
+<!-- Touch points -->
+<circle cx="325" cy="115" fill="#DC2626" r="3"></circle>
+<circle cx="475" cy="115" fill="#DC2626" r="3"></circle>
+<circle cx="400" cy="40" fill="#DC2626" r="3"></circle>
+<circle cx="400" cy="190" fill="#DC2626" r="3"></circle>
+</svg>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 5: The diameter of a circle is 10 cm. What is the diagonal length of the inscribed square of this circle?</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 6: The side length of a square is 8 cm. Draw the largest circle inside. What is the radius of this circle?</div></div>
+<div class="h2">Knowledge Point 3 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">15</td><td class="qtxt">The diameter of a circle is 12 cm. What is the diagonal length of the square inscribed in it?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">The side length of a square is 6 cm. Draw the largest circle within the square. What is the diameter of the circle?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">A rectangle is 10 cm long and 6 cm wide. Draw the largest circle within the rectangle. The circle’s: (a) diameter = ? (b) Radius = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">A triangle has as its base the diameter AB of a circle and its third vertex C on the circumference. What is the angle ACB? Why?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: KP4 + TIERED BASIC/INTERMEDIATE ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 4: Circle in life 🟡 Application</div>
+<div class="kp-rules">
+      ① <strong>Why are wheels round?</strong>The distance from the center of the circle to the ground is constant (=radius), and the height of the axle remains unchanged when driving, making it smooth and not bumpy. Square wheels make the car bounce up and down.<br/>
+      ② <strong>Clock hands |||SEP|||: The pointer starts from the center of the circle, and the trajectory traveled by the needle tip is circular. Pointer length = radius of circle.</strong>CD/Coin/Coaster |||SEP|||: Round shape without sharp corners, easy to make, carry and use.<br/>
+      ③ <strong>Why are manhole covers round?</strong>The circular manhole cover will not fall into the wellhead in any direction (the diameter is the same), and the circle is evenly stressed.<br/>
+      ④ <strong>Why are manhole covers round?</strong>The circular manhole cover will not fall into the wellhead in any direction (the diameter is the same), and the circle is evenly stressed.</div>
+</div>
+<div class="svg-wrap">
+<svg height="160" viewbox="0 0 180 160" width="180" xmlns="http://www.w3.org/2000/svg"><circle cx="90" cy="70" fill="#DBEAFE" r="60" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="90" cy="70" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="63">O</text><line stroke="#1A3C6D" stroke-width="2" x1="90" x2="150" y1="70" y2="70"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="120" y="63">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="150" y1="78" y2="78"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="90" y="92">d=2r</text></svg>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 7: The minute hand of the clock is 12 cm long. What shape is drawn by moving the tip of the minute hand in one circle? What is the radius of this shape?</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 8: A circular pool, the distance from the edge of the pool to the center is 5 m. A worker wants to pull a rope from one side of the pool to the other side directly opposite (through the center). What is the minimum length of the rope?</div></div>
+<div class="h2">Knowledge Point Four Synchronization Practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">19</td><td class="qtxt">In a circular garden bed, a gardener has to walk 3 m from the center to the edge of the garden bed. What is the diameter of the flower bed?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">The second hand of the clock is 8 cm long. What is the radius of the circle drawn at the tip of the second hand? What is the diameter?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">Why are wheels made round? (Hint: What would happen if the wheel was a square? What would happen to the distance from the center of the circle to the ground?)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">A round coaster, 4.5 cm long from center to edge. (a) Radius of coaster = ? (b) Diameter of coaster = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 5 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">23</td><td class="qtxt">r = 3 cm，d = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">d = 22 cm，r = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">Draw a circle with radius 2 cm, compass opening = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">26</td><td class="qtxt">The sides of the square are 4 cm long, and the largest circle is drawn inside. Diameter of circle = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">The hour hand of the clock is 5 cm long. The distance between the tip of the hour hand and the center of the circle is 5 cm. What is this length of the clock face? A. Diameter B. Radius C. Chord D. Circumference</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 3 questions, 🚶🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">28</td><td class="qtxt">The diagonal length of a square is 14 cm. What is the diameter of its circumcircle (the circle passing through its four vertices)? What is the radius?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">To draw a circle with a diameter of 16 cm, what should be the opening of the compass? If the maximum opening of the compass is only 6 cm, can this circle be drawn? Why?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">The diameter of a circle is 1 m and what is its radius in cm? (1 m = 100 cm)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: CHALLENGE + HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h2">🌳 challenge layer (total 2 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">31</td><td class="qtxt">A rectangle is 14 cm long and 8 cm wide. Draw the largest circle within the rectangle. (a) What are the diameter and radius of this circle? (b) If the radius of this circle is increased by 1 cm, can it still be drawn within the rectangle? Why?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">Two concentric circles (sharing center O). The radius of the large circle is R = 10 cm, and the radius of the small circle is r = 6 cm. (a) How much longer is the diameter of the larger circle than the diameter of the smaller circle? (b) What is the width of the annular area between the large circle and the small circle in cm?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">IV.Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">Radius r = 3.5 cm, diameter d = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">Diameter d = 9 cm, radius r = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">Draw a circle of diameter 6 cm with compass opening = ? (Must write down calculation steps)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">The radius of a circle is 8 cm, its diameter is the longest _____ (fill in "chord", "radius" or "circumference"), and its length is _____ cm.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">The sides of the square are 5 cm long and the largest circle is drawn inside. Diameter of circle = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced choose doquestion (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">The diagonal length of a square inscribed in a circle is 16 cm. What is the radius of this circle?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">The hour hand of the clock is 6 cm long and the minute hand is 9 cm long. (a) Which needle has its tip farther from the center of the circle? How far away? (b) What is the difference in diameter of the circles drawn by the tips of the hour and minute hands?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">A rope forms an exact circle and the distance from the center of the circle to the rope is 2 m. (a) What is the diameter of the circle enclosed by this rope? (b) If the rope is straightened and used as the diameter, how long does the rope need to be? (Tip: The diameter is the diameter of the rope after it is straightened)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">V. The Lessoncorecommon errorsummary</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Confusing radius and diameter |||SEP|||: Misremembering d = r ÷ 2</strong>: Misremembering d = r ÷ 2</td><td>The diameter is longer than the radius: d = r × 2; r = d ÷ 2</td></tr>
+<tr><td>2</td><td><strong>Set the compass opening to diameter |||SEP|||: To draw a circle with d=8cm, adjust the opening to 8cm</strong>: To draw a circle with d=8cm, adjust the opening to 8cm</td><td>Compass opening =<strong>radius</strong>! First calculate r = d ÷ 2 = 4cm</td></tr>
+<tr><td>3</td><td><strong>Forget that all radii within the same circle are equal</strong></td><td>Within the same circle, the length of any radius is equal (definition of a circle)</td></tr>
+<tr><td>4</td><td><strong>Think that the longest chord is not the diameter</strong></td><td>Chord passing through center = diameter, is the longest chord in the circle</td></tr>
+<tr><td>5</td><td><strong>The units are not unified |||SEP|||: m and cm are mixed and not converted</strong>:m and cm are mixed without conversion</td><td>Unify the units before calculation: 1m = 100cm</td></tr>
+<tr><td>6</td><td><strong>The diameter of the inscribed circle is the "length" of the rectangle</strong></td><td>Diameter of the largest inscribed circle = length of the shorter side</td></tr>
+<tr><td>7</td><td><strong>The steps for drawing a circle are incomplete |||SEP|||: directly set the compass opening to the diameter value</strong>: Directly set the compass opening to the diameter value</td><td>Steps: ① Calculate r ② Adjust compass opening = r ③ Determine the center of the circle ④ Draw a circle</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「round understanding」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「round understanding」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related topics: L21 Understanding of circles · L22 Advanced area of ​​circles · L06 Circumference and area of ​​circles</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 6 pages · 50 questions | LF-P5-S2-L21 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt" style="font-size:11px">A square has a side length of 6 cm, what is its perimeter?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">2</td><td class="qtxt" style="font-size:11px">A rectangle is 8 cm long and 5 cm wide. What is its perimeter?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">3</td><td class="qtxt" style="font-size:11px">Which of the following graphsis notcomposed of curves?A. Circle B. Oval C. Squar</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">4</td><td class="qtxt" style="font-size:11px">Measure the length of the following line segment AB (unit: cm)AB</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">5</td><td class="qtxt" style="font-size:11px">In life, give three examples ofcircles and briefly explain why they are round.Ex</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+</table>
+<div style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！🟢=自動計算 🟡=請向老師確認</div>
+</div>
+
+</body>
+</html>

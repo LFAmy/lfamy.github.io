@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S1-L18 Review of Traps from Last Semester—Graphics and Equations — Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+    .trap-svg { max-width:100%; margin:0 auto; display:block; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · 18th Lesson · Student Handout</div>
+<div class="cv-title">Review of Traps from Last Semester (2): Graphs and Equations</div>
+<div class="cv-sub">after half term trap full review · 70 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Review scope:</b>Hall 3-6 (area: parallelogram, triangle, trapezoid, polygon) + Hall 14-15 (simple equations)<br/>
+<b>Core traps:</b>🪤 T4 Area Trap + T5 Graph Trap + T3 Equation Trap + T7 Comprehensive Trap<span class="ss sh">🔴 SSPA compulsory exam</span><br/>
+<b>SSPA related:</b><span class="ss sh">🔴 High frequency</span>The score for Paper 1 is about 25-30%, graphs and equations are the key to score for Paper 2<br/>
+<b>Prerequisite knowledge:</b>Hall 3-4 (area formula)· Hall 5 (area trap special subject) Lesson 6 (Comprehensive) · Lesson 14-15 (Equations)<br/>
+<b>Goals of this lesson:</b>❶ Comprehensive review of area traps (bottom-height confusion, forgetting ÷2, unit error) ❷ Comprehensive review of equation traps ❸ Comprehensive application of graphs + equations</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 with SVG ═══════════════ -->
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">What is the formula for the area of ​​a parallelogram?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">What is the formula for the area of ​​a triangle?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">What is the formula for the area of ​​a trapezoid?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Solve the equation: 3<i>x</i> = 15，<i>x</i> = ？</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">Solve the equation:<i>x</i> + 7 = 20，<i>x</i> = ？</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ trapreview</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: General review of area trap 🔴 T4+T5 trap</div>
+<div class="kp-rules">
+<strong>Comprehensive review of T4 area formula traps:</strong><br/>
+      ① <strong>Triangle forgets ÷2 |||SEP|||: base × height ÷2, not base × height! (Confused with parallelogram) - SSPA's highest frequency loss point</strong>Trapezoid forgets ÷2 |||SEP|||: (upper base + lower base) × height ÷ 2, not (upper base + lower base) × height!<br/>
+      ② <strong>The base and the height do not correspond |||SEP|||: The height must be perpendicular to the base, and you cannot just take a hypotenuse as the height</strong>The height of the parallelogram is not the hypotenuse |||SEP|||: Height = vertical distance, hypotenuse ≠ height<br/>
+      ③ <strong>Unit error |||SEP|||: The area unit is cm²/m², not cm/m</strong>Compound graphics disassembly error |||SEP|||: Overlapping or omission when disassembling into basic graphics<br/>
+      ④ <strong>The height of a parallelogram is not the hypotenuse</strong>: Height = vertical distance, hypotenuse ≠ height<br/>
+      ⑤ <strong>unit error</strong>: The unit of area is cm²/m², not cm/m<br/>
+      ⑥ <strong>Composite graphics disassembly error</strong>: Overlap or omission when split into basic graphics</div>
+</div>
+
+<div class="why-box" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #EA580C;border-radius:10px;padding:14px 18px;margin:14px 0;">
+<div style="font-weight:900;color:#9A3412;font-size:14px;margin-bottom:6px;">WHY BOX：解方程的「天秤原理」</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>方程就像一個天秤：</b>等號兩邊必須保持平衡。<br/>
+3x + 5 = 20<br/>
+→ 兩邊 -5：3x = 15<br/>
+→ 兩邊 ÷3：x = 5 ✅<br/><br/>
+<b>核心原則：</b>對一邊做的任何運算，另一邊也要做同樣的運算。<br/>
+加減乘除都可以，只要兩邊一起做！<br/><br/>
+<b>常見陷阱：</b>2(x + 3) = 14<br/>
+→ 有些學生會寫成 2x + 3 = 14 ❌<br/>
+→ 正確：2x + 6 = 14，然後 x = 4 ✅<br/>
+<em style="color:#6B7280;">記住：括號內的每一項都要乘！</em>
+</div>
+</div>
+
+<div class="game-box"><div class="game-title">🎯 總複習·陷阱獵人</div><div class="game-desc">綜合複習挑戰！涵蓋本學期所有陷阱類型。連續答對5題解鎖「陷阱大師」稱號！</div><div class="game-action">🔥 開始挑戰 →</div></div>
+
+<!-- ══ SVG 1: Triangle Area Trap — Base vs Height Confusion ══ -->
+<div class="ex">
+<div class="ex-title">🪤 SVG trap diagram 1: Triangle - the corresponding relationship between base and height (T4 highest frequency trap)</div>
+<div class="ex-q">The triangle below has base = 10 cm and height = 6 cm (vertical). Area = ?</div>
+<svg height="130" viewbox="0 0 170 130" width="170" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,80 135,80 35,20" stroke="#1A3C6D" stroke-width="3"></polygon><polyline fill="none" points="43,10 43,18 35,18" stroke="#1A3C6D" stroke-width="2"></polyline><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="35" x2="35" y1="20" y2="80"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="21" y="50">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="85" y="102">b</text></svg>
+</div>
+<!-- ══ SVG 2: Trapezium Area Trap ══ -->
+<div class="ex">
+<div class="ex-title">🪤 SVG Trap Illustration 2: Trapezoid - Forget ÷2 (T4 Second High Frequency Trap)</div>
+<div class="ex-q">The trapezoid in the figure below has upper base = 4 cm, lower base = 8 cm, and height = 5 cm. Area = ?</div>
+<svg height="110" viewbox="0 0 150 110" width="150" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,70 115,70 95,20 55,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="55" x2="55" y1="20" y2="70"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="67" y="45">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="75" y="92">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="75" y="12">b₁</text></svg>
+</div>
+<div class="mn">🧠 Tip: "A triangular trapezoid must be divided by two, and the parallel four sides must not be divided; the height should be vertical, not oblique, and the unit should be remembered to be square."</div>
+<div class="warn">⚠️ T4 Highest Frequency Trap: Triangles and Trapezoides Forget ÷2! Both graph area formulas have "÷2"!</div>
+<div class="warn">⚠️ T5 graphics trap: When dismantling composite graphics, make sure there is no overlap or omission, and the area of ​​each part after disassembly is added up.</div>
+<div class="h2">Knowledge Point 1 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">Triangle base = 12 cm, height = 8 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt">Trapezoid upper base = 6 cm, lower base = 10 cm, height = 4 cm. Area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 with SVG ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 2: General review of equation traps 🔴 T3 trap</div>
+<div class="kp-rules">
+<strong>Comprehensive review of T3 equation traps:</strong><br/>
+      ① <strong>Transfer terms and forget to change signs</strong>：<i>x</i> + 3 = 7 → <i>x</i>= 7 + 3 = 10 (wrong! It should be<i>x</i> = 7 − 3 = 4）<br/>
+      ② <strong>Both sides are out of sync |||SEP|||: Equations must be "equivalent axioms" - do the same operation on both sides</strong>Error in removing brackets<br/>
+      ③ <strong>+ 3 (the negative sign must be multiplied by each term)</strong>：−(2<i>x</i>−3) = −2<i>x</i>Coefficient simplification error<br/>
+      ④ <strong>= 8 × 2 = 16 (wrong! It should be</strong>：2<i>x</i> = 8 → <i>x</i>Forgot to check the root |||SEP|||: Substitute into the original equation to check, which can avoid 80% of calculation errors<i>x</i> = 8 ÷ 2 = 4）<br/>
+      ⑤ <strong>Forgot to check root</strong>: Substituting into the original equation for checking can avoid 80% of calculation errors</div>
+</div>
+<!-- ══ SVG 3: Equation Balance Scale Trap ══ -->
+<div class="ex">
+<div class="ex-title">🪤 SVG Trap Diagram 3: Equation - Shifting Terms and Changing Signs (T3 highest frequency trap, SSPA must be tested every year)</div>
+<div class="ex-q">Solve the equation: 2<i>x</i>+ 5 = 13, find<i>x</i>。</div>
+<svg class="trap-svg" height="210" viewbox="0 0 520 210" width="520" xmlns="http://www.w3.org/2000/svg">
+<!-- Balance scale - left side (correct) -->
+<!-- Base -->
+<polygon fill="#6B7280" points="260,200 240,185 280,185"></polygon>
+<line stroke="#6B7280" stroke-width="2" x1="260" x2="260" y1="185" y2="60"></line>
+<!-- Beam -->
+<line stroke="#1A3C6D" stroke-width="3" x1="100" x2="420" y1="60" y2="60"></line>
+<!-- Fulcrum -->
+<circle cx="260" cy="62" fill="#C9A84C" r="5"></circle>
+<!-- Left pan -->
+<line stroke="#6B7280" stroke-width="1.5" x1="140" x2="140" y1="60" y2="80"></line>
+<line stroke="#6B7280" stroke-width="1.5" x1="120" x2="120" y1="60" y2="80"></line>
+<ellipse cx="130" cy="85" fill="none" rx="30" ry="8" stroke="#6B7280" stroke-width="1.5"></ellipse>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="130" y="72">2x+5</text>
+<!-- Right pan -->
+<line stroke="#6B7280" stroke-width="1.5" x1="380" x2="380" y1="60" y2="80"></line>
+<line stroke="#6B7280" stroke-width="1.5" x1="400" x2="400" y1="60" y2="80"></line>
+<ellipse cx="390" cy="85" fill="none" rx="30" ry="8" stroke="#6B7280" stroke-width="1.5"></ellipse>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="390" y="72">13</text>
+<!-- Wrong approach box -->
+<rect fill="#FEF2F2" height="50" rx="6" stroke="#FECACA" stroke-width="1.5" width="230" x="10" y="110"></rect>
+<text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="125" y="128">❌ The sign of the shifted term remains unchanged</text>
+<text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="125" y="145">2x = 13 + 5 → 2x = 18 → x = 9</text>
+<!-- Correct approach box -->
+<rect fill="#F0FDF4" height="50" rx="6" stroke="#BBF7D0" stroke-width="1.5" width="250" x="260" y="110"></rect>
+<text fill="#16A34A" font-size="10" font-weight="700" text-anchor="middle" x="385" y="128">✅ The sign of the shifted term must be changed (subtract 5 from both sides)</text>
+<text fill="#16A34A" font-size="12" font-weight="700" text-anchor="middle" x="385" y="145">2x = 13 − 5 → 2x = 8 → x = 4</text>
+<!-- Equation flow -->
+<text fill="#6B7280" font-size="10" text-anchor="middle" x="260" y="180">Both sides −5: left 2x+5−5=2x, right 13−5=8 → 2x=8 → x=4</text>
+<text fill="#16A34A" font-size="9" text-anchor="middle" x="260" y="195">Verification: 2(4)+5=8+5=13 ✓</text>
+</svg>
+</div>
+<!-- ══ SVG 4: Composite Shape + Equation ══ -->
+<div class="ex">
+<div class="ex-title">🪤 SVG Trap Illustration 4: Graph + Equation Synthesis—Assume unknowns to find height (T4+T3 mixed trap)</div>
+<div class="ex-q">Area of ​​parallelogram = 48 cm², base = 8 cm, let height be<i>h</i>cm. beg<i>h</i>。</div>
+<svg height="130" viewbox="0 0 190 130" width="190" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="3" width="120" x="35" y="15"></rect><polyline fill="none" points="45,15 45,25 35,25" stroke="#1A3C6D" stroke-width="2"></polyline><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="123">l</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="end" x="21" y="60">w</text></svg>
+</div>
+<div class="mn">🧠 Tip: "Add and subtract both sides of the equation at the same time, and the sign of the transfer term must be reversed; substitute the area formula into it, and use the equation to solve the unknown number."</div>
+<div class="warn">⚠️ T3 highest frequency: forgetting to change the sign when moving items - addition changes to subtraction, subtraction changes to addition! Do the same operation on both sides!</div>
+<div class="warn">⚠️T4+T3 Mixed Trap: For graphing questions, write the area formula first, then do algebra, and finally solve the equation. Don't skip a step!</div>
+<div class="h2">Knowledge Point 2 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 3</td><td class="qtxt">Solve the equation: 4<i>x</i> − 3 = 17，<i>x</i> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">Example 4</td><td class="qtxt">Solve the equation: 2(<i>x</i> + 3) = 14，<i>x</i> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: KP3 + TIERED ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 3: Comprehensive application of graphics + equations 🔴 T4+T5+T3+T7 mixed</div>
+<div class="kp-rules">
+<strong>Graph + Equation Comprehensive Problem Solving Framework (SSPA Paper 2 pull question):</strong><br/>
+      ① <strong>Drawing marks |||SEP|||: Mark the known and unknown lengths on the graph</strong>Write the area formula |||SEP|||: Write the correct formula according to the type of graph (note ÷2!)<br/>
+      ② <strong>Assume unknowns</strong>: Set the unknown quantity in the formula to<br/>
+      ③ <strong>Substitute the known number</strong>: Substitute the known area, base, height, etc. into<i>x</i><br/>
+      ④ <strong>Solve the equation</strong>: Use the equivalent axiom to find out<br/>
+      ⑤ <strong>Verify</strong>: Substitute back to the original formula to check whether the area is consistent<i>x</i><br/>
+      ⑥ <strong>verify</strong>: Substitute back to the original formula to check whether the area matches</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">Drawing markup</div><div class="d">Label known and unknown lengths</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">write formula</div><div class="d">Correct area formula (÷2?)</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">Let the unknowns</div><div class="d">The unknown quantity is set to x</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">Solving Equations Algebraically</div><div class="d">Substitute → Solve → Verify</div></div>
+</div>
+<div class="ex">
+<div class="ex-title">Example 5 - Find the height of a triangle (T4+T3 mixed)</div>
+<div class="ex-q">Area of ​​triangle = 36 cm², base = 9 cm. Let the height be<i>h</i>cm, find<i>h</i>。</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes</div><div class="eq">9 × <i>h</i> = 36 → <i>h</i> = 4</div><div class="why">Forgot that the formula for the area of ​​a triangle is ÷2! It should be 9×h÷2=36</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq"><span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>×9×<i>h</i>=36 → 9<i>h</i>=72 → <i>h</i>=8 cm</div><div class="why">Formula: base×height÷2=area → 9h÷2=36 → 9h=72 → h=8</div></div>
+</div>
+</div>
+<div class="ex">
+<div class="ex-title">Example 6 - Finding the upper and base of a trapezoid (T4+T3 mixed)</div>
+<div class="ex-q">Trapezoid area = 40 cm², base = 12 cm, height = 5 cm. Assume that the upper bottom is<i>a</i>cm, find<i>a</i>。</div>
+</div>
+<div class="warn">⚠️ T7 Comprehensive Trap: Mixed questions of graphs and equations. The most common mistake is writing the area formula incorrectly (forgetting ÷2), resulting in all the equations being wrong!</div>
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 7 questions, all must do — formulabasic)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">Base of parallelogram = 9 cm, height = 6 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">Triangle base = 14 cm, height = 5 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">Trapezoid upper base = 5 cm, lower base = 9 cm, height = 6 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">Solve the equation:<i>x</i> + 8 = 15，<i>x</i> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">Solve the equation: 5<i>y</i> = 35，<i>y</i> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">Solve the equation:<i>x</i> − 6 = 9，<i>x</i> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">Area of ​​triangle = 20 cm², base = 5 cm. High = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 7 questions, 🚶🚀 choose do — trap identification and mixed question)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">Area of ​​parallelogram = 54 cm², base = 9 cm. High = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">Solve the equation: 3<i>x</i> + 4 = 19，<i>x</i> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">Solve the equation: 2<i>x</i> − 5 = <i>x</i> + 3，<i>x</i> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">Trapezoid area = 48 cm², upper base + lower base = 12 cm. High = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">The base of a triangle is 8 cm and the height is 1.5 times the base. Area = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">Solve the equation: 2(<i>x</i> − 3) + 4 = 12，<i>x</i> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">Parallelograms and triangles have equal bases and equal heights. Area of ​​parallelogram = 32 cm². Area of ​​triangle = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (total 6 questions, 🚀 choose do — graphics + equationcomprehensive)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">20</td><td class="qtxt">Area of ​​triangle = 30 cm², height = 5 cm. Let the base be<i>b</i>cm, and use the equation to find<i>b</i>。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">The upper base of a trapezoid is 4 cm shorter than the lower base, lower base = 10 cm, area = 56 cm². Let the height be<i>h</i>cm, find<i>h</i>。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">Solve the equation:<span class="f"><span class="n">x</span><span class="b"></span><span class="d">2</span></span> + 3 = <span class="f"><span class="n">x</span><span class="b"></span><span class="d">3</span></span> + 4，<i>x</i> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">The rectangle is 12 cm long. If the width increases by 2 cm, the area increases by 24 cm². It turns out that Kuo = ?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:70px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">A composite figure consists of a square (side length 6 cm) plus a triangle (base = 6 cm), total area = 54 cm². Height of triangle = ?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">The lower base of a trapezoid is 3 times the upper base, upper base =<i>x</i>cm, height = 4 cm, area = 64 cm². Find the length of the top and bottom.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION ═══════════════ -->
+<div class="pb">
+<div class="h1">IV.applicationquestionspecial topic training (total 6 questions)</div>
+<div class="h2">Graphic application question (all must do, column formula → calculate → answer sentence)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">26</td><td class="qtxt">A triangular garden bed has a base length of 8 meters and a height of 5 meters. What is the area of ​​the garden in square meters?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">The parallelogram grass base is 12 meters long and 7 meters high. How many square meters is the area?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">The terraced field is 6 meters above ground, 10 meters below and 4 meters high. What is the total area of ​​the fields?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">A triangular billboard has an area of ​​24 square meters and a base of 8 meters. How many meters high is it? (column of equations)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">The rectangular garden is 15 meters long and wide |||SEP|||. What is the garden area?<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>. What is the garden area?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">The upper bottom of the trapezoidal swimming pool is 8 meters, the lower bottom is 1.5 times that of the upper bottom, and the area is 80 square meters. How many meters high is the swimming pool? (column of equations)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">V.🏔️ Ultimate challenge area (total 3 question)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">A polygon consists of a parallelogram and a triangle, both having equal bases (10 cm). The parallelogram is 6 cm high and the triangle is 4 cm high. Total area = ?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">Rectangle perimeter = 36 cm. The length is 2 times the breadth. Assume the width is<i>w</i>cm, make equations to find the length and width, and then find the area.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">Trapezoid area = 72 cm², base = 14 cm, height = 6 cm. Let the upper base be<i>a</i>cm. (1) Use a series of equations to find |||SEP|||. (2) If this trapezoid is cut along the midline, the height of each small trapezoid is half of the original one. Find the area of ​​each small trapezoid.<i>a</i>. (2) If this trapezoid is cut along the midline, the height of each small trapezoid is half of the original one. Find the area of ​​each small trapezoid.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:90px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">VI.Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">Triangle base = 10 cm, height = 6 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">Trapezoid upper base = 7 cm, lower base = 13 cm, height = 5 cm. Area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">Solve the equation: 6<i>x</i> = 42，<i>x</i> = ？</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">Solve the equation: 3<i>x</i> + 7 = 22，<i>x</i> = ？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">Area of ​​parallelogram = 45 cm², base = 9 cm. High = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced choose doquestion (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">Area of ​​triangle = 42 cm², base = 12 cm. Let the height be<i>h</i>cm, and use the equation to find<i>h</i>。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">Solve the equation: 2(<i>x</i> + 5) − 3 = 15，<i>x</i> = ？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">Trapezoid area = 60 cm², upper base + lower base = 15 cm. High = ?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+<div class="h1">VII. The Lessoncorecommon errorsummary</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+  <strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+  <span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+  </div></div>
+
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Forget the area of ​​a triangle ÷2</strong> (T4)</td><td>Area of ​​triangle = base × height ÷ 2</td></tr>
+<tr><td>2</td><td><strong>The area of ​​the trapezoid is forgotten ÷2</strong> (T4)</td><td>Trapezoidal area = (upper base + lower base) × height ÷ 2</td></tr>
+<tr><td>3</td><td><strong>Use hypotenuse as height</strong>(T5): Height of parallelogram ≠ hypotenuse</td><td>The height must be perpendicular to the base, not the length of the hypotenuse</td></tr>
+<tr><td>4</td><td><strong>Forgot to change the number when moving the item</strong> (T3)：x+3=7 → x=7+3</td><td>The sign of the transfer needs to change: x+3=7 → x=7−3=4</td></tr>
+<tr><td>5</td><td><strong>Bracket removal error</strong> (T3)：−(2x−3)=−2x−3</td><td>Multiply each term with a negative sign: −(2x−3)=−2x+3</td></tr>
+<tr><td>6</td><td><strong>Graphs + Equations: Wrong formula substitution</strong> (T7)</td><td>First write the correct formula → Substitute the known numbers → Assume the unknown → Solve the equation</td></tr>
+<tr><td>7</td><td><strong>Wrong unit of area |||SEP|||: write cm instead of cm² (T5)</strong>: write cm instead of cm² (T5)</td><td>The area unit must be square: cm², m², km²</td></tr>
+</table>
+
+  <!-- ═══ PARENT CORNER ═══ -->
+  <div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+  <strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+  <div style="margin-top:6px;color:#78350F;">
+  <b>今日學咗咩？</b> 小朋友學咗<b>「Review of Traps from Last Semester (2): Graphs and Equations」</b>。<br>
+  <b>最易錯嘅 3 個陷阱：</b> 留意老師圈出嘅陷阱題目<br>
+  <b>你可以問小朋友：</b>「你可唔可以解釋「Review of Traps from Last Semester (2): Graphs and Equations」嘅最重要口訣俾我聽？」<br>
+  <b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+  </div>
+
+
+  <!-- ═══ TEACHER REFERENCE ═══ -->
+  <div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚Related topics: L14 Understanding algebraic expressions · L15 Equation word problems · L31 Advanced algebraic expressions</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 7 pages · 56 questions | LF-P5-S1-L18 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt" style="font-size:11px">What is the formula for the area of ​​a parallelogram?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">2</td><td class="qtxt" style="font-size:11px">What is the formula for the area of ​​a triangle?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">3</td><td class="qtxt" style="font-size:11px">What is the formula for the area of ​​a trapezoid?</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">4</td><td class="qtxt" style="font-size:11px">Solve the equation: 3x = 15，x = ？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="qn">5</td><td class="qtxt" style="font-size:11px">Solve the equation:x + 7 = 20，x = ？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+</table>
+<div style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！🟢=自動計算 🟡=請向老師確認</div>
+</div>
+
+</body>
+</html>

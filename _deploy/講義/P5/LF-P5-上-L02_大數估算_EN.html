@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="English math worksheet: 大數估算. LF Academy Hong Kong primary math. 小學數學 練習" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>P5 Math 大數估算 Worksheet | LF Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* SVG diagram area */
+  .svg-diag { text-align:center; margin:10px 0; }
+  .svg-diag svg { max-width:100%; }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P5 講義",
+      "item": "https://lfamy.github.io/講義/P5/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "大數估算"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<div style="text-align:center;margin:24px 0"><img src="../_svg/p5_estimation_line.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">LF Academy <span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">小五 · 第 2 堂 · Student Edition Handout</div>
+<div class="cv-title">大數Estimation</div>
+<div class="cv-sub">單元一 · Large Numbers與Estimation · 65 min · 1-on-3 Online Lesson</div>
+<div class="cv-info">
+<b>Textbook Reference：</b>《小學數學新思維（第二版）》5上A冊 單元一 ＋ 現代教育 5上A 單元2<br/>
+<b>核心Trap：</b>T1 單位轉換 — Estimationvs精算混淆 · 先Estimation後計算的次序Trap · K/M單位記錯<br/>
+<b>SSPA 關聯：</b><span class="ss sh">🔴 高頻</span> 呈分試每年必考，Estimation題約佔卷一 8-12%<br/>
+<b>Prerequisites：</b>堂1（Large Numbers讀寫、十進制位值、四捨五入取近似值）<br/>
+<b>Lesson Objectives：</b>❶ 理解Estimation與精算的區別 ❷ 掌握分割法Estimation ❸ K/M記數法 ❹ 先Estimation後計算的策略 ❺ EstimationWord Problems
+  </div>
+<div class="cv-row">
+<span>Student Name：<span class="ln"></span></span>
+<span>Class：<span class="ln"></span></span>
+<span>Date：<span class="ln"></span></span>
+<span>Duration：<span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+<div class="h1">一、Warm-Up（共 5 題，5 min）</div>
+
+<div class="game-box"><div class="game-title">🏆 陷阱獵人·計時挑戰</div><div class="game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！留意題目中嘅「陷阱關鍵字」</div><div class="game-action">⭐ 開始挑戰 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area（寫出完整計算過程）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">將 38,562 取近似值至最接近的千位。</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">將 4,725,000 寫成以「萬」為單位的近似值（四捨五入至萬位）。</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">1K 代表多少？1M 代表多少？寫出數字。</td><td class="qd d1">🌱 基礎</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">用四捨五入法，Estimation 398 + 612 的結果（取至最接近的百位）。</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">一張照片顯示人群：橫向約有30人，縱向約有25行。用分割法Estimation現場大約有多少人？</td><td class="qd d2">🌿 進階</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">二、Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">知識點一：什麼是Estimation？ Estimation ≠ 精算 <span class="ss sh">🔴 SSPA</span></div>
+<div class="kp-rules">
+      ① <strong>精算</strong>：計算出精確的答案（例如：398 + 612 = 1010）<br/>
+      ② <strong>Estimation</strong>：用近似值快速找出「大約」的答案（例如：400 + 600 ≈ 1000）<br/>
+      ③ Estimation的目的：快速判斷答案是否合理、日常生活中不需要精確數字時使用<br/>
+      ④ <strong>分割法</strong>：把大範圍分成小格 → 數一格的人/物件數 → × 格數 = Estimation總數<br/>
+      ⑤ Estimation答案前面要寫「≈」（大約等於），不能用「=」
+    </div>
+</div>
+<!-- SVG: 分割法Estimation人群示意圖 -->
+<div class="svg-diag">
+<svg height="220" viewbox="0 0 460 220" width="460" xmlns="http://www.w3.org/2000/svg">
+<!-- Grid background -->
+<rect fill="#F0F9FF" height="180" rx="4" stroke="#93C5FD" stroke-width="2" width="440" x="10" y="10"></rect>
+<!-- Grid lines -->
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="10" x2="450" y1="70" y2="70"></line>
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="10" x2="450" y1="130" y2="130"></line>
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="120" x2="120" y1="10" y2="190"></line>
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="230" x2="230" y1="10" y2="190"></line>
+<line stroke="#93C5FD" stroke-dasharray="5,5" stroke-width="1" x1="340" x2="340" y1="10" y2="190"></line>
+<!-- People dots in grid cells (dense for crowd) -->
+<!-- Row 1 -->
+<circle cx="35" cy="25" fill="#1E40AF" r="3"></circle><circle cx="55" cy="25" fill="#1E40AF" r="3"></circle><circle cx="75" cy="25" fill="#1E40AF" r="3"></circle><circle cx="95" cy="25" fill="#1E40AF" r="3"></circle>
+<circle cx="35" cy="40" fill="#1E40AF" r="3"></circle><circle cx="55" cy="40" fill="#1E40AF" r="3"></circle><circle cx="75" cy="40" fill="#1E40AF" r="3"></circle><circle cx="95" cy="40" fill="#1E40AF" r="3"></circle>
+<circle cx="35" cy="55" fill="#1E40AF" r="3"></circle><circle cx="55" cy="55" fill="#1E40AF" r="3"></circle><circle cx="75" cy="55" fill="#1E40AF" r="3"></circle><circle cx="95" cy="55" fill="#1E40AF" r="3"></circle>
+<!-- Row 2 -->
+<circle cx="145" cy="25" fill="#1E40AF" r="3"></circle><circle cx="165" cy="25" fill="#1E40AF" r="3"></circle><circle cx="185" cy="25" fill="#1E40AF" r="3"></circle><circle cx="205" cy="25" fill="#1E40AF" r="3"></circle>
+<circle cx="145" cy="40" fill="#1E40AF" r="3"></circle><circle cx="165" cy="40" fill="#1E40AF" r="3"></circle><circle cx="185" cy="40" fill="#1E40AF" r="3"></circle><circle cx="205" cy="40" fill="#1E40AF" r="3"></circle>
+<circle cx="145" cy="55" fill="#1E40AF" r="3"></circle><circle cx="165" cy="55" fill="#1E40AF" r="3"></circle><circle cx="185" cy="55" fill="#1E40AF" r="3"></circle><circle cx="205" cy="55" fill="#1E40AF" r="3"></circle>
+<!-- Row 3 -->
+<circle cx="255" cy="25" fill="#1E40AF" r="3"></circle><circle cx="275" cy="25" fill="#1E40AF" r="3"></circle><circle cx="295" cy="25" fill="#1E40AF" r="3"></circle><circle cx="315" cy="25" fill="#1E40AF" r="3"></circle>
+<circle cx="255" cy="40" fill="#1E40AF" r="3"></circle><circle cx="275" cy="40" fill="#1E40AF" r="3"></circle><circle cx="295" cy="40" fill="#1E40AF" r="3"></circle><circle cx="315" cy="40" fill="#1E40AF" r="3"></circle>
+<circle cx="255" cy="55" fill="#1E40AF" r="3"></circle><circle cx="275" cy="55" fill="#1E40AF" r="3"></circle><circle cx="295" cy="55" fill="#1E40AF" r="3"></circle><circle cx="315" cy="55" fill="#1E40AF" r="3"></circle>
+<!-- Row 4 -->
+<circle cx="365" cy="25" fill="#1E40AF" r="3"></circle><circle cx="385" cy="25" fill="#1E40AF" r="3"></circle><circle cx="405" cy="25" fill="#1E40AF" r="3"></circle><circle cx="425" cy="25" fill="#1E40AF" r="3"></circle>
+<circle cx="365" cy="40" fill="#1E40AF" r="3"></circle><circle cx="385" cy="40" fill="#1E40AF" r="3"></circle><circle cx="405" cy="40" fill="#1E40AF" r="3"></circle><circle cx="425" cy="40" fill="#1E40AF" r="3"></circle>
+<circle cx="365" cy="55" fill="#1E40AF" r="3"></circle><circle cx="385" cy="55" fill="#1E40AF" r="3"></circle><circle cx="405" cy="55" fill="#1E40AF" r="3"></circle><circle cx="425" cy="55" fill="#1E40AF" r="3"></circle>
+<!-- Highlight one cell -->
+<rect fill="none" height="60" rx="2" stroke="#DC2626" stroke-width="3" width="110" x="120" y="70"></rect>
+<text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="175" y="115">1格≈12人</text>
+<!-- Labels -->
+<text fill="#DC2626" font-size="10" text-anchor="middle" x="175" y="93">一格：4×3=12人</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="230" y="200">分割法：總格數 × 每格人數 = 4×3×12 = 144人（約數）</text>
+<!-- Grid count labels -->
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="65" y="202">1列</text>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="175" y="202">2列</text>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="285" y="202">3列</text>
+<text fill="#6B7280" font-size="9" text-anchor="middle" x="395" y="202">4列</text>
+</svg>
+</div>
+<div class="ex">
+<div class="ex-title">Trap引爆例題（本堂最重要的示範）</div>
+<div class="ex-q">演唱會場地每行約有 28 個座位，共有 32 行。用Estimation方法求大約有多少個座位？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common Mistake（60% 學生）</div><div class="eq">28 × 32 = 896</div><div class="why">直接精算，沒有做「Estimation」！</div></div>
+<div class="tc-r"><div class="lbl">✅ 正確解法（先Estimation）</div><div class="eq">30 × 30 ≈ 900 個</div><div class="why">28≈30, 32≈30 → 30×30≈900（Estimation答案）</div></div>
+</div>
+</div>
+<div class="mn">🧠 Mnemonic：「Estimation用約等，精算用等號；先取近似值，再計大約數」</div>
+<div class="warn">⚠️ 最高頻錯誤：Question要求「Estimation」但學生做了「精算」。見到「大約」「Estimation」「約」→ 一定要用 ≈ ！</div>
+<div class="warn">⚠️ 第二高頻錯誤：Estimation後寫「=」等號。Estimation結果不是精確值，必須寫「≈」（大約等於）！</div>
+<div class="h2">知識點一 Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">例1</td><td class="qtxt">下圖分為 24 格，每格約有 15 人。用分割法Estimation總人數。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例2</td><td class="qtxt">書架上每層約有 35 本書，共有 18 層。用Estimation方法求大約有多少本書？（取至最接近的十位）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">知識點二：K／M 記數法（大數的簡潔表示）<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>K 和 M 是國際通用的「大數簡寫」：</strong><br/>
+      ① <strong>K = 千 (Kilo)</strong>：1K = 1,000（例如：5K = 5,000、3.5K = 3,500）<br/>
+      ② <strong>M = 百萬 (Mega)</strong>：1M = 1,000,000（例如：2M = 2,000,000、1.5M = 1,500,000）<br/>
+      ③ <strong>常見應用</strong>：YouTube 觀看次數（250K views）、樓價（8.5M）、人口（7.5M）<br/>
+      ④ <strong>K → 數字</strong>：乘以 1,000（Decimal點向右移 3 位）<br/>
+      ⑤ <strong>M → 數字</strong>：乘以 1,000,000（Decimal點向右移 6 位）
+    </div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">K</div><div class="t">千 (Kilo)</div><div class="d">1K = 1,000<br/>×1,000</div></div>
+<div class="sc-i"><div class="n">M</div><div class="t">百萬 (Mega)</div><div class="d">1M=1,000,000<br/>×1,000,000</div></div>
+<div class="sc-i"><div class="n">→</div><div class="t">K轉數字</div><div class="d">×1,000<br/>Decimal點右移3位</div></div>
+<div class="sc-i"><div class="n">→</div><div class="t">M轉數字</div><div class="d">×1,000,000<br/>Decimal點右移6位</div></div>
+</div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例3：把 45K 和 2.5M 寫成普通數字。</div></div>
+<div class="ex"><div class="ex-title">例題</div><div class="ex-q">例4：一部影片有 1,250,000 次觀看，用 K 和 M 兩種方式表示。</div></div>
+<div class="kp">
+<div class="kp-title">知識點三：先Estimation後計算的策略（次序Trap！）<span class="ss sh">🔴 SSPA 進階</span></div>
+<div class="kp-rules">
+<strong>核心原則：先取近似值，再進行計算——不要先精算再取近似值！</strong><br/>
+      ① <strong>正確次序</strong>：原始數據 → 取近似值 → 計算 → Estimation結果<br/>
+      ② <strong>錯誤次序</strong>：原始數據 → 精算 → 取近似值（失去Estimation意義，且答案可能不同！）<br/>
+      ③ <strong>為什麼要「先Estimation」？</strong>因為四捨五入後再計算，跟精算後再四捨五入，結果<strong>可能不一樣</strong>！<br/>
+      ④ 呈分試Trap：Question說「先Estimation，後計算」↔ 必須展示兩個步驟，不可跳步
+    </div>
+</div>
+<div class="ex"><div class="ex-title">Trap引爆例題</div><div class="ex-q">快餐店全日賣出 387 個漢堡和 614 杯汽水。先Estimation，後計算共賣出食品多少份？</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ 先精算後取近似</div><div class="eq">387+614=1001≈1000</div><div class="why">次序錯誤！Question要求「先Estimation後計算」</div></div>
+<div class="tc-r"><div class="lbl">✅ 先Estimation後計算</div><div class="eq">Estimation：400+600≈1000<br/>精算：387+614=1001</div><div class="why">先取近似值Estimation，再做精算核對</div></div>
+</div>
+<div class="warn">⚠️ SSPA 殺手題：「先Estimation，後計算」— 必須先寫 ≈ 那一步，絕對不可以調轉次序！</div>
+<div class="warn">⚠️ 單位Trap：Estimation時注意單位一致（全部轉成相同單位再Estimation），不要混用 K、M、普通數字！</div>
+<div class="h2">知識點二＋三 Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">例5</td><td class="qtxt">演唱會有 23,500 人入場，用 K 表示人數（四捨五入至Decimal點後一位）。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例6</td><td class="qtxt">超級市場三件貨品：$28.5、$43.2、$19.8。先Estimation總數（取至最接近的十元），後計算精確總數。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例7</td><td class="qtxt">小巴最多載 16 人，學校有 318 位學生參加旅行。Estimation最少需要多少部小巴？（提示：318 ≈ 320，320 ÷ 16 = ？）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">例8</td><td class="qtxt">三個城市人口：A=2.8M, B=1,250K, C=3,100,000。(a) 全部轉成 M 表示 (b) Estimation三市總人口約多少 M（取至Decimal點後一位）。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">三、Tiered Practice</div>
+<div class="kp">
+<div class="kp-title">知識點四：EstimationWord Problems（呈分試文字題專項）<span class="ss sh">🔴 SSPA 必考</span></div>
+<div class="kp-rules">
+<strong>EstimationWord Problems解題四步法：</strong><br/>
+      ① <strong>圈關鍵詞</strong>（「大約」「Estimation」「約」→ 用 ≈；「共」「總共」→ Addition/Multiplication）<br/>
+      ② <strong>取近似值</strong>（根據Question要求的精確度，如取至最接近的百位/千位）<br/>
+      ③ <strong>Estimation計算</strong>（用近似值計算，答案前寫 ≈）<br/>
+      ④ <strong>如需要，再做精算對比</strong>（部分Question要求「先Estimation後計算」）
+    </div>
+</div>
+<div class="h2">🌱 Foundation Tier（共 7 題，All Must Complete）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">把 68K 寫成普通數字。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">把 3.2M 寫成普通數字。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">用四捨五入法Estimation 287 + 514（取至最接近的百位）。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">一幅照片分成 18 格，每格約有 22 人。用分割法Estimation總人數。（取至最接近的百位）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">把 4,800,000 分別用 K 和 M 表示。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">6</td><td class="qtxt">寫出 1.2K + 800 的結果。（提示：先將 1.2K 轉為普通數字再計算）</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">用四捨五入法Estimation 495 ÷ 7（取至最接近的十位）。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">🌿 Intermediate Tier（共 5 題，🚶🚀 Optional）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">8</td><td class="qtxt">一本書有 238 頁，另一本有 476 頁。先Estimation兩本書共約多少頁（取至最接近的百位），後計算精確總頁數。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">演唱會售出 1.25K 張門票，另一場售出 0.85K 張。兩場共售出多少張？（先用 K Estimation，再轉數字）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">香港某屋苑有 8 座大廈，每座約有 320 個單位。用Estimation求屋苑大約有多少個單位？（取至最接近的千位）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">一盒有 1,250 粒糖，現有 6 盒。先取近似值Estimation總糖數（取至最接近的千位），後計算精確總數。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">學校有 4 級，每級 148 人。先Estimation全校約有多少人（取至最接近的百位），後精算。Estimation和精算相差多少？為什麼？</td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">🌳 Challenge Tier（共 3 題，🚀 Optional，呈分試殺手題）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">三部影片觀看次數分別是 2.4M、1.85M 和 0.95M。先Estimation總觀看次數（取至Decimal點後一位的 M），後計算精確總數。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">小明說：「398+612 ≈ 400+600 ≈ 1000，所以答案大約是1000。」小華說：「不對！398+612=1010≈1000，答案一樣呀！」誰的說法符合「Estimation」的定義？為什麼？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">學校禮堂可容納 850 人，現有 23 班，每班約 32 人。用Estimation判斷禮堂是否足夠容納全校學生？如果不夠，還欠多少個座位？（提示：先Estimation總人數，再與 850 比較）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+<div class="h2">EstimationWord Problems（全部必做，必須展示「Estimation步驟」）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">16</td><td class="qtxt">文具店鉛筆每支 $3.8，原子筆每支 $5.2。小明買了鉛筆和原子筆各 10 支。先Estimation總數（取至最接近的十元），後計算精確總數。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">學校禮堂每行有 28 個座位，共有 36 行。用Estimation方法求禮堂大約有多少個座位？（取至最接近的百位）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">香港迪士尼樂園某日入場人數約為 34,500 人。用 K 表示入場人數。（四捨五入至Decimal點後一位）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">一個屋苑有 12 座樓，每座 38 層，每層 6 個單位。用Estimation方法求屋苑大約有多少個單位？（提示：分兩步Estimation）</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">商場三日的入場人次：星期五 8,750 人、星期六 15,200 人、星期日 13,800 人。先Estimation三日總人次（取至最接近的千位），後計算精確總數。</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">某 YouTuber 三部最受歡迎影片觀看次數：1.2M、850K、2.35M。問：(a) 三部影片總觀看次數約多少 M？(b) 精確總觀看次數是多少？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">四、🏔️ 終極挑戰專區</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">一個大型演唱會場地分為 A、B、C 三區。A 區有 4,850 人，B 區有 3,920 人，C 區有 6,180 人。(a) 先Estimation全場總人數（取至最接近的千位）。(b) 精算全場總人數。(c) Estimation結果和精算結果相差多少？這個差距合理嗎？為什麼？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:86px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">城市 A 人口約 3.5M，城市 B 人口約 2,800K，城市 C 人口約 1,250,000。(a) 把三個城市的人口全部用 M 表示。(b) 三個城市的人口總和約為多少 M？(c) 如果三市合併，總人口用 M 還是 K 表示較合適？為什麼？</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:92px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">小文在超市買了 3 件貨品：$12.8、$23.5、$9.9。(a) 先Estimation總數（取至最接近的十元）。(b) 計算精確總數。(c) 比較Estimation和精算的差距。(d) 如果每件貨品先取近似值再加，和先加再取近似值，結果會不同嗎？用這三個數字舉例說明。</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:92px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">五、Homework</div>
+<div class="h2">Foundation (Required)題（共 6 題，必須寫Estimation步驟）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">把 125K 寫成普通數字。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">把 5.5M 寫成普通數字。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">用四捨五入法Estimation 613 + 289（取至最接近的百位）。</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">停車場分為 24 格，每格約有 18 輛車。用分割法Estimation總車輛數。（取至最接近的百位）</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">先把 3,750,000 用 K 表示，再用 M 表示。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">運動會上午有 2,380 人，下午有 1,720 人。先Estimation全日總人數（取至最接近的千位），後計算精確總數。</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+<div class="h2">Advanced (Optional)題（共 2 題，🚀 Optional）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="qn">H7</td><td class="qtxt">三個城市的衛星圖片各有 48 格、52 格、36 格，每格約有 25 座建築物。用Estimation求三市共約有多少座建築物？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">某 App 在全球的下載量：亞洲 12.5M、歐洲 8.3M、美洲 15.7M、其他地區 3.9M。問：(a) 全球總下載量約多少 M？(b) 亞洲比歐洲多約多少 M？</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">六、Common Error Summary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self Check（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅Trap</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住Mnemonic</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Learning Objectives Review — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有Trap類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂Mnemonic</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>Common Error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Estimation≠精算</strong>：Question要求Estimation但做了精算，或Estimation答案用了「=」等號</td><td>Estimation用「≈」，精算用「=」</td></tr>
+<tr><td>2</td><td><strong>K/M 單位混淆</strong>：1K = 1,000 但 1M = 1,000,000（不能當1萬！）</td><td>1K=×1,000, 1M=×1,000,000</td></tr>
+<tr><td>3</td><td><strong>先精算後取近似值</strong>：次序顛倒，忘了「先Estimation、後計算」的要求</td><td>先取近似值 → 計算 → 得出Estimation結果</td></tr>
+<tr><td>4</td><td><strong>K/M轉換時Decimal點移位錯誤</strong>：例如 2.5K = 250（應為 2,500）</td><td>Decimal點右移：K=3位，M=6位</td></tr>
+<tr><td>5</td><td><strong>分割法每格人數不取整</strong>：用精確數字計每格人數（例如每格12.3人）</td><td>每格人數也應取近似整數</td></tr>
+<tr><td>6</td><td><strong>不同單位混算</strong>：K + 普通數字 直接加（例如 3K + 500）</td><td>先統一單位（全轉數字或全轉K/M）</td></tr>
+</table>
+<div class="end-note">🪤 LF Academy · LF Academy · We don't teach math — we teach trap avoidance.。 · LF-P5-上-L02</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  🖨️ Ctrl+P 列印 PDF  |  6頁 · 53題  |  LF-P5-上-L02 v6
+</div>
+</div></body>
+</html>

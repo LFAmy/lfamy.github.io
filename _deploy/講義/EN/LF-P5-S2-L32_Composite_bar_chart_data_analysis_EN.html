@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S2-L32 Composite bar chart + data analysis — Student Handout v6 (EN)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+    .chart-svg { max-width:100%; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* Data table style */
+  .dt { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; text-align:center; }
+  .dt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; }
+  .dt td { padding:4px 8px; border:1px solid var(--borderc); }
+  .dt tr:nth-child(even) td { background:#FAFBFC; }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · Lesson 32 · Student Handout</div>
+<div class="cv-title">Composite bar chart + data analysis</div>
+<div class="cv-sub">Unit ten · statisticsanddatahandle · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5B Unit 10 + Modern Education 5L B Unit 19<br/>
+<b>Core Trap:</b>🪴 T10 Statistics and Data - Confusing different groups of rods · Ignoring the legend · Unit conversion error<br/>
+<b>SSPA association:</b><span class="ss sm">🟡 Medium and high frequency</span>6-8 mark picture reading questions are often given in the test paper<br/>
+<b>Prerequisite knowledge:</b>Understand compound bar graphs (including legends, scales, double classifications) ❷ Compare and analyze data ❸ Draw bar graphs based on data tables ❹ Averages and statistical reasoning<br/>
+<b>Our goals:</b>❶ Understand compound bar graphs (including legends, scales, double classifications) ❷ Compare and analyze data ❸ Draw bar graphs based on data tables ❹ Averages and statistical reasoning</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+<div class="h1">I.Warm-Up Questions（total 6 question，5 minutes）</div>
+
+<div class="game-box"><div class="game-title">📊 數據解碼員</div><div class="game-desc">棒形圖、折線圖、圓形圖！小心一格代表幾多嘅陷阱。正確解讀數據得分！</div><div class="game-action">🔓 開始解碼 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">In a bar chart, the height of a bar represents 25 students. If the height of the rod corresponds to a scale of 4, how many students does the rod represent?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Look at the simple bar chart below:<br/>Class 5A has 30 people, Class 5B has 28 people, Class 5C has 32 people, and Class 5D has 26 people. Which class has the largest number of people? How many more people are there in class 5A than in class 5D?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Each grid on the vertical axis of the bar chart represents 10 books. If a stick occupies 7 and a half squares, how many books does it represent?</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">The following is a four-month sales data table for a store:<br/><table class="dt"><tr><th>monthly parts</th><th>January</th><th>February</th><th>March</th><th>April</th></tr><tr><td>Sales (pieces)</td><td>120</td><td>150</td><td>180</td><td>140</td></tr></table>Which month has the highest sales? How many more items than the lowest month?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">The following table shows the statistics of the favorite fruits of the two classes. How many "rods" do you need to draw the data into a simple bar chart?<br/><table class="dt"><tr><th></th><th>Apple</th><th>Banana</th><th>Orange</th></tr><tr><td>5A</td><td>12</td><td>8</td><td>15</td></tr><tr><td>5B</td><td>10</td><td>14</td><td>9</td></tr></table></td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">6</td><td class="qtxt">Xiaowen counted the number of books borrowed in four months: 120, 95, 150, 135. Find the average<strong>number of books borrowed per month in these four months.</strong>Number of books borrowed per month.</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge Point 1: Reading Composite Bar Chart🟡 SSPA</div>
+<div class="kp-rules">
+      ❶ <strong>Composite bar chart</strong>= Displays<strong>two or more sets of</strong>data in the same chart, each group is distinguished by a different color/pattern<br/>
+      ❷ <strong>Three key reading steps |||SEP|||: Look first</strong>Legend<strong>(Legend)→ Then look at</strong>Horizontal axis<strong>(x-axis, classification) → Look again</strong>Vertical axis<strong>(y-axis, value/scale)</strong>❸ Each classification position has multiple bars (representing different groups), you must<br/>Check the legend<strong>to confirm what each bar represents</strong>❹ When reading the value: From the top of the<br/>vertical axis to the past<strong>vertical axis scale, count carefully one grid at a time.</strong>Vertical axis scale, carefully count each grid</div>
+</div>
+<!-- Composite bar chart SVG: Stationery store sales -->
+<div style="text-align:center; margin:10px 0; padding:8px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">📊 Reference chart: Stationery store quarterly sales data composite bar chart</strong>
+<svg class="chart-svg" style="max-width:100%;" viewbox="0 0 700 380" xmlns="http://www.w3.org/2000/svg">
+<!-- Background grid -->
+<defs>
+<pattern height="6" id="hatchA" patternunits="userSpaceOnUse" width="6"><rect fill="#3B82F6" height="6" width="6"></rect><line stroke="#fff" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern>
+<pattern height="6" id="hatchB" patternunits="userSpaceOnUse" width="6"><rect fill="#F97316" height="6" width="6"></rect><line stroke="#fff" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern>
+<pattern height="6" id="hatchC" patternunits="userSpaceOnUse" width="6"><rect fill="#1D4ED8" height="6" width="6"></rect><line stroke="#93C5FD" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern>
+<pattern height="6" id="hatchD" patternunits="userSpaceOnUse" width="6"><rect fill="#EA580C" height="6" width="6"></rect><line stroke="#FED7AA" stroke-width="1" x1="6" x2="0" y1="0" y2="6"></line></pattern>
+</defs>
+<!-- Grid lines -->
+<line stroke="#333" stroke-width="1.5" x1="80" x2="80" y1="30" y2="330"></line>
+<line stroke="#333" stroke-width="1.5" x1="80" x2="680" y1="330" y2="330"></line>
+<!-- Y-axis grid & labels -->
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="334">0</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="330" y2="330"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="274">50</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="270" y2="270"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="214">100</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="210" y2="210"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="154">150</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="150" y2="150"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="94">200</text>
+<line stroke="#E5E7EB" stroke-width="0.5" x1="80" x2="680" y1="90" y2="90"></line>
+<text fill="#333" font-size="12" text-anchor="end" x="72" y="42">250</text>
+<!-- Y-axis label -->
+<text fill="#333" font-size="13" text-anchor="middle" transform="rotate(-90,20,180)" x="20" y="180">Sales quantity (pieces)</text>
+<!-- Group 1: January -->
+<rect fill="url(#hatchA)" height="120" stroke="#2563EB" stroke-width="1" width="28" x="105" y="210"></rect>
+<text fill="#2563EB" font-size="9" font-weight="700" text-anchor="middle" x="119" y="205">100</text>
+<rect fill="url(#hatchB)" height="84" stroke="#C2410C" stroke-width="1" width="28" x="137" y="246"></rect>
+<text fill="#C2410C" font-size="9" font-weight="700" text-anchor="middle" x="151" y="241">70</text>
+<rect fill="url(#hatchC)" height="156" stroke="#1E40AF" stroke-width="1" width="28" x="169" y="174"></rect>
+<text fill="#1E40AF" font-size="9" font-weight="700" text-anchor="middle" x="183" y="169">130</text>
+<rect fill="url(#hatchD)" height="108" stroke="#9A3412" stroke-width="1" width="28" x="201" y="222"></rect>
+<text fill="#9A3412" font-size="9" font-weight="700" text-anchor="middle" x="215" y="217">90</text>
+<text fill="#333" font-size="13" font-weight="700" text-anchor="middle" x="167" y="348">January</text>
+<!-- Group 2: February -->
+<rect fill="url(#hatchA)" height="144" stroke="#2563EB" stroke-width="1" width="28" x="260" y="186"></rect>
+<text fill="#2563EB" font-size="9" font-weight="700" text-anchor="middle" x="274" y="181">120</text>
+<rect fill="url(#hatchB)" height="108" stroke="#C2410C" stroke-width="1" width="28" x="292" y="222"></rect>
+<text fill="#C2410C" font-size="9" font-weight="700" text-anchor="middle" x="306" y="217">90</text>
+<rect fill="url(#hatchC)" height="180" stroke="#1E40AF" stroke-width="1" width="28" x="324" y="150"></rect>
+<text fill="#1E40AF" font-size="9" font-weight="700" text-anchor="middle" x="338" y="145">150</text>
+<rect fill="url(#hatchD)" height="120" stroke="#9A3412" stroke-width="1" width="28" x="356" y="210"></rect>
+<text fill="#9A3412" font-size="9" font-weight="700" text-anchor="middle" x="370" y="205">100</text>
+<text fill="#333" font-size="13" font-weight="700" text-anchor="middle" x="322" y="348">February</text>
+<!-- Group 3: March -->
+<rect fill="url(#hatchA)" height="180" stroke="#2563EB" stroke-width="1" width="28" x="415" y="150"></rect>
+<text fill="#2563EB" font-size="9" font-weight="700" text-anchor="middle" x="429" y="145">150</text>
+<rect fill="url(#hatchB)" height="144" stroke="#C2410C" stroke-width="1" width="28" x="447" y="186"></rect>
+<text fill="#C2410C" font-size="9" font-weight="700" text-anchor="middle" x="461" y="181">120</text>
+<rect fill="url(#hatchC)" height="216" stroke="#1E40AF" stroke-width="1" width="28" x="479" y="114"></rect>
+<text fill="#1E40AF" font-size="9" font-weight="700" text-anchor="middle" x="493" y="109">180</text>
+<rect fill="url(#hatchD)" height="156" stroke="#9A3412" stroke-width="1" width="28" x="511" y="174"></rect>
+<text fill="#9A3412" font-size="9" font-weight="700" text-anchor="middle" x="525" y="169">130</text>
+<text fill="#333" font-size="13" font-weight="700" text-anchor="middle" x="477" y="348">March</text>
+<!-- Group 4: April -->
+<rect fill="url(#hatchA)" height="156" stroke="#2563EB" stroke-width="1" width="28" x="570" y="174"></rect>
+<text fill="#2563EB" font-size="9" font-weight="700" text-anchor="middle" x="584" y="169">130</text>
+<rect fill="url(#hatchB)" height="132" stroke="#C2410C" stroke-width="1" width="28" x="602" y="198"></rect>
+<text fill="#C2410C" font-size="9" font-weight="700" text-anchor="middle" x="616" y="193">110</text>
+<rect fill="url(#hatchC)" height="192" stroke="#1E40AF" stroke-width="1" width="28" x="634" y="138"></rect>
+<text fill="#1E40AF" font-size="9" font-weight="700" text-anchor="middle" x="648" y="133">160</text>
+<rect fill="url(#hatchD)" height="144" stroke="#9A3412" stroke-width="1" width="28" x="666" y="186"></rect>
+<text fill="#9A3412" font-size="9" font-weight="700" text-anchor="middle" x="680" y="181">120</text>
+<text fill="#333" font-size="13" font-weight="700" text-anchor="middle" x="632" y="348">April</text>
+<!-- Legend -->
+<rect fill="url(#hatchA)" height="12" stroke="#2563EB" stroke-width="0.5" width="16" x="140" y="358"></rect>
+<text fill="#333" font-size="11" x="160" y="369">Store A notebook</text>
+<rect fill="url(#hatchB)" height="12" stroke="#C2410C" stroke-width="0.5" width="16" x="250" y="358"></rect>
+<text fill="#333" font-size="11" x="270" y="369">Store A folder</text>
+<rect fill="url(#hatchC)" height="12" stroke="#1E40AF" stroke-width="0.5" width="16" x="370" y="358"></rect>
+<text fill="#333" font-size="11" x="390" y="369">Store B notebook</text>
+<rect fill="url(#hatchD)" height="12" stroke="#9A3412" stroke-width="0.5" width="16" x="490" y="358"></rect>
+<text fill="#333" font-size="11" x="510" y="369">Store B folder</text>
+</svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ The above composite bar graph is the main reference chart in this class. Most of the examples and exercises are based on the data of this graph.</div>
+</div>
+<div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">📊 Simple bar chart example: match score</strong>
+<svg height="320" viewbox="0 0 360 320" width="360" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="340" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">4</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">8</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">12</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">16</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">20</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">24</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">28</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(Points)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Score</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="116.875" y="308">Red Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="180.625" y="308">Blue Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="244.375" y="308">Green Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="308.125" y="308">Yellow Team</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="180" y="25">Game Score</text><rect fill="#3B82F6" height="163.92857142857144" stroke="#1D4ED8" stroke-width="1" width="44" x="94" y="126.07142857142856"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="116" y="116.07142857142856">18</text><rect fill="#3B82F6" height="218.57142857142856" stroke="#1D4ED8" stroke-width="1" width="44" x="156" y="71.42857142857144"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="178" y="61.428571428571445">24</text><rect fill="#3B82F6" height="127.5" stroke="#1D4ED8" stroke-width="1" width="44" x="218" y="162.5"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="240" y="152.5">14</text><rect fill="#3B82F6" height="182.14285714285714" stroke="#1D4ED8" stroke-width="1" width="44" x="280" y="107.85714285714286"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="302" y="97.85714285714286">20</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ Each square represents 2 points. The red team has 18 points = 9 squares, and the blue team has 24 points = 12 squares. Note: Axis labels should be clear and scales should be even.</div>
+</div>
+<div class="ex">
+<div class="ex-title">💡 Bar chart vs line chart – when to use which?</div>
+<div class="ex-q">Bar charts are used to compare quantities in different categories; line charts are used to show trends in the same data over time. The following two representations of the same set of data:</div>
+<div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:10px 0;">
+<div style="flex:1; min-width:280px;"><svg height="320" viewbox="0 0 344 320" width="344" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="324" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">175</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(Book)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Number of books borrowed</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="114.875" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="174.625" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="234.375" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="294.125" y="308">April</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="172" y="25">Number of books borrowed in four months</text><rect fill="#3B82F6" height="174.85714285714286" stroke="#1D4ED8" stroke-width="1" width="40" x="94" y="115.14285714285714"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="114" y="105.14285714285714">120</text><rect fill="#3B82F6" height="138.42857142857142" stroke="#1D4ED8" stroke-width="1" width="40" x="152" y="151.57142857142858"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="172" y="141.57142857142858">95</text><rect fill="#3B82F6" height="218.57142857142856" stroke="#1D4ED8" stroke-width="1" width="40" x="210" y="71.42857142857144"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="230" y="61.428571428571445">150</text><rect fill="#3B82F6" height="196.71428571428572" stroke="#1D4ED8" stroke-width="1" width="40" x="268" y="93.28571428571428"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="288" y="83.28571428571428">135</text></svg></div>
+<div style="flex:1; min-width:280px;"><svg height="320" viewbox="0 0 370 320" width="370" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="350" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">175</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(pieces)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Sales volume</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="118.125" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="184.375" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="250.625" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="316.875" y="308">April</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="185" y="25">Store A notebook sales trend</text><circle cx="115" cy="144.2857142857143" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="115" y="132.2857142857143">100</text><circle cx="175" cy="115.14285714285714" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="175" y="103.14285714285714">120</text><circle cx="235" cy="71.42857142857144" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="235" y="59.428571428571445">150</text><circle cx="295" cy="100.57142857142856" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="295" y="88.57142857142856">130</text><polyline fill="none" points="115,144.2857142857143 175,115.14285714285714 235,71.42857142857144 295,100.57142857142856" stroke="#DC2626" stroke-linejoin="round" stroke-width="2.5"></polyline></svg></div>
+</div>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ Left: Bar chart (emphasis on comparison of monthly values) | Right: Line chart (emphasis on upward/downward trends) - note that the two usage scenarios are different!</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪴 Trap detonation example (the most important demonstration in this class)</div>
+<div class="ex-q">According to the composite bar chart above: How many pieces of “store A notebooks” were sold in January? How many pieces of “store B notebooks” were sold in January?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (not looking at the legend)</div><div class="eq">January = only looking at the first bar = 100<br/>But I can’t tell which store it is</div><div class="why">Confuse store A notebook and store B notebook! There is no reference to the legend to confirm the meaning of each bar.</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">Store A notebook (January) = 100 pieces<br/>Store B Notebook (January) = 130 pieces</div><div class="why">Look at the legend first → Confirm the direction of the twill → The first line in the first set of notebooks in store A = 100, the third line in the first set of notebooks in store B = 130</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "First look at the illustration to identify the pattern, then find the correct position of the month, pull the line horizontally to read the scale, and the answer units must be written in the same order."</div>
+<div class="warn">⚠️ The most frequent error: Reading directly without looking at the legend first, mistaking store A for store B and mistaking the notebook for a folder!</div>
+<div class="warn">⚠️ The second most frequent error: incorrect number of vertical axis cells. Each grid = 25 pieces (50÷2), not 10 pieces or 100 pieces!</div>
+<div class="h2">Knowledge Point - Worked Examples (first look at the legend → find the category → read the scale → write answer + unit)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">According to the composite bar chart: How many pieces of "Store B folders" were sold in February?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt">According to the composite bar chart: What is the difference in the sales volume of "Store A Notebook" and "Store A Folder" in March?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Knowledge Point 1 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">7</td><td class="qtxt">According to the composite bar chart: How many pieces of "store A notebook" and "store B notebook" were sold in total in January?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">According to the composite bar chart: How many pieces of “store B notebooks” were sold in April?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">According to the composite bar chart: In which month did "Store A folders" sell the most? How many pieces were sold?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">According to the composite bar chart: How many units of all products (four bars) were sold in February?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb page-break">
+<div class="kp">
+<div class="kp-title">Knowledge Point 2: Data Comparison and Analysis 🟡 SSPA</div>
+<div class="kp-rules">
+<strong>Four basic questions for comparing data from composite bar graphs:</strong><br/>
+      ❶ <strong>Find the difference |||SEP|||: The height difference of the two bars = subtract the values ("more", "less", "difference") |||SEP||</strong>：How many times one bar is the other = larger value ÷ smaller value<br/>
+      ❷ <strong>Comparative trend</strong>：The trend of the same color bar in four months → rise/fall/first rise and then fall<br/>
+      ❸ <strong>Find multiples</strong>: How many times one rod is the other = larger value ÷ smaller value<br/>
+      ❹ <strong>Compare trends</strong>: The trend of the same color bar in four months → rising/falling/rising first and then falling</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">❶</div><div class="t">Find the difference</div><div class="d">Big, reduced, "difference", "how much more"</div></div>
+<div class="sc-i"><div class="n">❷</div><div class="t">Sum</div><div class="d">Add them all up "Total" "Total"</div></div>
+<div class="sc-i"><div class="n">❸</div><div class="t">Find multiples</div><div class="d">Big ÷ Small "How many times is..."</div></div>
+<div class="sc-i"><div class="n">❹</div><div class="t">look at trends</div><div class="d">Month-to-month change direction for the same group</div></div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 3: According to the composite bar chart, in which month did "store A notebook" have the highest sales volume? How many times the sales volume of notebooks in store A was the sales volume of folders in store B in this month? (rounded to an integer)</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 4: Based on the composite bar chart, describe the sales trend of "Store B Notebook" from January to April.</div></div>
+<div class="h2">Knowledge Point 2 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">According to the composite bar chart: In March, how many more notebooks did store A sell than folders in store A?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">According to the composite bar chart: In January, how many pieces of the two types of products were sold in store B?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt">According to the composite bar chart: In April, how many times the sales of notebooks in store B were the sales of folders in store A?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">According to the composite bar chart: Which store (store A or store B) has higher total sales volume of "notebooks" from January to April? How many pieces higher?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Knowledge point 3: Making a composite bar chart 🟡 SSPA</div>
+<div class="kp-rules">
+<strong>Steps to draw a composite bar graph from the data table:</strong><br/>
+      ❶ <strong>Determine the vertical axis scale |||SEP|||: Find the maximum value in the data and determine how much each cell represents (usually 2, 5, 10, 20, 25, 50, 100)</strong>Draw the coordinate axis |||SEP|||: Write the category name (such as month) on the horizontal axis, and mark the scale numbers and units on the vertical axis<br/>
+      ❷ <strong>Drawing sticks |||SEP|||: Draw sticks with different patterns in each group in order (legend order); the height of the stick = data value ÷ Representative value of each cell × height of the cell</strong>Add legend |||SEP|||: Mark what each pattern represents next to or below the chart<br/>
+      ❸ <strong>Write a title |||SEP|||: Write a clear title above the chart</strong>: Draw bars with different patterns in each group in sequence (in the order of the legend); the height of the bar = data value ÷ representative value of each grid × grid height<br/>
+      ❹ <strong>Add legend</strong>: Label next to or below the chart what each pattern represents.<br/>
+      ❺ <strong>write title</strong>: Write a clear title above the chart</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 5: The following table shows the number of extracurricular activities for two classes of students. If we want to use a composite bar chart to represent it, is it appropriate for each grid on the vertical axis to represent 5 people? Why?<br/><table class="dt"><tr><th></th><th>Football</th><th>Basketball</th><th>Swimming</th><th>Running</th></tr><tr><td>Class 5A</td><td>12</td><td>8</td><td>15</td><td>10</td></tr><tr><td>Class 5B</td><td>10</td><td>14</td><td>9</td><td>11</td></tr></table></div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 6: Based on the data in the table above, calculate the total number of people in each activity of Class 5A and Class 5B, and determine which activity is the most popular.</div></div>
+<div class="warn">⚠️ Production trap: If the vertical axis grid value is too large → the stick is too short and difficult to distinguish; if it is too small → the stick exceeds the range of the chart!</div>
+<div class="mn">📐 Graduation formula: "Look at the maximum value, divide the number of cells, take an integer (2/5/10 times), and draw each cell clearly."</div>
+<div class="h2">Knowledge Point 3 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">15</td><td class="qtxt">The table below shows the total sales of the two stores in four months. If each grid on the vertical axis represents 100 yuan, how many grids are needed to draw the highest value?<br/><table class="dt"><tr><th>monthly parts</th><th>January</th><th>February</th><th>March</th><th>April</th></tr><tr><td>Total amount of store A ($)</td><td>300</td><td>450</td><td>520</td><td>380</td></tr><tr><td>Total amount of store B ($)</td><td>280</td><td>500</td><td>480</td><td>420</td></tr></table></td><td class="qd d2">🌿</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">Continuing with the data table from the previous question: If you want to draw a composite bar chart, each grid represents 50 yuan, how many grids should be drawn for the sales volume of store B in March?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">The following table shows the test scores (out of 100) for the two groups of students. What would happen if the vertical axis started at 60 minutes instead of 0?<br/><table class="dt"><tr><th></th><th>average Text</th><th>English</th><th>Mathematics</th></tr><tr><td>Group A average</td><td>72</td><td>68</td><td>75</td></tr><tr><td>Group B average</td><td>80</td><td>75</td><td>85</td></tr></table></td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">18</td><td class="qtxt">Based on the data in the composite bar chart, draw a simple data table to record the notebook sales of store A in four months. (No need to draw a picture, just write a data table)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1" style="margin-top:12px;">📐 Drawing practice area — fromdatato chart</div>
+<div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">🖊️ Exercise 1: Draw a simple bar chart based on the table below</strong>
+<svg height="320" viewbox="0 0 344 320" width="344" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="324" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="258.125" y2="258.125"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="262.125">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="226.25" y2="226.25"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="230.25">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="194.375" y2="194.375"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="198.375">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="162.5" y2="162.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="166.5">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="130.625" y2="130.625"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="134.625">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="98.75" y2="98.75"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="102.75">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="66.875" y2="66.875"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="70.875">175</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">200</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(pieces)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Sales volume</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="114.875" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="174.625" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="234.375" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="294.125" y="308">April</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="172" y="25">Please draw a bar chart based on the data</text><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="94" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="152" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="210" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="268" y="35"></rect><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="172" y="322">(Please draw the bar shape in the dotted box)</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲Data: 100 items in January, 120 items in February, 150 items in March, and 130 items in April. Each grid represents 25 pieces. Please draw a bar shape in the dotted box.</div>
+</div>
+<div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">🖊️ Exercise 2: Draw a composite bar chart based on the table below</strong>
+<svg height="380" viewbox="0 0 406 380" width="406" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="386" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="271.25" y2="271.25"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="275.25">5</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="192.5" y2="192.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="196.5">10</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="113.75" y2="113.75"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="117.75">15</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">20</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(people)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">Number of people</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="122.625" y="368">Football</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="197.875" y="368">Basketball</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="273.125" y="368">Swimming</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="348.375" y="368">Running</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="203" y="25">Please draw a composite bar graph according to the data table</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="169" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="243" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="273" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="317" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="347" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="133" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="149" y="387">Class 5A</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="203" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="219" y="387">Class 5B</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="203" y="402">(Please draw a bar according to the data in the dotted box)</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ For data, please refer to the composite bar chart of "Number of Extracurricular Activities for Two Classes" above. Note: Draw class 5A (blue) first, then draw class 5B (orange), with two sticks side by side in each group.</div>
+</div>
+</div>
+<!-- ═══════════════ PAGE 4: KP4 + TIERED PRACTICE ═══════════════ -->
+<div class="pb page-break">
+<div class="kp">
+<div class="kp-title">Knowledge Point 4: Statistical Applications - Averages, Estimation and Inference🟡 SSPA</div>
+<div class="kp-rules">
+<strong>Do statistical analysis from the composite bar chart:</strong><br/>
+      ❶ <strong>Mean</strong>= Sum ÷ Number of terms. For example: the four-month average monthly sales of laptops in store A = the sum of four months of sales ÷ 4<br/>
+      ❷ <strong>Estimation |||SEP|||: Infer the sales of the next month based on the trend (see whether the trend is rising or falling, then give a reasonable number)</strong>Reasoning |||SEP|||: Analyze why the sales in a certain month are particularly high/low (perhaps holidays, exam seasons, weather, etc.)<br/>
+      ❸ <strong>Comprehensive |||SEP|||: Combine picture reading + calculation + reasoning to answer more complex open-ended questions</strong>: Analyze why sales in a certain month are particularly high/low (perhaps holidays, exam season, weather, etc.)<br/>
+      ❹ <strong>comprehensive</strong>: Combine picture reading + calculation + reasoning to answer more complex open-ended questions</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 7: Based on the composite bar chart, find the average monthly sales volume of "store A notebook" from January to April.</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 8: Based on the changing trend of "Laptops in Store B" from January to April in the composite bar chart, what is your estimate of the sales volume of notebooks in Store B in May? Why?</div></div>
+<div class="h2">Knowledge Point Four Synchronization Practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">19</td><td class="qtxt">Based on the composite bar chart: Find the average monthly sales volume of "Store A Folder" from January to April.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">According to the composite bar chart: What is the total sales volume of "Store B folders" in four months? How many pieces per month on average?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">According to the composite bar chart: Store A’s total sales (notebooks + folders, four months in total) and Store B’s total sales, which store is higher? How much difference?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">If both stores have a "buy two, get one free" sale in May, how do you expect sales to change in May? Why? (Open question, just be reasonable)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 3 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">23</td><td class="qtxt">According to the composite bar chart: Which product sold the most in March? How many pieces?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">According to the composite bar chart: What is the difference in the sales volume of the two products in store A in January?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">According to the composite bar chart: Which of the four months had the lowest total sales of all items?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 3 questions, 🚶 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">26</td><td class="qtxt">According to the composite bar chart: Comparing the sales trends of "store A notebook" and "store B notebook" (from January to April), what are the similarities and differences between the two trends?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">According to the composite bar chart: In which month did the notebook category (total of store A + store B) have the highest sales volume among the four months? What about the folder class?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">According to the composite bar chart: If the data for January is accidentally obscured by the bar in the B store folder, can you infer the approximate number from the trends in other months? Give reasons.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (total 3 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">29</td><td class="qtxt">Without the aid of charts: The following table shows the half-year sales data of stores A and B. Which store has a higher average monthly sales volume? How much difference?<br/><table class="dt"><tr><th>monthly parts</th><th>January</th><th>February</th><th>March</th><th>April</th><th>May</th><th>June</th></tr><tr><td>Store A (10,000 yuan)</td><td>12</td><td>15</td><td>18</td><td>14</td><td>20</td><td>17</td></tr><tr><td>Store B (10,000 yuan)</td><td>14</td><td>13</td><td>19</td><td>16</td><td>18</td><td>22</td></tr></table></td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">The following table shows the number of members of the school's three societies, represented by a composite bar chart (each grid on the vertical axis represents 5 people).<br/>5A: Computer 8, Music 12, Art 15 5B: Computer 14, Music 9, Art 11<br/>(a) Draw the vertical axis label (b) Calculate the height of each bar (number of grids) (c) Draw a simple diagram (just draw the relative position and height)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">The following table shows the sales of two bookstores for three months, but some data are missing. It is known that store A’s April sales = store B’s April sales + 30, and the two stores sold a total of 720 in March.<br/><table class="dt"><tr><th>monthly parts</th><th>February</th><th>March</th><th>April</th></tr><tr><td>Store A ($)</td><td>250</td><td>?</td><td>?</td></tr><tr><td>Store B ($)</td><td>200</td><td>380</td><td>?</td></tr></table>Find: (a) Store A’s sales in March (b) If store A’s sales in April are 50 less than in March, what is the sales of store B in April?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + HOMEWORK ═══════════════ -->
+<div class="pb page-break">
+<div class="kp">
+<div class="kp-title">Knowledge point 5: Statistics application questions (subject to sub-test text questions) 🟡 SSPA compulsory exam</div>
+<div class="kp-rules">
+<strong>Four steps to solve the problem:</strong>❶ <strong>Circle keywords</strong>("average", "total", "difference", "several times" → choose the right calculation) ❷<strong>Extract data from the chart</strong> ❸ <strong>Column calculation</strong> ❹ <strong>Write a complete answer</strong>(Step points will be deducted if you do not write an answer!)</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 9: The article counts the number of books borrowed from the library in the past four months: 270, 310, 290, 330. (a) Draw a simple bar graph (each cell represents 50 books) (b) Find the average monthly borrowing volume (c) If the borrowing volume in May is the average of the previous four months, how many more books are there in May than in January?</div></div>
+<div class="h2">applicationquestionpractice (all must do, column → calculate → answer sentence)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">32</td><td class="qtxt">The supermarket counts the monthly sales (boxes) of three types of drinks:<br/>240 boxes of Coke, 180 boxes of orange juice, and 210 boxes of lemon tea.<br/>If the data is drawn as a bar chart, and each grid on the vertical axis represents 30 boxes, how many grids are needed? (calculated separately for each drink)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">33</td><td class="qtxt">The toy store sold 85 units in January, 95 units in February, 120 units in March, and 100 units in April.<br/>(a) Find the average monthly sales<br/>(b) Which month's sales are higher than the average? How much higher?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">34</td><td class="qtxt">The table below shows the number of books donated by the two classes. Represented as a composite bar graph (each bar represents 10 books).<br/><table class="dt"><tr><th></th><th>Story book</th><th>Popular science book</th><th>Comics</th></tr><tr><td>5A (book)</td><td>40</td><td>30</td><td>50</td></tr><tr><td>5B (book)</td><td>35</td><td>45</td><td>25</td></tr></table>(a) How many spaces are there in the comics of Class 5A? (b) Which type of books has the most total number of books in both classes? How many copies?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">35</td><td class="qtxt">According to the composite bar chart data: If store A and store B are merged into a "chain store group", what is the total sales volume of the group each month from January to April? Draw a data table with a line chart of the group's total sales (no need to draw a graph, just list the data).</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">36</td><td class="qtxt">According to the composite bar chart data: (a) What percentage of store A’s notebook sales account for store A’s total sales? (b) What percentage of store B’s folder sales account for store B’s total sales? (The answer is expressed as a simple fraction)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h1">IV.Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 4 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">According to the composite bar chart, which store had higher total sales (notebooks + folders) in April? How many pieces high?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">According to the composite bar chart, what is the total sales volume of "store A notebooks" from January to April?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">The table below shows the game scores. Draw a simple bar graph (each square represents 2 points) and find how many squares are needed for each bar.<br/><table class="dt"><tr><th>Team</th><th>Red Team</th><th>Blue Team</th><th>Green Team</th><th>Yellow Team</th></tr><tr><td>Score</td><td>18</td><td>24</td><td>14</td><td>20</td></tr></table></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">Based on the composite bar chart, calculate the average monthly sales volume of "B-store notebooks" from January to April.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced choose doquestion (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H5</td><td class="qtxt">The following table shows the sales data of the two stores, drawn as a composite bar chart. If each square on the vertical axis represents 20, how many squares are needed for each bar?<br/><table class="dt"><tr><th></th><th>Season 1</th><th>Season 2</th></tr><tr><td>Store X (items)</td><td>80</td><td>100</td></tr><tr><td>Store Y (items)</td><td>60</td><td>120</td></tr></table></td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H6</td><td class="qtxt">The table below shows the three-day turnover of the snack bar ($). Draw a composite bar graph, with each bar representing $100.<br/><table class="dt"><tr><th></th><th>Monday</th><th>Tuesday</th><th>Wednesday</th></tr><tr><td>Morning ($)</td><td>450</td><td>380</td><td>520</td></tr><tr><td>Afternoon ($)</td><td>600</td><td>550</td><td>480</td></tr></table>(a) How many squares should be drawn on the stick on Wednesday morning? (b) Which time period (morning or afternoon) has higher total turnover?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">Based on the composite bar chart, answer: If the combined total sales of the two stores in May increased by 15% compared with April, approximately how many units were sold in May? (Take an integer)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<div class="h1">📐 Comprehensive drawing practice — full coverage of three types of charts</div>
+<div class="kp"><div class="kp-title">Must-haves for sub-tests: being able to read pictures, but also drawing pictures!</div><div class="kp-rules">SSPA Paper 1 Frequently Asked Question Type: You are given a data table and asked to (a) draw a bar graph (b) draw a line graph (c) answer data questions.<br/>The following three questions provide blank chart templates. Please complete the drawing according to the question data.</div></div>
+<table class="qt">
+<tr><th class="qn">Paint 1</th><th>Question</th><th class="qd">chart</th></tr>
+<tr><td class="qn">📊</td><td class="qtxt">The supermarket counts the monthly sales (boxes) of three types of drinks: 240 boxes of Coke, 180 boxes of orange juice, and 210 boxes of lemon tea. Please draw the bars in the blank bar graph below.</td><td class="qd">050100150200250300 (box) sales volume of Coke, orange juice and lemon tea. Please draw a bar chart of beverage sales (please draw a bar shape in the dotted box)</td></tr>
+<tr><td class="qn">📊</td><td class="qtxt">The table below shows the number of donated books for the two classes. Please draw it in the blank composite bar chart below.<br/><table class="dt"><tr><th></th><th>Story book</th><th>Popular science book</th><th>Comics</th></tr><tr><td>5A (book)</td><td>40</td><td>30</td><td>50</td></tr><tr><td>5B (book)</td><td>35</td><td>45</td><td>25</td></tr></table></td><td class="qd">0102030405060 (this) book quantity story book popular science book comic please accord to Q34data to draw the composite bar chart 5A class 5B class (please enter the dotted box and draw the bar shape according to data)</td></tr>
+<tr><td class="qn">📈</td><td class="qtxt">Based on the composite bar chart data, calculate the total monthly group sales of store A + store B from one to four months after the merger, and then mark the data points and connect the lines in the line chart below.</td><td class="qd">0100200300400500600 (pieces) Sales volume January February March April Please draw the group's total sales line graph according to Q35data (please mark the points according to data and connect the lines)</td></tr>
+</table>
+<div style="text-align:center; margin:12px 0;">
+<strong style="font-size:14px; color:var(--blue);">📊 Circle chart (pie chart) example – stationery sales proportion</strong>
+<svg height="310" viewbox="0 0 380 310" width="380" xmlns="http://www.w3.org/2000/svg"><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="190" y="22">Stationery sales proportion</text><path d="M 140,135 L 140.0,55.0 A 80,80 0 0,1 196.5685424949238,191.5685424949238 Z" fill="#3B82F6" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="188.0417356905869" y="119.10046151701533">38%</text><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="250" y="105"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="114">Notebooks (450)</text><path d="M 140,135 L 196.5685424949238,191.5685424949238 A 80,80 0 0,1 65.31356588022386,163.669435963624 Z" fill="#F97316" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="129.18859207747653" y="189.8636752381579">32%</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="250" y="127"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="136">Folders (380)</text><path d="M 140,135 L 65.31356588022386,163.669435963624 A 80,80 0 0,1 83.43145750507618,78.4314575050762 Z" fill="#10B981" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="89.1363247618421" y="128.1885920774765">18%</text><rect fill="#10B981" height="10" stroke="none" stroke-width="0" width="12" x="250" y="149"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="158">Pencils (220)</text><path d="M 140,135 L 83.43145750507618,78.4314575050762 A 80,80 0 0,1 139.99999999999997,55.0 Z" fill="#EF4444" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="120.10046151701535" y="90.95826430941308">12%</text><rect fill="#EF4444" height="10" stroke="none" stroke-width="0" width="12" x="250" y="171"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="180">Erasers (150)</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ Circle graphs are used to express "what fraction of a part accounts for the whole." The larger the fan shape = the higher the proportion.</div>
+</div>
+<div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:14px; color:var(--blue);">🏔️Museum Admission Composite Stick Chart (🌳1 supporting template)</strong>
+<svg height="380" viewbox="0 0 526 380" width="526" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="506" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="287.0" y2="287.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="291.0">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="224.0" y2="224.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="228.0">200</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="161.0" y2="161.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="165.0">300</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="98.0" y2="98.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="102.0">400</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">500</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(people)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">Number of visitors</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="137.625" y="368">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="242.875" y="368">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="348.125" y="368">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="453.375" y="368">April</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="263" y="25">Please draw a composite stick chart of museum admissions based on 🌳1 data</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="155" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="229" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="259" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="303" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="333" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="363" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="407" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="437" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="467" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="158" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="174" y="387">Adults</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="228" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="244" y="387">Students</text><rect fill="#10B981" height="10" stroke="none" stroke-width="0" width="12" x="298" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="314" y="387">Elders</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="263" y="402">(Please draw a bar shape according to the data in the dotted box)</text></svg>
+<div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ Three patterns (adult/student/elderly) × four months. Use a pencil to sketch first, make sure the height is correct, and then add color.</div>
+</div>
+<!-- ═══════════════ PAGE 6: ERROR SUMMARY ═══════════════ -->
+<div class="pb page-break">
+<div class="h1">V.🏔️ Ultimate challenge area</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔1</td><td class="qtxt">Museum attendance statistics (people):<br/><table class="dt"><tr><th></th><th>January</th><th>February</th><th>March</th><th>April</th></tr><tr><td>Adults</td><td>320</td><td>280</td><td>450</td><td>380</td></tr><tr><td>Students</td><td>180</td><td>150</td><td>220</td><td>200</td></tr><tr><td>Elders</td><td>90</td><td>85</td><td>110</td><td>95</td></tr></table>(a) Represented by a composite bar graph (three patterns) (b) Which month has the largest total number of visitors? (c) What is the average monthly student enrollment? (d) If total attendance in May is 10% greater than in April, estimate attendance in May.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">🏔2</td><td class="qtxt">Based on the original data of the composite bar chart, reorganize the table below and find out:<br/>(a) Which store has the highest sales volume of which category of goods in which month?<br/>(b) If store A earns $8 for each notebook and $5 for folders, and store B earns $7 for each notebook and $6 for folders, which store has a higher total profit?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:82px;"></td></tr>
+</table>
+<div class="h1">VI. The Lessoncorecommon errorsummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Reading without looking at the legend first |||SEP|||: Treat store A as store B, treat the notebook as a folder</strong>: Treat store A as store B and treat your notebook as a folder</td><td>The first step is to look at the legend and confirm what each pattern represents.</td></tr>
+<tr><td>2</td><td><strong>Counting the wrong number of vertical axis cells |||SEP|||: Ignore the value represented by each cell and directly count the number of cells as the answer</strong>: Ignore the value represented by each cell and directly count the number of cells as the answer.</td><td>First confirm "each cell = ?", use the number of cells × the value of each cell = the actual value</td></tr>
+<tr><td>3</td><td><strong>Confusing "difference" and "multiple" |||SEP|||: use division for subtraction questions and subtraction for multiples questions</strong>: Use division for subtraction questions and subtraction for multiples questions</td><td>"How much different/more" → subtraction; "How many times is..." → division</td></tr>
+<tr><td>4</td><td><strong>Average calculation error |||SEP|||: Forgot to divide by the number of items, or add missing data</strong>: Forgot to divide by the number of items, or add missing data</td><td>First list all the data → sum → divide by the number of items → check whether the number of items is correct</td></tr>
+<tr><td>5</td><td><strong>Improper scale when making bar chart |||SEP|||: grid value is too large or too small</strong>: The grid value is too large or too small</td><td>Use the maximum value ÷ the expected number of cells → take the nearest integer (a multiple of 2/5/10)</td></tr>
+<tr><td>6</td><td><strong>Forgot to write the unit |||SEP|||: The answer only contains numbers, missing "pieces", "people", "yuan", etc.</strong>: The answer only contains numbers, leaving out "pieces", "persons", "yuan", etc.</td><td>The unit must be included in the answer for each step; the unit must also be written in the answer sentence</td></tr>
+<tr><td>7</td><td><strong>Ignore the background information provided by the chart title</strong>(such as time, location, unit)</td><td>Read the chart title → Understand the background → Then do data analysis</td></tr>
+</table>
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related topics: L16 Bar Chart Reading · L17 Bar Chart Production · L32 Composite Bar Chart</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 3 pages · 64 questions | LF-P5-S2-L32 v6 EN
+</div>
+</body>
+</html>

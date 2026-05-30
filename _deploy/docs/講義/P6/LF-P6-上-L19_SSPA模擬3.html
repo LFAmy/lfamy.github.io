@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P6-上-L19 SSPA模擬3 — 學生版講義 v6</title>
+<style>
+  <link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:18px 30px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .h1 { font-size:13px; margin:8px 0 6px; }
+    .h2 { font-size:12px; margin:8px 0 4px; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px); border:1px dashed #9CA3AF; }
+    .qt td { padding:3px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:28px 40px;
+    display:flex; flex-direction:column;
+  }
+
+  /* FRACTIONS */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* COVER - EXAM STYLE */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--red); color:var(--red);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0; font-weight:700;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:28px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:16px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; flex-wrap:wrap; justify-content:center; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* EXAM HEADER */
+  .exam-header {
+    display:flex; justify-content:space-between; align-items:center;
+    border-bottom:2px solid var(--blue); padding-bottom:8px; margin-bottom:12px;
+  }
+  .exam-header .exam-logo { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); letter-spacing:3px; }
+  .exam-header .exam-info { font-size:11px; color:var(--gray); }
+  .exam-section-title {
+    font-family:'Noto Serif HK',serif;
+    font-size:15px; font-weight:900; color:var(--blue);
+    padding:6px 12px; margin:14px 0 8px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .exam-sub-title {
+    font-size:12px; font-weight:700; color:var(--ink);
+    margin:8px 0 4px; border-bottom:1px dotted var(--borderc); padding-bottom:3px;
+  }
+  .exam-instruction { font-size:11px; color:var(--gray); margin:4px 0 10px; font-style:italic; }
+  .score-box {
+    display:inline-block; border:2px solid var(--blue); padding:6px 18px;
+    font-weight:900; font-size:16px; color:var(--blue); text-align:center; margin:10px 0;
+  }
+
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+  .end-marker { text-align:center; font-size:16px; font-weight:900; color:var(--red); margin:24px 0 8px; letter-spacing:8px; }
+  .footer-score { display:flex; justify-content:space-between; font-size:12px; margin-top:12px; padding-top:8px; border-top:1px dashed var(--borderc); }
+  .footer-score .lbl { color:var(--gray); }
+  .footer-score .val { font-weight:700; color:var(--blue); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ══════ PAGE 1: EXAM COVER ══════ -->
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">SSPA 模擬考試卷 · 上學期期末</div>
+  <div class="cv-title">SSPA 模擬考試（三）</div>
+  <div class="cv-sub">小六上學期 · 全冊考核 · 75 分鐘 · 滿分 100 分</div>
+
+  <div class="cv-info">
+    <b>考試範圍：</b>全上學期內容（L01-L18）<br>
+    <b>涵蓋單元：</b>小數除法 · 分數/小數/百分數互換 · 百分數應用 · 圓面積/周界 · 平均數 · 速率 · 折線圖 · 圓形圖 · 排水法<br>
+    <b>卷別結構：</b>甲部 MC（10題，30分）· 乙部 計算（8題，40分）· 丙部 應用（3題，30分）<br>
+    <b>總分：</b>100 分 &nbsp;|&nbsp; <b>建議時間分配：</b>甲部 15 min · 乙部 30 min · 丙部 30 min<br>
+    <b>注意事項：</b>必須寫出計算步驟 · 答案保留單位 · 可用計算機
+  </div>
+
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span>
+    <span>班級：<span class="ln"></span></span>
+    <span>日期：<span class="ln"></span></span>
+    <span>得分：<span class="ln"></span> / 100</span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 2: SECTION A - MC ══════ -->
+<div class="pb">
+  <div class="exam-header">
+    <span class="exam-logo">霖楓學苑 SSPA 模擬3</span>
+    <span class="exam-info">P6 上學期 · 75分鐘 · 滿分100</span>
+  </div>
+
+  <div class="exam-section-title">甲部：多項選擇題（共 10 題，每題 3 分，共 30 分）</div>
+  <div class="exam-instruction">選出正確答案，把答案字母填在每題右側的括號內。</div>
+
+  
+<div style="margin:12px 0;padding:10px 14px;background:linear-gradient(135deg,#FEF2F2,#FFF8E7);border:2px solid var(--red);border-radius:6px;">
+<strong style="color:#991B1B;">🎫 考試錦囊（SSPA 必讀）</strong>
+<p style="font-size:11px;margin:4px 0;color:#1A1A1A;">
+① 先做識做嘅題目，唔好卡死喺一條！<br>
+② 每題檢查單位（cm vs cm² vs cm³）！<br>
+③ 幾何題：圖中有標高就係高，冇標就用公式反求！<br>
+④ 應用題：寫答句！唔寫扣步驟分！<br>
+⑤ 剩 5 分鐘：檢查 MC 有冇填漏 + 單位有冇寫啱！
+</p>
+</div>
+<table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">答案</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">3.6 &divide; 0.12 = ？<br>A. 0.3 &nbsp;&nbsp; B. 3 &nbsp;&nbsp; C. 30 &nbsp;&nbsp; D. 300</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt"><span class="f"><span class="n">3</span><span class="b"></span><span class="d">8</span></span> 轉為百分數 = ？<br>A. 3.75% &nbsp;&nbsp; B. 37.5% &nbsp;&nbsp; C. 375% &nbsp;&nbsp; D. 0.375%</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">一件貨品八折後售 $240。原價是多少？<br>A. $192 &nbsp;&nbsp; B. $288 &nbsp;&nbsp; C. $300 &nbsp;&nbsp; D. $320</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓：半徑7cm（π≈22/7）</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 160" width="180" height="160"><circle cx="90" cy="70" r="60" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="90" cy="70" r="3" fill="#1A3C6D"/><text x="90" y="63" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="90" y1="70" x2="150" y2="70" stroke="#1A3C6D" stroke-width="2"/><text x="120" y="63" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="78" x2="150" y2="78" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="90" y="92" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+圓的半徑是 7 cm。面積是多少？（&pi; &asymp; <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）<br>A. 44 cm² &nbsp;&nbsp; B. 154 cm² &nbsp;&nbsp; C. 308 cm² &nbsp;&nbsp; D. 616 cm²</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">$200 先增加 20%，再減少 20%。最終是多少？<br>A. $192 &nbsp;&nbsp; B. $200 &nbsp;&nbsp; C. $208 &nbsp;&nbsp; D. $240</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">6</td><td class="qtxt">以下數據的平均數是？25, 30, 35, 40, 45<br>A. 30 &nbsp;&nbsp; B. 33 &nbsp;&nbsp; C. 35 &nbsp;&nbsp; D. 40</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">汽車 2 小時行駛 160 km。速率是多少？<br>A. 60 km/h &nbsp;&nbsp; B. 70 km/h &nbsp;&nbsp; C. 80 km/h &nbsp;&nbsp; D. 90 km/h</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 排水法：水位15→18cm·底面積400cm²</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 185" width="370" height="185"><rect x="15" y="15" width="150" height="85" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="15" y="72" width="150" height="28" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="7" y1="72" x2="173" y2="72" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="179" y="76" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">28cm</text><text x="90" y="120" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入前</text><rect x="205" y="15" width="150" height="85" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="205" y="48" width="150" height="52" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="197" y1="48" x2="363" y2="48" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="369" y="52" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">52cm</text><rect x="260" y="60" width="40" height="40" fill="#93C5FD" stroke="#1A3C6D" stroke-width="2.5"/><text x="280" y="80" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">石頭</text><text x="280" y="120" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入後（完全浸沒）</text><line x1="177" y1="72" x2="177" y2="48" stroke="#DC2626" stroke-width="2.5"/><polygon points="173,52 181,52 177,46" fill="#DC2626"/><text x="191" y="60" text-anchor="start" font-size="13" fill="#DC2626" font-weight="700">+24cm</text><text x="185" y="152" text-anchor="middle" font-size="14" fill="#16A34A" font-weight="700">水面上升 = 物體體積 ÷ 底面積</text></svg></div>
+</div>
+長方體水箱底面積 400 cm²，放入石頭後水面由 15 cm 升至 18 cm。石頭體積是多少？<br>A. 1200 cm³ &nbsp;&nbsp; B. 6000 cm³ &nbsp;&nbsp; C. 7200 cm³ &nbsp;&nbsp; D. 無法確定</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">9</td><td class="qtxt">圓形圖中一個扇形為 90&deg;，佔全體的？<br>A. <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> &nbsp;&nbsp; B. <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> &nbsp;&nbsp; C. <span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> &nbsp;&nbsp; D. <span class="f"><span class="n">1</span><span class="b"></span><span class="d">8</span></span></td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">A比B大25%。B比A小百分之幾？<br>A. 20% &nbsp;&nbsp; B. 25% &nbsp;&nbsp; C. 30% &nbsp;&nbsp; D. 75%</td><td class="qw" style="min-height:48px;text-align:center;font-size:16px;font-weight:900;"></td></tr>
+  </table>
+
+  <div class="footer-score">
+    <span class="lbl">甲部得分：</span>
+    <span class="val">________ / 30</span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 3: SECTION B - CALCULATION ══════ -->
+<div class="pb">
+  <div class="exam-header">
+    <span class="exam-logo">霖楓學苑 SSPA 模擬3</span>
+    <span class="exam-info">P6 上學期 · 75分鐘</span>
+  </div>
+
+  <div class="exam-section-title">乙部：計算題（共 8 題，每題 5 分，共 40 分）</div>
+  <div class="exam-instruction">必須寫出完整計算步驟。只寫答案不給步驟分。</div>
+
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">分數</th><th>作答區</th></tr>
+    <tr><td class="qn">11</td><td class="qtxt">計算：<span class="f"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> − <span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>，把答案寫成最簡分數。</td><td class="qd" style="background:#FEF3C7;color:#92400E;">/5</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">12</td><td class="qtxt">一件貨品原價 $500，加價 20% 做標價。再以標價 75 折出售。最終售價是多少元？</td><td class="qd" style="background:#FEF3C7;color:#92400E;">/5</td><td class="qw" style="min-height:72px;"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 圓：半徑14cm（π≈22/7）</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 180" width="200" height="180"><circle cx="100" cy="80" r="70" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><circle cx="100" cy="80" r="3" fill="#1A3C6D"/><text x="100" y="73" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">O</text><line x1="100" y1="80" x2="170" y2="80" stroke="#1A3C6D" stroke-width="2"/><text x="135" y="73" text-anchor="middle" font-size="12" fill="#1A3C6D" font-weight="700">r</text><line x1="30" y1="88" x2="170" y2="88" stroke="#DC2626" stroke-width="2" stroke-dasharray="5,2"/><text x="100" y="102" text-anchor="middle" font-size="11" fill="#DC2626" font-weight="700">d=2r</text></svg></div>
+</div>
+圓的半徑是 14 cm。求 (a) 圓周長 (b) 圓面積。（&pi; &asymp; <span class="f"><span class="n">22</span><span class="b"></span><span class="d">7</span></span>）</td><td class="qd" style="background:#FEF3C7;color:#92400E;">/5</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">數據：18, 24, 30, 36, 42。求平均數和中位數。</td><td class="qd" style="background:#FEF3C7;color:#92400E;">/5</td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">15</td><td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 排水法+溢出：水箱高25cm·原水深12cm</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 185" width="370" height="185"><rect x="15" y="15" width="150" height="85" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="15" y="60" width="150" height="40" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="7" y1="60" x2="173" y2="60" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="179" y="64" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">40cm</text><text x="90" y="120" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入前</text><rect x="205" y="15" width="150" height="85" fill="#FFFFFF" stroke="#1A3C6D" stroke-width="3"/><rect x="205" y="38" width="150" height="62" fill="#BAE6FD" stroke="#7DD3FC" stroke-width="1.5"/><line x1="197" y1="38" x2="363" y2="38" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="4,2"/><text x="369" y="42" text-anchor="start" font-size="11" fill="#DC2626" font-weight="700">62cm</text><rect x="260" y="60" width="40" height="40" fill="#93C5FD" stroke="#1A3C6D" stroke-width="2.5"/><text x="280" y="80" text-anchor="middle" font-size="12" fill="#DC2626" font-weight="700">石頭</text><text x="280" y="120" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">投入後（完全浸沒）</text><line x1="177" y1="60" x2="177" y2="38" stroke="#DC2626" stroke-width="2.5"/><polygon points="173,42 181,42 177,36" fill="#DC2626"/><text x="191" y="49" text-anchor="start" font-size="13" fill="#DC2626" font-weight="700">+22cm</text><text x="185" y="152" text-anchor="middle" font-size="14" fill="#16A34A" font-weight="700">水面上升 = 物體體積 ÷ 底面積</text></svg></div>
+</div>
+水箱底面積 500 cm²，原有水深 12 cm。放入一塊 3000 cm³ 的石頭。水會溢出嗎？（水箱高 25 cm）若溢出，溢出多少 cm³？</td><td class="qd" style="background:#FEF3C7;color:#92400E;">/5</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">小明跑步速率是 150 m/min。跑了 8 分鐘。他跑了多少 km？</td><td class="qd" style="background:#FEF3C7;color:#92400E;">/5</td><td class="qw" style="min-height:65px;"></td></tr>
+    <tr><td class="qn">17</td><td class="qtxt">250 元先增加 20%，再減少 r% 後為 240 元。求 r。（答案取至整數）</td><td class="qd" style="background:#FEF3C7;color:#92400E;">/5</td><td class="qw" style="min-height:78px;"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt"><div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 六個月降雨量折線圖：45,60,85,70,95,110mm</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 320" width="490" height="320"><line x1="85" y1="35" x2="85" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290" x2="470" y2="290" stroke="#374151" stroke-width="2"/><line x1="85" y1="290.0" x2="470" y2="290.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="294.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">0</text><line x1="85" y1="247.5" x2="470" y2="247.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="251.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">20</text><line x1="85" y1="205.0" x2="470" y2="205.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="209.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">40</text><line x1="85" y1="162.5" x2="470" y2="162.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="166.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">60</text><line x1="85" y1="120.0" x2="470" y2="120.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="124.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">80</text><line x1="85" y1="77.5" x2="470" y2="77.5" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="81.5" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">100</text><line x1="85" y1="35.0" x2="470" y2="35.0" stroke="#E5E7EB" stroke-width="0.5"/><text x="77" y="39.0" text-anchor="end" font-size="10" fill="#6B7280" font-weight="700">120</text><text x="77" y="39" text-anchor="end" font-size="9" fill="#6B7280" font-weight="700">(mm)</text><text x="14" y="162" text-anchor="middle" font-size="11" fill="#1A3C6D" transform="rotate(-90,14,162)">降雨量</text><text x="117.08333333333334" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">一月</text><text x="181.25000000000003" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">二月</text><text x="245.41666666666669" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">三月</text><text x="309.5833333333333" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">四月</text><text x="373.75" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">五月</text><text x="437.9166666666667" y="308" text-anchor="middle" font-size="11" fill="#1A3C6D" font-weight="700">六月</text><text x="245" y="25" text-anchor="middle" font-size="14" fill="#1A3C6D" font-weight="700">六個月降雨量</text><circle cx="115" cy="194.375" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="115" y="182.375" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">45</text><circle cx="175" cy="162.5" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="175" y="150.5" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">60</text><circle cx="235" cy="109.375" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="235" y="97.375" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">85</text><circle cx="295" cy="141.25" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="295" y="129.25" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">70</text><circle cx="355" cy="88.125" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="355" y="76.125" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">95</text><circle cx="415" cy="56.25" r="4" fill="#DC2626" stroke="white" stroke-width="1.5"/><text x="415" y="44.25" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="700">110</text><polyline points="115,194.375 175,162.5 235,109.375 295,141.25 355,88.125 415,56.25" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linejoin="round"/></svg></div>
+</div>
+以下折線圖顯示某城市 6 個月的降雨量（mm）：一月 45、二月 60、三月 85、四月 70、五月 95、六月 110。(a) 求平均降雨量。 (b) 哪個月的降雨量比上一個月增加最多？增加了多少？ (c) 若以圓形圖表示，六月約佔全體的百分之幾？（答案取至整數%）</td><td class="qd" style="background:#FEF3C7;color:#92400E;">/5</td><td class="qw" style="min-height:85px;"></td></tr>
+  </table>
+
+  <div class="footer-score">
+    <span class="lbl">乙部得分：</span>
+    <span class="val">________ / 40</span>
+  </div>
+</div>
+
+<!-- ══════ PAGE 4: SECTION C - APPLICATION ══════ -->
+<div class="pb">
+  <div class="exam-header">
+    <span class="exam-logo">霖楓學苑 SSPA 模擬3</span>
+    <span class="exam-info">P6 上學期 · 75分鐘</span>
+  </div>
+
+  <div class="exam-section-title">丙部：應用題（共 3 題，每題 10 分，共 30 分）</div>
+  <div class="exam-instruction">必須列出完整解題步驟、計算過程和答案。標明單位。</div>
+
+  <div class="exam-sub-title">第19題（10分）— 百分數連續變化 + 逆向</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">分數</th><th>作答區</th></tr>
+    <tr><td class="qn">19</td><td class="qtxt">
+      (a) 一件貨品先加價 25%，再減價 20%，最終售價為 500 元。求原價。（3分）<br>
+      (b) 若該貨品先減價 20%，再加價 25%。最終售價和原價相比，是高了還是低了？試解釋。（3分）<br>
+      (c) <div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ 長方形：原面積 vs 變化後面積</div>
+<div style="display:inline-block;max-width:280px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 120" width="220" height="120"><rect x="35" y="15" width="150" height="80" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="3"/><polyline points="45,15 45,25 35,25" fill="none" stroke="#1A3C6D" stroke-width="2"/><text x="110" y="113" text-anchor="middle" font-size="13" fill="#1A3C6D" font-weight="700">l</text><text x="21" y="55" text-anchor="end" font-size="13" fill="#1A3C6D" font-weight="700">w</text></svg></div>
+</div>
+一個長方形，長增加 20%，闊減少 20%。新面積比原面積變化了多少%？（4分）
+    </td><td class="qd" style="background:#FEF3C7;color:#92400E;font-weight:900;">/10</td><td class="qw" style="min-height:130px;"></td></tr>
+  </table>
+
+  <div class="exam-sub-title">第20題（10分）— 排水法 + 綜合應用</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">分數</th><th>作答區</th></tr>
+    <tr><td class="qn">20</td><td class="qtxt">
+      一個長方體水箱長 50 cm、闊 40 cm、高 35 cm，原有水深 25 cm。<br>
+      (a) 放入一塊體積為 12000 cm³ 的金屬塊（完全浸沒）。水會溢出嗎？若溢出，溢出多少？（4分）<br>
+      (b) 先取出金屬塊，再放入 5 個相同的波子，水面上升了 3 cm。每個波子的體積是多少？（3分）<br>
+      (c) 現將水箱中的所有水（取出所有物體後）倒入一個正方體水箱（邊長 30 cm）。問正方體水箱的水面高多少 cm？水會否從正方體水箱溢出？（水箱高 40 cm）（3分）
+    </td><td class="qd" style="background:#FEF3C7;color:#92400E;font-weight:900;">/10</td><td class="qw" style="min-height:140px;"></td></tr>
+  </table>
+</div>
+
+<!-- ══════ PAGE 5: SECTION C (CONT.) + END ══════ -->
+<div class="pb">
+  <div class="exam-header">
+    <span class="exam-logo">霖楓學苑 SSPA 模擬3</span>
+    <span class="exam-info">P6 上學期 · 75分鐘</span>
+  </div>
+
+  <div class="exam-sub-title">第21題（10分）— 圖表綜合 + 幾何設計</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">分數</th><th>作答區</th></tr>
+    <tr><td class="qn">21</td><td class="qtxt">
+      學校要在空地建造一個花園。設計如下：<br>
+      - A 區（長方形）：長 18 m、闊 12 m，種花<br>
+      - B 區（半圓形）：直徑 = A 區的闊，連接在長方形一側，種草<br>
+      （&pi; 取 3.14）<br><br>
+      (a) 求 A 區面積。（2分）<br>
+      (b) 求 B 區面積。（2分）<br>
+      (c) 求整個花園的總面積。（1分）<br>
+      (d) 種花成本為 $80/m²，種草成本為 $35/m²。求總成本。（2分）<br>
+      (e) A 區和 B 區的面積各佔總面積的百分之幾？哪個百分比較大？大多少個百分點？（2分）<br>
+      (f) 用一個簡單的圓形圖（只需計算各區的圓心角）表示 A 區和 B 區所佔總面積的比例。（1分）
+    </td><td class="qd" style="background:#FEF3C7;color:#92400E;font-weight:900;">/10</td><td class="qw" style="min-height:250px;"></td></tr>
+  </table>
+
+  <div class="end-marker">— 全卷完 —</div>
+
+  <div style="border:2px solid var(--blue);border-radius:8px;padding:16px;margin:10px 0;text-align:center;">
+    <table style="width:100%;font-size:14px;border-collapse:collapse;">
+      <tr>
+        <td style="padding:8px;text-align:center;font-weight:900;">甲部 MC<br><span style="font-size:20px;color:var(--blue);">/30</span></td>
+        <td style="padding:8px;text-align:center;font-weight:900;">乙部 計算<br><span style="font-size:20px;color:var(--blue);">/40</span></td>
+        <td style="padding:8px;text-align:center;font-weight:900;">丙部 應用<br><span style="font-size:20px;color:var(--blue);">/30</span></td>
+        <td style="padding:8px;text-align:center;font-weight:900;background:#FFFBEB;">總分<br><span style="font-size:24px;color:var(--red);">/100</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="end-note">霖楓學苑 · LF Academy · 不教數學，教避開陷阱 · LF-P6-上-L19</div>
+</div>
+
+</div>
+
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF &nbsp;|&nbsp; 5頁 · 21題 · 100分 &nbsp;|&nbsp; LF-P6-上-L19 v6
+</div>
+
+</body>
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF Academy — P5-T2-L37 Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:12px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:10.5px; }
+    .container { max-width:100%; }
+    .pb { box-shadow:none; min-height:0; padding:22px 36px; page-break-after:always; }
+    .pb:last-of-type { page-break-after:auto; }
+    .no-print { display:none!important; }
+    .qt { font-size:10px; }
+    .qt .qtxt { font-size:10.5px; }
+    .qt td { padding:4px 6px; }
+    .sec-title { font-size:12px; }
+    .app-q .q-body { font-size:10.5px; }
+    .ans-lines { background:none; border-bottom:1px solid #E5E7EB; }
+    .exam-header { padding:8px 14px; }
+    .exam-header .school { font-size:16px; }
+    .exam-header .title { font-size:14px; }
+    .page-break { page-break-before:always; }
+  }
+
+  @page {
+    size: A4;
+    margin: 10mm 14mm;
+    @bottom-center {
+      content: "模擬4 · P5數學 · 霖楓學苑　　第 " counter(page) " 頁";
+      font-family: 'Noto Sans HK', sans-serif;
+      font-size: 8px;
+      color: #6B7280;
+    }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:28px 40px;
+    display:flex; flex-direction:column;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    margin-bottom:6px;
+    min-height: 297mm;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; font-size:inherit; }
+  .fd .n { font-size:15px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:15px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  /* ── EXAM HEADER ── */
+  .exam-header {
+    text-align:center;
+    border:2.5px solid var(--ink);
+    padding:12px 18px;
+    margin-bottom:14px;
+    background:var(--lightbg);
+  }
+  .exam-header .school {
+    font-family:'Noto Serif HK',serif;
+    font-size:19px; font-weight:900; color:var(--blue);
+    letter-spacing:6px;
+  }
+  .exam-header .title {
+    font-family:'Noto Serif HK',serif;
+    font-size:16px; font-weight:700;
+    margin:5px 0;
+    letter-spacing:2px;
+  }
+  .exam-header .info {
+    font-size:11px; color:var(--gray);
+  }
+  .exam-header .duration {
+    display:inline-block;
+    border:1.5px solid var(--red); color:var(--red);
+    padding:2px 14px; border-radius:14px;
+    font-size:10px; font-weight:700;
+    margin-top:3px;
+  }
+
+  /* ── STUDENT INFO ── */
+  .student-info {
+    display:flex; gap:36px; justify-content:center;
+    font-size:12px; margin-bottom:16px;
+    padding:7px 10px;
+    border-bottom:1px dashed var(--borderc);
+  }
+  .student-info span { display:flex; align-items:center; gap:4px; }
+  .student-info .blank {
+    display:inline-block;
+    min-width:90px;
+    border-bottom:1px solid var(--ink);
+  }
+  .student-info .score-blank {
+    display:inline-block;
+    min-width:45px;
+    border-bottom:2px solid var(--ink);
+    font-weight:700;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .sec-title {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:12px 0 8px;
+    border-left:4px solid var(--ink);
+    background:#F0F4FA;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .sec-title .sec-marks {
+    font-size:11px; font-weight:500; color:var(--gray);
+  }
+
+  /* ── INSTRUCTION ── */
+  .instruction {
+    font-size:10px; color:var(--gray);
+    padding:5px 9px; margin:3px 0 8px;
+    background:var(--lightbg);
+    border:1px solid var(--borderc);
+    border-radius:4px;
+    line-height:1.5;
+  }
+
+  /* ── QUESTION TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:5px 0 10px; font-size:11.5px; }
+  .qt th { background:var(--ink); color:white; padding:4px 7px; font-size:9px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:32px; text-align:center; font-weight:700; font-size:12px; }
+  .qt .qs { width:56px; text-align:center; font-size:10px; }
+  .qt .qtxt { font-size:11.5px; line-height:1.65; }
+
+  /* ── MC OPTIONS ── */
+  .mc-opts { margin-top:3px; display:flex; flex-wrap:wrap; gap:10px; }
+  .mc-opts .opt { font-family:'Noto Sans HK',sans-serif; font-size:11px; white-space:nowrap; }
+
+  /* ── ANSWER AREA ── */
+  .ans-area {
+    min-height:75px;
+    border-bottom:1px dashed var(--borderc);
+    margin-top:3px;
+  }
+  .ans-lines {
+    background: repeating-linear-gradient(transparent,transparent 20px,#E5E7EB 20px,#E5E7EB 21px);
+    min-height:72px;
+  }
+
+  /* ── SCORE BOX ── */
+  .score-box {
+    display:inline-block;
+    border:1.5px solid var(--ink);
+    padding:2px 7px;
+    font-size:9px;
+    font-weight:700;
+    margin-left:4px;
+    background:white;
+  }
+
+  /* ── APP QUESTION ── */
+  .app-q {
+    border:1.5px solid var(--borderc);
+    padding:10px 14px;
+    margin:7px 0;
+    background:var(--white);
+    page-break-inside:avoid;
+  }
+  .app-q .q-head {
+    font-weight:700; font-size:12px;
+    margin-bottom:5px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .app-q .q-body { font-size:11.5px; line-height:1.7; }
+  .app-q .q-work {
+    min-height:90px;
+    border:1px dashed var(--borderc);
+    margin-top:7px;
+    padding:5px 9px;
+    font-size:10px; color:var(--gray);
+  }
+
+  /* ── END MARKER ── */
+  .end-marker {
+    text-align:center;
+    margin-top:26px;
+    padding:14px 0;
+    border-top:2px solid var(--ink);
+  }
+  .end-marker .end-text {
+    font-family:'Noto Serif HK',serif;
+    font-size:15px; font-weight:900;
+    letter-spacing:6px;
+    color:var(--blue);
+  }
+  .end-marker .total-score {
+    margin-top:8px;
+    font-size:13px; font-weight:700;
+  }
+  .end-marker .total-score .ts-blank {
+    display:inline-block;
+    width:55px;
+    border-bottom:2px solid var(--ink);
+  }
+
+  /* ── FOOTER LINE ── */
+  .footer-line {
+    text-align:center;
+    font-size:8px; color:var(--gray);
+    margin-top:18px;
+    padding-top:7px;
+    border-top:1px solid var(--borderc);
+  }
+
+  /* ── CROSS-TOPIC BADGE ── */
+  .cross-topic {
+    display:inline-block;
+    background:var(--red);
+    color:white;
+    font-size:7px;
+    padding:1px 5px;
+    border-radius:2px;
+    font-weight:700;
+    margin-left:3px;
+  }
+
+  /* ── KEEP TOGETHER ── */
+  .keep-together { page-break-inside:avoid; }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+═══════════════ PAGE 1: HEADER + MC 1-10 ═══════════════
+<div class="pb">
+<div class="exam-header">
+<div class="school">Lam Fung Academy</div>
+<div class="title">SSPA Mock Exam (4) · Primary 5 Mathematics</div>
+<div class="info">Scope: Year-round Comprehensive (Lessons 1–28) — Multiple digits · Estimation · Area · Fractions · Decimals · Algebra · Equations · Circles · Solid sections · Origami patterns</div>
+<div class="duration">Exam time: 75 minutes Full score: 100 points</div>
+</div>
+<div class="student-info">
+<span>Name:<span class="blank"></span></span>
+<span>date:<span class="blank"></span></span>
+<span>Simulation 1 score:<span class="blank" style="min-width:40px;"></span></span>
+<span>Simulation 2 score:<span class="blank" style="min-width:40px;"></span></span>
+<span>Fraction:<span class="score-blank"></span> / 100</span>
+</div>
+═══════ Part A: Multiple choice questions ═══════
+<div class="sec-title">Part A - Multiple Choice Questions<span class="sec-marks">15 questions × 2 points = 30 points</span></div>
+<div class="instruction">Instructions: Choose the correct answer and fill in the letter of the answer in the space to the right of each question. There is only one correct answer for each question. Pay attention to the traps hidden in the questions!</div>
+<div style="margin:12px 0;padding:10px 14px;background:linear-gradient(135deg,#FEF2F2,#FFF8E7);border:2px solid var(--red);border-radius:6px;">
+<strong style="color:#991B1B;">🎫 Exam tips (SSPA must read)</strong>
+<p style="font-size:11px;margin:4px 0;color:#1A1A1A;">① Do the questions you know first, don’t get stuck on one!<br/>② Check the unit for each question (cm vs cm² vs cm³)!<br/>③ Geometry questions: If there is an elevation in the picture, use the height. If there is no elevation, use the formula to find it!<br/>④ Application question: Write an answer sentence! Points will be deducted for not writing steps!<br/>⑤ 5 minutes left: Check if the MC has been filled in and if the unit is correct!</p>
+</div>
+<table class="qt">
+<tr><th class="qn">question number</th><th>Question</th><th class="qs">fraction</th></tr>
+<tr>
+<td class="qn">1</td>
+<td class="qtxt">How many "zeros" do you need to pronounce the number 70,600,050 in Chinese?<div class="mc-opts">
+<span class="opt">A. 0 pieces</span>
+<span class="opt">B. 1 piece</span>
+<span class="opt">C. 2 pieces</span>
+<span class="opt">D. 3 pieces</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">2</td>
+<td class="qtxt">In the number 8,305,206, what is the digit of "3"? What is its value?<div class="mc-opts">
+<span class="opt">A. Millions, 3,000,000</span>
+<span class="opt">B. Hundreds, 300,000</span>
+<span class="opt">C. Tens, 30,000</span>
+<span class="opt">D. Thousands, 3,000</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">3</td>
+<td class="qtxt">Round 4,872,593 to the nearest hundred thousand digits. turn out?<div class="mc-opts">
+<span class="opt">A. 4,800,000</span>
+<span class="opt">B. 4,870,000</span>
+<span class="opt">C. 4,900,000</span>
+<span class="opt">D. 5,000,000</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">4</td>
+<td class="qtxt">
+<div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲Triangle: base 16cm, height 9cm</div>
+<div style="display:inline-block;max-width:280px;"><svg height="155" viewbox="0 0 190 155" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,105 155,105 35,20" stroke="#1A3C6D" stroke-width="3"></polygon><polyline fill="none" points="43,10 43,18 35,18" stroke="#1A3C6D" stroke-width="2"></polyline><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="35" x2="35" y1="20" y2="105"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="21" y="63">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="95" y="127">b</text></svg></div>
+</div>Triangle base length 16cm, height 9cm. Area = ?<div class="mc-opts">
+<span class="opt">A. 144 cm²</span>
+<span class="opt">B. 72 cm²</span>
+<span class="opt">C. 48 cm²</span>
+<span class="opt">D. 25 cm²</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">5</td>
+<td class="qtxt">
+<div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ Trapezoid: hypotenuse 11cm (trap! You don’t need a hypotenuse to calculate the area)</div>
+<div style="display:inline-block;max-width:280px;"><svg height="130" viewbox="0 0 190 130" width="190" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,90 155,90 123,20 67,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="67" x2="67" y1="20" y2="90"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="79" y="55">h</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="112">b₂</text><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="94" y="12">b₁</text></svg></div>
+</div>Trapezoid: upper base 7 cm, lower base 13 cm, hypotenuse 11 cm, height 6 cm. When finding the area, which of the following numbers<strong>does not require</strong>to be used?<div class="mc-opts">
+<span class="opt">A. 7 cm</span>
+<span class="opt">B. 13 cm</span>
+<span class="opt">C. 11 cm</span>
+<span class="opt">D. 6 cm</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">6</td>
+<td class="qtxt">Calculate<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> + <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>= ? Which of the following is the correct answer?<div class="mc-opts">
+<span class="opt">A. <span class="f"><span class="n">4</span><span class="b"></span><span class="d">10</span></span> = <span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span></span>
+<span class="opt">B. <span class="f"><span class="n">11</span><span class="b"></span><span class="d">12</span></span></span>
+</div>
+<div class="mc-opts" style="margin-top:2px;">
+<span class="opt">C. <span class="f"><span class="n">9</span><span class="b"></span><span class="d">12</span></span> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">12</span></span> = <span class="f"><span class="n">11</span><span class="b"></span><span class="d">12</span></span></span>
+<span class="opt">D. <span class="f"><span class="n">3+1</span><span class="b"></span><span class="d">4+6</span></span> = <span class="f"><span class="n">4</span><span class="b"></span><span class="d">10</span></span></span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">7</td>
+<td class="qtxt">Calculate 0.35 × 0.4 = ? Where should the decimal point be placed?<div class="mc-opts">
+<span class="opt">A. 0.014</span>
+<span class="opt">B. 0.14</span>
+<span class="opt">C. 1.4</span>
+<span class="opt">D. 14</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">8</td>
+<td class="qtxt">Simplify: 4<i>a</i> + 7 − 2<i>a</i> + 3 = ？
+        <div class="mc-opts">
+<span class="opt">A. 2<i>a</i> + 4</span>
+<span class="opt">B. 2<i>a</i> + 10</span>
+<span class="opt">C. 6<i>a</i> + 10</span>
+<span class="opt">D. 6<i>a</i> + 4</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">9</td>
+<td class="qtxt">Solve the equation: 2<i>x</i> + 5 = 3<i>x</i> − 2，<i>x</i> = ？
+        <div class="mc-opts">
+<span class="opt">A. 3</span>
+<span class="opt">B. 5</span>
+<span class="opt">C. 7</span>
+<span class="opt">D. −3</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">10</td>
+<td class="qtxt">
+<div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ Parallelogram: Base 2m, height 80cm (Trap! Units are inconsistent)</div>
+<div style="display:inline-block;max-width:280px;"><svg height="150" viewbox="0 0 180 150" width="180" xmlns="http://www.w3.org/2000/svg"><polygon fill="#DBEAFE" points="35,100 145,100 90,20" stroke="#1A3C6D" stroke-width="3"></polygon><line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="90" x2="90" y1="20" y2="100"></line><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="102" y="60">h</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="90" y="122">b</text></svg></div>
+</div>The parallelogram has a base 2m long and a height 80cm. Area = ?<div class="mc-opts">
+<span class="opt">A. 160 cm²</span>
+<span class="opt">B. 16,000 cm²</span>
+<span class="opt">C. 1.6 m²</span>
+<span class="opt">D. 16 m²</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+</table>
+<div class="footer-line">Simulation 4 · P5 Mathematics · Lam Fung Academy | Part A continued on next page</div>
+</div>
+═══════════════ PAGE 2: Part A MC 11-15 + Part B 1-5 ═══════════════
+<div class="pb">
+<table class="qt">
+<tr><th class="qn">question number</th><th>Question</th><th class="qs">fraction</th></tr>
+<tr>
+<td class="qn">11</td>
+<td class="qtxt">"The<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>of a number is equal to 18. What is this number?" Which of the following equations is correct?<div class="mc-opts">
+<span class="opt">A. <i>x</i> + <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = 18</span>
+<span class="opt">B. <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> <i>x</i> = 18</span>
+<span class="opt">C. <i>x</i> − <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = 18</span>
+<span class="opt">D. 18 × <span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> = <i>x</i></span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">12</td>
+<td class="qtxt">There are 80 pieces in a pack of sugar. I ate |||SEP|||, and then gave the remaining<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>to my sister. How many pills does the sister get?<strong>A. 20 capsules</strong> <span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>B. 15 capsules<div class="mc-opts">
+<span class="opt">C. 25 capsules</span>
+<span class="opt">D. 40 capsules</span>
+<span class="opt">C. 25 capsules</span>
+<span class="opt">D. 40 capsules</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">13</td>
+<td class="qtxt">
+<div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ Circular flowerbed: radius 7m</div>
+<div style="display:inline-block;max-width:280px;"><svg height="160" viewbox="0 0 180 160" width="180" xmlns="http://www.w3.org/2000/svg"><circle cx="90" cy="70" fill="#DBEAFE" r="60" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="90" cy="70" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="90" y="63">O</text><line stroke="#1A3C6D" stroke-width="2" x1="90" x2="150" y1="70" y2="70"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="120" y="63">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="150" y1="78" y2="78"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="90" y="92">d=2r</text></svg></div>
+</div>A circular flowerbed, radius = 7 m. What is the approximate circumference of a circle? (Take π = 3.14)<div class="mc-opts">
+<span class="opt">A. 21.98 m</span>
+<span class="opt">B. 43.96 m</span>
+<span class="opt">C. 153.86 m</span>
+<span class="opt">D. 49 m</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">14</td>
+<td class="qtxt">If you cut a cube diagonally, what is the cross-section shape?<div class="mc-opts">
+<span class="opt">A. Square</span>
+<span class="opt">B. Rectangle</span>
+<span class="opt">C. Triangle</span>
+<span class="opt">D. Trapezoid</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+<tr>
+<td class="qn">15</td>
+<td class="qtxt">A rectangular origami pattern has 6 connected squares. What three-dimensional shape can be formed by folding it?<div class="mc-opts">
+<span class="opt">A. Cube</span>
+<span class="opt">B. Cuboid</span>
+<span class="opt">C. Cylinder</span>
+<span class="opt">D. Unable to form a solid</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 2 points</span></td>
+</tr>
+</table>
+═══════ Part B: Short answer calculation questions ═══════
+<div class="sec-title">Part B - Short Questions/Calculation Questions<span class="sec-marks">10 questions × 4 points = 40 points</span></div>
+<div class="instruction">Instructions: Write the complete calculation steps and answers in the answer area below each question. Answers must be reduced (if applicable) and accompanied by units.</div>
+<table class="qt">
+<tr><th class="qn">question number</th><th>Question</th><th class="qs">fraction</th></tr>
+<tr>
+<td class="qn">1</td>
+<td class="qtxt">(a) Write in Arabic numerals: nine thousand three hundred and sixty thousand.<br/>(b) Round the above numbers to the nearest million.<br/>
+<div class="ans-lines" style="min-height:72px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+<tr>
+<td class="qn">2</td>
+<td class="qtxt">Estimate: 4,876 + 3,209 ≈ ? (Round to the nearest thousand, using the "≈" symbol)<div class="ans-lines" style="min-height:75px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+<tr>
+<td class="qn">3</td>
+<td class="qtxt">Triangle base = 18 cm, height = 7 cm. Area = ? Write down formulas and calculation procedures.<div class="ans-lines" style="min-height:72px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+<tr>
+<td class="qn">4</td>
+<td class="qtxt">The upper base of the trapezoid is 8 cm, the lower base is 14 cm, and the height is 5 cm. Area = ? Write down formulas and calculation procedures.<div class="ans-lines" style="min-height:72px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+<tr>
+<td class="qn">5</td>
+<td class="qtxt">Calculation:<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> + <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">8</span></span>= ? Write down the general steps and final answer (the simplest fraction).<div class="ans-lines" style="min-height:75px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+</table>
+<div class="footer-line">Simulation 4 · P5 Mathematics · Lam Fung Academy | Part B continued on next page</div>
+</div>
+═══════════════ PAGE 3: Part II continued 6-10 ═══════════════
+<div class="pb">
+<table class="qt">
+<tr><th class="qn">question number</th><th>Question</th><th class="qs">fraction</th></tr>
+<tr>
+<td class="qn">6</td>
+<td class="qtxt">Calculation: 1<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> × <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>= ? Write out: mixed numbers → improper fractions → reduction → multiplication → answer.<div class="ans-lines" style="min-height:80px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+<tr>
+<td class="qn">7</td>
+<td class="qtxt">Calculate the following decimal operations:<br/>
+        (a) 0.6 × 0.35 = ？<br/>
+        (b) 1.25 ÷ 0.5 = ？
+        <div class="ans-lines" style="min-height:80px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+<tr>
+<td class="qn">8</td>
+<td class="qtxt">Solve the equation: 3(2<i>x</i> − 1) = <i>x</i> + 7<br/>Write out: remove brackets → move terms → merge → solve all steps.<div class="ans-lines" style="min-height:85px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+<tr>
+<td class="qn">9</td>
+<td class="qtxt">The radius of a circle is 10 cm. Find:<br/>(a) Circumference = ? (Take π = 3.14)<br/>(b) Circle area = ? (Take π = 3.14)<div class="ans-lines" style="min-height:85px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+<tr>
+<td class="qn">10</td>
+<td class="qtxt">The side length of the cube is 5 cm. Find:<br/>(a) Volume = ?<br/>(b) Surface area = ?<div class="ans-lines" style="min-height:80px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 4 points</span></td>
+</tr>
+</table>
+<div class="footer-line">Simulation 4 · P5 Mathematics · Lam Fung Academy | Part C continued on next page</div>
+</div>
+═══════════════ PAGE 4: Part C Word Questions 1-2 ═══════════════
+<div class="pb">
+<div class="sec-title">Part C - Application Problems<span class="sec-marks">4 questions × 7.5 points = 30 points</span></div>
+<div class="instruction">Instructions: Each question must list all calculation steps (formulation, solution, verification) and write a complete answer. The answer must be in units or reduced to the simplest form.</div>
+<div class="app-q">
+<div class="q-head">Question 1 (7.5 points) – Multi-digit + estimated synthesis<span class="cross-topic">Cross-topic</span> <span class="score-box">___ / 7.5 points</span></div>
+<div class="q-body">Here are the population data for the three cities:<br/>City A: 2,856,400 people<br/>City B: 1,439,800 people<br/>City C: 3,705,200 people<br/><br/>(a) Approximate the population of each of the three cities to 100,000 people. (1.5 points)<br/>(b) Use approximations to estimate the total population of the three cities. (2 points)<br/>(c) Calculate the actual total population of the three cities using exact values. (1.5 points)<br/>(d) How much does the estimated total population differ from the actual total population? Is the estimate reasonable? (2.5 points)</div>
+<div class="q-work">Answer area - please write all calculation steps and complete answer sentences:</div>
+</div>
+<div class="app-q">
+<div class="q-head">Question 2 (7.5 points) – Area of ​​combined shapes (trap question)<span class="cross-topic">Cross-topic</span> <span class="score-box">___ / 7.5 points</span></div>
+<div class="q-body">The picture below is made up of a rectangle and a triangle.<br/>Rectangle: length 12 cm, width 8 cm.<br/>Triangle: Spliced ​​on top of the rectangle, the base is the same as the length of the rectangle (12 cm),<strong>Bevel length 10 cm</strong>, 6 cm high.<br/><br/>(a) Find the area of ​​the rectangle. (1 point)<br/>(b) Find the area of ​​the triangle. (Note: the hypotenuse is not high!) (2 points)<br/>(c) Find the total area of ​​the entire combined figure. (1.5 points)<br/>(d) If the width of the rectangle is increased by 50% and the triangle remains unchanged, what is the new total area? (3 points)</div>
+<div class="q-work">Answer area - please write all calculation steps and complete answer sentences:</div>
+</div>
+</div>
+═══════════════ PAGE 5: Part C Word Questions 3-4 ═══════════════
+<div class="pb">
+<div class="app-q">
+<div class="q-head">Question 3 (7.5 points) – Mixed Fractions + Decimals + Equations<span class="cross-topic">Cross-topic</span> <span class="score-box">___ / 7.5 points</span></div>
+<div class="q-body">Mom bought 4 boxes of juice, each box is 1.25 liters (L).<br/>She poured all the juice into a large bottle.<br/>On the first day, I drank all the juice<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>。<br/>The next day, I drank another 1.5 L from the remaining juice.<br/><br/>(a) How many liters of total juice are there? (1 point)<br/>(b) How many liters did you drink on the first day? How many liters are left? (2 points)<br/>(c) How many liters of juice are left after the second day? (2 points)<br/>(d) What fraction of the original juice is left in the end? (expressed as a simple fraction) (2.5 points)</div>
+<div class="q-work">Answer area - please write all calculation steps and complete answer sentences (with unit L):</div>
+</div>
+<div class="app-q">
+<div class="q-head">Question 4 (7.5 points) — Graph + Equation Comprehensive Ultimate Challenge<span class="cross-topic">Cross-topic</span> <span class="score-box">___ / 7.5 points</span></div>
+<div class="q-body">The length of a rectangle is 4 cm more than its width.<br/>Given perimeter = 40 cm.<br/><br/>(a) Let the width be<i>w</i>cm, expressing length algebraically. (1 point)<br/>(b) List the equations based on the perimeter formula and solve the equations to find<i>w</i>. (2.5 points)<br/>(c) Find the length and then the area of ​​the rectangle. (2 points)<br/>(d) If the length and breadth of this rectangle are each increased by 2 cm, by how many cm² will the area of ​​the new rectangle be increased? (2 points)</div>
+<div class="q-work">Answer area - please write all steps, equation derivation and complete answer sentences:</div>
+</div>
+</div>
+═══════════════ PAGE 6: Continuation of Part C + Complete Paper ═══════════════
+<div class="pb">
+<div style="margin-top:16px;">
+<div style="font-size:11px; color:var(--gray); padding:8px; background:var(--lightbg); border:1px solid var(--borderc); margin-bottom:20px;">
+<strong>Part C continued answer area:</strong>If there is insufficient space for your answer above, please continue here. Clearly indicate the title number.</div>
+<div class="ans-lines" style="min-height:200px;"></div>
+</div>
+<div style="margin-top:16px;">
+<div style="font-size:11px; color:var(--gray); padding:8px; background:var(--lightbg); border:1px solid var(--borderc); margin-bottom:20px;">
+<strong>Rough Work:</strong>The content on this page will not be rated.</div>
+<div class="ans-lines" style="min-height:180px;"></div>
+</div>
+<div class="end-marker">
+<div class="end-text">—Complete the entire volume—</div>
+<div class="total-score">Total score:<span class="ts-blank"></span>/ 100 points</div>
+<div style="margin-top:10px; font-size:9px; color:var(--gray);">Part A ___/30 + Part B ___/40 + Part C ___/30 = Total score ___/100<br/><br/>Signature of marking teacher: __________ Date: __________</div>
+</div>
+<div style="margin-top:22px; padding:10px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; font-size:10px;">
+<strong>Exam Tips (Mock 4 - Ultimate Reality, 75 minutes, 100 points, comprehensive throughout the year):</strong><br/>· Part A MC 15 questions (15-18 minutes): Question 2 digit value counting from the right, Question 5 Hypotenuse ≠ height, Question 10 Unify the units first, Question 12 Note that the "remaining 1/3" standard quantity is "remaining" not "all", Question 13 Distinguish circumference vs circle area<br/>· Part B Calculation 10 questions (25-28 minutes): Question 1 Chinese → Be careful with numbers 0, Questions 5-6 Answers must be simplified after passing points, Question 7 Number of decimal multiplication digits must be counted, Question 8 Remove brackets and assign negative signs<br/>· Part C Application 4 questions (28-30 minutes): Question 2 Hypotenuse ≠ Height, Question 3 Reference Quantity Tracking (Drink 2/5 first, and leave 3/5), Question 4 Two-way Calculation of Graphs + Equations<br/>· Simulation 4 is more comprehensive than Simulation 1/2/3: new questions on circles, three-dimensional sections, and origami patterns are added<br/>· Make good use of 75 minutes: 18 minutes for Part A → 28 minutes for Part B → 24 minutes for Part C → 5 minutes for inspection<br/>· Simulation 1 score ___/100 → Simulation 2 score ___/100 → Simulation 4 score ___/100 (Track the progress curve!)</div>
+</div>
+═══════════════ PAGE 7: Post-exam supplementary exercises ═══════════════
+<div class="pb">
+<div class="sec-title" style="font-size:16px;border-left:4px solid var(--gold);background:#FFF8E7;">Appendix: Simulation 4 Post-examination Supplementary Practice<span class="sec-marks">16 questions·For after-class consolidation</span></div>
+<div class="instruction">Instructions: The following questions are aimed at the areas where you are most likely to lose points in the full-year simulation of Simulation 4. Please complete them after the exam.</div>
+<div class="h1" style="margin-top:8px;">morenumber of digitsandestimation（total 3 question）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qs">Difficulty</th></tr>
+<tr><td class="qn">S1</td><td class="qtxt">Use 5, 0, 0, 9, 0, 0, 2, 8 to form the largest eight-digit number that can read "two zeros".<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S2</td><td class="qtxt">In a nine-digit number, the billion digit is 3, the tens and millions digits are both 0, and the hundreds of thousands digit is 7. There are only two "zeros" read out, and the remaining numbers are different and as large as possible. What is this number?<div class="ans-lines" style="min-height:85px;"></div></td><td class="qs">🏔️</td></tr>
+<tr><td class="qn">S3</td><td class="qtxt">Approximate 23,568,917 to (a) tens of thousands (b) millions. Which one is closer to the original number?<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌿</td></tr>
+</table>
+<div class="h1" style="margin-top:8px;">areaspecial topic（total 4 question）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qs">Difficulty</th></tr>
+<tr><td class="qn">S4</td><td class="qtxt">The parallelogram has a base of 15 cm and a height of 8 cm. Area = ?<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌱</td></tr>
+<tr><td class="qn">S5</td><td class="qtxt">Trapezoidal area 90 cm², height 6 cm. The upper sole is 4 cm less than the lower sole. Find the upper and lower bases.<div class="ans-lines" style="min-height:85px;"></div></td><td class="qs">🌳</td></tr>
+<tr><td class="qn">S6</td><td class="qtxt">The side length of a square increases by 2 cm and its area increases by 20 cm². Side length of the original square = ?<div class="ans-lines" style="min-height:80px;"></div></td><td class="qs">🏔️</td></tr>
+<tr><td class="qn">S7</td><td class="qtxt">The L shape is divided into A (12×5 cm) and B (4×8 cm). Total area = ?<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+</table>
+</div>
+═══════════════ PAGE 8: Supplementary exercises continued ═══════════════
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">fractionanddecimal（total 5 question）</div>
+  <div class="warn">⚠️ SSPA終極提示：呈分試最鐘意將兩個陷阱疊加！做模擬卷時，每題問自己：「呢題有咩陷阱？」然後用口訣破解！做完一定要檢查：有冇進退位錯？有冇單位寫漏？有冇公式撈亂？</div>
+
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qs">Difficulty</th></tr>
+<tr><td class="qn">S8</td><td class="qtxt"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span> − <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">4</span></span> = ？<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌱</td></tr>
+<tr><td class="qn">S9</td><td class="qtxt">2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> × 1<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">5</span></span> = ？<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S10</td><td class="qtxt">Calculate 1.25 ÷ 0.4 = ? (write down the steps)<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S11</td><td class="qtxt">There are 120 pieces in a box of candy.<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>is red,<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>is green, and the rest are yellow. How many yellow grains are there?<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S12</td><td class="qtxt">|||SEP||| of a number is equal to<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>. This number = ?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>. This number = ?<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌳</td></tr>
+</table>
+<div class="h1" style="margin-top:8px;">Algebraic equation＋circle＋3D shape (total 4 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qs">Difficulty</th></tr>
+<tr><td class="qn">S13</td><td class="qtxt">Simplify: 5(3<i>a</i> − 2) − 3(2<i>a</i> + 1) = ？<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S14</td><td class="qtxt">The radius of a circle is 14 cm (π ≈ 22/7). Find (a) the circumference of the circle (b) the area of ​​the circle.<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S15</td><td class="qtxt">Rectangular water tank 60×40×30 cm. Fill it with water and pour it into a cube water tank (side length 40 cm). Will the water overflow? How high is the water level?<div class="ans-lines" style="min-height:85px;"></div></td><td class="qs">🌳</td></tr>
+<tr><td class="qn">S16</td><td class="qtxt">The cube water tank has a side length of 20 cm and contains<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>water. A stone with a volume of 1500 cm³ is thrown into it. Will the water overflow?<div class="ans-lines" style="min-height:85px;"></div></td><td class="qs">🏔️</td></tr>
+</table>
+<div style="margin-top:16px; padding:10px 14px; background:#FFFBEB; border:1.5px solid var(--gold); border-radius:6px; font-size:10px;">
+<strong>📝 Post-exam review record:</strong><br/>
+<div style="display:flex; gap:18px; margin-top:5px;">
+<span>Part A:____/30</span><span>Part B:____/40</span><span>Part C:____/30</span><span>Total score:____/100</span>
+</div>
+<div style="margin-top:4px;">Simulation 1→2→4 Progress Curve: ____→____→____ Most in need of strengthening: __________</div>
+</div>
+<div class="game-box"><div class="game-title">🏆 SSPA衝刺·限時挑戰</div><div class="game-desc">模擬真實SSPA考試！限時作答，每題計分。答對率達80%解鎖「SSPA戰士」勳章！</div><div class="game-action">⚡ 開始模擬考 →</div></div>
+
+</div>
+</div><!-- .container -->
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 10 pages · 49 questions | LF-P5-下-L37 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Calculate34 + 16= ? Which of the following is the correct an</td><td style="font-weight:900;color:var(--green);padding:5px 10px">50</td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Calculation:23 + 38= ? Write down the general steps and fina</td><td style="font-weight:900;color:var(--green);padding:5px 10px">61</td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Calculation: 125 × 34= ? Write out: mixed numbers → improper</td><td style="font-weight:900;color:var(--green);padding:5px 10px">4250</td></tr>
+</table>
+<div style="font-size:10px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！直接抄答案 = 呃自己 = 考試會出事！</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LF-P4-上-L07 HCF+LCM — 學生版講義</title>
+<style>
+<link rel="stylesheet" href="/docs/data/china-fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap" rel="stylesheet">
+:root { --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A; --white:#FFF; --ink:#1A1A1A; --gray:#6B7280; --lightbg:#F9FAFB; --borderc:#D1D5DB; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Noto Sans HK',sans-serif; background:#E5E5E5; color:var(--ink); font-size:13px; line-height:1.65; }
+@media print { body { background:white; font-size:10.5px; } .pb { box-shadow:none; padding:20px 30px; } .pb.cover-page { page-break-after:always; } .no-print { display:none!important; } .qt .qw { background:none; border:1px dashed #D1D5DB; } .qt td { padding:3px 5px; } .qt { font-size:10px; } .qt .qtxt { font-size:11px; } .h1 { font-size:13px; margin:10px 0 6px; } .h2 { font-size:11px; } .kp { padding:6px 9px; } .kp-rules { font-size:10px; } .ex { padding:6px 9px; } .ex-q { font-size:11px; } .warn { font-size:10px; } .mn { font-size:11px; } .et { font-size:9.5px; } }
+.container { max-width:1000px; margin:0 auto; }
+.pb { width:100%; background:var(--white); padding:32px 42px; display:flex; flex-direction:column; }
+.cover { justify-content:center; align-items:center; text-align:center; }
+.cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+.cv-badge { display:inline-block; border:1.5px solid var(--gold); color:var(--gold); padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px; margin:14px 0; }
+.cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:10px 0 5px; }
+.cv-sub { font-size:13px; color:var(--gray); margin-bottom:20px; }
+.cv-info { display:inline-block; text-align:left; background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px; padding:16px 22px; font-size:12px; line-height:1.9; }
+.cv-info b { color:var(--blue); }
+.cv-row { margin-top:20px; font-size:13px; display:flex; gap:24px; }
+.cv-row .ln { display:inline-block; width:90px; border-bottom:1px solid var(--borderc); }
+.h1 { font-family:'Noto Serif HK',serif; font-size:16px; font-weight:900; color:var(--blue); padding:6px 10px; margin:14px 0 8px; border-left:4px solid var(--gold); background:#FFFBEB; }
+.h2 { font-family:'Noto Serif HK',serif; font-size:13px; font-weight:700; color:var(--blue); margin:12px 0 5px; padding-bottom:2px; border-bottom:1px solid var(--borderc); }
+.kp { margin:8px 0; padding:10px 12px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+.kp-title { font-size:13px; font-weight:900; color:var(--blue); margin-bottom:3px; }
+.kp-rules { font-size:12px; line-height:1.7; }
+.ex { border:2px solid var(--gold); border-radius:7px; padding:10px 12px; margin:7px 0; background:#FFFDF5; }
+.ex-title { font-size:12px; font-weight:900; color:#92400E; margin-bottom:4px; }
+.ex-q { font-size:13px; font-weight:700; margin:4px 0; line-height:1.7; }
+.warn { background:#FEF2F2; border-left:3px solid var(--red); padding:5px 8px; margin:6px 0; font-size:11px; font-weight:600; color:#991B1B; }
+.mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:9px 12px; margin:6px 0; text-align:center; font-size:14px; font-weight:900; color:var(--blue); }
+.qt { width:100%; border-collapse:collapse; margin:5px 0; font-size:11.5px; }
+.qt th { background:var(--blue); color:white; padding:4px 7px; font-size:10px; font-weight:600; text-align:left; }
+.qt td { padding:5px 7px; border:1px solid var(--borderc); vertical-align:top; }
+.qt tr:nth-child(even) td { background:#FAFBFC; }
+.qt .qn { width:32px; text-align:center; font-weight:700; }
+.qt .qd { width:48px; text-align:center; font-size:10px; font-weight:700; }
+.qt .qw { min-height:80px; background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px); }
+.qt .qtxt { font-size:12.5px; line-height:1.65; }
+.d1 { background:#FEF3C7; color:#92400E; } .d2 { background:#DCFCE7; color:#166534; }
+.d3 { background:#DBEAFE; color:#1E40AF; } .d4 { background:#F3E8FF; color:#7C3AED; }
+.ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+.sh { background:#FEE2E2; color:#991B1B; }
+.et { width:100%; border-collapse:collapse; margin:5px 0; font-size:10.5px; }
+.et th { background:var(--red); color:white; padding:4px 7px; }
+.et td { padding:4px 7px; border:1px solid var(--borderc); }
+.end-note { text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid var(--borderc); font-size:10px; color:var(--gray); }
+.sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+.sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+.sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+.sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+.sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+.tc { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:7px 0; }
+.tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:12px; text-align:center; }
+.tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:12px; text-align:center; }
+.tc-w .lbl { font-size:13px; font-weight:900; color:var(--red); margin-bottom:3px; }
+.tc-r .lbl { font-size:13px; font-weight:900; color:var(--green); margin-bottom:3px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="pb cover-page cover">
+  <div class="cv-logo">霖楓學苑 · LF Academy</div>
+  <div class="cv-badge">小四 · 第 7 堂 · 學生版講義</div>
+  <div class="cv-title">HCF 與 LCM</div>
+  <div class="cv-sub">最大公因數 · 最小公倍數 · 65 分鐘 · 一對三線上課程</div>
+  <div class="cv-info">
+    <b>對應教材：</b>《小學數學新思維（第二版）》4上A冊 單元四（續）<br>
+    <b>SSPA 關聯：</b><span class="ss sh">🔴 必考</span> HCF/LCM係P4最難應用題，呈分試卷二長答每年必出<br>
+    <b>前置知識：</b>L06 倍數與因數 · 公倍數 · 公因數<br>
+    <b>本堂目標：</b>❶ 找兩個數的HCF ❷ 找兩個數的LCM ❸ 分辨HCF與LCM應用題 ❹ 「有剩餘→HCF·同步→LCM」<br>
+    <b>核心陷阱：</b>🪤 T19 有餘數用LCM（應該用HCF！）· T20 同步事件用HCF（應該用LCM！）· T21 HCF/LCM方向調轉
+  </div>
+  <div class="cv-row">
+    <span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span>
+  </div>
+</div>
+
+<div class="pb">
+  <div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">1</td><td class="qtxt">列出 12 的所有因數。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">2</td><td class="qtxt">列出 18 的所有因數。12和18的共同因數有邊幾個？</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">3</td><td class="qtxt">寫出 6 的首 6 個倍數，和 8 的首 6 個倍數。共同倍數有邊個？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">4</td><td class="qtxt">12和18的公因數中，最大係？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">5</td><td class="qtxt">6和8的公倍數中，最小係？（唔計0）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h1">二、核心知識精講 ＋ 例題練習</div>
+
+  <div class="kp">
+    <div class="kp-title">知識點一：HCF 最大公因數 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>HCF = Highest Common Factor</b> = 公因數中最大嗰個<br>
+      ② <b>找HCF步驟：</b>列出兩個數的所有因數 → 搵出共同因數 → 揀最大<br>
+      ③ 例：12的因數=1,2,3,4,6,12；18的因數=1,2,3,6,9,18 → 共同=1,2,3,6 → HCF=6<br>
+      ④ <b>HCF應用題關鍵詞：</b>「最多可以分」、「最大可以切」、「分組冇剩」<br>
+      ⑤ <b>⚠️「有剩餘」題型 = HCF！</b>例：分糖果有剩=用HCF找最多組數
+    </div>
+  </div>
+
+  <div class="kp">
+    <div class="kp-title">知識點二：LCM 最小公倍數 <span class="ss sh">🔴 SSPA</span></div>
+    <div class="kp-rules">
+      ① <b>LCM = Lowest Common Multiple</b> = 公倍數中最小嗰個（不包括0）<br>
+      ② <b>找LCM步驟：</b>列出兩個數的倍數 → 搵出共同倍數 → 揀最小（唔係0）<br>
+      ③ 例：6的倍數=6,12,18,24,30,36...；8的倍數=8,16,24,32,40... → LCM=24<br>
+      ④ <b>LCM應用題關鍵詞：</b>「下次同時」、「一齊發生」、「最少要幾多」<br>
+      ⑤ <b>⚠️「同步發生」題型 = LCM！</b>例：巴士同時開出=用LCM
+    </div>
+  </div>
+
+  <div class="ex"><div class="ex-title">例1</div><div class="ex-q">求 24 和 36 的 HCF。</div></div>
+  <div class="ex"><div class="ex-title">例2</div><div class="ex-q">求 15 和 20 的 LCM。</div></div>
+
+  <div style="text-align:center;margin:12px 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 130" width="520" height="130">
+      <rect x="15" y="10" width="240" height="105" fill="#F0F9FF" stroke="#1A3C6D" stroke-width="2.5" rx="8"/>
+      <text x="135" y="38" text-anchor="middle" font-size="15" fill="#1A3C6D" font-weight="900">HCF 最大公因數</text>
+      <text x="135" y="58" text-anchor="middle" font-size="10" fill="#6B7280">12的因數：1,2,3,4,6,12</text>
+      <text x="135" y="73" text-anchor="middle" font-size="10" fill="#6B7280">18的因數：1,2,3,6,9,18</text>
+      <text x="135" y="95" text-anchor="middle" font-size="13" fill="#DC2626" font-weight="900">共同最大 = HCF = 6</text>
+      <rect x="270" y="10" width="240" height="105" fill="#F0FDF4" stroke="#16A34A" stroke-width="2.5" rx="8"/>
+      <text x="390" y="38" text-anchor="middle" font-size="15" fill="#166534" font-weight="900">LCM 最小公倍數</text>
+      <text x="390" y="58" text-anchor="middle" font-size="10" fill="#6B7280">6的倍數：6,12,18,24,30,36...</text>
+      <text x="390" y="73" text-anchor="middle" font-size="10" fill="#6B7280">8的倍數：8,16,24,32,40...</text>
+      <text x="390" y="95" text-anchor="middle" font-size="13" fill="#DC2626" font-weight="900">共同最小 = LCM = 24</text>
+    </svg>
+  </div>
+
+  <div class="tc">
+    <div class="tc-w"><div class="lbl">🪤 P4最難應用題陷阱！</div>24粒糖分俾小朋友，<br>每人一樣多，剩6粒。<br>最多有幾多個小朋友？<br>有人用LCM計 → ❌</div>
+    <div class="tc-r"><div class="lbl">✅ 正確思路</div>有剩餘 = HCF！<br>24-6=18（實際分出）<br>18和24的HCF=6<br>→ 最多6個小朋友 ✓</div>
+  </div>
+
+  <div class="warn">⚠️ 致命陷阱：「有剩餘 → HCF」，「同步發生 → LCM」。呢兩條規則調轉 = 必定錯！P4呈分試卷二10分題就係咁失。</div>
+  <div class="warn">⚠️ HCF ≤ 較小的數。LCM ≥ 較大的數。如果計到HCF大過兩個數其中一個 = 一定錯！</div>
+</div>
+
+<div class="pb">
+  <div class="h1">三、課堂分層同步練習</div>
+  <div class="h2">🌱 基礎層（全體必做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">6</td><td class="qtxt">求 8 和 12 的 HCF。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">7</td><td class="qtxt">求 10 和 15 的 LCM。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">8</td><td class="qtxt">求 12 和 18 的 HCF，再求 LCM。（比較兩個答案！）</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">🌿 進階層（🚶🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">9</td><td class="qtxt">求 24 和 36 的 HCF 和 LCM。留意：HCF × LCM = 兩個數相乘？（驗證下！）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">10</td><td class="qtxt">把 24 粒糖和 36 塊餅乾分成相同的禮包，最多可以分幾多包？每包有幾多糖？幾多餅？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">11</td><td class="qtxt">A燈每6秒閃一次，B燈每8秒閃一次。兩燈而家一齊閃，幾多秒後會再一齊閃？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">🌳 挑戰層（🚀 選做，共 3 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">12</td><td class="qtxt">有蘋果48個、橙72個。要分成相同的果籃（每籃蘋果一樣多、橙一樣多），籃數最多幾多？每籃有幾多個蘋果？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">13</td><td class="qtxt">甲每12日理髮一次，乙每18日理髮一次。兩人今日一齊理髮，最少幾多日後再一齊？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">14</td><td class="qtxt">有一些糖，分俾8人或12人都剩3粒。呢啲糖最少有幾多粒？（雙重陷阱！先LCM再加3）</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+
+  <div class="h2">🏔️ 終極挑戰（🚀 選做，共 2 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">15</td><td class="qtxt">兩個數的HCF=6，LCM=72。如果其中一個數=24，另一個數=？</td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+    <tr><td class="qn">16</td><td class="qtxt">三條繩長24cm、36cm、48cm。要剪成相同長度的小段（冇剩），每段最長幾cm？共剪到幾多段？</td><td class="qd d4">🏔️</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">四、應用題（SSPA 文字題）</div>
+  <div class="ex"><div class="ex-title">例3</div><div class="ex-q">兩個數的HCF=4，LCM=48。其中一個數=12。搵另一個數。（提示：HCF×LCM = 兩數之積）</div></div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">17</td><td class="qtxt">課室裡，學生可排成每行8人或每行10人，都冇剩。學生最少有幾人？（HCF 定 LCM？）</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">18</td><td class="qtxt">一塊長方形紙長45cm、闊30cm。要剪成相同大小的最大正方形（冇剩），正方形邊長幾多？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">19</td><td class="qtxt">有鉛筆56支、擦膠42個。分成相同的文具包，最多幾包？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">20</td><td class="qtxt">巴士A每15分鐘一班，巴士B每25分鐘一班。7:00am同時開出。下次同時開出係幾點？一日（12小時）內同時開出幾次？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">21</td><td class="qtxt">用96朵紅花和72朵白花紮花束，每束紅花一樣多、白花一樣多，冇剩。最多可紮幾束？每束有紅花和白花各幾朵？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">五、課後功課</div>
+  <div class="h2">基礎必做（共 6 題）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H1</td><td class="qtxt">求 9 和 15 的 HCF。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H2</td><td class="qtxt">求 4 和 10 的 LCM。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H3</td><td class="qtxt">求 16 和 20 的 HCF 和 LCM。</td><td class="qd d1">🌱</td><td class="qw"></td></tr>
+    <tr><td class="qn">H4</td><td class="qtxt">16粒糖和24粒朱古力，分成相同的禮包，最多幾包？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">H5</td><td class="qtxt">紅燈每10秒閃一次，綠燈每15秒閃一次。同時閃完後，幾多秒後再同時閃？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+    <tr><td class="qn">H6</td><td class="qtxt">兩個數的HCF=5，LCM=60。其中一個數=15，另一個=？</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
+  </table>
+  <div class="h2">進階選做（共 2 題，🚀 選做）</div>
+  <table class="qt">
+    <tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr>
+    <tr><td class="qn">H7</td><td class="qtxt">有汽水48罐、果汁36盒，分成相同數量的組合，每種飲品一樣多。最多幾多組？</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+    <tr><td class="qn">H8</td><td class="qtxt">在一條直路上，每9米有一棵樹，每12米有一盞燈。起點有樹又有燈，幾多米後樹和燈再次在同一位置？（呢題係HCF定LCM？）</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
+  </table>
+</div>
+
+<div class="pb">
+  <div class="h1">六、本堂核心易錯點總結</div>
+  
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+    <tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr>
+    <tr><td>1</td><td><b>有剩餘用LCM</b>（P4最致命！）</td><td>「有剩餘/分組冇剩」= HCF。「同步/同時」= LCM</td></tr>
+    <tr><td>2</td><td><b>同步事件用HCF</b></td><td>同步=時間上的公倍數。LCM！例：巴士15/25分鐘→LCM=75</td></tr>
+    <tr><td>3</td><td><b>HCF>較小的數</b>：12和18的HCF=9 ❌</td><td>HCF不可能大過任何一個數！HCF≤較小的數</td></tr>
+    <tr><td>4</td><td><b>LCM<較大的數</b>：6和8的LCM=4 ❌</td><td>LCM≥較大的數！LCM至少等於較大那個數</td></tr>
+    <tr><td>5</td><td><b>有剩要減返</b>：分24粒糖剩6粒→直接用24計HCF</td><td>實際分出=24-6=18。用18和24計HCF=6</td></tr>
+    <tr><td>6</td><td><b>HCF=1當冇公因數</b></td><td>1係任何數的因數！HCF至少=1。叫「互質」</td></tr>
+    <tr><td>7</td><td><b>LCM計咗0</b></td><td>LCM唔計0！任何數×0=0但LCM搵最小正整數公倍數</td></tr>
+  </table>
+
+  <div class="mn">🧠 口訣：「有剩用HCF，同步用LCM。HCF細過數，LCM大過數。方向永遠唔會調！」</div>
+
+  <div class="h1">七、解題四步卡</div>
+  <div class="sc">
+    <div class="sc-card"><div class="snum">1</div><div class="stitle">讀題辨型</div><div class="sdetail">關鍵詞：「最多/分組/冇剩」→HCF。「同步/下次/最少次數」→LCM。</div></div>
+    <div class="sc-card"><div class="snum">2</div><div class="stitle">列清單</div><div class="sdetail">HCF：列出所有因數→搵共同。LCM：列出倍數→搵共同。</div></div>
+    <div class="sc-card"><div class="snum">3</div><div class="stitle">揀答案</div><div class="sdetail">HCF=共同中最大。LCM=共同中最小（唔計0）。檢查方向！</div></div>
+    <div class="sc-card"><div class="snum">4</div><div class="stitle">驗方向</div><div class="sdetail">HCF≤較小數？LCM≥較大數？唔啱方向=揀錯！立即修正！</div></div>
+  </div>
+
+  <div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-上-L07</div>
+</div>
+
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L07 | 47題 · HCF/LCM
+</div>
+</body>
+</html>
