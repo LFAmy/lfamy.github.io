@@ -42,7 +42,12 @@ UNICODE_MATH_MAP = {
 
 REMOVE_CHARS = str.maketrans('', '', '​‌‍‎‏⁠﻿\xa0\r')
 
-BANK_PATH = r'D:\S1\_question_bank\FINAL_MEGA_BANK.json'
+# Multiple bank paths - Render needs _deploy/data/ first
+_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_BANK_PATHS = [
+    os.path.join(_BASE, '_deploy', 'data', 'unified_bank.json'),
+    os.path.join(_BASE, '_operations', 'question_bank', 'unified_bank.json'),
+]
 
 _questions_list: list | None = None
 _questions_answered: list | None = None
@@ -72,10 +77,16 @@ def _load_bank() -> list:
     """Load question bank, return list of all questions."""
     global _questions_list
     if _questions_list is None:
-        with open(BANK_PATH, 'r', encoding='utf-8') as f:
-            raw = json.load(f)
-        _questions_list = raw['questions']
-    return _questions_list
+        raw = None
+        for bp in _BANK_PATHS:
+            if os.path.exists(bp):
+                with open(bp, 'r', encoding='utf-8') as f:
+                    raw = json.load(f)
+                break
+        if raw is None:
+            _questions_list = []
+            return _questions_list
+        _questions_list = raw['questions'] if isinstance(raw, dict) and 'questions' in raw else raw
 
 
 def _get_answered_questions() -> list:

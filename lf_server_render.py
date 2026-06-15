@@ -1045,12 +1045,28 @@ if __name__ == "__main__":
 
 
 def _load_bank():
-    """Load question bank from local unified_bank.json"""
+    """Load question bank - tries multiple paths (Render → local → engine)"""
     try:
-        bank_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_operations", "question_bank", "unified_bank.json")
-        if os.path.exists(bank_path):
-            with open(bank_path, "r", encoding="utf-8") as f:
-                return json.load(f)
+        base = os.path.dirname(os.path.abspath(__file__))
+        # Paths in priority order
+        paths = [
+            os.path.join(base, "_deploy", "data", "unified_bank.json"),
+            os.path.join(base, "_operations", "question_bank", "unified_bank.json"),
+        ]
+        for bank_path in paths:
+            if os.path.exists(bank_path):
+                with open(bank_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                # Data might be either list or dict with questions key
+                if isinstance(data, dict) and "questions" in data:
+                    q_count = len(data["questions"])
+                elif isinstance(data, list):
+                    data = {"questions": data}
+                    q_count = len(data)
+                else:
+                    q_count = 0
+                print(f"[BANK] Loaded {q_count} questions from {bank_path}", file=sys.stderr)
+                return data
         # Fallback: try engine bank
         from engines.mark_engine import _load_bank as _engine_bank
         return {"questions": _engine_bank()}
