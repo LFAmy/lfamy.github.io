@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景網格圖案 -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E8ECF0" stroke-width="0.5"/>
+    </pattern>
+    <pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1.2" fill="#D0D6DE"/>
+    </pattern>
+
+    <!-- 箭頭（右） -->
+    <marker id="arrowRight" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 L3,4 Z" fill="#4A6FA5"/>
+    </marker>
+
+    <!-- 箭頭（下） -->
+    <marker id="arrowDown" markerWidth="8" markerHeight="12" refX="4" refY="10" orient="auto">
+      <path d="M0,0 L8,0 L4,12 Z" fill="#4A6FA5"/>
+    </marker>
+
+    <!-- 卡片1：設未知數 - 放射漸變 -->
+    <radialGradient id="card1Grad" cx="30%" cy="30%" r="70%" fx="25%" fy="25%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#FFF5E6"/>
+      <stop offset="60%" stop-color="#FFE0B2"/>
+      <stop offset="85%" stop-color="#FFCC80"/>
+      <stop offset="100%" stop-color="#FFB74D"/>
+    </radialGradient>
+
+    <!-- 卡片2：列方程 - 放射漸變 -->
+    <radialGradient id="card2Grad" cx="30%" cy="30%" r="70%" fx="25%" fy="25%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#E8F5E9"/>
+      <stop offset="60%" stop-color="#C8E6C9"/>
+      <stop offset="85%" stop-color="#A5D6A7"/>
+      <stop offset="100%" stop-color="#81C784"/>
+    </radialGradient>
+
+    <!-- 卡片3：解方程 - 放射漸變 -->
+    <radialGradient id="card3Grad" cx="30%" cy="30%" r="70%" fx="25%" fy="25%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#E3F2FD"/>
+      <stop offset="60%" stop-color="#BBDEFB"/>
+      <stop offset="85%" stop-color="#90CAF9"/>
+      <stop offset="100%" stop-color="#64B5F6"/>
+    </radialGradient>
+
+    <!-- 卡片4：驗算 - 放射漸變 -->
+    <radialGradient id="card4Grad" cx="30%" cy="30%" r="70%" fx="25%" fy="25%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#F3E5F5"/>
+      <stop offset="60%" stop-color="#E1BEE7"/>
+      <stop offset="85%" stop-color="#CE93D8"/>
+      <stop offset="100%" stop-color="#BA68C8"/>
+    </radialGradient>
+
+    <!-- 卡片陰影濾鏡（雙層陰影） -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <!-- 第一層陰影（深色） -->
+      <feDropShadow dx="3" dy="4" stdDeviation="4" flood-color="#1A2A3A" flood-opacity="0.25"/>
+      <!-- 第二層陰影（擴散） -->
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1A2A3A" flood-opacity="0.12"/>
+    </filter>
+
+    <!-- 標題發光效果 -->
+    <filter id="titleGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#FAFBFC"/>
+  <rect width="600" height="400" fill="url(#grid)"/>
+  <rect width="600" height="400" fill="url(#dotGrid)" opacity="0.6"/>
+
+  <!-- 頂部裝飾條 -->
+  <rect x="0" y="0" width="600" height="6" fill="url(#card3Grad)" opacity="0.8"/>
+
+  <!-- 標題 -->
+  <text x="300" y="38" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="22" font-weight="bold" fill="#2C3E50" filter="url(#titleGlow)">
+    📐 解應用題四步曲
+  </text>
+  <text x="300" y="56" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="12" fill="#7F8C8D">
+    設未知數 → 列方程 → 解方程 → 驗算
+  </text>
+
+  <!-- ===== 卡片1：設未知數 ===== -->
+  <g filter="url(#cardShadow)">
+    <rect x="30" y="75" width="240" height="130" rx="16" ry="16" fill="url(#card1Grad)" stroke="#FFB74D" stroke-width="1.5"/>
+    <!-- 高光 -->
+    <ellipse cx="60" cy="95" rx="50" ry="20" fill="white" opacity="0.35"/>
+    <!-- 步驟標籤 -->
+    <rect x="30" y="75" width="50" height="28" rx="14" ry="14" fill="#FF9800" opacity="0.9"/>
+    <text x="55" y="94" text-anchor="middle" font-family="'Microsoft YaHei',sans-serif" font-size="13" font-weight="bold" fill="white">Step 1</text>
+    <!-- 內容 -->
+    <text x="50" y="120" font-family="'Microsoft YaHei',sans-serif" font-size="15" font-weight="bold" fill="#E65100">設未知數</text>
+    <text x="50" y="142" font-family="'Microsoft YaHei',sans-serif" font-size="12" fill="#5D4037">用字母 x 代表未知量</text>
+    <text x="50" y="162" font-family="'Microsoft YaHei',sans-serif" font-size="12" fill="#5D4037">例：設小明有 x 個蘋果</text>
+    <!-- 圖標 -->
+    <text x="220" y="115" font-size="28" text-anchor="middle">❓</text>
+  </g>
+
+  <!-- 箭頭 1→2 -->
+  <line x1="275" y1="140" x2="320" y2="140" stroke="#4A6FA5" stroke-width="2.5" marker-end="url(#arrowRight)"/>
+
+  <!-- ===== 卡片2：列方程 ===== -->
+  <g filter="url(#cardShadow)">
+    <rect x="330" y="75" width="240" height="130" rx="16" ry="16" fill="url(#card2Grad)" stroke="#81C784" stroke-width="1.5"/>
+    <ellipse cx="360" cy="95" rx="50" ry="20" fill="white" opacity="0.35"/>
+    <rect x="330" y="75" width="50" height="28" rx="14" ry="14" fill="#4CAF50" opacity="0.9"/>
+    <text x="355" y="94" text-anchor="middle" font-family="'Microsoft YaHei',sans-serif" font-size="13" font-weight="bold" fill="white">Step 2</text>
+    <text x="350" y="120" font-family="'Microsoft YaHei',sans-serif" font-size="15" font-weight="bold" fill="#1B5E20">列方程</text>
+    <text x="350" y="142" font-family="'Microsoft YaHei',sans-serif" font-size="12" fill="#2E7D32">根據題意列出等式</text>
+    <text x="350" y="162" font-family="'Microsoft YaHei',sans-serif" font-size="12" fill="#2E7D32">例：x + 5 = 12</text>
+    <text x="520" y="115" font-size="28" text-anchor="middle">📝</text>
+  </g>
+
+  <!-- 箭頭 2→3 -->
+  <line x1="300" y1="215" x2="300" y2="255" stroke="#4A6FA5" stroke-width="2.5" marker-end="url(#arrowDown)"/>
+
+  <!-- ===== 卡片3：解方程 ===== -->
+  <g filter="url(#cardShadow)">
+    <rect x="30" y="265" width="240" height="110" rx="16" ry="16" fill="url(#card3Grad)" stroke="#64B5F6" stroke-width="1.5"/>
+    <ellipse cx="60" cy="285" rx="50" ry="18" fill="white" opacity="0.35"/>
+    <rect x="30" y="265" width="50" height="28" rx="14" ry="14" fill="#2196F3" opacity="0.9"/>
+    <text x="55" y="284" text-anchor="middle" font-family="'Microsoft YaHei',sans-serif" font-size="13" font-weight="bold" fill="white">Step 3</text>
+    <text x="50" y="310" font-family="'Microsoft YaHei',sans-serif" font-size="15" font-weight="bold" fill="#0D47A1">解方程</text>
+    <text x="50" y="332" font-family="'Microsoft YaHei',sans-serif" font-size="12" fill="#1565C0">利用等式性質求解</text>
+    <text x="50" y="352" font-family="'Microsoft YaHei',sans-serif" font-size="12" fill="#1565C0">例：x = 12 − 5 = 7</text>
+    <text x="220" y="305" font-size="28" text-anchor="middle">🧮</text>
+  </g>
+
+  <!-- 箭頭 3→4 -->
+  <line x1="275" y1="320" x2="320" y2="320" stroke="#4A6FA5" stroke-width="2.5" marker-end="url(#arrowRight)"/>
+
+  <!-- ===== 卡片4：驗算 ===== -->
+  <g filter="url(#cardShadow)">
+    <rect x="330" y="265" width="240" height="110" rx="16" ry="16" fill="url(#card4Grad)" stroke="#BA68C8" stroke-width="1.5"/>
+    <ellipse cx="360" cy="285" rx="50" ry="18" fill="white" opacity="0.35"/>
+    <rect x="330" y="265" width="50" height="28" rx="14" ry="14" fill="#9C27B0" opacity="0.9"/>
+    <text x="355" y="284" text-anchor="middle" font-family="'Microsoft YaHei',sans-serif" font-size="13" font-weight="bold" fill="white">Step 4</text>
+    <text x="350" y="310" font-family="'Microsoft YaHei',sans-serif" font-size="15" font-weight="bold" fill="#4A148C">驗算</text>
+    <text x="350" y="332" font-family="'Microsoft YaHei',sans-serif" font-size="12" fill="#6A1B9A">代入答案檢驗</text>
+    <text x="350" y="352" font-family="'Microsoft YaHei',sans-serif" font-size="12" fill="#6A1B9A">例：7 + 5 = 12 ✓</text>
+    <text x="520" y="305" font-size="28" text-anchor="middle">✅</text>
+  </g>
+
+  <!-- 底部提示 -->
+  <rect x="180" y="388" width="240" height="1" fill="#D0D6DE" opacity="0.5"/>
+</svg>

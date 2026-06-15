@@ -1,0 +1,1275 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-HK" data-ai-generated="true" data-ai-model="deepseek-v4-flash" data-ai-date="2026-06-11" data-human-review="pending">
+<head><meta content="小學三年級數學練習：周界概念+公式。涵蓋周界計算 周長。霖楓學苑呈分試專家，陷阱題診斷教學法。" name="description"/><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1.0" name="viewport"/><title>小學三年級數學 周界概念+公式 | 霖楓學苑 LF Academy</title><style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #B91C1C; /* WCAG AA: 4.6:1 contrast */
+  --green: #047857; /* WCAG AA enhanced */
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11.5pt; /* Slightly larger for children */
+  --fs-small: 9.5pt; /* Minimum legibility */
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 2.0; /* More breathing room */
+  --lh-tight: 1.4;
+  --lh-answer: 2.4; /* Extra handwriting space */  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+}
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
+
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
+
+.lf-student-info .lf-si-spacer { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none; break-inside: avoid;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+
+
+  /* ════════════════════════════════════════════════════════
+     LF Academy v8.0 — Enhanced A4 Print Styles
+     新增: 學生答題空間優化 · 打印裝訂邊距 · 浮水印 · 頁碼美化
+     ════════════════════════════════════════════════════════ */
+  
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 14mm 16mm 20mm 22mm;  /* left=22mm for binding */
+    @top-right {
+      content: string(grade-header);
+      font-size: 7pt;
+      color: var(--lf-gray);
+      font-family: var(--font-heading);
+    }
+    @bottom-left {
+      content: "LF Academy | lfacademyhk.com";
+      font-size: 6.5pt;
+      color: #9CA3AF;
+    }
+    @bottom-right {
+      content: "P " counter(page);
+      font-size: 7pt;
+      color: var(--lf-gray);
+    }
+  }
+  
+  /* Grade header for page top */
+  .lf-page::before {
+    string-set: grade-header attr(data-grade);
+  }
+  
+  /* Student workspace */
+  .lf-line {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #D1D5DB 0, #D1D5DB 4px, transparent 4px, transparent 8px);
+    margin: 6pt 0 8pt 0;
+  }
+  
+  .lf-answer-space {
+    min-height: 28pt;
+    border-bottom: 1.5px dashed #D1D5DB;
+    margin: 4pt 0;
+    padding: 2pt 4pt;
+  }
+  
+  .lf-answer-lines {
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 21pt, #E5E7EB 21pt, #E5E7EB 21.5pt);
+    min-height: 64pt;
+    padding: 2pt 8pt;
+    margin: 6pt 0;
+  }
+  
+  /* Cover page */
+  .lf-cover {
+    page-break-after: always;
+  }
+  
+  /* Trap cards - ensure visibility in B&W print */
+  .lf-trap-card {
+    border: 2px solid #333 !important;
+    background: #FAFAFA !important;
+  }
+  
+  .lf-trap-wrong {
+    color: #333 !important;
+    font-weight: 700 !important;
+    text-decoration: line-through;
+  }
+  
+  .lf-trap-right {
+    color: #000 !important;
+    font-weight: 900 !important;
+    border-left: 3px solid #000;
+    padding-left: 8pt;
+  }
+  
+  /* SSPA Challenge questions */
+  .enrichment-challenge {
+    border: 2px solid #333 !important;
+    background: #FAFAFA !important;
+  }
+  
+  /* Prevent content breaks */
+  .lf-trap-card, .enrichment-challenge, .lf-ex, .lf-kp {
+    page-break-inside: avoid;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+  
+  /* Hide interactive elements */
+  .no-print, .lf-game, .lf-ai-section {
+    display: none !important;
+  }
+  
+  /* Score/name area */
+  .lf-print-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8pt 0;
+    border-bottom: 1px solid #333;
+    margin-bottom: 12pt;
+  }
+  
+  .lf-print-header .name-line {
+    display: inline-block;
+    min-width: 120pt;
+    border-bottom: 1px solid #333;
+    margin: 0 4pt;
+  }
+  
+  /* Page break before major sections */
+  .lf-sspa-section {
+    page-break-before: always;
+  }
+  
+  /* Watermark */
+  .lf-page {
+    position: relative;
+  }
+  
+  .lf-page::after {
+    content: "LF Academy";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 60pt;
+    color: rgba(0,0,0,0.03);
+    pointer-events: none;
+    z-index: -1;
+    font-family: var(--font-heading);
+    white-space: nowrap;
+  }
+
+}
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  /* v8.0 Image/SVG fix: prevent clipping */
+  img, svg, .geo-row svg, .lf-diagram img, .lf-diagram svg {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 8pt auto;
+    overflow: visible !important;
+  }
+  
+  .geo-row, .lf-diagram, figure {
+    overflow: visible !important;
+    max-width: 100%;
+  }
+  
+  /* Fix for MathJax SVG clipping */
+  mjx-container {
+    overflow: visible !important;
+  }
+  
+  mjx-container svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+
+/* ===========================================================
+   LF Academy v8.0 — MIMO v2.5 Enhanced Design System
+   =========================================================== */
+
+/* Enhanced Educational Blocks */
+.lf-why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-why-box::before{content:"💡 WHY?";font-weight:900;font-size:9pt;color:#0369A1;letter-spacing:2pt;display:block;margin-bottom:8pt;}
+.lf-sspa-tag{display:inline-flex;align-items:center;gap:4pt;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534;}
+.lf-trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-trap-warning::before{content:"⚠️ 陷阱提醒：";font-weight:700;color:#B45309;}
+.lf-story-context{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-story-context::before{content:"📖 生活情境";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt;}
+.lf-parent-summary{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt;}
+.lf-parent-summary::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt;}
+.lf-learning-target{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-learning-target::before{content:"🎯 本課學習目標";font-weight:700;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt;}
+.lf-key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0;}
+.lf-key-point::before{content:"★ 重點";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt;}
+.visual-card{background:white;border:1pt solid rgba(91,125,177,.15);border-radius:10pt;padding:16pt;margin:12pt 0;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;break-inside:avoid;}
+.lf-answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:12pt 0;transition:border-color .2s;}
+.lf-student-info input:focus,.lf-answer-line:focus-within{outline:2px solid #0369A1;outline-offset:1px;}
+a:focus-visible,button:focus-visible{outline:2px solid #0369A1;outline-offset:2px;}
+.math-number{font-weight:700;color:#1A3C6D;font-variant-numeric:tabular-nums;}
+@media screen and (max-width:800px){.lf-page{width:auto;margin:0;padding:10mm 12mm;box-shadow:none;}}
+@media print{.lf-page{width:auto;min-height:auto;margin:0;padding:12mm 15mm 18mm 20mm;box-shadow:none;}.visual-card{background:white!important;box-shadow:none!important;border:1pt solid #E5E7EB!important;break-inside:avoid;}.screen-only{display:none!important;}}
+</style><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P3 講義",
+      "item": "https://lfamy.github.io/講義/P3/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "周界概念+公式"
+    }
+  ]
+}</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "educationalLevel": "P3",
+  "about": "香港小學數學",
+  "creativeWorkStatus": "Published",
+  "usageInfo": "AI-generated content with human SME review per 1EdTech Best Practices",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "霖楓學苑 (LF Academy)"
+  }
+}
+</script>
+<!-- === LF Graphics Engine === -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="../../docs/data/lf-graphics.js"></script>
+<style>
+.math-diagram { max-width:100%; height:auto; margin:10px auto; display:block; border-radius:8px; }
+.chart-wrap { max-width:500px; margin:15px auto; }
+.chart-wrap canvas { width:100% !important; }
+.svg-shape { display:inline-block; vertical-align:middle; }
+</style>
+<!-- === END Graphics Engine === -->
+
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<!-- STORY CONTEXT (auto-injected) -->
+<div class="story-box" style="background:linear-gradient(135deg,#FFF5E6,#FFF0F0);border-left:4px solid #FF6B6B;border-radius:0 12px 12px 0;padding:16px 20px;margin:12px 0;font-size:15px;line-height:1.6;">
+🌳 花園圍欄！花園係長方形，長 12 米、闊 8 米。「要圍幾多米嘅籬笆？」💡 周界 = (長 + 闊) × 2！
+</div>
+<div class="story-context" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:2px solid #16A34A;border-radius:12px;padding:16px 20px;margin:14px 0;">
+<div style="font-weight:900;color:#166534;font-size:14px;margin-bottom:8px;">📖 故事情境</div>
+<div style="font-size:12px;color:#374151;line-height:1.9;">
+🏟️ <b>設計師大挑戰！</b><br/>
+學校要起一個新操場。校長問同學：「如果操場係長方形，長 50 米、闊 30 米，要鋪幾多平方米嘅地墊？」<br/>
+小明舉手話：「我知道！長 × 闊 = 50 × 30 = 1,500 平方米！」<br/>
+校長又問：「咁操場外圍要起圍欄，要幾多米？」小美即刻答：「(50+30) × 2 = 160 米！」<br/>
+<em style="color:#166534;">今日我哋一齊嚟學各種圖形嘅面積、周界同體積計算！</em>
+</div>
+</div>
+<!-- 情境插圖 -->
+<div style="text-align:center;margin:20px 0;padding:12px;background:linear-gradient(135deg,#FEF3C7,#FEF9C3);border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+  <img src="/講義/_svg/scene_playground.svg" alt="情境插圖" style="max-width:100%;height:auto;max-height:200px;border-radius:8px;object-fit:contain;" loading="lazy" />
+</div>
+
+<!-- LF Academy | AI-enhanced v3 | provenance: DeepSeek -->
+<div style="text-align:center;margin:24px 0;padding:16px;background:#F9FAFB;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+  <img src="/講義/_svg/ds_P4_周界與面積.svg" alt="教學圖解" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  
+</div>
+
+
+<!-- END STORY CONTEXT -->
+<!-- LEARNING OBJECTIVES (auto-injected) -->
+<div class="learning-obj-box" style="background:linear-gradient(135deg,#F0FDF4,#ECFDF5);border-left:4px solid #4ECDC4;border-radius:0 12px 12px 0;padding:12px 16px;margin:12px 0;">
+<strong style="color:#2C3E50;">🎯 學習目標 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 用公式計算各圖形的周界</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 處理不規則圖形的周界</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<!-- END LEARNING OBJECTIVES -->
+
+
+
+<!-- VISUAL ILLUSTRATION (auto-injected) -->
+<div class="visual-card" style="background:linear-gradient(135deg,#FFF8F0,#F0F4FF);border-radius:16px;padding:20px;margin:16px 0;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+<div class="visual-illustration" data-svg-idx="5">
+  <h3>長方形面積周界</h3>
+  
+<svg viewBox="0 0 240 160" width="240" height="160" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  
+  <!-- Rectangle -->
+  <rect x="30" y="20" width="180" height="100" fill="url(#grid)" stroke="#FF6B6B" stroke-width="2.5" rx="3"/>
+  
+  <!-- Dimensions -->
+  <!-- Length arrow (top) -->
+  <line x1="30" y1="10" x2="210" y2="10" stroke="#4ECDC4" stroke-width="1.5"/>
+  <line x1="30" y1="7" x2="30" y2="13" stroke="#4ECDC4" stroke-width="1.5"/>
+  <line x1="210" y1="7" x2="210" y2="13" stroke="#4ECDC4" stroke-width="1.5"/>
+  <text x="120" y="8" text-anchor="middle" font-family="Baloo 2,sans-serif" font-size="13" fill="#4ECDC4" font-weight="600">長 = 12 cm</text>
+  
+  <!-- Width arrow (right) -->
+  <line x1="220" y1="20" x2="220" y2="120" stroke="#FFD93D" stroke-width="1.5"/>
+  <line x1="217" y1="20" x2="223" y2="20" stroke="#FFD93D" stroke-width="1.5"/>
+  <line x1="217" y1="120" x2="223" y2="120" stroke="#FFD93D" stroke-width="1.5"/>
+  <text x="232" y="75" text-anchor="start" font-family="Baloo 2,sans-serif" font-size="13" fill="#B8860B" font-weight="600">闊</text>
+  <text x="232" y="90" text-anchor="start" font-family="Baloo 2,sans-serif" font-size="11" fill="#B8860B">5cm</text>
+  
+  <!-- Area label -->
+  <text x="120" y="78" text-anchor="middle" font-family="Baloo 2,sans-serif" font-size="18" fill="#FF6B6B" font-weight="700" opacity="0.3">面積 = 60 cm²</text>
+  
+  <!-- Perimeter around -->
+  <text x="120" y="138" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#5A6C7D">周界 = (12+5)×2 = 34 cm</text>
+</svg>
+  <div class="code">&lt;!-- include: svg/rectangle-geo.svg --&gt;</div>
+</div>
+<!-- END VISUAL ILLUSTRATION -->
+
+<div class="lf-page"><div class="lf-cover">
+<div class="lf-cover-logo">霖楓學苑 · LF Academy</div>
+<div class="lf-cover-grade">小三 · 第 41 堂 · 學生版講義</div>
+<div class="lf-cover-title">周界概念＋公式</div>
+<div class="lf-cover-subtitle">封閉圖形一周的長度 · 正方形長方形周界公式 · 65 分鐘 · 一對三線上課程</div>
+<div class="lf-cover-info"><b>對應教材：</b>《小學數學新思維（第二版）》3下B冊<br/>
+<b>SSPA 關聯：</b><span class="lf-sspa-badge lf-sspa-high">🔴 必考</span> 周界係呈分試幾何題基礎，P4 面積必用<br/>
+<b>前置知識：</b>長度單位（cm·m）· 正方形長方形認識 · 加法<br/>
+<b>本堂目標：</b>❶ 理解「周界 = 繞圖形一周的長度」 ❷ 正方形周界公式 ❸ 長方形周界公式<br/>
+<b>核心陷阱：</b>🪤 T10 周界 vs 面積混淆 · T11 長方形漏 ×2 · T12 唔記得加返所有邊</div>
+<div class="lf-cover-row"><span>學生姓名：<span class="lf-line"></span></span><span>班級：<span class="lf-line"></span></span><span>日期：<span class="lf-line"></span></span><span>完成時長：<span class="lf-line"></span></span></div>
+</div><div>
+  <div class="lf-parent-summary">
+    <div class="lf-ps-title">家長30秒摘要</div>
+<div class="lf-story">
+<div class="lf-story-title">🏠 香港公園歷險記</div>
+<div class="story-body">
+<p>小明同小美去咗維多利亞公園玩，佢哋見到一個好大嘅花圃。小明話：「呢個花圃有幾大呢？」小美笑住話：「我哋學過<b>面積公式</b>㗎嘛！但係個花圃形狀好奇怪——幾個形狀拼埋一齊！」</p><p>小明抓晒頭：「咁點計呀？」小美話：「今日老師就係教我哋點樣<b>拆開佢，逐個計，再加埋</b>！」</p><p>💡 <b>今日我哋一齊學識點樣處理組合圖形啦！</b></p>
+</div>
+</div>
+
+    本堂重點：<span class="lf-ps-tag trap">陷阱破解</span><span class="lf-ps-tag goal">掌握關鍵概念</span><span class="lf-ps-tag sspa">呈分試關聯</span><span class="lf-ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="lf-h1">一、熱身啟動題 （5 分鐘）（共 5 題，5 分鐘）</div>
+  <div class="lf-game"><div class="lf-game-title">🏆 陷阱獵人·計時挑戰</div><div class="lf-game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！留意題目中嘅「陷阱關鍵字」— 佢會話你知邊度最易出錯！</div><div class="lf-game-action">⭐ 開始挑戰 →</div></div>
+
+  <div class="lf-story"><div class="lf-story-title">🏟️ 學校運動場</div>學校要喺足球場周圍種樹。足球場長100米闊60米，周界係幾多？(100+60)×2=320米！每5米種一棵樹，要種幾多棵？</div>新起嘅熊貓館係長方形，長15米闊8米。設計師要鋪地板，需要幾多平方米嘅木板？面積=長×闊，即刻計到！</div>海洋公園 —「熊貓館佔地幾多平方米？用面積公式計吓！」</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">1</td><td>用間尺度課本封面的四邊，加埋一齊就係咩？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">2</td><td>正方形有幾多條邊？每條邊長度有咩關係？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">3</td><td>長方形有幾多條邊？邊條同邊條一樣長？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">4</td><td>用軟尺度一個圓形杯蓋嘅邊緣一周，呢個長度叫咩？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">5</td><td>一個正方形邊長 5cm，佢嘅周界係？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table><div class="lf-h1">二、核心知識精講 （15 分鐘） ＋ 例題練習</div><div class="lf-kp"><div class="lf-kp-title">知識點一：周界概念 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <b>周界（Perimeter）</b>= 繞着封閉圖形一周的總長度<br/>②「封閉」= 頭尾相連，冇開口<br/>③ 周界嘅單位同長度一樣：cm、m<br/>④ 例：用軟尺度正方形一周 = 20cm → 周界 = 20cm<br/>⑤ <b>關鍵：</b>周界係「圍一圈」嘅長度，唔係「入面」嘅面積！</div></div>
+
+<div class="lf-why">
+<div style="font-weight:900;color:#166534;font-size:14px;margin-bottom:6px;">WHY BOX：周界 = 圖形的邊界線總長度，不是面積！</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>周界是線，不是面！</b>用繩子沿邊緣圍一圈的長度。<br/>
+周界 → cm, m（長度單位），面積 → cm², m²（面積單位）<br/>
+<b>考試陷阱：</b>題目給周界求面積 → 先找關鍵長度！<br/>
+<em style="color:#6B7280;">正方形周界=4×邊長，面積=邊長²。兩者相關但不同！</em>
+</div>
+</div>
+<div class="lf-tip">💡 周界=圍繞圖形一周的總長度。正方形周界=4×邊長；長方形周界=2×(長+闊)。計算時確保所有邊長的單位一致！</div>
+
+<div class="lf-kp"><div class="lf-kp-title">知識點二：正方形周界公式 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <div style="text-align:center;margin:10px 0;"><svg style="max-width:230px;width:100%;height:auto;display:block;margin:8px auto;" viewBox="0 0 230 220" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#DBEAFE" height="150" rx="2" stroke="#1A3C6D" stroke-width="2.5" width="150" x="20" y="20"></rect>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="90.0" x2="100.0" y1="12" y2="12"></line>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="90.0" x2="100.0" y1="188" y2="188"></line>
+<line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="20" x2="170" y1="35" y2="35"></line>
+<line stroke="#6B7280" stroke-width="1" x1="20" x2="20" y1="30" y2="40"></line>
+<line stroke="#6B7280" stroke-width="1" x1="170" x2="170" y1="30" y2="40"></line>
+<text fill="#6B7280" font-family="Noto Sans HK,sans-serif" font-size="10" text-anchor="middle" x="95.0" y="49">6 cm</text>
+</svg></div>
+正方形 4 條邊一樣長<br/>② 公式：<b>周界 = 邊長 × 4</b><br/>③ 例：邊長 6cm → 周界 = 6×4 = 24cm<br/>④ 反推：周界 ÷ 4 = 邊長（考試必考逆向題！）<br/>⑤ 口訣：「正方形，四邊等，邊長 ×4 就係周界！」</div></div><div class="lf-kp"><div class="lf-kp-title">知識點三：長方形周界公式 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <div style="text-align:center;margin:10px 0;"><svg style="max-width:330px;width:100%;height:auto;display:block;margin:8px auto;" viewBox="0 0 330 170" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#DBEAFE" height="100" rx="2" stroke="#1A3C6D" stroke-width="2.5" width="250" x="20" y="20"></rect>
+<line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="20" x2="270" y1="35" y2="35"></line>
+<line stroke="#6B7280" stroke-width="1" x1="20" x2="20" y1="30" y2="40"></line>
+<line stroke="#6B7280" stroke-width="1" x1="270" x2="270" y1="30" y2="40"></line>
+<text fill="#6B7280" font-family="Noto Sans HK,sans-serif" font-size="10" text-anchor="middle" x="145.0" y="49">10 cm</text>
+<line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="288" x2="288" y1="20" y2="120"></line>
+<line stroke="#6B7280" stroke-width="1" x1="283" x2="293" y1="20" y2="20"></line>
+<line stroke="#6B7280" stroke-width="1" x1="283" x2="293" y1="120" y2="120"></line>
+</svg></div>
+長方形有長（length）和闊（width）<br/>② 兩條長一樣，兩條闊一樣<br/>③ 公式：<b>周界 =（長 + 闊）× 2</b><br/>④ 例：長 8cm、闊 3cm →（8+3）×2 = 22cm<br/>⑤ 口訣：「長方形，長加闊，乘 2 之后就係周界！」</div></div><div class="lf-ex"><div class="lf-ex-title">例1</div><div class="lf-ex-q">一個正方形花圃邊長 7m。用鐵絲圍一圈要幾長？</div></div><div class="lf-ex"><div class="lf-ex-title">例2</div><div class="lf-ex-q">長方形畫板長 12cm、闊 8cm。周界係幾多？</div></div><div class="lf-ex"><div class="lf-ex-title">例3</div><div class="lf-ex-q">一個正方形周界係 36cm，邊長係幾多？</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 陷阱引爆</div>正方形邊長 5cm，周界 = 5+5 = 10cm？<br/><b>❌ 錯！</b>正方形有四條邊！</div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確做法</div>正方形邊長 5cm<br/>周界 = 5×4 = 20cm ✓<br/>4 條邊都要計！</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 陷阱引爆</div>長方形長 6cm、闊 4cm<br/>周界 = 6+4 = 10cm？<br/><b>❌ 錯！</b>唔記得 ×2！</div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確做法</div>長方形長 6cm、闊 4cm<br/>周界 = (6+4)×2 = 20cm ✓<br/>長加闊之後要乘 2！</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 陷阱引爆</div>一個不規則五邊形，用尺<br/>逐條邊量：3+5+4+6+4=22？<br/><b>✅ 啱！</b>周界就係加晒所有邊！</div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確做法</div>周界 = 加晒所有邊的總和<br/>規則形狀用公式<br/>不規則形狀就逐條邊加！</div></div><div class="warn">⚠️ 周界係「圍一圈」，面積係「入面大細」。唔好撈亂！考試成日將兩者放同一題考你。</div><div class="warn">⚠️ 長方形公式 (長+闊)×2，入面嘅括號唔可以漏！先加後乘。</div><div class="warn">⚠️ 三角形周界都係三條邊相加。任何封閉圖形一周總長 = 周界，唔理形狀規則唔規則。</div></div><div><div class="lf-h1">三、課堂分層同步練習 （20 分鐘）</div><div class="lf-h2">🌱 基礎層（共 6 題） 基礎層（全體必做）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">6</td><td>正方形邊長 4cm，周界 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">7</td><td>長方形長 7cm、闊 2cm，周界 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">8</td><td>正方形邊長 9cm，周界 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">9</td><td>長方形長 5cm、闊 5cm，呢個係咩形狀？周界 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">10</td><td>一個三角形三條邊分別係 3cm、4cm、5cm，周界 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">11</td><td>正方形周界 40cm，邊長 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🌿 進階層（共 5 題） 進階層（🚶🚀 選做）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">12</td><td>長方形周界 30cm，長 10cm，闊 = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">13</td><td>一塊長方形地毯長 3m、闊 2m。周邊要縫花邊，花邊要幾長？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">14</td><td>兩個正方形邊長分別 5cm 和 3cm，拼成一個長方形。新周界 = ？（提示：唔係兩者相加！）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">15</td><td>一個正方形周界 48cm，邊長係？如果邊長增加 2cm，新周界係？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">16</td><td>長方形長 12cm、闊係長嘅一半。周界 = ？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🌳 挑戰層（共 5 題） 挑戰層（🚀 選做）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">17</td><td>長方形周界 100cm，長比闊多 10cm。長和闊各係幾多？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">18</td><td>一個長方形被分成兩個正方形，每個正方形周界 24cm。原長方形周界係？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">19</td><td>兩個相同長方形拼成一個大正方形。長方形長 8cm，大正方形周界係？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">20</td><td>長 20m、闊 12m 嘅地面，用邊長 50cm 嘅地磚鋪邊界，需要幾多塊？（提示：單位要統一！）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">21</td><td>長方形周界同正方形周界一樣。長方形長 14cm、闊 10cm。正方形邊長係？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🏔️ 極限層（共 2 題） </div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">22</td><td>一個 L 形圖形由兩個長方形拼成（6×4 和 4×2），重疊部分為 2×2。周界 = ？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">23</td><td>一條 200m 嘅繩剛好圍一個正方形花圃兩圈。花圃邊長係？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">四、應用題 （12 分鐘）（SSPA 文字題，共 {len(word_probs)} 題）</div>{qt_table(word_probs)}</div><div><div class="lf-h1">五、課後功課 （課後完成）</div><div class="lf-h2">基礎必做（共 9 題）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">H1</td><td>正方形邊長 8cm，周界 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H2</td><td>長方形長 9cm、闊 4cm，周界 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H3</td><td>三角形三邊 6cm、8cm、10cm，周界 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H4</td><td>正方形周界 60cm，邊長 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H5</td><td>長方形周界 44cm，長 14cm，闊 = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H6</td><td>正方形邊長 12cm，周界同面積一樣大嗎？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H7</td><td>一個正方形周界 32cm。邊長增加 3cm 後，新周界 = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H8</td><td>長方形長 15cm、闊係長嘅 1/3。周界 = ？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H9</td><td>兩個長方形（長 10cm、闊 4cm）拼成新圖形，周界最細可以係？（提示：重疊最長嘅邊）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table><div class="lf-h2">進階選做（共 5 題 🚀）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">H10</td><td>正方形周界 28cm。用 4 個咁嘅正方形拼成一個大正方形，大正方形周界係？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H11</td><td>一條鐵絲 60cm 長，剛好圍成一個長方形。長係闊嘅 2 倍，長闊各係？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H12</td><td>長方形周界 80cm，長 25cm。如果長減少 5cm，闊要增加幾多先令周界不變？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H13</td><td>一個 L 形圖形周界：兩個長方形（5×3 和 4×2）拼成 L 形。周界 = ？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H14</td><td>用一條固定長度嘅繩圍出一個長方形。長=闊（即正方形）時，周界有咩變化？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">六、本堂核心易錯點總結 （8 分鐘）</div><div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div></div>
+<table class="et"><tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr><tr><td>1</td><td><b>周界 vs 面積概念混淆</b></td><td>周界係圍一圈嘅長度（邊界），面積係入面嘅大細（內部）。記住：周界用長度單位 cm/m，面積用平方單位 cm²/m²。</td></tr><tr><td>2</td><td><b>長方形公式漏乘 2</b></td><td>周界 = 長+闊+長+闊 = (長+闊)×2。成日有人寫 長+闊 就停咗！</td></tr><tr><td>3</td><td><b>唔記得正方形四邊相等</b></td><td>正方形四邊一樣長，所以周界 = 邊長×4。唔好逐條邊加！</td></tr><tr><td>4</td><td><b>計咗部分邊唔係全部邊</b></td><td>周界一定要計齊所有邊！每個凸出嘅邊都要計，唔可以漏。</td></tr><tr><td>5</td><td><b>逆向題唔識做</b></td><td>俾周界求邊長：正方形邊長 = 周界÷4；長方形長 = 周界÷2−闊。</td></tr><tr><td>6</td><td><b>單位混亂</b></td><td>長度和周界用 cm/m。留意題目單位係 cm 定 m，唔好混用！</td></tr><tr><td>7</td><td><b>拼砌圖形重複計邊</b></td><td>兩個圖形拼埋一齊，重疊嘅邊唔計入新周界。拼得越多，慳嘅邊越多！</td></tr></table><div class="mn">🧠 口訣：「正方形四邊等，邊長×4就係周界！長方形長加闊，乘2之后就係周界！周界係圍一圈，唔係入面嘅面積！積分邊界要分清！」</div><div class="lf-h1">七、解題四步卡</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">搵周界</div><div class="sdetail">確認圖形封閉，逐條邊度長度</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">選公式</div><div class="sdetail">規則形狀用公式，不規則形狀逐邊加</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">代入計算</div><div class="sdetail">小心單位，齊晒所有邊先寫答案</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">覆檢</div><div class="sdetail">逆推：周界÷4=邊長（正方形）；(長+闊)×2=周界（長方形）</div></div></div>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「周界概念＋公式」</b>。 重點：❶ 理解「周界 = 繞圖形一周的長度」 ❷ 正方形周界公式 ❸ 長方形周界公式。<br/>
+<b>最易錯嘅 3 個陷阱：</b> 🪤 T10 周界 vs 面積混淆 · T11 長方形漏 ×2 · T12 唔記得加返所有邊<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「周界概念＋公式」嘅最重要口訣俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+<div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P3-下-L41 · 相關課題：L42 面積入門 · P4 L11 面積進階</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 LF-P3-下-L41 · 相關課題：L42 面積入門 · P4 L11 面積進階</div></div></div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">Ctrl+P | LF-P3-下-L41 · 相關課題：L42 面積入門 · P4 L11 面積進階</div>
+
+<div class="lf-h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="lf-parent-summary"><div class="lf-ps-title">📝 答案快查</div>
+<table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="lf-qn">1</td><td style="font-size:11px">用間尺度課本封面的四邊，加埋一齊就係咩？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">2</td><td style="font-size:11px">正方形有幾多條邊？每條邊長度有咩關係？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">3</td><td style="font-size:11px">長方形有幾多條邊？邊條同邊條一樣長？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">4</td><td style="font-size:11px">用軟尺度一個圓形杯蓋嘅邊緣一周，呢個長度叫咩？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">5</td><td style="font-size:11px">一個正方形邊長 5cm，佢嘅周界係？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">17</td><td style="font-size:11px">長方形周界 100cm，長比闊多 10cm。長和闊各係幾多？</td><td style="font-weight:900;color:var(--green);padding:5px 10px;font-size:12px">90</td></tr>
+</table>
+<div style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！🟢=自動計算 🟡=請向老師確認</div>
+</div>
+
+<div style='text-align:center;margin:20px 0'><img src='/講義/_svg/tkz_triangle.svg' style='max-width:100%;height:auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08)' alt='tkz_triangle'></div>
+
+<div class="lf-h1"> <div class="lf-h1"><span>🪤</span> 陷阱診斷專區 — 高品質陷阱題</div>
+    <p>以下題目來自霖楓教研團隊精心設計，每題針對一個常見考試陷阱。做完即知你的陷阱弱項！</p>
+    <div class="lf-trap-section">
+        <div class="lf-trap-card" data-trap="T1" data-hq-id="LF-T1-AUTO">
+            <div class="lf-trap-header">
+                <span class="lf-trap-badge">T1</span>
+                <span class="lf-trap-diff">⭐⭐</span>
+                <span class="lf-trap-id">LF-T1-AUTO</span>
+            </div>
+            <div>
+                <div class="lf-trap-q">正方形邊長5cm，周界=?</div>
+                <div class="lf-trap-wrong">
+                    <span class="lf-ex-label">常見錯誤</span>
+                    <span >5×5=25cm。</span>
+                </div>
+                <div class="lf-trap-right">
+                    <span class="lf-ex-label">正確思路</span>
+                    <span >周界=5×4=20cm。5×5=25係面積，唔係周界！周界=邊長加晒（5+5+5+5）=4×邊長。</span>
+                </div>
+                <div class="lf-trap-note">💡 周界=加（邊長和），面積=乘（長×闊）！</div>
+            </div>
+        </div>
+    </div>
+<div class="lf-h1">AI 智能補充練習</div>
+<div style="background:linear-gradient(135deg,#F0F9FF,#EFF6FF);border:2px solid #3B82F6;border-radius:10px;padding:14px 18px;margin:10px 0;">
+<div class="lf-ex"><div class="lf-ex-title">🪤 陷阱引爆例題 1</div><div class="lf-ex-q">一個長方形操場的長是25米，闊是12米。小明沿著操場邊緣跑了1圈，他跑了多少米？</div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>37米<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生只計算了長加闊（25+12=37），忘記了長方形周界公式是（長+闊）×2，所以只計了半圈。</div></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>74米<div style="font-size:9pt;color:#14532D;margin-top:4pt;">步驟1：寫出長方形周界公式：周界 =（長+闊）×2。步驟2：長=25米，闊=12米，先計算長+闊=25+12=37米。步驟3：再乘以2，37×2=74米。所以小明跑了74米。</div></div></div><div style="font-size:9pt;color:#6B7280;margin-top:4pt;font-style:italic;">💡 陷阱：記得要將長加闊的和乘以2，不要只加一次。</div></div>
+<div class="lf-ex"><div class="lf-ex-title">🪤 陷阱引爆例題 2</div><div class="lf-ex-q">一個正方形花圃的邊長是8米，工人叔叔要在花圃四周圍上籬笆，籬笆總長是多少米？</div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>16米<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生誤用了長方形周界公式（8+8）×2=16，但正方形四邊相等，正確公式是邊長×4，學生混淆了公式。</div></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>32米<div style="font-size:9pt;color:#14532D;margin-top:4pt;">步驟1：正方形周界公式：周界 = 邊長×4。步驟2：邊長=8米，所以8×4=32米。籬笆總長是32米。</div></div></div><div style="font-size:9pt;color:#6B7280;margin-top:4pt;font-style:italic;">💡 陷阱：正方形四邊相等，直接用邊長×4，不要誤用長方形公式。</div></div>
+<div class="lf-ai-section"><div class="lf-ai-title">🎯 AI自動生成 · 課外延伸練習</div>
+<table class="lf-qt"><tr><th>#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="lf-qn">1</td><td>454+382=?</td><td style="color:#16A34A;font-weight:700;">836</td></tr>
+<tr><td class="lf-qn">2</td><td>299+70=?</td><td style="color:#16A34A;font-weight:700;">369</td></tr>
+<tr><td class="lf-qn">3</td><td>122÷12=?</td><td style="color:#16A34A;font-weight:700;">10...2</td></tr>
+</table></div></div>
+
+<!-- ENRICHMENT: Advanced Trap Cards -->
+<section class="lf-trap-section enrichment-section" style="margin-top:32pt; border-top:2px solid var(--lf-gold); padding-top:16pt;">
+<h2 class="lf-h2">🚨 P3 進階陷阱卡 — 必避！</h2>
+<div class="lf-trap-card enrichment-trap" style="margin-bottom:16pt; border-left:4px solid var(--red); padding:12pt 16pt; background:#FFF5F5; border-radius:4pt;">
+<div class="lf-trap-header"><span class="lf-trap-badge" style="background:var(--red); color:#fff; padding:2pt 8pt; border-radius:3pt; font-size:9pt; font-weight:700;">陷阱 1</span><span class="lf-trap-diff" style="color:var(--red); font-weight:700;">⚠ 高危錯誤</span></div>
+<div style="margin-top:8pt;"><div class="lf-trap-wrong" style="color:var(--red); font-weight:500;">❌ 錯誤：周界 = 長 + 闊</div>
+<div style="color:var(--gray); font-size:10pt; margin:4pt 0;">🤔 為何會錯：</div>
+<div class="lf-trap-right" style="color:var(--green); font-weight:700; margin-top:6pt;">✅ 正確：周界 = (長 + 闊) × 2</div>
+<div class="lf-trap-note" style="background:#FFFBE6; padding:6pt 10pt; margin-top:6pt; border-radius:3pt; font-size:10pt;">💡 長方形周界公式是(長+闊)×2，不是只加一次。</div></div></div>
+<div class="lf-trap-card enrichment-trap" style="margin-bottom:16pt; border-left:4px solid var(--red); padding:12pt 16pt; background:#FFF5F5; border-radius:4pt;">
+<div class="lf-trap-header"><span class="lf-trap-badge" style="background:var(--red); color:#fff; padding:2pt 8pt; border-radius:3pt; font-size:9pt; font-weight:700;">陷阱 2</span><span class="lf-trap-diff" style="color:var(--red); font-weight:700;">⚠ 高危錯誤</span></div>
+<div style="margin-top:8pt;"><div class="lf-trap-wrong" style="color:var(--red); font-weight:500;">❌ 錯誤：正方形的周界 = 邊長 × 3</div>
+<div style="color:var(--gray); font-size:10pt; margin:4pt 0;">🤔 為何會錯：</div>
+<div class="lf-trap-right" style="color:var(--green); font-weight:700; margin-top:6pt;">✅ 正確：正方形的周界 = 邊長 × 4</div>
+<div class="lf-trap-note" style="background:#FFFBE6; padding:6pt 10pt; margin-top:6pt; border-radius:3pt; font-size:10pt;">💡 正方形有四條相等的邊，所以周界是邊長乘以4，不是乘以3。</div></div></div>
+</section>
+<!-- ENRICHMENT: SSPA Challenge Questions -->
+<section class="enrichment-section" style="margin-top:24pt; border-top:2px solid var(--purple); padding-top:16pt;">
+<h2 class="lf-h2">🏆 P3 進階挑戰題 <span class="lf-sspa-badge lf-sspa-high" style="background:var(--purple); color:#fff; padding:2pt 8pt; border-radius:3pt; font-size:9pt;">進階級</span></h2>
+<div class="lf-ex enrichment-challenge" style="margin-bottom:20pt; border:1px solid var(--purple); border-radius:6pt; padding:16pt; background:var(--lf-light);">
+<div class="lf-ex-label" style="font-weight:700; color:var(--lf-blue); display:flex; justify-content:space-between;"><span>挑戰題 1</span><span style="color:var(--purple);">3 分 · 進階級</span></div>
+<div class="lf-ex-q" style="margin:10pt 0; font-size:11pt; line-height:1.8;">一個長方形花園的長是12米，闊是8米。小明沿着花園邊緣跑一圈，他跑了多少米？</div>
+<div class="lf-ans" style="margin-top:10pt; padding:10pt; background:#F0FDF4; border-radius:4pt; font-size:10pt;"><strong>答案：</strong>(12 + 8) × 2 = 40 (米)<br/><strong>解題：</strong></div>
+<div class="lf-line" style="height:2px; background:repeating-linear-gradient(90deg,var(--lf-border) 0,var(--lf-border) 4px,transparent 4px,transparent 8px); margin-top:12pt;"></div></div>
+<div class="lf-ex enrichment-challenge" style="margin-bottom:20pt; border:1px solid var(--purple); border-radius:6pt; padding:16pt; background:var(--lf-light);">
+<div class="lf-ex-label" style="font-weight:700; color:var(--lf-blue); display:flex; justify-content:space-between;"><span>挑戰題 2</span><span style="color:var(--purple);">3 分 · 進階級</span></div>
+<div class="lf-ex-q" style="margin:10pt 0; font-size:11pt; line-height:1.8;">一個正方形泳池的周界是36米，它的邊長是多少米？</div>
+<div class="lf-ans" style="margin-top:10pt; padding:10pt; background:#F0FDF4; border-radius:4pt; font-size:10pt;"><strong>答案：</strong>36 ÷ 4 = 9 (米)<br/><strong>解題：</strong></div>
+<div class="lf-line" style="height:2px; background:repeating-linear-gradient(90deg,var(--lf-border) 0,var(--lf-border) 4px,transparent 4px,transparent 8px); margin-top:12pt;"></div>
+</section>
+
+<!-- TSA: P3 TSA exam tips -->
+<div class="enrichment-section" style="margin-top:16pt; padding:12pt 16pt; background:#F0FDF4; border-radius:6pt; border-left:4px solid var(--green);">
+<strong>📝 TSA 應試技巧：</strong>TSA常考給出長方形或正方形圖形，要求直接計算周界。記緊先確認圖形是否已標示所有邊長，若缺少資料，要運用「對邊相等」或「正方形四邊相等」的原則找出答案。最後別忘記在數字後加上單位「cm」。
+</div>
+</div>
+<div class="lf-footer">
+<div class="parent-summary" style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:8px;padding:12px 16px;margin:16px 0;">
+<div style="font-weight:900;color:#92400E;font-size:13px;margin-bottom:6px;">📋 家長30秒摘要</div>
+<div style="font-size:11px;color:#374151;line-height:1.7;">
+<b>本堂重點：</b>掌握各種圖形公式（面積/周界/體積），理解公式來源（點解要 ÷2 / ×π），應用題解題。<br/>
+<b>常見陷阱：</b>周界同面積混淆（周界係「圍邊」、面積係「入面」）；單位唔統一就計（cm 同 m 要先轉換）；三角形/梯形忘記 ÷2。<br/>
+<b>在家練習：</b>叫小朋友量度傢俬/房間，計面積同周界。「呢個書桌長 120cm、闊 60cm，面積幾多？周界幾多？」<br/>
+<b>SSPA 關聯：</b>幾何題佔呈分試約 15-20%，圖形公式必須熟記。
+</div>
+</div>
+LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+
+<!-- AI Provenance Disclosure -->
+<div class="ai-disclosure" style="font-size:0.75rem;color:#888;border-top:1px solid #eee;margin-top:2rem;padding-top:0.5rem;text-align:center;">
+  📌 本講義由 AI 輔助生成，並經導師審閱。| 
+  AI Model: <span data-ai-model-display>deepseek-v4-flash</span> | 
+  生成日期: <span data-ai-date-display>2026-06-11</span> |
+  審閱狀態: <span data-review-status>⏳ 待審閱</span>
+</div>
+
+</body></html>

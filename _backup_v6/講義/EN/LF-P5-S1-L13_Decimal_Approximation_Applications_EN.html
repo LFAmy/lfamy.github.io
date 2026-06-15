@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S1-L13 Decimal Approximation + Applications — Student Handout v6 (EN)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:72px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:17px; color:var(--red); }
+  .tc-r .eq { font-size:17px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  /* ── DECIMAL DISPLAY ── */
+  .dc { font-size:16px; font-weight:700; color:var(--blue); }
+  .tbl-dec { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .tbl-dec th { background:var(--blue); color:white; padding:4px 6px; font-size:11px; text-align:center; }
+  .tbl-dec td { padding:4px 6px; border:1px solid var(--borderc); text-align:center; }
+  .tbl-dec .hl { background:#FFFBEB; font-weight:700; }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · 13th Lesson · Student Handout</div>
+<div class="cv-title">Decimal Approximation + Application</div>
+<div class="cv-sub">Unit 4 · decimal operations and approximation · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5, Volume A, Unit 4 + Modern Education, Volume 5, Unit 11<br/>
+<b>Core traps:</b>🪤 T2 Approximate value positioning - count one more digit before judging·Early braking<br/>
+<b>SSPA Related:</b><span class="ss sm">🟡 IF</span>Common in paper 2, estimation and approximation are compulsory questions<br/>
+<b>Prerequisite knowledge:</b>Class 12 (Decimal multiplication · Decimal place processing · Decimal point alignment)<br/>
+<b>Objective of this class:</b>❶ Master rounding to tenths/percentiles ❷ Understand "count one more digit before making a judgment" ❸ The difference between estimation and approximation ❹ Solve problems with applications</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+
+<div class="game-box"><div class="game-title">🍕 分數大作戰</div><div class="game-desc">通分、約分、四則混合！避開分母陷阱。連續答對分數翻倍！</div><div class="game-action">⚡ 開始挑戰 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space (write out complete process)</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Read 3.27 as: ______; where "2" is in the ______ position and the value is ______.</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Compare size (fill in &gt;, &lt; or =):<br/>(a) 0.7 ______ 0.70    (b) 1.05 ______ 1.5    (c) 2.30 ______ 2.3</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Multiply 4.5 by 10 = ______; multiply 4.5 by 100 = ______.<br/>Do you notice how the decimal point moves?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Calculation: 3.6 + 2.48 = ? (Pay attention to aligning the decimal points)</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">Calculation: 5.2 × 0.3 = ? (For decimal multiplication, count as an integer first and then add the decimal point)</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: Approximate decimal values ​​- round to tenths/percentiles 🟡 SSPA</div>
+<div class="kp-rules">
+<strong>Rounding method:</strong><br/>
+      ① <strong>Look at the next digit of the target bit |||SEP|||: Get to tenth place → Look at hundredth place; Get to hundredth place → Look at thousandth place</strong>Judgment rules |||SEP|||: Next digit ≧ 5 → Target digit +1 (carry); Next digit ≦ 4 → Target digit remains unchanged (removed)<br/>
+      ② <strong>Key tips |||SEP|||: "Count one more digit before making a judgment, so as not to stop early!"</strong>Note |||SEP|||: The last zero of the approximate answer must be retained (for example, 3.20 ≠ 3.2, the former is accurate to the percentile)<br/>
+      ③ <strong>Key formula</strong>: "Calculate one more person before making a judgment, so as not to brake early!"<br/>
+      ④ <strong>Notice</strong>: The last zeros of the approximate answer must be retained (for example, 3.20 ≠ 3.2, the former is accurate to the hundredth)</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪤 Example of trap detonation (the most important demonstration in this class)</div>
+<div class="ex-q">Round 4.368 to the hundredth (that is, to two decimal places).</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (braking early)</div><div class="eq">4.36 (I only saw 8 thousandths, but my judgment was wrong)<br/>Or write 4.37 directly (carry randomly)</div><div class="why">Have not mastered the "look at the last digit" rule: to get the percentile, look at the thousandth place (the 3rd place), 4.368 → the thousandth place is 8 ≧ 5 → the percentile 6+1=7</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">4.368 ≈ 4.37</div><div class="why">Take the percentile (2nd place) = 6, and look at the thousandth place (3rd place) = 8 ≧ 5, so the percentile is rounded up by 1 → 4.37</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "Look behind the target position. If it is five or more, carry it in. If it is four or less, discard it. Keep the last zero!"</div>
+<div class="warn">⚠️ The most frequent error: when calculating the tenth place, only look at the ones digit and forget to look at the hundredth place. Remember: always look at the "right one" of the target position!</div>
+<div class="warn">⚠️ The second most frequent error: the last 0 bits of the approximation result are removed. For example, 2.097 ≈ 2.10 (percentile) cannot be written as 2.1!</div>
+<div class="h2">Knowledge Point - Worked Examples (write outdetermineprocess: objective bit → which digit to look at → the digit → rounding/rounding → answer)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">Round 2.73 to the tenth place (i.e. 1 decimal place).</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt">Round 5.084 to the hundredth (that is, 2 decimal places).</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 + KP3 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 2: Application of decimal approximations - amount, length, weight 🟡 SSPA required test</div>
+<div class="kp-rules">
+<strong>Common application scenarios:</strong><br/>
+      ① <strong>Amount |||SEP|||: Hong Kong dollars are rounded to cents (tenths) or cents (percents) → Amounts in daily life are usually rounded to two decimal places</strong>Length |||SEP|||: Meters are rounded to cm (hundredths) or mm (thousandths)<br/>
+      ② <strong>Weight</strong>: Kilogram to the nearest gram (thousandth place)<br/>
+      ③ <strong>Key judgment</strong>: Confirm the unit requirements first, and then decide which digit to get<br/>
+      ④ <strong>critical judgment</strong>: Check the unit requirements first, and then decide which one to get.</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">Recognize unit</div><div class="d">Which position does the question require?</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">Target position</div><div class="d">Tenth place? Percentile?</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">Look at the last one</div><div class="d">Determine carry or discard</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">write answer</div><div class="d">Keep units and trailing zeros</div></div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 3: A rope is 3.467 m long, approximated to tenths (that is, m is taken to one decimal place).</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 4: A bag of rice weighs 2.385 kg, rounded to the nearest percentile (i.e. kg is rounded to two decimal places).</div></div>
+<div class="h2">Knowledge Point 2 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">A pencil is 18.63 cm long, rounded to the nearest tenth.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">A book weighs 0.856 kg, rounded to the nearest percentile.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">Water bottle capacity 1.275 L, rounded to the nearest percentile.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">9</td><td class="qtxt">An orange weighs 0.204 kg, rounded to the nearest tenth.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">A road is 2.951 km long, approximated to the nearest tenth.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="kp">
+<div class="kp-title">Knowledge point 3: The difference between estimation and approximation 🟡 SSPA Advanced</div>
+<div class="kp-rules">
+<strong>Estimation ≠ Approximation:</strong><br/>
+      ① <strong>Estimation |||SEP|||: Use "approximation" instead of an exact number for fast calculation, such as 3.8 × 2.1 ≈ 4 × 2 = 8</strong>3.85 (percentile)<br/>
+      ② <strong>The estimate is used "before calculation"</strong>(estimate first and then calculate),<br/>
+      ③ <strong>The approximate value is used "after calculation"</strong>(the position is calculated after calculation)<strong>④ Common test for sub-tests: first estimate to test the rationality of the answer → then calculate accurately → finally take the approximate value</strong>(Take your seat after counting)<br/>④ Sub-test common test: first estimate and test the rationality of the answer → then calculate accurately → finally take the approximate value</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 5: What is the approximate result of estimating 4.7 × 3.2? Then calculate it accurately, and then approximate the answer to tenths.</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 6: Xiao Ming said "The approximate value of 3.14159 is 3.1 (tenths)", Xiao Hua said "3.14159 ≈ 3 estimates". Whose statement is correct? Why?</div></div>
+<div class="h2">Knowledge Point 3 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">11</td><td class="qtxt">Estimate 5.8 × 4.1 ≈ ______ × ______ = ______</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">Estimate 9.7 + 3.2 + 6.1 ≈ ______ + ______ + ______ = ______</td><td class="qd d3">🌳</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 5 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">13</td><td class="qtxt">Round 7.82 to the tenth place.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">Approximate 1.456 to the percentile.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">Round 0.395 to the percentile.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">Round 4.072 to the nearest tenth place.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">Round 9.998 to the percentile.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 5 questions, 🚶🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">18</td><td class="qtxt">Approximate 6.2549 to the percentile.</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">Round 3.097 to the nearest tenth place. Should I keep the last zero in my answer? Why?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">An item is priced at $12.875. The supermarket rounds the price to the nearest tenth. How much should be charged?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">21</td><td class="qtxt">A fish weighs 0.683 kg. Approximate values: (a) to tenths (b) to hundredths. What's the difference between the two answers?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:56px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">To calculate 3.25 × 1.6, first estimate (round up), then calculate exactly, and finally round the exact answer to the nearest tenth.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:56px;"></td></tr>
+</table>
+<div class="h2">🌳 challenge layer (total 3 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">23</td><td class="qtxt">Approximate 0.9999: (a) to tenths (b) to hundredths (c) to thousandths. Observing the three answers, what did you find?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:85px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">To calculate 4.56 + 7.389 + 2.1, first approximate each number to the tenth place and add them together. Is the result the same as adding first and then approximating to tenths?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:80px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">A rectangle is 4.37 cm long and 2.86 cm wide. (a) Calculate the area (to the nearest hundredth). (b) First, approximate the length and breadth to tenths, and then calculate the area. What is the difference between the two areas?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: APPLICATION + CHALLENGE ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div class="kp-title">Knowledge point 4: Approximate value application questions (subject to sub-test text questions) 🟡 SSPA compulsory exam</div>
+<div class="kp-rules">
+<strong>Four steps to solve the problem:</strong>① <strong>Circle keywords</strong>("approximately" "approximately" "get to") ②<strong>Recognize the positioning requirements</strong> ③ <strong>Accurate calculation → then approximate</strong> ④ <strong>Write the complete answer with the units</strong>
+</div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 7: Xiao Ming bought 3 books, the prices are $12.85, $23.49, and $8.76 respectively. How much did he pay in total? (Answers are approximated to tenths, i.e. rounded to millimeters)</div></div>
+<div class="h2">applicationquestionpractice (all must do, column → calculate → approximate → answer sentence)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">26</td><td class="qtxt">A rope is 5.738 m long. Approximately how many meters long is the rope, approximated to the nearest hundredth?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">A pencil costs $4.75 and a rubber eraser costs $3.28. How much is it worth in total? (Answers are approximated to tenths)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">A kettle can hold 1.863 L of water. Approximately how many L of water can the kettle hold?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:78px;"></td></tr>
+</table>
+<div class="h2">advancedapplicationquestion (🚶🚀 choose do, SSPAPaper 2commonquestion type)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">29</td><td class="qtxt">The three fruits weigh 0.385 kg, 0.472 kg and 0.298 kg respectively. (a) What is the total weight in kg? (b) Round the total weight to the nearest tenth. (c) If each weight is approximated to the nearest tenth and then added together, will the result be the same as (b)?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">The side length of the square is 2.67 cm. Find the perimeter and approximate the answer to the nearest tenth.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt">The rectangle is 5.38 m long and 2.94 m wide. (a) Find the perimeter, approximating to the nearest tenth. (b) Find the area, approximating to the percentile.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">IV.🏔️ Ultimate challenge area</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔️1</td><td class="qtxt">A number rounded to the tenth place is 7.0. What is the smallest possible number? What is the maximum possible? (Tip: Consider the boundaries between "four giving out" and "five in")</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">🏔️2</td><td class="qtxt">Calculate 0.1 ÷ 3 = 0.03333... (infinite loop). Approximate the result: (a) to tenths (b) to hundredths (c) to thousandths. Write the judgment process for each answer.</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">🏔️3</td><td class="qtxt">A trapezoid has an upper base 3.26 cm, a lower base 5.74 cm, and a height 2.38 cm. (a) Calculate the area (trapezoid area = (upper base + lower base) × height ÷ 2). (b) Approximate the area to the percentile. (c) First approximate each of the three lengths to tenths and then calculate the area. How does the result differ from (b)?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:80px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: HOMEWORK + ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">V. Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 5 questions, must write determineprocess)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">Round 3.68 to the tenth place.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">Approximate 9.053 to the percentile.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">Approximate 8.172 to the tenth place.</td><td class="qd d1">🌱</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">A pen costs $6.48 and a book costs $3.75. How much is it worth in total? (Answers are approximated to tenths)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">Estimate 6.3 × 4.8 ≈ ______ × ______ = ______.<br/>Then calculate exactly 6.3 × 4.8 = ______. Are the two close?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:72px;"></td></tr>
+</table>
+<div class="h2">Advanced choose doquestion (total 3 questions, 🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">Approximate 5.496 to tenths and hundredths and write the answers.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">The rectangle is 3.87 m long and 2.45 m wide. Find the perimeter and area. Answers are approximated to the nearest tenth.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:82px;"></td></tr>
+<tr><td class="qn">H8</td><td class="qtxt">A number rounded to the percentile is 2.50. What is the range of values ​​for this number? (i.e. What is the minimum possible? What is the maximum possible?)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+<div class="h1">VI. The Lessoncorecommon errorsummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>Look at the wrong judgment position |||SEP|||: Take the tenth place but look at the tenth place yourself</strong>: Take the tenth place but look at the tenth place yourself</td><td>Take the nth position → Look at the n+1th position! For example, take the tenth place (1st place) → look at the hundredth place (2nd place)</td></tr>
+<tr><td>2</td><td><strong>Braking early |||SEP|||: When taking tenths, stop only when you see the hundredths. Forgetting the thousandths may affect</strong>: When taking tenths, just stop when you see the hundredths. Forgetting the thousandths may affect</td><td>"Count one more digit before making a judgment" - always look at the next digit of the target position</td></tr>
+<tr><td>3</td><td><strong>The last zero is deleted |||SEP|||: 3.097 ≈ 3.1 (the last zero is missing)</strong>:3.097 ≈ 3.1 (missing the last zero)</td><td>3.097 ≈ 3.10 (percentile), the last 0 must be retained to show accuracy</td></tr>
+<tr><td>4</td><td><strong>Confusing estimates with approximations</strong></td><td>Estimate = Substitution calculation (before calculation); Approximation = Accurate result taken (after calculation)</td></tr>
+<tr><td>5</td><td><strong>Forget the chain carry when carrying 9 |||SEP|||: 3.297 ≈ 3.30 (percentile), not 3.29</strong>:3.297 ≈ 3.30 (percentile), not 3.29</td><td>9+1=10 → Write 0 and advance 1 to the previous digit, check digit by digit.</td></tr>
+<tr><td>6</td><td><strong>Missing sentences/units in application questions</strong></td><td>Must write "Answer: About ______ (unit)."</td></tr>
+<tr><td>7</td><td><strong>The results are different when approximating first and then calculating vs. calculating first and then approximating</strong></td><td>Sub-tests usually require "accurate calculations first, and then approximate values". Pay attention to the question instructions.</td></tr>
+</table>
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related topics: L01 Division of decimals · L02 Interchange of fractions, decimals and hundreds · L12 Multiplication of decimals</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 7 pages · 56 questions | LF-P5-S1-L13 v6 EN
+</div>
+</body>
+</html>

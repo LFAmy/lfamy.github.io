@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 陰影濾鏡 -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#00000020"/>
+    </filter>
+    <filter id="shadowLight" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#00000015"/>
+    </filter>
+    <filter id="pointGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="1" stdDeviation="4" flood-color="#4F46E560"/>
+    </filter>
+
+    <!-- 箭頭標記 -->
+    <marker id="arrowUp" markerWidth="10" markerHeight="8" refX="5" refY="0" orient="auto">
+      <path d="M0,8 L5,0 L10,8" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowDown" markerWidth="10" markerHeight="8" refX="5" refY="8" orient="auto">
+      <path d="M0,0 L5,8 L10,0" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowRight" markerWidth="8" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L8,5 L0,10" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+
+    <!-- 漸變色 -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F9FAFB"/>
+      <stop offset="100%" stop-color="#F3F4F6"/>
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4F46E540"/>
+      <stop offset="100%" stop-color="#4F46E505"/>
+    </linearGradient>
+
+    <!-- 數據點圓形 -->
+    <radialGradient id="pointGrad" cx="40%" cy="35%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#4F46E5"/>
+    </radialGradient>
+    <radialGradient id="pointGradWarm" cx="40%" cy="35%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)" rx="12"/>
+  <rect x="1" y="1" width="598" height="398" fill="none" stroke="#E5E7EB" stroke-width="1" rx="12"/>
+
+  <!-- 標題區域 -->
+  <text x="300" y="38" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="20" font-weight="bold" fill="#1F2937">📊 溫度變化折線圖 — 上升與下降趨勢</text>
+  <line x1="180" y1="48" x2="420" y2="48" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- 圖表區域 -->
+  <g transform="translate(60, 60)">
+    <!-- 圖表背景 -->
+    <rect x="0" y="0" width="480" height="260" fill="#FFFFFF" rx="8" filter="url(#shadowLight)"/>
+    <rect x="0" y="0" width="480" height="260" fill="none" stroke="#E5E7EB" stroke-width="1" rx="8"/>
+
+    <!-- 網格線（水平） -->
+    <g stroke="#F3F4F6" stroke-width="1">
+      <line x1="40" y1="30" x2="460" y2="30"/>
+      <line x1="40" y1="72" x2="460" y2="72"/>
+      <line x1="40" y1="114" x2="460" y2="114"/>
+      <line x1="40" y1="156" x2="460" y2="156"/>
+      <line x1="40" y1="198" x2="460" y2="198"/>
+      <line x1="40" y1="240" x2="460" y2="240"/>
+    </g>
+
+    <!-- Y軸標籤 -->
+    <g font-family="Microsoft YaHei, SimHei, sans-serif" font-size="11" fill="#9CA3AF" text-anchor="end">
+      <text x="35" y="34">35°C</text>
+      <text x="35" y="76">30°C</text>
+      <text x="35" y="118">25°C</text>
+      <text x="35" y="160">20°C</text>
+      <text x="35" y="202">15°C</text>
+      <text x="35" y="244">10°C</text>
+    </g>
+
+    <!-- Y軸 -->
+    <line x1="40" y1="10" x2="40" y2="250" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="40" y="265" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" fill="#9CA3AF">溫度</text>
+
+    <!-- X軸標籤（星期） -->
+    <g font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#6B7280" text-anchor="middle">
+      <text x="60" y="268">週一</text>
+      <text x="130" y="268">週二</text>
+      <text x="200" y="268">週三</text>
+      <text x="270" y="268">週四</text>
+      <text x="340" y="268">週五</text>
+      <text x="410" y="268">週六</text>
+      <text x="460" y="268">週日</text>
+    </g>
+
+    <!-- X軸 -->
+    <line x1="40" y1="250" x2="480" y2="250" stroke="#D1D5DB" stroke-width="1.5"/>
+
+    <!-- 面積填充（在折線下方） -->
+    <path d="M60,200 L130,160 L200,120 L270,140 L340,80 L410,100 L460,50 L460,250 L60,250 Z"
+          fill="url(#areaGrad)" opacity="0.5"/>
+
+    <!-- 折線主體 -->
+    <polyline points="60,200 130,160 200,120 270,140 340,80 410,100 460,50"
+              fill="none" stroke="url(#lineGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadow)"/>
+
+    <!-- 數據點 -->
+    <!-- 週一：20°C (y=200) -->
+    <circle cx="60" cy="200" r="7" fill="url(#pointGrad)" stroke="#4F46E5" stroke-width="2" filter="url(#pointGlow)"/>
+    <text x="60" y="218" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" font-weight="bold" fill="#4F46E5">20°</text>
+
+    <!-- 週二：24°C (y=160) -->
+    <circle cx="130" cy="160" r="7" fill="url(#pointGrad)" stroke="#4F46E5" stroke-width="2" filter="url(#pointGlow)"/>
+    <text x="130" y="178" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" font-weight="bold" fill="#4F46E5">24°</text>
+
+    <!-- 週三：28°C (y=120) -->
+    <circle cx="200" cy="120" r="7" fill="url(#pointGrad)" stroke="#4F46E5" stroke-width="2" filter="url(#pointGlow)"/>
+    <text x="200" y="138" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" font-weight="bold" fill="#4F46E5">28°</text>
+
+    <!-- 週四：26°C (y=140) — 下降點 -->
+    <circle cx="270" cy="140" r="7" fill="url(#pointGradWarm)" stroke="#F59E0B" stroke-width="2" filter="url(#pointGlow)"/>
+    <text x="270" y="158" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" font-weight="bold" fill="#F59E0B">26°</text>
+
+    <!-- 週五：32°C (y=80) -->
+    <circle cx="340" cy="80" r="7" fill="url(#pointGrad)" stroke="#4F46E5" stroke-width="2" filter="url(#pointGlow)"/>
+    <text x="340" y="98" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" font-weight="bold" fill="#4F46E5">32°</text>
+
+    <!-- 週六：30°C (y=100) — 下降點 -->
+    <circle cx="410" cy="100" r="7" fill="url(#pointGradWarm)" stroke="#F59E0B" stroke-width="2" filter="url(#pointGlow)"/>
+    <text x="410" y="118" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" font-weight="bold" fill="#F59E0B">30°</text>
+
+    <!-- 週日：35°C (y=50) -->
+    <circle cx="460" cy="50" r="7" fill="url(#pointGrad)" stroke="#4F46E5" stroke-width="2" filter="url(#pointGlow)"/>
+    <text x="460" y="68" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" font-weight="bold" fill="#4F46E5">35°</text>
+
+    <!-- 趨勢標註：上升箭頭 -->
+    <!-- 週一→週二 上升 -->
+    <line x1="85" y1="190" x2="115" y2="168" stroke="#10B981" stroke-width="2" marker-end="url(#arrowUp)" stroke-dasharray="4,3"/>
+    <text x="95" y="196" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="9" fill="#10B981" font-weight="bold">↑</text>
+
+    <!-- 週二→週三 上升 -->
+    <line x1="155" y1="150" x2="185" y2="128" stroke="#10B981" stroke-width="2" marker-end="url(#arrowUp)" stroke-dasharray="4,3"/>
+    <text x="165" y="156" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="9" fill="#10B981" font-weight="bold">↑</text>
+
+    <!-- 週三→週四 下降 -->
+    <line x1="225" y1="128" x2="255" y2="138" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowDown)" stroke-dasharray="4,3"/>
+    <text x="235" y="124" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="9" fill="#F59E0B" font-weight="bold">↓</text>
+
+    <!-- 週四→週五 上升 -->
+    <line x1="295" y1="130" x2="325" y2="90" stroke="#10B981" stroke-width="2" marker-end="url(#arrowUp)" stroke-dasharray="4,3"/>
+    <text x="305" y="136" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="9" fill="#10B981" font-weight="bold">↑</text>
+
+    <!-- 週五→週六 下降 -->
+    <line x1="365" y1="88" x2="395" y2="98" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowDown)" stroke-dasharray="4,3"/>
+    <text x="375" y="84" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="9" fill="#F59E0B" font-weight="bold">↓</text>
+
+    <!-- 週六→週日 上升 -->
+    <line x1="435" y1="90" x2="450" y2="60" stroke="#10B981" stroke-width="2" marker-end="url(#arrowUp)" stroke-dasharray="4,3"/>
+    <text x="440" y="96" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="9" fill="#10B981" font-weight="bold">↑</text>
+  </g>
+
+  <!-- 圖例 -->
+  <g transform="translate(60, 340)">
+    <rect x="0" y="0" width="480" height="40" fill="#FFFFFF" rx="6" stroke="#E5E7EB" stroke-width="1" filter="url(#shadowLight)"/>
+
+    <!-- 上升圖例 -->
+    <line x1="20" y1="20" x2="45" y2="20" stroke="#10B981" stroke-width="2" marker-end="url(#arrowUp)"/>
+    <text x="52" y="24" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#374151">上升趨勢</text>
+
+    <!-- 下降圖例 -->
+    <line x1="150" y1="20" x2="175" y2="20" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowDown)"/>
+    <text x="182" y="24" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#374151">下降趨勢</text>
+
+    <!-- 數據點圖例 -->
+    <circle cx="300" cy="20" r="5" fill="url(#pointGrad)" stroke="#4F46E5" stroke-width="1.5"/>
+    <text x="312" y="24" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#374151">數據點（溫度值）</text>
+
+    <!-- 折線圖例 -->
+    <line x1="420" y1="20" x2="445" y2="20" stroke="#4F46E5" stroke-width="3" stroke-linecap="round"/>
+    <text x="452" y="24" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#374151">折線</text>
+  </g>
+
+  <!-- 底部提示 -->
+  <text x="300" y="388" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" fill="#9CA3AF">💡 觀察：溫度整體呈上升趨勢，週三和週五出現輕微下降</text>
+</svg>

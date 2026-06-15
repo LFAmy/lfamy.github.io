@@ -1,0 +1,385 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 天空漸層 -->
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="60%" stop-color="#B0E0FF"/>
+      <stop offset="100%" stop-color="#E8F5E9"/>
+    </linearGradient>
+
+    <!-- 草地漸層 -->
+    <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66BB6A"/>
+      <stop offset="100%" stop-color="#388E3C"/>
+    </linearGradient>
+
+    <!-- 滑梯主體漸層 -->
+    <linearGradient id="slideGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF7043"/>
+      <stop offset="50%" stop-color="#FF5722"/>
+      <stop offset="100%" stop-color="#E64A19"/>
+    </linearGradient>
+
+    <!-- 滑梯面放射漸層 -->
+    <radialGradient id="slideSurface" cx="0.4" cy="0.3" r="0.7">
+      <stop offset="0%" stop-color="#FF8A65"/>
+      <stop offset="100%" stop-color="#F4511E"/>
+    </radialGradient>
+
+    <!-- 鞦韆支柱漸層 -->
+    <linearGradient id="swingPost" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8D6E63"/>
+      <stop offset="50%" stop-color="#A1887F"/>
+      <stop offset="100%" stop-color="#6D4C41"/>
+    </linearGradient>
+
+    <!-- 太陽放射漸層 -->
+    <radialGradient id="sunGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#FFF176"/>
+      <stop offset="50%" stop-color="#FFD54F"/>
+      <stop offset="100%" stop-color="#FFB300"/>
+    </radialGradient>
+
+    <!-- 雲朵漸層 -->
+    <radialGradient id="cloudGrad" cx="0.3" cy="0.3" r="0.7">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E0E0E0"/>
+    </radialGradient>
+
+    <!-- 陰影濾鏡 -->
+    <filter id="shadow1" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="4" flood-color="#00000040"/>
+    </filter>
+
+    <filter id="shadow2" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000030"/>
+    </filter>
+
+    <!-- 雙層陰影 -->
+    <filter id="doubleShadow" x="-10%" y="-10%" width="140%" height="150%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#00000035"/>
+      <feDropShadow dx="4" dy="8" stdDeviation="6" flood-color="#00000020"/>
+    </filter>
+
+    <!-- 圓角卡片濾鏡 -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="120%" height="130%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#00000030"/>
+    </filter>
+
+    <!-- 發光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景天空 -->
+  <rect x="0" y="0" width="600" height="400" fill="url(#skyGrad)"/>
+
+  <!-- 太陽 -->
+  <circle cx="520" cy="60" r="40" fill="url(#sunGrad)" filter="url(#glow)"/>
+  <g stroke="#FFD54F" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+    <line x1="520" y1="10" x2="520" y2="0"/>
+    <line x1="520" y1="110" x2="520" y2="120"/>
+    <line x1="470" y1="60" x2="460" y2="60"/>
+    <line x1="570" y1="60" x2="580" y2="60"/>
+    <line x1="485" y1="25" x2="478" y2="18"/>
+    <line x1="555" y1="95" x2="562" y2="102"/>
+    <line x1="555" y1="25" x2="562" y2="18"/>
+    <line x1="485" y1="95" x2="478" y2="102"/>
+  </g>
+
+  <!-- 雲朵 -->
+  <g fill="url(#cloudGrad)" opacity="0.9">
+    <ellipse cx="120" cy="55" rx="45" ry="25"/>
+    <ellipse cx="155" cy="45" rx="35" ry="20"/>
+    <ellipse cx="90" cy="50" rx="30" ry="18"/>
+    <ellipse cx="380" cy="70" rx="40" ry="22"/>
+    <ellipse cx="415" cy="60" rx="30" ry="18"/>
+    <ellipse cx="350" cy="65" rx="28" ry="16"/>
+  </g>
+
+  <!-- 遠處建築物 -->
+  <g opacity="0.3">
+    <rect x="20" y="140" width="50" height="80" rx="3" fill="#BDBDBD"/>
+    <rect x="80" y="120" width="40" height="100" rx="3" fill="#C8E6C9"/>
+    <rect x="130" y="130" width="45" height="90" rx="3" fill="#BBDEFB"/>
+    <rect x="450" y="125" width="55" height="95" rx="3" fill="#C8E6C9"/>
+    <rect x="520" y="140" width="40" height="80" rx="3" fill="#BDBDBD"/>
+  </g>
+
+  <!-- 樹木 -->
+  <g>
+    <!-- 樹1 -->
+    <rect x="55" y="180" width="12" height="40" fill="#5D4037" rx="2"/>
+    <ellipse cx="61" cy="165" rx="30" ry="35" fill="#43A047"/>
+    <ellipse cx="50" cy="175" rx="22" ry="25" fill="#388E3C"/>
+    <ellipse cx="72" cy="172" rx="20" ry="22" fill="#2E7D32"/>
+
+    <!-- 樹2 -->
+    <rect x="495" y="175" width="12" height="45" fill="#5D4037" rx="2"/>
+    <ellipse cx="501" cy="160" rx="28" ry="32" fill="#43A047"/>
+    <ellipse cx="490" cy="170" rx="20" ry="22" fill="#388E3C"/>
+    <ellipse cx="512" cy="168" rx="18" ry="20" fill="#2E7D32"/>
+  </g>
+
+  <!-- 草地 -->
+  <ellipse cx="300" cy="380" rx="320" ry="80" fill="url(#grassGrad)"/>
+  <rect x="0" y="300" width="600" height="100" fill="url(#grassGrad)"/>
+
+  <!-- 地面陰影 -->
+  <ellipse cx="300" cy="340" rx="280" ry="30" fill="#2E7D32" opacity="0.3"/>
+
+  <!-- 小徑 -->
+  <path d="M0 350 Q150 330 300 340 Q450 350 600 335" fill="none" stroke="#A1887F" stroke-width="20" opacity="0.4" stroke-linecap="round"/>
+
+  <!-- ============ 滑梯 ============ -->
+  <g filter="url(#doubleShadow)">
+    <!-- 滑梯底座 -->
+    <rect x="140" y="310" width="120" height="12" rx="6" fill="#5D4037"/>
+
+    <!-- 滑梯支柱 -->
+    <rect x="150" y="200" width="10" height="120" rx="3" fill="url(#swingPost)"/>
+    <rect x="240" y="200" width="10" height="120" rx="3" fill="url(#swingPost)"/>
+
+    <!-- 滑梯橫樑 -->
+    <rect x="148" y="195" width="104" height="10" rx="4" fill="#8D6E63"/>
+
+    <!-- 滑梯梯級 -->
+    <g fill="#A1887F" stroke="#6D4C41" stroke-width="1">
+      <rect x="155" y="215" width="8" height="20" rx="2"/>
+      <rect x="170" y="215" width="8" height="20" rx="2"/>
+      <rect x="185" y="215" width="8" height="20" rx="2"/>
+      <rect x="200" y="215" width="8" height="20" rx="2"/>
+      <rect x="215" y="215" width="8" height="20" rx="2"/>
+      <rect x="230" y="215" width="8" height="20" rx="2"/>
+    </g>
+
+    <!-- 滑梯滑道 -->
+    <path d="M155 200 Q155 250 200 310 Q220 320 250 315" fill="none" stroke="url(#slideGrad)" stroke-width="22" stroke-linecap="round"/>
+    <!-- 滑道高光 -->
+    <path d="M155 200 Q155 250 200 310 Q220 320 250 315" fill="none" stroke="url(#slideSurface)" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+    <!-- 滑道邊緣 -->
+    <path d="M155 200 Q155 250 200 310 Q220 320 250 315" fill="none" stroke="#BF360C" stroke-width="24" stroke-linecap="round" opacity="0.15"/>
+  </g>
+
+  <!-- ============ 鞦韆 ============ -->
+  <g filter="url(#doubleShadow)">
+    <!-- 鞦韆架橫樑 -->
+    <rect x="340" y="180" width="120" height="10" rx="5" fill="#8D6E63"/>
+
+    <!-- 鞦韆支柱 -->
+    <polygon points="345,185 355,185 365,320 355,320" fill="url(#swingPost)"/>
+    <polygon points="455,185 445,185 435,320 445,320" fill="url(#swingPost)"/>
+
+    <!-- 鞦韆繩索 -->
+    <line x1="370" y1="190" x2="370" y2="280" stroke="#5D4037" stroke-width="3"/>
+    <line x1="430" y1="190" x2="430" y2="280" stroke="#5D4037" stroke-width="3"/>
+
+    <!-- 鞦韆座椅 -->
+    <rect x="362" y="278" width="76" height="10" rx="4" fill="#A1887F" stroke="#6D4C41" stroke-width="1.5"/>
+    <!-- 座椅高光 -->
+    <rect x="365" y="279" width="70" height="3" rx="2" fill="#D7CCC8" opacity="0.6"/>
+  </g>
+
+  <!-- ============ 量度標記 ============ -->
+  <g filter="url(#cardShadow)">
+    <!-- 量度尺背景 -->
+    <rect x="30" y="260" width="80" height="24" rx="8" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5"/>
+    <!-- 量度標記 -->
+    <g stroke="#F57F17" stroke-width="1.5">
+      <line x1="40" y1="268" x2="40" y2="278"/>
+      <line x1="50" y1="272" x2="50" y2="278"/>
+      <line x1="60" y1="268" x2="60" y2="278"/>
+      <line x1="70" y1="272" x2="70" y2="278"/>
+      <line x1="80" y1="268" x2="80" y2="278"/>
+      <line x1="90" y1="272" x2="90" y2="278"/>
+      <line x1="100" y1="268" x2="100" y2="278"/>
+    </g>
+    <!-- 數字 -->
+    <text x="38" y="265" font-size="7" fill="#E65100" font-weight="bold">0</text>
+    <text x="56" y="265" font-size="7" fill="#E65100">1</text>
+    <text x="76" y="265" font-size="7" fill="#E65100">2</text>
+    <text x="96" y="265" font-size="7" fill="#E65100">3</text>
+  </g>
+
+  <!-- 另一個量度標記 -->
+  <g filter="url(#cardShadow)">
+    <rect x="470" y="290" width="70" height="20" rx="8" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5"/>
+    <g stroke="#F57F17" stroke-width="1.5">
+      <line x1="478" y1="296" x2="478" y2="306"/>
+      <line x1="488" y1="300" x2="488" y2="306"/>
+      <line x1="498" y1="296" x2="498" y2="306"/>
+      <line x1="508" y1="300" x2="508" y2="306"/>
+      <line x1="518" y1="296" x2="518" y2="306"/>
+      <line x1="528" y1="300" x2="528" y2="306"/>
+    </g>
+    <text x="476" y="294" font-size="6" fill="#E65100" font-weight="bold">0</text>
+    <text x="494" y="294" font-size="6" fill="#E65100">1</text>
+    <text x="512" y="294" font-size="6" fill="#E65100">2</text>
+    <text x="530" y="294" font-size="6" fill="#E65100">3</text>
+  </g>
+
+  <!-- ============ 小朋友 ============ -->
+
+  <!-- 小朋友1：在滑梯頂部 -->
+  <g filter="url(#shadow2)">
+    <!-- 身體 -->
+    <circle cx="160" cy="188" r="10" fill="#FFCCBC"/>
+    <!-- 頭髮 -->
+    <path d="M152 184 Q155 175 160 176 Q165 175 168 184" fill="#5D4037"/>
+    <!-- 眼睛 -->
+    <circle cx="157" cy="187" r="1.5" fill="#333"/>
+    <circle cx="163" cy="187" r="1.5" fill="#333"/>
+    <!-- 微笑 -->
+    <path d="M156 191 Q160 195 164 191" fill="none" stroke="#333" stroke-width="1"/>
+    <!-- 衣服 -->
+    <rect x="154" y="196" width="12" height="10" rx="3" fill="#42A5F5"/>
+    <!-- 手臂 -->
+    <line x1="154" y1="198" x2="148" y2="205" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="166" y1="198" x2="172" y2="205" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- 腿 -->
+    <line x1="157" y1="206" x2="155" y2="215" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="163" y1="206" x2="165" y2="215" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- 小朋友2：在滑梯底部 -->
+  <g filter="url(#shadow2)">
+    <circle cx="245" cy="305" r="9" fill="#FFCCBC"/>
+    <path d="M238 301 Q240 293 245 294 Q250 293 252 301" fill="#4E342E"/>
+    <circle cx="242" cy="304" r="1.5" fill="#333"/>
+    <circle cx="248" cy="304" r="1.5" fill="#333"/>
+    <path d="M241 308 Q245 312 249 308" fill="none" stroke="#333" stroke-width="1"/>
+    <rect x="239" y="312" width="12" height="9" rx="3" fill="#EF5350"/>
+    <line x1="239" y1="314" x2="233" y2="320" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="251" y1="314" x2="257" y2="320" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="242" y1="321" x2="240" y2="330" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="248" y1="321" x2="250" y2="330" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- 小朋友3：盪鞦韆 -->
+  <g filter="url(#shadow2)">
+    <circle cx="400" cy="265" r="9" fill="#FFCCBC"/>
+    <path d="M393 261 Q395 253 400 254 Q405 253 407 261" fill="#3E2723"/>
+    <circle cx="397" cy="264" r="1.5" fill="#333"/>
+    <circle cx="403" cy="264" r="1.5" fill="#333"/>
+    <path d="M396 268 Q400 272 404 268" fill="none" stroke="#333" stroke-width="1"/>
+    <rect x="394" y="272" width="12" height="9" rx="3" fill="#66BB6A"/>
+    <!-- 手臂抓繩 -->
+    <line x1="394" y1="274" x2="388" y2="268" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="406" y1="274" x2="412" y2="268" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- 腿 -->
+    <line x1="397" y1="281" x2="394" y2="290" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="403" y1="281" x2="406" y2="290" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- 小朋友4：站在地上 -->
+  <g filter="url(#shadow2)">
+    <circle cx="320" cy="310" r="9" fill="#FFCCBC"/>
+    <path d="M313 306 Q315 298 320 299 Q325 298 327 306" fill="#5D4037"/>
+    <circle cx="317" cy="309" r="1.5" fill="#333"/>
+    <circle cx="323" cy="309" r="1.5" fill="#333"/>
+    <path d="M316 313 Q320 317 324 313" fill="none" stroke="#333" stroke-width="1"/>
+    <rect x="314" y="317" width="12" height="10" rx="3" fill="#FFCA28"/>
+    <line x1="314" y1="319" x2="308" y2="325" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="326" y1="319" x2="332" y2="325" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="317" y1="327" x2="315" y2="338" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="323" y1="327" x2="325" y2="338" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- 小朋友5：跑動中 -->
+  <g filter="url(#shadow2)">
+    <circle cx="440" cy="318" r="8" fill="#FFCCBC"/>
+    <path d="M434 314 Q436 307 440 308 Q444 307 446 314" fill="#4E342E"/>
+    <circle cx="437" cy="317" r="1.5" fill="#333"/>
+    <circle cx="443" cy="317" r="1.5" fill="#333"/>
+    <path d="M436 320 Q440 323 444 320" fill="none" stroke="#333" stroke-width="1"/>
+    <rect x="434" y="324" width="11" height="8" rx="3" fill="#AB47BC"/>
+    <line x1="434" y1="326" x2="428" y2="330" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="445" y1="326" x2="452" y2="322" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="436" y1="332" x2="432" y2="342" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="443" y1="332" x2="448" y2="340" stroke="#FFCCBC" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- ============ 花朵 ============ -->
+  <g opacity="0.9">
+    <circle cx="100" cy="330" r="4" fill="#FF4081"/>
+    <circle cx="100" cy="330" r="2" fill="#FFD54F"/>
+    <circle cx="280" cy="345" r="4" fill="#FF80AB"/>
+    <circle cx="280" cy="345" r="2" fill="#FFD54F"/>
+    <circle cx="420" cy="338" r="3.5" fill="#FF4081"/>
+    <circle cx="420" cy="338" r="1.8" fill="#FFD54F"/>
+    <circle cx="540" cy="342" r="3.5" fill="#FF80AB"/>
+    <circle cx="540" cy="342" r="1.8" fill="#FFD54F"/>
+  </g>
+
+  <!-- ============ 蝴蝶 ============ -->
+  <g transform="translate(180,160)" opacity="0.8">
+    <path d="M0 0 Q-8 -8 -5 -15 Q-2 -8 0 0" fill="#FF80AB"/>
+    <path d="M0 0 Q8 -8 5 -15 Q2 -8 0 0" fill="#FF4081"/>
+    <path d="M0 0 Q-6 4 -4 10 Q-1 4 0 0" fill="#FF80AB"/>
+    <path d="M0 0 Q6 4 4 10 Q1 4 0 0" fill="#FF4081"/>
+    <circle cx="0" cy="0" r="1" fill="#333"/>
+  </g>
+
+  <!-- ============ 氣球 ============ -->
+  <g filter="url(#shadow2)">
+    <ellipse cx="350" cy="140" rx="12" ry="15" fill="#FF4081" opacity="0.8"/>
+    <path d="M350 155 Q348 160 350 165" stroke="#FF4081" stroke-width="1" fill="none"/>
+    <line x1="350" y1="165" x2="350" y2="175" stroke="#999" stroke-width="0.8"/>
+    <ellipse cx="355" cy="135" rx="4" ry="3" fill="white" opacity="0.4"/>
+  </g>
+
+  <g filter="url(#shadow2)">
+    <ellipse cx="380" cy="130" rx="10" ry="13" fill="#42A5F5" opacity="0.8"/>
+    <path d="M380 143 Q378 148 380 153" stroke="#42A5F5" stroke-width="1" fill="none"/>
+    <line x1="380" y1="153" x2="380" y2="163" stroke="#999" stroke-width="0.8"/>
+    <ellipse cx="384" cy="126" rx="3.5" ry="2.5" fill="white" opacity="0.4"/>
+  </g>
+
+  <!-- ============ 裝飾小旗 ============ -->
+  <g>
+    <line x1="300" y1="140" x2="300" y2="170" stroke="#8D6E63" stroke-width="2"/>
+    <polygon points="300,140 320,148 300,156" fill="#FF5722" opacity="0.8"/>
+    <polygon points="300,156 320,164 300,172" fill="#FFCA28" opacity="0.8"/>
+  </g>
+
+  <!-- ============ 圓角卡片 - 標題 ============ -->
+  <g filter="url(#cardShadow)">
+    <rect x="180" y="10" width="240" height="40" rx="20" fill="white" opacity="0.85"/>
+    <text x="300" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#E65100" text-anchor="middle">🎡 歡樂遊樂場 🎡</text>
+  </g>
+
+  <!-- ============ 圓角卡片 - 數學題 ============ -->
+  <g filter="url(#cardShadow)">
+    <rect x="420" y="210" width="160" height="55" rx="12" fill="white" opacity="0.9" stroke="#FFB300" stroke-width="2"/>
+    <text x="500" y="232" font-family="Arial, sans-serif" font-size="11" fill="#E65100" text-anchor="middle" font-weight="bold">📐 量度練習</text>
+    <text x="500" y="250" font-family="Arial, sans-serif" font-size="13" fill="#333" text-anchor="middle">滑梯長度 = ? cm</text>
+    <text x="500" y="262" font-family="Arial, sans-serif" font-size="10" fill="#888" text-anchor="middle">用尺子量一量</text>
+  </g>
+
+  <!-- ============ 圓角卡片 - 數字 ============ -->
+  <g filter="url(#cardShadow)">
+    <rect x="20" y="80" width="100" height="36" rx="18" fill="white" opacity="0.85"/>
+    <text x="70" y="103" font-family="Arial, sans-serif" font-size="16" fill="#FF6F00" text-anchor="middle" font-weight="bold">1 2 3 4 5</text>
+  </g>
+
+  <!-- 地面細節 - 小草 -->
+  <g stroke="#2E7D32" stroke-width="1.5" stroke-linecap="round" opacity="0.6">
+    <line x1="50" y1="355" x2="48" y2="345"/>
+    <line x1="50" y1="355" x2="52" y2="347"/>
+    <line x1="200" y1="348" x2="198" y2="338"/>
+    <line x1="200" y1="348" x2="202" y2="340"/>
+    <line x1="350" y1="352" x2="348" y2="342"/>
+    <line x1="350" y1="352" x2="352" y2="344"/>
+    <line x1="500" y1="350" x2="498" y2="340"/>
+    <line x1="500" y1="350" x2="502" y2="342"/>
+  </g>
+
+  <!-- 額外3D光影效果 - 地面反光 -->
+  <ellipse cx="300" cy="355" rx="200" ry="15" fill="#81C784" opacity="0.2"/>
+
+</svg>

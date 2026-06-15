@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="English math worksheet: 整除性規則+質數合數. LF Academy Hong Kong primary math. 小學數學 練習" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>P4 Math 整除性規則+質數合數 Worksheet | LF Academy</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11pt;
+  --fs-small: 9pt;
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 1.9;
+  --lh-tight: 1.4;
+  --lh-answer: 2.2;  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+}
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
+
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
+
+.lf-student-info .lf-si-spacer { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P4 講義",
+      "item": "https://lfamy.github.io/講義/P4/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "整除性規則+質數合數"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="lf-page">
+<!-- COVER -->
+<div class="lf-cover">
+<div class="lf-cover-logo">LF Academy · LF Academy</div>
+<div class="lf-cover-grade">小四 · 第 5a 堂 · Student Edition Handout</div>
+<div class="lf-cover-title">Divisible性規則＋Prime NumberComposite Number</div>
+<div class="lf-cover-subtitle">Divisible判斷 · Prime NumberComposite Number分類 · 65 min · 1-on-3 Online Lesson</div>
+<div class="lf-cover-info">
+<b>Textbook Reference：</b>《小學數學新思維（第二版）》4上A冊 單元二<br/>
+<b>SSPA 關聯：</b><span class="lf-sspa-badge lf-sspa-high">🔴 必考</span> Divisible規則係MultipleFactor嘅基礎，呈分試計算題必出<br/>
+<b>Prerequisites：</b>L01-L05 Multiplication表 · Division · 四則運算<br/>
+<b>Lesson Objectives：</b>❶ 掌握 2、3、5、9、10 的Divisible性規則 ❷ 分辨Prime Number和Composite Number ❸ 用Divisible性解決問題<br/>
+<b>核心Trap：</b>🪤 T7 Divisible規則混淆（2 vs 5 vs 3 vs 9）· T8 忘記 1 既唔係Prime Number亦唔係Composite Number · T9 Prime Number表記漏 2
+  </div>
+<div class="lf-cover-row">
+<span>Student Name：<span class="lf-line"></span></span><span>Class：<span class="lf-line"></span></span><span>Date：<span class="lf-line"></span></span><span>Duration：<span class="lf-line"></span></span>
+</div>
+</div>
+<!-- SECTION 1: WARM UP -->
+<div>
+<div class="lf-h1">一、Warm-Up （5 min）（共 5 題，5 min）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">1</td><td>12 ÷ 3 = 4，冇餘數，所以 12 可以被 3 Divisible。啱唔啱？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">2</td><td>以下邊個數可以被 2 Divisible？A. 13 B. 24 C. 35 D. 47</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">3</td><td>以下邊啲係雙數？邊啲係單數？18、27、42、55</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">4</td><td>一個數嘅尾數係 0 或 5，呢個數一定可以被咩數Divisible？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">5</td><td>1 係唔係Prime Number？點解？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h1">二、Core Knowledge （15 min） ＋ Worked Examples</div>
+<div class="lf-kp">
+<div class="lf-kp-title">知識點一：2、5、10 的Divisible性規則 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div>
+<div class="lf-kp-rules">
+      ① <b>被 2 Divisible：</b>尾數係 0、2、4、6、8（即係雙數／偶數）<br/>
+      ② <b>被 5 Divisible：</b>尾數係 0 或 5<br/>
+      ③ <b>被 10 Divisible：</b>尾數係 0<br/>
+      ④ 例：<br/>
+        246 → 尾數 6 → 可被 2 Divisible ✓（246÷2=123）<br/>
+        375 → 尾數 5 → 可被 5 Divisible ✓（375÷5=75）<br/>
+        460 → 尾數 0 → 可被 2、5、10 同時Divisible ✓<br/>
+      ⑤ <b>Mnemonic：</b>「2 睇尾數雙唔雙，5 睇 0 同 5，10 一定睇 0！」
+    </div>
+</div>
+<div class="lf-kp">
+<div class="lf-kp-title">知識點二：3 和 9 的Divisible性規則 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div>
+<div class="lf-kp-rules">
+      ① <b>被 3 Divisible：</b>所有數位之和可以被 3 Divisible<br/>
+      ② <b>被 9 Divisible：</b>所有數位之和可以被 9 Divisible<br/>
+      ③ 例：<br/>
+        372 → 3+7+2=12 → 12÷3=4 → 可被 3 Divisible ✓<br/>
+        891 → 8+9+1=18 → 18÷9=2 → 可被 9 Divisible ✓<br/>
+        254 → 2+5+4=11 → 11÷3=3餘2 → 唔可以被 3 Divisible ✗<br/>
+      ④ <b>關鍵：</b>一個數可被 9 Divisible，就一定可以同時被 3 Divisible！<br/>
+      ⑤ <b>Mnemonic：</b>「3 同 9，唔睇尾，加埋數位睇佢！」
+    </div>
+</div>
+<div class="lf-kp">
+<div class="lf-kp-title">知識點三：Prime Number和Composite Number <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div>
+<div class="lf-kp-rules">
+      ① <b>Prime Number（Prime Number）：</b>只有 1 和自己兩個Factor的數<br/>
+        例：2（Factor：1,2）、3（Factor：1,3）、5（Factor：1,5）…<br/>
+      ② <b>Composite Number（Composite Number）：</b>有多過兩個Factor的數<br/>
+        例：4（Factor：1,2,4）、6（Factor：1,2,3,6）…<br/>
+      ③ <b>重中之重：1 既唔係Prime Number亦唔係Composite Number！</b>（因為得 1 個Factor）<br/>
+      ④ <b>2 係唯一嘅偶Prime Number！</b>（其他偶數都有 1、2、自己三個Factor）<br/>
+      ⑤ 20 以內Prime Number：<b>2、3、5、7、11、13、17、19</b>（共 8 個）<br/>
+      ⑥ <b>Mnemonic：</b>「Prime Number只得兩個因，1 同自己再冇人。2 係Prime Number最獨特，偶數中唯一嘅質！」
+    </div>
+</div>
+<svg height="160" style="margin:8px auto;display:block;" viewbox="0 0 500 160" width="500" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#F0F9FF" height="145" rx="8" stroke="#1A3C6D" stroke-width="2" width="230" x="10" y="5"></rect>
+<text fill="#1A3C6D" font-size="14" font-weight="900" text-anchor="middle" x="125" y="32">Prime Number（Prime）</text>
+<text fill="#1A3C6D" font-size="11" x="20" y="55">2（Factor：1,2）✓</text>
+<text fill="#1A3C6D" font-size="11" x="20" y="73">3（Factor：1,3）✓</text>
+<text fill="#1A3C6D" font-size="11" x="20" y="91">5（Factor：1,5）✓</text>
+<text fill="#DC2626" font-size="11" x="20" y="109">1（Factor：1）✗ 例外！</text>
+<text fill="#6B7280" font-size="10" x="20" y="135">Factor只有 1 和自己</text>
+<rect fill="#F0FDF4" height="145" rx="8" stroke="#16A34A" stroke-width="2" width="230" x="260" y="5"></rect>
+<text fill="#166534" font-size="14" font-weight="900" text-anchor="middle" x="375" y="32">Composite Number（Composite）</text>
+<text fill="#166534" font-size="11" x="270" y="55">4（Factor：1,2,4）✓</text>
+<text fill="#166534" font-size="11" x="270" y="73">6（Factor：1,2,3,6）✓</text>
+<text fill="#166534" font-size="11" x="270" y="91">8（Factor：1,2,4,8）✓</text>
+<text fill="#166534" font-size="11" x="270" y="109">9（Factor：1,3,9）✓</text>
+<text fill="#6B7280" font-size="10" x="270" y="135">Factor ≥ 3 個</text>
+</svg>
+<div class="lf-ex"><div class="lf-ex-title">例1</div><div class="lf-ex-q">判斷 2024 可以被邊啲數Divisible：2、3、5、9、10？</div></div>
+<div class="lf-ex"><div class="lf-ex-title">例2</div><div class="lf-ex-q">將 1 至 30 的所有數分成Prime Number和Composite Number兩類。邊個數最特別？</div></div>
+<div class="lf-ex"><div class="lf-ex-title">例3</div><div class="lf-ex-q">一個兩位數，既是 2 的Multiple又是 5 的Multiple（即 10 的Multiple），而且係Prime Number。求此數。</div></div>
+<div class="lf-ex-compare">
+<div class="lf-ex-wrong"><div class="lf-ex-label">❌ Common Mistake</div>判斷 243 可被 3 Divisible？<br/>睇尾數係 3 → 可以？<br/><b style="color:#DC2626;">錯！</b><br/>3 嘅規則係加數位！</div>
+<div class="lf-ex-right"><div class="lf-ex-label">✅ Correct Approach</div>判斷 243 可被 3 Divisible？<br/>2+4+3=9 → 9÷3=3<br/><b style="color:#16A34A;">→ 可以！✓</b></div>
+</div>
+<div class="warn">⚠️ 致命Trap 1：3 的Divisible性唔睇尾數！2 睇尾數、5 睇尾數，但 3 係加埋所有數位再除。唔好記錯！</div>
+<div class="warn">⚠️ 致命Trap 2：1 唔係Prime Number！Prime Number要有兩個Factor（1 和自己），但 1 得自己一個Factor。所以 1 係「非質非合」嘅特殊數！</div>
+</div>
+<!-- SECTION 3: TIERED PRACTICE -->
+<div>
+<div class="lf-h1">三、Tiered Practice （20 min）</div>
+<div class="lf-game"><div class="lf-game-title">🎮 遊戲：Divisible大搜查</div><div class="lf-game-desc">老師出一個四位數，學生鬥快講出呢個數可以被 2、3、5、9、10 當中邊幾個Divisible。啱最多嘅得一分。</div></div>
+<div class="lf-h2">🌱 Foundation Tier（All Must Complete，共 6 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">6</td><td>以下邊啲數可以被 2 Divisible？34、57、80、93、106</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">7</td><td>以下邊啲數可以被 5 Divisible？25、37、40、52、85</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">8</td><td>以下邊啲數可以被 10 Divisible？20、35、50、73、100</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">9</td><td>判斷：123 是否可被 3 Divisible？寫出步驟。</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">10</td><td>以下邊啲係Prime Number？2、4、7、9、11、15</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">11</td><td>以下邊啲係Composite Number？3、6、8、13、16、19</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">🌿 Intermediate Tier（🚶🚀 Optional，共 5 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">12</td><td>判斷 2025 可以被邊啲數Divisible：2、3、5、9、10？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">13</td><td>一個三位數 3□2，□入邊個數字可以令呢個數被 3 Divisible？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">14</td><td>寫出 30 以內的所有Prime Number。總共有幾個？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">15</td><td>一個數同時可被 2 和 5 Divisible，佢嘅尾數一定係？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">16</td><td>判斷對錯：一個數可被 9 Divisible，就一定可被 3 Divisible。反之亦然？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">🌳 Challenge Tier（🚀 Optional，共 5 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">17</td><td>用 0、2、3、5 四個數字組成一個三位數，可以被 2、3、5 同時Divisible。最大可能係？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">18</td><td>兩個不同Prime Number嘅和係 20。呢兩個Prime Number可能係邊啲組合？（列晒出嚟）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">19</td><td>Prime Number一定係單數，呢句說話啱唔啱？點解？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">20</td><td>用 3 同 9 嘅Divisible規則解釋：一個數可被 9 Divisible，點解一定可被 3 Divisible？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">21</td><td>2×3×5×7×11×13 呢個數係Prime Number定係Composite Number？點知？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">🏔️ Extreme Tier（🚀 Optional，共 2 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">22</td><td>一個三位數，百位係 1，佢可被 3 和 5 同時Divisible。呢個數最大可能係幾多？最少呢？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">23</td><td>Prime Number P 和 Q，P+Q=50，P×Q 最大係幾多？（提示：兩數相差愈細，乘積愈大）</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr>
+</table>
+</div>
+<!-- SECTION 4: WORD PROBLEMS -->
+<div>
+<div class="lf-h1">四、Word Problems （12 min）（SSPA 文字題，共 8 題）</div>
+<div class="lf-ex"><div class="lf-ex-title">例4</div><div class="lf-ex-q">班上有 36 個學生，老師想分組活動。如果每組人數一定要可以Divisible 36，咁每組可以係幾多人？（列晒所有可能）</div></div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">24</td><td>文具店有 45 支筆，想每 5 支裝一盒。可以裝滿幾盒？有冇剩？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">25</td><td>有 124 個學生去旅行，每輛巴士可載 30 人。最少要幾多輛巴士？124 可以被 30 Divisible嗎？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">26</td><td>一個數除以 2、5、10 都冇餘數，呢個數最小係幾多？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">27</td><td>一個兩位Prime Number，個位數字係 3。呢個數最大可能係？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">28</td><td>用 0、4、7 三個數字組成三位數。可以組成幾多個可被 2 Divisible嘅三位數？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">29</td><td>一本書有 225 頁，小明每日睇同樣頁數，7 日後剛好睇完。每日睇幾多頁？提示：225 可以被 3 或 5 Divisible嗎？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">30</td><td>兩個Prime Number的積係 91。呢兩個Prime Number分別係幾多和幾多？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">31</td><td>一個密碼鎖嘅密碼係一個三位數，同時可被 3 和 5 Divisible，百位係 4。最少要試幾多次先開到鎖？（即係有幾多個可能性？）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+</table>
+</div>
+<!-- SECTION 5: HOMEWORK -->
+<div>
+<div class="lf-h1">五、Homework （課後完成）</div>
+<div class="lf-h2">Foundation (Required)（共 9 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">H1</td><td>以下邊啲數可以被 2 Divisible？32、47、58、63、100</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H2</td><td>以下邊啲數可以被 5 Divisible？15、28、45、52、90</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H3</td><td>以下邊啲數係Prime Number？5、9、13、21、23</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H4</td><td>判斷 369 可唔可以被 3 Divisible？寫出步驟。</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H5</td><td>寫出 20 以內的所有Prime Number。</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H6</td><td>一個數可以被 10 Divisible，佢嘅尾數一定係？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H7</td><td>判斷 531 可唔可以被 9 Divisible？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H8</td><td>兩個不同Prime Number的積係 15，呢兩個Prime Number係？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H9</td><td>一個數同時可被 3 和 5 Divisible，呢個數最小係幾多？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">Advanced (Optional)（共 5 題 🚀）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">H10</td><td>兩個偶Prime Number嘅和係？提示：有冇兩個都係偶數嘅Prime Number？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H11</td><td>一個三位數 7□2，□入邊個數字可以令呢個數被 3 Divisible？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H12</td><td>判斷：一個數可以被 6 Divisible，佢需要滿足邊啲條件？（提示：6=2×3）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H13</td><td>500 以內，最大的Prime Number可能接近幾多？點解冇 500 以內Prime Number表都大約估到？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H14</td><td>一個三位數，百位係 2，同時可被 3 和 5 Divisible。呢個數最大係幾多？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr>
+</table>
+</div>
+<!-- SECTION 6: ERROR SUMMARY -->
+<div>
+<div class="lf-h1">六、Common Error Summary （8 min）</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self Check（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分 2、3、5、9、10 嘅Divisible規則</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠分辨Prime Number和Composite Number</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得 1 既唔係Prime Number亦唔係Composite Number</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>Common Error（❌ Trap）</th><th>Correct Approach（✅）</th></tr>
+<tr><td>1</td><td><b>2 和 3 嘅規則混淆：</b>以為 3 都係睇尾數</td><td>2 睇尾數係咪雙數；3 加晒所有數位再除 3</td></tr>
+<tr><td>2</td><td><b>1 當成Prime Number：</b>1 得自己一個Factor</td><td>Prime Number = 兩個Factor。1 得 1 個 → 係「非質非合」</td></tr>
+<tr><td>3</td><td><b>以為 2 唔係Prime Number：</b>話 2 係雙數所以係Composite Number</td><td>2 嘅Factor = 1,2 → 得兩個 → 係Prime Number！唯一嘅偶Prime Number</td></tr>
+<tr><td>4</td><td><b>9 Divisible規則用尾數：</b>9 同 3 一樣要加數位</td><td>9 都要加晒數位再除 9。例如 891 → 8+9+1=18 → 18÷9=2 ✓</td></tr>
+<tr><td>5</td><td><b>被 6 Divisible嘅亂估：</b>話睇尾數係咪雙數</td><td>6=2×3 → 要同時符合 2 和 3 嘅規則：尾數雙 + 數位和可被 3 Divisible</td></tr>
+<tr><td>6</td><td><b>9 和 3 嘅關係混淆：</b>以為可被 3 Divisible就實可被 9 Divisible</td><td>可被 9 Divisible → 一定可被 3 Divisible（反轉唔得！例如 12→可被 3 Divisible但唔可被 9）</td></tr>
+<tr><td>7</td><td><b>Prime Number表記漏 2 和 3：</b>以為Prime Number一定係大數</td><td>Prime Number表由細到大：2, 3, 5, 7, 11, 13, 17, 19... 2 和 3 係最細嘅Prime Number！</td></tr>
+</table>
+<div class="mn">🧠 Mnemonic：「2 睇尾數雙唔雙，5 睇 0 同 5，3 同 9 加晒位。Prime Number兩因最特別，1 非質非合 2 係偶質！」</div>
+<div class="lf-h1">七、4-Step Problem Solving</div>
+<div class="sc">
+<div class="sc-card"><div class="snum">1</div><div class="stitle">認問題</div><div class="sdetail">係Divisible判斷定Prime Number分類？要判斷邊個數嘅Divisible性？</div></div>
+<div class="sc-card"><div class="snum">2</div><div class="stitle">選規則</div><div class="sdetail">2→尾數雙；5→尾數 0/5；10→尾數 0；3→加數位；9→加數位</div></div>
+<div class="sc-card"><div class="snum">3</div><div class="stitle">計算判斷</div><div class="sdetail">逐條規則代入計算。Prime Number檢查：Factor係咪得 1 同自己？</div></div>
+<div class="sc-card"><div class="snum">4</div><div class="stitle">覆檢</div><div class="sdetail">用實際Division驗算一次。Prime Number就用已知表對照。</div></div>
+</div>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「Divisible性規則＋Prime NumberComposite Number」</b>。 重點：❶ 掌握 2、3、5、9、10 的Divisible性規則 ❷ 分辨Prime Number和Composite Number ❸ 用Divisible性解決問題。<br/>
+<b>最易錯嘅 3 個Trap：</b> 留意老師圈出嘅TrapQuestion<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「Divisible性規則＋Prime NumberComposite Number」嘅最重要Mnemonic俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查Trap？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳Challenge Tier 17-21
+  </div>
+<div class="end-note">🪤 LF Academy · LF Academy · We don't teach math — we teach trap avoidance.。 · LF-P4-上-L05a</div>
+<div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related Topics：L06 Multiple與Factor · L07 HCF+LCM</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L05a | 53題 · Divisible性+Prime NumberComposite Number
+<div class="lf-footer">LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</div>
+</body>
+</html>

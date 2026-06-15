@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景放射漸變 -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#f0f4ff"/>
+      <stop offset="100%" stop-color="#dce3f0"/>
+    </radialGradient>
+
+    <!-- 卡片外陰影 -->
+    <filter id="cardShadowOuter" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="3" dy="4" stdDeviation="8" flood-color="#1a2a4a" flood-opacity="0.25"/>
+    </filter>
+
+    <!-- 卡片內陰影 -->
+    <filter id="cardShadowInner" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="1" dy="2" stdDeviation="4" flood-color="#ffffff" flood-opacity="0.6"/>
+    </filter>
+
+    <!-- 扇形1：紅色（運動）3D漸變 -->
+    <radialGradient id="sector1Grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="50%" stop-color="#ee4444"/>
+      <stop offset="100%" stop-color="#cc2222"/>
+    </radialGradient>
+
+    <!-- 扇形2：藍色（閱讀）3D漸變 -->
+    <radialGradient id="sector2Grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#6bc5ff"/>
+      <stop offset="50%" stop-color="#4499ee"/>
+      <stop offset="100%" stop-color="#2277cc"/>
+    </radialGradient>
+
+    <!-- 扇形3：綠色（遊戲）3D漸變 -->
+    <radialGradient id="sector3Grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#6bdd6b"/>
+      <stop offset="50%" stop-color="#44bb44"/>
+      <stop offset="100%" stop-color="#229922"/>
+    </radialGradient>
+
+    <!-- 扇形4：橙色（音樂）3D漸變 -->
+    <radialGradient id="sector4Grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffb347"/>
+      <stop offset="50%" stop-color="#ff8c00"/>
+      <stop offset="100%" stop-color="#dd7700"/>
+    </radialGradient>
+
+    <!-- 扇形5：紫色（繪畫）3D漸變 -->
+    <radialGradient id="sector5Grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#c77dff"/>
+      <stop offset="50%" stop-color="#9b59b6"/>
+      <stop offset="100%" stop-color="#7d3c98"/>
+    </radialGradient>
+
+    <!-- 扇形6：粉紅色（其他）3D漸變 -->
+    <radialGradient id="sector6Grad" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff85a2"/>
+      <stop offset="50%" stop-color="#ff5e7e"/>
+      <stop offset="100%" stop-color="#e04060"/>
+    </radialGradient>
+
+    <!-- 圓圖中心光暈 -->
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 圓圖外陰影 -->
+    <filter id="pieShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="3" stdDeviation="6" flood-color="#1a2a4a" flood-opacity="0.3"/>
+    </filter>
+
+    <!-- 3D光影效果濾鏡 -->
+    <filter id="sector3D" x="-5%" y="-5%" width="115%" height="115%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+      <feSpecularLighting in="blur" surfaceScale="3" specularConstant="0.6" specularExponent="20" result="spec">
+        <fePointLight x="200" y="100" z="200"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut"/>
+      <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+
+    <!-- 標題文字漸變 -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1a2a4a"/>
+      <stop offset="100%" stop-color="#2c3e6b"/>
+    </linearGradient>
+
+    <!-- 百分比標籤陰影 -->
+    <filter id="labelShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+
+    <!-- 圖例圓點漸變 -->
+    <radialGradient id="legendDot1" cx="35%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#ff8888"/>
+      <stop offset="100%" stop-color="#cc2222"/>
+    </radialGradient>
+    <radialGradient id="legendDot2" cx="35%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#88d0ff"/>
+      <stop offset="100%" stop-color="#2277cc"/>
+    </radialGradient>
+    <radialGradient id="legendDot3" cx="35%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#88ee88"/>
+      <stop offset="100%" stop-color="#229922"/>
+    </radialGradient>
+    <radialGradient id="legendDot4" cx="35%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#ffc060"/>
+      <stop offset="100%" stop-color="#dd7700"/>
+    </radialGradient>
+    <radialGradient id="legendDot5" cx="35%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#d090ff"/>
+      <stop offset="100%" stop-color="#7d3c98"/>
+    </radialGradient>
+    <radialGradient id="legendDot6" cx="35%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#ff95b0"/>
+      <stop offset="100%" stop-color="#e04060"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" rx="0" fill="url(#bgGrad)"/>
+
+  <!-- 圓角卡片背景（外陰影） -->
+  <rect x="20" y="20" width="560" height="360" rx="20" fill="#ffffff" filter="url(#cardShadowOuter)"/>
+
+  <!-- 圓角卡片背景（內陰影） -->
+  <rect x="20" y="20" width="560" height="360" rx="20" fill="#ffffff" filter="url(#cardShadowInner)"/>
+
+  <!-- 卡片邊框 -->
+  <rect x="20" y="20" width="560" height="360" rx="20" fill="none" stroke="#e8edf5" stroke-width="1.5"/>
+
+  <!-- 標題 -->
+  <text x="300" y="55" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="22" font-weight="bold" fill="url(#titleGrad)">📊 小五甲班課餘活動統計</text>
+  <line x1="180" y1="65" x2="420" y2="65" stroke="#d0d8e8" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- ===== 圓形圖（360度扇形分割） ===== -->
+  <g transform="translate(195, 230)" filter="url(#pieShadow)">
+
+    <!-- 扇形1：運動 25%（90度）從0°開始 -->
+    <path d="M0,0 L0,-90 A90,90 0 0,1 90,0 Z" fill="url(#sector1Grad)" filter="url(#sector3D)" stroke="#ffffff" stroke-width="1.5"/>
+
+    <!-- 扇形2：閱讀 20%（72度）從90°開始 -->
+    <path d="M0,0 L90,0 A90,90 0 0,1 117.5,-67.5 Z" fill="url(#sector2Grad)" filter="url(#sector3D)" stroke="#ffffff" stroke-width="1.5"/>
+
+    <!-- 扇形3：遊戲 18%（64.8度）從162°開始 -->
+    <path d="M0,0 L117.5,-67.5 A90,90 0 0,1 27.5,-85.5 Z" fill="url(#sector3Grad)" filter="url(#sector3D)" stroke="#ffffff" stroke-width="1.5"/>
+
+    <!-- 扇形4：音樂 15%（54度）從226.8°開始 -->
+    <path d="M0,0 L27.5,-85.5 A90,90 0 0,1 -37.5,-81.9 Z" fill="url(#sector4Grad)" filter="url(#sector3D)" stroke="#ffffff" stroke-width="1.5"/>
+
+    <!-- 扇形5：繪畫 12%（43.2度）從280.8°開始 -->
+    <path d="M0,0 L-37.5,-81.9 A90,90 0 0,1 -78.5,-43.5 Z" fill="url(#sector5Grad)" filter="url(#sector3D)" stroke="#ffffff" stroke-width="1.5"/>
+
+    <!-- 扇形6：其他 10%（36度）從324°開始 -->
+    <path d="M0,0 L-78.5,-43.5 A90,90 0 0,1 -90,0 Z" fill="url(#sector6Grad)" filter="url(#sector3D)" stroke="#ffffff" stroke-width="1.5"/>
+
+    <!-- 中心圓（白色） -->
+    <circle cx="0" cy="0" r="22" fill="#ffffff" stroke="#e0e5ef" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="22" fill="url(#centerGlow)"/>
+
+    <!-- 中心文字 -->
+    <text x="0" y="3" text-anchor="middle" font-family="'Microsoft YaHei', Arial, sans-serif" font-size="11" font-weight="bold" fill="#2c3e6b">課餘</text>
+
+    <!-- 扇形1 百分比標籤（運動 25%） -->
+    <g filter="url(#labelShadow)">
+      <text x="52" y="-55" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">25%</text>
+    </g>
+
+    <!-- 扇形2 百分比標籤（閱讀 20%） -->
+    <g filter="url(#labelShadow)">
+      <text x="115" y="-20" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">20%</text>
+    </g>
+
+    <!-- 扇形3 百分比標籤（遊戲 18%） -->
+    <g filter="url(#labelShadow)">
+      <text x="85" y="-82" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">18%</text>
+    </g>
+
+    <!-- 扇形4 百分比標籤（音樂 15%） -->
+    <g filter="url(#labelShadow)">
+      <text x="-8" y="-92" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">15%</text>
+    </g>
+
+    <!-- 扇形5 百分比標籤（繪畫 12%） -->
+    <g filter="url(#labelShadow)">
+      <text x="-68" y="-72" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">12%</text>
+    </g>
+
+    <!-- 扇形6 百分比標籤（其他 10%） -->
+    <g filter="url(#labelShadow)">
+      <text x="-92" y="-18" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">10%</text>
+    </g>
+  </g>
+
+  <!-- ===== 圖例 ===== -->
+  <g transform="translate(370, 95)">
+    <!-- 圖例1：運動 -->
+    <circle cx="0" cy="0" r="8" fill="url(#legendDot1)" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="14" y="4" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" fill="#2c3e6b">運動 25%</text>
+
+    <!-- 圖例2：閱讀 -->
+    <circle cx="0" cy="30" r="8" fill="url(#legendDot2)" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="14" y="34" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" fill="#2c3e6b">閱讀 20%</text>
+
+    <!-- 圖例3：遊戲 -->
+    <circle cx="0" cy="60" r="8" fill="url(#legendDot3)" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="14" y="64" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" fill="#2c3e6b">遊戲 18%</text>
+
+    <!-- 圖例4：音樂 -->
+    <circle cx="0" cy="90" r="8" fill="url(#legendDot4)" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="14" y="94" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" fill="#2c3e6b">音樂 15%</text>
+
+    <!-- 圖例5：繪畫 -->
+    <circle cx="0" cy="120" r="8" fill="url(#legendDot5)" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="14" y="124" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" fill="#2c3e6b">繪畫 12%</text>
+
+    <!-- 圖例6：其他 -->
+    <circle cx="0" cy="150" r="8" fill="url(#legendDot6)" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="14" y="154" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" fill="#2c3e6b">其他 10%</text>
+
+    <!-- 圖例分隔線 -->
+    <line x1="-5" y1="-15" x2="120" y2="-15" stroke="#e0e5ef" stroke-width="1" stroke-linecap="round"/>
+  </g>
+
+  <!-- 底部資訊 -->
+  <text x="300" y="368" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="10" fill="#8899bb">全班共40人 ｜ 每人選一項最喜歡的課餘活動</text>
+</svg>

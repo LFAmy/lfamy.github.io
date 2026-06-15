@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 陰影濾鏡 -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+    <filter id="shadowLight" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+
+    <!-- 漸變色 -->
+    <linearGradient id="gradStart" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#6366F1;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="gradH" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#FBBF24;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="gradT" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#34D399;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="gradResult" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#A78BFA;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="gradCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.95"/>
+      <stop offset="100%" style="stop-color:#F3F4F6;stop-opacity:0.95"/>
+    </linearGradient>
+
+    <!-- 箭頭定義 -->
+    <marker id="arrowRight" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#9CA3AF"/>
+    </marker>
+    <marker id="arrowRightH" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrowRightT" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect x="0" y="0" width="600" height="400" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+
+  <!-- 標題 -->
+  <text x="300" y="38" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="20" font-weight="bold" fill="#1E293B">概率樹狀圖 — 擲兩枚硬幣</text>
+  <line x1="180" y1="48" x2="420" y2="48" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- ========== 樹狀圖結構 ========== -->
+
+  <!-- 起點圓 -->
+  <circle cx="60" cy="120" r="22" fill="url(#gradStart)" filter="url(#shadow)"/>
+  <text x="60" y="125" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="white" font-weight="bold">開始</text>
+
+  <!-- 第一層箭頭 -->
+  <line x1="82" y1="108" x2="148" y2="80" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrowRightH)"/>
+  <line x1="82" y1="132" x2="148" y2="160" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrowRightT)"/>
+
+  <!-- 第一層節點：第1枚硬幣 -->
+  <!-- H -->
+  <rect x="150" y="60" width="70" height="40" rx="20" fill="url(#gradH)" filter="url(#shadowLight)"/>
+  <text x="185" y="85" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="15" fill="white" font-weight="bold">H</text>
+  <text x="185" y="115" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#6B7280">½</text>
+
+  <!-- T -->
+  <rect x="150" y="140" width="70" height="40" rx="20" fill="url(#gradT)" filter="url(#shadowLight)"/>
+  <text x="185" y="165" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="15" fill="white" font-weight="bold">T</text>
+  <text x="185" y="195" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#6B7280">½</text>
+
+  <!-- 第二層箭頭（從H出發） -->
+  <line x1="220" y1="72" x2="290" y2="55" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowRightH)"/>
+  <line x1="220" y1="88" x2="290" y2="115" stroke="#10B981" stroke-width="2" marker-end="url(#arrowRightT)"/>
+
+  <!-- 第二層箭頭（從T出發） -->
+  <line x1="220" y1="152" x2="290" y2="135" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrowRightH)"/>
+  <line x1="220" y1="168" x2="290" y2="195" stroke="#10B981" stroke-width="2" marker-end="url(#arrowRightT)"/>
+
+  <!-- 第二層節點：第2枚硬幣 -->
+  <!-- H→H -->
+  <rect x="292" y="35" width="60" height="36" rx="18" fill="url(#gradH)" filter="url(#shadowLight)"/>
+  <text x="322" y="57" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="white" font-weight="bold">H</text>
+  <text x="322" y="84" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="10" fill="#6B7280">½</text>
+
+  <!-- H→T -->
+  <rect x="292" y="97" width="60" height="36" rx="18" fill="url(#gradT)" filter="url(#shadowLight)"/>
+  <text x="322" y="119" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="white" font-weight="bold">T</text>
+  <text x="322" y="146" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="10" fill="#6B7280">½</text>
+
+  <!-- T→H -->
+  <rect x="292" y="117" width="60" height="36" rx="18" fill="url(#gradH)" filter="url(#shadowLight)"/>
+  <text x="322" y="139" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="white" font-weight="bold">H</text>
+  <text x="322" y="166" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="10" fill="#6B7280">½</text>
+
+  <!-- T→T -->
+  <rect x="292" y="177" width="60" height="36" rx="18" fill="url(#gradT)" filter="url(#shadowLight)"/>
+  <text x="322" y="199" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="white" font-weight="bold">T</text>
+  <text x="322" y="226" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="10" fill="#6B7280">½</text>
+
+  <!-- 第三層箭頭（到結果） -->
+  <line x1="352" y1="48" x2="410" y2="55" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrowRight)"/>
+  <line x1="352" y1="110" x2="410" y2="105" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrowRight)"/>
+  <line x1="352" y1="130" x2="410" y2="145" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrowRight)"/>
+  <line x1="352" y1="192" x2="410" y2="195" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrowRight)"/>
+
+  <!-- 結果卡片 -->
+  <!-- HH -->
+  <rect x="412" y="38" width="80" height="34" rx="10" fill="url(#gradCard)" stroke="#4F46E5" stroke-width="1.5" filter="url(#shadowLight)"/>
+  <text x="452" y="59" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="14" fill="#1E293B" font-weight="bold">HH</text>
+  <text x="452" y="80" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#4F46E5" font-weight="bold">¼</text>
+
+  <!-- HT -->
+  <rect x="412" y="88" width="80" height="34" rx="10" fill="url(#gradCard)" stroke="#F59E0B" stroke-width="1.5" filter="url(#shadowLight)"/>
+  <text x="452" y="109" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="14" fill="#1E293B" font-weight="bold">HT</text>
+  <text x="452" y="130" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#F59E0B" font-weight="bold">¼</text>
+
+  <!-- TH -->
+  <rect x="412" y="128" width="80" height="34" rx="10" fill="url(#gradCard)" stroke="#10B981" stroke-width="1.5" filter="url(#shadowLight)"/>
+  <text x="452" y="149" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="14" fill="#1E293B" font-weight="bold">TH</text>
+  <text x="452" y="170" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#10B981" font-weight="bold">¼</text>
+
+  <!-- TT -->
+  <rect x="412" y="178" width="80" height="34" rx="10" fill="url(#gradCard)" stroke="#4F46E5" stroke-width="1.5" filter="url(#shadowLight)"/>
+  <text x="452" y="199" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="14" fill="#1E293B" font-weight="bold">TT</text>
+  <text x="452" y="220" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#4F46E5" font-weight="bold">¼</text>
+
+  <!-- ========== 底部總結 ========== -->
+  <rect x="100" y="270" width="400" height="110" rx="14" fill="white" stroke="#E2E8F0" stroke-width="1.5" filter="url(#shadow)"/>
+
+  <text x="300" y="298" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="15" fill="#1E293B" font-weight="bold">📊 結果總結</text>
+  <line x1="200" y1="306" x2="400" y2="306" stroke="#E2E8F0" stroke-width="1"/>
+
+  <text x="140" y="330" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="#4F46E5" font-weight="bold">HH</text>
+  <text x="175" y="330" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="#6B7280">：¼ 概率</text>
+
+  <text x="310" y="330" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="#F59E0B" font-weight="bold">HT</text>
+  <text x="345" y="330" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="#6B7280">：¼ 概率</text>
+
+  <text x="140" y="358" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="#10B981" font-weight="bold">TH</text>
+  <text x="175" y="358" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="#6B7280">：¼ 概率</text>
+
+  <text x="310" y="358" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="#4F46E5" font-weight="bold">TT</text>
+  <text x="345" y="358" font-family="Microsoft YaHei, sans-serif" font-size="13" fill="#6B7280">：¼ 概率</text>
+
+  <text x="300" y="380" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="12" fill="#9CA3AF">每種結果出現的機會均等</text>
+</svg>

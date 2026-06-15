@@ -1,42 +1,67 @@
-"""Smoke tests for lam-fung-academy handout production tools."""
-import sys
-import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '_tools'))
+#!/usr/bin/env python3
+"""LF Academy — Core Engine Smoke Tests v1.0"""
+import sys, os, io
 
-def test_svg_geometry_import():
-    """svg_geometry.py should be importable."""
-    import svg_geometry
-    assert hasattr(svg_geometry, 'SVG_NS') or True
+sys.path.insert(0, ".")
+sys.path.insert(0, "engines")
+sys.path.insert(0, "scripts")
 
-def test_render_math_import():
-    """render_math.py should be importable (skips if matplotlib missing)."""
+passed = 0
+failed = 0
+
+def test(name, import_path):
+    global passed, failed
     try:
-        import matplotlib
-    except ImportError:
-        import pytest; pytest.skip("matplotlib not installed")
-    import render_math
-    assert True
+        mod = __import__(import_path)
+        print(f"  PASS  {name}")
+        passed += 1
+        return True
+    except Exception as e:
+        print(f"  FAIL  {name}: {str(e)[:100]}")
+        failed += 1
+        return False
 
-def test_svg_namespace():
-    """SVG namespace should be correct."""
-    import svg_geometry
-    ns = getattr(svg_geometry, 'SVG_NS', 'http://www.w3.org/2000/svg')
-    assert 'w3.org' in ns
+print("=" * 60)
+print("  LF Academy Core Engine Smoke Tests")
+print("=" * 60)
+print()
 
-def test_package_json_exists():
-    """package.json should exist at project root."""
-    root = os.path.dirname(os.path.dirname(__file__))
-    pkg = os.path.join(root, 'package.json')
-    assert os.path.exists(pkg), f"Missing: {pkg}"
+engines = [
+    ("lf_ai_brain", "engines.lf_ai_brain"),
+    ("tutor_engine", "engines.tutor_engine"),
+    ("mark_engine", "engines.mark_engine"),
+    ("lf_vision", "engines.lf_vision"),
+    ("ai_autopilot", "engines.ai_autopilot"),
+    ("marketing_brain", "engines.marketing_brain"),
+    ("parent_report_engine", "engines.parent_report_engine"),
+    ("enrichment_engine", "engines.enrichment_engine"),
+    ("gamification", "engines.gamification"),
+    ("misconception_engine", "engines.misconception_engine"),
+    ("class_analytics", "engines.class_analytics"),
+    ("adaptive_engine", "engines.adaptive_engine"),
+    ("payment_engine", "engines.payment_engine"),
+    ("_config/secrets.py", "_config.secrets"),
+]
 
-def test_claude_md_exists():
-    """CLAUDE.md should exist."""
-    root = os.path.dirname(os.path.dirname(__file__))
-    claude = os.path.join(root, 'CLAUDE.md')
-    assert os.path.exists(claude), f"Missing: {claude}"
+for name, path in engines:
+    test(name, path)
 
-def test_requirements_exists():
-    """requirements.txt should exist."""
-    root = os.path.dirname(os.path.dirname(__file__))
-    req = os.path.join(root, 'requirements.txt')
-    assert os.path.exists(req), f"Missing: {req}"
+# Verify quality_audit.py is parseable
+try:
+    with open("_tools/quality_audit.py", "r", encoding="utf-8") as f:
+        compile(f.read(), "quality_audit.py", "exec")
+    print("  PASS  quality_audit.py (parseable)")
+    passed += 1
+except Exception as e:
+    print(f"  FAIL  quality_audit.py: {str(e)[:100]}")
+    failed += 1
+
+print()
+print("-" * 60)
+print(f"  Results: {passed} passed, {failed} failed ({passed+failed} total)")
+if failed == 0:
+    print("  ALL SMOKE TESTS PASSED")
+else:
+    print(f"  {failed} TESTS FAILED")
+print("=" * 60)
+sys.exit(0 if failed == 0 else 1)

@@ -4,6 +4,7 @@ LF AI Brain Core v1.0 — frellmapi 驅動的 AI 引擎中樞
 為所有 LF Academy 引擎提供統一 AI 接口
 特點: 多模型、快取、fallback、成本 $0
 """
+import os
 import json
 import urllib.request
 import urllib.error
@@ -20,10 +21,57 @@ try:
 except Exception:
     pass
 
-FRELLMAPI_KEY = "freellmapi-f672a67d7f6ef4a707a062e0be44e2611b3fc3124269d45a"  # free local frellmapi
-FRELLMAPI_URL = "http://localhost:3001/v1"  # free local frellmapi
+# ═══════════════════════════════════════════
+# ═══════════════════════════════════════════
+# Multi-Provider AI Configuration v2.0
+# PRIMARY: frellmapi (localhost gateway, 133+ models, ALL free)
+# ═══════════════════════════════════════════
+
+# Tier 0: frellmapi Unified Gateway (HAS ALL KEYS - NVIDIA, Cloudflare, DeepSeek, Gemini, OpenRouter, Mistral...)
+# === SECRETS loaded from .env via _config/secrets.py ===
+try:
+    from _config.secrets import FRELLMAPI_KEY, FRELLMAPI_URL, DEEPSEEK_KEY, DEEPSEEK_URL
+except ImportError:
+    import os, sys
+    _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sys.path.insert(0, _root)
+    from _config.secrets import FRELLMAPI_KEY, FRELLMAPI_URL, DEEPSEEK_KEY, DEEPSEEK_URL
+FRELLMAPI_CHAT = f"{FRELLMAPI_URL}/v1/chat/completions"
+# === END SECRETS ===
+
+# Tier 0.5: MiniMax MIMO v2.5 Vision (direct API, vision-capable)
+# MIMO config loaded from _config/secrets.py (see import above)
+try:
+    from _config.secrets import MIMO_KEY, MIMO_URL, MIMO_MODEL
+except ImportError:
+    MIMO_KEY = os.environ.get("MIMO_KEY", "")
+    MIMO_URL = "https://token-plan-sgp.xiaomimimo.com/v1/chat/completions"
+    MIMO_MODEL = "mimo-v2.5"
+
+# Tier 1: NVIDIA NIM (free, needs nvapi- key from build.nvidia.com)
+NVIDIA_KEY = os.environ.get("NVIDIA_API_KEY", "")
+NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
+NVIDIA_MODEL = "deepseek-ai/deepseek-r1"
+
+# Tier 3: OpenRouter (free, needs sk-or-v1- key from openrouter.ai)
+OPENROUTER_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_MODEL = "deepseek/deepseek-r1:free"
+
+# Tier 4: Google Gemini (free, needs AIza key from aistudio.google.com)
+GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+
+# Tier 5: LM Studio (free local, enable in GUI)
+LMSTUDIO_URL = "http://localhost:1234/v1/chat/completions"
+LMSTUDIO_KEY = "lm-studio"
+
+# Tier 6: Ollama (free local)
+OLLAMA_URL = "http://localhost:11434/v1/chat/completions"
+OLLAMA_KEY = "ollama"
+
 TIMEOUT = 30
-CACHE_TTL = 3600  # 1 hour
+CACHE_TTL = 3600
 
 # 模型角色分配 (99 models, $0)
 
@@ -35,6 +83,7 @@ _system_prompts = {
     "fast_summary": 'You generate parent reports. Summarize student progress. Chinese, under 100 chars.',
     "nvidia_nim": 'You are an AI assistant running on NVIDIA NIM. Be concise and accurate.',
     "cloudflare_ai": 'You are an AI assistant running on Cloudflare Workers AI. Be helpful.',
+    "vision_svg": 'You are an SVG diagram generator for primary school mathematics. Generate clean, labeled, print-ready SVG diagrams with proper dimensions, colors (brand: #1A3C6D blue, #C9A84C gold, #DC2626 red, #16A34A green). Use viewBox, responsive sizing, and HK primary math conventions. Return ONLY valid SVG code inside \\svg code blocks.',
 }
 
 MODEL_ROLES = {
@@ -47,6 +96,9 @@ MODEL_ROLES = {
     "fast_summary": "@cf/meta/llama-4-scout-17b-16e-instruct",
     # Tier 3: DeepSeek (main brain, fallback)
     "ensemble_backup": "deepseek-ai/deepseek-v4-pro",
+    # Tier Vision: MiniMax M2.5 (vision-capable, SVG/diagram generation)
+    "vision_svg": "minimax/minimax-m2.5:free",
+    "vision_svg_v2": "minimaxai/minimax-m2.7",
 }
 # Fallback chain per role (NIM -> CF -> DeepSeek -> auto)
 FALLBACK_CHAIN = {
@@ -59,6 +111,13 @@ FALLBACK_CHAIN = {
     "tutor_socratic": [
         "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
         "@cf/moonshotai/kimi-k2.6",
+        "deepseek-ai/deepseek-v4-pro",
+        "auto"
+    ],
+    "vision_svg": [
+        "minimax/minimax-m2.5:free",
+        "minimaxai/minimax-m2.7",
+        "gemini-2.5-flash",
         "deepseek-ai/deepseek-v4-pro",
         "auto"
     ],
@@ -143,51 +202,44 @@ def _call_ollamafree(prompt: str, role: str = "math_checker", max_tokens: int = 
 
 
 def _call_frellmapi(prompt: str, role: str = "math_checker", max_tokens: int = 500, model_override: str = None) -> str:
-    """呼叫 frellmapi (免費) — 自動 fallback 到 DeepSeek"""
-    model = model_override if model_override else MODEL_ROLES.get(role, MODEL_ROLES["math_checker"])
+    """Multi-provider AI call: DeepSeek -> LM Studio -> Ollama"""
+    # Try providers in order: DeepSeek -> LM Studio -> Ollama
+    providers = [
+        ("DeepSeek", DEEPSEEK_URL, DEEPSEEK_KEY, "deepseek-v4-flash"),
+        ("LM Studio", LMSTUDIO_URL, LMSTUDIO_KEY, "auto"),
+        ("Ollama", OLLAMA_URL, OLLAMA_KEY, "auto"),
+    ]
     
-    body = json.dumps({
-        "model": model,
-        "messages": [
+    for provider_name, api_url, api_key, model_name in providers:
+        try:
+            body = json.dumps({
+            "model": model_name,
+            "messages": [
             {"role": "system", "content": get_system_prompt(role)},
             {"role": "user", "content": prompt}
         ],
         "max_tokens": max_tokens,
         "temperature": 0.1 if "check" in role or "analyst" in role else 0.7
-    }).encode("utf-8")
+        }).encode("utf-8")
     
-    req = urllib.request.Request(
-        f"{FRELLMAPI_URL}/chat/completions",
-        data=body,
-        headers={
-            "Authorization": f"Bearer {FRELLMAPI_KEY}",
-            "Content-Type": "application/json"
-        }
-    )
+            req = urllib.request.Request(
+                api_url,
+                data=body,
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json"
+                }
+            )
+            resp = urllib.request.urlopen(req, timeout=TIMEOUT)
+            result = json.loads(resp.read().decode("utf-8"))
+            content = result["choices"][0]["message"]["content"].strip()
+            if content:
+                return content
+        except Exception as e:
+            continue  # Try next provider
     
-    try:
-        resp = urllib.request.urlopen(req, timeout=TIMEOUT)
-        result = json.loads(resp.read().decode("utf-8"))
-        return result["choices"][0]["message"]["content"].strip()
-    except Exception as e:
-        err_str = str(e)
-        # If rate-limited or auth error, try DeepSeek directly
-        if "429" in err_str or "401" in err_str or "rate" in err_str.lower():
-            try:
-                body_dict = json.loads(body.decode("utf-8"))
-                body_dict["model"] = "deepseek-chat"
-                req2 = urllib.request.Request(
-                    "https://api.deepseek.com/chat/completions",
-                    data=json.dumps(body_dict).encode("utf-8"),
-                    headers={"Authorization": "Bearer sk-e422da39eb9840e387134c823609995e", "Content-Type": "application/json"}
-                )
-                resp2 = urllib.request.urlopen(req2, timeout=TIMEOUT)
-                result2 = json.loads(resp2.read().decode("utf-8"))
-                return result2["choices"][0]["message"]["content"].strip()
-            except Exception as e2:
-                print(f"[AI Brain] DeepSeek fallback also failed: {e2}", file=sys.stderr)
-        print(f"[AI Brain] frellmapi {role} failed: {e}", file=sys.stderr)
-        return ""  # Return empty on failure
+    print(f"[AI Brain] All providers failed for {role}", file=sys.stderr)
+    return ""  # All providers exhausted
 
 def get_system_prompt(role: str) -> str:
     prompts = {
@@ -256,7 +308,7 @@ def _rate_limit_wait():
         _last_request_time = _time.time()
 
 # Provider rotation (simplified - all through DeepSeek)
-PROVIDER_ROTATION = ["deepseek-chat"]
+PROVIDER_ROTATION = ["deepseek-v4-flash"]
 _rotation_index = 0
 
 # === Smart Cache (LRU, TTL-aware) ===
@@ -282,7 +334,7 @@ def _cached_call(prompt: str, role: str = "math_checker", max_tokens: int = 300,
     # Try DeepSeek with retry
     for attempt in range(2):  # max 2 attempts
         try:
-            result = _call_frellmapi(prompt, role, max_tokens)  # model_override removed, always deepseek-chat
+            result = _call_frellmapi(prompt, role, max_tokens)  # model_override removed, always deepseek-v4-flash
             if result and "rate" not in result.lower() and "limit" not in result.lower():
                 if len(_cache) >= _cache_max:
                     _cache.popitem(last=False)
@@ -311,15 +363,15 @@ def _cached_call(prompt: str, role: str = "math_checker", max_tokens: int = 300,
 
 
 # ═══════ DeepSeek Direct API (primary AI backend) ═══════
-DEEPSEEK_API_KEY = "sk-e422da39eb9840e387134c823609995e"
-DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions"
+DEEPSEEK_API_KEY = DEEPSEEK_KEY
+DEEPSEEK_API_URL = DEEPSEEK_URL
 
 def _call_deepseek(prompt, system_prompt="", max_tokens=200, timeout=15):
     """Call DeepSeek API directly — primary AI backend"""
     import urllib.request, json
     
     payload = {
-        "model": "deepseek-chat",
+        "model": "deepseek-v4-flash",
         "messages": [],
         "max_tokens": max_tokens
     }
@@ -489,7 +541,7 @@ def check_health() -> dict:
     """健康檢查"""
     try:
         req = urllib.request.Request(
-            f"{FRELLMAPI_URL}/models",
+            f"{FRELLMAPI_URL}/v1/models",
             headers={"Authorization": f"Bearer {FRELLMAPI_KEY}"}
         )
         urllib.request.urlopen(req, timeout=5)

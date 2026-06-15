@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" font-family="Microsoft YaHei, SimHei, sans-serif">
+  <defs>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#3730A3"/>
+    </linearGradient>
+    <linearGradient id="successCardGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ECFDF5"/>
+      <stop offset="100%" stop-color="#D1FAE5"/>
+    </linearGradient>
+    <linearGradient id="warnCardGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="100%" stop-color="#FEF3C7"/>
+    </linearGradient>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrowSuccess" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" rx="20" fill="#F9FAFB"/>
+
+  <!-- 标题栏 -->
+  <rect x="0" y="0" width="600" height="60" rx="20" fill="url(#headerGrad)"/>
+  <rect x="0" y="30" width="600" height="30" fill="url(#headerGrad)"/>
+  <text x="300" y="40" text-anchor="middle" fill="white" font-size="24" font-weight="bold">混合运算陷阱大发现！</text>
+
+  <!-- 主展示区 -->
+  <g transform="translate(30, 80)">
+    <!-- 错误示例卡片 -->
+    <g filter="url(#shadow)">
+      <rect x="0" y="0" width="540" height="100" rx="12" fill="url(#warnCardGrad)" stroke="#F59E0B" stroke-width="2"/>
+      <circle cx="30" cy="50" r="20" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+      <text x="30" y="55" text-anchor="middle" font-size="20" font-weight="bold" fill="#B45309">⚠️</text>
+      <text x="70" y="35" font-size="16" font-weight="bold" fill="#92400E">常见错误陷阱</text>
+      <text x="70" y="70" font-size="15" fill="#78350F">8 + 12 ÷ 4 × 2 = 20 ÷ 4 × 2 = 5 × 2 = 10 ✖️</text>
+      <text x="70" y="90" font-size="13" fill="#92400E" font-style="italic">错在：忘记“先乘除后加减”顺序！</text>
+    </g>
+
+    <!-- 箭头连接 -->
+    <path d="M 270 105 L 270 130" stroke="#F59E0B" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- 正确示例卡片 -->
+    <g filter="url(#shadow)" transform="translate(0, 140)">
+      <rect x="0" y="0" width="540" height="110" rx="12" fill="url(#successCardGrad)" stroke="#10B981" stroke-width="2"/>
+      <circle cx="30" cy="55" r="20" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+      <text x="30" y="60" text-anchor="middle" font-size="20" font-weight="bold" fill="#047857">✔️</text>
+      <text x="70" y="35" font-size="16" font-weight="bold" fill="#065F46">正确计算步骤</text>
+      <!-- 步骤分解 -->
+      <g font-size="14" fill="#064E3B">
+        <text x="70" y="55" fill="#4F46E5" font-weight="bold">1. 先算乘除：12 ÷ 4 × 2 = 3 × 2 = 6</text>
+        <text x="70" y="75" fill="#10B981" font-weight="bold">2. 再算加减：8 + 6 = 14</text>
+        <text x="70" y="95" fill="#065F46" font-weight="bold">最终答案：14 ✔️</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- 底部重点提示框 -->
+  <g transform="translate(30, 310)" filter="url(#shadow)">
+    <rect x="0" y="0" width="540" height="70" rx="10" fill="white" stroke="#4F46E5" stroke-width="2"/>
+    <rect x="0" y="0" width="10" height="70" rx="5" fill="#4F46E5"/>
+
+    <text x="25" y="25" font-size="14" font-weight="bold" fill="#4F46E5">📌 牢记运算顺序：</text>
+    <text x="25" y="50" font-size="13" fill="#4F46E5">
+      <tspan fill="#4F46E5" font-weight="bold">1. 括号</tspan>
+      <tspan fill="#78350F"> → </tspan>
+      <tspan fill="#F59E0B" font-weight="bold">2. 乘除（从左到右）</tspan>
+      <tspan fill="#78350F"> → </tspan>
+      <tspan fill="#10B981" font-weight="bold">3. 加减（从左到右）</tspan>
+    </text>
+    <line x1="350" y1="10" x2="350" y2="60" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4"/>
+    <text x="370" y="30" font-size="12" fill="#6B7280">⚠️ 小心陷阱：没有括号时，</text>
+    <text x="370" y="50" font-size="12" fill="#6B7280">“+”和“-”是最后算的哦！</text>
+  </g>
+
+  <!-- 装饰元素 -->
+  <circle cx="550" cy="30" r="5" fill="#F59E0B" opacity="0.6"/>
+  <circle cx="560" cy="45" r="3" fill="#10B981" opacity="0.4"/>
+  <circle cx="540" cy="40" r="4" fill="#4F46E5" opacity="0.3"/>
+</svg>

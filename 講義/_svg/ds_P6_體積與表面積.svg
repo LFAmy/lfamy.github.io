@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#f0f4ff"/>
+      <stop offset="100%" stop-color="#d6e4f0"/>
+    </radialGradient>
+
+    <!-- 卡片主體漸變（長方體正面） -->
+    <linearGradient id="frontGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A90D9"/>
+      <stop offset="40%" stop-color="#5BA0E8"/>
+      <stop offset="100%" stop-color="#2D6DB5"/>
+    </linearGradient>
+
+    <!-- 頂面漸變 -->
+    <linearGradient id="topGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6BB5F0"/>
+      <stop offset="50%" stop-color="#8EC8F8"/>
+      <stop offset="100%" stop-color="#A8D8FA"/>
+    </linearGradient>
+
+    <!-- 右側面漸變 -->
+    <linearGradient id="rightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2A5F9E"/>
+      <stop offset="100%" stop-color="#1A3F6E"/>
+    </linearGradient>
+
+    <!-- 陰影漸層 -->
+    <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(0,0,0,0.25)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+
+    <!-- 內陰影 -->
+    <filter id="innerShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feOffset dx="2" dy="2" result="offsetBlur"/>
+      <feComposite in="SourceGraphic" in2="offsetBlur" operator="over"/>
+    </filter>
+
+    <!-- 雙層陰影濾鏡 -->
+    <filter id="doubleShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="3" dy="5" stdDeviation="6" flood-color="rgba(0,0,0,0.2)"/>
+      <feDropShadow dx="-1" dy="-1" stdDeviation="3" flood-color="rgba(255,255,255,0.3)"/>
+    </filter>
+
+    <!-- 卡片圓角陰影 -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="4" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.15)"/>
+      <feDropShadow dx="-2" dy="-2" stdDeviation="4" flood-color="rgba(255,255,255,0.2)"/>
+    </filter>
+
+    <!-- 發光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" rx="20" ry="20" fill="url(#bgGrad)"/>
+
+  <!-- 背景裝飾圓點 -->
+  <circle cx="80" cy="60" r="30" fill="rgba(74,144,217,0.06)"/>
+  <circle cx="520" cy="350" r="45" fill="rgba(74,144,217,0.05)"/>
+  <circle cx="550" cy="50" r="20" fill="rgba(74,144,217,0.04)"/>
+
+  <!-- ===== 長方體 3D 圖 ===== -->
+  <g transform="translate(120, 130)">
+
+    <!-- 底面陰影 -->
+    <ellipse cx="95" cy="165" rx="120" ry="30" fill="url(#shadowGrad)" opacity="0.5"/>
+
+    <!-- 右側面 -->
+    <polygon points="185,40 185,160 95,200 95,80" fill="url(#rightGrad)" stroke="#1A3F6E" stroke-width="1.5" filter="url(#doubleShadow)"/>
+
+    <!-- 頂面 -->
+    <polygon points="95,80 185,40 275,80 185,120" fill="url(#topGrad)" stroke="#5BA0E8" stroke-width="1.5" filter="url(#doubleShadow)"/>
+
+    <!-- 正面 -->
+    <polygon points="95,80 185,120 185,240 95,200" fill="url(#frontGrad)" stroke="#2D6DB5" stroke-width="1.5" filter="url(#doubleShadow)"/>
+
+    <!-- 正面高光條 -->
+    <polygon points="105,90 175,125 175,135 105,100" fill="rgba(255,255,255,0.12)"/>
+    <polygon points="105,140 175,175 175,185 105,150" fill="rgba(255,255,255,0.06)"/>
+
+    <!-- 頂面高光 -->
+    <polygon points="100,82 180,45 190,50 110,87" fill="rgba(255,255,255,0.15)"/>
+
+    <!-- 頂面邊緣高光 -->
+    <line x1="95" y1="80" x2="185" y2="40" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    <line x1="185" y1="40" x2="275" y2="80" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+
+    <!-- 正面邊緣高光 -->
+    <line x1="95" y1="80" x2="95" y2="200" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+    <!-- ===== 尺寸標註 ===== -->
+
+    <!-- 長度 (a) - 底邊 -->
+    <line x1="95" y1="210" x2="185" y2="210" stroke="#e74c3c" stroke-width="2" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    <text x="140" y="225" text-anchor="middle" font-size="16" font-weight="bold" fill="#e74c3c" font-family="Arial, sans-serif">a</text>
+
+    <!-- 寬度 (b) - 右側邊 -->
+    <line x1="190" y1="45" x2="190" y2="155" stroke="#27ae60" stroke-width="2"/>
+    <text x="200" y="105" text-anchor="start" font-size="16" font-weight="bold" fill="#27ae60" font-family="Arial, sans-serif" transform="rotate(0,200,105)">b</text>
+
+    <!-- 高度 (c) - 左側邊 -->
+    <line x1="80" y1="80" x2="80" y2="200" stroke="#8e44ad" stroke-width="2"/>
+    <text x="72" y="145" text-anchor="end" font-size="16" font-weight="bold" fill="#8e44ad" font-family="Arial, sans-serif">c</text>
+
+    <!-- 頂面寬度標註 -->
+    <line x1="185" y1="30" x2="275" y2="30" stroke="#27ae60" stroke-width="2"/>
+    <text x="230" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#27ae60" font-family="Arial, sans-serif">b</text>
+
+    <!-- 頂面長度標註 -->
+    <line x1="280" y1="80" x2="280" y2="120" stroke="#e74c3c" stroke-width="2"/>
+    <text x="292" y="105" text-anchor="start" font-size="16" font-weight="bold" fill="#e74c3c" font-family="Arial, sans-serif">a</text>
+
+  </g>
+
+  <!-- ===== 公式卡片 ===== -->
+  <g transform="translate(350, 55)">
+    <!-- 卡片背景 -->
+    <rect x="0" y="0" width="220" height="290" rx="16" ry="16" fill="white" filter="url(#cardShadow)"/>
+
+    <!-- 卡片頂部裝飾條 -->
+    <rect x="0" y="0" width="220" height="8" rx="4" ry="4" fill="url(#frontGrad)"/>
+
+    <!-- 標題 -->
+    <text x="110" y="40" text-anchor="middle" font-size="18" font-weight="bold" fill="#2D6DB5" font-family="Arial, sans-serif">📐 體積與表面積</text>
+
+    <!-- 分隔線 -->
+    <line x1="20" y1="55" x2="200" y2="55" stroke="#e0e7ef" stroke-width="1.5"/>
+
+    <!-- 體積公式 -->
+    <text x="20" y="85" font-size="14" font-weight="bold" fill="#555" font-family="Arial, sans-serif">體積 V</text>
+    <text x="20" y="112" font-size="22" font-weight="bold" fill="#e74c3c" font-family="Arial, sans-serif">V = a × b × c</text>
+
+    <!-- 體積說明 -->
+    <text x="20" y="135" font-size="11" fill="#888" font-family="Arial, sans-serif">長 × 寬 × 高</text>
+
+    <!-- 分隔線 -->
+    <line x1="20" y1="150" x2="200" y2="150" stroke="#e0e7ef" stroke-width="1.5"/>
+
+    <!-- 表面積公式 -->
+    <text x="20" y="178" font-size="14" font-weight="bold" fill="#555" font-family="Arial, sans-serif">表面積 S</text>
+    <text x="20" y="205" font-size="20" font-weight="bold" fill="#27ae60" font-family="Arial, sans-serif">S = 2(ab+ac+bc)</text>
+
+    <!-- 表面積展開 -->
+    <text x="20" y="232" font-size="11" fill="#888" font-family="Arial, sans-serif">= 2ab + 2ac + 2bc</text>
+
+    <!-- 分隔線 -->
+    <line x1="20" y1="248" x2="200" y2="248" stroke="#e0e7ef" stroke-width="1.5"/>
+
+    <!-- 單位提示 -->
+    <text x="110" y="275" text-anchor="middle" font-size="11" fill="#aaa" font-family="Arial, sans-serif">單位：立方單位 / 平方單位</text>
+  </g>
+
+  <!-- ===== 頂部標題 ===== -->
+  <text x="300" y="35" text-anchor="middle" font-size="22" font-weight="bold" fill="#2D6DB5" font-family="Arial, sans-serif" filter="url(#glow)">長方體 體積與表面積</text>
+
+  <!-- 裝飾小標籤 -->
+  <rect x="210" y="48" width="180" height="22" rx="11" fill="rgba(74,144,217,0.1)"/>
+  <text x="300" y="63" text-anchor="middle" font-size="11" fill="#4A90D9" font-family="Arial, sans-serif">Cuboid Volume &amp; Surface Area</text>
+
+</svg>

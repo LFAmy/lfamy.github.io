@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0c29"/>
+      <stop offset="50%" style="stop-color:#302b63"/>
+      <stop offset="100%" style="stop-color:#24243e"/>
+    </linearGradient>
+
+    <!-- 卡片1：對稱軸 - 主漸變 -->
+    <linearGradient id="card1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+
+    <!-- 卡片2：旋轉中心 - 主漸變 -->
+    <linearGradient id="card2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb"/>
+      <stop offset="100%" style="stop-color:#f5576c"/>
+    </linearGradient>
+
+    <!-- 卡片3：綜合練習 - 主漸變 -->
+    <linearGradient id="card3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe"/>
+      <stop offset="100%" style="stop-color:#00f2fe"/>
+    </linearGradient>
+
+    <!-- 放射漸變：3D光影效果 -->
+    <radialGradient id="radialGlow1" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4"/>
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0.05"/>
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.3"/>
+    </radialGradient>
+
+    <radialGradient id="radialGlow2" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.35"/>
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0.05"/>
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.3"/>
+    </radialGradient>
+
+    <radialGradient id="radialGlow3" cx="30%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4"/>
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0.05"/>
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.25"/>
+    </radialGradient>
+
+    <!-- 對稱軸圖案：蝴蝶翅膀漸變 -->
+    <linearGradient id="wingLeft" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9a9e"/>
+      <stop offset="100%" style="stop-color:#fecfef"/>
+    </linearGradient>
+    <linearGradient id="wingRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9a9e"/>
+      <stop offset="100%" style="stop-color:#fecfef"/>
+    </linearGradient>
+
+    <!-- 旋轉中心：風車葉片漸變 -->
+    <linearGradient id="blade1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a18cd1"/>
+      <stop offset="100%" style="stop-color:#fbc2eb"/>
+    </linearGradient>
+    <linearGradient id="blade2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbc2eb"/>
+      <stop offset="100%" style="stop-color:#a18cd1"/>
+    </linearGradient>
+    <linearGradient id="blade3" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#a18cd1"/>
+      <stop offset="100%" style="stop-color:#fbc2eb"/>
+    </linearGradient>
+    <linearGradient id="blade4" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#fbc2eb"/>
+      <stop offset="100%" style="stop-color:#a18cd1"/>
+    </linearGradient>
+
+    <!-- 陰影濾鏡：雙層陰影 -->
+    <filter id="doubleShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.35"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 對稱軸虛線樣式 -->
+    <style>
+      .symmetry-line { stroke: #ffd700; stroke-width: 2.5; stroke-dasharray: 6,4; fill: none; opacity: 0.9; }
+      .symmetry-label { font-size: 13px; fill: #ffd700; font-family: 'Arial', sans-serif; font-weight: bold; }
+      .card-title { font-size: 16px; fill: #ffffff; font-family: 'Arial', sans-serif; font-weight: bold; }
+      .card-subtitle { font-size: 11px; fill: rgba(255,255,255,0.75); font-family: 'Arial', sans-serif; }
+      .point-label { font-size: 12px; fill: #ffffff; font-family: 'Arial', sans-serif; font-weight: bold; }
+    </style>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)" rx="0"/>
+
+  <!-- 背景裝飾點 -->
+  <circle cx="50" cy="50" r="1.5" fill="rgba(255,255,255,0.15)"/>
+  <circle cx="150" cy="30" r="1" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="550" cy="60" r="1.5" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="480" cy="380" r="1" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="30" cy="370" r="1.5" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="570" cy="350" r="1" fill="rgba(255,255,255,0.08)"/>
+
+  <!-- ==================== 卡片1：對稱軸 ==================== -->
+  <g filter="url(#doubleShadow)">
+    <!-- 卡片背景 -->
+    <rect x="20" y="20" width="270" height="170" rx="16" fill="url(#card1Grad)"/>
+    <!-- 3D放射光影 -->
+    <rect x="20" y="20" width="270" height="170" rx="16" fill="url(#radialGlow1)"/>
+    <!-- 邊框高光 -->
+    <rect x="20" y="20" width="270" height="170" rx="16" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  </g>
+
+  <!-- 卡片1標題 -->
+  <text x="155" y="48" text-anchor="middle" class="card-title">✧ 對稱軸</text>
+  <text x="155" y="63" text-anchor="middle" class="card-subtitle">左右對稱．鏡像反射</text>
+
+  <!-- 蝴蝶對稱圖案 -->
+  <g transform="translate(155, 115)">
+    <!-- 對稱軸（垂直虛線） -->
+    <line x1="0" y1="-50" x2="0" y2="50" class="symmetry-line"/>
+    <text x="0" y="-55" text-anchor="middle" class="symmetry-label">對稱軸</text>
+
+    <!-- 左翅膀 -->
+    <path d="M0,-5 C-20,-30 -55,-25 -50,0 C-45,20 -20,25 0,10 Z" fill="url(#wingLeft)" opacity="0.85" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+    <!-- 右翅膀 -->
+    <path d="M0,-5 C20,-30 55,-25 50,0 C45,20 20,25 0,10 Z" fill="url(#wingRight)" opacity="0.85" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+
+    <!-- 蝴蝶身體 -->
+    <ellipse cx="0" cy="5" rx="3" ry="12" fill="#2d1b69" opacity="0.8"/>
+
+    <!-- 觸角 -->
+    <path d="M-2,-7 C-8,-18 -15,-20 -18,-18" stroke="#2d1b69" stroke-width="1.2" fill="none" opacity="0.6"/>
+    <path d="M2,-7 C8,-18 15,-20 18,-18" stroke="#2d1b69" stroke-width="1.2" fill="none" opacity="0.6"/>
+    <circle cx="-18" cy="-18" r="2" fill="#ffd700" opacity="0.7"/>
+    <circle cx="18" cy="-18" r="2" fill="#ffd700" opacity="0.7"/>
+
+    <!-- 翅膀裝飾點 -->
+    <circle cx="-25" cy="-8" r="2.5" fill="rgba(255,255,255,0.4)"/>
+    <circle cx="-35" cy="-2" r="1.8" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="25" cy="-8" r="2.5" fill="rgba(255,255,255,0.4)"/>
+    <circle cx="35" cy="-2" r="1.8" fill="rgba(255,255,255,0.3)"/>
+  </g>
+
+  <!-- ==================== 卡片2：旋轉中心 ==================== -->
+  <g filter="url(#doubleShadow)">
+    <rect x="310" y="20" width="270" height="170" rx="16" fill="url(#card2Grad)"/>
+    <rect x="310" y="20" width="270" height="170" rx="16" fill="url(#radialGlow2)"/>
+    <rect x="310" y="20" width="270" height="170" rx="16" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  </g>
+
+  <text x="445" y="48" text-anchor="middle" class="card-title">✦ 旋轉中心</text>
+  <text x="445" y="63" text-anchor="middle" class="card-subtitle">旋轉對稱．固定中心點</text>
+
+  <!-- 風車旋轉圖案 -->
+  <g transform="translate(445, 115)">
+    <!-- 旋轉中心點 -->
+    <circle cx="0" cy="0" r="5" fill="#ffd700" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="2.5" fill="#ffffff" opacity="0.8"/>
+    <text x="0" y="-55" text-anchor="middle" class="symmetry-label">旋轉中心</text>
+
+    <!-- 旋轉箭頭（圓弧） -->
+    <path d="M30,-20 A36,36 0 0,1 20,-30" stroke="#ffd700" stroke-width="1.8" fill="none" opacity="0.7" marker-end="url(#arrowGold)"/>
+    <defs>
+      <marker id="arrowGold" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+        <polygon points="0 0, 6 2, 0 4" fill="#ffd700"/>
+      </marker>
+    </defs>
+
+    <!-- 4個風車葉片 -->
+    <path d="M0,0 C-5,-20 -20,-30 0,-35 C20,-30 5,-20 0,0 Z" fill="url(#blade1)" opacity="0.8" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+    <path d="M0,0 C20,-5 30,-20 35,0 C30,20 20,5 0,0 Z" fill="url(#blade2)" opacity="0.8" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+    <path d="M0,0 C5,20 20,30 0,35 C-20,30 -5,20 0,0 Z" fill="url(#blade3)" opacity="0.8" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+    <path d="M0,0 C-20,5 -30,20 -35,0 C-30,-20 -20,-5 0,0 Z" fill="url(#blade4)" opacity="0.8" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+
+    <!-- 旋轉角度標示 -->
+    <path d="M8,-2 A8,8 0 0,1 2,-8" stroke="#ffffff" stroke-width="1" fill="none" opacity="0.5"/>
+    <text x="14" y="-6" font-size="8" fill="rgba(255,255,255,0.6)" font-family="Arial">90°</text>
+  </g>
+
+  <!-- ==================== 卡片3：綜合練習 ==================== -->
+  <g filter="url(#doubleShadow)">
+    <rect x="20" y="210" width="560" height="170" rx="16" fill="url(#card3Grad)"/>
+    <rect x="20" y="210" width="560" height="170" rx="16" fill="url(#radialGlow3)"/>
+    <rect x="20" y="210" width="560" height="170" rx="16" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  </g>
+
+  <text x="300" y="238" text-anchor="middle" class="card-title">✦ 綜合練習：找出對稱軸與旋轉中心 ✦</text>
+
+  <!-- 圖形1：正方形（對稱軸） -->
+  <g transform="translate(90, 310)">
+    <rect x="-30" y="-30" width="60" height="60" rx="3" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <!-- 4條對稱軸 -->
+    <line x1="0" y1="-35" x2="0" y2="35" class="symmetry-line" opacity="0.6"/>
+    <line x1="-35" y1="0" x2="35" y2="0" class="symmetry-line" opacity="0.6"/>
+    <line x1="-25" y1="-25" x2="25" y2="25" class="symmetry-line" opacity="0.4" stroke-dasharray="4,4"/>
+    <line x1="25" y1="-25" x2="-25" y2="25" class="symmetry-line" opacity="0.4" stroke-dasharray="4,4"/>
+    <text x="0" y="48" text-anchor="middle" class="point-label" font-size="10">4條對稱軸</text>
+  </g>
+
+  <!-- 圖形2：等邊三角形（對稱軸） -->
+  <g transform="translate(210, 310)">
+    <polygon points="0,-35 30,25 -30,25" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <line x1="0" y1="-40" x2="0" y2="30" class="symmetry-line" opacity="0.6"/>
+    <line x1="-20" y1="18" x2="20" y2="18" class="symmetry-line" opacity="0.4" stroke-dasharray="4,4"/>
+    <text x="0" y="48" text-anchor="middle" class="point-label" font-size="10">3條對稱軸</text>
+  </g>
+
+  <!-- 圖形3：圓形（旋轉中心） -->
+  <g transform="translate(330, 310)">
+    <circle cx="0" cy="0" r="32" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <!-- 旋轉中心點 -->
+    <circle cx="0" cy="0" r="4" fill="#ffd700" stroke="#ffffff" stroke-width="1"/>
+    <circle cx="0" cy="0" r="2" fill="#ffffff" opacity="0.8"/>
+    <!-- 旋轉箭頭 -->
+    <path d="M20,-20 A28,28 0 0,1 20,20" stroke="#ffd700" stroke-width="1.5" fill="none" opacity="0.6"/>
+    <polygon points="20,-20 17,-14 23,-14" fill="#ffd700" opacity="0.6"/>
+    <text x="0" y="48" text-anchor="middle" class="point-label" font-size="10">無限旋轉對稱</text>
+  </g>
+
+  <!-- 圖形4：菱形（對稱軸+旋轉中心） -->
+  <g transform="translate(450, 310)">
+    <polygon points="0,-35 25,0 0,35 -25,0" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <line x1="0" y1="-40" x2="0" y2="40" class="symmetry-line" opacity="0.6"/>
+    <line x1="-30" y1="0" x2="30" y2="0" class="symmetry-line" opacity="0.6"/>
+    <!-- 旋轉中心點 -->
+    <circle cx="0" cy="0" r="3" fill="#ffd700" opacity="0.8"/>
+    <text x="0" y="48" text-anchor="middle" class="point-label" font-size="10">2條對稱軸 + 旋轉中心</text>
+  </g>
+
+  <!-- 底部裝飾文字 -->
+  <text x="300" y="388" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.25)" font-family="Arial">香港小學數學 · 線與對稱 · 視覺化學習</text>
+</svg>

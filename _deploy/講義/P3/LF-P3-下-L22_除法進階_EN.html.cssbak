@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh-HK"><head><meta content="English math worksheet: 除法進階. LF Academy Hong Kong primary math. 除法 整除性 因數" name="description"/><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>P3 Math 除法進階 Worksheet | LF Academy</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11pt;
+  --fs-small: 9pt;
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 1.9;
+  --lh-tight: 1.4;
+  --lh-answer: 2.2;  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+}
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
+
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
+
+.lf-student-info .lf-si-spacer { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+</style><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P3 講義",
+      "item": "https://lfamy.github.io/講義/P3/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "除法進階"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head><body><div class="lf-page">
+<div class="lf-cover">
+<div class="lf-cover-logo">LF Academy · LF Academy</div>
+<div class="lf-cover-grade">小三 · 第 22 堂 · Student Edition Handout</div>
+<div class="lf-cover-title">Division進階</div>
+<div class="lf-cover-subtitle">兩位數 ÷ 一位數 · 有餘數 · 65 min</div>
+<div class="lf-cover-info">
+<b>核心Trap：</b>🪤 餘數必須小於除數！「餘數&lt;除數」係鐵律！<br/>
+<b>Prerequisites：</b>L08 基本Division · Multiplication表<br/>
+<b>Lesson Objectives：</b>❶ 兩位數÷一位數直式 ❷ 餘數處理 ❸ 驗證方法 ❹ Divisible判斷<br/>
+<b>Textbook Reference：</b>《小學數學新思維》3下A冊 單元二
+</div>
+<div class="lf-cover-row">
+<span>Student Name：<span class="lf-line"></span></span><span>Class：<span class="lf-line"></span></span><span>Date：<span class="lf-line"></span></span><span>Duration：<span class="lf-line"></span></span>
+</div></div>
+<div>
+<div class="lf-h1">一、Warm-Up （5 min）（共 5 題）<span class="star">⭐</span></div>
+
+<div class="lf-game"><div class="lf-game-title">🏆 陷阱獵人·計時挑戰</div><div class="lf-game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！</div><div class="lf-game-action">⭐ 開始挑戰 →</div></div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">1</td><td>24 ÷ 6 = ？（用乘數表逆向：6x?=24）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">2</td><td>35 ÷ 5 = ？（5x?=35）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">3</td><td>17 ÷ 3 = ？商 = ＿＿，餘 = ＿＿（餘數 &lt; 3？）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">4</td><td>45 ÷ 6 = ？（先估商：6x7=42，45-42=3）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">5</td><td>以下邊個啱？A. 26÷4=5...6 B. 26÷4=6...2 C. 26÷4=7...-2</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h1">二、Core Knowledge （15 min） ＋ Worked Examples</div>
+<div class="lf-kp"><div class="lf-kp-title">知識點一：兩位數 ÷ 一位數 直式<span class="lf-sspa-badge lf-sspa-mid">⭐ 最重要</span></div>
+<div class="lf-kp-rules">
+① <strong>步驟：</strong>十位除 → 有剩就拉落個位 → 再除<br/>
+② <strong>72 ÷ 3：</strong>十位7÷3=2...1 → 剩1+個位2=12 → 12÷3=4 → 答案<strong>24</strong><br/>
+③ <strong>驗證：</strong>除數 x 商 + 餘數 = 被除數<br/>
+④ <strong>Mnemonic：</strong>「先除十位，有剩加落個位，再除埋佢！」
+</div></div>
+<div class="lf-ex"><div class="lf-ex-title">例題 1：Divisible（冇餘數）</div>
+<div class="lf-ex-q">🍬 96 粒糖，平均分給 4 個小朋友。每人有幾粒？</div>
+<div style="font-size:14px;">直式：96 ÷ 4<br/>十位：9÷4=<strong>2</strong>...1（2x4=8，9-8=1）<br/>剩1+個位6=16，16÷4=<strong>4</strong><br/>答案：<strong>24 粒</strong>（驗證：4x24=96 ✓）</div></div>
+<div class="lf-ex"><div class="lf-ex-title">🪤 例題 2：有餘數！（Trap重點）</div>
+<div class="lf-ex-q">85 ÷ 6 = ？</div>
+<div class="lf-ex-compare">
+<div class="lf-ex-wrong"><div class="lf-ex-label">❌ 小Trap怪獸話</div><div class="eq">85÷6 = 13...7</div><div class="why">7 &gt; 6！餘數大過除數！仲可以除多次！</div></div>
+<div class="lf-ex-right"><div class="lf-ex-label">✅ 正確答案</div><div class="eq">85÷6 = 14...1</div><div class="why">十位8÷6=1...2；25÷6=4...1；餘數1&lt;6 ✓。驗證：6x14+1=84+1=85 ✓</div></div>
+</div></div>
+<div class="warn">⚠️ 致命Trap：「餘數 &lt; 除數」係鐵律！永遠檢查：餘數係咪細過除數？如果唔係 → 商可以再加1！</div>
+<div class="lf-tip">💡 檢查三步曲：① 除數 x 商 = ？② 加返餘數 = ？③ 餘數 &lt; 除數？</div>
+<div class="lf-h2">知識點一 同步練習</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">6</td><td>84 ÷ 4 = ？（直式）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">7</td><td>91 ÷ 7 = ？（用乘數表逆向：7x?=91）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">8</td><td>67 ÷ 5 = ？（有餘數，檢查餘數 &lt; 5）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">9</td><td>98 ÷ 8 = ？（直式 + 驗證）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+</div>
+<div>
+<div class="lf-kp"><div class="lf-kp-title">知識點二：估商策略<span class="lf-sspa-badge lf-sspa-high">🔴 必考</span></div>
+<div class="lf-kp-rules">
+① <strong>估商 = 搵最接近但不超過嘅乘積</strong><br/>
+② 例：73 ÷ 8 → 8x9=72（最接近73）→ 商=9，餘=1<br/>
+③ <strong>上調：</strong>如果乘積太小 → 商+1<br/>
+④ <strong>下調：</strong>如果乘積太大（超過被除數）→ 商-1<br/>
+⑤ <strong>祕技：</strong>用Multiplication表逆向諗：「8x?=最接近73但又唔超過73？」
+</div></div>
+<div class="lf-ex"><div class="lf-ex-title">例題 3：估商練習</div>
+<div class="lf-ex-q">57 ÷ 7 = ？試估商！</div>
+<div style="font-size:14px;">7x8=56（最接近57）→ 商=<strong>8</strong>，餘=57-56=<strong>1</strong><br/>驗證：7x8+1=56+1=57 ✓，1&lt;7 ✓</div></div>
+<div class="lf-game">
+<div style="font-size:24px;">🎮 估商大作戰！</div>
+<div style="font-size:14px;">「估商高手」挑戰：睇到Division即刻估商！<br/>例如見到 59÷7 →即刻諗：7x8=56 → 商8！</div>
+</div>
+<div class="lf-h2">知識點二 同步練習</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">10</td><td>估商練習：46÷5（5x?最接近46？），53÷6（6x?最接近53？）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">11</td><td>38 ÷ 4 = ？（估商 + 驗證）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">12</td><td>82 ÷ 9 = ？（估商：9x?最接近82？）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-kp"><div class="lf-kp-title">知識點三：Divisible判斷<span class="lf-sspa-badge lf-sspa-mid">⭐</span></div>
+<div class="lf-kp-rules">
+① <strong>Divisible = 冇餘數</strong>（餘數 = 0）<br/>
+② 點知一個數能否被Divisible？用乘數表檢查！<br/>
+③ 例：72 可以被 8 Divisible嗎？8x9=72 → 可以！<br/>
+④ 例：73 可以被 8 Divisible嗎？8x9=72, 8x10=80 → 唔可以！餘1<br/>
+⑤ 能被 2 Divisible = 雙數；能被 5 Divisible = 個位係 0 或 5；能被 10 Divisible = 個位係 0
+</div></div>
+</div>
+<div>
+<div class="lf-h1">三、Tiered Practice （20 min）</div>
+<div class="lf-h2">🌱 Foundation Tier（共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">13</td><td>63 ÷ 3 = ？（直式，Divisible）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">14</td><td>48 ÷ 4 = ？（直式）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">15</td><td>55 ÷ 5 = ？（Divisible，用乘數表驗證）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">🌿 Intermediate Tier（共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">16</td><td>74 ÷ 6 = ？（有餘數，檢查餘&lt;6）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">17</td><td>89 ÷ 7 = ？（直式 + 驗證）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">18</td><td>判斷對錯：93÷8=11...5。驗證！</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">🌳 Challenge Tier（共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">19</td><td>95 ÷ 4 = ？（商有兩位數）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">20</td><td>一個數除以 6，商是 15，餘數是 4。這個數是多少？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">21</td><td>除數是 7，餘數最大可以是幾多？除數是 9 呢？找出規律！</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h1">四、生活Word Problems（共 5 題）<span class="star">🎯</span></div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">22</td><td>🍪 78 塊曲奇，平均分給 6 個小朋友。每人有幾塊？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">23</td><td>📖 92 本書，每 5 本放一層。可放滿幾層？剩幾本？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">24</td><td>💰 87 元，每支筆 8 元。最多可買幾支？剩幾元？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">25</td><td>🥚 一盒蛋有 6 隻，媽媽買了 75 隻蛋。需要買多少盒？（提示：75÷6 有餘數，要加多一盒！）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">26</td><td>🎂 每個蛋糕用 4 隻雞蛋。有 99 隻雞蛋，最多可做幾個蛋糕？剩幾隻蛋？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+</table>
+</div>
+<div>
+<div class="lf-h1">五、Homework （課後完成）<span class="star">📝</span></div>
+<div class="lf-h2">Foundation (Required)題（共 5 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">H1</td><td>69 ÷ 3 = ？84 ÷ 4 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H2</td><td>56 ÷ 7 = ？用Multiplication驗證：＿＿x 7 = ＿＿</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H3</td><td>47 ÷ 5 = ？（有餘數，檢查餘數 &lt; 5）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H4</td><td>73 ÷ 8 = ？（估商 + 驗證）</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H5</td><td>判斷並改正：65÷9=6...11。有咩錯？寫出正確答案。</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">Advanced (Optional)題（共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">H6</td><td>90 ÷ 7 = ？（有餘數，餘數最大可能性驗證）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H7</td><td>一個數除以 8，商是 11，餘數是 5。這個數是多少？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H8</td><td>86 粒朱古力，每盒放 7 粒。最少需要幾個盒才能全部裝完？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h1">六、Common Error Summary （8 min）</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self Check（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅Trap</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住Mnemonic</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Learning Objectives Review — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有Trap類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂Mnemonic</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>Common Error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>餘數 ≥ 除數</strong>：85÷6=13...7</td><td>餘數必須 &lt; 除數！7&gt;6，商應該係14</td></tr>
+<tr><td>2</td><td><strong>十位除完冇拉落個位</strong></td><td>十位有剩餘 → 加落個位一齊除</td></tr>
+<tr><td>3</td><td><strong>估商太大或太小</strong></td><td>用Multiplication表逆向：除數x?最接近被除數</td></tr>
+<tr><td>4</td><td><strong>忘記驗證</strong></td><td>除數x商+餘數=被除數，做完必定檢查</td></tr>
+<tr><td>5</td><td><strong>直式對位唔齊</strong></td><td>商寫喺被除數上面，對齊位數</td></tr>
+<tr><td>6</td><td><strong>Divisible時餘數寫0但忘記寫</strong></td><td>Divisible時餘數=0，要寫清楚</td></tr>
+<tr><td>7</td><td><strong>Division同Multiplication掉轉</strong>：大數÷Decimal</td><td>被除數係大數，除數係細數</td></tr>
+</table>
+<div class="mn">🧠 Mnemonic一：「先除十位有剩落，加個位數再除過；餘數必定細過除數，鐵律永遠唔會錯！」</div>
+<div class="mn">🧠 Mnemonic二：「估商要用乘數表，最接近但又唔超；除完用乘嚟驗證，答案正確冇煩惱！」</div>
+<div class="sc">
+<div class="sc-i"><div class="n">①</div><div class="t">除十位</div><div class="d">十位÷除數</div></div>
+<div class="sc-i"><div class="n">②</div><div class="t">拉落個位</div><div class="d">有剩加個位再除</div></div>
+<div class="sc-i"><div class="n">③</div><div class="t">寫商+餘</div><div class="d">商...餘數</div></div>
+<div class="sc-i"><div class="n">④</div><div class="t">驗證</div><div class="d">除x商+餘=被除數</div></div>
+</div>
+<div class="lf-tip" style="text-align:center;font-size:14px;">🌟 Division係分享嘅數學！記住餘數一定要細過除數，你就係Division大師！好叻呀！💪</div>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「Division進階」</b>。 重點：❶ 兩位數÷一位數直式 ❷ 餘數處理 ❸ 驗證方法 ❹ Divisible判斷。<br/>
+<b>最易錯嘅 3 個Trap：</b> 🪤 餘數必須小於除數！「餘數&lt;除數」係鐵律！<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「Division進階」嘅最重要Mnemonic俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查Trap？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳Challenge Tier 17-21
+  </div>
+<div class="end-note">🪤 LF Academy · LF Academy · We don't teach math — we teach trap avoidance.。 · LF-P3-下-L22</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related Topics：L02 兩位數Division · L03 三位數Division · L05 四則Word Problems</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+LF-P3-下-L22 | 6頁 · 43題 | Ctrl+P 列印<div class="lf-footer">LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</div>
+</body></html>

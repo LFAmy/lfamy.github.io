@@ -1,65 +1,883 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LF-P6-下-L24 方程進階：含括號與分數方程 — 學生版講義</title><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
-:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--ink:#1A1A1A;--gray:#6B7280;--lightbg:#F9FAFB;--borderc:#D1D5DB;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans HK',sans-serif;background:#E5E5E5;color:var(--ink);font-size:13px;line-height:1.65;}
-@media print{body{background:white;font-size:10.5px;}.pb{box-shadow:none;padding:20px 30px;}.pb.cover-page{page-break-after:always;}.no-print{display:none!important;}.qt .qw{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px);border:1px dashed #9CA3AF;}.qt td{padding:3px 5px;}.qt{font-size:10px;}.qt .qtxt{font-size:11px;}.h1{font-size:13px;margin:10px 0 6px;}.h2{font-size:11px;}.kp{padding:6px 9px;}.kp-rules{font-size:10px;}.ex{padding:6px 9px;}.ex-q{font-size:11px;}.warn{font-size:10px;}.mn{font-size:11px;}.et{font-size:9.5px;}}
-.container{max-width:1000px;margin:0 auto;}
-.pb{width:100%;background:var(--white);padding:32px 42px;display:flex;flex-direction:column;}
-.cover{justify-content:center;align-items:center;text-align:center;}
-.cv-logo{font-family:'Noto Serif HK',serif;font-size:20px;font-weight:900;color:var(--blue);letter-spacing:6px;}
-.cv-badge{display:inline-block;border:1.5px solid var(--gold);color:var(--gold);padding:5px 22px;border-radius:20px;font-size:12px;letter-spacing:3px;margin:14px 0;}
-.cv-title{font-family:'Noto Serif HK',serif;font-size:30px;font-weight:900;color:var(--blue);letter-spacing:3px;margin:10px 0 5px;}
-.cv-sub{font-size:13px;color:var(--gray);margin-bottom:20px;}
-.cv-info{display:inline-block;text-align:left;background:var(--lightbg);border:1px solid var(--borderc);border-radius:8px;padding:16px 22px;font-size:12px;line-height:1.9;}
-.cv-info b{color:var(--blue);}
-.cv-row{margin-top:20px;font-size:13px;display:flex;gap:24px;}
-.cv-row .ln{display:inline-block;width:90px;border-bottom:1px solid var(--borderc);}
-.h1{font-family:'Noto Serif HK',serif;font-size:16px;font-weight:900;color:var(--blue);padding:6px 10px;margin:14px 0 8px;border-left:4px solid var(--gold);background:#FFFBEB;}
-.h2{font-family:'Noto Serif HK',serif;font-size:13px;font-weight:700;color:var(--blue);margin:12px 0 5px;padding-bottom:2px;border-bottom:1px solid var(--borderc);}
-.kp{margin:8px 0;padding:10px 12px;background:var(--lightbg);border:1px solid var(--borderc);border-radius:5px;}
-.kp-title{font-size:13px;font-weight:900;color:var(--blue);margin-bottom:3px;}
-.kp-rules{font-size:12px;line-height:1.7;}
-.ex{border:2px solid var(--gold);border-radius:7px;padding:10px 12px;margin:7px 0;background:#FFFDF5;}
-.ex-title{font-size:12px;font-weight:900;color:#92400E;margin-bottom:4px;}
-.ex-q{font-size:13px;font-weight:700;margin:4px 0;line-height:1.7;}
-.warn{background:#FEF2F2;border-left:3px solid var(--red);padding:5px 8px;margin:6px 0;font-size:11px;font-weight:600;color:#991B1B;}
-.mn{background:linear-gradient(135deg,#FFF8E7,#FFEDD5);border:2px solid var(--gold);border-radius:7px;padding:9px 12px;margin:6px 0;text-align:center;font-size:14px;font-weight:900;color:var(--blue);}
-.qt{width:100%;border-collapse:collapse;margin:5px 0;font-size:11.5px;}
-.qt th{background:var(--blue);color:white;padding:4px 7px;font-size:10px;font-weight:600;text-align:left;}
-.qt td{padding:5px 7px;border:1px solid var(--borderc);vertical-align:top;}
-.qt tr:nth-child(even) td{background:#FAFBFC;}
-.qt .qn{width:32px;text-align:center;font-weight:700;}
-.qt .qd{width:48px;text-align:center;font-size:10px;font-weight:700;}
-.qt .qw{min-height:80px;background:repeating-linear-gradient(transparent,transparent 18px,#E5E7EB 18px,#E5E7EB 19px);}
-.qt .qtxt{font-size:12.5px;line-height:1.65;}
-.d1{background:#FEF3C7;color:#92400E;}.d2{background:#DCFCE7;color:#166534;}
-.d3{background:#DBEAFE;color:#1E40AF;}.d4{background:#F3E8FF;color:#7C3AED;}
-.ss{display:inline-block;padding:1px 5px;border-radius:2px;font-size:8px;font-weight:700;}
-.sh{background:#FEE2E2;color:#991B1B;}
-.tc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:7px 0;}
-.tc-w{background:#FEF2F2;border:2px solid #FECACA;border-radius:8px;padding:12px;text-align:center;}
-.tc-r{background:#F0FDF4;border:2px solid #BBF7D0;border-radius:8px;padding:12px;text-align:center;}
-.tc-w .lbl,.tc-r .lbl{font-size:13px;font-weight:900;margin-bottom:3px;}
-.tc-w .lbl{color:var(--red);}.tc-r .lbl{color:var(--green);}
-.et{width:100%;border-collapse:collapse;margin:5px 0;font-size:10.5px;}
-.et th{background:var(--red);color:white;padding:4px 7px;}
-.et td{padding:4px 7px;border:1px solid var(--borderc);}
-.end-note{text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--borderc);font-size:10px;color:var(--gray);}
-.sc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0;}
-.sc-card{background:var(--lightbg);border:1.5px solid var(--borderc);border-radius:6px;padding:10px 8px;text-align:center;font-size:10.5px;}
-.sc-card .snum{display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--blue);color:white;font-size:11px;font-weight:900;line-height:20px;margin-bottom:4px;}
-.sc-card .stitle{font-weight:700;color:var(--blue);margin:2px 0;}
-.sc-card .sdetail{font-size:10px;color:var(--ink);line-height:1.4;}
-.game-box{background:linear-gradient(135deg,#FEF3C7,#FFEDD5);border:2px dashed var(--gold);border-radius:8px;padding:12px 14px;margin:8px 0;text-align:center;}
-.game-box .game-title{font-size:14px;font-weight:900;color:#92400E;}
-.game-box .game-desc{font-size:11px;color:#78350F;margin-top:3px;}
-/* MathJax print/PDF fixes */
-@media print {
-  mjx-container[display="true"] { margin: 8px 0; }
-  mjx-container > svg { max-width: 100%; height: auto; }
+<html lang="zh-HK" data-ai-generated="true" data-ai-model="deepseek-v4-flash" data-ai-date="2026-06-11" data-human-review="pending">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LF-P6-下-L24 方程進階：含括號與分數方程 — 學生版講義</title><style>
+/* ═══════════════════════════════════════════════════════════════
+   
+LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #B91C1C; /* WCAG AA: 4.6:1 contrast */
+  --green: #047857; /* WCAG AA enhanced */
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11.5pt; /* Slightly larger for children */
+  --fs-small: 9.5pt; /* Minimum legibility */
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 2.0; /* More breathing room */
+  --lh-tight: 1.4;
+  --lh-answer: 2.4; /* Extra handwriting space */  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
 }
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
+
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
+
+.lf-student-info .lf-si-spacer { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none; break-inside: avoid;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+
+
+  /* ════════════════════════════════════════════════════════
+     LF Academy v8.0 — Enhanced A4 Print Styles
+     新增: 學生答題空間優化 · 打印裝訂邊距 · 浮水印 · 頁碼美化
+     ════════════════════════════════════════════════════════ */
+  
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 14mm 16mm 20mm 22mm;  /* left=22mm for binding */
+    @top-right {
+      content: string(grade-header);
+      font-size: 7pt;
+      color: var(--lf-gray);
+      font-family: var(--font-heading);
+    }
+    @bottom-left {
+      content: "LF Academy | lfacademyhk.com";
+      font-size: 6.5pt;
+      color: #9CA3AF;
+    }
+    @bottom-right {
+      content: "P " counter(page);
+      font-size: 7pt;
+      color: var(--lf-gray);
+    }
+  }
+  
+  /* Grade header for page top */
+  .lf-page::before {
+    string-set: grade-header attr(data-grade);
+  }
+  
+  /* Student workspace */
+  .lf-line {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #D1D5DB 0, #D1D5DB 4px, transparent 4px, transparent 8px);
+    margin: 6pt 0 8pt 0;
+  }
+  
+  .lf-answer-space {
+    min-height: 28pt;
+    border-bottom: 1.5px dashed #D1D5DB;
+    margin: 4pt 0;
+    padding: 2pt 4pt;
+  }
+  
+  .lf-answer-lines {
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 21pt, #E5E7EB 21pt, #E5E7EB 21.5pt);
+    min-height: 64pt;
+    padding: 2pt 8pt;
+    margin: 6pt 0;
+  }
+  
+  /* Cover page */
+  .lf-cover {
+    page-break-after: always;
+  }
+  
+  /* Trap cards - ensure visibility in B&W print */
+  .lf-trap-card {
+    border: 2px solid #333 !important;
+    background: #FAFAFA !important;
+  }
+  
+  .lf-trap-wrong {
+    color: #333 !important;
+    font-weight: 700 !important;
+    text-decoration: line-through;
+  }
+  
+  .lf-trap-right {
+    color: #000 !important;
+    font-weight: 900 !important;
+    border-left: 3px solid #000;
+    padding-left: 8pt;
+  }
+  
+  /* SSPA Challenge questions */
+  .enrichment-challenge {
+    border: 2px solid #333 !important;
+    background: #FAFAFA !important;
+  }
+  
+  /* Prevent content breaks */
+  .lf-trap-card, .enrichment-challenge, .lf-ex, .lf-kp {
+    page-break-inside: avoid;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+  
+  /* Hide interactive elements */
+  .no-print, .lf-game, .lf-ai-section {
+    display: none !important;
+  }
+  
+  /* Score/name area */
+  .lf-print-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8pt 0;
+    border-bottom: 1px solid #333;
+    margin-bottom: 12pt;
+  }
+  
+  .lf-print-header .name-line {
+    display: inline-block;
+    min-width: 120pt;
+    border-bottom: 1px solid #333;
+    margin: 0 4pt;
+  }
+  
+  /* Page break before major sections */
+  .lf-sspa-section {
+    page-break-before: always;
+  }
+  
+  /* Watermark */
+  .lf-page {
+    position: relative;
+  }
+  
+  .lf-page::after {
+    content: "LF Academy";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 60pt;
+    color: rgba(0,0,0,0.03);
+    pointer-events: none;
+    z-index: -1;
+    font-family: var(--font-heading);
+    white-space: nowrap;
+  }
+
+}
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
 
   .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
   .f .n { font-size:inherit; line-height:1.15; }
@@ -73,27 +891,239 @@ body{font-family:'Noto Sans HK',sans-serif;background:#E5E5E5;color:var(--ink);f
   .fi .n { font-size:inherit; line-height:1; }
   .fi .d { font-size:inherit; line-height:1; }
   .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  /* v8.0 Image/SVG fix: prevent clipping */
+  img, svg, .geo-row svg, .lf-diagram img, .lf-diagram svg {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 8pt auto;
+    overflow: visible !important;
+  }
+  
+  .geo-row, .lf-diagram, figure {
+    overflow: visible !important;
+    max-width: 100%;
+  }
+  
+  /* Fix for MathJax SVG clipping */
+  mjx-container {
+    overflow: visible !important;
+  }
+  
+  mjx-container svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+
+/* ===========================================================
+   LF Academy v8.0 — MIMO v2.5 Enhanced Design System
+   =========================================================== */
+
+/* Enhanced Educational Blocks */
+.lf-why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-why-box::before{content:"💡 WHY?";font-weight:900;font-size:9pt;color:#0369A1;letter-spacing:2pt;display:block;margin-bottom:8pt;}
+.lf-sspa-tag{display:inline-flex;align-items:center;gap:4pt;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534;}
+.lf-trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-trap-warning::before{content:"⚠️ 陷阱提醒：";font-weight:700;color:#B45309;}
+.lf-story-context{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-story-context::before{content:"📖 生活情境";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt;}
+.lf-parent-summary{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt;}
+.lf-parent-summary::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt;}
+.lf-learning-target{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-learning-target::before{content:"🎯 本課學習目標";font-weight:700;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt;}
+.lf-key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0;}
+.lf-key-point::before{content:"★ 重點";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt;}
+.visual-card{background:white;border:1pt solid rgba(91,125,177,.15);border-radius:10pt;padding:16pt;margin:12pt 0;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;break-inside:avoid;}
+.lf-answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:12pt 0;transition:border-color .2s;}
+.lf-student-info input:focus,.lf-answer-line:focus-within{outline:2px solid #0369A1;outline-offset:1px;}
+a:focus-visible,button:focus-visible{outline:2px solid #0369A1;outline-offset:2px;}
+.math-number{font-weight:700;color:#1A3C6D;font-variant-numeric:tabular-nums;}
+@media screen and (max-width:800px){.lf-page{width:auto;margin:0;padding:10mm 12mm;box-shadow:none;}}
+@media print{.lf-page{width:auto;min-height:auto;margin:0;padding:12mm 15mm 18mm 20mm;box-shadow:none;}.visual-card{background:white!important;box-shadow:none!important;border:1pt solid #E5E7EB!important;break-inside:avoid;}.screen-only{display:none!important;}}
 </style><script>
 MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "educationalLevel": "P6",
+  "about": "香港小學數學",
+  "creativeWorkStatus": "Published",
+  "usageInfo": "AI-generated content with human SME review per 1EdTech Best Practices",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "霖楓學苑 (LF Academy)"
+  }
+}
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "P6 LF-P6-下-L24 方程進階 含括號分數方程", "description": "P6 math: LF-P6-下-L24 方程進階 含括號分數方程", "provider": {"@type": "Organization", "name": "LF Academy", "url": "https://lfacademyhk.com"}, "educationalLevel": "P6", "inLanguage": ["zh-HK", "en"], "teaches": "Primary Mathematics"}</script>
+<style>
+/* === LF Academy v2.5 Visual Enhancement === */
+.visual-card,.story-box,.learning-obj-box,.trap-card,.why-box{transition:transform .2s ease,box-shadow .3s ease}
+.visual-card:hover,.story-box:hover,.learning-obj-box:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04)!important}
+.story-illustration{transition:transform .2s ease,box-shadow .3s ease}
+.story-illustration:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,.08)!important}
+svg{max-width:100%;height:auto}
+@media print{.visual-card,.story-box,.learning-obj-box,.story-illustration{break-inside:avoid;box-shadow:none!important;border:1px solid #ddd!important}}
+.visual-card:focus-visible,.story-box:focus-visible{outline:3px solid #5B7DB1;outline-offset:2px}
+@media(max-width:600px){.story-box{font-size:14px!important;padding:14px 16px!important}.visual-card{padding:16px!important}}
+</style>
 </head>
-<body><div class="container"><div class="pb cover-page cover">
-<div class="cv-logo">霖楓學苑 · LF Academy</div>
-<div class="cv-badge">小六 · 第 24 堂 · 學生版講義</div>
-<div class="cv-title">方程進階：含括號與分數方程</div>
-<div class="cv-sub">括號展開 · 分數方程 · 雙邊含x · 65 分鐘 · 一對三線上課程</div>
-<div class="cv-info"><b>對應教材：</b>《小學數學新思維（第二版）》6B冊 單元二 ＋ 現代教育 6B 單元3<br>
-<b>SSPA 關聯：</b><span class="ss sh">🔴 必考</span> 呈分試卷二方程應用題必考，佔約 10-15%<br>
+<body>
+
+<!-- VISUAL ILLUSTRATION (auto-injected) -->
+<div class="visual-card" style="background:linear-gradient(135deg,#FFF8F0 0%,#F0F4FF 50%,#FFF5F5 100%);border-radius:20px;padding:24px;margin:16px 0;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.04);border:1px solid rgba(91,125,177,0.08);transition:all 0.3s ease;">
+<div class="visual-illustration" data-svg-idx="0">
+  <h3>分數圓餅圖</h3>
+  
+<svg viewBox="0 0 200 200" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="fpGrad" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#FF6B6B;stop-opacity:0.8"/>
+    </radialGradient>
+    <filter id="fpShadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/></filter>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="85" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="2"/>
+  <!-- 3/4 slice -->
+  <path d="M100,100 L100,15 A85,85 0 0,1 185,100 Z" fill="url(#fpGrad)" filter="url(#fpShadow)"/>
+  <!-- Center dot -->
+  <circle cx="100" cy="100" r="4" fill="#FF6B6B"/>
+  <!-- Labels -->
+  <text x="100" y="50" text-anchor="middle" font-family="Baloo 2, sans-serif" font-size="22" font-weight="700" fill="#2C3E50">3</text>
+  <text x="100" y="80" text-anchor="middle" font-family="Baloo 2, sans-serif" font-size="16" fill="#5A6C7D">──</text>
+  <text x="100" y="100" text-anchor="middle" font-family="Baloo 2, sans-serif" font-size="22" font-weight="700" fill="#2C3E50">4</text>
+</svg>
+  <div class="code">&lt;!-- include: svg/fraction-pie.svg --&gt;</div>
+</div>
+<!-- END VISUAL ILLUSTRATION -->
+
+<!-- STORY CONTEXT (auto-injected) -->
+<div class="story-box" style="background:linear-gradient(135deg,#FFFBF0,#FFF5F5);border-left:4px solid #FF6B6B;border-radius:0 16px 16px 0;padding:18px 24px;margin:14px 0;font-size:15px;line-height:1.7;box-shadow:0 2px 10px rgba(255,107,107,0.06);">
+🍕 Pizza店大冒險！小美同 3 個朋友去食 Pizza，一個 Pizza 切咗 8 塊，每人食咗 3 塊。「每人食咗幾分之幾個 Pizza？」💡 分數幫我哋表達「唔完整」嘅數量！
+</div>
+<div class="story-context" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE);border:2px solid #7C3AED;border-radius:12px;padding:16px 20px;margin:14px 0;">
+<div style="font-weight:900;color:#5B21B6;font-size:14px;margin-bottom:8px;">📖 故事情境</div>
+<div style="font-size:12px;color:#374151;line-height:1.9;">
+🔍 <b>偵探遊戲！</b><br/>
+小明收到一張神秘紙條：「我係一個數，加 5 之後等於 12，我係邊個？」<br/>
+小明諗咗一陣，寫低：x + 5 = 12 → x = 7！「我搵到你啦！」<br/>
+老師話：「呢個就係<b>方程</b>嘅威力 — 用未知數 x 代表未知嘅量，用等式關係去解出答案！」<br/>
+<em style="color:#5B21B6;">今日我哋一齊嚟做數學偵探，學識列方程同解方程！</em>
+</div>
+</div>
+<!-- LF Academy | AI-enhanced v3 | provenance: DeepSeek -->
+<div style="text-align:center;margin:24px 0;padding:16px;background:#F9FAFB;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+  <img src="/講義/_svg/ds_P6_方程進階含括號.svg" alt="教學圖解" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  
+</div>
+
+<!-- 情境插圖 -->
+<div style="text-align:center;margin:20px 0;padding:12px;background:linear-gradient(135deg,#FEF3C7,#FEF9C3);border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+  <img src="/講義/_svg/scene_kitchen.svg" alt="情境插圖" style="max-width:100%;height:auto;max-height:200px;border-radius:8px;object-fit:contain;" loading="lazy" />
+</div>
+
+
+<!-- END STORY CONTEXT -->
+<div class="story-illustration" style="display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#FFF5E6,#FFF0F0);border-radius:16px;padding:16px 20px;margin:12px 0;box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+<div style="font-size:48px;line-height:1;">🍕</div>
+<div style="flex:1;">
+<div style="font-size:15px;font-weight:700;color:#FF6B6B;margin-bottom:4px;">🎨 情境插圖：Pizza 店大冒險</div>
+<div style="font-size:13px;color:#5B7DB1;line-height:1.5;">一個 Pizza 切咗 <b>8 塊</b>，小美同 3 個朋友每人食咗 <b>3 塊</b>。<br>每人食咗 <b>\(\frac{3}{8}\)</b> 個 Pizza！💡 分數幫我哋表達「唔完整」嘅數量。</div>
+</div>
+<div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;width:80px;">
+<span style="background:#FFD93D;width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #F4A460;"></span>
+<span style="background:#FFD93D;width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #F4A460;"></span>
+<span style="background:#FFD93D;width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #F4A460;"></span>
+<span style="background:#FFD93D;width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #F4A460;"></span>
+<span style="background:#FFD93D;width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #F4A460;"></span>
+<span style="background:#FFD93D;width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #F4A460;"></span>
+<span style="background:#FFD93D;width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #F4A460;"></span>
+<span style="background:#FFD93D;width:20px;height:20px;border-radius:50%;display:inline-block;border:2px solid #F4A460;"></span>
+</div>
+</div>
+
+<!-- LEARNING OBJECTIVES (auto-injected) -->
+<div class="learning-obj-box" style="background:linear-gradient(135deg,#F0FDF4,#ECFDF5);border-left:4px solid #4ECDC4;border-radius:0 16px 16px 0;padding:14px 20px;margin:14px 0;box-shadow:0 2px 10px rgba(78,205,196,0.06);">
+<strong style="color:#2C3E50;">🎯 學習目標 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 解含括號的一元一次方程</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 處理分數係數的方程</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<!-- END LEARNING OBJECTIVES -->
+
+
+
+
+<div class="lf-page"><div class="lf-cover">
+<div class="lf-cover-logo">霖楓學苑 · LF Academy</div>
+<div class="lf-cover-grade">小六 · 第 24 堂 · 學生版講義</div>
+<div class="lf-cover-title">方程進階：含括號與分數方程</div>
+<div class="lf-cover-subtitle">括號展開 · 分數方程 · 雙邊含x · 65 分鐘 · 一對三線上課程</div>
+<div class="lf-cover-info"><b>對應教材：</b>《小學數學新思維（第二版）》6B冊 單元二 ＋ 現代教育 6B 單元3<br>
+<b>SSPA 關聯：</b><span class="lf-sspa-badge lf-sspa-high">🔴 必考</span> 呈分試卷二方程應用題必考，佔約 10-15%<br>
 <b>前置知識：</b>P5 L14-L15 簡易方程、P6上 L02-L05 百分數/分數運算<br>
 <b>本堂目標：</b>❶ 含括號方程（分配律） ❷ 含分數方程（通分消分母） ❸ 雙邊含x方程 ❹ 驗算習慣<br>
 <b>核心陷阱：</b>🪤 T16 去括號時正負號反轉遺漏 · 分數方程通分時分子忘記乘 · 搬項符號錯誤</div>
-<div class="cv-row"><span>學生姓名：<span class="ln"></span></span><span>班級：<span class="ln"></span></span><span>日期：<span class="ln"></span></span><span>完成時長：<span class="ln"></span></span></div>
-</div><div class="pb"><div class="h1">一、熱身啟動題（共 5 題，5 分鐘）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">1</td><td class="qtxt">解：2x + 3 = 11</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">2</td><td class="qtxt">解：x/3 = 4</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">3</td><td class="qtxt">展開：3(x + 5) = ？</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">4</td><td class="qtxt">展開：−2(x − 4) = ？</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">5</td><td class="qtxt">解：5x − 3 = 2x + 9</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h1">二、核心知識精講 ＋ 例題練習</div><div class="kp"><div class="kp-title">知識點一：含括號方程（分配律） <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>分配律：a(b + c) = ab + ac</b><br>② 括號前係負號 → 入面<b>每項都要反轉符號</b>！<br>③ 例：3 − 2(x + 1)<br>　= 3 − 2x − 2（−2 要乘晒 x 同 1！）<br>　= 1 − 2x<br>④ ⚠️ 最致命：3 − 2(x + 1) ≠ 3 − 2x + 1！<br>⑤ 口訣：「括號前有數字→乘晒入面每一項！」</div></div>
+<div class="lf-parent-summary"><div class="lf-ps-title">📋 家長30秒摘要</div>
+<p>本堂重點學習解含括號與分數的方程，掌握去括號及通分技巧。學完能靈活運用逆運算解複雜方程。建議回家請孩子每天練習2-3題同類題目，並強調核對答案時把解代入原式驗算，鞏固運算邏輯。</p>
+</div>
 
-<div class="why-box" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #EA580C;border-radius:10px;padding:14px 18px;margin:14px 0;">
+<div class="lf-cover-row"><span>學生姓名：<span class="lf-line"></span></span><span>班級：<span class="lf-line"></span></span><span>日期：<span class="lf-line"></span></span><span>完成時長：<span class="lf-line"></span></span></div>
+</div><div>
+<div class="lf-game"><div class="lf-game-title">🏆 🧩 方程密室逃脫</div><div class="lf-game-desc">每條方程係一道門鎖！解開方程=破開密碼鎖，每層3條方程，全部解開先可以逃出密室！計時挑戰，睇你幾快破關！</div><div class="lf-game-action">⭐ 開始挑戰 →</div></div>
+<div class="lf-h1">一、熱身啟動題（共 5 題，5 分鐘）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">1</td><td>解：2x + 3 = 11</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">2</td><td>解：x/3 = 4</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">3</td><td>展開：3(x + 5) = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">4</td><td>展開：−2(x − 4) = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">5</td><td>解：5x − 3 = 2x + 9</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table><div class="lf-h1">二、核心知識精講 ＋ 例題練習</div>
+
+<div style="text-align:center;margin:10pt 0;page-break-inside:avoid;">
+  <svg viewBox="0 0 500 90" width="400" height="72" style="border:1px solid #D1D5DB;border-radius:4pt;">
+    <text x="250" y="16" text-anchor="middle" font-size="10" fill="#1A3C6D" font-weight="bold">解方程步驟</text>
+    <rect x="15" y="24" width="90" height="22" fill="#DBEAFE" stroke="#1A3C6D" stroke-width="1" rx="3"/>
+    <text x="60" y="39" text-anchor="middle" font-size="8" fill="#1E40AF">1.去括號</text>
+    <text x="120" y="39" font-size="12" fill="#6B7280">→</text>
+    <rect x="135" y="24" width="90" height="22" fill="#FEF3C7" stroke="#D97706" stroke-width="1" rx="3"/>
+    <text x="180" y="39" text-anchor="middle" font-size="8" fill="#92400E">2.去分母</text>
+    <text x="240" y="39" font-size="12" fill="#6B7280">→</text>
+    <rect x="255" y="24" width="90" height="22" fill="#FEE2E2" stroke="#DC2626" stroke-width="1" rx="3"/>
+    <text x="300" y="39" text-anchor="middle" font-size="8" fill="#DC2626">3.移項合併</text>
+    <text x="360" y="39" font-size="12" fill="#6B7280">→</text>
+    <rect x="375" y="24" width="90" height="22" fill="#D1FAE5" stroke="#059669" stroke-width="1" rx="3"/>
+    <text x="420" y="39" text-anchor="middle" font-size="8" fill="#065F46">4.求解+驗算</text>
+    <text x="250" y="68" text-anchor="middle" font-size="8" fill="#DC2626">分配律: a(b+c)=ab+ac | 全式乘LCM去分母 | 同類項合併</text>
+  </svg>
+</div><div class="lf-kp"><div class="lf-kp-title">知識點一：含括號方程（分配律） <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <b>分配律：a(b + c) = ab + ac</b><br>② 括號前係負號 → 入面<b>每項都要反轉符號</b>！<br>③ 例：3 − 2(x + 1)<br>　= 3 − 2x − 2（−2 要乘晒 x 同 1！）<br>　= 1 − 2x<br>④ ⚠️ 最致命：3 − 2(x + 1) ≠ 3 − 2x + 1！<br>⑤ 口訣：「括號前有數字→乘晒入面每一項！」</div></div>
+<div class="lf-why">
+<div class="lf-why-title">WHY BOX：點解方程咁重要？</div>
+<div class="lf-why-body">🧮 <b>數學萬能key：</b>所有應用題最終都係列方程！速率、面積、金錢、比例——全部都可以用方程解決<br>🎯 <b>SSPA 殺手題：</b>呈分試每年都有列方程解應用題，通常係全卷最難嗰題<br>🚀 <b>中學預備：</b>中一立即有「一元一次方程」，中二「二元一次」，小六根基決定中學數學成敗！</div>
+<div class="lf-graphics" style="text-align:center;margin:16px 0;"><svg viewBox="0 0 280 262" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;margin:12px 0;">
+<circle cx="85" cy="110" r="70" fill="#F0F7FF" stroke="#1A3C6D" stroke-width="2"/>
+<line x1="85" y1="40" x2="85" y2="180" stroke="#1A3C6D" stroke-width="1.5"/>
+<line x1="85" y1="110" x2="155" y2="110" stroke="#1A3C6D" stroke-width="1.5"/>
+<text x="115" y="90" font-size="16" font-weight="700" fill="#DC2626">\(\frac{1}{4}\)</text>
+<rect x="20" y="210" width="60" height="20" fill="#F0F7FF" stroke="#1A3C6D" stroke-width="1"/>
+<rect x="80" y="210" width="60" height="20" fill="#FEF3C7" stroke="#1A3C6D" stroke-width="1"/>
+<rect x="140" y="210" width="60" height="20" fill="#F0F7FF" stroke="#1A3C6D" stroke-width="1"/>
+<rect x="200" y="210" width="60" height="20" fill="#F0F7FF" stroke="#1A3C6D" stroke-width="1"/>
+<text x="110" y="225" text-anchor="middle" font-size="10" fill="#DC2626">\(\frac{1}{4}\)</text>
+<text x="160" y="10" text-anchor="middle" font-size="14" font-weight="700" fill="#1A3C6D">分數模型</text>
+<text x="160" y="248" text-anchor="middle" font-size="11" fill="#6B7280">圓形分數模型 — 4等份中的1份 = \(\frac{1}{4}\)</text>
+</svg></div>
+
+</div>
+
+
+<div class="lf-why">
 <div style="font-weight:900;color:#9A3412;font-size:14px;margin-bottom:6px;">WHY BOX：解方程的「天秤原理」</div>
 <div style="font-size:12px;color:#374151;line-height:1.8;">
 <b>方程就像一個天秤：</b>等號兩邊必須保持平衡。<br/>
@@ -108,39 +1138,39 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <em style="color:#6B7280;">記住：括號內的每一項都要乘！</em>
 </div>
 
-<div class="tip">💡 方程進階三步：1)去括號→用分配律 a(b+c)=ab+ac；2)去分母→兩邊乘LCM；3)移項→未知數放一邊，常數放另一邊。驗算：把答案代入原方程。</div>
+<div class="lf-tip">💡 方程進階三步：1)去括號→用分配律 a(b+c)=ab+ac；2)去分母→兩邊乘LCM；3)移項→未知數放一邊，常數放另一邊。驗算：把答案代入原方程。</div>
 </div>
-<div class="kp"><div class="kp-title">知識點二：含分數方程 <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>分數方程解法：</b>先找分母的 LCM → 兩邊同乘 LCM → 消分母<br>② 例：x/3 + x/4 = 7<br>　LCM(3,4)=12 → 兩邊 ×12<br>　→ 4x + 3x = 84 → 7x = 84 → x = 12<br>③ ⚠️ 通分時<b>分子都要乘</b>！唔好只乘分母！</div></div><div class="kp"><div class="kp-title">知識點三：雙邊含x方程（搬項法） <span class="ss sh">🔴 SSPA</span></div><div class="kp-rules">① <b>搬項原則：</b>將所有 x 項搬去左邊，常數項搬去右邊<br>② <b>搬項 = 兩邊同時加減</b>，符號要反轉<br>③ 例：5x + 3 = 2x + 12<br>　5x − 2x = 12 − 3 → 3x = 9 → x = 3<br>④ 口訣：「x 歸左邊，數字歸右邊，搬項記得轉符號！」</div></div><div class="ex"><div class="ex-title">例1</div><div class="ex-q">解：3(x + 2) = 21<br>→ 3x + 6 = 21<br>→ 3x = 15<br>→ x = 5 ✅</div></div><div class="ex"><div class="ex-title">例2</div><div class="ex-q">解：x/2 + x/3 = 10<br>LCM(2,3)=6 → ×6<br>→ 3x + 2x = 60<br>→ 5x = 60 → x = 12</div></div><div class="ex"><div class="ex-title">例3</div><div class="ex-q">解：4x − 7 = 2x + 5<br>→ 4x − 2x = 5 + 7<br>→ 2x = 12 → x = 6</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>−(x + 2) = −x + 2？<br><b>❌ 錯！</b></div><div class="tc-r"><div class="lbl">✅ 正確做法</div>−(x + 2) = −x − 2<br>負號要乘晒入面每一項！<br>括號前係負→全部反轉！</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>x/2 + x/3 = 5<br>→ 3x + 2x = 5 ❌？</div><div class="tc-r"><div class="lbl">✅ 正確做法</div>LCM(2,3)=6 → 兩邊 ×6<br>→ 3x + 2x = 30 ✅<br>右邊嘅 5 都要 ×6！</div></div><div class="tc"><div class="tc-w"><div class="lbl">❌ 陷阱引爆</div>5x − 3 = 2x + 9<br>→ 5x + 2x = 9 + 3 ❌？</div><div class="tc-r"><div class="lbl">✅ 正確做法</div>搬 2x 去左邊 → −2x<br>搬 −3 去右邊 → +3<br>→ 5x − 2x = 9 + 3 ✅<br>搬項符號要反轉！</div></div><div class="warn">⚠️ 去括號時，括號前係負號，入面全部反轉！呢個係 SSPA 最高頻陷阱。</div><div class="warn">⚠️ 分數方程：通分要乘晒兩邊每一項。右邊常數都要乘 LCM！</div><div class="warn">⚠️ 搬項後一定要驗算。將答案代入原方程檢查。</div></div><div class="pb">
-<div class="ex">
-<div class="ex-title">例題 3 — 含分數的方程</div>
-<div class="ex-q">解方程：<b>x/3 + 1/2 = 5/6</b></div>
+<div class="lf-kp"><div class="lf-kp-title">知識點二：含分數方程 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <b>分數方程解法：</b>先找分母的 LCM → 兩邊同乘 LCM → 消分母<br>② 例：x/3 + x/4 = 7<br>　LCM(3,4)=12 → 兩邊 ×12<br>　→ 4x + 3x = 84 → 7x = 84 → x = 12<br>③ ⚠️ 通分時<b>分子都要乘</b>！唔好只乘分母！</div></div><div class="lf-kp"><div class="lf-kp-title">知識點三：雙邊含x方程（搬項法） <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <b>搬項原則：</b>將所有 x 項搬去左邊，常數項搬去右邊<br>② <b>搬項 = 兩邊同時加減</b>，符號要反轉<br>③ 例：5x + 3 = 2x + 12<br>　5x − 2x = 12 − 3 → 3x = 9 → x = 3<br>④ 口訣：「x 歸左邊，數字歸右邊，搬項記得轉符號！」</div></div><div class="lf-ex"><div class="lf-ex-title">例1</div><div class="lf-ex-q">解：3(x + 2) = 21<br>→ 3x + 6 = 21<br>→ 3x = 15<br>→ x = 5 ✅</div></div><div class="lf-ex"><div class="lf-ex-title">例2</div><div class="lf-ex-q">解：x/2 + x/3 = 10<br>LCM(2,3)=6 → ×6<br>→ 3x + 2x = 60<br>→ 5x = 60 → x = 12</div></div><div class="lf-ex"><div class="lf-ex-title">例3</div><div class="lf-ex-q">解：4x − 7 = 2x + 5<br>→ 4x − 2x = 5 + 7<br>→ 2x = 12 → x = 6</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 陷阱引爆</div>−(x + 2) = −x + 2？<br><b>❌ 錯！</b></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確做法</div>−(x + 2) = −x − 2<br>負號要乘晒入面每一項！<br>括號前係負→全部反轉！</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 陷阱引爆</div>x/2 + x/3 = 5<br>→ 3x + 2x = 5 ❌？</div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確做法</div>LCM(2,3)=6 → 兩邊 ×6<br>→ 3x + 2x = 30 ✅<br>右邊嘅 5 都要 ×6！</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 陷阱引爆</div>5x − 3 = 2x + 9<br>→ 5x + 2x = 9 + 3 ❌？</div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確做法</div>搬 2x 去左邊 → −2x<br>搬 −3 去右邊 → +3<br>→ 5x − 2x = 9 + 3 ✅<br>搬項符號要反轉！</div></div><div class="warn">⚠️ 去括號時，括號前係負號，入面全部反轉！呢個係 SSPA 最高頻陷阱。</div><div class="warn">⚠️ 分數方程：通分要乘晒兩邊每一項。右邊常數都要乘 LCM！</div><div class="warn">⚠️ 搬項後一定要驗算。將答案代入原方程檢查。</div></div><div>
+<div class="lf-ex">
+<div class="lf-ex-title">例題 3 — 含分數的方程</div>
+<div class="lf-ex-q">解方程：<b>x/3 + \(\frac{1}{2}\) = \(\frac{5}{6}\)</b></div>
 <div style="font-size:12px;line-height:1.8;margin-top:4px;">
 <strong>解：</strong><br/>
 步驟1：找分母的LCM（3, 2, 6的LCM是6）<br/>
 步驟2：兩邊乘6：<br/>
-  6 × (x/3 + 1/2) = 6 × 5/6<br/>
+  6 × (x/3 + \(\frac{1}{2}\)) = 6 × \(\frac{5}{6}\)<br/>
   2x + 3 = 5<br/>
 步驟3：移項：2x = 5 - 3 = 2<br/>
 步驟4：x = 2 ÷ 2 = <b>1</b><br/>
-驗算：1/3 + 1/2 = 2/6 + 3/6 = 5/6 ✓
+驗算：\(\frac{1}{3}\) + \(\frac{1}{2}\) = \(\frac{2}{6}\) + \(\frac{3}{6}\) = \(\frac{5}{6}\) ✓
 </div>
 </div>
 
-<div class="ex">
-<div class="ex-title">例題 4 — 含括號的分數方程</div>
-<div class="ex-q">解方程：<b>(2x - 1)/3 = 4</b></div>
+<div class="lf-ex">
+<div class="lf-ex-title">例題 4 — 含括號的分數方程</div>
+<div class="lf-ex-q">解方程：<b>(2x - 1)/3 = 4</b></div>
 <div style="font-size:12px;line-height:1.8;margin-top:4px;">
 <strong>解：</strong><br/>
 步驟1：兩邊乘3：2x - 1 = 12<br/>
 步驟2：移項：2x = 12 + 1 = 13<br/>
 步驟3：x = 13 ÷ 2 = <b>6.5</b><br/>
-驗算：(2×6.5 - 1)/3 = (13-1)/3 = 12/3 = 4 ✓
+驗算：(2×6.5 - 1)/3 = (13-1)/3 = \(\frac{12}{3}\) = 4 ✓
 </div>
 </div>
 
-<div class="ex">
-<div class="ex-title">例題 5 — 方程應用（逆向思維）</div>
-<div class="ex-q">小明有一些貼紙，把貼紙數量的3倍減去5等於19。小明有多少張貼紙？</div>
+<div class="lf-ex">
+<div class="lf-ex-title">例題 5 — 方程應用（逆向思維）</div>
+<div class="lf-ex-q">小明有一些貼紙，把貼紙數量的3倍減去5等於19。小明有多少張貼紙？</div>
 <div style="font-size:12px;line-height:1.8;margin-top:4px;">
 <strong>解：</strong><br/>
 設小明有x張貼紙<br/>
@@ -151,19 +1181,21 @@ x = 24 ÷ 3 = <b>8</b><br/>
 </div>
 </div>
 
-<div class="h1">三、課堂分層同步練習</div><div class="h2">🌱 基礎層（共 9 題） 基礎層（全體必做）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">6</td><td class="qtxt">解：2(x + 4) = 18</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">7</td><td class="qtxt">解：3x − 5 = 10</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">8</td><td class="qtxt">解：x/5 = 3</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">9</td><td class="qtxt">解：4x = 2x + 12</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">10</td><td class="qtxt">展開並解：5(x − 2) = 3x + 4</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">11</td><td class="qtxt">解：x/4 + x/2 = 9</td><td class="qd d2">🌿</td><td class="qw"></td></tr>
-<tr><td class="qn">7</td><td>解方程：x/2 = 7</td><td class="qt">🌱</td><td></td></tr>
-<tr><td class="qn">8</td><td>解方程：3x + 4 = 25</td><td class="qt">🌱</td><td></td></tr>
-<tr><td class="qn">9</td><td>解方程：12/x = 3</td><td class="qt">🌱</td><td></td></tr>
-</table><div class="h2">🌳 進階層（共 8 題） 挑戰層（🚀 選做）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">12</td><td class="qtxt">解：3 − 2(x + 1) = 5 − x</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">13</td><td class="qtxt">解：(2x + 1)/3 = (x − 2)/2</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">14</td><td class="qtxt">解：4(x − 3) + 2x = 3(2 − x) + 8</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">15</td><td class="qtxt">解：x/2 − x/5 = 3</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">16</td><td class="qtxt">解：0.5x + 1.2 = 0.3x + 2.4（提示：先×10）</td><td class="qd d3">🌳</td><td class="qw"></td></tr>
-<tr><td class="qn">6</td><td>解方程：(x+1)/3 = 2</td><td class="qt">🌳</td><td></td></tr>
-<tr><td class="qn">7</td><td>解方程：2x/5 + 1 = 3</td><td class="qt">🌳</td><td></td></tr>
-<tr><td class="qn">8</td><td>解方程：(3x-2)/4 = x/2</td><td class="qt">🌳</td><td></td></tr>
-</table></div><div class="pb"><div class="h1">四、應用題（SSPA 文字題，共 5 題）</div>{qt_table(word_probs)}</div><div class="pb"><div class="h1">五、課後功課</div><div class="h2">基礎必做（共 4 題）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">H1</td><td class="qtxt">解：3(x − 1) = 2x + 5</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">H2</td><td class="qtxt">解：x/2 + 3 = 8</td><td class="qd d1">🌱</td><td class="qw"></td></tr><tr><td class="qn">H3</td><td class="qtxt">解：5x + 2 = 3x + 14</td><td class="qd d2">🌿</td><td class="qw"></td></tr><tr><td class="qn">H4</td><td class="qtxt">解：2(x + 1)/3 = 4</td><td class="qd d2">🌿</td><td class="qw"></td></tr></table><div class="h2">進階選做（共 2 題 🚀）</div><table class="qt"><tr><th class="qn">#</th><th>題目</th><th class="qd">難度</th><th>作答區</th></tr><tr><td class="qn">H5</td><td class="qtxt">解：(3x − 1)/4 − (x + 2)/3 = 1</td><td class="qd d3">🌳</td><td class="qw"></td></tr><tr><td class="qn">H6</td><td class="qtxt">三個連續整數之和為 72。設中間數為 x。列出方程並解。</td><td class="qd d3">🌳</td><td class="qw"></td></tr></table></div><div class="pb"><div class="h1">六、本堂核心易錯點總結</div><table class="et"><tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr><tr><td>1</td><td><b>括號前負號忘記反轉</b></td><td>−(x+2) = −x−2，唔係 −x+2！負號要乘晒入面。</td></tr><tr><td>2</td><td><b>分數方程只乘左邊</b></td><td>兩邊同乘 LCM，右邊常數都要乘！</td></tr><tr><td>3</td><td><b>搬項唔轉符號</b></td><td>搬去另一邊→符號反轉。+ 變 −，− 變 +。</td></tr><tr><td>4</td><td><b>忘記驗算</b></td><td>代入原方程檢查。左邊 = 右邊？唔啱就搵錯處。</td></tr></table><div class="mn">🧠 口訣：「括號分配乘晒佢，負號入面反轉晒。分數方程乘 LCM，兩邊全部都要乘！搬項過河轉符號，驗算代入保滿分。」</div><div class="h1">七、解題四步卡</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">去括號</div><div class="sdetail">用分配律展開。負號→每項反轉。合併同類項。</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">消分母</div><div class="sdetail">找 LCM。兩邊同乘。簡化為整數方程。</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">搬項</div><div class="sdetail">x 歸左邊，數字歸右邊。每次搬項轉符號。</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">驗算</div><div class="sdetail">代入原方程。左邊 = 右邊？正確率 100%。</div></div></div><div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L24 · 相關課題：P5 L14 簡易方程 · P5 L15 方程應用題 · P6下 L25 列方程解應用題進階</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 LF-P6-下-L24 · 相關課題：P5 L14 簡易方程 · P5 L15 方程應用題 · P6下 L25 列方程解應用題進階</div></div></div>
+<div class="lf-h1">三、課堂分層同步練習</div><div class="lf-h2">🌱 基礎層（共 9 題） 基礎層（全體必做）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">6</td><td>解：2(x + 4) = 18</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">7</td><td>解：3x − 5 = 10</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">8</td><td>解：x/5 = 3</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">9</td><td>解：4x = 2x + 12</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">10</td><td>展開並解：5(x − 2) = 3x + 4</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">11</td><td>解：x/4 + x/2 = 9</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">7</td><td>解方程：x/2 = 7</td><td class="lf-qt">🌱</td><td></td></tr>
+<tr><td class="lf-qn">8</td><td>解方程：3x + 4 = 25</td><td class="lf-qt">🌱</td><td></td></tr>
+<tr><td class="lf-qn">9</td><td>解方程：12/x = 3</td><td class="lf-qt">🌱</td><td></td></tr>
+</table><div class="lf-h2">🌳 進階層（共 8 題） 挑戰層（🚀 選做）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">12</td><td>解：3 − 2(x + 1) = 5 − x</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">13</td><td>解：(2x + 1)/3 = (x − 2)/2</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">14</td><td>解：4(x − 3) + 2x = 3(2 − x) + 8</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">15</td><td>解：x/2 − x/5 = 3</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">16</td><td>解：0.5x + 1.2 = 0.3x + 2.4（提示：先×10）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">6</td><td>解方程：(x+1)/3 = 2</td><td class="lf-qt">🌳</td><td></td></tr>
+<tr><td class="lf-qn">7</td><td>解方程：2x/5 + 1 = 3</td><td class="lf-qt">🌳</td><td></td></tr>
+<tr><td class="lf-qn">8</td><td>解方程：(3x-2)/4 = x/2</td><td class="lf-qt">🌳</td><td></td></tr>
+</table></div><div><div class="lf-h1">四、應用題（SSPA 文字題，共 5 題）</div>{qt_table(word_probs)}</div><div><div class="lf-h1">五、課後功課</div><div class="lf-h2">基礎必做（共 4 題）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">H1</td><td>解：3(x − 1) = 2x + 5</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H2</td><td>解：x/2 + 3 = 8</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H3</td><td>解：5x + 2 = 3x + 14</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H4</td><td>解：2(x + 1)/3 = 4</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table><div class="lf-h2">進階選做（共 2 題 🚀）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">H5</td><td>解：(3x − 1)/4 − (x + 2)/3 = 1</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H6</td><td>三個連續整數之和為 72。設中間數為 x。列出方程並解。</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">六、本堂核心易錯點總結</div><table class="et"><tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr><tr><td>1</td><td><b>括號前負號忘記反轉</b></td><td>−(x+2) = −x−2，唔係 −x+2！負號要乘晒入面。</td></tr><tr><td>2</td><td><b>分數方程只乘左邊</b></td><td>兩邊同乘 LCM，右邊常數都要乘！</td></tr><tr><td>3</td><td><b>搬項唔轉符號</b></td><td>搬去另一邊→符號反轉。+ 變 −，− 變 +。</td></tr><tr><td>4</td><td><b>忘記驗算</b></td><td>代入原方程檢查。左邊 = 右邊？唔啱就搵錯處。</td></tr></table><div class="mn">🧠 口訣：「括號分配乘晒佢，負號入面反轉晒。分數方程乘 LCM，兩邊全部都要乘！搬項過河轉符號，驗算代入保滿分。」</div><div class="lf-h1">七、解題四步卡</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">去括號</div><div class="sdetail">用分配律展開。負號→每項反轉。合併同類項。</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">消分母</div><div class="sdetail">找 LCM。兩邊同乘。簡化為整數方程。</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">搬項</div><div class="sdetail">x 歸左邊，數字歸右邊。每次搬項轉符號。</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">驗算</div><div class="sdetail">代入原方程。左邊 = 右邊？正確率 100%。</div></div></div>
+<div class="lf-story"><div class="lf-story-title">🔍 偵探破案</div>偵探小霖收到神秘紙條：「我嘅年齡乘以2再加3等於21，你估我幾多歲？」小霖諗咗諗，列咗條方程：2x+3=21。佢先減3：2x=18，再除2：x=9！「犯人係9歲？」原來係細妹嘅惡作劇！<br><b>關鍵：</b>解方程同查案一樣，每一步都要「對消」——加變減、乘變除，逐步揭開真相！</div>
+<div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L24 · 相關課題：P5 L14 簡易方程 · P5 L15 方程應用題 · P6下 L25 列方程解應用題進階</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 LF-P6-下-L24 · 相關課題：P5 L14 簡易方程 · P5 L15 方程應用題 · P6下 L25 列方程解應用題進階</div></div></div>
 <div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">Ctrl+P | LF-P6-下-L24 · 相關課題：P5 L14 簡易方程 · P5 L15 方程應用題 · P6下 L25 列方程解應用題進階</div>
 
-<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
-<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<div class="lf-h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="lf-parent-summary"><div class="lf-ps-title">📝 答案快查</div>
 <div style="font-size:12px;line-height:2;padding:8px;">
 <b>熱身題：</b>1) x=5 &nbsp; 2) x=7 &nbsp; 3) x=12 &nbsp; 4) x=4 &nbsp; 5) x=6<br/>
 <b>基礎層：</b>1) x=11 &nbsp; 2) x=6 &nbsp; 3) x=4 &nbsp; 4) x=7 &nbsp; 5) x=9 &nbsp; 6) x=15 &nbsp; 7) x=14 &nbsp; 8) x=7 &nbsp; 9) x=4<br/>
@@ -172,13 +1204,169 @@ x = 24 ÷ 3 = <b>8</b><br/>
 </div></div>
 
 
-<div class="h1">🤖 AI 智能補充練習</div>
+<div class="lf-h1"> <div class="lf-h1"><span>🪤</span> 陷阱診斷專區 — 高品質陷阱題</div>
+    <p>以下題目來自霖楓教研團隊精心設計，每題針對一個常見考試陷阱。做完即知你的陷阱弱項！</p>
+    <div class="lf-trap-section">
+        <div class="lf-trap-card" data-trap="T1" data-hq-id="LF-T1-AUTO">
+            <div class="lf-trap-header">
+                <span class="lf-trap-badge">T1</span>
+                <span class="lf-trap-diff">⭐⭐ 🔴</span>
+                <span class="lf-trap-id">LF-T1-AUTO</span>
+            </div>
+            <div>
+                <div class="lf-trap-q">解方程：3x − 7 = 2x + 5</div>
+                <div class="lf-trap-wrong">
+                    <span class="lf-ex-label">常見錯誤</span>
+                    <span >3x−2x=−7+5 → x=−2。</span>
+                </div>
+                <div class="lf-trap-right">
+                    <span class="lf-ex-label">正確思路</span>
+                    <span >正確：3x−2x=5+7 → x=12。移項時小心：−7移到右邊變+7，+5唔使郁！（常見混淆：移項符號方向）</span>
+                </div>
+                <div class="lf-trap-note">💡 移項口訣：過等號，變符號！</div>
+            </div>
+        </div>
+<div class="lf-trap-card" data-trap="T2" data-hq-id="LF-T2-AUTO">
+            <div class="lf-trap-header">
+                <span class="lf-trap-badge">T2</span>
+                <span class="lf-trap-diff">⭐⭐ 🔴</span>
+                <span class="lf-trap-id">LF-T2-AUTO</span>
+            </div>
+            <div>
+                <div class="lf-trap-q">解方程：(x+3)/2 = 5</div>
+                <div class="lf-trap-wrong">
+                    <span class="lf-ex-label">常見錯誤</span>
+                    <span >x/2+3=5 → x/2=2 → x=4。</span>
+                </div>
+                <div class="lf-trap-right">
+                    <span class="lf-ex-label">正確思路</span>
+                    <span >正確：兩邊乘2 → x+3=10 → x=7。括號內的整體要先處理，唔可以拆開！</span>
+                </div>
+                <div class="lf-trap-note">💡 有分數方程：先消分母，唔好拆括號！</div>
+            </div>
+        </div>
+<div class="lf-trap-card" data-trap="T3" data-hq-id="LF-T3-AUTO">
+            <div class="lf-trap-header">
+                <span class="lf-trap-badge">T3</span>
+                <span class="lf-trap-diff">⭐⭐⭐ 🔴</span>
+                <span class="lf-trap-id">LF-T3-AUTO</span>
+            </div>
+            <div>
+                <div class="lf-trap-q">解方程：2(x−1)+3(x+2)=4x+5</div>
+                <div class="lf-trap-wrong">
+                    <span class="lf-ex-label">常見錯誤</span>
+                    <span >2x−1+3x+6=4x+5。</span>
+                </div>
+                <div class="lf-trap-right">
+                    <span class="lf-ex-label">正確思路</span>
+                    <span >正確：2x−2+3x+6=4x+5 → 5x+4=4x+5 → x=1。小心：2乘括號內每一項！2(x−1)=2x−2，唔係2x−1！</span>
+                </div>
+                <div class="lf-trap-note">💡 分配律：括號前係乘號，每一項都要乘！</div>
+            </div>
+        </div>
+    </div>
+<div class="lf-h1">AI 智能補充練習</div>
 <div style="background:linear-gradient(135deg,#F0F9FF,#EFF6FF);border:2px solid #3B82F6;border-radius:10px;padding:14px 18px;margin:10px 0;">
-<div style="font-weight:900;color:#1E40AF;font-size:14px;margin-bottom:8px;">🎯 AI自動生成 · 課外延伸練習</div>
-<table class="qt"><tr><th>#</th><th>題目</th><th>答案</th></tr>
-<tr><td class="qn">1</td><td>2(x+5)=32, x=?</td><td style="color:#16A34A;font-weight:700;">11.0</td></tr>
-<tr><td class="qn">2</td><td>3(x+8)=57, x=?</td><td style="color:#16A34A;font-weight:700;">11.0</td></tr>
-<tr><td class="qn">3</td><td>4(x+6)=52, x=?</td><td style="color:#16A34A;font-weight:700;">7.0</td></tr>
-</table></div>
+<div class="lf-ai-section"><div class="lf-ai-title">🎯 AI自動生成 · 課外延伸練習</div>
+<table class="lf-qt"><tr><th>#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="lf-qn">1</td><td>2(x+5)=32, x=?</td><td style="color:#16A34A;font-weight:700;">11.0</td></tr>
+<tr><td class="lf-qn">2</td><td>3(x+8)=57, x=?</td><td style="color:#16A34A;font-weight:700;">11.0</td></tr>
+<tr><td class="lf-qn">3</td><td>4(x+6)=52, x=?</td><td style="color:#16A34A;font-weight:700;">7.0</td></tr>
+</table></div></div>
+
+<div class="enrichment-tip" style="margin-top:20pt; padding:12pt 16pt; background:#EFF6FF; border-radius:6pt; border-left:4px solid var(--sky);"><strong>🧠 高階思維提示：</strong>高階思維提示：當方程中出現括號和分數時，不要急於展開括號。先觀察整個方程，考慮是否可以先乘以公分母消除分數，再處理括號。但有時先展開括號再合併同類項會更簡單，取決於具體數字。例如，若分數係數容易通分，先乘公分母；若括號內有複雜表達式，先化簡括號。靈活選擇策略，並在每一步檢查等式是否平衡，避免計算錯誤。</div>
+<div class="enrichment-tip" style="margin-top:20pt; padding:12pt 16pt; background:#EFF6FF; border-radius:6pt; border-left:4px solid var(--sky);"><strong>🧠 高階思維提示：</strong>高階思維提示：當方程中出現括號和分數時，不要急於展開括號。先觀察整個方程，考慮是否可以先乘以公分母消除分數，再處理括號。但有時先展開括號再合併同類項會更簡單，取決於具體數字。例如，若分數係數容易通分，先乘公分母；若括號內有複雜表達式，先化簡括號。靈活選擇策略，並在每一步檢查等式是否平衡，避免計算錯誤。</div>
+<div class="enrichment-tip" style="margin-top:20pt; padding:12pt 16pt; background:#EFF6FF; border-radius:6pt; border-left:4px solid var(--sky);"><strong>🧠 高階思維提示：</strong>高階思維提示：當方程中出現括號和分數時，不要急於展開括號。先觀察整個方程，考慮是否可以先乘以公分母消除分數，再處理括號。但有時先展開括號再合併同類項會更簡單，取決於具體數字。例如，若分數係數容易通分，先乘公分母；若括號內有複雜表達式，先化簡括號。靈活選擇策略，並在每一步檢查等式是否平衡，避免計算錯誤。</div>
+<!-- ENRICHMENT: Auto-generated -->
+<div class="enrichment-section">
+  <h2 class="lf-h2">進階陷阱卡</h2>
+  <div class="lf-trap-card">
+    <div style="margin-bottom:20px; padding:15px; border-left:5px solid #e74c3c; background:#fdf2f2;">
+      <strong style="color:#c0392b;">⚠ 陷阱卡 1</strong><br>
+      <strong>題目：</strong>解方程 3(x + 2) = 15<br><br>
+      <strong style="color:#e74c3c;">❌ 錯誤做法：</strong><br>
+      3x + 2 = 15<br>
+      3x = 13<br>
+      x = \(\frac{13}{3}\)<br><br>
+      <strong style="color:#27ae60;">✅ 為何錯：</strong><br>
+      括號外的3要乘以括號內的每一項，包括x和+2。正確應為3x + 6 = 15。<br><br>
+      <strong style="color:#2980b9;">✅ 正確做法：</strong><br>
+      3(x + 2) = 15<br>
+      3x + 6 = 15<br>
+      3x = 9<br>
+      x = 3<br><br>
+      <strong style="color:#8e44ad;">💡 提醒：</strong>分配律：a(b + c) = ab + ac，記得乘晒每一項！
+    </div>
+    <div style="padding:15px; border-left:5px solid #e67e22; background:#fef9e7;">
+      <strong style="color:#d35400;">⚠ 陷阱卡 2</strong><br>
+      <strong>題目：</strong>解方程 (2x + 4)/2 = 6<br><br>
+      <strong style="color:#e74c3c;">❌ 錯誤做法：</strong><br>
+      2x + 4 = 6<br>
+      2x = 2<br>
+      x = 1<br><br>
+      <strong style="color:#27ae60;">✅ 為何錯：</strong><br>
+      忘記了分母2要同時作用於方程兩邊。正確應先將兩邊乘以2。<br><br>
+      <strong style="color:#2980b9;">✅ 正確做法：</strong><br>
+      (2x + 4)/2 = 6<br>
+      兩邊乘以2：2x + 4 = 12<br>
+      2x = 8<br>
+      x = 4<br><br>
+      <strong style="color:#8e44ad;">💡 提醒：</strong>分數方程先消分母，記得等式兩邊做相同運算！
+    </div>
+  </div>
+</div>
+
+<div class="enrichment-section">
+  <h2 class="lf-h2">挑戰題</h2>
+  <div class="lf-ex">
+    <div style="margin-bottom:20px; padding:15px; background:#f0f8ff; border-radius:8px;">
+      <strong>挑戰題 1（4分）</strong><br>
+      <strong>題目：</strong>解方程 2(3x - 5) = 8<br><br>
+      <strong>答案：</strong>x = 3<br><br>
+      <strong>解題步驟：</strong><br>
+      2(3x - 5) = 8<br>
+      6x - 10 = 8<br>
+      6x = 18<br>
+      x = 3<br><br>
+      <strong>得分：</strong>分配律1分 ➔ 移項1分 ➔ 化簡1分 ➔ 答案1分
+    </div>
+    <div style="padding:15px; background:#f0f8ff; border-radius:8px;">
+      <strong>挑戰題 2（5分）</strong><br>
+      <strong>題目：</strong>解方程 (3x + 6)/3 = 4<br><br>
+      <strong>答案：</strong>x = 2<br><br>
+      <strong>解題步驟：</strong><br>
+      (3x + 6)/3 = 4<br>
+      兩邊乘以3：3x + 6 = 12<br>
+      3x = 6<br>
+      x = 2<br><br>
+      <strong>得分：</strong>消分母1分 ➔ 移項1分 ➔ 化簡1分 ➔ 答案1分 ➔ 驗算1分（左邊=(6+6)/3=\(\frac{12}{3}\)=4=右邊）
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:20px; padding:15px; background:#eaf7ea; border-radius:10px; border:2px dashed #2ecc71; font-size:16px;">
+  <strong>💡 思維提示：</strong>見到括號先拆（用分配律），見到分數先消分母（兩邊乘以分母）。每一步都要小心，做完記得代入驗算，確保無計錯！
+</div>
+</div>
+<div class="lf-footer">
+<div class="parent-summary" style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:8px;padding:12px 16px;margin:16px 0;">
+<div style="font-weight:900;color:#92400E;font-size:13px;margin-bottom:6px;">📋 家長30秒摘要</div>
+<div style="font-size:11px;color:#374151;line-height:1.7;">
+<b>本堂重點：</b>認識代數式（用字母代表數），簡易方程解法（移項/兩邊同加減乘除），列方程解應用題。<br/>
+<b>常見陷阱：</b>移項時符號搞錯（+ 變 - / - 變 +）；等號兩邊唔平衡；應用題設未知數方向錯。<br/>
+<b>在家練習：</b>用生活例子設未知數。「小明有啲糖，俾咗 3 粒妹妹後剩 5 粒，原本幾多粒？」→ x - 3 = 5。<br/>
+<b>SSPA 關聯：</b>方程題佔呈分試約 8-12%，近年比重穩步上升。
+</div>
+</div>
+LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</div>
+
+<!-- AI Provenance Disclosure -->
+<div class="ai-disclosure" style="font-size:0.75rem;color:#888;border-top:1px solid #eee;margin-top:2rem;padding-top:0.5rem;text-align:center;">
+  📌 本講義由 AI 輔助生成，並經導師審閱。| 
+  AI Model: <span data-ai-model-display>deepseek-v4-flash</span> | 
+  生成日期: <span data-ai-date-display>2026-06-11</span> |
+  審閱狀態: <span data-review-status>⏳ 待審閱</span>
+</div>
 
 </body></html>

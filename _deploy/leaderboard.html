@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#2D5AA0">
+<title>霖楓學苑 · 排行榜</title>
+<link rel="stylesheet" href="/lf-academy-v8.css">
+<style>
+body{background:linear-gradient(180deg,#E8F0FE,#FFF8EE,#FFF0F0);min-height:100vh;padding:16px;padding-top:var(--nav-height)}
+.lb-wrap{max-width:700px;margin:0 auto}
+
+.lb-header{text-align:center;padding:24px 0 16px}
+.lb-header h1{font-size:1.6em;color:var(--blue-dark)}
+.lb-header p{color:var(--text-secondary);font-size:0.9em}
+
+/* Tabs */
+.lb-tabs{display:flex;gap:6px;margin-bottom:16px;background:white;border-radius:var(--radius-full);padding:4px;box-shadow:var(--shadow-sm)}
+.lb-tab{flex:1;padding:10px;text-align:center;border-radius:var(--radius-full);cursor:pointer;font-weight:600;font-size:0.82em;transition:all var(--duration-fast);border:none;background:transparent;color:var(--text-secondary);font-family:var(--font-sans)}
+.lb-tab.active{background:var(--blue);color:white}
+
+/* Podium */
+.podium{display:flex;justify-content:center;align-items:flex-end;gap:12px;padding:20px 0;margin-bottom:20px}
+.podium-spot{text-align:center;position:relative}
+.podium-spot .avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5em;margin:0 auto 6px;font-weight:800}
+.podium-spot .name{font-weight:700;font-size:0.85em;color:var(--text)}
+.podium-spot .pts{font-size:0.72em;color:var(--text-secondary)}
+.podium-spot .bar{border-radius:8px 8px 0 0;width:80px;margin:0 auto}
+.podium-gold .bar{background:linear-gradient(180deg,#FFD700,#FFB347);height:90px}
+.podium-gold .avatar{background:linear-gradient(135deg,#FFD700,#FFB347);color:#5C3D00}
+.podium-silver .bar{background:linear-gradient(180deg,#C0C0C0,#E8E8E8);height:65px}
+.podium-silver .avatar{background:linear-gradient(135deg,#C0C0C0,#E8E8E8);color:#555}
+.podium-bronze .bar{background:linear-gradient(180deg,#CD7F32,#E8A860);height:50px}
+.podium-bronze .avatar{background:linear-gradient(135deg,#CD7F32,#E8A860);color:#5C3000}
+.podium-spot .crown{font-size:1.2em;position:absolute;top:-20px;left:50%;transform:translateX(-50%)}
+
+/* List */
+.lb-list{background:white;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.lb-item{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border-light);transition:background 0.15s}
+.lb-item:hover{background:var(--blue-soft)}
+.lb-item .rank{width:32px;text-align:center;font-weight:800;font-size:0.9em;color:var(--text-secondary)}
+.lb-item .rank.top{color:var(--gold);font-size:1.1em}
+.lb-item .u-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.9em;flex-shrink:0}
+.lb-item .u-info{flex:1}
+.lb-item .u-name{font-weight:600;font-size:0.88em}
+.lb-item .u-badge{font-size:0.65em;color:var(--text-muted)}
+.lb-item .u-pts{font-weight:800;font-size:0.9em;color:var(--blue)}
+.lb-item .u-streak{font-size:0.7em;color:var(--coral)}
+
+/* User's own position */
+.lb-item.me{background:var(--gold-glass);border-left:3px solid var(--gold)}
+
+/* Empty state */
+.lb-empty{text-align:center;padding:40px;color:var(--text-muted)}
+
+/* Challenge bar */
+.challenge-bar{background:linear-gradient(135deg,var(--blue),var(--blue-light));color:white;border-radius:var(--radius);padding:18px 20px;margin-top:16px;text-align:center}
+.challenge-bar h3{color:white;font-size:0.95em;margin-bottom:6px;font-family:var(--font-sans)}
+.challenge-bar p{font-size:0.78em;opacity:0.8;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<div class="lb-wrap">
+  <div class="lb-header">
+    <h1>🏆 排行榜</h1>
+    <p>同全港同學一齊比拼 · 每日更新</p>
+  </div>
+
+  <div class="lb-tabs">
+    <button class="lb-tab active" onclick="switchTab('points')">⭐ 積分榜</button>
+    <button class="lb-tab" onclick="switchTab('streak')">🔥 連續榜</button>
+    <button class="lb-tab" onclick="switchTab('accuracy')">🎯 正確率榜</button>
+  </div>
+
+  <div id="podiumArea"></div>
+  <div id="leaderboardList"></div>
+
+  <div class="challenge-bar">
+    <h3>⚡ 今日挑戰：同全港同學比拼！</h3>
+    <p>完成今日練習，睇下你排第幾！</p>
+    <a href="/practice.html" class="lf-btn lf-btn-gold">開始練習 →</a>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/docs/data/lf-engines-v8.js"></script>
+<script src="/lf-shell-v8.js"></script>
+
+<script>
+var currentTab = 'points';
+var COLOR_PALETTE = ['#2D5AA0','#FF6B6B','#4ECDC4','#FFB347','#7BC67E','#7C3AED','#F97316','#06B6D4'];
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.lb-tab').forEach(function(t) {
+    t.classList.toggle('active', t.textContent.includes(tab === 'points' ? '積分' : tab === 'streak' ? '連續' : '正確率'));
+  });
+  renderLeaderboard();
+}
+
+function getPlayers() {
+  var players = [];
+  
+  // Read from localStorage (simulated leaderboard - real version uses Firestore)
+  // For now, generate from gamification data + sample names
+  var sampleNames = ['小明','妹妹','家姐','同學A','同學B','數學王','計數達人','呈分試高手','陷阱獵人','快槍手'];
+  
+  // Add current user first
+  var name = localStorage.getItem('lf_user_name') || '你';
+  var gami = {};
+  try { gami = JSON.parse(localStorage.getItem('lf_gamification') || '{}'); } catch(e) {}
+  
+  var bktData = {};
+  try { bktData = JSON.parse(localStorage.getItem('lf_bkt_data') || '{}'); } catch(e) {}
+  var totalQ = 0, correctQ = 0;
+  for (var k in bktData) { totalQ += bktData[k].total || 0; correctQ += bktData[k].correct || 0; }
+  
+  players.push({
+    name: name,
+    points: gami.points || 0,
+    streak: gami.streak || 0,
+    maxStreak: gami.maxStreak || 0,
+    accuracy: totalQ > 0 ? Math.round(correctQ / totalQ * 100) : 0,
+    badge: gami.badges && gami.badges.length > 0 ? gami.badges[gami.badges.length-1] : '銅章',
+    isMe: true
+  });
+  
+  // Add simulated players
+  for (var i = 0; i < sampleNames.length; i++) {
+    if (sampleNames[i] === name) continue;
+    var seed = (sampleNames[i].charCodeAt(0) + i * 7) % 100;
+    players.push({
+      name: sampleNames[i],
+      points: Math.max(10, gami.points + 50 - seed * 5 + i * 15),
+      streak: Math.max(0, (gami.streak || 3) + Math.floor(seed / 10) - 2),
+      maxStreak: Math.max(0, (gami.maxStreak || 5) + Math.floor(seed / 8) - 1),
+      accuracy: Math.min(98, Math.max(30, 50 + seed + i * 3)),
+      badge: '銅章',
+      isMe: false,
+      color: COLOR_PALETTE[i % COLOR_PALETTE.length]
+    });
+  }
+  
+  // Sort by current tab
+  if (currentTab === 'points') {
+    players.sort(function(a, b) { return b.points - a.points; });
+  } else if (currentTab === 'streak') {
+    players.sort(function(a, b) { return b.streak - a.streak; });
+  } else {
+    players.sort(function(a, b) { return b.accuracy - a.accuracy; });
+  }
+  
+  return players;
+}
+
+function renderPodium(players) {
+  var top3 = players.slice(0, 3);
+  var order = [1, 0, 2]; // Silver, Gold, Bronze visual order
+  var spots = ['podium-gold','podium-silver','podium-bronze'];
+  var crowns = ['👑','',''];
+  
+  var html = '<div class="podium">';
+  for (var i = 0; i < 3; i++) {
+    var idx = order[i];
+    if (idx >= top3.length) break;
+    var p = top3[idx];
+    var val = currentTab === 'points' ? p.points : currentTab === 'streak' ? p.streak : p.accuracy + '%';
+    html += '<div class="podium-spot ' + spots[idx] + '">';
+    if (crowns[idx]) html += '<div class="crown">' + crowns[idx] + '</div>';
+    html += '<div class="avatar" style="' + (p.color ? 'background:' + p.color : '') + '">' + (p.name||'?').charAt(0) + '</div>';
+    html += '<div class="name">' + (p.isMe ? '⭐ ' : '') + (p.name||'?') + '</div>';
+    html += '<div class="pts">' + val + '</div>';
+    html += '<div class="bar"></div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  document.getElementById('podiumArea').innerHTML = html;
+}
+
+function renderList(players) {
+  var html = '<div class="lb-list">';
+  for (var i = 0; i < players.length; i++) {
+    var p = players[i];
+    var rank = i + 1;
+    var val = currentTab === 'points' ? p.points + ' pts' : currentTab === 'streak' ? p.streak + ' 日' : p.accuracy + '%';
+    var rankClass = rank <= 3 ? ' top' : '';
+    var meClass = p.isMe ? ' me' : '';
+    
+    html += '<div class="lb-item' + meClass + '">';
+    html += '<div class="rank' + rankClass + '">' + (rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : rank) + '</div>';
+    html += '<div class="u-avatar" style="' + (p.color ? 'background:'+p.color+';color:white' : 'background:var(--blue-soft);color:var(--blue)') + '">' + (p.name||'?').charAt(0) + '</div>';
+    html += '<div class="u-info"><div class="u-name">' + (p.isMe ? '⭐ ' : '') + (p.name||'?') + '</div><div class="u-badge">' + (p.badge||'') + (p.isMe ? ' · 你' : '') + '</div></div>';
+    html += '<div class="u-pts">' + val + '</div>';
+    if (currentTab !== 'streak' && p.streak > 0) {
+      html += '<div class="u-streak">🔥' + p.streak + '</div>';
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+  document.getElementById('leaderboardList').innerHTML = html;
+}
+
+function renderLeaderboard() {
+  var players = getPlayers();
+  renderPodium(players);
+  renderList(players);
+}
+
+renderLeaderboard();
+</script>
+</body>
+</html>

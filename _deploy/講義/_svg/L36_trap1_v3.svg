@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0c29"/>
+      <stop offset="50%" style="stop-color:#302b63"/>
+      <stop offset="100%" style="stop-color:#24243e"/>
+    </linearGradient>
+
+    <!-- 卡片背景漸變 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95"/>
+      <stop offset="100%" style="stop-color:#e8e0f0;stop-opacity:0.95"/>
+    </linearGradient>
+
+    <!-- 3D立方體頂面漸變 -->
+    <linearGradient id="topFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="100%" style="stop-color:#EE5A24"/>
+    </linearGradient>
+
+    <!-- 3D立方體正面漸變 -->
+    <linearGradient id="frontFace" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8A5C"/>
+      <stop offset="100%" style="stop-color:#E74C3C"/>
+    </linearGradient>
+
+    <!-- 3D立方體側面漸變 -->
+    <linearGradient id="sideFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E74C3C"/>
+      <stop offset="100%" style="stop-color:#C0392B"/>
+    </linearGradient>
+
+    <!-- 小立方體頂面 -->
+    <linearGradient id="smallTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ECDC4"/>
+      <stop offset="100%" style="stop-color:#2ECC71"/>
+    </linearGradient>
+
+    <!-- 小立方體正面 -->
+    <linearGradient id="smallFront" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#45B7D1"/>
+      <stop offset="100%" style="stop-color:#3498DB"/>
+    </linearGradient>
+
+    <!-- 小立方體側面 -->
+    <linearGradient id="smallSide" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3498DB"/>
+      <stop offset="100%" style="stop-color:#2980B9"/>
+    </linearGradient>
+
+    <!-- 放射狀光暈 -->
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0"/>
+    </radialGradient>
+
+    <!-- 按鈕漸變 -->
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B"/>
+      <stop offset="100%" style="stop-color:#EE5A24"/>
+    </linearGradient>
+
+    <!-- 陰影濾鏡 -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="3" dy="5" stdDeviation="8" flood-color="#000000" flood-opacity="0.4"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+
+    <filter id="cubeShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="4" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+
+    <filter id="smallCubeShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+
+    <!-- 文字發光 -->
+    <filter id="textGlow">
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)"/>
+
+  <!-- 背景裝飾圓圈 -->
+  <circle cx="100" cy="80" r="60" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+  <circle cx="500" cy="320" r="80" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+  <circle cx="550" cy="100" r="40" fill="none" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+
+  <!-- 主卡片 -->
+  <rect x="20" y="20" width="560" height="360" rx="20" ry="20" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+
+  <!-- 卡片頂部裝飾條 -->
+  <rect x="20" y="20" width="560" height="8" rx="4" fill="url(#btnGrad)"/>
+
+  <!-- 標題區域 -->
+  <text x="300" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#2C3E50">📐 體積陷阱 1：單位換算</text>
+  <line x1="180" y1="68" x2="420" y2="68" stroke="#E0D5F0" stroke-width="1"/>
+
+  <!-- 大立方體（1m³） -->
+  <g filter="url(#cubeShadow)">
+    <!-- 頂面 -->
+    <polygon points="130,120 230,90 330,120 230,150" fill="url(#topFace)" opacity="0.9"/>
+    <!-- 正面 -->
+    <polygon points="130,120 230,150 230,260 130,230" fill="url(#frontFace)" opacity="0.85"/>
+    <!-- 側面 -->
+    <polygon points="230,150 330,120 330,230 230,260" fill="url(#sideFace)" opacity="0.8"/>
+  </g>
+
+  <!-- 大立方體標籤 -->
+  <text x="230" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff" filter="url(#textGlow)">1 m³</text>
+
+  <!-- 等號 -->
+  <text x="380" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#2C3E50">=</text>
+
+  <!-- 小立方體群組（100×100×100 個 1cm³ 的視覺化） -->
+  <g filter="url(#smallCubeShadow)">
+    <!-- 第一層小立方體 -->
+    <polygon points="430,145 448,138 466,145 448,152" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="430,145 448,152 448,170 430,163" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="448,152 466,145 466,163 448,170" fill="url(#smallSide)" opacity="0.8"/>
+
+    <polygon points="450,143 468,136 486,143 468,150" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="450,143 468,150 468,168 450,161" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="468,150 486,143 486,161 468,168" fill="url(#smallSide)" opacity="0.8"/>
+
+    <polygon points="470,141 488,134 506,141 488,148" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="470,141 488,148 488,166 470,159" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="488,148 506,141 506,159 488,166" fill="url(#smallSide)" opacity="0.8"/>
+
+    <!-- 第二層 -->
+    <polygon points="430,163 448,156 466,163 448,170" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="430,163 448,170 448,188 430,181" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="448,170 466,163 466,181 448,188" fill="url(#smallSide)" opacity="0.8"/>
+
+    <polygon points="450,161 468,154 486,161 468,168" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="450,161 468,168 468,186 450,179" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="468,168 486,161 486,179 468,186" fill="url(#smallSide)" opacity="0.8"/>
+
+    <polygon points="470,159 488,152 506,159 488,166" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="470,159 488,166 488,184 470,177" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="488,166 506,159 506,177 488,184" fill="url(#smallSide)" opacity="0.8"/>
+
+    <!-- 第三層 -->
+    <polygon points="430,181 448,174 466,181 448,188" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="430,181 448,188 448,206 430,199" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="448,188 466,181 466,199 448,206" fill="url(#smallSide)" opacity="0.8"/>
+
+    <polygon points="450,179 468,172 486,179 468,186" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="450,179 468,186 468,204 450,197" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="468,186 486,179 486,197 468,204" fill="url(#smallSide)" opacity="0.8"/>
+
+    <polygon points="470,177 488,170 506,177 488,184" fill="url(#smallTop)" opacity="0.9"/>
+    <polygon points="470,177 488,184 488,202 470,195" fill="url(#smallFront)" opacity="0.85"/>
+    <polygon points="488,184 506,177 506,195 488,202" fill="url(#smallSide)" opacity="0.8"/>
+  </g>
+
+  <!-- 小立方體標籤 -->
+  <text x="468" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2C3E50" font-weight="bold">1 cm³</text>
+  <text x="468" y="236" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">× 1,000,000</text>
+
+  <!-- 箭頭裝飾 -->
+  <g transform="translate(0,0)">
+    <line x1="355" y1="190" x2="410" y2="190" stroke="#E74C3C" stroke-width="2" stroke-dasharray="4,3"/>
+    <polygon points="410,185 418,190 410,195" fill="#E74C3C"/>
+  </g>
+
+  <!-- 底部資訊卡片 -->
+  <rect x="50" y="270" width="500" height="90" rx="12" ry="12" fill="#2C3E50" opacity="0.9"/>
+  <rect x="50" y="270" width="500" height="90" rx="12" ry="12" fill="url(#glow)"/>
+
+  <!-- 驚嘆號圖示 -->
+  <circle cx="85" cy="315" r="18" fill="#FF6B6B"/>
+  <text x="85" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#ffffff">!</text>
+
+  <!-- 重點提示文字 -->
+  <text x="120" y="298" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FF6B6B">⚠️ 常見陷阱</text>
+  <text x="120" y="320" font-family="Arial, sans-serif" font-size="13" fill="#ECF0F1">1 m³ = 1,000,000 cm³</text>
+  <text x="120" y="342" font-family="Arial, sans-serif" font-size="12" fill="#BDC3C7">不是 1000！長度 × 寬度 × 高度 = 100 × 100 × 100</text>
+
+  <!-- 底部裝飾點 -->
+  <circle cx="530" cy="285" r="3" fill="#FF6B6B" opacity="0.5"/>
+  <circle cx="545" cy="285" r="3" fill="#4ECDC4" opacity="0.5"/>
+  <circle cx="560" cy="285" r="3" fill="#FF6B6B" opacity="0.5"/>
+</svg>

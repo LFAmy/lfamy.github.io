@@ -1,0 +1,394 @@
+/* ============================================================
+   LF Academy v2.0 — Joyful Precision Design System
+   Hong Kong Primary Mathematics Lecture Stylesheet
+   Design Tokens: Claymorphism + Vibrant + HK Palette
+   ============================================================ */
+
+/* === CSS Variables (Design Tokens) === */
+:root {
+  /* HK-Inspired Palette */
+  --lf-coral: #FF6B6B;
+  --lf-coral-light: #FFE0E0;
+  --lf-coral-dark: #E85555;
+  --lf-teal: #4ECDC4;
+  --lf-teal-light: #D4F5F2;
+  --lf-teal-dark: #3BA99E;
+  --lf-yellow: #FFD93D;
+  --lf-yellow-light: #FFF8DC;
+  --lf-green: #6BCB77;
+  --lf-green-light: #E8F8E9;
+  --lf-cream: #FFF8F0;
+  --lf-white: #FFFFFF;
+  
+  /* Neutrals */
+  --lf-text: #2C3E50;
+  --lf-text-light: #5A6C7D;
+  --lf-text-muted: #94A3B8;
+  --lf-border: #E8EDF2;
+  --lf-border-light: #F1F5F9;
+  
+  /* Claymorphism Shadows */
+  --lf-shadow-sm: 0 2px 8px rgba(44, 62, 80, 0.06), 0 1px 3px rgba(44, 62, 80, 0.04);
+  --lf-shadow-md: 0 4px 16px rgba(44, 62, 80, 0.08), 0 2px 6px rgba(44, 62, 80, 0.04);
+  --lf-shadow-lg: 0 8px 32px rgba(44, 62, 80, 0.10), 0 4px 12px rgba(44, 62, 80, 0.05);
+  --lf-shadow-inner: inset 0 1px 3px rgba(44, 62, 80, 0.04);
+  
+  /* Layout */
+  --lf-radius-sm: 8px;
+  --lf-radius-md: 12px;
+  --lf-radius-lg: 16px;
+  --lf-radius-xl: 20px;
+  --lf-max-width: 860px;
+  --lf-gutter: 24px;
+  
+  /* Typography */
+  --lf-font-heading: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  --lf-font-body: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  --lf-font-math: 'Baloo 2', 'Noto Sans TC', sans-serif;
+  
+  /* Animation */
+  --lf-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === Reset & Base === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--lf-font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--lf-text);
+  background: var(--lf-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Typography === */
+h1, h2, h3, h4 {
+  font-family: var(--lf-font-heading);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--lf-text);
+}
+
+h1 { font-size: 2rem; margin-bottom: 0.5em; }
+h2 { font-size: 1.5rem; margin-bottom: 0.4em; }
+h3 { font-size: 1.25rem; margin-bottom: 0.3em; }
+
+.math { font-family: var(--lf-font-math); font-weight: 600; }
+
+/* === Layout Container === */
+.lf-container {
+  max-width: var(--lf-max-width);
+  margin: 0 auto;
+  padding: var(--lf-gutter);
+}
+
+/* === Card Component (Claymorphism) === */
+.lf-card {
+  background: var(--lf-white);
+  border-radius: var(--lf-radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--lf-shadow-sm);
+  border: 1px solid var(--lf-border-light);
+  transition: box-shadow var(--lf-transition), transform var(--lf-transition);
+}
+
+.lf-card:hover {
+  box-shadow: var(--lf-shadow-md);
+  transform: translateY(-1px);
+}
+
+.lf-card--accent {
+  border-left: 4px solid var(--lf-coral);
+}
+
+.lf-card--example {
+  border-left: 4px solid var(--lf-teal);
+  background: var(--lf-teal-light);
+}
+
+.lf-card--tip {
+  border-left: 4px solid var(--lf-yellow);
+  background: var(--lf-yellow-light);
+}
+
+.lf-card--success {
+  border-left: 4px solid var(--lf-green);
+  background: var(--lf-green-light);
+}
+
+/* === Section Headers === */
+.lf-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--lf-border);
+}
+
+.lf-section-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lf-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.lf-section-icon--learn { background: var(--lf-coral-light); color: var(--lf-coral-dark); }
+.lf-section-icon--practice { background: var(--lf-teal-light); color: var(--lf-teal-dark); }
+.lf-section-icon--challenge { background: var(--lf-yellow-light); color: #B8860B; }
+.lf-section-icon--tip { background: var(--lf-green-light); color: var(--lf-green); }
+
+/* === Question Block === */
+.lf-question {
+  background: var(--lf-white);
+  border-radius: var(--lf-radius-md);
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: var(--lf-shadow-inner);
+  border: 1px solid var(--lf-border);
+  position: relative;
+}
+
+.lf-question__number {
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  background: var(--lf-coral);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--lf-font-math);
+}
+
+.lf-question__marks {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  background: var(--lf-yellow);
+  color: var(--lf-text);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* === Answer Box === */
+.lf-answer {
+  background: var(--lf-green-light);
+  border: 1px dashed var(--lf-green);
+  border-radius: var(--lf-radius-sm);
+  padding: 12px 16px;
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--lf-text);
+}
+
+.lf-answer::before {
+  content: 'Ans: ';
+  color: var(--lf-green);
+  font-weight: 700;
+}
+
+/* === Trap Card === */
+.lf-trap {
+  background: linear-gradient(135deg, #FFF5F5, #FFF0F0);
+  border: 2px solid var(--lf-coral-light);
+  border-radius: var(--lf-radius-md);
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.lf-trap__wrong {
+  color: var(--lf-coral-dark);
+  text-decoration: line-through;
+  text-decoration-color: var(--lf-coral);
+  margin-bottom: 6px;
+}
+
+.lf-trap__right {
+  color: var(--lf-green);
+  font-weight: 600;
+}
+
+/* === Progress Bar === */
+.lf-progress {
+  height: 6px;
+  background: var(--lf-border-light);
+  border-radius: 3px;
+  margin: 8px 0 24px;
+  overflow: hidden;
+}
+
+.lf-progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--lf-teal), var(--lf-green));
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === Step Indicator === */
+.lf-steps {
+  display: flex;
+  gap: 4px;
+  margin: 12px 0;
+}
+
+.lf-step {
+  flex: 1;
+  height: 4px;
+  background: var(--lf-border-light);
+  border-radius: 2px;
+}
+
+.lf-step--active { background: var(--lf-coral); }
+.lf-step--done { background: var(--lf-green); }
+
+/* === Buttons === */
+.lf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: var(--lf-radius-md);
+  font-family: var(--lf-font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--lf-transition);
+  min-height: 44px; /* Touch target */
+}
+
+.lf-btn--primary {
+  background: var(--lf-coral);
+  color: white;
+  box-shadow: var(--lf-shadow-sm);
+}
+.lf-btn--primary:hover {
+  background: var(--lf-coral-dark);
+  box-shadow: var(--lf-shadow-md);
+  transform: scale(1.02);
+}
+
+.lf-btn--secondary {
+  background: var(--lf-teal);
+  color: white;
+}
+.lf-btn--secondary:hover { background: var(--lf-teal-dark); }
+
+.lf-btn--outline {
+  background: transparent;
+  border: 2px solid var(--lf-coral);
+  color: var(--lf-coral);
+}
+.lf-btn--outline:hover { background: var(--lf-coral-light); }
+
+/* === Badge / Tag === */
+.lf-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.lf-badge--sspa { background: var(--lf-coral-light); color: var(--lf-coral-dark); }
+.lf-badge--new { background: var(--lf-teal-light); color: var(--lf-teal-dark); }
+.lf-badge--hot { background: var(--lf-yellow-light); color: #B8860B; }
+
+/* === Thinking Tip Bubble === */
+.lf-thinking-tip {
+  background: var(--lf-yellow-light);
+  border-radius: var(--lf-radius-lg) var(--lf-radius-lg) var(--lf-radius-lg) 4px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  position: relative;
+  font-style: italic;
+}
+
+.lf-thinking-tip::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-right: 8px solid var(--lf-yellow-light);
+  border-top: 8px solid transparent;
+  border-bottom: 0;
+}
+
+/* === Table (Math problems) === */
+.lf-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 12px 0;
+  border-radius: var(--lf-radius-md);
+  overflow: hidden;
+  box-shadow: var(--lf-shadow-sm);
+}
+
+.lf-table th {
+  background: var(--lf-coral-light);
+  color: var(--lf-coral-dark);
+  font-weight: 700;
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.lf-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--lf-border-light);
+  background: var(--lf-white);
+}
+
+.lf-table tr:last-child td { border-bottom: none; }
+.lf-table tr:hover td { background: var(--lf-cream); }
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  :root { --lf-gutter: 16px; }
+  body { font-size: 15px; }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  .lf-card { padding: 16px; }
+  .lf-question { padding: 16px; }
+}
+
+/* === Print === */
+@media print {
+  body { background: white; font-size: 12pt; }
+  .lf-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+  .lf-btn { display: none; }
+}
+
+/* === Accessibility === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid var(--lf-coral);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   End LF Academy v2.0 Design System
+   ============================================================ */

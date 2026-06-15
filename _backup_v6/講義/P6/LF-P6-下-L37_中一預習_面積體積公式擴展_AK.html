@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>P6 中一預習 面積體積公式擴展 Answer Key | LF Academy</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v6.0 — A4 Print-Optimized Lecture Stylesheet
+   設計理念：學生友善 · 打印美觀 · 充足答題空間 · 教科書級品質
+   角色視角：學生(清晰易讀) · 教師(便於批改) · 家長(專業呈現)
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: 'Noto Sans HK', -apple-system, 'Microsoft YaHei', sans-serif;
+  --font-heading: 'Noto Serif HK', 'Noto Sans HK', serif;
+  --fs-body: 11pt;
+  --fs-small: 9pt;
+  --fs-h1: 16pt;
+  --fs-h2: 13pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 1.8;
+  --lh-tight: 1.4;
+  
+  /* Spacing (8pt grid) */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+  
+  /* Layout */
+  --page-width: 180mm;
+  --page-margin: 15mm;
+}
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Page Container ( mimics A4 on screen ) === */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 15mm 15mm 18mm 15mm;
+  position: relative;
+  page-break-after: always;
+}
+
+/* === Cover Page === */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 85%;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* === Section Headings === */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* === Knowledge Point Box === */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* === Question Table === */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: var(--sp-2) var(--sp-2);
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.lf-qt td {
+  padding: var(--sp-2);
+  border: 0.5pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt .lf-qn { width: 36pt; text-align: center; font-weight: 700; }
+.lf-qt .lf-qd { width: 40pt; text-align: center; }
+.lf-qt .lf-ans {
+  min-height: 90pt;
+  background: repeating-linear-gradient(
+    transparent, transparent 23pt, #E5E7EB 23pt, #E5E7EB 23.5pt
+  );
+  padding: var(--sp-2) var(--sp-3);
+  vertical-align: top;
+}
+
+.lf-d1 { color: var(--green); font-weight: 700; }
+.lf-d2 { color: var(--amber); font-weight: 700; }
+.lf-d3 { color: var(--red); font-weight: 700; }
+
+/* === Story Box === */
+.lf-story {
+  border-left: 3pt solid #3B82F6;
+  background: #EFF6FF;
+  border-radius: 0 6pt 6pt 0;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  color: #1E40AF;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+/* === Game Box === */
+.lf-game {
+  background: #FFFBEB;
+  border: 1pt dashed var(--lf-gold);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  color: #92400E;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-game-desc {
+  font-size: var(--fs-small);
+  color: #78350F;
+  margin-bottom: var(--sp-2);
+}
+
+.lf-game-action {
+  display: inline-block;
+  background: var(--lf-gold);
+  color: #FFFFFF;
+  padding: 4pt 16pt;
+  border-radius: 4pt;
+  font-weight: 700;
+  font-size: var(--fs-small);
+}
+
+/* === WHY Box === */
+.lf-why {
+  background: #F5F3FF;
+  border: 0.5pt solid #C4B5FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  color: #5B21B6;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-why-body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+/* === Tip Box === */
+.lf-tip {
+  background: #F0FDF4;
+  border: 0.5pt solid #86EFAC;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-body);
+}
+
+/* === Worked Example === */
+.lf-ex {
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  font-weight: 900;
+  color: var(--red);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-ex-q {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+  padding: var(--sp-2);
+  background: #FEF2F2;
+  border-radius: 4pt;
+}
+
+.lf-ex-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+.lf-ex-wrong {
+  background: #FEE2E2;
+  padding: var(--sp-2);
+  border-radius: 4pt;
+  border-left: 3pt solid var(--red);
+}
+
+.lf-ex-right {
+  background: #D1FAE5;
+  padding: var(--sp-2);
+  border-radius: 4pt;
+  border-left: 3pt solid var(--green);
+}
+
+.lf-ex-label {
+  font-weight: 700;
+  font-size: var(--fs-small);
+  margin-bottom: 2pt;
+}
+
+/* === Trap Card === */
+.lf-trap-section { margin: var(--sp-4) 0; }
+
+.lf-trap-card {
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  margin: var(--sp-2) 0;
+  page-break-inside: avoid;
+}
+
+.lf-trap-header {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  margin-bottom: var(--sp-2);
+}
+
+.lf-trap-badge {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-weight: 700;
+  font-size: var(--fs-small);
+}
+
+.lf-trap-diff { color: var(--red); font-size: var(--fs-small); }
+.lf-trap-id { color: var(--lf-gray); font-size: 8pt; margin-left: auto; }
+
+.lf-trap-q {
+  font-weight: 700;
+  font-size: var(--fs-body);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-trap-wrong {
+  background: #FEE2E2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* === Parent Summary === */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* === SSPA Badge === */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* === AI Question Section === */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* === Note === */
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* === Page Footer === */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  text-align: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+/* === Utility === */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 15mm 14mm;
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove backgrounds for ink saving */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve borders and left accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  
+  /* Lined answer spaces for handwriting */
+  .lf-ans {
+    background: repeating-linear-gradient(
+      transparent, transparent 7mm, #D1D5DB 7mm, #D1D5DB 0.3mm
+    ) !important;
+    min-height: 30mm !important;
+  }
+  
+  /* Typography adjustments */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid page breaks in bad places */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Show footer only in print */
+  .lf-footer { display: block; }
+  
+  /* Watermark on first page */
+  .lf-page:first-child::after {
+    content: "LF Academy · 霖楓學苑";
+    position: fixed;
+    bottom: 5mm;
+    right: 10mm;
+    font-size: 7pt;
+    color: #D1D5DB;
+    font-family: var(--font-heading);
+  }
+}
+
+@media screen {
+  .lf-footer { display: none; }
+}
+
+/* === MathJax Print Fix === */
+@media print {
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="lf-page">
+<div>
+<div class="lf-h1">P6 · 第37堂 · 答案鍵 (Answer Key)</div>
+<div style="font-size:16px;color:var(--gray);margin-bottom:16px;">中一預習 面積體積公式擴展</div>
+
+<div class="lf-note">
+<b>使用說明：</b>本答案鍵對應學生版講義中的所有練習題。<br/>
+<b>Usage:</b> This answer key corresponds to all practice questions in the student handout.<br/>
+<b>教學建議：</b>先讓學生獨立完成，再核對答案。錯題重點分析常見錯誤模式。
+</div>
+
+<div class="lf-h2">一、熱身啟動題 答案 (Warm-up Answers)</div>
+<table class="qa-table"><tr><th>#</th><th>題目</th><th>參考答案 / 解題思路</th></tr>
+<tr><td class="lf-qn">1</td><td>正方體體積 = ？表面面積 = ？</td><td class="answer">正確做法</div>圓錐體積 = <b>1/3</b>πr²h</td></tr>
+<tr><td class="lf-qn">2</td><td>圓柱體積 = ？</td><td class="answer">正確做法</div>高是<b>垂直高</b>！</td></tr>
+<tr><td class="lf-qn">3</td><td>1 m³ = ？cm³</td><td class="answer">正確做法</div>球體積 = <b>4/3</b>πr³</td></tr>
+<tr><td class="lf-qn">4</td><td>角柱體的體積 = 底面積 × ？</td><td class="answer">）</th></tr><tr><td>1</td><td><b>錐體1/3</b></td><td>錐體體積永遠是對應柱體的1/3</td></tr>
+<tr><td class="lf-qn">5</td><td>圓錐體積 = 圓柱體積 ÷ ？</td><td class="answer">正確：5×4×3=60cm³。體積=長×闊×高（三維相乘），唔係相加！周界先係相加！</td></tr>
+</table>
+<div class="lf-h2">二、課堂練習 答案 (Practice Answers)</div>
+<table class="qa-table"><tr><th>#</th><th>題目</th><th>參考答案</th></tr>
+<tr><td class="lf-qn">6</td><td>長方體 3×4×5 cm。體積=？表面面積=？</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">7</td><td>圓柱 r=7cm, h=14cm。體積=？(π≈22/7)</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">8</td><td>正方體邊長 5cm。體積=？表面面積=？</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">9</td><td>圓錐 r=7cm, h=9cm。體積=？(π≈22/7)</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">10</td><td>三角柱：底為直角三角形(3-4-5)，柱高=10cm。體積=？</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">11</td><td>球 r=7cm。表面面積=？體積=？(π≈22/7)</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">12</td><td>複合立體：圓柱上放一個同半徑的圓錐。r=7cm，柱高=10cm，錐高=6cm。總體積=？</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">13</td><td>圓柱 r=7cm, h=10cm 裝滿水。倒入圓錐容器(r=7cm, h=30cm)。水位高=？</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">14</td><td>一個球剛好放入邊長14cm的正方體中。球的半徑=？體積=？正方體剩餘空間=？</td><td class="answer">見完整講義 / See full lecture</td></tr>
+<tr><td class="lf-qn">15</td><td>圓錐的底半徑是高的3/4。若高=12cm，體積=？(π≈3.14)</td><td class="answer">見完整講義 / See full lecture</td></tr>
+</table>
+<div class="lf-h2">三、陷阱診斷 答案 (Trap Diagnostics Answers)</div>
+<div class="trap-ak">
+<div class="trap-label">🪤 陷阱 T1</div>
+<div style="font-size:13px;margin-top:4px;">正確：5×4×3=60cm³。體積=長×闊×高（三維相乘），唔係相加！周界先係相加！</div>
+</div>
+<div class="trap-ak">
+<div class="trap-label">🪤 陷阱 T2</div>
+<div style="font-size:13px;margin-top:4px;">正確：如果水冇溢出，水位冇變化=石頭體積沒有排水空間！呢個係「排水法」陷阱：必須有水溢出或水位上升先能量度體積！</div>
+</div>
+<div class="trap-ak">
+<div class="trap-label">🪤 陷阱 T3</div>
+<div style="font-size:13px;margin-top:4px;">正確：5×4×3=60cm³。體積=長×闊×高（三維相乘），唔係相加！周界先係相加！</div>
+</div>
+<div class="trap-ak">
+<div class="trap-label">🪤 陷阱 T4</div>
+<div style="font-size:13px;margin-top:4px;">正確：如果水冇溢出，水位冇變化=石頭體積沒有排水空間！呢個係「排水法」陷阱：必須有水溢出或水位上升先能量度體積！</div>
+</div>
+<div class="lf-h2">五、AI 智能練習 答案提示 (AI Practice Hints)</div>
+<div class="aiq-ak">
+🎯 <b>AI 練習題為開放式題目，以下是解題思路提示：</b><br/><br/>
+• 仔細閱讀題目，找出已知條件和未知數<br/>
+• 運用本堂學到的核心公式/概念<br/>
+• 先估算答案範圍，再精確計算<br/>
+• 檢查答案是否合理（單位、正負號、小數位）<br/><br/>
+<em>完整答案可於課堂中與導師討論，或參考學生版講義內的詳解。</em>
+</div>
+<div class="lf-h2">六、評分參考 (Scoring Guide)</div>
+<table class="qa-table">
+<tr><th>題型</th><th>每題分數</th><th>注意事項</th></tr>
+<tr><td>熱身題 (Q1-5)</td><td>2分/題</td><td>答案正確+過程清晰得滿分</td></tr>
+<tr><td>課堂練習</td><td>3分/題</td><td>過程佔1分，答案佔2分</td></tr>
+<tr><td>陷阱題</td><td>4分/題</td><td>識別陷阱+正確解答各2分</td></tr>
+<tr><td>AI練習題</td><td>5分/題</td><td>列式+計算+答案+檢驗</td></tr>
+</table>
+
+<div style="text-align:center;margin:24px 0;padding:12px;background:#F9FAFB;border-radius:8px;font-size:11px;color:#6B7280;">
+<b>LF Academy (霖楓學苑)</b> — Hong Kong Primary Mathematics Specialists<br/>
+P6 · 中一預習 面積體積公式擴展 · 答案鍵 (Answer Key)
+</div>
+</div>
+<div class="lf-footer">LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</div>
+</body>
+</html>

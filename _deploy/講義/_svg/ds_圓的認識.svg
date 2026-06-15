@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <defs>
+    <!-- 背景漸變 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="50%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f3460"/>
+    </linearGradient>
+
+    <!-- 卡片背景漸變 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.04"/>
+    </linearGradient>
+
+    <!-- 卡片邊框漸變 -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e94560" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#0f3460" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#533483" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <!-- 圓面放射漸變（3D球體效果） -->
+    <radialGradient id="sphereGrad" cx="38%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="25%" stop-color="#ee5a24"/>
+      <stop offset="60%" stop-color="#e94560"/>
+      <stop offset="85%" stop-color="#c0392b"/>
+      <stop offset="100%" stop-color="#6b1d1d"/>
+    </radialGradient>
+
+    <!-- 圓面高光 -->
+    <radialGradient id="highlightGrad" cx="30%" cy="25%" r="30%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 圓規金屬漸變 -->
+    <linearGradient id="compassMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8e8e8"/>
+      <stop offset="30%" stop-color="#c0c0c0"/>
+      <stop offset="60%" stop-color="#a0a0a0"/>
+      <stop offset="100%" stop-color="#808080"/>
+    </linearGradient>
+
+    <!-- 圓規手柄漸變 -->
+    <linearGradient id="handleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8B4513"/>
+      <stop offset="30%" stop-color="#A0522D"/>
+      <stop offset="60%" stop-color="#CD853F"/>
+      <stop offset="100%" stop-color="#8B4513"/>
+    </linearGradient>
+
+    <!-- 陰影濾鏡 -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="3" dy="5" stdDeviation="8" flood-color="#000000" flood-opacity="0.4"/>
+      <feDropShadow dx="-1" dy="-1" stdDeviation="4" flood-color="#e94560" flood-opacity="0.15"/>
+    </filter>
+
+    <filter id="sphereShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="4" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.5"/>
+      <feDropShadow dx="-2" dy="-2" stdDeviation="5" flood-color="#ff6b6b" flood-opacity="0.2"/>
+    </filter>
+
+    <filter id="compassShadow" x="-15%" y="-5%" width="130%" height="120%">
+      <feDropShadow dx="3" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+
+    <!-- 發光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 標籤背景 -->
+    <linearGradient id="labelBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0f3460" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)"/>
+
+  <!-- 背景裝飾圓環 -->
+  <circle cx="300" cy="200" r="180" fill="none" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+  <circle cx="300" cy="200" r="220" fill="none" stroke="#ffffff" stroke-opacity="0.02" stroke-width="1"/>
+
+  <!-- 主卡片 -->
+  <rect x="20" y="15" width="560" height="370" rx="18" ry="18" fill="url(#cardGrad)" stroke="url(#borderGrad)" stroke-width="1.5" filter="url(#cardShadow)"/>
+
+  <!-- 標題 -->
+  <text x="300" y="52" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="22" font-weight="bold" fill="#ffffff" filter="url(#glow)">🔵 圓的認識</text>
+  <line x1="180" y1="62" x2="420" y2="62" stroke="#e94560" stroke-opacity="0.5" stroke-width="1"/>
+
+  <!-- ============ 圓規（左側） ============ -->
+  <g filter="url(#compassShadow)">
+    <!-- 圓規手柄 -->
+    <rect x="108" y="78" width="14" height="30" rx="4" fill="url(#handleGrad)"/>
+    <rect x="110" y="76" width="10" height="8" rx="3" fill="#A0522D"/>
+
+    <!-- 圓規左腳（金屬） -->
+    <line x1="115" y1="108" x2="95" y2="195" stroke="url(#compassMetal)" stroke-width="4" stroke-linecap="round"/>
+    <!-- 左腳高光 -->
+    <line x1="115" y1="108" x2="95" y2="195" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- 圓規右腳（金屬） -->
+    <line x1="115" y1="108" x2="175" y2="195" stroke="url(#compassMetal)" stroke-width="4" stroke-linecap="round"/>
+    <!-- 右腳高光 -->
+    <line x1="115" y1="108" x2="175" y2="195" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- 鉸鏈螺絲 -->
+    <circle cx="115" cy="108" r="5" fill="#888888" stroke="#666666" stroke-width="1"/>
+    <circle cx="115" cy="108" r="2" fill="#aaaaaa"/>
+
+    <!-- 鉛筆尖（右腳） -->
+    <polygon points="175,195 170,210 180,210" fill="#2d2d2d"/>
+    <polygon points="172,210 178,210 175,218" fill="#555555"/>
+
+    <!-- 針尖（左腳） -->
+    <line x1="95" y1="195" x2="95" y2="212" stroke="#888888" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="95" cy="213" r="1.5" fill="#cccccc"/>
+
+    <!-- 圓規畫出的弧線 -->
+    <path d="M 95 213 A 80 80 0 0 1 240 180" fill="none" stroke="#e94560" stroke-opacity="0.4" stroke-width="1.5" stroke-dasharray="4,3"/>
+  </g>
+
+  <!-- ============ 主圓（3D球體效果） ============ -->
+  <g filter="url(#sphereShadow)">
+    <!-- 3D球體 -->
+    <circle cx="340" cy="210" r="95" fill="url(#sphereGrad)"/>
+    <!-- 高光 -->
+    <circle cx="340" cy="210" r="95" fill="url(#highlightGrad)"/>
+    <!-- 邊緣發光 -->
+    <circle cx="340" cy="210" r="95" fill="none" stroke="#ff6b6b" stroke-opacity="0.3" stroke-width="1.5"/>
+  </g>
+
+  <!-- ============ 圓的要素標註 ============ -->
+
+  <!-- 圓心 O -->
+  <circle cx="340" cy="210" r="4" fill="#ffffff" filter="url(#glow)"/>
+  <text x="340" y="200" text-anchor="middle" font-family="'Times New Roman',serif" font-size="16" font-weight="bold" fill="#ffffff" filter="url(#glow)">O</text>
+
+  <!-- 半徑 r（從圓心到圓周） -->
+  <line x1="340" y1="210" x2="340" y2="115" stroke="#4fc3f7" stroke-width="2" stroke-dasharray="6,3"/>
+  <polygon points="340,115 337,122 343,122" fill="#4fc3f7"/>
+  <!-- r 標籤 -->
+  <text x="350" y="168" font-family="'Times New Roman',serif" font-size="15" font-weight="bold" fill="#4fc3f7" filter="url(#glow)">r</text>
+
+  <!-- 直徑 d（穿過圓心） -->
+  <line x1="270" y1="270" x2="410" y2="150" stroke="#ffd93d" stroke-width="2" stroke-dasharray="6,3"/>
+  <polygon points="410,150 403,153 406,146" fill="#ffd93d"/>
+  <polygon points="270,270 277,267 274,274" fill="#ffd93d"/>
+  <!-- d 標籤 -->
+  <text x="365" y="245" font-family="'Times New Roman',serif" font-size="15" font-weight="bold" fill="#ffd93d" filter="url(#glow)">d</text>
+
+  <!-- 圓周標示（弧線箭頭） -->
+  <path d="M 420 160 A 85 85 0 0 1 380 295" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-dasharray="5,4"/>
+  <polygon points="380,295 387,290 382,288" fill="#6c5ce7"/>
+  <text x="430" y="240" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="13" fill="#6c5ce7" filter="url(#glow)">圓周</text>
+
+  <!-- ============ 圖例說明 ============ -->
+  <g transform="translate(40, 290)">
+    <!-- 圖例卡片 -->
+    <rect x="0" y="0" width="230" height="80" rx="10" fill="url(#labelBg)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+
+    <!-- 半徑圖例 -->
+    <line x1="15" y1="20" x2="45" y2="20" stroke="#4fc3f7" stroke-width="2.5" stroke-dasharray="6,3"/>
+    <text x="55" y="25" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="13" fill="#e0e0e0">半徑 (r) — 圓心到圓周</text>
+
+    <!-- 直徑圖例 -->
+    <line x1="15" y1="45" x2="45" y2="45" stroke="#ffd93d" stroke-width="2.5" stroke-dasharray="6,3"/>
+    <text x="55" y="50" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="13" fill="#e0e0e0">直徑 (d) — 穿過圓心</text>
+
+    <!-- 圓周圖例 -->
+    <path d="M 15 68 Q 30 60 45 68" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="55" y="73" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="13" fill="#e0e0e0">圓周 — 圓的邊界</text>
+  </g>
+
+  <!-- 公式卡片 -->
+  <g transform="translate(330, 290)">
+    <rect x="0" y="0" width="220" height="80" rx="10" fill="url(#labelBg)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+    <text x="110" y="25" text-anchor="middle" font-family="'Times New Roman',serif" font-size="16" fill="#ffd93d" font-weight="bold">d = 2r</text>
+    <text x="110" y="50" text-anchor="middle" font-family="'Times New Roman',serif" font-size="16" fill="#4fc3f7" font-weight="bold">r = d ÷ 2</text>
+    <text x="110" y="73" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC',sans-serif" font-size="12" fill="#aaaaaa">直徑 = 2 × 半徑</text>
+  </g>
+
+  <!-- 裝飾小點 -->
+  <circle cx="50" cy="85" r="2" fill="#e94560" opacity="0.4"/>
+  <circle cx="555" cy="85" r="2" fill="#e94560" opacity="0.4"/>
+  <circle cx="50" cy="340" r="2" fill="#e94560" opacity="0.4"/>
+  <circle cx="555" cy="340" r="2" fill="#e94560" opacity="0.4"/>
+</svg>

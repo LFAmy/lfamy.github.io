@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0f4ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#e8f0fe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#dce8f5;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 卡片外陰影 -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="3" dy="4" stdDeviation="6" flood-color="#1a2a4a" flood-opacity="0.25"/>
+      <feDropShadow dx="-1" dy="-1" stdDeviation="3" flood-color="#ffffff" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- 方格內陰影 -->
+    <filter id="innerShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+
+    <!-- 3D 光影濾鏡 -->
+    <filter id="cell3D" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1" result="blur"/>
+      <feSpecularLighting in="blur" surfaceScale="3" specularConstant="0.6" specularExponent="20" result="spec">
+        <fePointLight x="200" y="50" z="200"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut"/>
+      <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+
+    <!-- 放射漸變 - 紅色 -->
+    <radialGradient id="redGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#e63946;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b71c1c;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- 放射漸變 - 藍色 -->
+    <radialGradient id="blueGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" style="stop-color:#64b5f6;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#1e88e5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d47a1;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- 放射漸變 - 綠色 -->
+    <radialGradient id="greenGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" style="stop-color:#81c784;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#43a047;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1b5e20;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- 標題漸變 -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1a237e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3949ab;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a237e;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 卡片漸變 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#f5f7ff;stop-opacity:0.95" />
+    </linearGradient>
+
+    <!-- 等號發光 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 網格線陰影 -->
+    <filter id="gridLineShadow">
+      <feDropShadow dx="0.5" dy="0.5" stdDeviation="0.5" flood-color="#000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- 背景裝飾圓點 -->
+  <circle cx="50" cy="50" r="30" fill="#ffffff" opacity="0.3"/>
+  <circle cx="550" cy="350" r="40" fill="#ffffff" opacity="0.2"/>
+  <circle cx="520" cy="60" r="20" fill="#ffffff" opacity="0.25"/>
+
+  <!-- 主卡片 -->
+  <rect x="20" y="15" width="560" height="370" rx="18" ry="18" fill="url(#cardGrad)" filter="url(#cardShadow)" stroke="#e0e6ff" stroke-width="1"/>
+
+  <!-- 標題 -->
+  <text x="300" y="58" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', 'Noto Sans HK', sans-serif" font-size="26" font-weight="bold" fill="url(#titleGrad)" letter-spacing="2">
+    等值分數
+  </text>
+  <text x="300" y="80" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', 'Noto Sans HK', sans-serif" font-size="14" fill="#5c6bc0" letter-spacing="1">
+    Equivalent Fractions
+  </text>
+
+  <!-- 分隔線 -->
+  <line x1="60" y1="92" x2="540" y2="92" stroke="#c5cae9" stroke-width="1" opacity="0.6"/>
+
+  <!-- ========== 第一組：1/2 ========== -->
+  <!-- 1/2 標籤 -->
+  <text x="80" y="125" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="16" font-weight="bold" fill="#b71c1c">1</text>
+  <line x1="65" y1="130" x2="95" y2="130" stroke="#b71c1c" stroke-width="1.5"/>
+  <text x="80" y="148" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="16" font-weight="bold" fill="#b71c1c">2</text>
+
+  <!-- 1/2 方格 - 2列1行 -->
+  <g transform="translate(110, 108)">
+    <!-- 外框 -->
+    <rect x="0" y="0" width="80" height="36" rx="4" fill="none" stroke="#b71c1c" stroke-width="1.5" filter="url(#gridLineShadow)"/>
+    <!-- 左半 - 紅色 -->
+    <rect x="1" y="1" width="39" height="34" rx="3" fill="url(#redGrad)" filter="url(#cell3D)"/>
+    <!-- 右半 - 白色 -->
+    <rect x="41" y="1" width="38" height="34" rx="3" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 分隔線 -->
+    <line x1="40" y1="1" x2="40" y2="35" stroke="#b71c1c" stroke-width="1.5"/>
+  </g>
+
+  <!-- 等號 -->
+  <text x="210" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#3949ab" filter="url(#glow)">=</text>
+
+  <!-- ========== 第二組：2/4 ========== -->
+  <!-- 2/4 標籤 -->
+  <text x="248" y="125" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="16" font-weight="bold" fill="#0d47a1">2</text>
+  <line x1="233" y1="130" x2="263" y2="130" stroke="#0d47a1" stroke-width="1.5"/>
+  <text x="248" y="148" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="16" font-weight="bold" fill="#0d47a1">4</text>
+
+  <!-- 2/4 方格 - 4列1行 -->
+  <g transform="translate(278, 108)">
+    <rect x="0" y="0" width="120" height="36" rx="4" fill="none" stroke="#0d47a1" stroke-width="1.5" filter="url(#gridLineShadow)"/>
+    <!-- 第1格 - 藍色 -->
+    <rect x="1" y="1" width="29" height="34" rx="3" fill="url(#blueGrad)" filter="url(#cell3D)"/>
+    <!-- 第2格 - 藍色 -->
+    <rect x="31" y="1" width="29" height="34" rx="3" fill="url(#blueGrad)" filter="url(#cell3D)"/>
+    <!-- 第3格 - 白色 -->
+    <rect x="61" y="1" width="29" height="34" rx="3" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 第4格 - 白色 -->
+    <rect x="91" y="1" width="28" height="34" rx="3" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 分隔線 -->
+    <line x1="30" y1="1" x2="30" y2="35" stroke="#0d47a1" stroke-width="1"/>
+    <line x1="60" y1="1" x2="60" y2="35" stroke="#0d47a1" stroke-width="1"/>
+    <line x1="90" y1="1" x2="90" y2="35" stroke="#0d47a1" stroke-width="1"/>
+  </g>
+
+  <!-- 等號 -->
+  <text x="418" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#3949ab" filter="url(#glow)">=</text>
+
+  <!-- ========== 第三組：4/8 ========== -->
+  <!-- 4/8 標籤 -->
+  <text x="458" y="125" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="16" font-weight="bold" fill="#1b5e20">4</text>
+  <line x1="443" y1="130" x2="473" y2="130" stroke="#1b5e20" stroke-width="1.5"/>
+  <text x="458" y="148" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="16" font-weight="bold" fill="#1b5e20">8</text>
+
+  <!-- 4/8 方格 - 8列1行 -->
+  <g transform="translate(488, 108)">
+    <rect x="0" y="0" width="80" height="36" rx="4" fill="none" stroke="#1b5e20" stroke-width="1.5" filter="url(#gridLineShadow)"/>
+    <!-- 第1格 - 綠色 -->
+    <rect x="1" y="1" width="9" height="34" rx="2" fill="url(#greenGrad)" filter="url(#cell3D)"/>
+    <!-- 第2格 - 綠色 -->
+    <rect x="11" y="1" width="9" height="34" rx="2" fill="url(#greenGrad)" filter="url(#cell3D)"/>
+    <!-- 第3格 - 綠色 -->
+    <rect x="21" y="1" width="9" height="34" rx="2" fill="url(#greenGrad)" filter="url(#cell3D)"/>
+    <!-- 第4格 - 綠色 -->
+    <rect x="31" y="1" width="9" height="34" rx="2" fill="url(#greenGrad)" filter="url(#cell3D)"/>
+    <!-- 第5格 - 白色 -->
+    <rect x="41" y="1" width="9" height="34" rx="2" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 第6格 - 白色 -->
+    <rect x="51" y="1" width="9" height="34" rx="2" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 第7格 - 白色 -->
+    <rect x="61" y="1" width="9" height="34" rx="2" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 第8格 - 白色 -->
+    <rect x="71" y="1" width="8" height="34" rx="2" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 分隔線 -->
+    <line x1="10" y1="1" x2="10" y2="35" stroke="#1b5e20" stroke-width="0.8"/>
+    <line x1="20" y1="1" x2="20" y2="35" stroke="#1b5e20" stroke-width="0.8"/>
+    <line x1="30" y1="1" x2="30" y2="35" stroke="#1b5e20" stroke-width="0.8"/>
+    <line x1="40" y1="1" x2="40" y2="35" stroke="#1b5e20" stroke-width="0.8"/>
+    <line x1="50" y1="1" x2="50" y2="35" stroke="#1b5e20" stroke-width="0.8"/>
+    <line x1="60" y1="1" x2="60" y2="35" stroke="#1b5e20" stroke-width="0.8"/>
+    <line x1="70" y1="1" x2="70" y2="35" stroke="#1b5e20" stroke-width="0.8"/>
+  </g>
+
+  <!-- ========== 下方對比區：圓形圖 ========== -->
+  <!-- 圓形圖標題 -->
+  <text x="300" y="185" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="15" font-weight="bold" fill="#37474f">
+    圓形圖對比 Circular Comparison
+  </text>
+
+  <!-- 1/2 圓形圖 -->
+  <g transform="translate(100, 270)">
+    <!-- 外圈陰影 -->
+    <circle cx="0" cy="0" r="58" fill="none" stroke="#e0e0e0" stroke-width="1"/>
+    <!-- 背景圓 -->
+    <circle cx="0" cy="0" r="55" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="1.5" filter="url(#innerShadow)"/>
+    <!-- 1/2 扇形 - 上半 (紅色) -->
+    <path d="M0,0 L0,-55 A55,55 0 0,1 0,55 Z" fill="url(#redGrad)" filter="url(#cell3D)" opacity="0.9"/>
+    <!-- 下半白色 -->
+    <path d="M0,0 L0,55 A55,55 0 0,1 0,-55 Z" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 分隔線 -->
+    <line x1="0" y1="-55" x2="0" y2="55" stroke="#b71c1c" stroke-width="2"/>
+    <line x1="-55" y1="0" x2="55" y2="0" stroke="#b71c1c" stroke-width="2"/>
+    <!-- 中心點 -->
+    <circle cx="0" cy="0" r="3" fill="#b71c1c"/>
+    <!-- 標籤 -->
+    <text x="0" y="75" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="14" font-weight="bold" fill="#b71c1c">1/2</text>
+  </g>
+
+  <!-- 等號 -->
+  <text x="230" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#3949ab" filter="url(#glow)">=</text>
+
+  <!-- 2/4 圓形圖 -->
+  <g transform="translate(300, 270)">
+    <circle cx="0" cy="0" r="58" fill="none" stroke="#e0e0e0" stroke-width="1"/>
+    <circle cx="0" cy="0" r="55" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="1.5" filter="url(#innerShadow)"/>
+    <!-- 第1象限 (藍色) -->
+    <path d="M0,0 L0,-55 A55,55 0 0,1 55,0 Z" fill="url(#blueGrad)" filter="url(#cell3D)" opacity="0.9"/>
+    <!-- 第2象限 (藍色) -->
+    <path d="M0,0 L55,0 A55,55 0 0,1 0,55 Z" fill="url(#blueGrad)" filter="url(#cell3D)" opacity="0.9"/>
+    <!-- 第3象限 (白色) -->
+    <path d="M0,0 L0,55 A55,55 0 0,1 -55,0 Z" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 第4象限 (白色) -->
+    <path d="M0,0 L-55,0 A55,55 0 0,1 0,-55 Z" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 分隔線 -->
+    <line x1="0" y1="-55" x2="0" y2="55" stroke="#0d47a1" stroke-width="1.5"/>
+    <line x1="-55" y1="0" x2="55" y2="0" stroke="#0d47a1" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="3" fill="#0d47a1"/>
+    <text x="0" y="75" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="14" font-weight="bold" fill="#0d47a1">2/4</text>
+  </g>
+
+  <!-- 等號 -->
+  <text x="380" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#3949ab" filter="url(#glow)">=</text>
+
+  <!-- 4/8 圓形圖 -->
+  <g transform="translate(460, 270)">
+    <circle cx="0" cy="0" r="58" fill="none" stroke="#e0e0e0" stroke-width="1"/>
+    <circle cx="0" cy="0" r="55" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="1.5" filter="url(#innerShadow)"/>
+    <!-- 4個綠色扇形 -->
+    <path d="M0,0 L0,-55 A55,55 0 0,1 38.89,-38.89 Z" fill="url(#greenGrad)" filter="url(#cell3D)" opacity="0.9"/>
+    <path d="M0,0 L38.89,-38.89 A55,55 0 0,1 55,0 Z" fill="url(#greenGrad)" filter="url(#cell3D)" opacity="0.9"/>
+    <path d="M0,0 L55,0 A55,55 0 0,1 38.89,38.89 Z" fill="url(#greenGrad)" filter="url(#cell3D)" opacity="0.9"/>
+    <path d="M0,0 L38.89,38.89 A55,55 0 0,1 0,55 Z" fill="url(#greenGrad)" filter="url(#cell3D)" opacity="0.9"/>
+    <!-- 4個白色扇形 -->
+    <path d="M0,0 L0,55 A55,55 0 0,1 -38.89,38.89 Z" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <path d="M0,0 L-38.89,38.89 A55,55 0 0,1 -55,0 Z" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <path d="M0,0 L-55,0 A55,55 0 0,1 -38.89,-38.89 Z" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <path d="M0,0 L-38.89,-38.89 A55,55 0 0,1 0,-55 Z" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+    <!-- 分隔線 -->
+    <line x1="0" y1="-55" x2="0" y2="55" stroke="#1b5e20" stroke-width="1"/>
+    <line x1="-55" y1="0" x2="55" y2="0" stroke="#1b5e20" stroke-width="1"/>
+    <line x1="-38.89" y1="-38.89" x2="38.89" y2="38.89" stroke="#1b5e20" stroke-width="0.8"/>
+    <line x1="38.89" y1="-38.89" x2="-38.89" y2="38.89" stroke="#1b5e20" stroke-width="0.8"/>
+    <circle cx="0" cy="0" r="3" fill="#1b5e20"/>
+    <text x="0" y="75" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="14" font-weight="bold" fill="#1b5e20">4/8</text>
+  </g>
+
+  <!-- 底部說明文字 -->
+  <text x="300" y="365" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="12" fill="#78909c" letter-spacing="1">
+    塗色部分面積相同，代表分數等值 ✨ 1/2 = 2/4 = 4/8
+  </text>
+
+  <!-- 裝飾小星星 -->
+  <text x="35" y="370" font-size="14" fill="#ffd54f" opacity="0.6">★</text>
+  <text x="555" y="30" font-size="12" fill="#ffd54f" opacity="0.5">★</text>
+  <text x="570" y="370" font-size="10" fill="#ffd54f" opacity="0.4">★</text>
+</svg>

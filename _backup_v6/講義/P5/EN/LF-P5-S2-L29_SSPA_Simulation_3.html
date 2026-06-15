@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF Academy — P5-S2-L29 Student Handout v6</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:12.5px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .container { max-width:100%; }
+    .pb { box-shadow:none; min-height:0; padding:28px 40px; page-break-after:always; }
+    .pb:last-of-type { page-break-after:auto; }
+    .no-print { display:none!important; }
+  }
+
+  @page {
+    size: A4;
+    margin: 12mm 15mm;
+    @bottom-center {
+      content: "模擬3 · P5數學科（下學期期中）· 霖楓學苑　　第 " counter(page) " 頁";
+      font-family: 'Noto Sans HK', sans-serif;
+      font-size: 9px;
+      color: #6B7280;
+    }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:32px 44px;
+    display:flex; flex-direction:column;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    margin-bottom:8px;
+    min-height: 297mm;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; font-size:inherit; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  /* ── EXAM HEADER ── */
+  .exam-header {
+    text-align:center;
+    border:2px solid var(--ink);
+    padding:14px 20px;
+    margin-bottom:16px;
+    background:var(--lightbg);
+  }
+  .exam-header .school {
+    font-family:'Noto Serif HK',serif;
+    font-size:20px; font-weight:900; color:var(--blue);
+    letter-spacing:6px;
+  }
+  .exam-header .title {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:700;
+    margin:6px 0;
+    letter-spacing:2px;
+  }
+  .exam-header .info {
+    font-size:12px; color:var(--gray);
+  }
+  .exam-header .duration {
+    display:inline-block;
+    border:1px solid var(--red); color:var(--red);
+    padding:2px 14px; border-radius:14px;
+    font-size:11px; font-weight:700;
+    margin-top:4px;
+  }
+
+  /* ── STUDENT INFO ── */
+  .student-info {
+    display:flex; gap:40px; justify-content:center;
+    font-size:13px; margin-bottom:18px;
+    padding:8px 12px;
+    border-bottom:1px dashed var(--borderc);
+  }
+  .student-info span { display:flex; align-items:center; gap:4px; }
+  .student-info .blank {
+    display:inline-block;
+    min-width:100px;
+    border-bottom:1px solid var(--ink);
+  }
+  .student-info .score-blank {
+    display:inline-block;
+    min-width:50px;
+    border-bottom:2px solid var(--ink);
+    font-weight:700;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .sec-title {
+    font-family:'Noto Serif HK',serif;
+    font-size:15px; font-weight:900; color:var(--blue);
+    padding:8px 14px; margin:14px 0 10px;
+    border-left:4px solid var(--ink);
+    background:#F0F4FA;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .sec-title .sec-marks {
+    font-size:12px; font-weight:500; color:var(--gray);
+  }
+
+  /* ── INSTRUCTION ── */
+  .instruction {
+    font-size:11px; color:var(--gray);
+    padding:6px 10px; margin:4px 0 10px;
+    background:var(--lightbg);
+    border:1px solid var(--borderc);
+    border-radius:4px;
+    line-height:1.6;
+  }
+
+  /* ── QUESTION TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0 12px; font-size:12px; }
+  .qt th { background:var(--ink); color:white; padding:5px 8px; font-size:10px; font-weight:600; text-align:left; }
+  .qt td { padding:7px 9px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:36px; text-align:center; font-weight:700; font-size:13px; }
+  .qt .qs { width:60px; text-align:center; font-size:11px; }
+  .qt .qtxt { font-size:12.5px; line-height:1.7; }
+
+  /* ── MC OPTIONS ── */
+  .mc-opts { margin-top:4px; display:flex; flex-wrap:wrap; gap:12px; }
+  .mc-opts .opt { font-family:'Noto Sans HK',sans-serif; font-size:12px; white-space:nowrap; }
+
+  /* ── ANSWER AREA ── */
+  .ans-area {
+    min-height:75px;
+    border-bottom:1px dashed var(--borderc);
+    margin-top:4px;
+  }
+  .ans-lines {
+    background: repeating-linear-gradient(transparent,transparent 21px,#E5E7EB 21px,#E5E7EB 22px);
+    min-height:72px;
+  }
+
+  /* ── SCORE BOX ── */
+  .score-box {
+    display:inline-block;
+    border:1.5px solid var(--ink);
+    padding:2px 8px;
+    font-size:10px;
+    font-weight:700;
+    margin-left:6px;
+    background:white;
+  }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:9px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+
+  /* ── APP QUESTION ── */
+  .app-q {
+    border:1.5px solid var(--borderc);
+    padding:12px 16px;
+    margin:8px 0;
+    background:var(--white);
+    page-break-inside:avoid;
+  }
+  .app-q .q-head {
+    font-weight:700; font-size:13px;
+    margin-bottom:6px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .app-q .q-body { font-size:12.5px; line-height:1.8; }
+  .app-q .q-work {
+    min-height:100px;
+    border:1px dashed var(--borderc);
+    margin-top:8px;
+    padding:6px 10px;
+    font-size:11px; color:var(--gray);
+  }
+
+  /* ── END MARKER ── */
+  .end-marker {
+    text-align:center;
+    margin-top:30px;
+    padding:16px 0;
+    border-top:2px solid var(--ink);
+  }
+  .end-marker .end-text {
+    font-family:'Noto Serif HK',serif;
+    font-size:16px; font-weight:900;
+    letter-spacing:6px;
+    color:var(--blue);
+  }
+  .end-marker .total-score {
+    margin-top:10px;
+    font-size:14px; font-weight:700;
+  }
+  .end-marker .total-score .ts-blank {
+    display:inline-block;
+    width:60px;
+    border-bottom:2px solid var(--ink);
+  }
+
+  /* ── FOOTER LINE ── */
+  .footer-line {
+    text-align:center;
+    font-size:9px; color:var(--gray);
+    margin-top:20px;
+    padding-top:8px;
+    border-top:1px solid var(--borderc);
+  }
+
+  /* ── PRINT PAGE BREAK CONTROL ── */
+  .keep-together { page-break-inside:avoid; }
+
+  @media print {
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; margin-bottom:0; }
+    .exam-header { padding:10px 16px; }
+    .exam-header .school { font-size:17px; }
+    .exam-header .title { font-size:15px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11px; }
+    .qt td { padding:5px 7px; }
+    .sec-title { font-size:13px; }
+    .app-q .q-body { font-size:11px; }
+    .ans-lines { background:none; border-bottom:1px solid #E5E7EB; }
+    .page-break { page-break-before:always; }
+  }
+
+  /* ── v6 FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
+  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
+  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
+  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+═══════════════ PAGE 1: HEADER + Part A ═══════════════
+<div class="pb">
+<div class="exam-header">
+<div class="school">Lam Fung Academy</div>
+<div class="title">SSPA Mock Exam (3) · Primary 5 Mathematics · Mid-term of next semester</div>
+<div class="info">Scope: Lessons 21–28 (Circle, Solid Section, Origami Pattern, Volume, Multiplication and Division of Fractions, Division of Decimals, Comprehensive Application)</div>
+<div class="duration">Exam time: 50 minutes Full score: 100 points</div>
+</div>
+<div class="student-info">
+<span>Name:<span class="blank"></span></span>
+<span>date:<span class="blank"></span></span>
+<span>Fraction:<span class="score-blank"></span> / 100</span>
+</div>
+═══════ Part A: Multiple choice questions ═══════
+<div class="sec-title">Part A - Multiple Choice Questions<span class="sec-marks">10 questions × 3 points = 30 points</span></div>
+<div class="instruction">Instructions: Choose the correct answer and fill in the letter of the answer in the space to the right of each question. There is only one correct answer for each question.</div>
+<div style="margin:12px 0;padding:10px 14px;background:linear-gradient(135deg,#FEF2F2,#FFF8E7);border:2px solid var(--red);border-radius:6px;">
+<strong style="color:#991B1B;">🎫 Exam tips (SSPA must read)</strong>
+<p style="font-size:11px;margin:4px 0;color:#1A1A1A;">① Do the questions you know first, don’t get stuck on one!<br/>② Check the unit for each question (cm vs cm² vs cm³)!<br/>③ Geometry questions: If there is an elevation in the picture, use the height. If there is no elevation, use the formula to find it!<br/>④ Application question: Write an answer sentence! Points will be deducted for not writing steps!<br/>⑤ 5 minutes left: Check if the MC has been filled in and if the unit is correct!</p>
+</div>
+<table class="qt">
+<tr><th class="qn">question number</th><th>Question</th><th class="qs">fraction</th></tr>
+<tr>
+<td class="qn">1</td>
+<td class="qtxt">
+<div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ Circle: radius 9cm</div>
+<div style="display:inline-block;max-width:280px;"><svg height="170" viewbox="0 0 190 170" width="190" xmlns="http://www.w3.org/2000/svg"><circle cx="95" cy="75" fill="#DBEAFE" r="65" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="95" cy="75" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="95" y="68">O</text><line stroke="#1A3C6D" stroke-width="2" x1="95" x2="160" y1="75" y2="75"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="127" y="68">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="160" y1="83" y2="83"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="95" y="97">d=2r</text></svg></div>
+</div>The radius of a circle is 9 cm. What is the diameter?<div class="mc-opts">
+<span class="opt">A. 4.5 cm</span>
+<span class="opt">B. 9 cm</span>
+<span class="opt">C. 18 cm</span>
+<span class="opt">D. 27 cm</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+<tr>
+<td class="qn">2</td>
+<td class="qtxt">A cylinder cut parallel to the base. What is the shape of the cross section?<div class="mc-opts">
+<span class="opt">A. Rectangle</span>
+<span class="opt">B. Triangle</span>
+<span class="opt">C. Circle</span>
+<span class="opt">D. Trapezoid</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+<tr>
+<td class="qn">3</td>
+<td class="qtxt">Which of the following expanded diagrams<b>cannot</b>be folded into a cube?<div class="mc-opts">
+<span class="opt">A. One-four-one type (4 squares in the middle + 1 square above and below)</span>
+<span class="opt">B. Two-three-one type (3 squares in the middle + 2+1 squares on the sides) |||SEP|||</span>
+</div>
+<div class="mc-opts" style="margin-top:2px;">
+<span class="opt">C. Field shape (2 × 2 squares + 1 upper and lower square)</span>
+<span class="opt">D. Two-two-two ladder type</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+<tr>
+<td class="qn">4</td>
+<td class="qtxt">
+<div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
+<div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ Cuboid: 8×5×4cm</div>
+<div style="display:inline-block;max-width:280px;"><svg height="160" viewbox="0 0 225 160" width="225" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="65" stroke="#1A3C6D" stroke-width="3" width="120" x="25" y="33"></rect><polygon fill="#DBEAFE" points="25,33 43,15 163,15 145,33" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="145,33 163,15 163,80 145,98" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="85" y="114">l</text></svg></div>
+</div>The cuboid is 8 cm long, 5 cm wide, and 4 cm high. Volume = ?<div class="mc-opts">
+<span class="opt">A. 17 cm³</span>
+<span class="opt">B. 80 cm³</span>
+<span class="opt">C. 120 cm³</span>
+<span class="opt">D. 160 cm³</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+<tr>
+<td class="qn">5</td>
+<td class="qtxt">calculate<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> × <span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？
+        <div class="mc-opts">
+<span class="opt">A. <span class="f"><span class="n">5</span><span class="b"></span><span class="d">9</span></span></span>
+<span class="opt">B. <span class="f"><span class="n">6</span><span class="b"></span><span class="d">20</span></span></span>
+<span class="opt">C. <span class="f"><span class="n">3</span><span class="b"></span><span class="d">10</span></span></span>
+<span class="opt">D. <span class="f"><span class="n">6</span><span class="b"></span><span class="d">5</span></span></span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+<tr>
+<td class="qn">6</td>
+<td class="qtxt">In the unfolded view of a cube, what are the characteristics of the face opposite the specified face?<div class="mc-opts">
+<span class="opt">A. Must be adjacent</span>
+<span class="opt">B. Must be separated by at least one face</span>
+</div>
+<div class="mc-opts" style="margin-top:2px;">
+<span class="opt">C. Must be at the diagonal position of the expanded diagram</span>
+<span class="opt">D. There is no pattern</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+<tr>
+<td class="qn">7</td>
+<td class="qtxt">The side length of the cube water tank is 20 cm. Contains<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>water. What is the volume of water in cm³?<div class="mc-opts">
+<span class="opt">A. 6000 cm³</span>
+<span class="opt">B. 8000 cm³</span>
+<span class="opt">C. 2000 cm³</span>
+<span class="opt">D. 3000 cm³</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+<tr>
+<td class="qn">8</td>
+<td class="qtxt">Which of the following statements about circles is<b>incorrect |||SEP|||?</b>A. The diameter is the longest segment in the circle<div class="mc-opts">
+<span class="opt">B. The length of the diameter is twice the radius</span>
+<span class="opt">C. The length of all radii is equal</span>
+</div>
+<div class="mc-opts" style="margin-top:2px;">
+<span class="opt">D. The radius is twice the diameter</span>
+<span class="opt">D. The radius is twice the diameter</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+</table>
+<div class="footer-line">Simulation 3 · P5 Mathematics (mid-term next semester) · Lam Fung Academy Page 1</div>
+</div>
+═══════════════ PAGE 2: Part A continues + Part B begins ═══════════════
+<div class="pb">
+<table class="qt">
+<tr><th class="qn">question number</th><th>Question</th><th class="qs">fraction</th></tr>
+<tr>
+<td class="qn">9</td>
+<td class="qtxt">The length, width, and height of a cuboid are each magnified by 2 times. How many times the new volume is the original?<div class="mc-opts">
+<span class="opt">A. 2 times</span>
+<span class="opt">B. 4 times</span>
+<span class="opt">C. 6 times</span>
+<span class="opt">D. 8 times</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+<tr>
+<td class="qn">10</td>
+<td class="qtxt">In the formula for the area of ​​a trapezoid, what does height mean?<div class="mc-opts">
+<span class="opt">A. The length of the hypotenuse of the trapezoid</span>
+<span class="opt">B. The vertical distance between the upper and lower bases</span>
+</div>
+<div class="mc-opts" style="margin-top:2px;">
+<span class="opt">C. The length of the upper base</span>
+<span class="opt">D. The length of the lower base</span>
+</div>
+</td>
+<td class="qs"><span class="score-box">___ / 3 points</span></td>
+</tr>
+</table>
+═══════ Part B: Short answer questions ═══════
+<div class="sec-title">Part B - Short Questions/Calculation Questions<span class="sec-marks">8 questions × 5 points = 40 points</span></div>
+<div class="instruction">Instructions: Write the complete calculation steps and answers in the answer area below each question. Answers must be reduced (if applicable) and given in correct units.</div>
+<table class="qt">
+<tr><th class="qn">question number</th><th>Question</th><th class="qs">fraction</th></tr>
+<tr>
+<td class="qn">1</td>
+<td class="qtxt">The diameter of a circle is 34 cm. Find the length of the radius.<br/>
+<div class="ans-lines" style="min-height:72px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 5 points</span></td>
+</tr>
+<tr>
+<td class="qn">2</td>
+<td class="qtxt">A cuboid is 12 cm long, 7 cm wide, and 5 cm high.<br/>(a) Find the area of ​​the base. (2 points)<br/>(b) Find the volume. (3 points)<br/>
+<div class="ans-lines" style="min-height:80px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 5 points</span></td>
+</tr>
+<tr>
+<td class="qn">3</td>
+<td class="qtxt">Calculation:<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">3</span></span> × <span class="fd"><span class="n">5</span><span class="b"></span><span class="d">6</span></span>= ? Write the steps for multiplication and reduction.<br/>
+<div class="ans-lines" style="min-height:75px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 5 points</span></td>
+</tr>
+<tr>
+<td class="qn">4</td>
+<td class="qtxt">Calculation:<span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> ÷ <span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>= ? Write down the steps for calculation (multiplying reciprocals).<br/>
+<div class="ans-lines" style="min-height:75px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 5 points</span></td>
+</tr>
+<tr>
+<td class="qn">5</td>
+<td class="qtxt">A cone is cut in a direction passing through the vertex and perpendicular to the base. What is the shape of the cross section? Draw diagram annotations.<br/>
+<div class="ans-lines" style="min-height:85px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 5 points</span></td>
+</tr>
+</table>
+<div class="footer-line">Simulation 3 · P5 Mathematics (mid-term next semester) · Lam Fung Academy Page 2</div>
+</div>
+═══════════════ PAGE 3: Part II Continued ═══════════════
+<div class="pb">
+<table class="qt">
+<tr><th class="qn">question number</th><th>Question</th><th class="qs">fraction</th></tr>
+<tr>
+<td class="qn">6</td>
+<td class="qtxt">The side length of a cube is 1<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>cm. Find the volume. (Answer with fractions or mixed numbers)<br/>
+<div class="ans-lines" style="min-height:85px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 5 points</span></td>
+</tr>
+<tr>
+<td class="qn">7</td>
+<td class="qtxt">A rectangular water tank has an internal length of 40 cm, a width of 25 cm, and a height of 30 cm.<br/>(a) What is the volume of the water tank in cm³? (2 points)<br/>(b) How many L of water can the water tank hold? (1 L = 1000 cm³) (1 point)<br/>(c) If<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>is filled with water, how many L of water is there? (2 points)<br/>
+<div class="ans-lines" style="min-height:75px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 5 points</span></td>
+</tr>
+<tr>
+<td class="qn">8</td>
+<td class="qtxt">A trapezoid (upper base 5 cm, lower base 11 cm, height 6 cm) is the base of a cylinder. The cylinder height is 10 cm. Find the volume of the cylinder.<br/>
+<span style="font-size:10px;color:var(--gray);">Tips: First find the area of ​​the trapezoid (the area of ​​the base), and then multiply it by the height of the cylinder.</span><br/>
+<div class="ans-lines" style="min-height:70px;"></div>
+</td>
+<td class="qs"><span class="score-box">___ / 5 points</span></td>
+</tr>
+</table>
+<div class="footer-line">Simulation 3 · P5 Mathematics (mid-term next semester) · Lam Fung Academy Page 3</div>
+</div>
+═══════════════ PAGE 4: Part C ═══════════════
+<div class="pb">
+═══════ Part C: Word Problems ═══════
+<div class="sec-title">Part C - Application Problems<span class="sec-marks">3 questions × 10 points = 30 points</span></div>
+<div class="instruction">Instructions: Each question must list all calculation steps and write a complete answer. The answer must be accompanied by the unit. The calculation process accounts for steps.</div>
+<div class="app-q">
+<div class="q-head">Question 1 (10 points) – Comprehensive application of volume<span class="score-box">___ / 10 points</span></div>
+<div class="q-body">A rectangular swimming pool is 25 m long, 10 m wide, and 2 m deep.<br/><br/>(a) What is the volume of the swimming pool in m³? (2 points)<br/>(b) If the water depth is only<span class="f"><span class="n">4</span><span class="b"></span><span class="d">5</span></span>, what is the volume of water m³? (3 points)<br/>(c) If 5 m³ of water is injected per minute, how many minutes will it take to fill the empty tank to the level in (b)? (3 points)<br/>(d) The bottom and four walls of the swimming pool need to be tiled. What is the total area in m² to be tiled? (2 points)<br/>
+<span style="font-size:10px;color:var(--gray);">Tip: (d) Base area + area of ​​four walls (note that the wall has two long walls and two short walls)</span>
+</div>
+<div class="q-work">Answer area - please write all calculation steps and complete answer sentences:</div>
+</div>
+<div class="app-q">
+<div class="q-head">Question 2 (10 points) – Mixed use of four fractions<span class="score-box">___ / 10 points</span></div>
+<div class="q-body">There are 180 blocks in a box.<br/>in<span class="f"><span class="n">1</span><span class="b"></span><span class="d">5</span></span>It's red,<span class="f"><span class="n">1</span><span class="b"></span><span class="d">4</span></span>It's blue,<span class="f"><span class="n">1</span><span class="b"></span><span class="d">3</span></span>is green and the rest is yellow.<br/><br/>(a) How many red blocks are there? (2 points)<br/>(b) How many blue and green blocks are there? (3 points)<br/>(c) What fraction of the total bricks of three colors (red + blue + green) account for? (2 points)<br/>(d) How many yellow blocks are there? What fraction of the total? (3 points)</div>
+<div class="q-work">Answer area - please write all calculation steps and complete answer sentences:</div>
+</div>
+</div>
+═══════════════ PAGE 5: Part C Continued ═══════════════
+<div class="pb">
+<div class="app-q">
+<div class="q-head">Question 3 (10 points) – Cross-topic comprehensive trap question<span class="score-box">___ / 10 points</span></div>
+<div class="q-body">A cube water tank A with side length 30 cm. Another rectangular water tank B is 50 cm long, 20 cm wide, and 25 cm high.<br/><br/>(a) Find the volume of tank A. (Answer in cm³) (2 points)<br/>(b) Find the volume of tank B. (Answer in cm³) (2 points)<br/>(c) After tank A is filled with water, pour all the water into the empty tank B. How high will the water level be in box B? Will the water overflow? (3 points)<br/>(d) If poured from box B<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>of water, how many cm³ of water is left in box B? (3 points)<br/>
+<span style="font-size:10px;color:var(--gray);">Tips: (c) Water level height = volume of water ÷ B bottom area of ​​the box. Check whether the B box height is exceeded.</span>
+</div>
+<div class="q-work">Answer area - please write all calculation steps and complete answer sentences:</div>
+</div>
+<div style="margin-top:30px;"></div>
+<div class="end-marker">
+<div class="end-text">—Complete the entire volume—</div>
+<div class="total-score">Total score:<span class="ts-blank"></span>/ 100 points</div>
+<div style="margin-top:12px; font-size:10px; color:var(--gray);">Signature of marking teacher: __________ Date: __________</div>
+</div>
+<div style="margin-top:24px; padding:12px 16px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; font-size:11px;">
+<strong>Exam tips:</strong><br/>· Part A MC Traps: Question 3: The Tian shape cannot be folded into a cube, Question 7: Decimal drainage method, Question 8: Radius vs diameter relationship, Question 9: Volume magnification<br/>· Part B calculation questions: LCM must be found for general fractions, the division sign must be changed into a multiplication sign, and the divisor must be reversed when dividing a fraction, and the area of ​​a trapezoid must be divided by 2<br/>· Part C application questions: Each question contains cross-topic traps (unit conversion, water level height inversion, space residual calculation)<br/>· Make good use of 50 minutes: 12 minutes for Part A → 18 minutes for Part B → 16 minutes for Part C → 4 minutes for inspection</div>
+<div class="footer-line">Simulation 3 · P5 Mathematics (mid-term next semester) · Lam Fung Academy Page 5</div>
+</div>
+═══════════════ PAGE 6: Post-exam supplementary exercises ═══════════════
+<div class="pb">
+<div class="sec-title" style="font-size:17px;border-left:4px solid var(--gold);background:#FFF8E7;">Appendix: Simulation 3 Post-examination Supplementary Practice<span class="sec-marks">24 questions · For after-class consolidation</span></div>
+<div class="instruction">Instructions: The following questions are designed for the core concepts of Simulation 3 in the second semester (circle, volume, multiplication and division of fractions).</div>
+<div class="h1" style="margin-top:8px;">Understanding circle (total 5 questions)</div>
+
+<div class="why-box" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #EA580C;border-radius:10px;padding:14px 18px;margin:14px 0;">
+<div style="font-weight:900;color:#9A3412;font-size:14px;margin-bottom:6px;">WHY BOX：比和比例 — 兩個量的關係</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>比 a:b 表示：</b>第一個量有 a 份，第二個量有 b 份（同樣大小的「份」）<br/>
+a:b = 3:2 意思是：A 佔 3 份，B 佔 2 份，總共 5 份。<br/><br/>
+<b>比例的妙用：</b><br/>
+如果總數是 20，A 佔 3/5 × 20 = 12，B 佔 2/5 × 20 = 8<br/><br/>
+<b>化簡和擴展：</b><br/>
+3:6 = 1:2（同時 ÷3）<br/>
+1:2 = 5:10（同時 ×5）<br/>
+<em style="color:#6B7280;">考試陷阱：x:6 = 8:12 → x/6 = 8/12 → x = 4</em>
+</div>
+</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qs">Difficulty</th></tr>
+<tr><td class="qn">S1</td><td class="qtxt">The diameter of a circle is 50 cm. radius = ? Pi π ≈ 3.14, the circumference of a circle is approximately = ?<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌱</td></tr>
+<tr><td class="qn">S2</td><td class="qtxt">The radius of a circle is 7 cm. Diameter = ? Circle area = ? (π ≈ 22/7)<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S3</td><td class="qtxt">The circumference of the circular garden bed is approximately 62.8 m. What is its approximate diameter? (π ≈ 3.14)<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S4</td><td class="qtxt">Which of the following statements about circles is true? (a) The diameter is 2 times the radius (b) The radius is 2 times the diameter (c) All diameters are equal in length (d) The longer the radius, the smaller the area<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌱</td></tr>
+<tr><td class="qn">S5</td><td class="qtxt">The diameter of a circle is 24 cm. Cut out the largest square from this circle (the vertex of the square is on the circumference), the area of ​​the square = ?<div class="ans-lines" style="min-height:85px;"></div></td><td class="qs">🏔️</td></tr>
+</table>
+<div class="h1" style="margin-top:8px;">3D shapeandvolume（total 6 question）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qs">Difficulty</th></tr>
+<tr><td class="qn">S6</td><td class="qtxt">The cuboid is 9 cm long, 4 cm wide, and 6 cm high. Volume = ? Surface area = ?<div class="ans-lines" style="min-height:80px;"></div></td><td class="qs">🌱</td></tr>
+<tr><td class="qn">S7</td><td class="qtxt">The side length of the cube is 5 cm. Volume = ?<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌱</td></tr>
+<tr><td class="qn">S8</td><td class="qtxt">The side length of the cube water tank is 25 cm. How many liters of water can it hold? (1 L = 1000 cm³)<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S9</td><td class="qtxt">The length, width and height of a cuboid are each magnified 3 times. How many times the new volume is the original?<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S10</td><td class="qtxt">Cuboid water tank A (40×30×20 cm) is filled with water and poured into cube water tank B (side length 30 cm). Will the water overflow? How high is the water level?<div class="ans-lines" style="min-height:85px;"></div></td><td class="qs">🌳</td></tr>
+<tr><td class="qn">S11</td><td class="qtxt">The side length of the cube is 2<span class="f"><span class="n">1</span><span class="b"></span><span class="d">2</span></span>cm. Volume = ? (Answer with mixed fractions)<div class="ans-lines" style="min-height:80px;"></div></td><td class="qs">🌳</td></tr>
+</table>
+</div>
+═══════════════ PAGE 7: Supplementary exercises continued ═══════════════
+<div class="pb">
+  <div class="parent-summary">
+    <div class="ps-title">家長30秒摘要</div>
+    本堂重點：<span class="ps-tag trap">陷阱破解</span><span class="ps-tag goal">掌握關鍵概念</span><span class="ps-tag sspa">呈分試關聯</span><span class="ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="h1">fractionmultiplydivision（total 6 question）</div>
+  <div class="warn">⚠️ SSPA終極提示：呈分試最鐘意將兩個陷阱疊加！做模擬卷時，每題問自己：「呢題有咩陷阱？」然後用口訣破解！做完一定要檢查：有冇進退位錯？有冇單位寫漏？有冇公式撈亂？</div>
+
+  <div class="story-box"><div class="story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qs">Difficulty</th></tr>
+<tr><td class="qn">S12</td><td class="qtxt"><span class="fd"><span class="n">2</span><span class="b"></span><span class="d">7</span></span> × <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">5</span></span> = ？<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌱</td></tr>
+<tr><td class="qn">S13</td><td class="qtxt"><span class="fd"><span class="n">5</span><span class="b"></span><span class="d">8</span></span> ÷ <span class="fd"><span class="n">3</span><span class="b"></span><span class="d">4</span></span> = ？<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌱</td></tr>
+<tr><td class="qn">S14</td><td class="qtxt">2<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">3</span></span> × 1<span class="fd"><span class="n">2</span><span class="b"></span><span class="d">5</span></span> = ？<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S15</td><td class="qtxt">3<span class="fd"><span class="n">1</span><span class="b"></span><span class="d">2</span></span> ÷ <span class="fd"><span class="n">7</span><span class="b"></span><span class="d">10</span></span> = ？<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S16</td><td class="qtxt">A box of sugar contains 120 pieces. Xiao Ming ate |||SEP|||, Xiaohua ate |||SEP|||. Who eats more? How many more pills?<span class="f"><span class="n">1</span><span class="b"></span><span class="d">6</span></span>, Xiaohua ate<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>. Who eats more? How many more pills?<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌳</td></tr>
+<tr><td class="qn">S17</td><td class="qtxt">|||SEP||| for a number is equal to 36. What is the<span class="f"><span class="n">3</span><span class="b"></span><span class="d">4</span></span>of this number?<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>How much?<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌳</td></tr>
+</table>
+<div class="h1" style="margin-top:8px;">Cross-Topiccomprehensive（total 7 question）</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qs">Difficulty</th></tr>
+<tr><td class="qn">S18</td><td class="qtxt">The area of ​​the base of a trapezoid (upper base 4 cm, lower base 8 cm, height 5 cm). If the cylinder with the base of this trapezoid is 10 cm high, its volume = ?<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S19</td><td class="qtxt">The interior of the rectangular water tank is 50×40×30 cm. Contains<span class="f"><span class="n">2</span><span class="b"></span><span class="d">5</span></span>water. How many liters of water is there?<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S20</td><td class="qtxt">The side length of cube water tank A is 40 cm, and the length of rectangular water tank B is 50 cm, width 30 cm, and height 25 cm. Fill A with water and pour it into B. How high is the water level in tank B?<div class="ans-lines" style="min-height:85px;"></div></td><td class="qs">🌳</td></tr>
+<tr><td class="qn">S21</td><td class="qtxt">The radius of a circle is 14 cm. (π ≈ 22/7) Find (a) the circumference of the circle (b) the area of ​​the circle.<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S22</td><td class="qtxt">Cube expansion diagram: Which expansion diagram<b>cannot</b>be folded into a cube? Please give an example.<div class="ans-lines" style="min-height:72px;"></div></td><td class="qs">🌿</td></tr>
+<tr><td class="qn">S23</td><td class="qtxt">The length of a rectangle increases by 3 cm and its width decreases by 2 cm. Original length 12 cm, width 8 cm. How much has the area changed?<div class="ans-lines" style="min-height:78px;"></div></td><td class="qs">🌳</td></tr>
+<tr><td class="qn">S24</td><td class="qtxt">A cube water tank has a side length of 30 cm and contains<span class="f"><span class="n">2</span><span class="b"></span><span class="d">3</span></span>water. If a stone with a volume of 5000 cm³ is thrown in, will the water overflow?<div class="ans-lines" style="min-height:85px;"></div></td><td class="qs">🏔️</td></tr>
+</table>
+<div style="margin-top:16px; padding:10px 14px; background:#FFFBEB; border:1.5px solid var(--gold); border-radius:6px; font-size:11px;">
+<strong>📝 Post-exam review record:</strong><br/>
+<div style="display:flex; gap:20px; margin-top:6px;">
+<span>Part A score:____/30</span>
+<span>Part B score: ____/40</span>
+<span>Part C score: ____/30</span>
+<span>Total score:____/100</span>
+</div>
+<div style="margin-top:6px;">The question types that need to be strengthened most in this exam: __________; The traps that need to be reviewed: __________</div>
+</div>
+<div class="game-box"><div class="game-title">🏆 SSPA衝刺·限時挑戰</div><div class="game-desc">模擬真實SSPA考試！限時作答，每題計分。答對率達80%解鎖「SSPA戰士」勳章！</div><div class="game-action">⚡ 開始模擬考 →</div></div>
+
+<div class="footer-line">Simulation 3 · P5 Mathematics (mid-term next semester) · Lam Fung Academy · Includes 24 questions in the appendix</div>
+</div>
+</div><!-- .container -->
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 9 pages · 50 questions | LF-P5-S2-L29 v6 EN
+</div>
+
+<div class="h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="parent-summary"><div class="ps-title">📝 答案快查</div>
+<table class="qt"><tr><th class="qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">Calculation:23 × 56= ? Write the steps for multiplication an</td><td style="font-weight:900;color:var(--green);padding:5px 10px">1288</td></tr>
+<tr><td class="qn">2</td><td class="qtxt">Calculation:34 ÷ 12= ? Write down the steps for calculation </td><td style="font-weight:900;color:var(--green);padding:5px 10px">2</td></tr>
+</table>
+<div style="font-size:10px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！直接抄答案 = 呃自己 = 考試會出事！</div>
+</div>
+
+</body>
+</html>

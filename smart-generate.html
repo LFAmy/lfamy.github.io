@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#1A3C6D">
+<title>霖楓學苑 · AI 智能出題 v2.5 Pro</title>
+
+<link rel="stylesheet" href="/lf-academy-v8.css">
+<style>
+body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D);min-height:100vh;padding-top:var(--nav-height)}
+.gen-container{max-width:800px;margin:0 auto;padding:20px 24px}
+
+.gen-header{text-align:center;padding:30px 0 20px}
+.gen-header h1{color:white;margin-bottom:6px}
+.gen-header .badge{display:inline-block;background:linear-gradient(135deg,var(--purple),#6366F1);color:white;padding:4px 14px;border-radius:var(--radius-full);font-size:0.7em;font-weight:700;margin-bottom:8px}
+.gen-header p{color:rgba(255,255,255,0.5)}
+
+/* Config */
+.config-panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:24px;margin-bottom:20px;backdrop-filter:blur(8px)}
+.config-row{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.config-row label{color:rgba(255,255,255,0.6);font-size:0.82em;min-width:60px}
+.config-row select,.config-row input{padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-sm);color:white;font-size:0.9em;outline:none;font-family:var(--font-sans);flex:1;min-width:140px}
+.config-row select:focus,.config-row input:focus{border-color:var(--gold)}
+.config-row select option{background:#1a1a2e;color:white}
+
+/* Chips */
+.chip-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{padding:6px 14px;border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius-full);font-size:0.78em;cursor:pointer;transition:all var(--duration-fast);color:rgba(255,255,255,0.6);background:transparent}
+.chip:hover{border-color:var(--gold);color:var(--gold)}
+.chip.active{background:var(--gold);color:var(--blue-dark);border-color:var(--gold);font-weight:700}
+
+/* Generate button */
+.gen-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--purple),#6366F1);color:white;border:none;border-radius:var(--radius-full);font-size:1em;font-weight:700;cursor:pointer;transition:all var(--duration);box-shadow:0 4px 20px rgba(124,58,237,0.3);margin-top:8px}
+.gen-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,0.4)}
+.gen-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+/* Results */
+.results-panel{margin-top:20px}
+.question-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:20px;margin-bottom:12px;backdrop-filter:blur(8px);position:relative}
+.question-card .q-num{position:absolute;top:-10px;left:14px;background:var(--blue);color:white;width:28px;height:28px;border-radius:50%;text-align:center;line-height:28px;font-size:0.78em;font-weight:900}
+.question-card .q-text{font-size:0.95em;color:rgba(255,255,255,0.9);line-height:1.8;padding:8px 0}
+.question-card .q-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.question-card .q-tag{padding:2px 10px;border-radius:var(--radius-full);font-size:0.65em;font-weight:700}
+.q-tag-diff{background:rgba(251,191,36,0.2);color:#fbbf24}
+.q-tag-trap{background:rgba(220,38,38,0.2);color:#f87171}
+.q-tag-topic{background:rgba(22,163,74,0.2);color:#4ade80}
+.q-answer{font-family:var(--font-mono);font-size:0.85em;color:var(--gold);padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);margin-top:8px;display:none}
+.q-answer.show{display:block}
+.show-ans-btn{font-size:0.72em;color:var(--gold);cursor:pointer;text-decoration:underline;margin-top:6px;display:inline-block}
+
+/* Actions */
+.action-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center}
+</style>
+</head>
+<body>
+
+<div class="gen-container">
+  <div class="gen-header">
+    <div class="badge">MiMo v2.5 Pro 驅動</div>
+    <h1>🤖 AI 智能出題</h1>
+    <p>無限生成個人化數學練習題 · 即時批改 · 陷阱標記</p>
+  </div>
+
+  <!-- Config Panel -->
+  <div class="config-panel">
+    <div class="config-row">
+      <label>年級</label>
+      <select id="genGrade">
+        <option value="P3">P3 小三</option>
+        <option value="P4">P4 小四</option>
+        <option value="P5" selected>P5 小五</option>
+        <option value="P6">P6 小六</option>
+      </select>
+      <label>題數</label>
+      <select id="genCount">
+        <option value="3">3 題</option>
+        <option value="5" selected>5 題</option>
+        <option value="10">10 題</option>
+        <option value="20">20 題</option>
+      </select>
+    </div>
+
+    <div class="config-row">
+      <label>難度</label>
+      <div class="chip-row" id="diffChips">
+        <span class="chip active" data-val="auto">🎯 智能自適應</span>
+        <span class="chip" data-val="easy">🌱 基礎</span>
+        <span class="chip" data-val="medium">🌿 進階</span>
+        <span class="chip" data-val="hard">🌳 挑戰</span>
+        <span class="chip" data-val="sspa">🏆 SSPA</span>
+      </div>
+    </div>
+
+    <div class="config-row">
+      <label>課題</label>
+      <input type="text" id="genTopic" placeholder="例如：分數乘法、面積計算、百分數應用... 留空=智能推薦">
+    </div>
+
+    <div class="config-row">
+      <label>模式</label>
+      <div class="chip-row" id="modeChips">
+        <span class="chip active" data-val="practice">📝 練習模式</span>
+        <span class="chip" data-val="quiz">⏱️ 測驗模式</span>
+      </div>
+    </div>
+
+    <button class="gen-btn" id="genBtn" onclick="generateQuestions()">
+      🤖 MiMo v2.5 Pro 生成題目
+    </button>
+  </div>
+
+  <!-- Results -->
+  <div class="results-panel" id="resultsPanel"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/docs/data/lf-mimo-api.js"></script>
+<script src="/docs/data/lf-engines-v8.js"></script>
+<script src="/lf-shell-v8.js"></script>
+
+<script>
+/* ═══════════════════════════════════════
+   AI Smart Question Generator v2.5 Pro
+   MiMo-powered · Adaptive · Personalized
+   ═══════════════════════════════════════ */
+
+var config = {
+  grade: 'P5',
+  count: 5,
+  difficulty: 'auto',
+  topic: '',
+  mode: 'practice'
+};
+
+/* ── Chip Selection ── */
+document.querySelectorAll('.chip-row').forEach(function(row) {
+  row.querySelectorAll('.chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      row.querySelectorAll('.chip').forEach(function(c) { c.classList.remove('active'); });
+      this.classList.add('active');
+      
+      if (row.id === 'diffChips') config.difficulty = this.dataset.val;
+      if (row.id === 'modeChips') config.mode = this.dataset.val;
+    });
+  });
+});
+
+document.getElementById('genGrade').addEventListener('change', function() { config.grade = this.value; });
+document.getElementById('genCount').addEventListener('change', function() { config.count = parseInt(this.value); });
+document.getElementById('genTopic').addEventListener('input', function() { config.topic = this.value.trim(); });
+
+/* ── Collect Student Context ── */
+function getStudentContext() {
+  var ctx = { weakTopics: [], strongTopics: [], mastery: {} };
+  
+  try {
+    var profile = JSON.parse(localStorage.getItem('lf_student_profile') || '{}');
+    ctx.weakTopics = profile.weakTopics || [];
+    ctx.strongTopics = profile.strongTopics || [];
+  } catch(e) {}
+  
+  try {
+    var bkt = JSON.parse(localStorage.getItem('lf_bkt_data') || '{}');
+    for (var k in bkt) {
+      ctx.mastery[k] = Math.round((bkt[k].correct + 1) / (bkt[k].total + 2) * 100);
+    }
+  } catch(e) {}
+  
+  return ctx;
+}
+
+/* ── Generate Questions ── */
+async function generateQuestions() {
+  var btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ MiMo v2.5 Pro 生成中...';
+  
+  var panel = document.getElementById('resultsPanel');
+  panel.innerHTML = '<div style="text-align:center;padding:40px"><div class="lf-spinner" style="margin:0 auto 12px"></div><p style="color:rgba(255,255,255,0.5)">MiMo v2.5 Pro 正在生成' + config.count + '題' + config.grade + '數學練習...</p></div>';
+  
+  var ctx = getStudentContext();
+  var prompt = buildPrompt(ctx);
+  
+  var questions = null;
+  
+  // Try MiMo v2.5 Pro
+  if (typeof MIMO !== 'undefined') {
+    var messages = [
+      { role: 'system', content: '你係霖楓學苑AI出題專家。根據要求生成數學練習題。必須嚴格按照JSON格式輸出。每題必須包含：question(題目), answer(答案), difficulty(難度: easy/medium/hard), trap(陷阱類型: T1-T10), marks(分數)。輸出格式：```json\n[{...},{...}]\n```' },
+      { role: 'user', content: prompt }
+    ];
+    try {
+      var r = await MIMO.ask(messages, { maxTokens: 3000, temperature: 0.7, timeout: 30000 });
+      if (r && r.content) {
+        questions = parseQuestions(r.content);
+      }
+    } catch(e) { console.warn('MiMo generate failed:', e.message); }
+  }
+  
+  // Fallback: use local bank
+  if (!questions || questions.length === 0) {
+    questions = generateLocalQuestions();
+  }
+  
+  renderQuestions(questions);
+  btn.disabled = false;
+  btn.textContent = '🔄 重新生成';
+}
+
+/* ── Build Prompt ── */
+function buildPrompt(ctx) {
+  var p = '請生成' + config.count + '題' + config.grade + '香港小學數學練習題。\n\n';
+  
+  if (config.topic) {
+    p += '課題：' + config.topic + '\n';
+  }
+  
+  if (config.difficulty === 'auto') {
+    p += '難度：智能自適應。參考學生數據：\n';
+    if (ctx.weakTopics.length > 0) {
+      p += '- 弱項：' + ctx.weakTopics.slice(0, 3).join('、') + '（這些課題出較簡單的題目）\n';
+    }
+    if (ctx.strongTopics.length > 0) {
+      p += '- 強項：' + ctx.strongTopics.slice(0, 3).join('、') + '（這些課題出較難的題目）\n';
+    }
+    p += '- 混合難度：60%中等、25%簡單、15%挑戰\n';
+  } else if (config.difficulty === 'easy') {
+    p += '難度：全部基礎級（🌱）\n';
+  } else if (config.difficulty === 'medium') {
+    p += '難度：全部進階級（🌿）\n';
+  } else if (config.difficulty === 'hard') {
+    p += '難度：全部挑戰級（🌳）\n';
+  } else if (config.difficulty === 'sspa') {
+    p += '難度：呈分試模擬（🏆 SSPA級別）\n';
+  }
+  
+  p += '\n要求：\n';
+  p += '1. 每題包含選擇題選項（4個選項，含常見錯誤答案）\n';
+  p += '2. 標記陷阱類型（T1進退位/T2單位換算/T3運算順序/T4除數漏寫0/T5試商/T6分數/T7面積周界/T8百分數/T9體積/T10應用題）\n';
+  p += '3. 應用題要貼近香港小學生生活情境\n';
+  p += '4. 用繁體中文\n';
+  p += '5. 嚴格按照JSON格式輸出\n';
+  
+  return p;
+}
+
+/* ── Parse JSON from MiMo Response ── */
+function parseQuestions(text) {
+  try {
+    // Try to extract JSON block
+    var jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[1]);
+    }
+    // Try raw JSON
+    var arrMatch = text.match(/\[\s*\{[\s\S]*\}\s*\]/);
+    if (arrMatch) {
+      return JSON.parse(arrMatch[0]);
+    }
+  } catch(e) { console.warn('JSON parse failed:', e.message); }
+  return null;
+}
+
+/* ── Local Fallback ── */
+function generateLocalQuestions() {
+  var bank = {
+    P3: [
+      {question:'276 + 389 = ?',answer:'665',options:['665','655','565','675'],difficulty:'easy',trap:'T1',marks:2},
+      {question:'1000 - 456 = ?',answer:'544',options:['554','544','644','456'],difficulty:'medium',trap:'T1',marks:2},
+      {question:'23 × 6 = ?',answer:'138',options:['138','128','148','136'],difficulty:'easy',trap:'T1',marks:2},
+      {question:'84 ÷ 7 = ?',answer:'12',options:['12','11','13','14'],difficulty:'easy',trap:'T4',marks:2},
+      {question:'一個蛋糕分成8份，食咗3份，食咗蛋糕嘅幾分之幾？',answer:'3/8',options:['3/8','5/8','1/3','8/3'],difficulty:'easy',trap:'T6',marks:2}
+    ],
+    P4: [
+      {question:'24 同 36 嘅 HCF 係？',answer:'12',options:['12','6','24','72'],difficulty:'medium',trap:'T3',marks:3},
+      {question:'1/4 + 2/4 = ?',answer:'3/4',options:['3/4','3/8','1/2','2/4'],difficulty:'easy',trap:'T6',marks:2},
+      {question:'3.45 + 2.67 = ?',answer:'6.12',options:['6.12','5.12','6.02','5.02'],difficulty:'easy',trap:'T1',marks:2},
+      {question:'長方形長8cm，闊5cm，面積係？',answer:'40 cm²',options:['40 cm²','26 cm²','40 cm','26 cm'],difficulty:'easy',trap:'T7',marks:2},
+      {question:'624 ÷ 12 = ?',answer:'52',options:['52','50','54','62'],difficulty:'medium',trap:'T4',marks:3}
+    ],
+    P5: [
+      {question:'2/3 × 3/4 = ?',answer:'1/2',options:['1/2','2/4','6/12','5/7'],difficulty:'medium',trap:'T6',marks:3},
+      {question:'200 嘅 15% 係幾多？',answer:'30',options:['30','15','185','215'],difficulty:'medium',trap:'T8',marks:3},
+      {question:'長方體長10cm，闊6cm，高4cm，體積係？',answer:'240 cm³',options:['240 cm³','240 cm²','60 cm³','120 cm³'],difficulty:'medium',trap:'T9',marks:3},
+      {question:'解方程：3x + 5 = 20',answer:'x = 5',options:['x = 5','x = 15','x = 8','x = 6'],difficulty:'medium',trap:'T10',marks:3},
+      {question:'汽車2小時行駛160公里，速率係？',answer:'80 km/h',options:['80 km/h','160 km/h','320 km/h','40 km/h'],difficulty:'easy',trap:'T2',marks:2}
+    ],
+    P6: [
+      {question:'一件衫原價$250，七折後幾錢？',answer:'$175',options:['$175','$75','$250','$225'],difficulty:'medium',trap:'T8',marks:3},
+      {question:'A:B = 3:4，如果A=15，B=?',answer:'20',options:['20','12','60','45'],difficulty:'medium',trap:'T10',marks:3},
+      {question:'圓形半徑7cm，圓周係？(π=22/7)',answer:'44 cm',options:['44 cm','154 cm','22 cm','14 cm'],difficulty:'medium',trap:'T7',marks:3}
+    ]
+  };
+  
+  var pool = bank[config.grade] || bank['P5'];
+  // Shuffle and pick
+  pool = pool.sort(function() { return Math.random() - 0.5; });
+  return pool.slice(0, Math.min(config.count, pool.length));
+}
+
+/* ── Render ── */
+function renderQuestions(questions) {
+  var html = '';
+  
+  for (var i = 0; i < questions.length; i++) {
+    var q = questions[i];
+    var diffLabel = q.difficulty === 'easy' ? '🌱 基礎' : q.difficulty === 'medium' ? '🌿 進階' : q.difficulty === 'hard' ? '🌳 挑戰' : '🏆 SSPA';
+    html += '<div class="question-card">';
+    html += '<div class="q-num">' + (i + 1) + '</div>';
+    html += '<div class="q-text">' + escapeHTML(q.question || q.q || '') + '</div>';
+    if (q.options && q.options.length > 0) {
+      html += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">';
+      q.options.forEach(function(opt) {
+        html += '<span style="padding:6px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;font-size:0.8em;color:rgba(255,255,255,0.7)">' + escapeHTML(opt) + '</span>';
+      });
+      html += '</div>';
+    }
+    html += '<div class="q-meta">';
+    html += '<span class="q-tag q-tag-diff">' + diffLabel + '</span>';
+    if (q.trap) html += '<span class="q-tag q-tag-trap">🪤 ' + q.trap + '</span>';
+    if (q.marks) html += '<span class="q-tag q-tag-topic">' + q.marks + '分</span>';
+    html += '</div>';
+    html += '<span class="show-ans-btn" onclick="this.nextElementSibling.classList.toggle(\'show\')">👁 顯示答案</span>';
+    html += '<div class="q-answer">✅ 答案：' + escapeHTML(String(q.answer || q.ans || '')) + '</div>';
+    html += '</div>';
+  }
+  
+  html += '<div class="action-row">';
+  html += '<button class="lf-btn lf-btn-gold" onclick="generateQuestions()">🔄 重新生成</button>';
+  html += '<a href="/practice.html?grade=' + config.grade + '" class="lf-btn lf-btn-primary">📝 開始練習</a>';
+  html += '<button class="lf-btn lf-btn-outline" style="color:rgba(255,255,255,0.5);border-color:rgba(255,255,255,0.2)" onclick="window.print()">🖨️ 列印</button>';
+  html += '</div>';
+  
+  document.getElementById('resultsPanel').innerHTML = html;
+}
+
+function escapeHTML(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
+</body>
+</html>

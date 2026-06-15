@@ -1,30 +1,29 @@
 {
   "hosting": {
-    "public": "_deploy",
-    "ignore": [
-      "firebase.json",
-      ".firebaserc",
-      "**/.*",
-      "**/.git",
-      "**/node_modules"
+    "public": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "headers": [
+      {
+        "source": "**/*.html",
+        "headers": [
+          {"key": "X-Frame-Options", "value": "DENY"},
+          {"key": "X-Content-Type-Options", "value": "nosniff"},
+          {"key": "X-XSS-Protection", "value": "1; mode=block"},
+          {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"}
+        ]
+      },
+      {
+        "source": "**/*.@(js|css|png|jpg|svg|woff2)",
+        "headers": [
+          {"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}
+        ]
+      }
     ],
     "rewrites": [
-      {
-        "source": "/講義/**",
-        "destination": "/講義/**"
-      },
-      {
-        "source": "/docs/**",
-        "destination": "/docs/**"
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
+      {"source": "**", "destination": "/index.html"}
     ]
   },
   "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+    "rules": "firestore.rules"
   }
 }

@@ -2,244 +2,271 @@
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>霖楓學苑 · 家長 Dashboard</title>
 
-<!-- ═══ Firebase Auth Gate ═══ -->
-<script src="/docs/data/lf-firebase-config.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-<script>
-firebase.initializeApp(LF_FIREBASE_CONFIG);
-firebase.auth().onAuthStateChanged(function(user) {
-  if (!user) { window.location.href = '/auth.html?redirect=parent-dashboard'; }
-});
-</script>
-
+<link rel="stylesheet" href="/lf-academy-v8.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Segoe UI',system-ui,sans-serif; background:#f1f5f9; min-height:100vh; }
-.header { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; padding:20px 24px; }
-.header h1 { font-size:1.5em; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; padding:24px; max-width:1200px; margin:0 auto; }
-.card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.1); }
-.card h3 { color:#1e293b; margin-bottom:12px; font-size:1.1em; }
-.stat { font-size:2em; font-weight:700; color:#4f46e5; }
-.stat-label { color:#64748b; font-size:.85em; }
-.badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:.8em; font-weight:600; }
-.badge.gold { background:#fef3c7; color:#92400e; }
-.badge.green { background:#dcfce7; color:#166534; }
-.weak-list { list-style:none; }
-.weak-list li { padding:8px 0; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; }
-.chart-wrap { height:200px; }
-.summary-box { background:linear-gradient(135deg,#eff6ff,#dbeafe); border:1px solid #bfdbfe; border-radius:12px; padding:16px; margin:24px; max-width:1200px; margin-left:auto; margin-right:auto; }
-.summary-box h3 { color:#1e40af; margin-bottom:8px; }
-.loading { text-align:center; padding:40px; color:#94a3b8; }
-input, button { padding:10px 16px; border:2px solid #e2e8f0; border-radius:8px; font-size:1em; }
-button { background:#4f46e5; color:#fff; border:none; cursor:pointer; font-weight:600; }
-button:hover { background:#4338ca; }
-.nav-top{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.95);padding:8px 16px;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.nav-top a{color:#4f46e5;text-decoration:none;font-weight:600;font-size:.85em}
-.nav-top .brand{font-size:1em;color:#1e293b}
 
+<style>
+body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D);min-height:100vh;padding-top:var(--nav-height)}
+.parent-container{max-width:1000px;margin:0 auto;padding:20px 24px}
+
+.parent-header{text-align:center;padding:30px 0 20px}
+.parent-header h1{color:white;margin-bottom:6px}
+.parent-header p{color:rgba(255,255,255,0.5);font-size:0.88em}
+
+/* Student selector */
+.student-select{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;backdrop-filter:blur(8px)}
+.student-select span{color:rgba(255,255,255,0.6);font-size:0.85em}
+.student-select input{padding:10px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-sm);color:white;font-size:0.9em;outline:none;flex:1;min-width:180px;font-family:var(--font-sans)}
+.student-select input:focus{border-color:var(--gold)}
+.student-select button{padding:10px 24px;background:var(--gold);color:var(--blue-dark);border:none;border-radius:var(--radius-full);font-weight:700;cursor:pointer;font-size:0.88em;font-family:var(--font-sans);transition:all var(--duration-fast)}
+.student-select button:hover{background:var(--gold-light);transform:translateY(-1px)}
+
+/* Stats grid */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:20px;text-align:center;backdrop-filter:blur(8px)}
+.stat-card h3{color:rgba(255,255,255,0.5);font-size:0.75em;margin-bottom:8px;font-family:var(--font-sans)}
+.stat-card .big-num{font-family:var(--font-display);font-size:2em;font-weight:900;color:white}
+.stat-card .sub{font-size:0.7em;color:rgba(255,255,255,0.4);margin-top:4px}
+.stat-card.gold .big-num{color:var(--gold)}
+.stat-card.green .big-num{color:#4ade80}
+.stat-card.blue .big-num{color:#60a5fa}
+
+/* Main grid */
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.main-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:20px;backdrop-filter:blur(8px)}
+.main-card h3{color:rgba(255,255,255,0.6);font-size:0.82em;margin-bottom:12px;font-family:var(--font-sans)}
+.main-card.full{grid-column:1/-1}
+
+/* Weak list */
+.weak-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82em;color:rgba(255,255,255,0.7)}
+.weak-item .tag{padding:2px 10px;border-radius:var(--radius-full);font-size:0.72em;font-weight:700}
+.tag-red{background:rgba(220,38,38,0.2);color:#f87171}
+.tag-yellow{background:rgba(251,191,36,0.2);color:#fbbf24}
+.tag-green{background:rgba(22,163,74,0.2);color:#4ade80}
+
+.chart-wrap{height:200px;position:relative}
+
+/* AI Summary */
+.ai-summary{background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(99,102,241,0.06));border:1px solid rgba(124,58,237,0.15);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+.ai-summary h3{color:#c4b5fd;font-size:0.85em;margin-bottom:8px;font-family:var(--font-sans)}
+.ai-summary p{font-size:0.85em;color:rgba(255,255,255,0.7);line-height:1.7}
+
+/* Data source */
+.data-source{text-align:center;font-size:0.65em;color:rgba(255,255,255,0.25);margin-top:8px}
+
+@media(max-width:768px){
+  .main-grid{grid-template-columns:1fr}
+}
 </style>
+<link rel="canonical" href="https://www.lfacademyhk.com/parent-dashboard.html">
 </head>
 <body>
-</div>
-<div class="header">
-  <h1>📊 家長 Dashboard</h1>
-  <p style="opacity:.8">霖楓學苑 · AI 智能學習報告</p>
-</div>
 
-<div style="padding:24px;max-width:1200px;margin:0 auto;">
-  <input type="text" id="studentName" placeholder="輸入學生名稱" value="test_student" style="width:200px;">
-  <button onclick="loadDashboard()">查看報告</button>
-</div>
+<div class="parent-container">
+  <div class="parent-header">
+    <h1>📊 家長 Dashboard</h1>
+    <p>霖楓學苑 · AI 智能學習報告</p>
+  </div>
 
-<div class="loading" id="loading">載入中...</div>
+  <div class="student-select">
+    <span>👤 學生：</span>
+    <input type="text" id="studentName" placeholder="輸入學生名稱" value="">
+    <button onclick="loadDashboard()">📊 查看報告</button>
+  </div>
 
-<div id="dashboard" style="display:none">
-  <div class="grid">
-    <div class="card">
-      <h3>📅 今日進度</h3>
-      <div class="stat" id="todayQuestions">-</div>
-      <div class="stat-label">已完成題目</div>
-      <div style="margin-top:8px">
-        <div class="stat" style="font-size:1.5em" id="todayCorrect">-</div>
-        <div class="stat-label">正確率</div>
-      </div>
+  <!-- Stats overview -->
+  <div class="stats-grid" id="statsOverview">
+    <div class="stat-card blue">
+      <h3>📝 總練習題數</h3>
+      <div class="big-num" id="totalQuestions">—</div>
+      <div class="sub">累計練習量</div>
     </div>
-    <div class="card">
-      <h3>🏆 成就</h3>
-      <div class="stat" id="points">-</div>
-      <div class="stat-label">總積分</div>
-      <div style="margin-top:8px">
-        <span class="badge gold" id="badge">-</span>
-        <span style="margin-left:8px;font-size:.85em;">連續 <strong id="streak">-</strong> 日</span>
-      </div>
+    <div class="stat-card green">
+      <h3>✅ 正確率</h3>
+      <div class="big-num" id="accuracyPct">—</div>
+      <div class="sub">整體表現</div>
     </div>
-    <div class="card">
-      <h3>📈 進步趨勢</h3>
+    <div class="stat-card gold">
+      <h3>🏆 積分</h3>
+      <div class="big-num" id="pointsVal">—</div>
+      <div class="sub">徽章：<span id="badgeName">—</span></div>
+    </div>
+    <div class="stat-card">
+      <h3>🔥 連續天數</h3>
+      <div class="big-num" id="streakVal">—</div>
+      <div class="sub">最長：<span id="maxStreak">—</span> 日</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <!-- Progress Chart -->
+    <div class="main-card">
+      <h3>📈 進步趨勢（近7日模擬）</h3>
       <div class="chart-wrap"><canvas id="progressChart"></canvas></div>
     </div>
-    <div class="card">
+
+    <!-- Weak Areas -->
+    <div class="main-card">
       <h3>⚠️ 需要加強</h3>
-      <ul class="weak-list" id="weakAreas"><li>載入中...</li></ul>
+      <div id="weakList"><div class="weak-item">載入中...</div></div>
     </div>
   </div>
-  
-  <div class="summary-box" id="aiSummary">
+
+  <!-- AI Summary -->
+  <div class="ai-summary" id="aiSummaryBox">
     <h3>🤖 AI 學習分析</h3>
-    <p id="summaryText">載入中...</p>
+    <p id="aiSummaryText">請輸入學生名稱後點擊「查看報告」。</p>
   </div>
+
+  <div class="data-source" id="dataSource"></div>
 </div>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/docs/data/lf-engines-v8.js"></script>
+<script src="/lf-shell-v8.js"></script>
 
 <script>
 function loadLocalData() {
-  // Read from localStorage (works offline!)
-  var points = parseInt(localStorage.getItem("lf_points") || "0");
-  var streak = parseInt(localStorage.getItem("lf_streak") || "0");
-  var totalQ = parseInt(localStorage.getItem("lf_total_q") || "0");
-  var correct = parseInt(localStorage.getItem("lf_total_correct") || "0");
+  var points = 0, streak = 0, maxStreak = 0, badges = [];
+  try {
+    var gami = JSON.parse(localStorage.getItem('lf_gamification') || '{}');
+    points = gami.points || 0;
+    streak = gami.streak || 0;
+    maxStreak = gami.maxStreak || 0;
+    badges = gami.badges || [];
+  } catch(e) {}
+
+  var totalQ = 0, correct = 0;
+  try {
+    var bkt = JSON.parse(localStorage.getItem('lf_bkt_data') || '{}');
+    for (var k in bkt) { totalQ += bkt[k].total || 0; correct += bkt[k].correct || 0; }
+  } catch(e) {}
+
   var accuracy = totalQ > 0 ? Math.round(correct / totalQ * 100) : 0;
 
-  // Trap mastery data
-  var trapData = {};
-  try { trapData = JSON.parse(localStorage.getItem("lf_trap_mastery") || "{}"); } catch(e) {}
+  var profile = {};
+  try { profile = JSON.parse(localStorage.getItem('lf_student_profile') || '{}'); } catch(e) {}
 
-  // Demo class data
-  var demoClass = null;
-  try { demoClass = JSON.parse(localStorage.getItem("lf_demo_class") || "null"); } catch(e) {}
-
-  // Determine badges from points
-  var badges = [];
-  if (points >= 5000) badges.push("🏆 鑽石章");
-  else if (points >= 2000) badges.push("🥇 金章");
-  else if (points >= 500) badges.push("🥈 銀章");
-  else if (points >= 100) badges.push("🥉 銅章");
-  else badges.push("🌱 新手");
+  // Determine badge
+  var badgeNames = ['🥉 銅章','🥈 銀章','🥇 金章','📎 白金章','💎 鑽石章','🏆 大師章','👑 傳奇章'];
+  var badgeThresholds = [0,100,300,600,1000,2000,5000];
+  var currentBadge = badgeNames[0];
+  for (var i = 0; i < badgeThresholds.length; i++) {
+    if (points >= badgeThresholds[i]) currentBadge = badgeNames[i];
+  }
 
   return {
-    points: points,
-    streak: streak,
-    totalQuestions: totalQ,
-    correct: correct,
-    accuracy: accuracy,
-    badges: badges,
-    trapData: trapData,
-    demoClass: demoClass
+    points, streak, maxStreak, badges, currentBadge,
+    totalQuestions: totalQ, correct, accuracy,
+    weakTopics: profile.weakTopics || [],
+    strongTopics: profile.strongTopics || [],
+    name: profile.name || ''
   };
 }
 
 function getAIInsight(data) {
-  if (data.totalQuestions === 0) return "尚未開始練習。建議子女每日完成 10 題陷阱練習，培養良好習慣！";
-  if (data.accuracy >= 90) return "表現優異！子女已掌握大部分陷阱，可以挑戰更高難度的題目。";
-  if (data.accuracy >= 70) return "整體表現良好，但仍有改進空間。建議針對弱點陷阱進行專項練習。";
-  if (data.accuracy >= 50) return "子女正在進步中！建議增加練習頻率，特別注意常見陷阱類型。";
-  return "需要多加練習。建議從基礎題目開始，逐步建立信心。";
+  if (data.totalQuestions === 0) return '尚未開始練習。建議子女每日完成幾題陷阱練習，培養良好習慣！📝';
+  if (data.accuracy >= 90) return '表現優異！子女已掌握大部分陷阱，可以挑戰更高難度的題目。繼續保持！🏆';
+  if (data.accuracy >= 70) return '整體表現良好。建議針對弱點陷阱（下方紅色標記）進行專項練習，穩步提升。📈';
+  if (data.accuracy >= 50) return '子女正在進步中！建議增加練習頻率，特別注意常見陷阱類型。每日10題效果最佳。💪';
+  return '需要多加練習。建議從基礎題目開始，配合AI導師逐步建立信心。每個小朋友都可以进步！🌱';
 }
 
-async function loadDashboard() {
-  document.getElementById("loading").style.display = "block";
-  document.getElementById("dashboard").style.display = "none";
+var progressChart = null;
 
-  // 1. Try to load local data first (instant)
-  var localData = loadLocalData();
+function loadDashboard() {
+  var data = loadLocalData();
 
-  // 2. Try API for richer data
-  var apiData = null;
+  document.getElementById('totalQuestions').textContent = data.totalQuestions || 0;
+  document.getElementById('accuracyPct').textContent = (data.accuracy || 0) + '%';
+  document.getElementById('pointsVal').textContent = data.points || 0;
+  document.getElementById('badgeName').textContent = data.currentBadge || '🥉 銅章';
+  document.getElementById('streakVal').textContent = data.streak || 0;
+  document.getElementById('maxStreak').textContent = data.maxStreak || 0;
+  document.getElementById('aiSummaryText').textContent = getAIInsight(data);
+
+  // Weak list
+  var weakHtml = '';
+  var allTopics = data.weakTopics.concat(data.strongTopics.map(function(t) { return { name: t, weak: false }; }));
+  
+  // Show from BKT data
   try {
-    const student = document.getElementById("studentName").value || "test_student";
-    const API = "https://lf-api-f80h.onrender.com/api/ai";
-    const resp = await fetch(`${API}/parent/${student}`);
-    if (resp.ok) apiData = await resp.json();
-  } catch(e) {
-    console.log("[Parent Dashboard] API unavailable, using local data");
-  }
+    var bkt = JSON.parse(localStorage.getItem('lf_bkt_data') || '{}');
+    var items = [];
+    for (var k in bkt) {
+      var rate = bkt[k].total > 0 ? bkt[k].correct / bkt[k].total : 0;
+      items.push({ name: k, rate: rate, total: bkt[k].total });
+    }
+    items.sort(function(a, b) { return a.rate - b.rate; });
+    
+    if (items.length > 0) {
+      items.slice(0, 6).forEach(function(item) {
+        var pct = Math.round(item.rate * 100);
+        var tag = pct < 50 ? 'tag-red' : pct < 70 ? 'tag-yellow' : 'tag-green';
+        var label = pct < 50 ? '急需加強' : pct < 70 ? '須關注' : '良好';
+        weakHtml += '<div class="weak-item"><span>' + item.name + '</span><span class="tag ' + tag + '">' + pct + '% ' + label + '</span></div>';
+      });
+    }
+  } catch(e) {}
+  
+  if (!weakHtml) weakHtml = '<div class="weak-item">暫無數據，開始做題後會顯示</div>';
+  document.getElementById('weakList').innerHTML = weakHtml;
 
-  // 3. Merge data (API takes precedence, local as fallback)
-  var data = {
-    points: apiData?.stats?.points || localData.points,
-    streak: apiData?.stats?.streak || localData.streak,
-    totalQuestions: apiData?.stats?.total_questions || localData.totalQuestions,
-    correct: apiData?.stats?.correct || localData.correct,
-    accuracy: apiData?.stats?.total_questions ? Math.round((apiData.stats.correct || 0) / apiData.stats.total_questions * 100) : localData.accuracy,
-    badges: localData.badges,
-    weakAreas: apiData?.weak_areas || [],
-    aiSummary: apiData?.ai_summary || getAIInsight(localData),
-    trapData: localData.trapData
-  };
-
-  // 4. Render
-  document.getElementById("todayQuestions").textContent = data.totalQuestions || 0;
-  document.getElementById("todayCorrect").textContent = (data.accuracy || 0) + "%";
-  document.getElementById("points").textContent = data.points || 0;
-  document.getElementById("badge").textContent = data.badges[0] || "🥉 銅章";
-  document.getElementById("streak").textContent = data.streak || 0;
-  document.getElementById("summaryText").textContent = data.aiSummary || "繼續努力！";
-
-  // Weak areas - show from trap data if API didn't provide
-  var weakList = document.getElementById("weakAreas");
-  weakList.innerHTML = "";
-  var trapNames = {T1:"計算粗心",T2:"小數除法",T3:"運算順序",T4:"面積公式",T5:"體積混淆",T6:"分數通分",T7:"百分比",T8:"速率單位",T9:"代數移項",T10:"統計圖表"};
-  var weakItems = [];
-  if (data.weakAreas && data.weakAreas.length > 0) {
-    data.weakAreas.slice(0, 5).forEach(function(w) {
-      weakItems.push({name: typeof w === "string" ? w : w.name || w, level: "bad"});
-    });
-  } else if (Object.keys(data.trapData).length > 0) {
-    Object.keys(data.trapData).forEach(function(k) {
-      var t = data.trapData[k];
-      if (t && t.accuracy !== undefined && t.accuracy < 70) {
-        weakItems.push({name: (trapNames[k] || k) + " (" + t.accuracy + "%)", level: t.accuracy < 50 ? "bad" : "ok"});
-      }
-    });
-  }
-  if (weakItems.length > 0) {
-    weakItems.sort(function(a, b) { return a.level === "bad" ? -1 : 1; });
-    weakItems.slice(0, 5).forEach(function(w) {
-      var cls = w.level === "bad" ? "red" : "green";
-      weakList.innerHTML += '<li>' + w.name + ' <span class="badge ' + cls + '">需加強</span></li>';
-    });
-  } else {
-    weakList.innerHTML = "<li>暫無弱項數據，繼續保持！</li>";
-  }
-
-  // Chart - use real data or demo
-  if (window.progressChart) window.progressChart.destroy();
-  var ctx = document.getElementById("progressChart").getContext("2d");
-  var chartData = apiData?.progress || [65, 70, 75, 80, 78, 85, 90];
-  window.progressChart = new Chart(ctx, {
-    type: "line",
+  // Chart - generate from SRS history
+  if (progressChart) progressChart.destroy();
+  var ctx = document.getElementById('progressChart').getContext('2d');
+  var chartData = [0, 0, 0, 0, 0, 0, 0];
+  try {
+    var srs = JSON.parse(localStorage.getItem('lf_srs_schedule') || '{}');
+    var rates = Object.values(srs).map(function(s) { return s.correctRate || 0; });
+    if (rates.length > 0) {
+      // Simulate trend: last week = average of all topics
+      var avg = Math.round(rates.reduce(function(a,b){return a+b;},0) / rates.length * 100);
+      chartData = [Math.max(0,avg-15), Math.max(0,avg-10), Math.max(0,avg-5), avg, Math.min(100,avg+2), Math.min(100,avg+5), data.accuracy || avg];
+    } else {
+      chartData = [40, 50, 55, 60, 65, 70, data.accuracy || 72];
+    }
+  } catch(e) {}
+  
+  progressChart = new Chart(ctx, {
+    type: 'line',
     data: {
-      labels: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-      datasets: [{label: "正確率", data: chartData, borderColor: "#4f46e5", tension: 0.3, fill: true, backgroundColor: "rgba(79,70,229,0.1)"}]
+      labels: ['周一','周二','周三','周四','周五','周六','周日'],
+      datasets: [{
+        label: '正確率 %',
+        data: chartData,
+        borderColor: '#C9A84C',
+        backgroundColor: 'rgba(201,168,76,0.1)',
+        tension: 0.3,
+        fill: true,
+        pointBackgroundColor: '#C9A84C'
+      }]
     },
-    options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {display: false}}, scales: {y: {min: 0, max: 100}}}
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { min: 0, max: 100, ticks: { color: 'rgba(255,255,255,0.4)' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+        x: { ticks: { color: 'rgba(255,255,255,0.4)' }, grid: { display: false } }
+      }
+    }
   });
 
-  document.getElementById("loading").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
-
-  // Show data source indicator
-  var sourceEl = document.getElementById("dataSource");
-  if (sourceEl) sourceEl.remove();
-  var source = document.createElement("div");
-  source.id = "dataSource";
-  source.style.cssText = "text-align:center;font-size:10px;color:#94a3b8;margin-top:8px";
-  source.textContent = apiData ? "📡 數據來源：伺服器" : "💾 數據來源：本機暫存";
-  document.getElementById("dashboard").appendChild(source);
+  document.getElementById('dataSource').textContent = '💾 數據來源：本機學習記錄';
 }
 
+// Auto-load
 loadDashboard();
-
-// Inject SSPA prediction widget
-setTimeout(function() {
-    if (typeof LFSSPAWidget !== "undefined") {
-        LFSSPAWidget.inject("#dashboard", document.getElementById("studentName")?.value || "");
-    }
-}, 1500);
 </script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
 </body>
 </html>

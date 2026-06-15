@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1A3C6D">
+<title>霖楓學苑 · 做題練習系統</title>
+
+<meta property="og:title" content="霖楓學苑 · 做題練習系統">
+<meta property="og:description" content="P3-P6香港小學數學練習。AI批改、陷阱分析、BKT自適應難度。">
+<meta property="og:image" content="https://www.lfacademyhk.com/logo.png">
+
+<link rel="stylesheet" href="/lf-academy-v8.css">
+<style>
+body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D);min-height:100vh;padding-top:var(--nav-height)}
+.practice-container{max-width:900px;margin:0 auto;padding:20px 24px}
+
+/* Header */
+.practice-header{text-align:center;padding:30px 0 20px}
+.practice-header h1{color:white;margin-bottom:6px}
+.practice-header p{color:rgba(255,255,255,0.6);font-size:0.9em}
+
+/* Setup Panel */
+.setup-panel{background:var(--surface);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-lg);margin-bottom:20px}
+.setup-panel h2{font-size:1.1em;margin-bottom:20px}
+.grade-select{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.grade-btn{flex:1;min-width:80px;padding:14px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);cursor:pointer;text-align:center;font-weight:600;transition:all var(--duration-fast);font-family:var(--font-sans)}
+.grade-btn:hover{border-color:var(--blue);background:#EFF6FF}
+.grade-btn.active{background:var(--blue);color:white;border-color:var(--blue)}
+.grade-btn .grade-name{font-size:1em}
+.grade-btn .grade-desc{font-size:0.7em;opacity:0.7;margin-top:2px}
+
+.topic-select{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:16px}
+.topic-chip{padding:10px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;text-align:center;font-size:0.85em;font-weight:500;transition:all var(--duration-fast);background:var(--surface)}
+.topic-chip:hover{border-color:var(--gold);background:var(--gold-glass)}
+.topic-chip.selected{border-color:var(--gold);background:var(--gold-glass);font-weight:700}
+
+.mode-select{display:flex;gap:10px;margin-bottom:20px}
+.mode-btn{flex:1;padding:12px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);cursor:pointer;text-align:center;transition:all var(--duration-fast);font-family:var(--font-sans)}
+.mode-btn:hover{border-color:var(--purple)}
+.mode-btn.active{border-color:var(--purple);background:var(--purple-light);color:var(--purple);font-weight:700}
+.mode-btn .mode-icon{display:block;font-size:1.3em;margin-bottom:4px}
+.mode-btn .mode-name{font-weight:600;font-size:0.85em}
+.mode-btn .mode-desc{font-size:0.7em;color:var(--text-muted)}
+
+/* Quiz Panel */
+.quiz-panel{display:none}
+.quiz-card{background:var(--surface);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-lg);margin-bottom:16px}
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.quiz-progress{font-size:0.82em;color:var(--text-muted)}
+.quiz-timer{font-size:1.1em;font-weight:700;color:var(--blue);font-family:var(--font-mono)}
+.quiz-timer.warning{color:var(--red);animation:pulse-glow 1s infinite}
+.quiz-question{font-size:1.1em;line-height:1.8;color:var(--text);margin-bottom:20px;padding:16px;background:var(--surface-alt);border-radius:var(--radius-sm);border-left:4px solid var(--blue)}
+
+.quiz-options{display:flex;flex-direction:column;gap:10px}
+.quiz-option{padding:14px 18px;border:2px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all var(--duration-fast);font-size:0.95em;display:flex;align-items:center;gap:10px}
+.quiz-option:hover{border-color:var(--blue);background:#EFF6FF}
+.quiz-option.selected{border-color:var(--blue);background:#EFF6FF;font-weight:600}
+.quiz-option.correct{border-color:var(--green);background:var(--green-light)}
+.quiz-option.wrong{border-color:var(--red);background:var(--red-light)}
+
+.quiz-input{width:100%;padding:14px 18px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:1.1em;outline:none;transition:border var(--duration-fast)}
+.quiz-input:focus{border-color:var(--blue)}
+
+.quiz-submit{width:100%;padding:14px;margin-top:14px;background:var(--blue);color:white;border:none;border-radius:var(--radius-full);font-size:1em;font-weight:700;cursor:pointer;transition:all var(--duration-fast)}
+.quiz-submit:hover{background:var(--blue-light);transform:translateY(-1px);box-shadow:var(--shadow-blue)}
+.quiz-submit:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+/* Feedback */
+.feedback-panel{display:none;padding:20px;border-radius:var(--radius);margin-top:14px;animation:slideUp 0.3s var(--ease-out)}
+.feedback-correct{background:var(--green-light);border:2px solid var(--green);color:var(--green)}
+.feedback-wrong{background:var(--red-light);border:2px solid var(--red);color:var(--red)}
+.feedback-trap{margin-top:10px;padding:12px;background:var(--amber-light);border-radius:var(--radius-sm);font-size:0.88em;color:#92400e}
+
+/* Results */
+.results-panel{display:none}
+.results-card{background:var(--surface);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-lg);text-align:center}
+.results-score{font-family:var(--font-display);font-size:3em;font-weight:900;color:var(--blue);margin:10px 0}
+.results-grade{display:inline-block;padding:6px 24px;border-radius:var(--radius-full);font-weight:700;font-size:0.9em;margin:8px 0}
+.grade-a{background:var(--green-light);color:var(--green)}
+.grade-b{background:#EFF6FF;color:var(--blue)}
+.grade-c{background:var(--amber-light);color:#92400e}
+.grade-d{background:var(--red-light);color:var(--red)}
+
+.results-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0;text-align:center}
+.results-stat{padding:14px;background:var(--surface-alt);border-radius:var(--radius-sm)}
+.results-stat .num{font-size:1.4em;font-weight:900;color:var(--blue)}
+.results-stat .lbl{font-size:0.72em;color:var(--text-muted);margin-top:2px}
+
+/* SRS Review */
+.srs-panel{background:var(--amber-light);border:2px solid var(--amber);border-radius:var(--radius);padding:16px;margin:16px 0}
+.srs-panel h3{color:#92400e;margin-bottom:8px;font-size:0.9em}
+.srs-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(146,64,14,0.1);font-size:0.82em}
+.srs-item .urgency{font-weight:700}
+.srs-critical{color:var(--red)}
+.srs-warning{color:var(--amber)}
+.srs-ok{color:var(--green)}
+
+/* Back button */
+.back-btn{padding:8px 20px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:white;border-radius:var(--radius-full);cursor:pointer;font-size:0.82em;transition:all var(--duration-fast)}
+.back-btn:hover{background:rgba(255,255,255,0.1)}
+
+@media(max-width:500px){
+  .grade-select{gap:6px}
+  .grade-btn{padding:10px 6px;min-width:60px}
+  .topic-select{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+}
+
+/* Celebration animation for correct answers */
+@keyframes celebrate {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(60px) rotate(720deg); opacity: 0; }
+}
+.celebration {
+  animation: celebrate 0.5s ease-out;
+}
+.confetti {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  animation: confetti-fall 1.5s ease-out forwards;
+  font-size: 1.5em;
+}
+</style>
+<link rel="canonical" href="https://www.lfacademyhk.com/practice.html">
+</head>
+<body>
+
+<div class="practice-container">
+  <!-- Header -->
+  <div class="practice-header">
+    <h1>📝 做題練習系統</h1>
+    <p>P3-P6 · 自適應難度 · AI批改 · 陷阱分析 · SRS複習</p>
+  </div>
+
+  <!-- ═══ SETUP ═══ -->
+  <div class="setup-panel" id="setupPanel">
+    <h2>🎯 選擇練習設定</h2>
+
+    <!-- Grade -->
+    <div style="font-size:0.82em;color:var(--text-muted);margin-bottom:8px">年級</div>
+    <div class="grade-select" id="gradeSelect">
+      <button class="grade-btn" data-grade="P3"><span class="grade-name">P3</span><span class="grade-desc">小三</span></button>
+      <button class="grade-btn" data-grade="P4"><span class="grade-name">P4</span><span class="grade-desc">小四</span></button>
+      <button class="grade-btn active" data-grade="P5"><span class="grade-name">P5</span><span class="grade-desc">小五</span></button>
+      <button class="grade-btn" data-grade="P6"><span class="grade-name">P6</span><span class="grade-desc">小六</span></button>
+    </div>
+
+    <!-- Topics -->
+    <div style="font-size:0.82em;color:var(--text-muted);margin-bottom:8px">課題（可選多個）</div>
+    <div class="topic-select" id="topicSelect"></div>
+
+    <!-- Mode -->
+    <div style="font-size:0.82em;color:var(--text-muted);margin-bottom:8px">模式</div>
+    <div class="mode-select">
+      <button class="mode-btn active" data-mode="casual">
+        <span class="mode-icon">🎮</span>
+        <span class="mode-name">休閒模式</span>
+        <span class="mode-desc">不限時 · 可查提示</span>
+      </button>
+      <button class="mode-btn" data-mode="timed">
+        <span class="mode-icon">⏱️</span>
+        <span class="mode-name">限時挑戰</span>
+        <span class="mode-desc">每題2分鐘</span>
+      </button>
+      <button class="mode-btn" data-mode="exam">
+        <span class="mode-icon">📋</span>
+        <span class="mode-name">模擬測驗</span>
+        <span class="mode-desc">10題 · 30分鐘</span>
+      </button>
+    </div>
+
+    <!-- Question Count -->
+    <div style="font-size:0.82em;color:var(--text-muted);margin-bottom:8px">題數</div>
+    <div style="display:flex;gap:8px;margin-bottom:20px">
+      <button class="grade-btn active" data-count="5">5題</button>
+      <button class="grade-btn" data-count="10">10題</button>
+      <button class="grade-btn" data-count="20">20題</button>
+    </div>
+
+    <button class="quiz-submit" onclick="startPractice()" style="width:auto;padding:14px 40px;display:inline-flex;align-items:center;gap:8px;">
+      🚀 開始練習
+    </button>
+
+    <!-- SRS Review Reminders -->
+    <div class="srs-panel" id="srsReminders" style="display:none;margin-top:20px"></div>
+  </div>
+
+  <!-- ═══ QUIZ ═══ -->
+  <div class="quiz-panel" id="quizPanel">
+    <div class="quiz-card">
+      <div class="quiz-header">
+        <span class="quiz-progress" id="quizProgress">第 1/5 題</span>
+        <span class="quiz-timer" id="quizTimer" style="display:none">02:00</span>
+        <button class="back-btn" onclick="endPractice()">✕ 結束</button>
+      </div>
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div id="quizOptions"></div>
+      <input type="text" class="quiz-input" id="quizInput" placeholder="輸入你的答案..." style="display:none">
+      <button class="quiz-submit" id="quizSubmit" onclick="submitAnswer()">✅ 提交答案</button>
+      <div class="feedback-panel" id="feedbackPanel"></div>
+    </div>
+  </div>
+
+  <!-- ═══ RESULTS ═══ -->
+  <div class="results-panel" id="resultsPanel">
+    <div class="results-card">
+      <h2>📊 練習結果</h2>
+      <div class="results-score" id="resultsScore">0%</div>
+      <div class="results-grade" id="resultsGrade">--</div>
+      <div class="results-breakdown">
+        <div class="results-stat"><div class="num" id="resultCorrect">0</div><div class="lbl">✅ 正確</div></div>
+        <div class="results-stat"><div class="num" id="resultWrong">0</div><div class="lbl">❌ 錯誤</div></div>
+        <div class="results-stat"><div class="num" id="resultTime">0s</div><div class="lbl">⏱️ 用時</div></div>
+        <div class="results-stat"><div class="num" id="resultTraps">0</div><div class="lbl">⚠️ 陷阱</div></div>
+      </div>
+      <div id="resultTrapsList" style="text-align:left;margin:16px 0;font-size:0.85em"></div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px">
+        <button class="lf-btn lf-btn-primary" onclick="startPractice()">🔄 再做一次</button>
+        <button class="lf-btn lf-btn-outline" onclick="showSetup()">📚 換課題</button>
+        <a href="/ai-tutor.html" class="lf-btn lf-btn-gold">🤖 問 AI 導師</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/docs/data/lf-membership.js"></script>
+<script src="/docs/data/lf-engines-v8.js"></script>
+<script src="/lf-shell-v8.js"></script>
+
+<script>
+/* ═══════════════════════════════════════
+   PRACTICE SYSTEM — Core Logic
+   ═══════════════════════════════════════ */
+
+/* ── Question Bank ── */
+
+/* ── Question Bank (120+ questions, 6-8 per topic) ── */
+const QUESTION_BANK = {
+  P3: {
+    '加法': [
+      { q: '276 + 389 = ?', ans: '665', opts: ['665', '655', '565', '675'], diff: '★', trap: 'T1-進退位' },
+      { q: '458 + 167 + 294 = ?', ans: '919', opts: ['909', '919', '929', '819'], diff: '★★', trap: 'T1-進退位' },
+      { q: '999 + 1 = ?', ans: '1000', opts: ['1000', '999', '1001', '990'], diff: '★', trap: 'T1-進退位' },
+      { q: '528 + 346 = ?', ans: '874', opts: ['874', '864', '884', '764'], diff: '★', trap: 'T1-進退位' },
+      { q: '193 + 208 + 399 = ?', ans: '800', opts: ['800', '790', '810', '700'], diff: '★★', trap: 'T1-進退位' },
+      { q: '675 + 189 = ?', ans: '864', opts: ['864', '854', '764', '874'], diff: '★', trap: 'T1-進退位' }
+    ],
+    '減法': [
+      { q: '1000 - 456 = ?', ans: '544', opts: ['554', '544', '644', '456'], diff: '★★', trap: 'T1-退位' },
+      { q: '836 - 279 = ?', ans: '557', opts: ['557', '657', '567', '547'], diff: '★', trap: 'T1-退位' },
+      { q: '500 - 238 = ?', ans: '262', opts: ['262', '272', '362', '162'], diff: '★', trap: 'T1-退位' },
+      { q: '901 - 367 = ?', ans: '534', opts: ['534', '544', '634', '434'], diff: '★★', trap: 'T1-退位' },
+      { q: '1000 - 99 = ?', ans: '901', opts: ['901', '911', '999', '1001'], diff: '★', trap: 'T1-退位' },
+      { q: '735 - 468 = ?', ans: '267', opts: ['267', '277', '367', '167'], diff: '★', trap: 'T1-退位' }
+    ],
+    '乘法': [
+      { q: '23 × 6 = ?', ans: '138', opts: ['138', '128', '148', '136'], diff: '★', trap: 'T1-進位' },
+      { q: '47 × 8 = ?', ans: '376', opts: ['376', '366', '386', '356'], diff: '★★', trap: 'T1-進位' },
+      { q: '12 × 9 = ?', ans: '108', opts: ['108', '98', '118', '96'], diff: '★', trap: 'T1-進位' },
+      { q: '35 × 7 = ?', ans: '245', opts: ['245', '235', '255', '225'], diff: '★', trap: 'T1-進位' },
+      { q: '56 × 4 = ?', ans: '224', opts: ['224', '214', '234', '204'], diff: '★', trap: 'T1-進位' },
+      { q: '68 × 5 = ?', ans: '340', opts: ['340', '330', '350', '300'], diff: '★', trap: 'T1-進位' }
+    ],
+    '除法': [
+      { q: '84 ÷ 7 = ?', ans: '12', opts: ['12', '11', '13', '14'], diff: '★', trap: 'T4-漏寫0' },
+      { q: '96 ÷ 8 = ?', ans: '12', opts: ['12', '11', '13', '10'], diff: '★', trap: 'T4-漏寫0' },
+      { q: '72 ÷ 6 = ?', ans: '12', opts: ['12', '11', '13', '10'], diff: '★', trap: 'T4-漏寫0' },
+      { q: '63 ÷ 9 = ?', ans: '7', opts: ['7', '8', '6', '9'], diff: '★', trap: 'T4-漏寫0' },
+      { q: '144 ÷ 12 = ?', ans: '12', opts: ['12', '10', '14', '11'], diff: '★★', trap: 'T4-漏寫0' },
+      { q: '108 ÷ 9 = ?', ans: '12', opts: ['12', '11', '13', '10'], diff: '★', trap: 'T4-漏寫0' }
+    ],
+    '分數': [
+      { q: '一個蛋糕分成8份，食咗3份，食咗蛋糕嘅幾分之幾？', ans: '3/8', opts: ['3/8', '5/8', '1/3', '8/3'], diff: '★', trap: 'T6-分數' },
+      { q: '比較：2/5 同 3/5 邊個大？', ans: '3/5', opts: ['3/5', '2/5', '一樣大', '唔知'], diff: '★', trap: 'T6-分數' },
+      { q: '1/2 + 1/2 = ?', ans: '1', opts: ['1', '2/4', '1/4', '2/2'], diff: '★', trap: 'T6-分數' },
+      { q: '一條繩分成5份，用咗2份，仲剩幾分之幾？', ans: '3/5', opts: ['3/5', '2/5', '1/5', '5/5'], diff: '★', trap: 'T6-分數' },
+      { q: '比較：1/3 同 1/4 邊個大？', ans: '1/3', opts: ['1/3', '1/4', '一樣大', '唔知'], diff: '★★', trap: 'T6-分數' },
+      { q: '3/8 + 4/8 = ?', ans: '7/8', opts: ['7/8', '1/8', '7/16', '1/2'], diff: '★', trap: 'T6-分數' }
+    ],
+    '度量': [
+      { q: '3米 = ? 厘米', ans: '300', opts: ['300', '30', '3000', '3'], diff: '★', trap: 'T2-單位換算' },
+      { q: '2公斤500克 = ? 克', ans: '2500', opts: ['2500', '250', '2050', '2005'], diff: '★★', trap: 'T2-單位換算' },
+      { q: '5公里 = ? 米', ans: '5000', opts: ['5000', '500', '50', '5'], diff: '★', trap: 'T2-單位換算' },
+      { q: '1小時30分鐘 = ? 分鐘', ans: '90', opts: ['90', '130', '60', '30'], diff: '★', trap: 'T2-單位換算' },
+      { q: '4公升 = ? 毫升', ans: '4000', opts: ['4000', '400', '40', '4'], diff: '★', trap: 'T2-單位換算' },
+      { q: '2米30厘米 = ? 厘米', ans: '230', opts: ['230', '2030', '2300', '23'], diff: '★★', trap: 'T2-單位換算' }
+    ]
+  },
+  P4: {
+    '因數倍數': [
+      { q: '24 同 36 嘅 HCF 係？', ans: '12', opts: ['12', '6', '24', '72'], diff: '★★', trap: 'T3-混淆HCF/LCM' },
+      { q: '12 同 18 嘅 LCM 係？', ans: '36', opts: ['36', '6', '12', '216'], diff: '★★', trap: 'T3-混淆HCF/LCM' },
+      { q: '30 同 45 嘅 HCF 係？', ans: '15', opts: ['15', '5', '30', '90'], diff: '★★', trap: 'T3-混淆HCF/LCM' },
+      { q: '8 同 12 嘅 LCM 係？', ans: '24', opts: ['24', '4', '96', '48'], diff: '★★', trap: 'T3-混淆HCF/LCM' },
+      { q: '16 同 24 嘅 HCF 係？', ans: '8', opts: ['8', '4', '16', '48'], diff: '★★', trap: 'T3-混淆HCF/LCM' },
+      { q: '15 同 20 嘅 LCM 係？', ans: '60', opts: ['60', '5', '300', '30'], diff: '★★', trap: 'T3-混淆HCF/LCM' }
+    ],
+    '分數': [
+      { q: '1/4 + 2/4 = ?', ans: '3/4', opts: ['3/4', '3/8', '1/2', '2/4'], diff: '★', trap: 'T6-分母不變' },
+      { q: '2/3 - 1/6 = ?', ans: '1/2', opts: ['1/2', '1/3', '1/6', '2/6'], diff: '★★', trap: 'T6-通分' },
+      { q: '3/5 + 1/5 = ?', ans: '4/5', opts: ['4/5', '2/5', '4/10', '1'], diff: '★', trap: 'T6-分母不變' },
+      { q: '1/2 + 1/4 = ?', ans: '3/4', opts: ['3/4', '2/6', '1/6', '2/4'], diff: '★★', trap: 'T6-通分' },
+      { q: '5/6 - 1/3 = ?', ans: '1/2', opts: ['1/2', '2/3', '1/6', '4/3'], diff: '★★', trap: 'T6-通分' },
+      { q: '3/8 + 1/2 = ?', ans: '7/8', opts: ['7/8', '4/8', '4/10', '2/8'], diff: '★★', trap: 'T6-通分' }
+    ],
+    '小數': [
+      { q: '3.45 + 2.67 = ?', ans: '6.12', opts: ['6.12', '5.12', '6.02', '5.02'], diff: '★', trap: 'T1-小數進位' },
+      { q: '10 - 3.75 = ?', ans: '6.25', opts: ['6.25', '7.25', '6.75', '7.75'], diff: '★★', trap: 'T1-小數退位' },
+      { q: '4.8 + 3.6 = ?', ans: '8.4', opts: ['8.4', '7.14', '8.14', '7.4'], diff: '★', trap: 'T1-小數進位' },
+      { q: '8.2 - 5.7 = ?', ans: '2.5', opts: ['2.5', '3.5', '2.7', '3.2'], diff: '★', trap: 'T1-小數退位' },
+      { q: '12.05 + 7.98 = ?', ans: '20.03', opts: ['20.03', '19.03', '20.13', '19.93'], diff: '★★', trap: 'T1-小數進位' },
+      { q: '100 - 56.78 = ?', ans: '43.22', opts: ['43.22', '44.22', '43.32', '53.22'], diff: '★★', trap: 'T1-小數退位' }
+    ],
+    '面積周界': [
+      { q: '長方形長8cm，闊5cm，面積係？', ans: '40 cm²', opts: ['40 cm²', '26 cm²', '40 cm', '26 cm'], diff: '★', trap: 'T7-面積vs周界' },
+      { q: '正方形邊長6cm，周界係？', ans: '24 cm', opts: ['24 cm', '36 cm', '24 cm²', '12 cm'], diff: '★', trap: 'T7-面積vs周界' },
+      { q: '長方形長12cm，闊7cm，周界係？', ans: '38 cm', opts: ['38 cm', '84 cm', '38 cm²', '19 cm'], diff: '★★', trap: 'T7-面積vs周界' },
+      { q: '正方形面積36cm²，邊長係？', ans: '6 cm', opts: ['6 cm', '9 cm', '18 cm', '12 cm'], diff: '★★', trap: 'T7-面積vs周界' },
+      { q: '長方形周界30cm，長9cm，闊係？', ans: '6 cm', opts: ['6 cm', '7 cm', '5 cm', '8 cm'], diff: '★★★', trap: 'T7-面積vs周界' },
+      { q: '正方形周界32cm，面積係？', ans: '64 cm²', opts: ['64 cm²', '32 cm²', '128 cm²', '16 cm²'], diff: '★★', trap: 'T7-面積vs周界' }
+    ],
+    '除法': [
+      { q: '624 ÷ 12 = ?', ans: '52', opts: ['52', '50', '54', '62'], diff: '★★', trap: 'T4-商中間0/T5-試商' },
+      { q: '816 ÷ 24 = ?', ans: '34', opts: ['34', '32', '36', '38'], diff: '★★', trap: 'T5-試商不調整' },
+      { q: '408 ÷ 17 = ?', ans: '24', opts: ['24', '22', '26', '28'], diff: '★★', trap: 'T5-試商不調整' },
+      { q: '525 ÷ 25 = ?', ans: '21', opts: ['21', '20', '22', '25'], diff: '★★', trap: 'T4-商中間0' },
+      { q: '1008 ÷ 24 = ?', ans: '42', opts: ['42', '40', '44', '48'], diff: '★★★', trap: 'T4-商中間0' },
+      { q: '336 ÷ 14 = ?', ans: '24', opts: ['24', '22', '26', '28'], diff: '★★', trap: 'T5-試商不調整' }
+    ]
+  },
+  P5: {
+    '分數乘除': [
+      { q: '2/3 × 3/4 = ?', ans: '1/2', opts: ['1/2', '2/4', '6/12', '5/7'], diff: '★★', trap: 'T6-分數乘法' },
+      { q: '3/4 ÷ 2 = ?', ans: '3/8', opts: ['3/8', '1.5/4', '6/4', '3/2'], diff: '★★★', trap: 'T6-分數除法' },
+      { q: '5/6 × 2/3 = ?', ans: '5/9', opts: ['5/9', '10/18', '7/9', '5/18'], diff: '★★', trap: 'T6-分數乘法' },
+      { q: '4/5 ÷ 2 = ?', ans: '2/5', opts: ['2/5', '8/5', '2/10', '4/10'], diff: '★★', trap: 'T6-分數除法' },
+      { q: '3/5 × 10 = ?', ans: '6', opts: ['6', '30/5', '3/50', '13/5'], diff: '★★', trap: 'T6-分數乘法' },
+      { q: '1/2 ÷ 1/4 = ?', ans: '2', opts: ['2', '1/8', '1/2', '4'], diff: '★★★', trap: 'T6-分數除法' }
+    ],
+    '百分數': [
+      { q: '200 嘅 15% 係幾多？', ans: '30', opts: ['30', '15', '185', '215'], diff: '★★', trap: 'T8-百分數' },
+      { q: '打八折即係幾多%？', ans: '80%', opts: ['80%', '20%', '8%', '0.8%'], diff: '★', trap: 'T8-折扣' },
+      { q: '500 嘅 20% 係幾多？', ans: '100', opts: ['100', '20', '400', '520'], diff: '★★', trap: 'T8-百分數' },
+      { q: '九折等於減咗幾多%？', ans: '10%', opts: ['10%', '90%', '9%', '1%'], diff: '★★', trap: 'T8-折扣' },
+      { q: '一件貨品加價25%後賣$250，原價幾多？', ans: '$200', opts: ['$200', '$225', '$275', '$187.5'], diff: '★★★', trap: 'T8-百分數' },
+      { q: '30 係 120 嘅幾多%？', ans: '25%', opts: ['25%', '30%', '20%', '40%'], diff: '★★', trap: 'T8-百分數' }
+    ],
+    '體積': [
+      { q: '長方體長10cm，闊6cm，高4cm，體積係？', ans: '240 cm³', opts: ['240 cm³', '240 cm²', '60 cm³', '120 cm³'], diff: '★★', trap: 'T9-體積vs面積' },
+      { q: '正方體邊長5cm，體積係？', ans: '125 cm³', opts: ['125 cm³', '25 cm³', '150 cm³', '100 cm³'], diff: '★', trap: 'T9-體積vs面積' },
+      { q: '長方體長8cm，闊3cm，高5cm，體積係？', ans: '120 cm³', opts: ['120 cm³', '40 cm³', '60 cm³', '120 cm²'], diff: '★★', trap: 'T9-體積vs面積' },
+      { q: '正方體體積64cm³，邊長係？', ans: '4 cm', opts: ['4 cm', '8 cm', '16 cm', '6 cm'], diff: '★★★', trap: 'T9-體積vs面積' },
+      { q: '長方體體積180cm³，長10cm，闊6cm，高係？', ans: '3 cm', opts: ['3 cm', '4 cm', '2 cm', '5 cm'], diff: '★★★', trap: 'T9-體積vs面積' },
+      { q: '一個水缸長50cm，闊30cm，高20cm，可以裝幾多升水？(1L=1000cm³)', ans: '30 L', opts: ['30 L', '300 L', '3 L', '3000 L'], diff: '★★★', trap: 'T9-體積vs容量' }
+    ],
+    '方程': [
+      { q: '解方程：3x + 5 = 20', ans: 'x = 5', opts: ['x = 5', 'x = 15', 'x = 8', 'x = 6'], diff: '★★', trap: 'T10-應用題' },
+      { q: '解方程：2y - 8 = 12', ans: 'y = 10', opts: ['y = 10', 'y = 2', 'y = 20', 'y = 4'], diff: '★★', trap: 'T10-應用題' },
+      { q: '解方程：4a = 24', ans: 'a = 6', opts: ['a = 6', 'a = 20', 'a = 28', 'a = 96'], diff: '★', trap: 'T10-應用題' },
+      { q: '解方程：x/3 = 5', ans: 'x = 15', opts: ['x = 15', 'x = 5', 'x = 8', 'x = 2'], diff: '★★', trap: 'T10-應用題' },
+      { q: '解方程：5x - 3 = 2x + 6', ans: 'x = 3', opts: ['x = 3', 'x = 1', 'x = 9', 'x = 2'], diff: '★★★', trap: 'T10-應用題' },
+      { q: '小明有x元，買書用咗$35，仲剩$65。x=?', ans: '100', opts: ['100', '30', '65', '35'], diff: '★★', trap: 'T10-應用題' }
+    ],
+    '速率': [
+      { q: '汽車2小時行駛160公里，速率係？', ans: '80 km/h', opts: ['80 km/h', '160 km/h', '320 km/h', '40 km/h'], diff: '★', trap: 'T2-單位' },
+      { q: '火車速率120km/h，行咗3小時，行咗幾遠？', ans: '360 km', opts: ['360 km', '40 km', '120 km', '123 km'], diff: '★', trap: 'T2-單位' },
+      { q: '小明跑步速率6m/s，跑咗30秒，跑咗幾遠？', ans: '180 m', opts: ['180 m', '5 m', '36 m', '60 m'], diff: '★', trap: 'T2-單位' },
+      { q: '單車手用45分鐘踩咗15公里，平均速率係？', ans: '20 km/h', opts: ['20 km/h', '15 km/h', '30 km/h', '25 km/h'], diff: '★★★', trap: 'T2-時間單位' },
+      { q: '甲乙兩車相距240km，甲車80km/h，乙車60km/h，相向而行，幾耐相遇？', ans: '約1.7小時', opts: ['約1.7小時', '3小時', '4小時', '2小時'], diff: '★★★', trap: 'T10-應用題' },
+      { q: '飛機速率900km/h，要飛2700公里，要幾耐？', ans: '3小時', opts: ['3小時', '2小時', '4小時', '5小時'], diff: '★★', trap: 'T2-單位' }
+    ]
+  },
+  P6: {
+    '百分數應用': [
+      { q: '一件衫原價$250，七折後幾錢？', ans: '$175', opts: ['$175', '$75', '$250', '$225'], diff: '★★', trap: 'T8-折扣計算' },
+      { q: '銀行存款$5000，年利率4%，一年後有幾多利息？', ans: '$200', opts: ['$200', '$500', '$20', '$5000'], diff: '★★★', trap: 'T8-利率' },
+      { q: '一件貨品原價$800，先加價10%，再打八折，最後幾錢？', ans: '$704', opts: ['$704', '$640', '$800', '$880'], diff: '★★★', trap: 'T8-連續百分比' },
+      { q: '小明測驗得分78，佔總分120嘅幾多%？', ans: '65%', opts: ['65%', '78%', '60%', '55%'], diff: '★★', trap: 'T8-百分數' },
+      { q: '一件貨品成本$600，要賺25%利潤，應賣幾錢？', ans: '$750', opts: ['$750', '$625', '$150', '$600'], diff: '★★★', trap: 'T8-利潤計算' },
+      { q: '人口由20000增加到22000，增加咗幾多%？', ans: '10%', opts: ['10%', '20%', '5%', '2000%'], diff: '★★', trap: 'T8-百分比增減' }
+    ],
+    '比例': [
+      { q: 'A:B = 3:4，如果A=15，B=?', ans: '20', opts: ['20', '12', '60', '45'], diff: '★★', trap: 'T10-比例' },
+      { q: '用1:50000嘅地圖，5cm代表實際幾多米？', ans: '2500', opts: ['2500', '250', '500', '5000'], diff: '★★★', trap: 'T2-單位換算' },
+      { q: '糖同水嘅比例係2:5，如果要整14杯，要幾多糖？', ans: '4杯', opts: ['4杯', '2杯', '10杯', '7杯'], diff: '★★★', trap: 'T10-比例' },
+      { q: 'a:b = 2:3, b:c = 4:5，求 a:b:c', ans: '8:12:15', opts: ['8:12:15', '2:3:5', '6:7:8', '2:4:5'], diff: '★★★', trap: 'T10-連比' },
+      { q: '三個數的比例係3:4:5，總和係60，三個數分別係？', ans: '15,20,25', opts: ['15,20,25', '12,16,20', '18,24,30', '3,4,5'], diff: '★★★', trap: 'T10-比例分配' },
+      { q: '1:25000地圖上，8cm代表實際幾多公里？', ans: '2 km', opts: ['2 km', '20 km', '0.2 km', '200 km'], diff: '★★★', trap: 'T2-單位換算' }
+    ],
+    '圓形': [
+      { q: '圓形半徑7cm，圓周係？(π=22/7)', ans: '44 cm', opts: ['44 cm', '154 cm', '22 cm', '14 cm'], diff: '★★', trap: 'T7-圓周vs面積' },
+      { q: '圓形直徑10cm，面積係？(π=3.14)', ans: '78.5 cm²', opts: ['78.5 cm²', '31.4 cm²', '314 cm²', '100 cm²'], diff: '★★★', trap: 'T7-圓周vs面積' },
+      { q: '圓形圓周62.8cm，直徑係？(π=3.14)', ans: '20 cm', opts: ['20 cm', '10 cm', '31.4 cm', '40 cm'], diff: '★★★', trap: 'T7-圓周vs面積' },
+      { q: '圓形半徑3cm，面積嘅大約值係？(π=3.14)', ans: '28.26 cm²', opts: ['28.26 cm²', '18.84 cm²', '9.42 cm²', '56.52 cm²'], diff: '★★', trap: 'T7-面積公式' },
+      { q: '半圓形直徑8cm，周界係？(π=3.14)', ans: '20.56 cm', opts: ['20.56 cm', '12.56 cm', '25.12 cm', '16 cm'], diff: '★★★', trap: 'T7-半圓周界' },
+      { q: '兩個圓形半徑比係2:3，面積比係？', ans: '4:9', opts: ['4:9', '2:3', '8:27', '1:2'], diff: '★★★', trap: 'T7-圓形比例' }
+    ],
+    '速率進階': [
+      { q: '甲車速率80km/h，乙車速率60km/h，兩車相距280km相向而行，幾耐相遇？', ans: '2小時', opts: ['2小時', '3.5小時', '4小時', '1.5小時'], diff: '★★★', trap: 'T10-應用題' },
+      { q: '小明去程速率60km/h，回程速率40km/h，來回平均速率係？(非48!)', ans: '48 km/h', opts: ['48 km/h', '50 km/h', '100 km/h', '24 km/h'], diff: '★★★', trap: 'T10-平均速率陷阱' },
+      { q: '一艘船順流速率24km/h，逆流16km/h，水流速率係？', ans: '4 km/h', opts: ['4 km/h', '8 km/h', '20 km/h', '40 km/h'], diff: '★★★', trap: 'T10-應用題' },
+      { q: '汽車用3小時行完全程，前1.5小時平均80km/h，後1.5小時平均60km/h，全程平均速率？', ans: '70 km/h', opts: ['70 km/h', '140 km/h', '73.3 km/h', '50 km/h'], diff: '★★★', trap: 'T10-分段平均' },
+      { q: '甲乙相距360km，甲8:00出發速率80km/h，乙9:00出發速率100km/h，幾點相遇？', ans: '10:00', opts: ['10:00', '10:30', '9:30', '11:00'], diff: '★★★', trap: 'T10-追及問題' }
+    ]
+  }
+};
+
+/* ── State ── */
+let state = {
+  grade: 'P5',
+  topics: [],
+  mode: 'casual',
+  count: 5,
+  questions: [],
+  currentIndex: 0,
+  answers: [],
+  startTime: null,
+  timerInterval: null,
+  questionStart: null
+};
+
+/* ── Init ── */
+(function init() {
+  state.startTime = Date.now();
+
+  // Grade selection
+  document.querySelectorAll('#gradeSelect .grade-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#gradeSelect .grade-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      state.grade = this.dataset.grade;
+      renderTopics();
+    });
+  });
+
+  // Mode selection
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      state.mode = this.dataset.mode;
+
+      // Auto-set count for exam mode
+      if (state.mode === 'exam') {
+        document.querySelectorAll('[data-count]').forEach(b => {
+          b.classList.remove('active');
+          if (b.dataset.count === '10') b.classList.add('active');
+        });
+        state.count = 10;
+      }
+    });
+  });
+
+  // Count selection
+  document.querySelectorAll('[data-count]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('[data-count]').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      state.count = parseInt(this.dataset.count);
+    });
+  });
+
+  renderTopics();
+  loadSRS();
+})();
+
+/* ── Topics ── */
+function renderTopics() {
+  const container = document.getElementById('topicSelect');
+  const bank = QUESTION_BANK[state.grade];
+  if (!bank) { container.innerHTML = '<p>暫無此年級題目</p>'; return; }
+
+  let html = '';
+  for (const [topic, questions] of Object.entries(bank)) {
+    const selected = state.topics.includes(topic);
+    html += '<div class="topic-chip' + (selected ? ' selected' : '') + '" data-topic="' + topic + '">' + topic + ' (' + questions.length + '題)</div>';
+  }
+  // Select all button
+  html += '<div class="topic-chip" data-topic="__all__" style="background:var(--blue-glass);border-color:var(--blue);color:var(--blue);font-weight:700">✅ 全部課題</div>';
+
+  container.innerHTML = html;
+
+  container.querySelectorAll('.topic-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      const topic = this.dataset.topic;
+      if (topic === '__all__') {
+        state.topics = Object.keys(bank);
+        container.querySelectorAll('.topic-chip').forEach(c => c.classList.add('selected'));
+      } else {
+        this.classList.toggle('selected');
+        if (this.classList.contains('selected')) {
+          if (!state.topics.includes(topic)) state.topics.push(topic);
+        } else {
+          state.topics = state.topics.filter(t => t !== topic);
+        }
+      }
+    });
+  });
+}
+
+/* ── SRS ── */
+function loadSRS() {
+  try {
+    const srs = JSON.parse(localStorage.getItem('lf_srs_schedule') || '{}');
+    const dueTopics = [];
+    for (const [id, s] of Object.entries(srs)) {
+      if (Date.now() >= s.nextReview) {
+        let urgency = 'ok';
+        if (s.correctRate < 0.5) urgency = 'critical';
+        else if (s.correctRate < 0.7) urgency = 'warning';
+        dueTopics.push({ id, ...s, urgency });
+      }
+    }
+
+    if (dueTopics.length > 0) {
+      dueTopics.sort((a, b) => a.correctRate - b.correctRate);
+      const panel = document.getElementById('srsReminders');
+      panel.style.display = 'block';
+      let html = '<h3>🔄 建議複習嘅課題</h3>';
+      for (const t of dueTopics.slice(0, 4)) {
+        const cls = t.urgency === 'critical' ? 'srs-critical' : t.urgency === 'warning' ? 'srs-warning' : 'srs-ok';
+        html += '<div class="srs-item"><span>' + t.id + ' (' + Math.round(t.correctRate * 100) + '%正確率)</span><span class="urgency ' + cls + '">' + (t.urgency === 'critical' ? '🔴 急需' : t.urgency === 'warning' ? '🟡 關注' : '🟢 可複習') + '</span></div>';
+      }
+      panel.innerHTML = html;
+    }
+  } catch(e) {}
+}
+
+/* ── Start Practice ── */
+function startPractice() {
+  const bank = QUESTION_BANK[state.grade];
+  if (!bank) { alert('請先選擇年級和課題'); showSetup(); return; }
+
+  // topics already defined above
+  if (topics.length === 0) { alert('此年級暫無題目，請選擇其他年級'); return; }
+
+
+  // topics already defined above
+  let pool = [];
+  for (const t of topics) {
+    if (bank[t]) pool = pool.concat(bank[t]);
+  }
+
+  if (pool.length === 0) {
+    // Fallback: use all topics
+    for (const t of Object.keys(bank)) pool = pool.concat(bank[t]);
+  }
+
+    // BKT adaptive: filter questions by difficulty based on mastery
+  let adaptivePool = pool;
+  for (const topic of topics) {
+    if (typeof BKT !== 'undefined') {
+      const mastery = BKT.getMastery(state.grade + '-' + topic);
+      if (mastery > 0.8) {
+        // Student mastered this topic — prefer harder questions
+        const hard = pool.filter(q => q.diff === '★★★' || q.diff === '★★');
+        if (hard.length > 0) adaptivePool = adaptivePool.concat(hard.filter(q => !adaptivePool.includes(q)));
+      } else if (mastery < 0.4) {
+        // Student struggling — prefer easier questions
+        const easy = pool.filter(q => q.diff === '★');
+        if (easy.length > 0) adaptivePool = adaptivePool.concat(easy.filter(q => !adaptivePool.includes(q)));
+      }
+    }
+  }
+  if (adaptivePool.length < state.count) adaptivePool = pool; // fallback
+
+  // Shuffle and pick
+  pool = adaptivePool.sort(() => Math.random() - 0.5);
+  state.questions = adaptivePool.slice(0, Math.min(state.count, adaptivePool.length));
+  state.currentIndex = 0;
+  state.answers = [];
+  state.startTime = Date.now();
+
+  document.getElementById('setupPanel').style.display = 'none';
+  document.getElementById('resultsPanel').style.display = 'none';
+  document.getElementById('quizPanel').style.display = 'block';
+
+  showQuestion();
+}
+
+function showQuestion() {
+  if (state.currentIndex >= state.questions.length) {
+    showResults();
+    return;
+  }
+
+  const q = state.questions[state.currentIndex];
+  state.questionStart = Date.now();
+
+  document.getElementById('quizProgress').textContent = '第 ' + (state.currentIndex + 1) + '/' + state.questions.length + ' 題';
+  document.getElementById('quizQuestion').textContent = q.q;
+  document.getElementById('feedbackPanel').style.display = 'none';
+  document.getElementById('quizSubmit').disabled = false;
+  document.getElementById('quizSubmit').textContent = '✅ 提交答案';
+
+  // Options or input
+  const optsContainer = document.getElementById('quizOptions');
+  const inputEl = document.getElementById('quizInput');
+
+  if (q.opts && q.opts.length > 0) {
+    optsContainer.style.display = 'flex';
+    inputEl.style.display = 'none';
+    let html = '';
+    for (const opt of q.opts) {
+      html += '<div class="quiz-option" data-value="' + opt + '">' + opt + '</div>';
+    }
+    optsContainer.innerHTML = html;
+    optsContainer.querySelectorAll('.quiz-option').forEach(opt => {
+      opt.addEventListener('click', function() {
+        optsContainer.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+  } else {
+    optsContainer.style.display = 'none';
+    inputEl.style.display = 'block';
+    inputEl.value = '';
+    inputEl.focus();
+  }
+
+  // Timer
+  clearInterval(state.timerInterval);
+  if (state.mode === 'timed') {
+    let timeLeft = 120;
+    document.getElementById('quizTimer').style.display = 'inline';
+    document.getElementById('quizTimer').textContent = '02:00';
+    document.getElementById('quizTimer').classList.remove('warning');
+    state.timerInterval = setInterval(() => {
+      timeLeft--;
+      const m = Math.floor(timeLeft / 60);
+      const s = timeLeft % 60;
+      document.getElementById('quizTimer').textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      if (timeLeft <= 30) document.getElementById('quizTimer').classList.add('warning');
+      if (timeLeft <= 0) {
+        clearInterval(state.timerInterval);
+        submitAnswer();
+      }
+    }, 1000);
+  } else if (state.mode === 'exam') {
+    let timeLeft = 1800;
+    document.getElementById('quizTimer').style.display = 'inline';
+    document.getElementById('quizTimer').textContent = '30:00';
+    state.timerInterval = setInterval(() => {
+      timeLeft--;
+      const m = Math.floor(timeLeft / 60);
+      const s = timeLeft % 60;
+      document.getElementById('quizTimer').textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      if (timeLeft <= 300) document.getElementById('quizTimer').classList.add('warning');
+      if (timeLeft <= 0) { clearInterval(state.timerInterval); showResults(); }
+    }, 1000);
+  } else {
+    document.getElementById('quizTimer').style.display = 'none';
+  }
+}
+
+function submitAnswer() {
+  // Double-submit guard
+  const btn = document.getElementById('quizSubmit');
+  if (btn.disabled) return;
+  btn.disabled = true;
+  const q = state.questions[state.currentIndex];
+  let userAnswer = '';
+
+  if (q.opts && q.opts.length > 0) {
+    const selected = document.querySelector('#quizOptions .quiz-option.selected');
+    if (!selected) return;
+    userAnswer = selected.dataset.value;
+    // Show correct/wrong
+    document.querySelectorAll('#quizOptions .quiz-option').forEach(opt => {
+      if (opt.dataset.value === q.ans) opt.classList.add('correct');
+      if (opt.dataset.value === userAnswer && userAnswer !== q.ans) opt.classList.add('wrong');
+    });
+  } else {
+    userAnswer = document.getElementById('quizInput').value.trim();
+    if (!userAnswer) return;
+  }
+
+  const elapsed = Math.round((Date.now() - state.questionStart) / 1000);
+  const isCorrect = userAnswer === q.ans;
+
+  state.answers.push({
+    question: q.q,
+    userAnswer,
+    correctAnswer: q.ans,
+    isCorrect,
+    trap: q.trap,
+    time: elapsed,
+    diff: q.diff
+  });
+
+  // Show feedback
+  const fb = document.getElementById('feedbackPanel');
+  fb.style.display = 'block';
+  fb.className = 'feedback-panel ' + (isCorrect ? 'feedback-correct' : 'feedback-wrong');
+  fb.innerHTML = isCorrect
+    ? '✅ **正確！** 答得好！用時 ' + elapsed + ' 秒'
+    : '❌ **答錯咗！** 正確答案係：**' + q.ans + '**';
+
+  if (q.trap) {
+    fb.innerHTML += '<div class="feedback-trap">⚠️ 陷阱分析：**' + q.trap + '** — ' + (isCorrect ? '你成功避開咗呢個陷阱！' : '記住呢個陷阱，下次唔好再中！') + '</div>';
+  }
+
+  document.getElementById('quizSubmit').textContent = '下一題 ➡️';
+  document.getElementById('quizSubmit').disabled = false;
+
+  // Override submit to go next
+  document.getElementById('quizSubmit').onclick = function() {
+    state.currentIndex++;
+    document.getElementById('quizSubmit').onclick = submitAnswer;
+    document.getElementById('quizSubmit').textContent = '✅ 提交答案';
+    showQuestion();
+  };
+
+    // Track BKT mastery
+  if (typeof BKT !== 'undefined') {
+    const topicKey = state.grade + '-' + (q.trap || 'general');
+    BKT.record(topicKey, isCorrect);
+  }
+
+  // Cross-page: update student profile weak topics
+  try {
+    const profile = JSON.parse(localStorage.getItem('lf_student_profile') || '{}');
+    if (!profile.weakTopics) profile.weakTopics = [];
+    if (!profile.strongTopics) profile.strongTopics = [];
+    if (isCorrect) {
+      profile.weakTopics = profile.weakTopics.filter(t => t !== (q.trap || 'general'));
+      if (!profile.strongTopics.includes(q.trap || 'general')) profile.strongTopics.push(q.trap || 'general');
+    } else {
+      if (!profile.weakTopics.includes(q.trap || 'general')) profile.weakTopics.push(q.trap || 'general');
+    }
+    profile.totalQuestions = (profile.totalQuestions || 0) + 1;
+    profile.correctCount = (profile.correctCount || 0) + (isCorrect ? 1 : 0);
+    localStorage.setItem('lf_student_profile', JSON.stringify(profile));
+  } catch(e) {}
+
+  // Track
+  if (typeof GAMIFICATION !== 'undefined') GAMIFICATION.recordAnswer(isCorrect);
+  if (typeof incrementUsage === 'function') incrementUsage('practice');
+
+  // Save SRS
+  try {
+    const srs = JSON.parse(localStorage.getItem('lf_srs_schedule') || '{}');
+    const topicKey = state.grade + '-' + (q.trap || 'general');
+    if (!srs[topicKey]) srs[topicKey] = { correct: 0, total: 0 };
+    srs[topicKey].total++;
+    if (isCorrect) srs[topicKey].correct++;
+    srs[topicKey].correctRate = srs[topicKey].correct / srs[topicKey].total;
+    const intervals = srs[topicKey].correctRate < 0.5 ? 86400000 : srs[topicKey].correctRate < 0.7 ? 259200000 : srs[topicKey].correctRate < 0.85 ? 604800000 : 1209600000;
+    srs[topicKey].nextReview = Date.now() + intervals;
+    srs[topicKey].lastReviewed = Date.now();
+    localStorage.setItem('lf_srs_schedule', JSON.stringify(srs));
+  } catch(e) {}
+}
+
+function showResults() {
+  clearInterval(state.timerInterval);
+  document.getElementById('quizPanel').style.display = 'none';
+  document.getElementById('resultsPanel').style.display = 'block';
+
+  const correct = state.answers.filter(a => a.isCorrect).length;
+  const total = state.answers.length;
+  const pct = total > 0 ? Math.round(correct / total * 100) : 0;
+  const totalTime = Math.round((Date.now() - state.startTime) / 1000);
+  const traps = [...new Set(state.answers.filter(a => !a.isCorrect && a.trap).map(a => a.trap))];
+
+  document.getElementById('resultsScore').textContent = pct + '%';
+  const gradeEl = document.getElementById('resultsGrade');
+  if (pct >= 90) { gradeEl.textContent = '🏆 A 級 · 優秀！'; gradeEl.className = 'results-grade grade-a'; }
+  else if (pct >= 75) { gradeEl.textContent = '🎯 B 級 · 不錯！'; gradeEl.className = 'results-grade grade-b'; }
+  else if (pct >= 50) { gradeEl.textContent = '📚 C 級 · 仍需努力'; gradeEl.className = 'results-grade grade-c'; }
+  else { gradeEl.textContent = '🔴 D 級 · 需要加強基礎'; gradeEl.className = 'results-grade grade-d'; }
+
+  document.getElementById('resultCorrect').textContent = correct;
+  document.getElementById('resultWrong').textContent = total - correct;
+  document.getElementById('resultTime').textContent = Math.floor(totalTime / 60) + 'm ' + (totalTime % 60) + 's';
+  document.getElementById('resultTraps').textContent = traps.length;
+
+  let trapsHtml = '';
+  if (traps.length > 0) {
+    trapsHtml = '<h3 style="margin-bottom:8px">⚠️ 中咗嘅陷阱：</h3>';
+    for (const t of traps) {
+      trapsHtml += '<div style="padding:8px 12px;background:var(--amber-light);border-radius:var(--radius-sm);margin:4px 0;font-size:0.85em">🔸 ' + t + '</div>';
+    }
+  }
+  document.getElementById('resultTrapsList').innerHTML = trapsHtml;
+}
+
+function endPractice() {
+  clearInterval(state.timerInterval);
+  showResults();
+}
+
+function showSetup() {
+  clearInterval(state.timerInterval);
+  document.getElementById('quizPanel').style.display = 'none';
+  document.getElementById('resultsPanel').style.display = 'none';
+  document.getElementById('setupPanel').style.display = 'block';
+  renderTopics();
+  loadSRS();
+}
+
+/* ── Keyboard ── */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && document.getElementById('quizInput').style.display !== 'none' && document.activeElement === document.getElementById('quizInput')) {
+    submitAnswer();
+  }
+});
+
+function spawnConfetti() {
+  var emojis = ['🎉','⭐','🌟','✨','💫','🎯','🏆','💪'];
+  for (var i = 0; i < 10; i++) {
+    setTimeout(function() {
+      var el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 80 + 10 + '%';
+      el.style.top = Math.random() * 40 + 10 + '%';
+      el.style.animationDelay = Math.random() * 0.3 + 's';
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, 1800);
+    }, i * 80);
+  }
+}
+
+</script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
+</body>
+</html>

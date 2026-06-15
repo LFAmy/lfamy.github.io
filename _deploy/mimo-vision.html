@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1A3C6D">
+<title>霖楓學苑 · MiMo Vision v2.5 Pro | 數學影像識別</title>
+
+<link rel="stylesheet" href="/lf-academy-v8.css">
+<style>
+body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D);min-height:100vh;padding-top:var(--nav-height)}
+.mimo-container{max-width:800px;margin:0 auto;padding:20px 24px}
+
+.mimo-header{text-align:center;padding:30px 0 20px}
+.mimo-header h1{color:white;margin-bottom:6px;font-size:1.5em}
+.mimo-header p{color:rgba(255,255,255,0.5);font-size:0.88em}
+.mimo-header .ver{display:inline-block;background:linear-gradient(135deg,var(--purple),#6366F1);color:white;padding:3px 12px;border-radius:var(--radius-full);font-size:0.7em;font-weight:700;margin-left:8px}
+
+/* Upload Zone */
+.upload-zone{background:rgba(255,255,255,0.04);border:2px dashed rgba(255,255,255,0.15);border-radius:var(--radius-lg);padding:40px 24px;text-align:center;cursor:pointer;transition:all var(--duration);margin-bottom:20px;backdrop-filter:blur(8px)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--gold);background:rgba(255,255,255,0.08)}
+.upload-zone .icon{font-size:3em;margin-bottom:12px}
+.upload-zone h3{color:rgba(255,255,255,0.7);margin-bottom:6px;font-family:var(--font-sans)}
+.upload-zone p{color:rgba(255,255,255,0.35);font-size:0.78em}
+.upload-zone input{display:none}
+
+/* Preview */
+.preview-panel{display:none;margin-bottom:20px}
+.preview-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:20px;backdrop-filter:blur(8px)}
+.preview-card img{max-width:100%;max-height:300px;border-radius:var(--radius-sm);display:block;margin:0 auto}
+.preview-actions{display:flex;gap:8px;margin-top:14px;justify-content:center;flex-wrap:wrap}
+
+/* Results */
+.results-panel{display:none}
+.result-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;backdrop-filter:blur(8px)}
+.result-card h3{color:var(--gold);font-size:0.9em;margin-bottom:12px;font-family:var(--font-sans)}
+.result-card .detected{font-size:1.1em;color:white;line-height:1.8;padding:12px;background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);font-family:var(--font-mono);white-space:pre-wrap}
+.result-card .solution{font-size:0.9em;color:rgba(255,255,255,0.85);line-height:1.8;padding:14px;background:rgba(22,163,74,0.08);border-left:3px solid var(--green);border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-top:8px}
+
+/* Steps */
+.step-indicator{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.step-dot{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:0.78em;color:rgba(255,255,255,0.4);transition:all var(--duration)}
+.step-dot.active{background:var(--gold);border-color:var(--gold);color:var(--blue-dark);font-weight:700}
+.step-dot.done{background:var(--green);border-color:var(--green);color:white}
+.step-line{flex:1;height:2px;background:rgba(255,255,255,0.1);align-self:center}
+.step-line.done{background:var(--green)}
+
+/* Text input fallback */
+.text-input-zone{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px;backdrop-filter:blur(8px)}
+.text-input-zone h3{color:rgba(255,255,255,0.6);font-size:0.82em;margin-bottom:10px;font-family:var(--font-sans)}
+.text-input-zone textarea{width:100%;min-height:120px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-sm);color:white;padding:14px;font-size:0.9em;resize:vertical;outline:none;font-family:var(--font-sans)}
+.text-input-zone textarea:focus{border-color:var(--gold)}
+.text-input-zone textarea::placeholder{color:rgba(255,255,255,0.25)}
+
+/* Features grid */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:20px 0}
+.feature-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:18px;text-align:center;backdrop-filter:blur(4px)}
+.feature-card .ficon{font-size:2em;margin-bottom:8px}
+.feature-card h4{color:rgba(255,255,255,0.8);font-size:0.82em;margin-bottom:4px;font-family:var(--font-sans)}
+.feature-card p{color:rgba(255,255,255,0.4);font-size:0.7em}
+
+@media(max-width:500px){
+  .upload-zone{padding:24px 16px}
+  .features-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+<link rel="canonical" href="https://www.lfacademyhk.com/mimo-vision.html">
+</head>
+<body>
+
+<div class="mimo-container">
+  <div class="mimo-header">
+    <h1>🔬 MiMo Vision <span class="ver">v2.5</span></h1>
+    <p>數學影像識別 · 拍照上傳 → AI分析 → 逐步解答</p>
+  </div>
+
+  <!-- Step Indicator -->
+  <div class="step-indicator" id="stepIndicator">
+    <div class="step-dot active" id="step1">1</div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-dot" id="step2">2</div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-dot" id="step3">3</div>
+  </div>
+
+  <!-- Features -->
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="ficon">📸</div>
+      <h4>拍照上傳</h4>
+      <p>支援手機相機/圖庫</p>
+    </div>
+    <div class="feature-card">
+      <div class="ficon">🔍</div>
+      <h4>OCR 識別</h4>
+      <p>AI 提取數學題目</p>
+    </div>
+    <div class="feature-card">
+      <div class="ficon">🧮</div>
+      <h4>逐步解答</h4>
+      <p>蘇格拉底式引導</p>
+    </div>
+    <div class="feature-card">
+      <div class="ficon">🪤</div>
+      <h4>陷阱分析</h4>
+      <p>T1-T10 陷阱標記</p>
+    </div>
+  </div>
+
+  <!-- Upload Zone -->
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+    <div class="icon">📷</div>
+    <h3>點擊上傳數學題目圖片</h3>
+    <p>支援 JPG、PNG、WebP · 最大 10MB · 或直接貼上題目文字</p>
+    <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)">
+  </div>
+
+  <!-- Text input fallback -->
+  <div class="text-input-zone">
+    <h3>📝 或者直接輸入/貼上數學題目</h3>
+    <textarea id="textInput" placeholder="例如：小明有 24 粒糖，佢將其中 3/8 俾咗妹妹，俾咗幾多粒糖妹妹？&#10;&#10;或者貼上成個題目連圖表描述..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
+      <button class="lf-btn lf-btn-outline lf-btn-sm" onclick="clearAll()" style="color:rgba(255,255,255,0.5);border-color:rgba(255,255,255,0.2)">清除</button>
+      <button class="lf-btn lf-btn-gold" onclick="analyzeText()">🔍 分析題目</button>
+    </div>
+  </div>
+
+  <!-- Preview -->
+  <div class="preview-panel" id="previewPanel">
+    <div class="preview-card">
+      <img id="previewImage" src="" alt="Preview">
+      <div class="preview-actions">
+        <button class="lf-btn lf-btn-ghost lf-btn-sm" onclick="clearImage()" style="color:rgba(255,255,255,0.5)">✕ 移除</button>
+        <button class="lf-btn lf-btn-gold" onclick="analyzeImage()" id="analyzeBtn">🔍 分析圖片</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-panel" id="resultsPanel"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/docs/data/lf-mimo-api.js"></script>`n`<script src="/lf-shell-v8.js"></script>
+
+<script>
+/* ═══════════════════════════════════════
+   MiMo Vision v2.5 Pro — Math Image Analyzer
+   ═══════════════════════════════════════ */
+
+const API = 'https://lf-api-f80h.onrender.com';
+let selectedFile = null;
+let selectedImageData = null;
+
+/* ── File Upload ── */
+function handleFileSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  if (file.size > 10 * 1024 * 1024) {
+    alert('檔案太大，請選擇小於 10MB 的圖片');
+    return;
+  }
+  
+  selectedFile = file;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    selectedImageData = e.target.result;
+    document.getElementById('previewImage').src = selectedImageData;
+    document.getElementById('previewPanel').style.display = 'block';
+    document.getElementById('uploadZone').style.display = 'none';
+    updateSteps(1);
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearImage() {
+  selectedFile = null;
+  selectedImageData = null;
+  document.getElementById('previewPanel').style.display = 'none';
+  document.getElementById('uploadZone').style.display = 'block';
+  document.getElementById('fileInput').value = '';
+  document.getElementById('resultsPanel').style.display = 'none';
+  updateSteps(0);
+}
+
+function clearAll() {
+  clearImage();
+  document.getElementById('textInput').value = '';
+  document.getElementById('resultsPanel').style.display = 'none';
+  document.getElementById('resultsPanel').innerHTML = '';
+}
+
+/* ── Drag & Drop ── */
+(function() {
+  var zone = document.getElementById('uploadZone');
+  ['dragenter','dragover'].forEach(function(e) {
+    zone.addEventListener(e, function(ev) { ev.preventDefault(); zone.classList.add('dragover'); });
+  });
+  ['dragleave','drop'].forEach(function(e) {
+    zone.addEventListener(e, function(ev) { ev.preventDefault(); zone.classList.remove('dragover'); });
+  });
+  zone.addEventListener('drop', function(ev) {
+    var file = ev.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      document.getElementById('fileInput').files = ev.dataTransfer.files;
+      handleFileSelect({ target: { files: [file] } });
+    }
+  });
+})();
+
+/* ── Step Indicator ── */
+function updateSteps(step) {
+  for (var i = 1; i <= 3; i++) {
+    var dot = document.getElementById('step' + i);
+    dot.classList.remove('active', 'done');
+    if (i < step) dot.classList.add('done');
+    if (i === step) dot.classList.add('active');
+  }
+  document.getElementById('line1').classList.toggle('done', step > 1);
+  document.getElementById('line2').classList.toggle('done', step > 2);
+}
+
+/* ── Analyze Image ── */
+async function analyzeImage() {
+  if (!selectedImageData) return;
+  
+  var btn = document.getElementById('analyzeBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ 分析中...';
+  updateSteps(2);
+  
+  var resultsPanel = document.getElementById('resultsPanel');
+  resultsPanel.style.display = 'block';
+  resultsPanel.innerHTML = '<div class="result-card"><div style="text-align:center;padding:20px"><div class="lf-spinner" style="margin:0 auto 12px"></div><p style="color:rgba(255,255,255,0.4);font-size:0.85em">MiMo AI 正在分析圖片...</p></div></div>';
+  
+  // Try to extract text using AI vision
+  var prompt = '你係一個數學題目OCR系統。請從以下圖片中提取所有數學題目。如果圖片包含數學公式、圖表或文字，請將其轉換為可讀的文本格式。對於分數用 a/b 表示，對於幾何圖形描述其形狀和尺寸。請用繁體中文輸出。';
+  
+  // First try to get base64 for API
+  var base64 = selectedImageData.split(',')[1];
+  
+  var response = null;
+  
+  // Use MiMo v2.5 Pro API (primary)
+  if (typeof MIMO !== 'undefined') {
+    try {
+      var result = await MIMO.analyzeImage(selectedImageData);
+      if (result && result.content) {
+        response = result.content;
+      }
+    } catch(e) { console.warn('MiMo vision failed, trying fallback:', e.message); }
+  }
+
+  // Try local AI first (fallback)
+  try {
+    var ctrl = new AbortController();
+    var t = setTimeout(function() { ctrl.abort(); }, 15000);
+    var r = await fetch('http://localhost:3687/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'auto',
+        messages: [
+          { role: 'system', content: '你係MiMo Vision v2.5 Pro數學影像分析系統。從圖片中提取數學題目並用繁體中文輸出。' },
+          { role: 'user', content: [
+            { type: 'text', text: '請分析以下圖片中的數學題目並提取所有文字和數字：' },
+            { type: 'image_url', image_url: { url: selectedImageData } }
+          ]}
+        ],
+        max_tokens: 1200, temperature: 0.3
+      }),
+      signal: ctrl.signal
+    });
+    clearTimeout(t);
+    if (r.ok) {
+      var d = await r.json();
+      response = d.choices?.[0]?.message?.content || null;
+    }
+  } catch(e) {}
+  
+  // Fallback: describe what we see
+  if (!response) {
+    response = await analyzeViaDescription(base64);
+  }
+  
+  // Now solve the extracted problems
+  if (response) {
+    updateSteps(3);
+    var solution = await solveProblems(response);
+    renderResults(response, solution);
+  } else {
+    resultsPanel.innerHTML = '<div class="result-card"><h3>⚠️ 分析結果</h3><p style="color:rgba(255,255,255,0.6)">AI 暫時無法分析此圖片。請嘗試：</p><ul style="color:rgba(255,255,255,0.5);font-size:0.85em;margin:10px 0 0 20px"><li>使用更清晰的圖片</li><li>確保光線充足</li><li>或在下方直接輸入題目文字</li></ul></div>';
+  }
+  
+  btn.disabled = false;
+  btn.textContent = '🔍 分析圖片';
+}
+
+/* ── Analyze via Description (fallback) ── */
+async function analyzeViaDescription(base64) {
+  // Try to get a description of the image from AI
+  try {
+    var r = await fetch('http://localhost:3687/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'auto',
+        messages: [
+          { role: 'user', content: '請描述你看到嘅圖片內容。如果係數學題目，請提取題目文字。用繁體中文。' }
+        ],
+        max_tokens: 500, temperature: 0.3
+      }),
+      signal: AbortSignal.timeout(10000)
+    });
+    if (r.ok) {
+      var d = await r.json();
+      return d.choices?.[0]?.message?.content || null;
+    }
+  } catch(e) {}
+  return null;
+}
+
+/* ── Solve Problems ── */

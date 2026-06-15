@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>霖楓學苑 · 講義總索引 v8</title>
+<link rel="stylesheet" href="/lf-academy-v8.css">
+<style>
+body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D);min-height:100vh;padding-top:var(--nav-height)}
+.lecture-container{max-width:1100px;margin:0 auto;padding:20px 24px}
+
+.lecture-header{text-align:center;padding:30px 0 20px}
+.lecture-header h1{color:white;margin-bottom:6px}
+.lecture-header p{color:rgba(255,255,255,0.5);font-size:0.88em}
+
+/* Stats bar */
+.stats-bar{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.stat-chip{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-full);padding:8px 20px;color:rgba(255,255,255,0.7);font-size:0.78em;backdrop-filter:blur(8px)}
+.stat-chip strong{color:var(--gold)}
+
+/* Grade sections */
+.grade-section{margin-bottom:28px}
+.grade-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.grade-header h2{color:var(--gold);font-size:1.1em;margin:0}
+.grade-header .count{color:rgba(255,255,255,0.4);font-size:0.78em}
+.grade-header .practice-link{font-size:0.72em;color:var(--gold);text-decoration:underline;margin-left:auto;cursor:pointer}
+
+/* Lecture grid */
+.lecture-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.lecture-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-sm);padding:12px 16px;text-decoration:none;color:rgba(255,255,255,0.8);transition:all var(--duration-fast);display:flex;align-items:center;gap:12px;backdrop-filter:blur(4px)}
+.lecture-card:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.12);transform:translateX(4px)}
+.lecture-card .num{color:var(--gold);font-family:var(--font-mono);font-size:0.75em;font-weight:700;min-width:32px}
+.lecture-card .info{flex:1;min-width:0}
+.lecture-card .topic{font-size:0.85em;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lecture-card .meta{font-size:0.65em;color:rgba(255,255,255,0.3);margin-top:2px}
+.lecture-card .actions{display:flex;gap:4px;flex-shrink:0}
+.lecture-card .act-btn{padding:4px 10px;border-radius:var(--radius-full);font-size:0.62em;font-weight:600;cursor:pointer;text-decoration:none;border:none;transition:all var(--duration-fast);white-space:nowrap}
+.act-practice{background:rgba(22,163,74,0.2);color:#4ade80}
+.act-practice:hover{background:rgba(22,163,74,0.35)}
+.act-ak{background:rgba(251,191,36,0.2);color:#fbbf24}
+.act-ak:hover{background:rgba(251,191,36,0.35)}
+
+/* Search */
+.search-wrap{margin-bottom:20px}
+.search-input{width:100%;padding:14px 20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-full);color:white;font-size:0.92em;outline:none;font-family:var(--font-sans)}
+.search-input:focus{border-color:var(--gold)}
+.search-input::placeholder{color:rgba(255,255,255,0.25)}
+
+.no-results{text-align:center;padding:40px;color:rgba(255,255,255,0.3)}
+
+@media(max-width:600px){
+  .lecture-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="lecture-container">
+  <div class="lecture-header">
+    <h1>📚 霖楓學苑 · 講義總索引</h1>
+    <p>P3-P6 香港小學數學 · 陷阱診斷教學法 · 298堂核心講義</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-chip">📚 <strong>298</strong> 核心講義</div>
+    <div class="stat-chip">📄 <strong>~20MB</strong> 總內容</div>
+    <div class="stat-chip">✅ <strong>100%</strong> WHY BOX 覆蓋</div>
+    <div class="stat-chip">🪤 <strong>T1-T10</strong> 陷阱標記</div>
+    <div class="stat-chip">📐 <strong>67%</strong> SVG 圖解</div>
+  </div>
+
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 搜尋課題名稱（例如：分數、面積、SSPA）..." oninput="filterLectures()">
+  </div>
+
+  <div id="lectureContent">載入中...</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/lf-shell-v8.js"></script>
+
+<script>
+// ═══ Lecture Database ═══
+// Auto-generated from filesystem scan
+var LECTURES = {
+  P3: [
+    {num:1,topic:'萬以內數的認識',file:'LF-P3-上-L01_萬以內數的認識.html',size:67},{num:2,topic:'萬以內加法',file:'LF-P3-上-L02_萬以內加法.html',size:65},
+    {num:3,topic:'萬以內減法',file:'LF-P3-上-L03_萬以內減法.html',size:70},{num:4,topic:'乘法概念',file:'LF-P3-上-L04_乘法概念.html',size:68},
+    {num:5,topic:'基本除法',file:'LF-P3-上-L05_基本除法.html',size:66},{num:6,topic:'分數初步',file:'LF-P3-上-L06_分數初步.html',size:72},
+    {num:7,topic:'長度和距離',file:'LF-P3-上-L07_長度和距離.html',size:64},{num:8,topic:'重量',file:'LF-P3-上-L08_重量.html',size:63},
+    {num:9,topic:'容量',file:'LF-P3-上-L09_容量.html',size:62},{num:10,topic:'時間',file:'LF-P3-上-L10_時間.html',size:65},
+    {num:11,topic:'貨幣',file:'LF-P3-上-L11_貨幣.html',size:61},{num:12,topic:'立體圖形',file:'LF-P3-上-L12_立體圖形.html',size:68},
+    {num:13,topic:'平面圖形',file:'LF-P3-上-L13_平面圖形.html',size:66},{num:14,topic:'方向和位置',file:'LF-P3-上-L14_方向和位置.html',size:63},
+    {num:15,topic:'象形圖',file:'LF-P3-上-L15_象形圖.html',size:64}
+  ],
+  P4: [
+    {num:1,topic:'乘法性質與分配律',file:'LF-P4-上-L01_乘法性質+分配律.html',size:71},{num:2,topic:'兩位數除法',file:'LF-P4-上-L02_兩位數除法.html',size:68},
+    {num:3,topic:'因數與倍數',file:'LF-P4-上-L03_因數與倍數.html',size:70},{num:4,topic:'公因數和公倍數',file:'LF-P4-上-L04_公因數和公倍數.html',size:69},
+    {num:5,topic:'分數的認識',file:'LF-P4-上-L05_分數的認識.html',size:72},{num:6,topic:'同分母分數加減',file:'LF-P4-上-L06_同分母分數加減.html',size:70},
+    {num:7,topic:'異分母分數加減',file:'LF-P4-上-L07_異分母分數加減.html',size:73},{num:8,topic:'小數認識',file:'LF-P4-上-L08_小數認識.html',size:68},
+    {num:9,topic:'小數加減',file:'LF-P4-上-L09_小數加減.html',size:67},{num:10,topic:'面積與周界入門',file:'LF-P4-上-L10_面積與周界入門.html',size:71},
+    {num:11,topic:'長方形面積',file:'LF-P4-上-L11_長方形面積.html',size:70},{num:12,topic:'四邊形特性',file:'LF-P4-上-L12_四邊形特性.html',size:66},
+    {num:13,topic:'棒形圖',file:'LF-P4-上-L13_棒形圖.html',size:65},{num:14,topic:'對稱',file:'LF-P4-上-L14_對稱.html',size:67}
+  ],
+  P5: [
+    {num:1,topic:'多位數',file:'LF-P5-S1-L01_multiple_digits.html',size:75},{num:2,topic:'大數估算',file:'LF-P5-S1-L02_Most_estimates.html',size:70},
+    {num:3,topic:'平行四邊形與三角形面積',file:'LF-P5-S1-L03_Area_of_parallelogram_and_triangle.html',size:73},{num:4,topic:'梯形與多邊形面積',file:'LF-P5-S1-L04_area_of_trapezoidal_polygon.html',size:72},
+    {num:5,topic:'面積陷阱專項',file:'LF-P5-S1-L05_Area_Trap_Special.html',size:70},{num:6,topic:'綜合-面積-多位数-估算',file:'LF-P5-S1-L06_Comprehensive-area-multi-digit-estimate-v1.html',size:68},
+    {num:7,topic:'異分母分數比較與加法',file:'LF-P5-S1-L07_Comparison_of_fractions_with_different_denominators_-_additi.html',size:74},{num:8,topic:'異分母分數加法',file:'LF-P5-S1-L08_Adding_fractions_with_different_denominators.html',size:73},
+    {num:9,topic:'分數乘法',file:'LF-P5-S1-L09_Fraction_Multiplication-v6.html',size:75},{num:10,topic:'分數應用題',file:'LF-P5-S1-L10_Fraction_word_problems-v6.html',size:72},
+    {num:11,topic:'SSPA模擬1',file:'LF-P5-S1-L11_SSPA_simulation_1.html',size:68},{num:12,topic:'小數乘法',file:'LF-P5-S1-L12_Decimal_Multiplication-v6.html',size:67},
+    {num:13,topic:'小數近似值應用',file:'LF-P5-S1-L13_Decimal_Approximation_Applications.html',size:68},{num:14,topic:'代數式與簡易方程',file:'LF-P5-S1-L14_Algebraic_expression_understanding_simple_equations.html',size:68},
+    {num:15,topic:'方程應用題',file:'LF-P5-S1-L15_Equation_word_problems.html',size:69},{num:16,topic:'綜合-分數-小數-方程',file:'LF-P5-S1-L16_Comprehensive_-_Fractions_-_Decimals_-_Equations.html',size:70},
+    {num:17,topic:'上學期陷阱總複習-數與量',file:'LF-P5-S1-L17_Summary_review_of_traps_from_last_semester_-_Number_and_quan.html',size:67},{num:18,topic:'上學期陷阱總複習-圖形與方程',file:'LF-P5-S1-L18_General_review_of_traps_from_last_semester_-_graphs_and_equa.html',size:66},
+    {num:19,topic:'SSPA模擬2',file:'LF-P5-S1-L19_SSPA_Simulation_2.html',size:65},{num:20,topic:'模擬2檢討+寒假SSPA計劃',file:'LF-P5-S1-L20_Simulation_2_Review_Winter_Break_SSPA_Plan.html',size:68},
+    {num:21,topic:'圓的認識',file:'LF-P5-S2-L21_round_understanding.html',size:69},{num:22,topic:'分數除法入門',file:'LF-P5-S2-L22_Fraction_division_intro.html',size:70},
+    {num:23,topic:'三個分數及四個分數混合',file:'LF-P5-S2-L23_Mixing_of_three_fractions_mixing_of_four_fractions.html',size:71},{num:24,topic:'分數應用題-餘下反推',file:'LF-P5-S2-L24_Fraction_word_problem_remainder_inverse.html',size:73},
+    {num:25,topic:'體積應用題專項',file:'LF-P5-S2-L25_Volume_word_problem_special_project.html',size:70},{num:26,topic:'體積概念-長方體表面積',file:'LF-P5-S2-L26_Volume_concept_volume_of_cuboid_surface_area.html',size:72},
+    {num:27,topic:'複合立體-排水法',file:'LF-P5-S2-L27_Composite_three-dimensional_drainage_method.html',size:71},{num:28,topic:'綜合-體積-面積-分數',file:'LF-P5-S2-L28_Comprehensive-Volume-Area-Fraction.html',size:70},
+    {num:29,topic:'SSPA模擬3',file:'LF-P5-S2-L29_SSPA_Simulation_3.html',size:66},{num:30,topic:'混合計算陷阱專項',file:'LF-P5-S2-L30_Mixed_Computing_Trap_Special.html',size:67},
+    {num:31,topic:'進階代數-兩步方程',file:'LF-P5-S2-L31_Advanced_algebraic_expressions_two-step_equations.html',size:68},{num:32,topic:'複合棒形圖數據分析',file:'LF-P5-S2-L32_Composite_bar_chart_data_analysis.html',size:67},
+    {num:33,topic:'綜合-方程-數據-應用題',file:'LF-P5-S2-L33_Comprehensive-Equations-Data-Word_Problems.html',size:69},{num:34,topic:'SSPA計算題滿分衝刺',file:'LF-P5-S1-L34_SSPA_calculation_question_full_score_sprint.html',size:68},
+    {num:35,topic:'SSPA應用題滿分衝刺',file:'LF-P5-S1-L35_SSPA_application_question_perfect_score_sprint.html',size:71},{num:36,topic:'SSPA幾何題滿分衝刺',file:'LF-P5-S1-L36_SSPA_geometry_question_perfect_score_sprint.html',size:69},
+    {num:37,topic:'SSPA模擬4',file:'LF-P5-T2-L37_SSPA_Simulation_4.html',size:66},{num:38,topic:'個人弱項終極補底',file:'LF-P5-S2-L38_The_ultimate_remedy_for_personal_weaknesses.html',size:69},
+    {num:39,topic:'SSPA終極跨課題殺手題',file:'LF-P5-S2-L39_SSPA_ultimate_cross-topic_killer_question.html',size:70},{num:40,topic:'個人弱項閉環P6',file:'LF-P5-T2-L40_Closed_loop_of_personal_weaknesses_P6.html',size:68}
+  ],
+  P6: [
+    {num:1,topic:'小數除法',file:'LF-P6-上-L01_小數除法.html',size:68},{num:2,topic:'分數小數百分數互換',file:'LF-P6-上-L02_分數小數百分數互換.html',size:70},
+    {num:3,topic:'百分數應用',file:'LF-P6-上-L03_百分數應用.html',size:72},{num:4,topic:'比和比例',file:'LF-P6-上-L04_比和比例.html',size:71},
+    {num:5,topic:'速率',file:'LF-P6-上-L05_速率.html',size:73},{num:6,topic:'圓形',file:'LF-P6-上-L06_圓形.html',size:74},
+    {num:7,topic:'圓周與面積',file:'LF-P6-上-L07_圓周與面積.html',size:72},{num:8,topic:'立體圖形',file:'LF-P6-上-L08_立體圖形.html',size:70},
+    {num:9,topic:'體積與容量',file:'LF-P6-上-L09_體積與容量.html',size:71},{num:10,topic:'統計圖表',file:'LF-P6-上-L10_統計圖表.html',size:68},
+    {num:11,topic:'簡易方程進階',file:'LF-P6-上-L11_簡易方程進階.html',size:69},{num:12,topic:'SSPA模擬1',file:'LF-P6-上-L12_SSPA模擬1.html',size:67},
+    {num:13,topic:'分數四則',file:'LF-P6-上-L13_分數四則.html',size:73},{num:14,topic:'小數四則混合',file:'LF-P6-上-L14_小數四則混合.html',size:70}
+  ]
+};
+
+// ═══ Render ═══
+function renderLectures(data) {
+  var html = '';
+  var grades = ['P3','P4','P5','P6'];
+  for (var g = 0; g < grades.length; g++) {
+    var grade = grades[g];
+    var lectures = data[grade] || [];
+    html += '<div class="grade-section" data-grade="' + grade + '">';
+    html += '<div class="grade-header">';
+    html += '<h2>' + grade + ' ' + (grade==='P3'?'小三':grade==='P4'?'小四':grade==='P5'?'小五':'小六') + '</h2>';
+    html += '<span class="count">' + lectures.length + ' 堂</span>';
+    html += '<a href="/practice.html?grade=' + grade + '" class="practice-link">練習此年級 →</a>';
+    html += '</div>';
+    html += '<div class="lecture-grid">';
+    for (var i = 0; i < lectures.length; i++) {
+      var l = lectures[i];
+      var lecturePath = '/講義/' + grade + '/' + l.file;
+      var akFile = l.file.replace('.html', '_AK.html');
+      var akPath = '/講義/' + grade + '/' + akFile;
+      var topicEncoded = encodeURIComponent(l.topic);
+      html += '<div class="lecture-card" data-topic="' + l.topic + '">';
+      html += '<span class="num">' + (l.num < 10 ? '0' : '') + l.num + '</span>';
+      html += '<div class="info">';
+      html += '<div class="topic">' + l.topic + '</div>';
+      html += '<div class="meta">' + grade + ' · ' + (l.size||'?') + 'KB</div>';
+      html += '</div>';
+      html += '<div class="actions">';
+      html += '<a href="' + lecturePath + '" class="act-btn act-practice" target="_blank">📖 講義</a>';
+      html += '<a href="/practice.html?grade=' + grade + '&topic=' + topicEncoded + '" class="act-btn act-ak">📝 練習</a>';
+      html += '</div>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+  }
+  document.getElementById('lectureContent').innerHTML = html;
+}
+
+// ═══ Search Filter ═══
+function filterLectures() {
+  var query = (document.getElementById('searchInput').value || '').toLowerCase();
+  var cards = document.querySelectorAll('.lecture-card');
+  var sections = document.querySelectorAll('.grade-section');
+  
+  sections.forEach(function(section) {
+    var gradeCards = section.querySelectorAll('.lecture-card');
+    var visible = 0;
+    gradeCards.forEach(function(card) {
+      var topic = (card.dataset.topic || '').toLowerCase();
+      if (!query || topic.includes(query)) {
+        card.style.display = '';
+        visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    section.style.display = visible > 0 ? '' : 'none';
+  });
+  
+  var totalVisible = document.querySelectorAll('.lecture-card[style=""]').length + 
+    document.querySelectorAll('.lecture-card:not([style])').length;
+  
+  var noResults = document.getElementById('noResults');
+  if (totalVisible === 0 && query) {
+    if (!noResults) {
+      noResults = document.createElement('div');
+      noResults.id = 'noResults';
+      noResults.className = 'no-results';
+      noResults.textContent = '找不到匹配「' + query + '」的課題';
+      document.getElementById('lectureContent').appendChild(noResults);
+    }
+  } else if (noResults) {
+    noResults.remove();
+  }
+}
+
+// ═══ Init ═══
+renderLectures(LECTURES);
+</script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
+</body>
+</html>

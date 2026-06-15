@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景網格圖案 -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E8ECF0" stroke-width="0.5"/>
+    </pattern>
+    
+    <!-- 周界長方形 - 多層漸變邊框 -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B35"/>
+      <stop offset="25%" stop-color="#FF8F5E"/>
+      <stop offset="50%" stop-color="#FFB088"/>
+      <stop offset="75%" stop-color="#FF8F5E"/>
+      <stop offset="100%" stop-color="#E55A2B"/>
+    </linearGradient>
+    
+    <!-- 周界長方形 - 放射漸變背景 -->
+    <radialGradient id="borderBgGrad" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#FFF5EE"/>
+      <stop offset="40%" stop-color="#FFE8D6"/>
+      <stop offset="70%" stop-color="#FFD9B8"/>
+      <stop offset="100%" stop-color="#FFC9A0"/>
+    </radialGradient>
+    
+    <!-- 面積長方形 - 多層漸變填充 -->
+    <linearGradient id="areaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ECDC4"/>
+      <stop offset="20%" stop-color="#6EDDD6"/>
+      <stop offset="50%" stop-color="#8BEDE8"/>
+      <stop offset="80%" stop-color="#6EDDD6"/>
+      <stop offset="100%" stop-color="#3DBDB5"/>
+    </linearGradient>
+    
+    <!-- 面積長方形 - 放射漸變3D光影 -->
+    <radialGradient id="areaLightGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#A8F5F0" stop-opacity="0.6"/>
+      <stop offset="30%" stop-color="#7BE5DF" stop-opacity="0.3"/>
+      <stop offset="60%" stop-color="#4ECDC4" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#3DBDB5" stop-opacity="0"/>
+    </radialGradient>
+    
+    <!-- 面積長方形 - 底部陰影 -->
+    <filter id="areaShadow" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="6" flood-color="#2A9D8F" flood-opacity="0.3"/>
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#1A7D6F" flood-opacity="0.2"/>
+    </filter>
+    
+    <!-- 周界長方形 - 雙層陰影 -->
+    <filter id="borderShadow" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="6" flood-color="#CC5522" flood-opacity="0.25"/>
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#AA4411" flood-opacity="0.15"/>
+    </filter>
+    
+    <!-- 卡片陰影 -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="115%" height="120%">
+      <feDropShadow dx="2" dy="4" stdDeviation="8" flood-color="#8899AA" flood-opacity="0.15"/>
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#667788" flood-opacity="0.1"/>
+    </filter>
+    
+    <!-- 箭頭標記 -->
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#FF6B35"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4ECDC4"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3A86FF"/>
+    </marker>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#FAFBFC"/>
+  <rect width="600" height="400" fill="url(#grid)"/>
+  
+  <!-- 標題 -->
+  <text x="300" y="38" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif" font-size="22" font-weight="bold" fill="#2C3E50" letter-spacing="2">
+    📐 周界 vs 面積 — 同一長方形
+  </text>
+  <line x1="180" y1="48" x2="420" y2="48" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  
+  <!-- ==================== 左側：周界（邊框） ==================== -->
+  <g transform="translate(40, 70)">
+    <!-- 圓角卡片背景 -->
+    <rect x="-5" y="-5" width="240" height="280" rx="16" ry="16" fill="#FFFFFF" filter="url(#cardShadow)"/>
+    
+    <!-- 標籤：周界 -->
+    <text x="115" y="30" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif" font-size="17" font-weight="bold" fill="#FF6B35">
+      🔲 周界（邊框走一圈）
+    </text>
+    
+    <!-- 周界長方形（外框） -->
+    <rect x="25" y="50" width="180" height="130" rx="6" ry="6" fill="url(#borderBgGrad)" stroke="url(#borderGrad)" stroke-width="4" filter="url(#borderShadow)"/>
+    
+    <!-- 周界走線箭頭路徑 -->
+    <path d="M 30 55 L 200 55 L 200 175 L 30 175 Z" fill="none" stroke="#FF6B35" stroke-width="2.5" stroke-dasharray="8,5" marker-end="url(#arrowOrange)" opacity="0.7"/>
+    
+    <!-- 起點標記 -->
+    <circle cx="30" cy="55" r="5" fill="#FF6B35" opacity="0.8"/>
+    <text x="22" y="48" font-family="Arial" font-size="11" fill="#FF6B35" font-weight="bold">起點</text>
+    
+    <!-- 方向箭頭標註 -->
+    <text x="115" y="48" text-anchor="middle" font-family="Arial" font-size="11" fill="#FF6B35" opacity="0.7">→</text>
+    <text x="212" y="115" text-anchor="middle" font-family="Arial" font-size="11" fill="#FF6B35" opacity="0.7">↓</text>
+    <text x="115" y="190" text-anchor="middle" font-family="Arial" font-size="11" fill="#FF6B35" opacity="0.7">←</text>
+    <text x="18" y="115" text-anchor="middle" font-family="Arial" font-size="11" fill="#FF6B35" opacity="0.7">↑</text>
+    
+    <!-- 長度標註：長 -->
+    <line x1="25" y1="200" x2="205" y2="200" stroke="#3A86FF" stroke-width="1.5" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)"/>
+    <text x="115" y="215" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="13" fill="#3A86FF" font-weight="bold">長 (L)</text>
+    
+    <!-- 長度標註：闊 -->
+    <line x1="215" y1="50" x2="215" y2="175" stroke="#3A86FF" stroke-width="1.5" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)"/>
+    <text x="232" y="115" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="13" fill="#3A86FF" font-weight="bold">闊 (W)</text>
+    
+    <!-- 周界公式 -->
+    <text x="115" y="245" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="14" fill="#FF6B35" font-weight="bold">
+      周界 = 2 × (L + W)
+    </text>
+    <text x="115" y="265" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="12" fill="#888">
+      邊框的總長度
+    </text>
+  </g>
+  
+  <!-- ==================== 右側：面積（內部填色） ==================== -->
+  <g transform="translate(320, 70)">
+    <!-- 圓角卡片背景 -->
+    <rect x="-5" y="-5" width="240" height="280" rx="16" ry="16" fill="#FFFFFF" filter="url(#cardShadow)"/>
+    
+    <!-- 標籤：面積 -->
+    <text x="115" y="30" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif" font-size="17" font-weight="bold" fill="#4ECDC4">
+      🟩 面積（內部填色）
+    </text>
+    
+    <!-- 面積長方形（填滿） -->
+    <rect x="25" y="50" width="180" height="130" rx="6" ry="6" fill="url(#areaGrad)" filter="url(#areaShadow)"/>
+    <rect x="25" y="50" width="180" height="130" rx="6" ry="6" fill="url(#areaLightGrad)"/>
+    
+    <!-- 內部網格（表示面積單位） -->
+    <g opacity="0.25">
+      <line x1="61" y1="50" x2="61" y2="180" stroke="#FFFFFF" stroke-width="1"/>
+      <line x1="97" y1="50" x2="97" y2="180" stroke="#FFFFFF" stroke-width="1"/>
+      <line x1="133" y1="50" x2="133" y2="180" stroke="#FFFFFF" stroke-width="1"/>
+      <line x1="169" y1="50" x2="169" y2="180" stroke="#FFFFFF" stroke-width="1"/>
+      <line x1="25" y1="82" x2="205" y2="82" stroke="#FFFFFF" stroke-width="1"/>
+      <line x1="25" y1="114" x2="205" y2="114" stroke="#FFFFFF" stroke-width="1"/>
+      <line x1="25" y1="146" x2="205" y2="146" stroke="#FFFFFF" stroke-width="1"/>
+    </g>
+    
+    <!-- 3D 光影效果 - 頂部亮部 -->
+    <rect x="25" y="50" width="180" height="30" rx="6" ry="6" fill="#FFFFFF" opacity="0.15"/>
+    
+    <!-- 長度標註：長 -->
+    <line x1="25" y1="200" x2="205" y2="200" stroke="#3A86FF" stroke-width="1.5" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)"/>
+    <text x="115" y="215" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="13" fill="#3A86FF" font-weight="bold">長 (L)</text>
+    
+    <!-- 長度標註：闊 -->
+    <line x1="215" y1="50" x2="215" y2="175" stroke="#3A86FF" stroke-width="1.5" marker-start="url(#arrowBlue)" marker-end="url(#arrowBlue)"/>
+    <text x="232" y="115" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="13" fill="#3A86FF" font-weight="bold">闊 (W)</text>
+    
+    <!-- 面積公式 -->
+    <text x="115" y="245" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="14" fill="#4ECDC4" font-weight="bold">
+      面積 = L × W
+    </text>
+    <text x="115" y="265" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="12" fill="#888">
+      內部空間的大小
+    </text>
+  </g>
+  
+  <!-- ==================== 底部對比提示 ==================== -->
+  <g transform="translate(0, 365)">
+    <rect x="150" y="-8" width="300" height="30" rx="14" ry="14" fill="#E8F4F8" opacity="0.8"/>
+    <text x="300" y="12" text-anchor="middle" font-family="'Microsoft JhengHei', 'PingFang TC', sans-serif" font-size="13" fill="#2C3E50">
+      💡 同一長方形，周界是 <tspan fill="#FF6B35" font-weight="bold">邊框</tspan>，面積是 <tspan fill="#4ECDC4" font-weight="bold">內部</tspan>
+    </text>
+  </g>
+</svg>

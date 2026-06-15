@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · WhatsApp AI智能客服</title>
+<meta property="og:title" content="霖楓學苑 · WhatsApp AI">
+<meta property="og:description" content="AI自動回覆家長WhatsApp查詢，24/7在線。">
+<meta property="og:image" content="https://www.lfacademyhk.com/logo.png">
+<link rel="canonical" href="https://www.lfacademyhk.com/docs/whatsapp-ai.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:#f1f5f9;min-height:100vh}
+.nav-top{position:sticky;top:0;background:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.nav-top a{color:#1A3C6D;text-decoration:none;font-weight:600;font-size:.9em}
+.container{max-width:700px;margin:0 auto;padding:24px 20px}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.card h2{color:#1A3C6D;font-size:1.2em;margin-bottom:12px}
+.chat-area{background:#e8f0e8;border-radius:12px;padding:16px;min-height:400px;max-height:500px;overflow-y:auto;margin-bottom:12px}
+.msg{margin-bottom:12px;display:flex;gap:8px}
+.msg.parent{justify-content:flex-end}
+.msg .bubble{max-width:80%;padding:10px 14px;border-radius:14px;font-size:.9em;line-height:1.5}
+.msg.parent .bubble{background:#dcf8c6;border-bottom-right-radius:4px}
+.msg.ai .bubble{background:#fff;border-bottom-left-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.msg .time{font-size:.65em;color:#999;margin-top:4px}
+.input-row{display:flex;gap:8px}
+.input-row input{flex:1;padding:12px;border:2px solid #e2e8f0;border-radius:12px;font-size:.9em}
+.input-row button{padding:12px 20px;background:#25D366;color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer;font-size:.9em}
+.input-row button:hover{background:#1da851}
+.quick-replies{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.quick-reply{padding:6px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;font-size:.8em;cursor:pointer;transition:all .2s}
+.quick-reply:hover{background:#1A3C6D;color:#fff;border-color:#1A3C6D}
+.typing{color:#999;font-size:.8em;padding:8px;font-style:italic}
+</style>
+</head>
+<body>
+
+<div class="nav-top">
+  <a href="/"><img src="/logo.png" alt="霖楓學苑" style="height:24px">霖楓學苑</a>
+  <div>
+    <a href="/ai-tutor.html">🤖 AI導師</a>
+    <a href="/docs/ai-diagnostic.html" style="margin-left:12px">🧬 診斷</a>
+  </div>
+</div>
+
+<div class="container">
+<div class="card">
+  <h2>💬 WhatsApp AI智能客服</h2>
+  <p style="color:#64748b;font-size:.85em;margin-bottom:12px">模擬家長查詢，AI自動生成專業回覆。可直接複製到WhatsApp使用。</p>
+  
+  <div class="quick-replies" id="quickReplies">
+    <button class="quick-reply" onclick="quickAsk('我想了解小五數學課程資料')">📚 課程查詢</button>
+    <button class="quick-reply" onclick="quickAsk('小朋友成日計錯分數，有冇得救？')">🪤 陷阱問題</button>
+    <button class="quick-reply" onclick="quickAsk('試堂係點樣㗎？收費如何？')">💰 試堂收費</button>
+    <button class="quick-reply" onclick="quickAsk('上堂時間係點？用咩平台上堂？')">⏰ 上堂安排</button>
+    <button class="quick-reply" onclick="quickAsk('呈分試就到，有冇衝刺班？')">🎯 呈分試</button>
+    <button class="quick-reply" onclick="quickAsk('點樣報名？')">📝 報名</button>
+  </div>
+
+  <div class="chat-area" id="chatArea">
+    <div class="msg ai">
+      <div class="bubble">
+        👋 你好！我係霖楓學苑嘅AI客服助手。<br><br>
+        你可以問我關於課程、收費、試堂、呈分試等任何問題～<br>
+        或者㩒下面嘅快捷按鈕直接發問！
+        <div class="time">剛剛</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-row">
+    <input type="text" id="userInput" placeholder="輸入家長查詢…" onkeydown="if(event.key==='Enter')ask()">
+    <button onclick="ask()">➤</button>
+  </div>
+  
+  <button onclick="copyLastReply()" style="width:100%;margin-top:8px;padding:8px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:.8em;color:#64748b" id="copyBtn" disabled>
+    📋 複製回覆到WhatsApp
+  </button>
+</div>
+
+<div class="card" style="font-size:.8em;color:#64748b">
+  <strong>🔗 真正連接WhatsApp Business API：</strong><br>
+  1. 設定 Meta WhatsApp Business API<br>
+  2. 將此AI引擎接上Webhook<br>
+  3. 即可24/7自動回覆家長查詢<br>
+  <a href="https://developers.facebook.com/docs/whatsapp/cloud-api" target="_blank" style="color:#1A3C6D">查看WhatsApp API文檔 →</a>
+</div>
+</div>
+
+<script>
+const TUNNEL = "https://bali-situated-tag-onion.trycloudflare.com/v1";
+const TKEY = "freellmapi-bd1dc3c008a33b0b53260ee8183e13b4ebb7d9f15e975d91";
+let lastReply = "";
+
+function addMsg(text, role){
+  const chat = document.getElementById("chatArea");
+  const div = document.createElement("div");
+  div.className = "msg " + role;
+  const now = new Date().toLocaleTimeString("zh-HK",{hour:"2-digit",minute:"2-digit"});
+  div.innerHTML = '<div class="bubble">' + text.replace(/\n/g,"<br>") + '<div class="time">' + now + '</div></div>';
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function showTyping(){
+  const div = document.createElement("div");
+  div.className = "typing";
+  div.id = "typing";
+  div.textContent = "AI正在輸入…";
+  document.getElementById("chatArea").appendChild(div);
+}
+
+function hideTyping(){
+  const e = document.getElementById("typing");
+  if(e) e.remove();
+}
+
+function quickAsk(q){
+  document.getElementById("userInput").value = q;
+  ask();
+}
+
+async function ask(){
+  const input = document.getElementById("userInput");
+  const q = input.value.trim();
+  if(!q) return;
+  
+  addMsg(q, "parent");
+  input.value = "";
+  showTyping();
+  
+  const systemPrompt = "你係霖楓學苑嘅WhatsApp客服（霖楓老師）。用繁體中文+廣東話口語回覆家長。\n\n" +
+    "品牌背景：\n- 霖楓學苑係香港小學數學陷阱診斷專家\n- 用10大陷阱分類法+AI診斷\n- ClassIn平台上堂，一對三小班，唔使接送，全港適用\n- P3-P6，專攻呈分試\n\n" +
+    "收費：P3 $250/堂 · P4 $280/堂 · P5 $330/堂 · P6 $330/堂（每月4堂）\n免費試堂30分鐘\n\n" +
+    "回覆規則：\n1. 親切友善，好似同家長傾偈\n2. 針對問題俾實質有用嘅答案\n3. 適當引導試堂/報名（但唔好太hard sell）\n4. 每次回覆80-200字\n5. 結尾加emoji👋\n6. 如果有家長問價錢，直接列出";
+
+  try {
+    const resp = await fetch(TUNNEL + "/chat/completions", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+TKEY},
+      body:JSON.stringify({
+        model:"auto",
+        messages:[
+          {role:"system",content:systemPrompt},
+          {role:"user",content:q}
+        ],
+        max_tokens:400, temperature:0.7
+      })
+    });
+    const data = await resp.json();
+    lastReply = data.choices[0].message.content;
+    hideTyping();
+    addMsg(lastReply, "ai");
+    document.getElementById("copyBtn").disabled = false;
+  } catch(e){
+    hideTyping();
+    lastReply = getLocalReply(q);
+    addMsg(lastReply, "ai");
+    document.getElementById("copyBtn").disabled = false;
+  }
+}
+
+function getLocalReply(q){
+  const ql = q.toLowerCase();
+  if(ql.includes("價錢")||ql.includes("收費")||ql.includes("費用")||ql.includes("幾錢")){
+    return "我哋嘅收費係：\n📚 P3 $250/堂 · P4 $280/堂\n📚 P5 $330/堂 · P6 $330/堂\n每月4堂，一對三小班教學～\n\n仲有免費30分鐘試堂，可以先體驗再決定！\n想約試堂嘅話，留言「試堂」就得㗎喇 👋";
+  }
+  if(ql.includes("試堂")||ql.includes("體驗")||ql.includes("免費")){
+    return "免費試堂30分鐘，包括：\n✅ AI陷阱診斷（搵出小朋友嘅陷阱指紋）\n✅ 一對三體驗堂（真實上堂感受）\n✅ 個人化學習建議\n\n用ClassIn平台上堂，唔使接送～\n想約邊日？留言日期我幫你安排 👋";
+  }
+  if(ql.includes("上堂")||ql.includes("時間")||ql.includes("平台")||ql.includes("點上")){
+    return "我哋用ClassIn平台上堂㗎！\n✅ 唔使接送，屋企有電腦/平板就得\n✅ 一對三小班，每堂60分鐘\n✅ P3-P6都有班，時間彈性安排\n✅ 全港適用，住邊區都得\n\n想知道你小朋友年級嘅上堂時間？話我知年級我幫你查 👋";
+  }
+  return "多謝你嘅查詢！我哋係霖楓學苑，專幫香港P3-P6小學生用「陷阱診斷法」搞掂數學～\n\n想了解多啲課程資料、收費，或者預約免費試堂，可以直接留言話我知，我會詳細答你 👋";
+}
+
+function copyLastReply(){
+  if(!lastReply) return;
+  navigator.clipboard.writeText(lastReply).then(function(){
+    const btn = document.getElementById("copyBtn");
+    btn.textContent = "✅ 已複製！";
+    setTimeout(function(){btn.textContent = "📋 複製回覆到WhatsApp"}, 2000);
+  });
+}
+</script>
+</body>
+</html>

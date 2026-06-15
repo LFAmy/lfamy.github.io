@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """LF AI Adaptive Engine v2.0 — AI 認知模型 + 動態學習路徑"""
-import psycopg2
+try:
+    import psycopg2
+    HAS_DB = True
+except ImportError:
+    psycopg2 = None
+    HAS_DB = False
 import sys, json
 
 sys.path.insert(0, r"G:\lam-fung-academy")

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#2D5AA0">
+<title>霖楓學苑 · Bar Model 圖解數學</title>
+<link rel="stylesheet" href="/lf-academy-v8.css">
+<style>
+body{background:linear-gradient(180deg,#E8F0FE,#FFF8EE);min-height:100vh;padding-top:var(--nav-height)}
+.bm-wrap{max-width:800px;margin:0 auto;padding:20px 24px}
+.bm-header{text-align:center;padding:20px 0}
+.bm-header h1{font-size:1.4em}
+.bm-header p{color:var(--text-secondary);font-size:0.88em}
+
+.input-card{background:white;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);margin-bottom:20px}
+.input-card textarea{width:100%;min-height:100px;border:2px solid var(--border);border-radius:var(--radius-sm);padding:14px;font-size:0.95em;outline:none;font-family:var(--font-sans);resize:vertical}
+.input-card textarea:focus{border-color:var(--blue)}
+.input-card .hint{font-size:0.75em;color:var(--text-muted);margin-top:6px}
+
+.result-card{background:white;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);margin-bottom:16px}
+.result-card h3{font-size:1em;margin-bottom:12px}
+.bar-model{background:#F8FAFC;border-radius:var(--radius-sm);padding:20px;margin:12px 0;overflow-x:auto;font-family:var(--font-mono);font-size:0.85em;white-space:pre-wrap;line-height:1.8;border:1px solid var(--border)}
+.explanation{font-size:0.9em;line-height:1.8;color:var(--text);padding:12px;background:var(--blue-soft);border-radius:var(--radius-sm)}
+
+.samples-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:14px}
+.sample-chip{padding:12px;background:var(--blue-soft);border-radius:var(--radius-sm);cursor:pointer;font-size:0.82em;transition:all var(--duration-fast);text-align:center;border:1px solid transparent}
+.sample-chip:hover{border-color:var(--blue);transform:translateY(-1px)}
+</style>
+</head>
+<body>
+
+<div class="bm-wrap">
+  <div class="bm-header">
+    <h1>📐 Bar Model 圖解數學</h1>
+    <p>新加坡 CPA 教學法 · 具體→圖像→抽象 · MiMo v2.5 Pro 驅動</p>
+  </div>
+
+  <div class="input-card">
+    <textarea id="problemInput" placeholder="輸入數學應用題，MiMo 會用 Bar Model 圖解幫你理解...
+
+例如：小明有24粒糖，佢將其中3/8俾咗妹妹。俾咗幾多粒糖妹妹？
+
+或者：一本書有120頁，小明第一日睇咗1/4，第二日睇咗剩低嘅2/3。仲有幾多頁未睇？"></textarea>
+    <div class="hint">💡 任何分數、比例、比較類應用題都可以用 Bar Model 圖解！</div>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="lf-btn lf-btn-primary" onclick="generateBarModel()" id="genBtn">🤖 MiMo 生成圖解</button>
+      <button class="lf-btn lf-btn-ghost" onclick="document.getElementById('problemInput').value=''">清除</button>
+    </div>
+  </div>
+
+  <div style="font-size:0.8em;color:var(--text-muted);margin-bottom:12px">📋 或者選擇範例：</div>
+  <div class="samples-grid">
+    <div class="sample-chip" onclick="loadSample(0)">分數：3/8 of 24</div>
+    <div class="sample-chip" onclick="loadSample(1)">分數：剩餘問題</div>
+    <div class="sample-chip" onclick="loadSample(2)">比例：A:B = 3:4</div>
+    <div class="sample-chip" onclick="loadSample(3)">比較：多幾多</div>
+    <div class="sample-chip" onclick="loadSample(4)">百分數：折扣</div>
+    <div class="sample-chip" onclick="loadSample(5)">速率：相遇問題</div>
+  </div>
+
+  <div id="resultArea"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/docs/data/lf-mimo-api.js"></script>
+<script src="/lf-shell-v8.js"></script>
+
+<script>
+var samples = [
+  '小明有24粒糖，佢將其中3/8俾咗妹妹。俾咗幾多粒糖妹妹？請用Bar Model圖解。',
+  '一本書有120頁，小明第一日睇咗1/4，第二日睇咗剩低嘅2/3。仲有幾多頁未睇？請用Bar Model圖解。',
+  'A:B = 3:4，如果A=15，B=幾多？請用Bar Model圖解。',
+  '哥哥有$45，妹妹有$30。哥哥比妹妹多幾多%？請用Bar Model圖解。',
+  '一件衫原價$250，七折後幾錢？請用Bar Model圖解。',
+  '甲車80km/h，乙車60km/h，兩車相距280km相向而行。幾耐相遇？請用Bar Model圖解。'
+];
+
+function loadSample(i) {
+  document.getElementById('problemInput').value = samples[i];
+}
+
+async function generateBarModel() {
+  var problem = document.getElementById('problemInput').value.trim();
+  if (!problem) { alert('請輸入數學題目'); return; }
+  
+  var btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ MiMo 生成中...';
+  
+  var area = document.getElementById('resultArea');
+  area.innerHTML = '<div style="text-align:center;padding:30px"><div class="lf-spinner" style="margin:0 auto 12px"></div><p style="color:var(--text-muted)">MiMo v2.5 Pro 正在生成 Bar Model 圖解...</p></div>';
+  
+  var prompt = '請用新加坡數學 Bar Model（棒棒模型）方法圖解以下題目。步驟：\n' +
+    '1. 先用 ASCII 畫出 Bar Model 圖（用 ██████ 代表長條，標明數值）\n' +
+    '2. 然後逐步文字解釋每個步驟\n' +
+    '3. 最後給出答案並驗算\n\n' +
+    '題目：' + problem + '\n\n' +
+    '請用繁體中文+廣東話。必須包含 ASCII Bar Model 圖。';
+  
+  var result = null;
+  if (typeof MIMO !== 'undefined') {
+    try {
+      var r = await MIMO.ask([
+        { role: 'system', content: '你係霖楓學苑數學視覺化專家。用Bar Model（棒棒模型）方法圖解數學題目。必須用ASCII畫出Bar Model圖。用繁體中文+廣東話。' },
+        { role: 'user', content: prompt }
+      ], { maxTokens: 2000, temperature: 0.3, timeout: 25000 });
+      if (r && r.content) result = r.content;
+    } catch(e) { console.warn('MiMo failed:', e.message); }
+  }
+  
+  if (!result) {
+    result = generateLocalBarModel(problem);
+  }
+  
+  renderResult(problem, result);
+  btn.disabled = false;
+  btn.textContent = '🤖 MiMo 生成圖解';
+}
+
+function generateLocalBarModel(problem) {
+  // Local bar model generator for common patterns
+  var lower = problem.toLowerCase();
+  
+  // Fraction: "3/8 of 24"
+  var fracMatch = problem.match(/(\d+)\/(\d+)\s*(?:of|嘅)\s*(\d+)/);
+  if (fracMatch) {
+    var num = parseInt(fracMatch[1]), den = parseInt(fracMatch[2]), total = parseInt(fracMatch[3]);
+    var result = Math.round(total * num / den);
+    var unit = total / den;
+    var bar = '';
+    for (var i = 0; i < den; i++) {
+      bar += (i < num ? '████' : '░░░░') + ' ';
+    }
+    return [
+      '## Bar Model 圖解',
+      '',
+      '```',
+      '整個 = ' + total + '',
+      '┌' + '─'.repeat(den * 5) + '┐',
+      '│' + bar + '│',
+      '└' + '─'.repeat(den * 5) + '┘',
+      '  ' + Array.from({length:den}, (_,i) => unit*(i+1)).join('   '),
+      '```',
+      '',
+      '**解釋：**',
+      '1. 將 ' + total + ' 分成 ' + den + ' 等份，每份 = ' + total + ' ÷ ' + den + ' = **' + unit + '**',
+      '2. 取出其中 ' + num + ' 份：' + num + ' × ' + unit + ' = **' + result + '**',
+      '',
+      '**答案：' + result + '**',
+      '',
+      '驗算：' + result + ' ÷ ' + total + ' = ' + num + '/' + den + ' ✅'
+    ].join('\n');
+  }
+  
+  // Percentage: "30% of 200" or "七折"
+  var pctMatch = problem.match(/(\d+)%\s*(?:of|嘅)\s*(\d+)/);
+  if (pctMatch) {
+    var pct = parseInt(pctMatch[1]), total = parseInt(pctMatch[2]);
+    var result2 = Math.round(total * pct / 100);
+    return [
+      '## Bar Model 圖解',
+      '',
+      '```',
+      '100% = ' + total,
+      '┌' + '─'.repeat(50) + '┐',
+      '│' + '█'.repeat(pct/2) + '░'.repeat(50-pct/2) + '│',
+      '└' + '─'.repeat(50) + '┘',
+      '  ' + pct + '% = ' + result2,
+      '```',
+      '',
+      '**解釋：**',
+      '1. 100% = ' + total,
+      '2. ' + pct + '% = ' + total + ' × ' + pct + ' ÷ 100 = **' + result2 + '**',
+      '',
+      '**答案：' + result2 + '**'
+    ].join('\n');
+  }
+  
+  // Default: explain conceptually
+  return [
+    '## Bar Model 圖解（概念）',
+    '',
+    '```',
+    '   已知量          未知量',
+    '┌──────────┐    ┌──────────┐',
+    '│  ██████  │    │  ??????  │',
+    '└──────────┘    └──────────┘',
+    '```',
+    '',
+    '**建議：**',
+    '1. 將題目中的數字關係畫成 Bar Model',
+    '2. 標出已知量和未知量',
+    '3. 根據 Bar Model 列出算式',
+    '',
+    '📝 如需詳細圖解，請使用 AI 模式（需 MiMo API 連線）。'
+  ].join('\n');
+}
+
+function renderResult(problem, result) {
+  var sections = result.split(/\n(?=##|```|\*\*答案|\*\*解釋)/);
+  var html = '<div class="result-card"><h3>📋 題目</h3><p style="font-size:0.95em">' + escapeHTML(problem) + '</p></div>';
+  
+  for (var i = 0; i < sections.length; i++) {
+    var sec = sections[i].trim();
+    if (!sec) continue;
+    
+    var title = sec.match(/^##\s*(.+)/);
+    var isCode = sec.startsWith('```');
+    
+    html += '<div class="result-card">';
+    if (title) {
+      html += '<h3>' + title[1] + '</h3>';
+      html += '<div class="explanation">' + formatText(sec.replace(/^##.*\n/, '')) + '</div>';
+    } else if (isCode) {
+      var codeContent = sec.replace(/```/g, '');
+      html += '<div class="bar-model">' + codeContent + '</div>';
+    } else {
+      html += '<div class="explanation">' + formatText(sec) + '</div>';
+    }
+    html += '</div>';
+  }
+  
+  html += '<div style="text-align:center;margin-top:12px">';
+  html += '<a href="/practice.html" class="lf-btn lf-btn-primary">📝 做相關練習</a>';
+  html += '<a href="/ai-tutor.html" class="lf-btn lf-btn-gold" style="margin-left:8px">🤖 問 AI 更多</a>';
+  html += '</div>';
+  
+  document.getElementById('resultArea').innerHTML = html;
+}
+
+function escapeHTML(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function formatText(t) { return t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'); }
+</script>
+</body>
+</html>

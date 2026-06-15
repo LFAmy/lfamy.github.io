@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%" fx="30%" fy="30%">
+      <stop offset="0%" stop-color="#f0f4ff"/>
+      <stop offset="50%" stop-color="#dce6f5"/>
+      <stop offset="100%" stop-color="#b8cce0"/>
+    </radialGradient>
+
+    <!-- 主卡片漸變 - 3D光影效果 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#f8faff"/>
+      <stop offset="70%" stop-color="#eef3fc"/>
+      <stop offset="100%" stop-color="#dce5f2"/>
+    </linearGradient>
+
+    <!-- 標題漸變 -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2a4a7f"/>
+      <stop offset="50%" stop-color="#3a6bb5"/>
+      <stop offset="100%" stop-color="#2a4a7f"/>
+    </linearGradient>
+
+    <!-- 數字圓圈漸變 - 3D球體效果 -->
+    <radialGradient id="circleGrad1" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#6ab0ff"/>
+      <stop offset="40%" stop-color="#4a8fe8"/>
+      <stop offset="100%" stop-color="#1a5cb0"/>
+    </radialGradient>
+
+    <radialGradient id="circleGrad2" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ff9a6a"/>
+      <stop offset="40%" stop-color="#f07a3a"/>
+      <stop offset="100%" stop-color="#c0501a"/>
+    </radialGradient>
+
+    <radialGradient id="circleGrad3" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#7ad47a"/>
+      <stop offset="40%" stop-color="#4ab84a"/>
+      <stop offset="100%" stop-color="#1a8a1a"/>
+    </radialGradient>
+
+    <radialGradient id="circleGradRem" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#ff7a9a"/>
+      <stop offset="40%" stop-color="#e84a6a"/>
+      <stop offset="100%" stop-color="#b01a3a"/>
+    </radialGradient>
+
+    <!-- 陰影濾鏡 - 雙層陰影 -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="3" dy="5" stdDeviation="8" flood-color="#2a4a7f" flood-opacity="0.25"/>
+      <feDropShadow dx="-1" dy="-1" stdDeviation="4" flood-color="#ffffff" flood-opacity="0.5"/>
+    </filter>
+
+    <filter id="circleShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#1a2a4a" flood-opacity="0.3"/>
+      <feDropShadow dx="-1" dy="-1" stdDeviation="2" flood-color="#ffffff" flood-opacity="0.4"/>
+    </filter>
+
+    <filter id="innerGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feOffset dx="0" dy="0"/>
+      <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.8  0 0 0 0 0.9  0 0 0 0 1  0 0 0 0.3 0"/>
+      <feBlend in2="SourceGraphic" mode="screen"/>
+    </filter>
+
+    <!-- 發光效果 -->
+    <filter id="glowEffect">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 箭頭漸變 -->
+    <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3a6bb5"/>
+      <stop offset="100%" stop-color="#2a4a7f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)" rx="0"/>
+
+  <!-- 裝飾性背景圓點 -->
+  <circle cx="50" cy="50" r="30" fill="#ffffff" opacity="0.15"/>
+  <circle cx="550" cy="350" r="45" fill="#ffffff" opacity="0.1"/>
+  <circle cx="520" cy="60" r="20" fill="#ffffff" opacity="0.12"/>
+  <circle cx="80" cy="340" r="25" fill="#ffffff" opacity="0.08"/>
+
+  <!-- 主卡片 - 圓角卡片 -->
+  <rect x="25" y="20" width="550" height="360" rx="20" ry="20" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+
+  <!-- 卡片頂部裝飾條 -->
+  <rect x="25" y="20" width="550" height="8" rx="4" ry="4" fill="url(#titleGrad)" opacity="0.8"/>
+
+  <!-- 標題 -->
+  <text x="300" y="62" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="24" font-weight="bold" fill="url(#titleGrad)" filter="url(#glowEffect)">📐 除法進階 — 有餘數的除法</text>
+
+  <!-- 分隔線 -->
+  <line x1="60" y1="80" x2="540" y2="80" stroke="#b8cce0" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+
+  <!-- 算式主體：25 ÷ 4 = 6 ... 1 -->
+  <text x="300" y="130" text-anchor="middle" font-family="'Times New Roman', 'Georgia', serif" font-size="52" font-weight="bold" fill="#2a4a7f" filter="url(#glowEffect)">25 ÷ 4 = 6 ... 1</text>
+
+  <!-- 視覺化分組：4個一組，共6組 + 1個餘數 -->
+
+  <!-- 第1組：4個圓 -->
+  <circle cx="80" cy="180" r="16" fill="url(#circleGrad1)" filter="url(#circleShadow)"/>
+  <circle cx="120" cy="180" r="16" fill="url(#circleGrad1)" filter="url(#circleShadow)"/>
+  <circle cx="160" cy="180" r="16" fill="url(#circleGrad1)" filter="url(#circleShadow)"/>
+  <circle cx="200" cy="180" r="16" fill="url(#circleGrad1)" filter="url(#circleShadow)"/>
+
+  <!-- 第2組：4個圓 -->
+  <circle cx="80" cy="230" r="16" fill="url(#circleGrad2)" filter="url(#circleShadow)"/>
+  <circle cx="120" cy="230" r="16" fill="url(#circleGrad2)" filter="url(#circleShadow)"/>
+  <circle cx="160" cy="230" r="16" fill="url(#circleGrad2)" filter="url(#circleShadow)"/>
+  <circle cx="200" cy="230" r="16" fill="url(#circleGrad2)" filter="url(#circleShadow)"/>
+
+  <!-- 第3組：4個圓 -->
+  <circle cx="80" cy="280" r="16" fill="url(#circleGrad3)" filter="url(#circleShadow)"/>
+  <circle cx="120" cy="280" r="16" fill="url(#circleGrad3)" filter="url(#circleShadow)"/>
+  <circle cx="160" cy="280" r="16" fill="url(#circleGrad3)" filter="url(#circleShadow)"/>
+  <circle cx="200" cy="280" r="16" fill="url(#circleGrad3)" filter="url(#circleShadow)"/>
+
+  <!-- 第4組：4個圓 -->
+  <circle cx="280" cy="180" r="16" fill="url(#circleGrad1)" filter="url(#circleShadow)"/>
+  <circle cx="320" cy="180" r="16" fill="url(#circleGrad1)" filter="url(#circleShadow)"/>
+  <circle cx="360" cy="180" r="16" fill="url(#circleGrad1)" filter="url(#circleShadow)"/>
+  <circle cx="400" cy="180" r="16" fill="url(#circleGrad1)" filter="url(#circleShadow)"/>
+
+  <!-- 第5組：4個圓 -->
+  <circle cx="280" cy="230" r="16" fill="url(#circleGrad2)" filter="url(#circleShadow)"/>
+  <circle cx="320" cy="230" r="16" fill="url(#circleGrad2)" filter="url(#circleShadow)"/>
+  <circle cx="360" cy="230" r="16" fill="url(#circleGrad2)" filter="url(#circleShadow)"/>
+  <circle cx="400" cy="230" r="16" fill="url(#circleGrad2)" filter="url(#circleShadow)"/>
+
+  <!-- 第6組：4個圓 -->
+  <circle cx="280" cy="280" r="16" fill="url(#circleGrad3)" filter="url(#circleShadow)"/>
+  <circle cx="320" cy="280" r="16" fill="url(#circleGrad3)" filter="url(#circleShadow)"/>
+  <circle cx="360" cy="280" r="16" fill="url(#circleGrad3)" filter="url(#circleShadow)"/>
+  <circle cx="400" cy="280" r="16" fill="url(#circleGrad3)" filter="url(#circleShadow)"/>
+
+  <!-- 餘數：1個圓（特殊顏色） -->
+  <circle cx="480" cy="230" r="16" fill="url(#circleGradRem)" filter="url(#circleShadow)"/>
+
+  <!-- 分組框線 - 虛線框 -->
+  <!-- 第1組框 -->
+  <rect x="65" y="165" width="150" height="50" rx="8" ry="8" fill="none" stroke="#4a8fe8" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- 第2組框 -->
+  <rect x="65" y="215" width="150" height="50" rx="8" ry="8" fill="none" stroke="#f07a3a" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- 第3組框 -->
+  <rect x="65" y="265" width="150" height="50" rx="8" ry="8" fill="none" stroke="#4ab84a" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- 第4組框 -->
+  <rect x="265" y="165" width="150" height="50" rx="8" ry="8" fill="none" stroke="#4a8fe8" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- 第5組框 -->
+  <rect x="265" y="215" width="150" height="50" rx="8" ry="8" fill="none" stroke="#f07a3a" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- 第6組框 -->
+  <rect x="265" y="265" width="150" height="50" rx="8" ry="8" fill="none" stroke="#4ab84a" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+  <!-- 餘數框 -->
+  <rect x="465" y="215" width="30" height="50" rx="8" ry="8" fill="none" stroke="#e84a6a" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+
+  <!-- 組標籤 -->
+  <text x="140" y="162" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#4a8fe8" opacity="0.7">組1</text>
+  <text x="140" y="212" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#f07a3a" opacity="0.7">組2</text>
+  <text x="140" y="262" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#4ab84a" opacity="0.7">組3</text>
+  <text x="340" y="162" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#4a8fe8" opacity="0.7">組4</text>
+  <text x="340" y="212" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#f07a3a" opacity="0.7">組5</text>
+  <text x="340" y="262" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#4ab84a" opacity="0.7">組6</text>
+  <text x="480" y="212" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#e84a6a" opacity="0.7">餘數</text>
+
+  <!-- 底部解說文字 -->
+  <rect x="60" y="340" width="480" height="30" rx="10" ry="10" fill="#2a4a7f" opacity="0.08"/>
+  <text x="300" y="360" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang HK', sans-serif" font-size="14" fill="#2a4a7f" opacity="0.8">
+    ✨ 25 個糖果，每 4 個裝一袋，可以裝 6 袋，還剩下 1 個糖果
+  </text>
+
+  <!-- 左上角裝飾標籤 -->
+  <rect x="35" y="30" width="70" height="24" rx="12" ry="12" fill="#3a6bb5" opacity="0.15"/>
+  <text x="70" y="46" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#3a6bb5" font-weight="bold">P.3 數學</text>
+
+  <!-- 右上角裝飾標籤 -->
+  <rect x="495" y="30" width="70" height="24" rx="12" ry="12" fill="#e84a6a" opacity="0.15"/>
+  <text x="530" y="46" text-anchor="middle" font-family="'Microsoft YaHei', sans-serif" font-size="11" fill="#e84a6a" font-weight="bold">餘數除法</text>
+</svg>

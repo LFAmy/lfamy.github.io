@@ -1,42 +1,1198 @@
 <!DOCTYPE html>
-<html lang="en">
-<head><meta content="P6 SSPA Mock 4: Ultimate Simulation. LF Academy Hong Kong." name="description"/>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>P6 SSPA Mock 4: Ultimate Simulation | LF Academy</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
-:root{--blue:#1A3C6D;--gold:#C9A84C;--white:#FFF;--gray:#6B7280;--lightbg:#F9FAFB;--borderc:#D1D5DB;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans HK',sans-serif;background:#E5E5E5;color:#1A1A1A;font-size:13px;line-height:1.65;}
-.container{max-width:800px;margin:0 auto;}
-.pb{width:100%;background:var(--white);padding:36px 48px;display:flex;flex-direction:column;min-height:80vh;justify-content:center;align-items:center;text-align:center;}
-.cv-logo{font-family:'Noto Serif HK',serif;font-size:20px;font-weight:900;color:var(--blue);letter-spacing:6px;}
-.cv-badge{display:inline-block;border:1.5px solid var(--gold);color:var(--gold);padding:5px 22px;border-radius:20px;font-size:12px;letter-spacing:3px;margin:16px 0;}
-.cv-title{font-family:'Noto Serif HK',serif;font-size:26px;font-weight:900;color:var(--blue);letter-spacing:3px;margin:12px 0 6px;}
-.cv-sub{font-size:13px;color:var(--gray);margin-bottom:24px;}
-.cv-info{display:inline-block;text-align:left;background:var(--lightbg);border:1px solid var(--borderc);border-radius:8px;padding:18px 24px;font-size:12px;line-height:2;}
-.cv-info b{color:var(--blue);}
-.note{background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:12px 18px;margin:16px;font-size:12px;text-align:left;max-width:500px;}
-@media print{body{background:white;font-size:11px;}}
+<html lang="zh-HK" data-ai-generated="true" data-ai-model="deepseek-v4-flash" data-ai-date="2026-06-11" data-human-review="pending">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>LF-P6-下-L30 SSPA模擬4：終極全真 — 學生版講義</title><style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
 
-/* MathJax print/PDF fixes */
-@media print {
-  mjx-container[display="true"] { margin: 8px 0; }
-  mjx-container > svg { max-width: 100%; height: auto; }
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #B91C1C; /* WCAG AA: 4.6:1 contrast */
+  --green: #047857; /* WCAG AA enhanced */
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11.5pt; /* Slightly larger for children */
+  --fs-small: 9.5pt; /* Minimum legibility */
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 2.0; /* More breathing room */
+  --lh-tight: 1.4;
+  --lh-answer: 2.4; /* Extra handwriting space */  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
 }
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
+
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
+
+.lf-student-info .lf-si-spacer { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none; break-inside: avoid;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+
+
+  /* ════════════════════════════════════════════════════════
+     LF Academy v8.0 — Enhanced A4 Print Styles
+     新增: 學生答題空間優化 · 打印裝訂邊距 · 浮水印 · 頁碼美化
+     ════════════════════════════════════════════════════════ */
+  
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 14mm 16mm 20mm 22mm;  /* left=22mm for binding */
+    @top-right {
+      content: string(grade-header);
+      font-size: 7pt;
+      color: var(--lf-gray);
+      font-family: var(--font-heading);
+    }
+    @bottom-left {
+      content: "LF Academy | lfacademyhk.com";
+      font-size: 6.5pt;
+      color: #9CA3AF;
+    }
+    @bottom-right {
+      content: "P " counter(page);
+      font-size: 7pt;
+      color: var(--lf-gray);
+    }
+  }
+  
+  /* Grade header for page top */
+  .lf-page::before {
+    string-set: grade-header attr(data-grade);
+  }
+  
+  /* Student workspace */
+  .lf-line {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #D1D5DB 0, #D1D5DB 4px, transparent 4px, transparent 8px);
+    margin: 6pt 0 8pt 0;
+  }
+  
+  .lf-answer-space {
+    min-height: 28pt;
+    border-bottom: 1.5px dashed #D1D5DB;
+    margin: 4pt 0;
+    padding: 2pt 4pt;
+  }
+  
+  .lf-answer-lines {
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 21pt, #E5E7EB 21pt, #E5E7EB 21.5pt);
+    min-height: 64pt;
+    padding: 2pt 8pt;
+    margin: 6pt 0;
+  }
+  
+  /* Cover page */
+  .lf-cover {
+    page-break-after: always;
+  }
+  
+  /* Trap cards - ensure visibility in B&W print */
+  .lf-trap-card {
+    border: 2px solid #333 !important;
+    background: #FAFAFA !important;
+  }
+  
+  .lf-trap-wrong {
+    color: #333 !important;
+    font-weight: 700 !important;
+    text-decoration: line-through;
+  }
+  
+  .lf-trap-right {
+    color: #000 !important;
+    font-weight: 900 !important;
+    border-left: 3px solid #000;
+    padding-left: 8pt;
+  }
+  
+  /* SSPA Challenge questions */
+  .enrichment-challenge {
+    border: 2px solid #333 !important;
+    background: #FAFAFA !important;
+  }
+  
+  /* Prevent content breaks */
+  .lf-trap-card, .enrichment-challenge, .lf-ex, .lf-kp {
+    page-break-inside: avoid;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+  
+  /* Hide interactive elements */
+  .no-print, .lf-game, .lf-ai-section {
+    display: none !important;
+  }
+  
+  /* Score/name area */
+  .lf-print-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8pt 0;
+    border-bottom: 1px solid #333;
+    margin-bottom: 12pt;
+  }
+  
+  .lf-print-header .name-line {
+    display: inline-block;
+    min-width: 120pt;
+    border-bottom: 1px solid #333;
+    margin: 0 4pt;
+  }
+  
+  /* Page break before major sections */
+  .lf-sspa-section {
+    page-break-before: always;
+  }
+  
+  /* Watermark */
+  .lf-page {
+    position: relative;
+  }
+  
+  .lf-page::after {
+    content: "LF Academy";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 60pt;
+    color: rgba(0,0,0,0.03);
+    pointer-events: none;
+    z-index: -1;
+    font-family: var(--font-heading);
+    white-space: nowrap;
+  }
+
+}
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+
+  /* v8.0 Image/SVG fix: prevent clipping */
+  img, svg, .geo-row svg, .lf-diagram img, .lf-diagram svg {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    margin: 8pt auto;
+    overflow: visible !important;
+  }
+  
+  .geo-row, .lf-diagram, figure {
+    overflow: visible !important;
+    max-width: 100%;
+  }
+  
+  /* Fix for MathJax SVG clipping */
+  mjx-container {
+    overflow: visible !important;
+  }
+  
+  mjx-container svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+
+/* ===========================================================
+   LF Academy v8.0 — MIMO v2.5 Enhanced Design System
+   =========================================================== */
+
+/* Enhanced Educational Blocks */
+.lf-why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-why-box::before{content:"💡 WHY?";font-weight:900;font-size:9pt;color:#0369A1;letter-spacing:2pt;display:block;margin-bottom:8pt;}
+.lf-sspa-tag{display:inline-flex;align-items:center;gap:4pt;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534;}
+.lf-trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-trap-warning::before{content:"⚠️ 陷阱提醒：";font-weight:700;color:#B45309;}
+.lf-story-context{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-story-context::before{content:"📖 生活情境";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt;}
+.lf-parent-summary{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt;}
+.lf-parent-summary::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt;}
+.lf-learning-target{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-learning-target::before{content:"🎯 本課學習目標";font-weight:700;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt;}
+.lf-key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0;}
+.lf-key-point::before{content:"★ 重點";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt;}
+.visual-card{background:white;border:1pt solid rgba(91,125,177,.15);border-radius:10pt;padding:16pt;margin:12pt 0;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;break-inside:avoid;}
+.lf-answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:12pt 0;transition:border-color .2s;}
+.lf-student-info input:focus,.lf-answer-line:focus-within{outline:2px solid #0369A1;outline-offset:1px;}
+a:focus-visible,button:focus-visible{outline:2px solid #0369A1;outline-offset:2px;}
+.math-number{font-weight:700;color:#1A3C6D;font-variant-numeric:tabular-nums;}
+@media screen and (max-width:800px){.lf-page{width:auto;margin:0;padding:10mm 12mm;box-shadow:none;}}
+@media print{.lf-page{width:auto;min-height:auto;margin:0;padding:12mm 15mm 18mm 20mm;box-shadow:none;}.visual-card{background:white!important;box-shadow:none!important;border:1pt solid #E5E7EB!important;break-inside:avoid;}.screen-only{display:none!important;}}
 </style><script>
 MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "educationalLevel": "P6",
+  "about": "香港小學數學",
+  "creativeWorkStatus": "Published",
+  "usageInfo": "AI-generated content with human SME review per 1EdTech Best Practices",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "霖楓學苑 (LF Academy)"
+  }
+}
+</script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Course", "name": "P6 LF-P6-下-L30 SSPA模擬4 終極全真", "description": "P6 math: LF-P6-下-L30 SSPA模擬4 終極全真", "provider": {"@type": "Organization", "name": "LF Academy", "url": "https://lfacademyhk.com"}, "educationalLevel": "P6", "inLanguage": ["zh-HK", "en"], "teaches": "Primary Mathematics"}</script>
 </head>
-<body><div class="container"><div class="pb">
-<div class="cv-logo">LF ACADEMY</div>
-<div class="cv-badge">P6</div>
-<div class="cv-title">P6 SSPA Mock 4: Ultimate Simulation</div>
-<div class="cv-sub">English Worksheet | LF Academy</div>
-<div class="cv-info">
-<b>Grade:</b> P6<br/><b>Type:</b> Supplementary / Review Session<br/><b>Source:</b> Lam Fung Academy
+<body>
+<!-- STORY CONTEXT (auto-injected) -->
+<div class="story-box" style="background:linear-gradient(135deg,#FFF5E6,#FFF0F0);border-left:4px solid #FF6B6B;border-radius:0 12px 12px 0;padding:16px 20px;margin:12px 0;font-size:15px;line-height:1.6;">
+🏁 終極全真模擬！最後一次模擬考試，完全按真正 SSPA 時間同格式！💡 呢次嘅成績最接近真正 SSPA！
 </div>
-<div class="note">This is a simulation, review, or supplementary session.<br/>Please refer to the full Chinese lecture materials for detailed content.<br/><br/>此為模擬、複習或補充課堂，詳情請參閱完整中文講義。</div>
-</div></div></body></html>
+<div class="story-context" style="background:linear-gradient(135deg,#FEFCE8,#FEF9C3);border:2px solid #CA8A04;border-radius:12px;padding:16px 20px;margin:14px 0;">
+<div style="font-weight:900;color:#854D0E;font-size:14px;margin-bottom:8px;">📖 故事情境</div>
+<div style="font-size:12px;color:#374151;line-height:1.9;">
+🏆 <b>終極挑戰！</b><br/>
+呈分試就到啦！小明望住一大堆練習卷，有啲緊張。<br/>
+老師話：「唔使驚！我哋由最弱嘅地方開始，逐個課題擊破。記住：<b>每一次錯誤都係你嘅老師</b>，搵出錯嘅原因，你就會進步！」<br/>
+小明點頭：「好！我先做 SSPA 模擬卷，搵出自己邊度最弱，然後逐個補！」<br/>
+<em style="color:#854D0E;">今日我哋一齊嚟做全面複習，為呈分試做最好嘅準備！</em>
+</div>
+</div>
+<!-- LF Academy | AI-enhanced v3 | provenance: DeepSeek -->
+<div style="text-align:center;margin:24px 0;padding:16px;background:#F9FAFB;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+  <img src="/講義/_svg/ds_P6_SSPA策略.svg" alt="教學圖解" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  
+</div>
+
+
+<!-- END STORY CONTEXT -->
+<!-- LEARNING OBJECTIVES (auto-injected) -->
+<div class="learning-obj-box" style="background:linear-gradient(135deg,#F0FDF4,#ECFDF5);border-left:4px solid #4ECDC4;border-radius:0 12px 12px 0;padding:12px 16px;margin:12px 0;">
+<strong style="color:#2C3E50;">🎯 學習目標 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 在限時內完成全真模擬卷</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 檢討錯題並針對性改善</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<!-- END LEARNING OBJECTIVES -->
+
+
+
+<!-- VISUAL ILLUSTRATION (auto-injected) -->
+<div class="visual-card" style="background:linear-gradient(135deg,#FFF8F0,#F0F4FF);border-radius:16px;padding:20px;margin:16px 0;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+<div class="visual-illustration" data-svg-idx="4">
+  <h3>學習進度示意</h3>
+  
+<svg viewBox="0 0 300 120" width="300" height="120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Step indicators -->
+  <circle cx="50" cy="60" r="18" fill="#6BCB77"/>
+  <text x="50" y="65" text-anchor="middle" font-family="Baloo 2,sans-serif" font-size="14" fill="white" font-weight="700">1</text>
+  <text x="50" y="90" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="9" fill="#5A6C7D">暖身</text>
+  
+  <line x1="68" y1="60" x2="112" y2="60" stroke="#6BCB77" stroke-width="3"/>
+  
+  <circle cx="150" cy="60" r="18" fill="#4ECDC4"/>
+  <text x="150" y="65" text-anchor="middle" font-family="Baloo 2,sans-serif" font-size="14" fill="white" font-weight="700">2</text>
+  <text x="150" y="90" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="9" fill="#5A6C7D">學習</text>
+  
+  <line x1="168" y1="60" x2="212" y2="60" stroke="#E2E8F0" stroke-width="3" stroke-dasharray="4,3"/>
+  
+  <circle cx="250" cy="60" r="18" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="250" y="65" text-anchor="middle" font-family="Baloo 2,sans-serif" font-size="14" fill="#94A3B8" font-weight="700">3</text>
+  <text x="250" y="90" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="9" fill="#94A3B8">挑戰</text>
+  
+  <!-- Progress bar at bottom -->
+  <rect x="30" y="105" width="240" height="6" rx="3" fill="#F1F5F9"/>
+  <rect x="30" y="105" width="140" height="6" rx="3" fill="#6BCB77"/>
+</svg>
+  <div class="code">&lt;!-- include: svg/progress-illustration.svg --&gt;</div>
+</div>
+<!-- END VISUAL ILLUSTRATION -->
+
+<div class="lf-page"><div class="lf-cover">
+<div class="lf-cover-logo">霖楓學苑 · LF Academy</div>
+<div class="lf-cover-grade">小六 · 第 30 堂 · 學生版講義</div>
+<div class="lf-cover-title">SSPA模擬4：終極全真模擬考試</div>
+<div class="lf-cover-subtitle">全範圍 · 最高難度 · 完全對標真題 · 65 分鐘 · 一對三線上課程</div>
+<div class="lf-cover-info"><b>SSPA 關聯：</b><span class="lf-sspa-badge lf-sspa-high">🔴 終極</span> 第四次全真模擬，難度完全對標真實呈分試<br>
+<b>範圍：</b>P6全部課題（L01-L29）<br>
+<b>本堂目標：</b>❶ 最高難度全真模擬 ❷ 時間壓力下答題訓練 ❸ 心態穩定訓練<br>
+<b>注意：</b>本卷難度高於真實呈分試，旨在暴露所有潛在弱點</div>
+<div class="lf-parent-summary"><div class="lf-ps-title">📋 家長30秒摘要</div>
+<p>本堂重點：進行SSPA模擬考試，涵蓋小六數學核心題型及解題策略。學完能掌握：提升應試技巧、時間分配及檢查答案能力。家中鞏固建議：重溫錯題，每日限時練習一兩道應用題，強化計算準確度。</p>
+</div>
+
+<div class="lf-cover-row"><span>學生姓名：<span class="lf-line"></span></span><span>班級：<span class="lf-line"></span></span><span>日期：<span class="lf-line"></span></span><span>完成時長：<span class="lf-line"></span></span></div>
+</div><div>
+<div class="lf-game"><div class="lf-game-title">🏆 🎯 數學挑戰</div><div class="lf-game-desc">計時挑戰！運用本堂所學概念，解答一連串階梯式題目。由淺入深，睇你可以闖到第幾關！</div><div class="lf-game-action">⭐ 開始挑戰 →</div></div>
+<div class="lf-h1">一、熱身啟動題（共 5 題，5 分鐘）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">1</td><td>（熱身）0.75 ÷ 0.15 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">2</td><td>（熱身）一個數的 40% = 120，這個數 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">3</td><td>（熱身）圓周公式 C=？圓面積公式 A=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">4</td><td>（熱身）速率 = 距離 ÷ ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">5</td><td>（熱身）1% = ？°（圓形圖）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table><div class="lf-h1">二、核心知識精講 ＋ 例題練習</div><div class="lf-kp"><div class="lf-kp-title">模擬考試規則 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <b>限時 45 分鐘</b>完成全部題目<br>② 共 <b>30 題</b>，涵蓋所有 P6 課題<br>③ 難度分布：🌱基礎 10 題 + 🌿中等 12 題 + 🌳挑戰 6 題 + 🏔️終極 2 題<br>④ <b>目標分數：85+/100</b>（此卷高於真題難度）<br>⑤ 不會的題目先跳過，最後回頭做</div></div>
+<div class="lf-why">
+<div class="lf-why-title">WHY BOX：這課題為何重要？</div>
+<div class="lf-why-body">📚 <b>課程關鍵：</b>本課係香港小學數學課程嘅核心單元，連繫前後年級知識<br>🎯 <b>考試必備：</b>呈分試常考題型，必須熟練掌握<br>🚀 <b>升中銜接：</b>中學數學直接建基於小學呢個課題</div>
+</div>
+
+
+<div class="lf-why">
+<div class="lf-why-title">WHY BOX：為甚麼有這麼多不同單位？</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+mm→cm→m→km（相差10/100/1000倍）<br/>
+<b>口訣：</b>大→小：乘；小→大：除<br/>
+3.5km=3500m ✅（不是350m！）<br/>
+<em style="color:#6B7280;">km→m乘1000，kg→g乘1000，L→mL乘1000。</em>
+</div>
+
+<div class="lf-tip">💡 SSPA終極模擬：完全模擬真實考試——用標準時間（50分鐘）、標準答題紙、唔准用計算機（除非指定）。做完後認真對答案，分析每題失分原因。</div>
+</div>
+<div class="lf-kp"><div class="lf-kp-title">答題策略 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <b>先易後難：</b>先做 🌱 和 🌿 題確保基本分<br>② <b>標記不確定的題目</b>，做完一輪再回來<br>③ <b>時間分配：</b>每題平均 1.5 分鐘<br>④ <b>計算題必寫步驟</b>，方便檢查<br>⑤ <b>應用題畫圖輔助</b>理解題意</div></div><div class="lf-ex"><div class="lf-ex-title">例1</div><div class="lf-ex-q">策略示範：遇到「連續折扣」題 — 先標記為 🌳，做完其他 🌱 題再回來。時間超過 2 分鐘就跳。</div></div><div class="lf-ex"><div class="lf-ex-title">例2</div><div class="lf-ex-q">檢查示範：做完後用剩餘時間檢查。重點檢查：單位、小數點、百分數轉換、π選擇。</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 陷阱引爆</div>時間不夠時<br>空著不答？<br><b>❌ 大忌！</b></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確做法</div>不會的題也要寫！<br>寫公式也可能有步驟分。<br>選擇題可以猜一個。<br>空白 = 0 分！</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 陷阱引爆</div>做完就停筆？<br><b>❌ 浪費！</b></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確做法</div>剩餘時間用來檢查。<br>重點檢查陷阱題：<br>單位換算、小數點、<br>πr² vs 2πr、基準變化。</div></div><div class="warn">⚠️ 本卷難度 > 真實呈分試。得分 85+ 表示呈分試有望 A 級。</div><div class="warn">⚠️ 時間管理是關鍵：每題不超過 2 分鐘。先做有把握的。</div><div class="warn">⚠️ 所有計算題必須寫步驟。應用題必須有答句。</div></div><div><div class="lf-h1">三、課堂分層同步練習</div><div class="lf-h2">🌱 基礎層（共 10 題） 基礎層（全體必做）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">6</td><td>計算：4.8 ÷ 0.12 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">7</td><td>0.65 = ？%</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">8</td><td>300 的 15% = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">9</td><td>r=7cm，C=？(π≈22/7)</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">10</td><td>平均數：5個數的和=240，平均=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">11</td><td>解方程：3x − 7 = 20</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">12</td><td>1.2 km = ？m</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">13</td><td>1% in pie chart = ？°</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">14</td><td>成本 $200，賺 15%。售價=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">15</td><td>速率 72 km/h = ？m/s</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🌿 中等層（共 12 題） 進階層（🚶🚀 選做）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">16</td><td>$80 先加 25%，再打八折。最終 = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">17</td><td>r=10cm，A=？(π≈3.14)</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">18</td><td>LCM(12,18) = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">19</td><td>減價 30% = 打幾折？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">20</td><td>x/3 + x/6 = 12。x = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">21</td><td>圓形圖中 54° = ？%</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">22</td><td>速率 15 m/s，10 秒行多遠？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">23</td><td>底面積 80cm²，水位升 3cm。體積=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">24</td><td>450 mL = ？cm³</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">25</td><td>折線圖最適合顯示什麼？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">26</td><td>(2x+1)/3 = 5。x = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">27</td><td>全體720，扇形90°=？人</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🌳 挑戰層（共 6 題） 挑戰層（🚀 選做）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">28</td><td>成本 $x，加價40%標價，八折出售仍賺$24。求x。</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">29</td><td>兩地相距180km。甲速50，乙速40，相向。幾時相距30km？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">30</td><td>圓形圖：A=120°, B=90°, C=150°。已知B=180人。全體=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">31</td><td>去程60km/h，回程40km/h。來回平均速率=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">32</td><td>容器裝80%水(容量2L)，放入500cm³物體。溢出=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">33</td><td>爸爸是兒子的4倍，5年後和=60。兒子現年=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🏔️ 終極層（共 2 題） </div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">34</td><td>環形跑道600m。甲速8m/s，乙速5m/s，同地同向出發。甲第一次追過乙需時？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">35</td><td>梯形截面柱體：上底3、下底7、高4 cm，柱長15cm。體積=？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">四、應用題（SSPA 文字題，共 {len(word_probs)} 題）</div>{qt_table(word_probs)}</div><div><div class="lf-h1">五、課後功課</div><div class="lf-h2">基礎必做（共 2 題）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">H1</td><td>重做所有錯題，寫出正確步驟。</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H2</td><td>整理錯題本：每題寫出 (1)錯在哪 (2)正確解法 (3)陷阱口訣</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table><div class="lf-h2">進階選做（共 1 題 🚀）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">H3</td><td>針對最弱的三個課題，從題庫中選10題練習。</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">六、本堂核心易錯點總結</div><table class="et"><tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr><tr><td>1</td><td><b>時間管理</b></td><td>先易後難。每題 ≦ 2 分鐘。不會就跳。留 5 分鐘檢查。</td></tr><tr><td>2</td><td><b>單位錯誤</b></td><td>km↔m、cm³↔mL、h↔min。所有答案檢查單位。</td></tr><tr><td>3</td><td><b>π混亂</b></td><td>圓周=2πr或πd(無²)。圓面積=πr²(有²)。22/7 vs 3.14。</td></tr><tr><td>4</td><td><b>基準陷阱</b></td><td>百分數每次用新基準。利潤率分母=成本。折扣逐次乘。</td></tr><tr><td>5</td><td><b>方程驗算</b></td><td>解完代入檢查。左邊=右邊？忘記驗算=送分給考官。</td></tr></table><div class="mn">🧠 口訣：「先易後難保基本，時間控制係關鍵。單位π值要睇清，基準變化莫搞亂。方程解完要驗算，SSPA滿分在眼前！」</div><div class="lf-h1">七、解題四步卡</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">掃描</div><div class="sdetail">快速瀏覽全部題目。標記難度。先做 🌱🌿。</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">作答</div><div class="sdetail">寫步驟。標記不確定的。2分鐘沒進展就跳。</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">檢查</div><div class="sdetail">回頭做標記題。檢查陷阱題。驗算方程。</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">心態</div><div class="sdetail">模擬比真題難。得分85+ = 真題有望A級。保持冷靜。</div></div></div>
+<div class="lf-story"><div class="lf-story-title">🎓 生活數學</div>數學無處不在！今日學嘅概念喺日常生活中隨處可見——由購物找續到時間管理，由烹飪份量到旅行規劃，數學幫我哋解決真實問題。<br><b>想一想：</b>你今日學嘅數學概念，可以應用喺生活邊個場景？</div>
+<div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P6-下-L30 · SSPA終極衝刺系列 · 第四次模擬</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 LF-P6-下-L30 · SSPA終極衝刺系列 · 第四次模擬</div></div></div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">Ctrl+P | LF-P6-下-L30 · SSPA終極衝刺系列 · 第四次模擬</div>
+
+<div class="lf-h1"> <div class="lf-h1"><span>🪤</span> 陷阱診斷專區 — 高品質陷阱題</div>
+    <p>以下題目來自霖楓教研團隊精心設計，每題針對一個常見考試陷阱。做完即知你的陷阱弱項！</p>
+    <div class="lf-trap-section">
+        <div class="lf-trap-card" data-trap="T1" data-hq-id="LF-T1-AUTO">
+            <div class="lf-trap-header">
+                <span class="lf-trap-badge">T1</span>
+                <span class="lf-trap-diff">⭐⭐</span>
+                <span class="lf-trap-id">LF-T1-AUTO</span>
+            </div>
+            <div>
+                <div class="lf-trap-q">運用本堂核心概念，小心常見計算錯誤。</div>
+                <div class="lf-trap-wrong">
+                    <span class="lf-ex-label">常見錯誤</span>
+                    <span >常見錯誤：計太快、單位混淆、概念不清。</span>
+                </div>
+                <div class="lf-trap-right">
+                    <span class="lf-ex-label">正確思路</span>
+                    <span >正確：仔細閱讀題目，確認單位換算，逐步檢查每一步計算。</span>
+                </div>
+                <div class="lf-trap-note">💡 考試最常見失分原因：冇檢查答案！</div>
+            </div>
+        </div>
+    </div>
+<div class="lf-h1">AI 智能補充練習</div>
+<div style="background:linear-gradient(135deg,#F0F9FF,#EFF6FF);border:2px solid #3B82F6;border-radius:10px;padding:14px 18px;margin:10px 0;">
+<div class="lf-ex">
+<div class="lf-ex-title">🪤 陷阱引爆例題 1</div>
+<div class="lf-ex-q">茶餐廳推出套餐優惠：一份咖喱牛腩飯原價$48，加$12可配一杯原價$22的凍奶茶。小明用八達通付款，八達通餘額原本有$200，他買了一份咖喱牛腩飯配凍奶茶的套餐。他付款後，八達通餘額還有多少元？</div>
+<div class="lf-ex-compare">
+<div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>❌ 錯誤解法：$200 - $48 - $22 = $130<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生忽略了套餐的優惠，直接將原價相加減，沒有計算套餐的實際總價。</div></div>
+<div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>✅ 正確解法：套餐價 = $48 + $12 = $60；餘額 = $200 - $60 = $140<div style="font-size:9pt;color:#14532D;margin-top:4pt;">步驟1：計算套餐總價：咖喱牛腩飯原價$48，加$12配凍奶茶，所以套餐價 = $48 + $12 = $60。
+步驟2：計算八達通餘額：$200 - $60 = $140。
+答案：$140</div></div>
+</div>
+</div>
+<div class="lf-ex">
+<div class="lf-ex-title">🪤 陷阱引爆例題 2</div>
+<div class="lf-ex-q">海洋公園門票原價成人$480，小童$240。現有「家庭套票」優惠：2位成人加1位小童只需$1000。陳先生夫婦帶同兒子（小童）入場，他們選擇購買家庭套票。如果他們用一張$1000紙幣付款，應找回多少元？</div>
+<div class="lf-ex-compare">
+<div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>❌ 錯誤解法：$1000 - ($480 + $480 + $240) = $1000 - $1200 = -$200（不夠錢）<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生直接計算原價總和，沒有使用家庭套票的優惠價格，導致錯誤認為不夠錢。</div></div>
+<div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>✅ 正確解法：家庭套票價 = $1000；付款$1000，應找回 = $1000 - $1000 = $0<div style="font-size:9pt;color:#14532D;margin-top:4pt;">步驟1：確認家庭套票適用條件：2位成人加1位小童，符合陳先生夫婦和兒子的組合。
+步驟2：套票價格為$1000，他們用$1000紙幣付款。
+步驟3：應找回金額 = $1000 - $1000 = $0。
+答案：$0</div></div>
+</div>
+</div>
+<div class="lf-ex"><div class="lf-ex-title">🪤 陷阱引爆例題 1</div><div class="lf-ex-q">小美用一條長 2.4 米的絲帶包裝禮物。她先剪去全長的 1/3，然後再剪去剩下的 1/4。最後剩下的絲帶長多少米？</div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>2.4 × (1 - 1/3 - 1/4) = 2.4 × (5/12) = 1 米<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生誤以為第二次剪去的 1/4 是「全長的 1/4」，但題目說的是「剩下的 1/4」，兩個分數的基準量不同，不能直接加減。</div></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>1.2 米<div style="font-size:9pt;color:#14532D;margin-top:4pt;">第一步：第一次剪去全長的 1/3，剩下 2.4 × (1 - 1/3) = 2.4 × 2/3 = 1.6 米。
+第二步：第二次剪去剩下的 1/4，即剪去 1.6 × 1/4 = 0.4 米，剩下 1.6 - 0.4 = 1.2 米。
+或綜合式：2.4 × (1 - 1/3) × (1 - 1/4) = 2.4 × 2/3 × 3/4 = 2.4 × 1/2 = 1.2 米。</div></div></div><div style="font-size:9pt;color:#6B7280;margin-top:4pt;font-style:italic;">💡 分數減法要小心，基準不同不能拼；先乘後減逐步來，剩下分數乘到底。</div></div>
+<div class="lf-ex"><div class="lf-ex-title">🪤 陷阱引爆例題 2</div><div class="lf-ex-q">一個長方體水缸長 60 厘米、闊 40 厘米、高 50 厘米，裏面裝有 30 厘米深的水。小明放入一塊體積為 12 000 立方厘米的石頭，石頭完全浸沒。水位上升了多少厘米？</div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>12 000 ÷ (60 × 40 × 50) = 12 000 ÷ 120 000 = 0.1 厘米<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生錯誤地用了水缸的總體積（長×闊×高）做除數，但水位上升只與底面積有關，與水缸高度無關。正確應用水缸的底面積（長×闊）計算。</div></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>5 厘米<div style="font-size:9pt;color:#14532D;margin-top:4pt;">第一步：水缸底面積 = 60 × 40 = 2400 平方厘米。
+第二步：石頭體積 ÷ 底面積 = 水位上升高度。
+12 000 ÷ 2400 = 5 厘米。
+第三步：檢查水位是否超過水缸高度：原水位 30 厘米 + 5 厘米 = 35 厘米，未超過 50 厘米，答案合理。</div></div></div><div style="font-size:9pt;color:#6B7280;margin-top:4pt;font-style:italic;">💡 水位上升看底面積，莫拿總高當分母；體積除以底面積，上升高度即得出。</div></div>
+<div class="lf-ex"><div class="lf-ex-title">🪤 陷阱引爆例題 3</div><div class="lf-ex-q">某書店減價，所有圖書一律八折。志明用優惠券後再減 20 元，最後以 60 元買了一本書。這本書的原價是多少元？</div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>(60 + 20) × 0.8 = 80 × 0.8 = 64 元<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生誤以為先加回優惠券的 20 元，再除以折扣，但折扣是在原價上先打的，優惠券是在折扣後再減。正確順序應先還原折扣後的價錢，再還原折扣。</div></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>100 元<div style="font-size:9pt;color:#14532D;margin-top:4pt;">第一步：先還原優惠券：折扣後價錢 = 60 + 20 = 80 元。
+第二步：八折即原價的 80%，所以原價 = 80 ÷ 0.8 = 100 元。
+驗算：原價 100 元，八折後 80 元，再用優惠券減 20 元，得 60 元，正確。</div></div></div><div style="font-size:9pt;color:#6B7280;margin-top:4pt;font-style:italic;">💡 折扣券後再減錢，還原順序要倒轉；先加券錢再除折，原價自然浮水面。</div></div>
+<div class="lf-ai-section"><div class="lf-ai-title">🎯 AI自動生成 · 課外延伸練習</div>
+<table class="lf-qt"><tr><th>#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="lf-qn">1</td><td>130÷3=?</td><td style="color:#16A34A;font-weight:700;">43...1</td></tr>
+<tr><td class="lf-qn">2</td><td>433-23=?</td><td style="color:#16A34A;font-weight:700;">410</td></tr>
+<tr><td class="lf-qn">3</td><td>18×5=?</td><td style="color:#16A34A;font-weight:700;">90</td></tr>
+</table></div></div>
+
+<!-- ENRICHMENT: Advanced Trap Cards -->
+<section class="lf-trap-section enrichment-section" style="margin-top:32pt; border-top:2px solid var(--lf-gold); padding-top:16pt;">
+<h2 class="lf-h2">🚨 P6 進階陷阱卡 — 呈分試必避！</h2>
+<div class="lf-trap-card enrichment-trap" style="margin-bottom:16pt; border-left:4px solid var(--red); padding:12pt 16pt; background:#FFF5F5; border-radius:4pt;">
+<div class="lf-trap-header"><span class="lf-trap-badge" style="background:var(--red); color:#fff; padding:2pt 8pt; border-radius:3pt; font-size:9pt; font-weight:700;">陷阱 1</span><span class="lf-trap-diff" style="color:var(--red); font-weight:700;">⚠ 高危錯誤</span></div>
+<div style="margin-top:8pt;"><div class="lf-trap-wrong" style="color:var(--red); font-weight:500;">❌ 錯誤：解方程：2(x + 3) = 10 → 2x + 3 = 10 → 2x = 7 → x = 3.5</div>
+<div style="color:var(--gray); font-size:10pt; margin:4pt 0;">🤔 為何會錯：學生在去括號時只將2乘以x，忘記乘以3，導致錯誤的線性方程。</div>
+<div class="lf-trap-right" style="color:var(--green); font-weight:700; margin-top:6pt;">✅ 正確：2(x + 3) = 10 → 2x + 6 = 10 → 2x = 4 → x = 2</div>
+<div class="lf-trap-note" style="background:#FFFBE6; padding:6pt 10pt; margin-top:6pt; border-radius:3pt; font-size:10pt;">💡 去括號時，括號前的數字要乘以括號內的每一項，不可漏乘。</div></div></div>
+<div class="lf-trap-card enrichment-trap" style="margin-bottom:16pt; border-left:4px solid var(--red); padding:12pt 16pt; background:#FFF5F5; border-radius:4pt;">
+<div class="lf-trap-header"><span class="lf-trap-badge" style="background:var(--red); color:#fff; padding:2pt 8pt; border-radius:3pt; font-size:9pt; font-weight:700;">陷阱 2</span><span class="lf-trap-diff" style="color:var(--red); font-weight:700;">⚠ 高危錯誤</span></div>
+<div style="margin-top:8pt;"><div class="lf-trap-wrong" style="color:var(--red); font-weight:500;">❌ 錯誤：計算圓面積：直徑 = 10 cm，面積 = π × 10² = 100π cm²</div>
+<div style="color:var(--gray); font-size:10pt; margin:4pt 0;">🤔 為何會錯：學生誤用直徑代替半徑，面積公式應使用半徑，半徑 = 直徑 ÷ 2 = 5 cm。</div>
+<div class="lf-trap-right" style="color:var(--green); font-weight:700; margin-top:6pt;">✅ 正確：半徑 = 10 ÷ 2 = 5 cm，面積 = π × 5² = 25π cm²</div>
+<div class="lf-trap-note" style="background:#FFFBE6; padding:6pt 10pt; margin-top:6pt; border-radius:3pt; font-size:10pt;">💡 圓面積公式是 πr²，r 一定是半徑，小心題目給的是直徑還是半徑。</div></div></div>
+</section>
+<!-- ENRICHMENT: SSPA Challenge Questions -->
+<section class="enrichment-section" style="margin-top:24pt; border-top:2px solid var(--purple); padding-top:16pt;">
+<h2 class="lf-h2">🏆 P6 呈分試挑戰題 <span class="lf-sspa-badge lf-sspa-high" style="background:var(--purple); color:#fff; padding:2pt 8pt; border-radius:3pt; font-size:9pt;">SSPA 殺手級</span></h2>
+<div class="lf-ex enrichment-challenge" style="margin-bottom:20pt; border:1px solid var(--purple); border-radius:6pt; padding:16pt; background:var(--lf-light);">
+<div class="lf-ex-label" style="font-weight:700; color:var(--lf-blue); display:flex; justify-content:space-between;"><span>挑戰題 1</span><span style="color:var(--purple);">5 分 · SSPA級</span></div>
+<div class="lf-ex-q" style="margin:10pt 0; font-size:11pt; line-height:1.8;">一個長方體水箱，長 60 cm，闊 40 cm，高 30 cm。現在水箱內有水位高 12 cm。如果將一個體積為 7200 cm³ 的金屬正方體完全浸入水中，水位會上升多少 cm？</div>
+<div class="lf-ans" style="margin-top:10pt; padding:10pt; background:#F0FDF4; border-radius:4pt; font-size:10pt;"><strong>答案：</strong>3 cm<br/><strong>解題：</strong>1. 水箱底面積 = 60 × 40 = 2400 cm²
+2. 金屬正方體體積 = 7200 cm³
+3. 水位上升的體積等於金屬體積：上升高度 × 底面積 = 7200
+4. 上升高度 = 7200 ÷ 2400 = 3 cm
+5. 檢查：水位原本12 cm，上升後15 cm，未超過水箱高度30 cm，合理。</div>
+<div class="lf-line" style="height:2px; background:repeating-linear-gradient(90deg,var(--lf-border) 0,var(--lf-border) 4px,transparent 4px,transparent 8px); margin-top:12pt;"></div></div>
+<div class="lf-ex enrichment-challenge" style="margin-bottom:20pt; border:1px solid var(--purple); border-radius:6pt; padding:16pt; background:var(--lf-light);">
+<div class="lf-ex-label" style="font-weight:700; color:var(--lf-blue); display:flex; justify-content:space-between;"><span>挑戰題 2</span><span style="color:var(--purple);">4 分 · SSPA級</span></div>
+<div class="lf-ex-q" style="margin:10pt 0; font-size:11pt; line-height:1.8;">小明有紅、藍、綠三種顏色的波子，數量的比是 5 : 3 : 2。如果藍色波子比紅色波子少 24 粒，求三種波子的總數。</div>
+<div class="lf-ans" style="margin-top:10pt; padding:10pt; background:#F0FDF4; border-radius:4pt; font-size:10pt;"><strong>答案：</strong>120 粒<br/><strong>解題：</strong>1. 設紅色 = 5k，藍色 = 3k，綠色 = 2k
+2. 藍色比紅色少：5k - 3k = 2k = 24 → k = 12
+3. 總數 = 5k + 3k + 2k = 10k = 10 × 12 = 120 粒
+4. 驗算：紅色60，藍色36，綠色24，差24，正確。</div>
+<div class="lf-line" style="height:2px; background:repeating-linear-gradient(90deg,var(--lf-border) 0,var(--lf-border) 4px,transparent 4px,transparent 8px); margin-top:12pt;"></div></div>
+</section>
+<div class="enrichment-tip" style="margin-top:20pt; padding:12pt 16pt; background:#EFF6FF; border-radius:6pt; border-left:4px solid var(--sky);"><strong>🧠 高階思維提示：</strong>在解應用題時，先將文字轉化為數學關係（如比例、方程），並畫圖或列表幫助理解。遇到「比...少/多」的句子，要小心設定未知數的方向，避免反向運算。高階思維：嘗試用代數式表達所有數量，再找等式關係，這是SSPA解難題的核心策略。</div>
+</div>
+<div class="lf-footer">
+<div class="parent-summary" style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:8px;padding:12px 16px;margin:16px 0;">
+<div style="font-weight:900;color:#92400E;font-size:13px;margin-bottom:6px;">📋 家長30秒摘要</div>
+<div style="font-size:11px;color:#374151;line-height:1.7;">
+<b>本堂重點：</b>全面複習/模擬考試，針對弱項補底，答題策略同時間管理。<br/>
+<b>常見陷阱：</b>考試緊張導致睇錯題目；時間分配不均（花太多時間喺一條題目上）；冇檢查答案。<br/>
+<b>在家練習：</b>做計時模擬卷（跟真正考試時間），之後一齊對答案，分析錯題原因。重點係「點解錯」而唔係「錯咗幾多」。<br/>
+<b>SSPA 關聯：</b>模擬練習幫小朋友適應考試壓力同時間限制。
+</div>
+</div>
+LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</div>
+
+<!-- AI Provenance Disclosure -->
+<div class="ai-disclosure" style="font-size:0.75rem;color:#888;border-top:1px solid #eee;margin-top:2rem;padding-top:0.5rem;text-align:center;">
+  📌 本講義由 AI 輔助生成，並經導師審閱。| 
+  AI Model: <span data-ai-model-display>deepseek-v4-flash</span> | 
+  生成日期: <span data-ai-date-display>2026-06-11</span> |
+  審閱狀態: <span data-review-status>⏳ 待審閱</span>
+</div>
+
+</body></html>

@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 卡片背景漸變 -->
+    <linearGradient id="cardGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e8e8e8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f0f0;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- 3D 光影漸變 - 三角形 -->
+    <radialGradient id="triGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#EE5A24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C0392B;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- 3D 光影漸變 - 正方形 -->
+    <radialGradient id="sqGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#74B9FF;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0984E3;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0652DD;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- 3D 光影漸變 - 長方形 -->
+    <radialGradient id="rectGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#55EFC4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00B894;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#008B74;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- 3D 光影漸變 - 圓形 -->
+    <radialGradient id="circGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#FDCB6E;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F39C12;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D68910;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- 陰影濾鏡 - 雙層陰影 -->
+    <filter id="shadowDouble" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+      <feDropShadow dx="-1" dy="-1" stdDeviation="2" flood-color="#ffffff" flood-opacity="0.2"/>
+    </filter>
+
+    <filter id="shadowInner" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+
+    <!-- 發光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- 標題 -->
+  <text x="300" y="38" text-anchor="middle" font-family="'Microsoft YaHei','Noto Sans HK',Arial,sans-serif" font-size="22" font-weight="bold" fill="#ffffff" filter="url(#glow)">📐 基本圖形與角</text>
+  <text x="300" y="56" text-anchor="middle" font-family="'Microsoft YaHei','Noto Sans HK',Arial,sans-serif" font-size="11" fill="#a0b4d0">三角形 · 正方形 · 長方形 · 圓形</text>
+
+  <!-- ==================== 卡片 1: 三角形 ==================== -->
+  <g transform="translate(15, 70)">
+    <!-- 卡片陰影 -->
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="#000000" opacity="0.3" transform="translate(2,3)"/>
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="#ffffff" opacity="0.08" transform="translate(-1,-1)"/>
+    <!-- 卡片本體 -->
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="url(#cardGrad1)" filter="url(#shadowDouble)"/>
+    <!-- 卡片標題 -->
+    <rect x="0" y="0" width="135" height="32" rx="14" fill="#EE5A24" opacity="0.9"/>
+    <rect x="0" y="18" width="135" height="14" fill="#EE5A24" opacity="0.9"/>
+    <text x="67" y="22" text-anchor="middle" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="13" font-weight="bold" fill="#ffffff">三角形</text>
+
+    <!-- 三角形 3D 光影 -->
+    <polygon points="67,40 30,115 104,115" fill="url(#triGrad)" filter="url(#shadowInner)" stroke="#C0392B" stroke-width="1.5"/>
+
+    <!-- 邊標籤 -->
+    <text x="67" y="132" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#2d3436" font-weight="bold">邊</text>
+    <text x="22" y="108" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#636e72">邊</text>
+    <text x="112" y="108" text-anchor="start" font-family="Arial,sans-serif" font-size="9" fill="#636e72">邊</text>
+
+    <!-- 角標記 -->
+    <circle cx="67" cy="40" r="3" fill="#FFEAA7" stroke="#E17055" stroke-width="1"/>
+    <circle cx="30" cy="115" r="3" fill="#FFEAA7" stroke="#E17055" stroke-width="1"/>
+    <circle cx="104" cy="115" r="3" fill="#FFEAA7" stroke="#E17055" stroke-width="1"/>
+
+    <!-- 角標籤 -->
+    <text x="67" y="35" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#E17055" font-weight="bold">∠</text>
+    <text x="24" y="120" text-anchor="end" font-family="Arial,sans-serif" font-size="8" fill="#E17055" font-weight="bold">∠</text>
+    <text x="110" y="120" text-anchor="start" font-family="Arial,sans-serif" font-size="8" fill="#E17055" font-weight="bold">∠</text>
+  </g>
+
+  <!-- ==================== 卡片 2: 正方形 ==================== -->
+  <g transform="translate(160, 70)">
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="#000000" opacity="0.3" transform="translate(2,3)"/>
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="#ffffff" opacity="0.08" transform="translate(-1,-1)"/>
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="url(#cardGrad1)" filter="url(#shadowDouble)"/>
+    <rect x="0" y="0" width="135" height="32" rx="14" fill="#0984E3" opacity="0.9"/>
+    <rect x="0" y="18" width="135" height="14" fill="#0984E3" opacity="0.9"/>
+    <text x="67" y="22" text-anchor="middle" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="13" font-weight="bold" fill="#ffffff">正方形</text>
+
+    <!-- 正方形 3D 光影 -->
+    <rect x="35" y="42" width="65" height="65" rx="3" fill="url(#sqGrad)" filter="url(#shadowInner)" stroke="#0652DD" stroke-width="1.5"/>
+
+    <!-- 邊標籤 -->
+    <text x="67" y="124" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#2d3436" font-weight="bold">邊</text>
+    <text x="67" y="38" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#2d3436" font-weight="bold">邊</text>
+    <text x="28" y="77" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#636e72">邊</text>
+    <text x="106" y="77" text-anchor="start" font-family="Arial,sans-serif" font-size="9" fill="#636e72">邊</text>
+
+    <!-- 角標記 -->
+    <circle cx="35" cy="42" r="3" fill="#FFEAA7" stroke="#0984E3" stroke-width="1"/>
+    <circle cx="100" cy="42" r="3" fill="#FFEAA7" stroke="#0984E3" stroke-width="1"/>
+    <circle cx="35" cy="107" r="3" fill="#FFEAA7" stroke="#0984E3" stroke-width="1"/>
+    <circle cx="100" cy="107" r="3" fill="#FFEAA7" stroke="#0984E3" stroke-width="1"/>
+
+    <!-- 角標籤 -->
+    <text x="29" y="39" text-anchor="end" font-family="Arial,sans-serif" font-size="8" fill="#0984E3" font-weight="bold">∠</text>
+    <text x="106" y="39" text-anchor="start" font-family="Arial,sans-serif" font-size="8" fill="#0984E3" font-weight="bold">∠</text>
+    <text x="29" y="114" text-anchor="end" font-family="Arial,sans-serif" font-size="8" fill="#0984E3" font-weight="bold">∠</text>
+    <text x="106" y="114" text-anchor="start" font-family="Arial,sans-serif" font-size="8" fill="#0984E3" font-weight="bold">∠</text>
+  </g>
+
+  <!-- ==================== 卡片 3: 長方形 ==================== -->
+  <g transform="translate(305, 70)">
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="#000000" opacity="0.3" transform="translate(2,3)"/>
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="#ffffff" opacity="0.08" transform="translate(-1,-1)"/>
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="url(#cardGrad2)" filter="url(#shadowDouble)"/>
+    <rect x="0" y="0" width="135" height="32" rx="14" fill="#00B894" opacity="0.9"/>
+    <rect x="0" y="18" width="135" height="14" fill="#00B894" opacity="0.9"/>
+    <text x="67" y="22" text-anchor="middle" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="13" font-weight="bold" fill="#ffffff">長方形</text>
+
+    <!-- 長方形 3D 光影 -->
+    <rect x="25" y="42" width="85" height="55" rx="3" fill="url(#rectGrad)" filter="url(#shadowInner)" stroke="#008B74" stroke-width="1.5"/>
+
+    <!-- 邊標籤 -->
+    <text x="67" y="114" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#2d3436" font-weight="bold">邊</text>
+    <text x="67" y="38" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#2d3436" font-weight="bold">邊</text>
+    <text x="20" y="72" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#636e72">邊</text>
+    <text x="114" y="72" text-anchor="start" font-family="Arial,sans-serif" font-size="9" fill="#636e72">邊</text>
+
+    <!-- 角標記 -->
+    <circle cx="25" cy="42" r="3" fill="#FFEAA7" stroke="#00B894" stroke-width="1"/>
+    <circle cx="110" cy="42" r="3" fill="#FFEAA7" stroke="#00B894" stroke-width="1"/>
+    <circle cx="25" cy="97" r="3" fill="#FFEAA7" stroke="#00B894" stroke-width="1"/>
+    <circle cx="110" cy="97" r="3" fill="#FFEAA7" stroke="#00B894" stroke-width="1"/>
+
+    <!-- 角標籤 -->
+    <text x="19" y="39" text-anchor="end" font-family="Arial,sans-serif" font-size="8" fill="#00B894" font-weight="bold">∠</text>
+    <text x="116" y="39" text-anchor="start" font-family="Arial,sans-serif" font-size="8" fill="#00B894" font-weight="bold">∠</text>
+    <text x="19" y="104" text-anchor="end" font-family="Arial,sans-serif" font-size="8" fill="#00B894" font-weight="bold">∠</text>
+    <text x="116" y="104" text-anchor="start" font-family="Arial,sans-serif" font-size="8" fill="#00B894" font-weight="bold">∠</text>
+  </g>
+
+  <!-- ==================== 卡片 4: 圓形 ==================== -->
+  <g transform="translate(450, 70)">
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="#000000" opacity="0.3" transform="translate(2,3)"/>
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="#ffffff" opacity="0.08" transform="translate(-1,-1)"/>
+    <rect x="0" y="0" width="135" height="150" rx="14" fill="url(#cardGrad2)" filter="url(#shadowDouble)"/>
+    <rect x="0" y="0" width="135" height="32" rx="14" fill="#F39C12" opacity="0.9"/>
+    <rect x="0" y="18" width="135" height="14" fill="#F39C12" opacity="0.9"/>
+    <text x="67" y="22" text-anchor="middle" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="13" font-weight="bold" fill="#ffffff">圓形</text>
+
+    <!-- 圓形 3D 光影 -->
+    <circle cx="67" cy="77" r="38" fill="url(#circGrad)" filter="url(#shadowInner)" stroke="#D68910" stroke-width="1.5"/>
+
+    <!-- 圓心標記 -->
+    <circle cx="67" cy="77" r="2.5" fill="#FFEAA7" stroke="#E17055" stroke-width="1"/>
+    <text x="67" y="73" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#E17055" font-weight="bold">●</text>
+
+    <!-- 半徑標示 -->
+    <line x1="67" y1="77" x2="95" y2="55" stroke="#FFEAA7" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.8"/>
+    <text x="87" y="62" font-family="Arial,sans-serif" font-size="8" fill="#FFEAA7" font-weight="bold">r</text>
+
+    <!-- 圓周標示 -->
+    <text x="67" y="128" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" fill="#2d3436" font-weight="bold">圓周</text>
+
+    <!-- 直徑標示 -->
+    <line x1="30" y1="77" x2="104" y2="77" stroke="#FFEAA7" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+    <text x="67" y="90" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#FFEAA7">直徑</text>
+  </g>
+
+  <!-- ==================== 底部資訊列 ==================== -->
+  <g transform="translate(0, 240)">
+    <rect x="15" y="0" width="570" height="145" rx="14" fill="#ffffff" opacity="0.08"/>
+    <rect x="15" y="0" width="570" height="145" rx="14" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.15"/>
+
+    <text x="300" y="24" text-anchor="middle" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="14" font-weight="bold" fill="#ffffff" filter="url(#glow)">📖 知識總結</text>
+
+    <!-- 角的分類 -->
+    <g transform="translate(40, 40)">
+      <rect x="0" y="0" width="120" height="90" rx="10" fill="#ffffff" opacity="0.06"/>
+      <text x="60" y="20" text-anchor="middle" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="11" font-weight="bold" fill="#FFEAA7">角的種類</text>
+
+      <!-- 銳角 -->
+      <line x1="15" y1="70" x2="15" y2="35" stroke="#74B9FF" stroke-width="2"/>
+      <line x1="15" y1="70" x2="45" y2="70" stroke="#74B9FF" stroke-width="2"/>
+      <path d="M15,70 L20,55 L30,60" fill="none" stroke="#74B9FF" stroke-width="1.5"/>
+      <text x="52" y="68" font-family="Arial,sans-serif" font-size="9" fill="#74B9FF">銳角</text>
+
+      <!-- 直角 -->
+      <line x1="75" y1="70" x2="75" y2="35" stroke="#55EFC4" stroke-width="2"/>
+      <line x1="75" y1="70" x2="105" y2="70" stroke="#55EFC4" stroke-width="2"/>
+      <rect x="75" y="55" width="8" height="8" fill="none" stroke="#55EFC4" stroke-width="1.2"/>
+      <text x="112" y="68" font-family="Arial,sans-serif" font-size="9" fill="#55EFC4">直角</text>
+    </g>
+
+    <!-- 圖形邊數 -->
+    <g transform="translate(175, 40)">
+      <rect x="0" y="0" width="120" height="90" rx="10" fill="#ffffff" opacity="0.06"/>
+      <text x="60" y="20" text-anchor="middle" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="11" font-weight="bold" fill="#FDCB6E">邊的數量</text>
+
+      <text x="15" y="42" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="10" fill="#FF6B6B">△ 3條邊</text>
+      <text x="15" y="58" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="10" fill="#74B9FF">□ 4條邊</text>
+      <text x="15" y="74" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="10" fill="#55EFC4">▭ 4條邊</text>
+      <text x="15" y="90" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="10" fill="#FDCB6E">○ 0條邊</text>
+    </g>
+
+    <!-- 趣味小知識 -->
+    <g transform="translate(310, 40)">
+      <rect x="0" y="0" width="255" height="90" rx="10" fill="#ffffff" opacity="0.06"/>
+      <text x="127" y="20" text-anchor="middle" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="11" font-weight="bold" fill="#FF9FF3">💡 趣味小知識</text>
+
+      <text x="15" y="42" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="9.5" fill="#dfe6e9">• 三角形內角和 = 180°</text>
+      <text x="15" y="58" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="9.5" fill="#dfe6e9">• 正方形和長方形內角和 = 360°</text>
+      <text x="15" y="74" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="9.5" fill="#dfe6e9">• 圓形沒有角，但有無限條對稱軸</text>
+    </g>
+  </g>
+</svg>

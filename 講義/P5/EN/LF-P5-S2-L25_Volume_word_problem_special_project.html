@@ -6,204 +6,755 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>LF-P5-S2-L25 Volume word problem special project — Student Handout v6</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
 
-  :root {
-    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
-    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
-    --lightbg:#F9FAFB; --borderc:#D1D5DB;
-  }
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11pt;
+  --fs-small: 9pt;
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 1.9;
+  --lh-tight: 1.4;
+  --lh-answer: 2.2;  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+}
 
-  body {
-    font-family:'Noto Sans HK',sans-serif;
-    background:#E5E5E5; color:var(--ink);
-    font-size:13px; line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-  }
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  @media print {
-    body { background:white; font-size:11px; }
-    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
-    .pb.cover-page { page-break-after:always; }
-    .page-break { page-break-before:always; }
-    .no-print { display:none!important; }
-    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
-    .qt td { padding:4px 6px; }
-    .qt { font-size:10.5px; }
-    .qt .qtxt { font-size:11.5px; }
-    .h1 { font-size:14px; margin:12px 0 7px; }
-    .h2 { font-size:12px; }
-    .kp { padding:7px 10px; }
-    .kp-rules { font-size:10.5px; }
-    .ex { padding:7px 10px; }
-    .ex-q { font-size:12px; }
-    .warn { font-size:10.5px; padding:5px 8px; }
-    .mn { font-size:12px; padding:8px 10px; }
-    .sc { gap:6px; }
-    .sc-i { padding:10px; }
-    .sc-i .n { width:26px;height:26px;font-size:14px; }
-    .sc-i .t { font-size:11px; }
-    .tc { gap:8px; }
-    .tc-w, .tc-r { padding:10px; }
-    .et { font-size:10px; }
-  }
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
 
-  .container { max-width:1000px; margin:0 auto; }
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
 
-  .pb {
-    width:100%;
-    background:var(--white);
-    padding:36px 48px;
-    display:flex; flex-direction:column;
-  }
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
 
-  /* ── FRACTIONS ── */
-  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
-  .f .n { font-size:inherit; line-height:1.15; }
-  .f .d { font-size:inherit; line-height:1.15; }
-  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
 
-  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
-  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
-  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
-  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
 
-  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
-  .fi .n { font-size:inherit; line-height:1; }
-  .fi .d { font-size:inherit; line-height:1; }
-  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+.lf-student-info .lf-si-spacer { flex: 1; }
 
-  /* ── COVER ── */
-  .cover {
-    justify-content:center; align-items:center; text-align:center;
-    background:var(--white);
-  }
-  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
-  .cv-badge {
-    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
-    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
-    margin:16px 0;
-  }
-  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
-  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
-  .cv-info {
-    display:inline-block; text-align:left;
-    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
-    padding:18px 24px; font-size:12px; line-height:2;
-  }
-  .cv-info b { color:var(--blue); }
-  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
-  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
 
-  /* ── SECTIONS ── */
-  .h1 {
-    font-family:'Noto Serif HK',serif;
-    font-size:17px; font-weight:900; color:var(--blue);
-    padding:7px 12px; margin:18px 0 10px;
-    border-left:4px solid var(--gold); background:#FFFBEB;
-  }
-  .h2 {
-    font-family:'Noto Serif HK',serif;
-    font-size:14px; font-weight:700; color:var(--blue);
-    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
-  }
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
 
-  /* ── KP ── */
-  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
-  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
-  .kp-rules { font-size:12px; line-height:1.7; }
-  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
 
-  /* ── EXAMPLE ── */
-  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
-  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
-  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
 
-  /* ── WARN ── */
-  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
 
-  /* ── MNEMONIC ── */
-  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
 
-  /* ── TABLES ── */
-  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
-  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
-  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
-  .qt tr:nth-child(even) td { background:#FAFBFC; }
-  .qt .qn { width:34px; text-align:center; font-weight:700; }
-  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
-  .qt .qw {
-    min-height:90px;
-    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
-  }
-  .qt .qtxt { font-size:13px; line-height:1.7; }
-  .d1 { background:#FEF3C7; color:#92400E; }
-  .d2 { background:#DCFCE7; color:#166534; }
-  .d3 { background:#DBEAFE; color:#1E40AF; }
-  .d4 { background:#F3E8FF; color:#7C3AED; }
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
 
-  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
-  .sh { background:#FEE2E2; color:#991B1B; }
-  .sm { background:#FEF3C7; color:#92400E; }
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-  /* ── TRAP COMPARE ── */
-  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
-  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
-  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
-  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
-  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
-  .tc-w .eq { font-size:17px; color:var(--red); }
-  .tc-r .eq { font-size:17px; color:var(--green); }
-  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
-  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
 
-  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
-  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
-  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
-  .sc-i .t { font-size:13px; font-weight:900; }
-  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
 
-  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
-  .et th { background:var(--red); color:white; padding:5px 8px; }
-  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
 
-  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
 
-  /* SVG diagram area */
-  .svg-wrap { text-align:center; margin:10px 0; }
-  .svg-wrap svg { max-width:100%; height:auto; }
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
 
-  /* ── v6 FRACTIONS ── */
-  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
-  .f .n { font-size:inherit; line-height:1.15; }
-  .f .d { font-size:inherit; line-height:1.15; }
-  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
 
-  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
-  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
-  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
-  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
 
-  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
-  .fi .n { font-size:inherit; line-height:1; }
-  .fi .d { font-size:inherit; line-height:1; }
-  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+.lf-kp-rules strong { color: var(--lf-blue); }
 
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
 
-  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
-  .sc-card { background:var(--lightbg); border:1.5px solid var(--borderc); border-radius:6px; padding:10px 8px; text-align:center; font-size:10.5px; }
-  .sc-card .snum { display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; font-size:11px; font-weight:900; line-height:20px; margin-bottom:4px; }
-  .sc-card .stitle { font-weight:700; color:var(--blue); margin:2px 0; }
-  .sc-card .sdetail { font-size:10px; color:var(--ink); line-height:1.4; }
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
 
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
 
-/* MathJax print/PDF fixes */
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
 @media print {
-  mjx-container[display="true"] { margin: 8px 0; }
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
   mjx-container > svg { max-width: 100%; height: auto; }
 }
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
 </style>
 <script>
 MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
@@ -273,11 +824,33 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <em style="color:#6B7280;">考試陷阱：題目給 cm 但答案要 L？先算 cm³，再 ÷1000 轉 L！</em>
 </div>
 </div>
+<!-- LF Academy | AI-enhanced v3 | provenance: DeepSeek -->
+<div style="text-align:center;margin:24px 0;padding:16px;background:#F9FAFB;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+  <img src="/講義/_svg/ds_P5_綜合應用題.svg" alt="教學圖解" style="max-width:100%;height:auto;border-radius:8px;" loading="lazy" />
+  
+</div>
 
-<div class="game-box"><div class="game-title">🍕 分數大作戰</div><div class="game-desc">通分、約分、四則混合！避開分母陷阱。連續答對分數翻倍！</div><div class="game-action">⚡ 開始挑戰 →</div></div>
+
+<div class="game-box"><div class="game-title">🍕 分數大作戰</div>
+<div class="story-context" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:2px solid #16A34A;border-radius:12px;padding:16px 20px;margin:14px 0;">
+<div style="font-weight:900;color:#166534;font-size:14px;margin-bottom:8px;">📖 故事情境</div>
+<div style="font-size:12px;color:#374151;line-height:1.9;">
+🏟️ <b>設計師大挑戰！</b><br/>
+學校要起一個新操場。校長問同學：「如果操場係長方形，長 50 米、闊 30 米，要鋪幾多平方米嘅地墊？」<br/>
+小明舉手話：「我知道！長 × 闊 = 50 × 30 = 1,500 平方米！」<br/>
+校長又問：「咁操場外圍要起圍欄，要幾多米？」小美即刻答：「(50+30) × 2 = 160 米！」<br/>
+<em style="color:#166534;">今日我哋一齊嚟學各種圖形嘅面積、周界同體積計算！</em>
+</div>
+</div>
+<!-- 情境插圖 -->
+<div style="text-align:center;margin:20px 0;padding:12px;background:linear-gradient(135deg,#FEF3C7,#FEF9C3);border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+  <img src="/講義/_svg/scene_kitchen.svg" alt="情境插圖" style="max-width:100%;height:auto;max-height:200px;border-radius:8px;object-fit:contain;" loading="lazy" />
+</div>
+
+<div class="game-desc">通分、約分、四則混合！避開分母陷阱。連續答對分數翻倍！</div><div class="game-action">⚡ 開始挑戰 →</div></div>
 
 <div class="svg-wrap">
-<img src="_svg/L25_disp1.svg" style="max-width:100%;height:auto;"/>
+<img src="_svg/L25_disp1.svg" alt="Displacement method diagram 1" style="max-width:100%;height:auto;"/>
 </div>
 <div class="ex">
 <div class="ex-title">🪤 Trap detonation example - volume vs water height</div>
@@ -321,7 +894,7 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
     </div>
 </div>
 <div class="svg-wrap">
-<img src="_svg/L25_disp2.svg" style="max-width:100%;height:auto;"/>
+<img src="_svg/L25_disp2.svg" alt="Displacement method diagram 2" style="max-width:100%;height:auto;"/>
 </div>
 <div class="ex"><div class="ex-title">🪤 Trap examples</div><div class="ex-q">Example 3: The total capacity of a container is 2000 cm³, and the original water is 1800 cm³. Place a stone with a volume of 500 cm³ (completely submerged). Will the water overflow? If so, how much cm³ is spilled?</div></div>
 <div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 4: The capacity of a fish tank is 50 L, and the original water is 45 L. Place a rockery with a volume of 8 L. Will the water overflow? Why?</div></div>
@@ -336,7 +909,7 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <div class="kp">
 <div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
 <strong style="font-size:13px; color:var(--blue);">📦 Standard cuboid container reference picture</strong><br/>
-<svg height="170" viewbox="0 0 240 170" width="240" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="70" stroke="#1A3C6D" stroke-width="3" width="130" x="25" y="35"></rect><polygon fill="#DBEAFE" points="25,35 45,15 175,15 155,35" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="155,35 175,15 175,85 155,105" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="90" y="121">l</text></svg>
+<svg height="170" viewBox="0 0 240 170" width="240" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="70" stroke="#1A3C6D" stroke-width="3" width="130" x="25" y="35"></rect><polygon fill="#DBEAFE" points="25,35 45,15 175,15 155,35" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="155,35 175,15 175,85 155,105" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="90" y="121">l</text></svg>
 <div style="font-size:9px; color:var(--gray); margin-top:3px;">Length (l) × width (w) × height (h). Base area = l×w. Capacity=l×w×h. Remaining space = capacity − original water volume. Overflow = input volume − remaining space.</div>
 </div>
 <div class="kp-title">Knowledge Point 3: Volume of Irregular Objects - Shapes without formulas also have energy🔴 SSPA must take the exam</div>
@@ -346,7 +919,7 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
       ③ <strong>④ If the object</strong>floats on the water surface<br/>(density is less than water), the drainage method is not applicable - other methods need to be used (such as pressing into the water).<strong>float on water</strong>(Densier than water), drainage method is not applicable - other methods need to be used (such as pressing water in).</div>
 </div>
 <div class="svg-wrap">
-<img src="_svg/L25_disp3.svg" style="max-width:100%;height:auto;"/>
+<img src="_svg/L25_disp3.svg" alt="Displacement method diagram 3" style="max-width:100%;height:auto;"/>
 </div>
 <div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 5: The bottom area of ​​the measuring cup is 20 cm², and the original water height is 15 cm. Add a pellet (completely submerged) and raise the water height to 16 cm. What is the volume of the wave?</div></div>
 <div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 6: The bottom area of ​​a rectangular water tank is 200 cm², and the water height is 25 cm. After placing an irregular stone, the water height rose to 28 cm. What is the volume of the stone in cm³?</div></div>
@@ -388,7 +961,7 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 </table>
 <div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
 <strong style="font-size:13px; color:var(--blue);">💧 Advanced drainage method: multiple objects and removal</strong><br/>
-<svg height="190" viewbox="0 0 390 190" width="390" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="90" stroke="#1A3C6D" stroke-width="3" width="160" x="15" y="15"></rect><rect fill="#BAE6FD" height="28" stroke="#7DD3FC" stroke-width="1.5" width="160" x="15" y="77"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="7" x2="183" y1="77" y2="77"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="start" x="189" y="81">28cm</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="125">Before putting in</text><rect fill="#FFFFFF" height="90" stroke="#1A3C6D" stroke-width="3" width="160" x="215" y="15"></rect><rect fill="#BAE6FD" height="52" stroke="#7DD3FC" stroke-width="1.5" width="160" x="215" y="53"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="207" x2="383" y1="53" y2="53"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="start" x="389" y="57">52cm</text><rect fill="#93C5FD" height="42" stroke="#1A3C6D" stroke-width="2.5" width="42" x="274" y="63"></rect><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="295" y="84">Stone</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="295" y="125">After putting in (completely submerged)</text><line stroke="#DC2626" stroke-width="2.5" x1="187" x2="187" y1="77" y2="53"></line><polygon fill="#DC2626" points="183,57 191,57 187,51"></polygon><text fill="#DC2626" font-size="13" font-weight="700" text-anchor="start" x="201" y="65">+24cm</text><text fill="#16A34A" font-size="14" font-weight="700" text-anchor="middle" x="195" y="157">Water surface rise = volume of object ÷ bottom area</text></svg>
+<svg height="190" viewBox="0 0 390 190" width="390" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="90" stroke="#1A3C6D" stroke-width="3" width="160" x="15" y="15"></rect><rect fill="#BAE6FD" height="28" stroke="#7DD3FC" stroke-width="1.5" width="160" x="15" y="77"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="7" x2="183" y1="77" y2="77"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="start" x="189" y="81">28cm</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="125">Before putting in</text><rect fill="#FFFFFF" height="90" stroke="#1A3C6D" stroke-width="3" width="160" x="215" y="15"></rect><rect fill="#BAE6FD" height="52" stroke="#7DD3FC" stroke-width="1.5" width="160" x="215" y="53"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="207" x2="383" y1="53" y2="53"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="start" x="389" y="57">52cm</text><rect fill="#93C5FD" height="42" stroke="#1A3C6D" stroke-width="2.5" width="42" x="274" y="63"></rect><text fill="#DC2626" font-size="12" font-weight="700" text-anchor="middle" x="295" y="84">Stone</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="295" y="125">After putting in (completely submerged)</text><line stroke="#DC2626" stroke-width="2.5" x1="187" x2="187" y1="77" y2="53"></line><polygon fill="#DC2626" points="183,57 191,57 187,51"></polygon><text fill="#DC2626" font-size="13" font-weight="700" text-anchor="start" x="201" y="65">+24cm</text><text fill="#16A34A" font-size="14" font-weight="700" text-anchor="middle" x="195" y="157">Water surface rise = volume of object ÷ bottom area</text></svg>
 <div style="font-size:9px; color:var(--gray); margin-top:3px;">Review: ① Volume of object = bottom area × water level difference ② New water level = original water level + volume ÷ bottom area ③ Take out the object → the water level drops (drop = volume ÷ bottom area) ④ Multiple objects → calculate the total volume after adding up</div>
 </div>
 <div class="h1">III. Lesson Layered Synchronization Practice</div>
@@ -415,9 +988,9 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <div class="h2">🌳 challenge layer (total 3 questions, 🚀 choose do, SSPAKiller Questions)</div>
 <table class="qt">
 <tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
-<tr><td class="qn">31</td><td class="qtxt"><div class="svg-wrap"><svg height="100" viewbox="0 0 200 100" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="65" stroke="#1A3C6D" stroke-width="3" width="80" x="20" y="15"></rect><rect fill="#BAE6FD" height="45" stroke="#7DD3FC" stroke-width="1.5" width="80" x="20" y="35"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="12" x2="108" y1="35" y2="35"></line><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="60" y="95">40x30x25</text><text fill="#DC2626" font-size="9" font-weight="700" text-anchor="middle" x="60" y="30">Water height 15cm</text><rect fill="#93C5FD" height="30" stroke="#1A3C6D" stroke-width="2" width="30" x="130" y="25"></rect><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="145" y="40">5</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="145" y="50">x5</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="145" y="62">x5</text></svg></div>A rectangular water tank is 40 cm long, 30 cm wide, and 25 cm high. The original water height is 15 cm. Place the iron cubes one by one with a side length of 5 cm. (a) How much will the height of the water change after adding the first iron block? (b) At which iron block is placed the water begins to overflow?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:100px;"></td></tr>
-<tr><td class="qn">32</td><td class="qtxt"><div class="svg-wrap"><svg height="100" viewbox="0 0 220 100" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="65" stroke="#1A3C6D" stroke-width="2.5" width="60" x="15" y="15"></rect><rect fill="#BAE6FD" height="50" stroke="#7DD3FC" stroke-width="1" width="60" x="15" y="30"></rect><text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="45" y="95">A: 15x10</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="45" y="25">h=8</text><rect fill="#FFFFFF" height="65" stroke="#1A3C6D" stroke-width="2.5" width="70" x="120" y="15"></rect><rect fill="#BAE6FD" height="38" stroke="#7DD3FC" stroke-width="1" width="70" x="120" y="42"></rect><text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="155" y="95">B: 20x10</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="155" y="37">h=5</text><line marker-end="url(#arrow)" stroke="#DC2626" stroke-width="2" x1="85" x2="115" y1="65" y2="40"></line><text fill="#DC2626" font-size="8" font-weight="700" x="95" y="55">pour water</text></svg></div>The height of water in container A (cuboid 15 cm × 10 cm) is 8 cm; the height of water in container B (cuboid 20 cm × 10 cm) is 5 cm. Pour some water from A to B so that the water levels in both containers are the same. What is the final height of the water in the two containers? (Tip: The total water volume remains unchanged, final water level = total water volume ÷ total bottom area)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:100px;"></td></tr>
-<tr><td class="qn">33</td><td class="qtxt"><div class="svg-wrap"><svg height="95" viewbox="0 0 200 95" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="70" stroke="#1A3C6D" stroke-width="3" width="65" x="20" y="10"></rect><rect fill="#BAE6FD" height="30" stroke="#7DD3FC" stroke-width="1.5" width="65" x="20" y="50"></rect><text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="52" y="95">h=4 (front)</text><rect fill="#FFFFFF" height="70" stroke="#1A3C6D" stroke-width="3" width="65" x="130" y="10"></rect><rect fill="#BAE6FD" height="65" stroke="#7DD3FC" stroke-width="1.5" width="65" x="130" y="15"></rect><rect fill="#93C5FD" height="25" stroke="#1A3C6D" stroke-width="2" width="25" x="150" y="20"></rect><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="162" y="52">stone</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="162" y="62">800</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="162" y="72">cm³</text><text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="162" y="95">h=12 (back)</text></svg></div>A cube container with water 4 cm high. After an irregular stone with a volume of 800 cm³ is placed (completely submerged), the water height rises to 12 cm. (a) What is the base area of ​​the container? (b) What is the side length of the container? (c) If another stone of the same volume is added, will the water overflow? (container height 15 cm)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">31</td><td class="qtxt"><div class="svg-wrap"><svg height="100" viewBox="0 0 200 100" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="65" stroke="#1A3C6D" stroke-width="3" width="80" x="20" y="15"></rect><rect fill="#BAE6FD" height="45" stroke="#7DD3FC" stroke-width="1.5" width="80" x="20" y="35"></rect><line stroke="#DC2626" stroke-dasharray="4,2" stroke-width="1.5" x1="12" x2="108" y1="35" y2="35"></line><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="60" y="95">40x30x25</text><text fill="#DC2626" font-size="9" font-weight="700" text-anchor="middle" x="60" y="30">Water height 15cm</text><rect fill="#93C5FD" height="30" stroke="#1A3C6D" stroke-width="2" width="30" x="130" y="25"></rect><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="145" y="40">5</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="145" y="50">x5</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="145" y="62">x5</text></svg></div>A rectangular water tank is 40 cm long, 30 cm wide, and 25 cm high. The original water height is 15 cm. Place the iron cubes one by one with a side length of 5 cm. (a) How much will the height of the water change after adding the first iron block? (b) At which iron block is placed the water begins to overflow?</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt"><div class="svg-wrap"><svg height="100" viewBox="0 0 220 100" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="65" stroke="#1A3C6D" stroke-width="2.5" width="60" x="15" y="15"></rect><rect fill="#BAE6FD" height="50" stroke="#7DD3FC" stroke-width="1" width="60" x="15" y="30"></rect><text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="45" y="95">A: 15x10</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="45" y="25">h=8</text><rect fill="#FFFFFF" height="65" stroke="#1A3C6D" stroke-width="2.5" width="70" x="120" y="15"></rect><rect fill="#BAE6FD" height="38" stroke="#7DD3FC" stroke-width="1" width="70" x="120" y="42"></rect><text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="155" y="95">B: 20x10</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="155" y="37">h=5</text><line marker-end="url(#arrow)" stroke="#DC2626" stroke-width="2" x1="85" x2="115" y1="65" y2="40"></line><text fill="#DC2626" font-size="8" font-weight="700" x="95" y="55">pour water</text></svg></div>The height of water in container A (cuboid 15 cm × 10 cm) is 8 cm; the height of water in container B (cuboid 20 cm × 10 cm) is 5 cm. Pour some water from A to B so that the water levels in both containers are the same. What is the final height of the water in the two containers? (Tip: The total water volume remains unchanged, final water level = total water volume ÷ total bottom area)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">33</td><td class="qtxt"><div class="svg-wrap"><svg height="95" viewBox="0 0 200 95" width="200" xmlns="http://www.w3.org/2000/svg"><rect fill="#FFFFFF" height="70" stroke="#1A3C6D" stroke-width="3" width="65" x="20" y="10"></rect><rect fill="#BAE6FD" height="30" stroke="#7DD3FC" stroke-width="1.5" width="65" x="20" y="50"></rect><text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="52" y="95">h=4 (front)</text><rect fill="#FFFFFF" height="70" stroke="#1A3C6D" stroke-width="3" width="65" x="130" y="10"></rect><rect fill="#BAE6FD" height="65" stroke="#7DD3FC" stroke-width="1.5" width="65" x="130" y="15"></rect><rect fill="#93C5FD" height="25" stroke="#1A3C6D" stroke-width="2" width="25" x="150" y="20"></rect><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="162" y="52">stone</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="162" y="62">800</text><text fill="#DC2626" font-size="8" font-weight="700" text-anchor="middle" x="162" y="72">cm³</text><text fill="#1A3C6D" font-size="9" font-weight="700" text-anchor="middle" x="162" y="95">h=12 (back)</text></svg></div>A cube container with water 4 cm high. After an irregular stone with a volume of 800 cm³ is placed (completely submerged), the water height rises to 12 cm. (a) What is the base area of ​​the container? (b) What is the side length of the container? (c) If another stone of the same volume is added, will the water overflow? (container height 15 cm)</td><td class="qd d4">🏔️</td><td class="qw" style="min-height:88px;"></td></tr>
 </table>
 <div class="h1">IV.Class afterhomework</div>
 <div class="h2">Basic must-do questions (total 5 questions, column → calculate → answer sentence)</div>

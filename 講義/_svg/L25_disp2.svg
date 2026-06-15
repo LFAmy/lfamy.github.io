@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8f4f8;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#d1ecf1;stop-opacity:1"/>
+    </linearGradient>
+
+    <!-- 卡片背景漸變 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#f0f8ff;stop-opacity:1"/>
+    </linearGradient>
+
+    <!-- 水體漸變（3D效果） -->
+    <linearGradient id="waterGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4fc3f7;stop-opacity:0.85"/>
+      <stop offset="40%" style="stop-color:#29b6f6;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#0288d1;stop-opacity:0.95"/>
+    </linearGradient>
+
+    <!-- 水面放射漸變 -->
+    <radialGradient id="waterSurfaceGrad" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#81d4fa;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#4fc3f7;stop-opacity:0.3"/>
+    </radialGradient>
+
+    <!-- 溢出水滴漸變 -->
+    <radialGradient id="dropGrad" cx="35%" cy="35%" r="60%">
+      <stop offset="0%" style="stop-color:#b3e5fc;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#29b6f6;stop-opacity:1"/>
+    </radialGradient>
+
+    <!-- 不規則物體漸變（3D石頭） -->
+    <radialGradient id="rockGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" style="stop-color:#9e9e9e;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#757575;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#424242;stop-opacity:1"/>
+    </radialGradient>
+
+    <!-- 陰影過濾器 -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="115%" height="120%">
+      <feDropShadow dx="3" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+
+    <filter id="innerShadow" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.1"/>
+    </filter>
+
+    <filter id="rockShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+
+    <filter id="dropShadow" x="-30%" y="-30%" width="180%" height="180%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+
+    <!-- 水波紋 -->
+    <filter id="waterRipple">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03 0.06" numOctaves="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- 溢出箭頭漸變 -->
+    <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff7043;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#e64a19;stop-opacity:1"/>
+    </linearGradient>
+
+    <!-- 標題漸變 -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1565c0;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0d47a1;stop-opacity:1"/>
+    </linearGradient>
+
+    <!-- 量杯刻度 -->
+    <linearGradient id="measureGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#37474f;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#37474f;stop-opacity:0.8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect x="0" y="0" width="600" height="400" fill="url(#bgGrad)" rx="0"/>
+
+  <!-- 主卡片 -->
+  <rect x="20" y="15" width="560" height="370" rx="20" ry="20" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+
+  <!-- 標題 -->
+  <text x="300" y="52" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="22" font-weight="bold" fill="url(#titleGrad)">📐 體積排水法 2 — 溢出水量 = 物體體積</text>
+
+  <!-- 量杯（左側） -->
+  <g transform="translate(100, 60)">
+    <!-- 量杯陰影 -->
+    <rect x="38" y="8" width="124" height="250" rx="8" ry="8" fill="#00000020" filter="url(#rockShadow)"/>
+
+    <!-- 量杯主體 -->
+    <rect x="30" y="0" width="120" height="250" rx="10" ry="10" fill="#ffffff" stroke="#90a4ae" stroke-width="2.5" filter="url(#innerShadow)"/>
+
+    <!-- 量杯刻度線 -->
+    <line x1="55" y1="40" x2="80" y2="40" stroke="url(#measureGrad)" stroke-width="1.5"/>
+    <line x1="55" y1="70" x2="80" y2="70" stroke="url(#measureGrad)" stroke-width="1.5"/>
+    <line x1="55" y1="100" x2="80" y2="100" stroke="url(#measureGrad)" stroke-width="1.5"/>
+    <line x1="55" y1="130" x2="80" y2="130" stroke="url(#measureGrad)" stroke-width="1.5"/>
+    <line x1="55" y1="160" x2="80" y2="160" stroke="url(#measureGrad)" stroke-width="1.5"/>
+    <line x1="55" y1="190" x2="80" y2="190" stroke="url(#measureGrad)" stroke-width="1.5"/>
+    <line x1="55" y1="220" x2="80" y2="220" stroke="url(#measureGrad)" stroke-width="1.5"/>
+
+    <!-- 刻度數字 -->
+    <text x="50" y="44" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#546e7a">300</text>
+    <text x="50" y="74" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#546e7a">250</text>
+    <text x="50" y="104" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#546e7a">200</text>
+    <text x="50" y="134" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#546e7a">150</text>
+    <text x="50" y="164" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#546e7a">100</text>
+    <text x="50" y="194" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#546e7a">50</text>
+    <text x="50" y="224" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="#546e7a">0</text>
+
+    <!-- 水量（藍色部分）初始水位到150ml -->
+    <rect x="32" y="130" width="116" height="118" rx="6" ry="6" fill="url(#waterGrad)"/>
+
+    <!-- 水面高光 -->
+    <ellipse cx="90" cy="130" rx="55" ry="6" fill="url(#waterSurfaceGrad)"/>
+
+    <!-- 水波紋 -->
+    <path d="M35,145 Q55,140 75,145 Q95,150 115,145 Q135,140 148,145" fill="none" stroke="#81d4fa" stroke-width="1.2" opacity="0.5"/>
+    <path d="M35,160 Q55,155 75,160 Q95,165 115,160 Q135,155 148,160" fill="none" stroke="#81d4fa" stroke-width="0.8" opacity="0.3"/>
+
+    <!-- 不規則物體（石頭） -->
+    <g filter="url(#rockShadow)">
+      <path d="M70,195 Q65,185 72,178 Q80,170 90,172 Q100,170 108,178 Q115,185 112,195 Q110,205 100,208 Q88,210 78,205 Q68,200 70,195Z" fill="url(#rockGrad)"/>
+      <!-- 石頭高光 -->
+      <path d="M78,180 Q85,176 92,178 Q96,180 94,184 Q88,186 82,184 Q78,182 78,180Z" fill="#bdbdbd" opacity="0.5"/>
+    </g>
+
+    <!-- 量杯嘴 -->
+    <path d="M150,10 L165,5 L165,20 L150,18Z" fill="#ffffff" stroke="#90a4ae" stroke-width="1.5"/>
+
+    <!-- 溢出箭頭 -->
+    <path d="M165,12 L185,12 L180,7 M185,12 L180,17" stroke="url(#arrowGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- 溢出標籤 -->
+    <text x="195" y="16" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="11" fill="#e64a19" font-weight="bold">溢出</text>
+  </g>
+
+  <!-- 溢出水滴（動態感） -->
+  <g filter="url(#dropShadow)">
+    <ellipse cx="278" cy="82" rx="6" ry="8" fill="url(#dropGrad)"/>
+    <ellipse cx="290" cy="95" rx="4" ry="6" fill="url(#dropGrad)"/>
+    <ellipse cx="272" cy="100" rx="3.5" ry="5" fill="url(#dropGrad)"/>
+  </g>
+
+  <!-- 右側：公式與說明 -->
+  <g transform="translate(320, 75)">
+    <!-- 公式卡片 -->
+    <rect x="0" y="0" width="240" height="140" rx="15" ry="15" fill="#fff8e1" stroke="#ffe082" stroke-width="2" filter="url(#cardShadow)"/>
+
+    <!-- 公式標題 -->
+    <text x="120" y="28" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="14" fill="#f57f17" font-weight="bold">📝 核心公式</text>
+
+    <!-- 公式內容 -->
+    <text x="120" y="60" text-anchor="middle" font-family="'Times New Roman',serif" font-size="22" fill="#e65100" font-weight="bold" font-style="italic">V物體 = V溢出</text>
+
+    <!-- 分隔線 -->
+    <line x1="30" y1="75" x2="210" y2="75" stroke="#ffe082" stroke-width="1" stroke-dasharray="4,3"/>
+
+    <!-- 說明文字 -->
+    <text x="120" y="98" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="12" fill="#5d4037">不規則物體放入滿水量杯</text>
+    <text x="120" y="118" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="12" fill="#5d4037">溢出的水量 = 物體體積</text>
+
+    <!-- 小提示 -->
+    <text x="120" y="138" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="10" fill="#8d6e63">💡 適用於不規則形狀物體</text>
+  </g>
+
+  <!-- 右側下方：圖解說明 -->
+  <g transform="translate(320, 230)">
+    <rect x="0" y="0" width="240" height="130" rx="15" ry="15" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="2" filter="url(#cardShadow)"/>
+
+    <text x="120" y="25" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="13" fill="#2e7d32" font-weight="bold">🔍 步驟說明</text>
+
+    <text x="15" y="50" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="11" fill="#37474f">1️⃣ 量杯裝滿水至頂部</text>
+    <text x="15" y="72" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="11" fill="#37474f">2️⃣ 放入不規則物體</text>
+    <text x="15" y="94" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="11" fill="#37474f">3️⃣ 收集溢出的水</text>
+    <text x="15" y="116" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="11" fill="#37474f">4️⃣ 測量溢出水量 = 物體體積</text>
+  </g>
+
+  <!-- 裝飾：小水滴圖標 -->
+  <g transform="translate(50, 340)" opacity="0.4">
+    <ellipse cx="0" cy="0" rx="4" ry="6" fill="#29b6f6"/>
+    <ellipse cx="15" cy="5" rx="3" ry="4" fill="#4fc3f7"/>
+    <ellipse cx="30" cy="2" rx="3.5" ry="5" fill="#29b6f6"/>
+  </g>
+
+  <!-- 裝飾：底部版權/標籤 -->
+  <text x="300" y="378" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK',sans-serif" font-size="9" fill="#90a4ae">小學數學 · 體積排水法 · v3</text>
+</svg>

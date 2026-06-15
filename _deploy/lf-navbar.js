@@ -72,10 +72,10 @@
         if (document.getElementById("lf-navbar")) return;
 
         const nav = document.createElement("nav");
-        nav.id = "lf-navbar";
+        nav.id = "lf-navbar";`r`n    nav.setAttribute("role", "navigation");`r`n    nav.setAttribute("aria-label", "主要導航");
 
         // Brand
-        let html = '<a href="' + HOME + '" class="lf-nav-brand">';
+        let html = '<a role="menuitem" href="' + HOME + '" class="lf-nav-brand">';
         html += '<img src="' + LOGO + '" alt="' + BRAND + '" onerror="this.style.display=\'none\'">';
         html += '<span class="lf-nav-brand-text">' + BRAND + '</span>';
         html += '</a>';
@@ -85,7 +85,7 @@
         links.forEach(function(link) {
             const isActive = currentPath === link.href || currentPath.endsWith(link.href);
             const activeClass = isActive ? ' active' : '';
-            html += '<a href="' + link.href + '" class="lf-nav-link' + activeClass + '">';
+            html += '<a role="menuitem" href="' + link.href + '" class="lf-nav-link' + activeClass + '">';
             html += '<span class="lf-nav-icon">' + link.icon + '</span>';
             html += '<span class="lf-nav-label">' + link.label + '</span>';
             html += '</a>';
@@ -146,7 +146,7 @@
             "#lf-navbar .lf-nav-name{font-size:12px;color:#1E293B;font-weight:500;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
             "#lf-navbar .lf-nav-menu-btn{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:#1A3C6D;padding:4px 8px;border-radius:8px}",
             "#lf-navbar .lf-nav-menu-btn:hover{background:#F1F5F9}",
-            "@media(max-width:768px){#lf-navbar{padding:6px 12px;height:48px}body{padding-top:48px!important}#lf-navbar .lf-nav-brand-text{font-size:13px}#lf-navbar .lf-nav-link{padding:5px 8px;font-size:11px}#lf-navbar .lf-nav-icon{font-size:14px}#lf-navbar .lf-nav-label{display:none}#lf-navbar .lf-nav-name{display:none}#lf-navbar .lf-nav-menu-btn{display:block}#lf-navbar.menu-open .lf-nav-links{display:flex;position:fixed;top:48px;left:0;right:0;background:white;flex-direction:column;padding:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1);gap:2px}#lf-navbar .lf-nav-links{display:flex}}",
+            "@media(max-width:768px){body{padding-top:48px!important}#lf-navbar{padding:6px 12px;height:48px}body{padding-top:48px!important}#lf-navbar .lf-nav-brand-text{font-size:13px}#lf-navbar .lf-nav-link{padding:5px 8px;font-size:11px}#lf-navbar .lf-nav-icon{font-size:14px}#lf-navbar .lf-nav-label{display:none}#lf-navbar .lf-nav-name{display:none}#lf-navbar .lf-nav-menu-btn{display:block}#lf-navbar.menu-open .lf-nav-links{display:flex;position:fixed;top:48px;left:0;right:0;background:white;flex-direction:column;padding:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1);gap:2px}#lf-navbar .lf-nav-links{display:flex}}",
             "@media(min-width:769px){#lf-navbar .lf-nav-links{display:flex!important}}",
             "@media(max-width:400px){#lf-navbar{gap:4px}#lf-navbar .lf-nav-link{padding:4px 6px;font-size:10px}}"
         ].join("\n");

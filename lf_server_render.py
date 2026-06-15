@@ -29,7 +29,7 @@ def get_db():
             return psycopg2.connect(db_url + "&connect_timeout=5")
         return psycopg2.connect(db_url + "?connect_timeout=5")
     # Fallback to local
-    return psycopg2.connect("host='localhost' dbname='question_bank' user='postgres' password='' connect_timeout=3")
+    return psycopg2.connect("host='localhost' dbname='question_bank' user='postgres' password='postgres' connect_timeout=3")
 
 # === Load AI Engines ===
 try:
@@ -41,6 +41,11 @@ try:
     from engines.lf_ai_brain import ai_tutor_chat, ai_tutor_solve
     from engines.misconception_engine import detect_misconceptions
     from engines.ai_orchestrator import smart_pipeline
+    from engines.gamification import update_gamification, get_leaderboard, get_badge
+    from engines.class_analytics import get_class_heatmap, get_class_summary, get_student_matrix
+    from engines.content_sync import get_sync_status, mark_synced, scan_changes
+    from engines.mab_flowzone import get_flowzone_recommendation
+    GAMIFICATION_ACTIVE = True
     ENGINES_LOADED = True
 except Exception as e:
     print(f"[WARN] Engines import failed: {e}, trying direct import...")
@@ -50,6 +55,11 @@ except Exception as e:
         from tutor_engine import get_hint, generate_hints
         from misconception_engine import detect_misconceptions
         from ai_orchestrator import smart_pipeline
+        from gamification import update_gamification, get_leaderboard, get_badge
+        from class_analytics import get_class_heatmap, get_class_summary, get_student_matrix
+        from content_sync import get_sync_status, mark_synced, scan_changes
+        from mab_flowzone import get_flowzone_recommendation
+        GAMIFICATION_ACTIVE = True
         ENGINES_LOADED = True
     except Exception as e2:
         print(f"[WARN] Direct import also failed: {e2}")
@@ -60,6 +70,17 @@ except Exception as e:
     def generate_hints(*a,**kw): return ["請嘗試從已知條件推理"]
     def detect_misconceptions(*a,**kw): return {"weak_areas":[]}
     def smart_pipeline(*a,**kw): return {"error":"Engine offline"}
+    GAMIFICATION_ACTIVE = False
+    def update_gamification(*a,**kw): return {}
+    def get_leaderboard(*a,**kw): return []
+    def get_badge(*a,**kw): return ""
+    def get_class_heatmap(*a,**kw): return {}
+    def get_class_summary(*a,**kw): return {}
+    def get_student_matrix(*a,**kw): return {}
+    def get_sync_status(*a,**kw): return {}
+    def mark_synced(*a,**kw): return {}
+    def scan_changes(*a,**kw): return {}
+    def get_flowzone_recommendation(*a,**kw): return {}
 
 try:
     from engines.lf_ai_brain import ai_daily_summary, ai_analyze_student, ai_generate_question, check_health
@@ -76,7 +97,7 @@ except:
         def check_health(): return {"frellmapi":"offline"}
 
 # Config
-FRELLMAPI_KEY = os.environ.get("FRELLMAPI_KEY", "freellmapi-f672a67d7f6ef4a707a062e0be44e2611b3fc3124269d45a")
+from _config.secrets import FRELLMAPI_KEY
 FRELLMAPI_URL = os.environ.get("FRELLMAPI_URL", "https://watches-organized-mission-vision.trycloudflare.com/v1")
 
 # === Free AI Providers (0 cost, works from Render) ===
@@ -172,25 +193,25 @@ def call_free_ai(prompt, system_prompt="", max_tokens=512):
 def generate_socratic_response(message, topic=""):
     """Socratic tutor response using free AI"""
     system = """You are an AI Math Tutor for Hong Kong primary students (P3-P6). Use Socratic dialogue. Rules:
-1. Ask ONE guiding question only, never give the answer directly
+1. Ask ONE guiding question only, give clear step-by-step teaching. ALWAYS explain the concept with examples
 2. If student is correct, encourage and ask next step
 3. If student is wrong, don't say 'wrong', guide them to rethink
 4. Use Traditional Chinese with HK Cantonese style
 5. If student asks non-math, politely redirect to math
 6. Be encouraging and suitable for primary schoolers"""
 
-    prompt_text = f"Topic: {topic if topic else 'Primary Math'}\nStudent: {message}\nGive ONE Socratic guiding question in HK-style Traditional Chinese:"
+    prompt_text = f"Topic: {topic if topic else 'Primary Math'}\nStudent: {message}\nGive a clear teaching response in HK-style Traditional Chinese with steps and examples:"
 
     result = call_free_ai(prompt_text, system, max_tokens=300)
     if result:
         return result
     # Local fallback
     fallbacks = [
-        "好問題！等我哋一齊諗下～你覺得呢條題目涉及咩數學概念？",
-        "一步一步嚟！題目俾咗咩數字你？寫出嚟睇下？",
-        "試下將題目拆開做細步驟，第一步你會點做？",
-        "有冇類似嘅題目你做過？諗下用同樣方法得唔得？",
-        "畫個圖或者列表幫自己理解題目，之後你見到咩？",
+        "好問題！等我解釋俾你聽。先睇題目數字，再揀正確方法計算！",
+        "明白！我教你點解呢類題目。首先睇清楚題目問咩，然後逐步計！",
+        "數學題可以拆開步驟做。先找出關鍵數字，再選擇正確公式！",
+        "我解釋你聽！呢類題目有固定解法。先找出已知條件，再應用公式！",
+        "圖像化係好方法！等我示範俾你睇點樣用圖解理解呢類題目！",
     ]
     import random as _random
     return _random.choice(fallbacks)
@@ -292,6 +313,14 @@ def api_mark():
     try:
         conn = get_db()
         result = mark_with_feedback(data.get("student_answer",""), int(qid))
+        # Gamification hook
+        student_name = data.get("student", "anonymous")
+        is_correct = result.get("status") == "CORRECT"
+        try:
+            game_result = update_gamification(student_name, is_correct, conn)
+            result["gamification"] = game_result
+        except Exception:
+            pass
         conn.close()
         return jsonify(result)
     except Exception as e:
@@ -313,6 +342,277 @@ def api_smart():
         )
         conn.close()
         return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+# === Gamification API (v7.0 Activated) ===
+@app.route("/api/gamification/status/<student>")
+def api_gamification_status(student):
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT points, streak, badge, last_played, daily_date, daily_correct, daily_bonus_claimed FROM gamification WHERE student_name = %s",
+            (student,)
+        )
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        if row:
+            return jsonify({
+                "student_name": student,
+                "points": row[0], "streak": row[1], "badge": row[2],
+                "last_played": str(row[3]) if row[3] else None,
+                "daily_correct": row[5], "daily_bonus_claimed": row[6]
+            })
+        return jsonify({"student_name": student, "points": 0, "streak": 0, "badge": "🥉 銅章", "new_student": True})
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+@app.route("/api/gamification/leaderboard")
+def api_leaderboard():
+    try:
+        conn = get_db()
+        lb = get_leaderboard(conn, limit=20)
+        conn.close()
+        return jsonify({"leaderboard": lb, "total": len(lb)})
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+@app.route("/api/gamification/badge-history/<student>")
+def api_badge_history(student):
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT sp.created_at, sp.score, sp.status, q.topic FROM student_progress sp JOIN questions q ON sp.question_id = q.id WHERE sp.student_name = %s ORDER BY sp.created_at DESC LIMIT 50",
+            (student,)
+        )
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        history = [{"date": str(r[0]), "score": float(r[1] or 0), "status": r[2], "topic": r[3]} for r in rows]
+        return jsonify({"student_name": student, "recent_activity": history, "count": len(history)})
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+# === Class Analytics API (v7.0) ===
+# === Content Sync API (v7.0) ===
+@app.route("/api/content/sync-status")
+def api_sync_status():
+    try:
+        status = get_sync_status()
+        return jsonify(status)
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+@app.route("/api/content/mark-synced", methods=["POST"])
+def api_mark_synced():
+    try:
+        result = mark_synced()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+# === BKT: Bayesian Knowledge Tracking (v7.0) ===
+@app.route("/api/ai/bkt/<student>")
+def api_bkt(student):
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT q.topic,
+                   COUNT(*) FILTER (WHERE sp.status='CORRECT') as correct,
+                   COUNT(*) as total
+            FROM student_progress sp
+            JOIN questions q ON sp.question_id = q.id
+            WHERE sp.student_name = %s
+            GROUP BY q.topic
+        """, (student,))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        
+        bkt = {}
+        for topic, correct, total in rows:
+            p_learned = (correct + 1) / (total + 2)  # Laplace smoothing
+            if total < 3:
+                confidence = "low"
+            elif total < 8:
+                confidence = "medium"
+            else:
+                confidence = "high"
+            bkt[topic] = {
+                "topic": topic,
+                "correct": correct, "total": total,
+                "p_mastery": round(p_learned, 3),
+                "confidence": confidence,
+                "recommendation": "mastered" if p_learned > 0.85 else "practice" if p_learned > 0.6 else "relearn"
+            }
+        
+        return jsonify({"student": student, "knowledge_tracking": bkt, "topics": len(bkt)})
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+# === Spaced Repetition System (v7.0) ===
+@app.route("/api/ai/spaced-review/<student>")
+def api_spaced_review(student):
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        # Get topics practiced and their last practice date
+        cur.execute("""
+            SELECT q.topic, MAX(sp.created_at) as last_practice,
+                   AVG(CASE WHEN sp.status='CORRECT' THEN 1.0 ELSE 0.0 END) as accuracy
+            FROM student_progress sp
+            JOIN questions q ON sp.question_id = q.id
+            WHERE sp.student_name = %s
+            GROUP BY q.topic
+            ORDER BY last_practice ASC
+        """, (student,))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        
+        from datetime import datetime, timedelta
+        now = datetime.now()
+        review_queue = []
+        
+        for topic, last_practice, accuracy in rows:
+            days_since = (now - last_practice).days if last_practice else 999
+            acc = float(accuracy) if accuracy else 0.5
+            
+            # Ebbinghaus spacing: harder = review sooner
+            if acc < 0.5:
+                interval = 1  # 1 day
+            elif acc < 0.7:
+                interval = 3  # 3 days
+            elif acc < 0.85:
+                interval = 7  # 1 week
+            else:
+                interval = 14  # 2 weeks
+            
+            due = days_since >= interval
+            review_queue.append({
+                "topic": topic,
+                "accuracy": round(acc * 100, 1),
+                "last_practice": str(last_practice)[:10] if last_practice else None,
+                "days_since": days_since,
+                "review_interval_days": interval,
+                "due": due,
+                "urgency": "now" if due and acc < 0.5 else "soon" if due else "ok"
+            })
+        
+        return jsonify({"student": student, "review_queue": review_queue, "total": len(review_queue)})
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+# === AI Exam Generator (v7.0) ===
+@app.route("/api/ai/generate-exam", methods=["POST"])
+def api_generate_exam():
+    try:
+        data = request.get_json()
+        topic = data.get("topic", "")
+        difficulty = data.get("difficulty", 3)
+        count = data.get("count", 10)
+        trap_ratio = data.get("trap_ratio", 0.3)
+        
+        conn = get_db()
+        cur = conn.cursor()
+        
+        # Get questions from DB
+        trap_count = max(1, int(count * trap_ratio))
+        normal_count = count - trap_count
+        
+        cur.execute("""
+            SELECT id, question_text, answer, topic, difficulty, question_type
+            FROM questions
+            WHERE topic ILIKE %s
+            ORDER BY RANDOM() LIMIT %s
+        """, (f"%{topic}%", normal_count))
+        normal_qs = cur.fetchall()
+        
+        # Get variants for trap questions
+        cur.execute("""
+            SELECT v.id, v.question_text, v.answer, v.topic, v.difficulty, v.variant_type
+            FROM variants v
+            WHERE v.topic ILIKE %s
+            ORDER BY RANDOM() LIMIT %s
+        """, (f"%{topic}%", trap_count))
+        trap_qs = cur.fetchall()
+        
+        cur.close()
+        conn.close()
+        
+        questions = []
+        for q in normal_qs:
+            questions.append({
+                "id": q[0], "text": q[1], "answer": q[2],
+                "topic": q[3], "difficulty": q[4], "type": q[5],
+                "is_trap": False
+            })
+        for q in trap_qs:
+            questions.append({
+                "id": q[0], "text": q[1], "answer": q[2],
+                "topic": q[3], "difficulty": q[4], "type": q[5],
+                "is_trap": True
+            })
+        
+        import random
+        random.shuffle(questions)
+        
+        return jsonify({
+            "exam_title": f"LF Academy {topic} Test",
+            "topic": topic,
+            "total_questions": len(questions),
+            "trap_questions": trap_count,
+            "difficulty": difficulty,
+            "questions": questions,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+# === MAB Flow-Zone API (v7.0) ===
+@app.route("/api/ai/flowzone/<student>")
+def api_flowzone(student):
+    try:
+        conn = get_db()
+        result = get_flowzone_recommendation(student, conn)
+        conn.close()
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+@app.route("/api/class/heatmap")
+def api_class_heatmap():
+    try:
+        conn = get_db()
+        grade = request.args.get("grade")
+        heatmap = get_class_heatmap(conn, grade_filter=grade)
+        conn.close()
+        return jsonify({"heatmap": heatmap, "topics": len(heatmap)})
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+@app.route("/api/class/summary")
+def api_class_summary():
+    try:
+        conn = get_db()
+        grade = request.args.get("grade")
+        summary = get_class_summary(conn, grade_filter=grade)
+        conn.close()
+        return jsonify(summary)
+    except Exception as e:
+        return jsonify({"error": str(e)[:100]}), 500
+
+@app.route("/api/class/student-matrix")
+def api_student_matrix():
+    try:
+        conn = get_db()
+        grade = request.args.get("grade")
+        matrix = get_student_matrix(conn, grade_filter=grade)
+        conn.close()
+        return jsonify(matrix)
     except Exception as e:
         return jsonify({"error": str(e)[:100]}), 500
 
@@ -385,10 +685,28 @@ def api_generate_question():
 @app.route("/api/ai/cognitive-model/<student>")
 def api_cognitive_model(student):
     try:
-        model = ai_analyze_student(student)
-        return jsonify({"student": student, "cognitive_model": model})
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT q.topic, sp.score, sp.max_score, sp.status, sp.created_at
+            FROM student_progress sp
+            JOIN questions q ON sp.question_id = q.id
+            WHERE sp.student_name = %s
+            ORDER BY sp.created_at DESC LIMIT 30
+        """, (student,))
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        
+        progress_data = [
+            {"topic": r[0], "score": float(r[1] or 0), "max_score": float(r[2] or 5), "status": r[3]}
+            for r in rows
+        ]
+        
+        model = ai_analyze_student(student, progress_data)
+        return jsonify({"student": student, "cognitive_model": model, "data_points": len(progress_data)})
     except Exception as e:
-        return jsonify({"error": str(e)[:100]}), 500
+        return jsonify({"error": str(e)[:100], "student": student, "cognitive_model": {"weak_concepts": ["需要更多數據"], "learning_style": "待分析"}}), 200
 
 @app.route("/api/ai/generate-variants", methods=["POST"])
 def api_generate_variants():
@@ -473,7 +791,8 @@ def api_tutor_chat():
                 topic=topic or getattr(session, 'topic', ''),
                 student_answer=student_answer,
                 correct_answer=correct_answer,
-                student_name=getattr(session, 'student_name', '')
+                student_name=getattr(session, 'student_name', ''),
+                mode=mode
             )
             response_text = result.get('response', '')
         except Exception:
@@ -488,7 +807,7 @@ def api_tutor_chat():
 
         # Final fallback if still no good response
         if not response_text or len(response_text) < 10:
-            response_text = "好問題！等我哋一齊諗下～你覺得呢條題目涉及咩數學概念？可以先試下講出你嘅想法！"
+            response_text = "好問題！等我哋一齊諗下～等我解釋呢個數學概念俾你聽！首先我哋要睇清楚題目，然後逐步計出答案。你需要我詳細解釋嗎？！"
 
         if session and hasattr(session, 'add_message'):
             try:
@@ -699,6 +1018,15 @@ def health():
         "ai_brain": AI_BRAIN
     })
 
+
+@app.route("/site/", defaults={"path": "index.html"})
+@app.route("/site/<path:path>")
+def serve_site(path):
+    """Serve the full site from _deploy directory"""
+    import os as _os
+    site_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "_deploy")
+    return send_from_directory(site_path, path)
+
 @app.route("/")
 def home():
     return jsonify({
@@ -713,3 +1041,102 @@ if __name__ == "__main__":
     print(f"LF Academy Render Server starting on port {port}")
     app.run(host="0.0.0.0", port=port)
 
+
+
+
+def _load_bank():
+    """Load question bank from local unified_bank.json"""
+    try:
+        bank_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_operations", "question_bank", "unified_bank.json")
+        if os.path.exists(bank_path):
+            with open(bank_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        # Fallback: try engine bank
+        from engines.mark_engine import _load_bank as _engine_bank
+        return {"questions": _engine_bank()}
+    except Exception as e:
+        print(f"[WARN] _load_bank: {e}", file=sys.stderr)
+        return {"questions": []}
+
+
+@app.route("/api/worksheets/<grade>")
+def api_worksheets(grade):
+    """Generate 3-tier worksheet: 5 basic + 5 consolidate + 5 advanced"""
+    if grade not in ("P3", "P4", "P5", "P6"):
+        return jsonify({"error": "Invalid grade"}), 400
+    
+    import random
+    bank = _load_bank()
+    if not bank:
+        return jsonify({"error": "Bank unavailable"}), 503
+    
+    questions = [q for q in bank.get("questions", []) if q.get("grade") == grade]
+    DIFF_MAP = {"🌱": 1, "🌿": 2, "🌳": 3, "🏔️": 4}
+    tiers = {"basic": [], "consolidate": [], "advanced": []}
+    for q in questions:
+        d = DIFF_MAP.get(str(q.get("difficulty", "")).strip(), 2)
+        if d <= 1: tiers["basic"].append(q)
+        elif d <= 2: tiers["consolidate"].append(q)
+        else: tiers["advanced"].append(q)
+    
+    today = __import__("datetime").datetime.now().day
+    random.seed(today + hash(grade) % 10000)
+    
+    def pick(items, n=5):
+        return random.sample(items, min(n, len(items)))
+    
+    return jsonify({
+        "grade": grade,
+        "basic": [{k: q.get(k, "") for k in ("id","question_text","topic","difficulty","sspa_relevance")} for q in pick(tiers["basic"])],
+        "consolidate": [{k: q.get(k, "") for k in ("id","question_text","topic","difficulty","sspa_relevance")} for q in pick(tiers["consolidate"])],
+        "advanced": [{k: q.get(k, "") for k in ("id","question_text","topic","difficulty","sspa_relevance")} for q in pick(tiers["advanced"])],
+    })
+
+
+@app.route("/api/daily10/<grade>")
+def api_daily10(grade):
+    """Generate 10 daily questions, SSPA prioritized"""
+    if grade not in ("P3", "P4", "P5", "P6"):
+        return jsonify({"error": "Invalid grade"}), 400
+    
+    import random
+    bank = _load_bank()
+    if not bank:
+        return jsonify({"error": "Bank unavailable"}), 503
+    
+    questions = [q for q in bank.get("questions", []) if q.get("grade") == grade]
+    sspa_qs = [q for q in questions if "🔴" in str(q.get("sspa_relevance", ""))]
+    normal_qs = [q for q in questions if "🔴" not in str(q.get("sspa_relevance", ""))]
+    
+    today = __import__("datetime").datetime.now().day
+    random.seed(today + hash(grade) % 10000)
+    
+    selected = []
+    selected.extend(random.sample(sspa_qs, min(5, len(sspa_qs))))
+    remaining = 10 - len(selected)
+    if remaining > 0 and normal_qs:
+        selected.extend(random.sample(normal_qs, min(remaining, len(normal_qs))))
+    random.shuffle(selected)
+    
+    date_str = __import__("datetime").datetime.now().strftime("%Y-%m-%d")
+    
+    return jsonify({
+        "grade": grade,
+        "date": date_str,
+        "questions": [{k: q.get(k, "") for k in ("id","question_text","topic","difficulty","sspa_relevance")} for q in selected[:10]],
+        "sspa_count": len([q for q in selected[:10] if "🔴" in str(q.get("sspa_relevance", ""))])
+    })
+
+
+@app.route("/api/curriculum/<grade>")
+def api_curriculum(grade):
+    """Return curriculum structure for grade"""
+    CURRICULUM = {
+        "P3": {"name": "小三", "topics": ["萬以內數","加法","減法","乘法","除法","分數","時間","周界","容量","圖形","方向","象形圖"]},
+        "P4": {"name": "小四", "topics": ["五位數","乘法","除法","因數倍數","分數","小數","面積","對稱","棒形圖","24小時制"]},
+        "P5": {"name": "小五", "topics": ["小數乘除","分數乘除","百分數","體積","面積","代數","平均數","速率","折線圖","SSPA衝刺"]},
+        "P6": {"name": "小六", "topics": ["百分數應用","比與比例","圓","立體圖形","統計","方程","SSPA殺手題","中一預習"]},
+    }
+    if grade not in CURRICULUM:
+        return jsonify({"error": "Invalid grade"}), 400
+    return jsonify(CURRICULUM[grade])

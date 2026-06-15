@@ -1,0 +1,877 @@
+// ═══════════════════════════════════════
+// FRELLMAPI AI BACKEND (dev only - localhost)
+// ═══════════════════════════════════════
+async function frellmapiAsk(question) {
+  try {
+    const controller = new AbortController();
+    const t = setTimeout(function() { controller.abort(); }, 5000);
+    const resp = await fetch("http://localhost:3001/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "auto",
+        messages: [
+          { role: "user", content: "你係霖楓學苑AI數學導師。用繁體中文+廣東話。\n\n學生問：" + question }
+        ],
+        max_tokens: 800, temperature: 0.7
+      }),
+      signal: controller.signal
+    });
+    clearTimeout(t);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || null;
+  } catch(e) { return null; }
+}
+
+// ═══════════════ GLOBAL STATE ═══════════════
+const API = "https://lf-api-f80h.onrender.com";
+let currentMode = "practice";
+let currentQ = null, currentTopic = null, currentForm = null;
+let hintLevel = 0, apiOnline = true;
+let stats = { correct: 0, hints: 0, total: 0 };
+let chatHistory = [];  // AI conversation memory
+// ═══════════════════════════════════════
+// STUDENT PROFILE - Personalized Learning
+// ═══════════════════════════════════════
+let studentProfile = {
+  name: "",
+  grade: "",
+  weakTopics: [],       // Topics student struggles with
+  strongTopics: [],     // Topics student excels at
+  trapPatterns: [],     // Common traps student falls for (T1-T15)
+  totalQuestions: 0,
+  correctCount: 0,
+  hintUsage: 0,
+  learningStyle: "",    // visual/verbal/step-by-step
+  lastSession: "",
+  sessionTopics: []     // Topics covered this session
+};
+
+(function loadProfile() {
+  const saved = localStorage.getItem("lf_student_profile");
+  if (saved) {
+    try {
+      const p = JSON.parse(saved);
+      studentProfile = Object.assign(studentProfile, p);
+    } catch(e) {}
+  }
+})();
+
+function saveProfile() {
+  try {
+    studentProfile.lastSession = new Date().toISOString();
+    localStorage.setItem("lf_student_profile", JSON.stringify(studentProfile));
+  } catch(e) {}
+}
+
+function updateWeakTopic(topic, wasCorrect) {
+  if (wasCorrect) {
+    studentProfile.weakTopics = studentProfile.weakTopics.filter(function(t) { return t !== topic; });
+    if (studentProfile.strongTopics.indexOf(topic) === -1) studentProfile.strongTopics.push(topic);
+  } else {
+    if (studentProfile.weakTopics.indexOf(topic) === -1) studentProfile.weakTopics.push(topic);
+    studentProfile.strongTopics = studentProfile.strongTopics.filter(function(t) { return t !== topic; });
+  }
+  saveProfile();
+}
+
+function updateTrapPattern(trapName) {
+  if (studentProfile.trapPatterns.indexOf(trapName) === -1) {
+    studentProfile.trapPatterns.push(trapName);
+    saveProfile();
+  }
+}
+
+function getPersonalizedGreeting() {
+  const name = studentProfile.name || "同學";
+  const weakInfo = studentProfile.weakTopics.length > 0 
+    ? "\n我記得你喺「" + studentProfile.weakTopics.slice(0, 2).join("」、「") + "」要加把勁～" 
+    : "";
+  const gradeInfo = studentProfile.grade ? "\n你係" + studentProfile.grade + "，我幫你準備咗適合你程度嘅練習！" : "";
+  return "👋 " + name + "，歡迎返嚟！" + gradeInfo + weakInfo + "\n\n今日想練咩？";
+}
+
+let studentGrade = "";  // detected student grade
+
+(function init() {
+  checkAPIStatus();
+  // Show welcome screen on load - user picks mode first
+  document.getElementById("welcomeScreen").style.display = "flex";
+  const saved = localStorage.getItem("lf_tutor_session");
+  if (saved) { try { const s = JSON.parse(saved); stats = s.stats || stats; updateStats(); } catch(e) {} }
+})();
+
+async function checkAPIStatus() {
+  try {
+    const resp = await fetch(API + "/api/topics", { signal: AbortSignal.timeout(4000) });
+    apiOnline = resp.ok;
+  } catch(e) { apiOnline = false; }
+  document.getElementById("onlineStatus").innerHTML = apiOnline
+    ? '<span class="dot online"></span> AI 在線'
+    : '<span class="dot offline"></span> 離線模式';
+}
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll(".mode-tab").forEach((t,i) => {
+    t.classList.toggle("active", (i===0 && mode==="practice") || (i===1 && mode==="free"));
+  });
+  document.getElementById("welcomeScreen").style.display = "none";
+  document.getElementById("chat").innerHTML = "";
+  if (mode === "practice") {
+    document.getElementById("welcomeScreen").style.display = "none";
+    document.getElementById("quickActions").style.display = "none";
+    document.getElementById("qArea").style.display = "none";
+    showTopics();
+  } else {
+    document.getElementById("welcomeScreen").style.display = "none";
+    document.getElementById("topicView").style.display = "none";
+    document.getElementById("qArea").style.display = "none";
+    document.getElementById("actionsArea").style.display = "none";
+    document.getElementById("statsBar").style.display = "none";
+    document.getElementById("quickActions").style.display = "flex";
+    document.getElementById("inputArea").style.display = "flex";
+    document.getElementById("userInput").placeholder = "問我任何數學問題...";
+    addMsg(getPersonalizedGreeting() + "你可以：\n\n📐 問數學概念（例如：咩係 LCM？）\n🧮 俾條題目我幫你分析\n📝 問功課題（貼上題目我逐步教你）\n\n有咩數學問題都可以問我！", "ai");
+    try { const hist = JSON.parse(localStorage.getItem("lf_free_chat") || "[]"); hist.slice(-10).forEach(h => addMsg(h.text, h.role)); } catch(e) {}
+  }
+}
+
+// ═══════════════ TOPICS ═══════════════
+const TOPICS = {
+  P3: [
+    {id:"p3_addition",name:"加法",icon:"➕",q:"p3_addition"},
+    {id:"p3_subtraction",name:"減法",icon:"➖",q:"p3_subtraction"},
+    {id:"p3_multiplication",name:"乘法",icon:"✖️",q:"p3_multiplication"},
+    {id:"p3_division",name:"除法",icon:"➗",q:"p3_division"},
+    {id:"p3_fractions",name:"分數認識",icon:"🔢",q:"p3_fractions"},
+    {id:"p3_measurement",name:"度量",icon:"📏",q:"p3_measurement"}
+  ],
+  P4: [
+    {id:"p4_factors_multiples",name:"因數與倍數",icon:"🔗",q:"p4_factors_multiples"},
+    {id:"p4_fractions",name:"分數加減",icon:"🧮",q:"p4_fractions"},
+    {id:"p4_decimals",name:"小數",icon:"💯",q:"p4_decimals"},
+    {id:"p4_area_perimeter",name:"面積與周界",icon:"📐",q:"p4_area_perimeter"},
+    {id:"p4_division_2",name:"兩位除數",icon:"➗",q:"p4_division_2"}
+  ],
+  P5: [
+    {id:"p5_fractions_multi_div",name:"分數乘除",icon:"✖️",q:"p5_fractions_multi_div"},
+    {id:"p5_percentage",name:"百分數",icon:"%",q:"p5_percentage"},
+    {id:"p5_volume",name:"體積",icon:"📦",q:"p5_volume"},
+    {id:"p5_equations",name:"簡易方程",icon:"🔤",q:"p5_equations"},
+    {id:"p5_avg_speed",name:"平均數與速率",icon:"🚀",q:"p5_avg_speed"}
+  ],
+  P6: [
+    {id:"p6_percentage_app",name:"百分數應用",icon:"📊",q:"p6_percentage_app"},
+    {id:"p6_ratio",name:"比和比例",icon:"⚖️",q:"p6_ratio"},
+    {id:"p6_circle",name:"圓形",icon:"⭕",q:"p6_circle"},
+    {id:"p6_speed",name:"速率進階",icon:"🏃",q:"p6_speed"},
+    {id:"p6_revision",name:"呈分試總複習",icon:"🎯",q:"p6_revision"}
+  ]
+};
+
+function showTopics() {
+  currentQ = null;
+  ["qArea","actionsArea","inputArea","statsBar","quickActions"].forEach(id => document.getElementById(id).style.display="none");
+  const tv = document.getElementById("topicView");
+  tv.style.display = "block";
+  let html = "";
+  for (const [grade, topics] of Object.entries(TOPICS)) {
+    html += '<h2>📚 ' + grade + '</h2><div class="topic-grid">';
+    for (const t of topics) {
+      html += '<div class="topic-card" onclick="selectTopic(\'' + t.q + "','" + grade + '\')"><div class="tname">' + t.icon + ' ' + t.name + '</div><div class="tmeta"><span>📝 練習</span><span>' + grade + '</span></div></div>';
+    }
+    html += "</div>";
+  }
+  tv.innerHTML = html;
+}
+
+function selectTopic(topic, form) {
+  currentTopic = topic; currentForm = form; hintLevel = 0;
+  // Auto-detect grade from selected topic
+  if (form && !studentProfile.grade) { studentProfile.grade = form; saveProfile(); }
+  if (form) studentProfile.grade = form; saveProfile();
+  document.getElementById("topicView").style.display = "none";
+  ["actionsArea","inputArea","statsBar"].forEach(id => document.getElementById(id).style.display="flex");
+  document.getElementById("chat").innerHTML = "";
+  addMsg("📚 主題：" + topic.replace(/_/g," ") + " (" + form + ") · 準備開始！", "system");
+  // P3-P6 topics use local question bank directly (no DB for primary levels)
+  generateLocalQuestion(topic, form);
+}
+
+async function loadQuestionFromAPI() {
+  showTyping();
+  try {
+    const resp = await fetch(API + "/api/questions/random", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({topic:currentTopic, form:currentForm}) });
+    const data = await resp.json();
+    hideTyping();
+    if (!data.error) showQuestion(data);
+    else addMsg("⚠️ " + data.error + " · 改用離線題目", "system"), generateLocalQuestion(currentTopic, currentForm);
+  } catch(e) {
+    hideTyping(); apiOnline = false;
+    document.getElementById("onlineStatus").innerHTML = '<span class="dot offline"></span> 離線模式';
+    addMsg("⚠️ API 離線 · 使用本地題庫", "system");
+    generateLocalQuestion(currentTopic, currentForm);
+  }
+}
+
+// ═══════════════ LOCAL QUESTIONS ═══════════════
+const LOCAL_Q = {
+  p3_addition: [{q:"235 + 478 = ?", a:"713", hint:["先加個位：5+8=13，寫3進1","再加十位：3+7+1=11，寫1進1","最後百位：2+4+1=7"], diff:"★", marks:3},{q:"189 + 367 = ?", a:"556", hint:["個位：9+7=16，寫6進1","十位：8+6+1=15，寫5進1","百位：1+3+1=5"], diff:"★", marks:3}],
+  p3_subtraction: [{q:"523 - 287 = ?", a:"236", hint:["個位：3-7 唔夠，借位→13-7=6","十位：1-8 唔夠，借位→11-8=3","百位：4-2=2"], diff:"★★", marks:3},{q:"800 - 456 = ?", a:"344", hint:["個位：0-6 唔夠，借位→10-6=4","十位：9-5=4（借咗位）","百位：7-4=3"], diff:"★★", marks:3}],
+  p4_fractions: [{q:"2/3 + 1/4 = ? (分數形式)", a:"11/12", hint:["通分：分母 LCM=12","2/3 = 8/12, 1/4 = 3/12","8/12 + 3/12 = 11/12"], diff:"★★", marks:4},{q:"3/5 - 1/3 = ? (分數形式)", a:"4/15", hint:["通分：分母 LCM=15","3/5 = 9/15, 1/3 = 5/15","9/15 - 5/15 = 4/15"], diff:"★★", marks:4}],
+  p4_area_perimeter: [{q:"長方形長 8cm，闊 5cm，面積係幾多？(cm²)", a:"40", hint:["面積 = 長 × 闊","8 × 5 = 40 cm²","單位係 cm²，唔係 cm"], diff:"★", marks:3},{q:"長方形長 12m，闊 3m，周界係幾多？(m)", a:"30", hint:["周界 = (長+闊) × 2","(12+3) × 2 = 30m","周界用長度單位 (m)"], diff:"★", marks:3}],
+  p5_percentage: [{q:"$100 加 20% 後再減 20%，等於幾多？", a:"96", hint:["加20%：100 × 1.2 = 120","減20%係減120嘅20%：120×0.8=96","T8陷阱：連續百分比唔係加減抵消！"], diff:"★★★", marks:5},{q:"衫原價250，八折後再九折，最後幾錢？", a:"180", hint:["八折：250 × 0.8 = 200","再九折：200 × 0.9 = 180","唔係 250 × 0.7！"], diff:"★★", marks:4}],
+  p5_fractions_multi_div: [{q:"2/3 ÷ 4/5 = ? (分數形式)", a:"5/6", hint:["除以分數 = 乘倒數","2/3 ÷ 4/5 = 2/3 × 5/4","= 10/12 = 5/6"], diff:"★★★", marks:4}],
+  p5_volume: [{q:"長方體長5cm、闊4cm、高3cm，體積？(cm³)", a:"60", hint:["體積 = 長×闊×高","5×4×3 = 60 cm³","單位係 cm³"], diff:"★", marks:3}],
+  p6_percentage_app: [{q:"書包原價400，加價25%後再八折出售，賺定蝕？", a:"0", hint:["加價後：400×1.25=500","八折：500×0.8=400","=原價，冇賺冇蝕"], diff:"★★★", marks:5}],
+  p6_ratio: [{q:"A:B=2:3, B:C=4:5, 求A:B:C", a:"8:12:15", hint:["統一B：LCM(3,4)=12","A:B=2:3=8:12","B:C=4:5=12:15","A:B:C=8:12:15"], diff:"★★★", marks:5}],
+  p6_circle: [{q:"圓形半徑7cm，面積？(π≈22/7)", a:"154", hint:["面積 = πr²","= 22/7 × 7 × 7","= 22×7 = 154 cm²"], diff:"★★", marks:4}]
+};
+
+function generateLocalQuestion(topic, form) {
+  const bank = LOCAL_Q[topic] || LOCAL_Q["p5_percentage"];
+  // Adaptive: prefer harder questions if student is strong, easier if weak
+  let filtered = bank;
+  if (studentProfile.weakTopics.indexOf(topic) >= 0 && bank.length > 1) {
+    // Student struggles with this - pick easier questions first
+    filtered = bank.filter(function(q) { return q.diff === "★" || q.diff === "★★"; });
+    if (filtered.length === 0) filtered = bank;
+  } else if (studentProfile.strongTopics.indexOf(topic) >= 0 && bank.length > 1) {
+    // Student is strong - challenge them
+    filtered = bank.filter(function(q) { return q.diff === "★★" || q.diff === "★★★"; });
+    if (filtered.length === 0) filtered = bank;
+  }
+  const q = filtered[Math.floor(Math.random() * filtered.length)];
+  showQuestion({id:"local_"+Date.now(), topic:topic, question_text:q.q, difficulty:q.diff, marks:q.marks, answer:q.a, hints:q.hint, isLocal:true});
+}
+
+function showQuestion(data) {
+  currentQ = data; hintLevel = 0; stats.total++; updateStats();
+  document.getElementById("qArea").style.display = "block";
+  document.getElementById("qId").textContent = data.id;
+  document.getElementById("qTopic").textContent = (data.topic||"").replace(/_/g," ").replace(/\b\w/g,l=>l.toUpperCase());
+  document.getElementById("qDiff").textContent = "難度 " + (data.difficulty||"★★");
+  document.getElementById("qMarks").textContent = data.marks || 5;
+  document.getElementById("qText").textContent = data.question_text || "請作答";
+  addMsg("準備好！輸入你嘅答案～唔識可以㩒「💡 提示」或「🧮 逐步解」", "ai");
+  document.getElementById("userInput").focus();
+  document.getElementById("userInput").placeholder = "輸入答案...";
+  if (window.MathJax) MathJax.typesetPromise([document.getElementById("qText")]);
+  saveSession();
+}
+
+function handleSend() { currentMode === "free" ? freeAsk() : submitAnswer(); }
+
+async function submitAnswer() {
+  const input = document.getElementById("userInput");
+  const answer = input.value.trim();
+  if (!answer || !currentQ) return;
+  addMsg(answer, "user"); input.value = "";
+  document.getElementById("sendBtn").disabled = true;
+  showTyping();
+  const localResult = checkAnswerLocally(answer);
+  if (localResult.correct) {
+    hideTyping(); stats.correct++; updateStats();
+    addMsg("🎉 正確！得分：" + localResult.score, "correct");
+    if (localResult.message) addMsg(localResult.message, "ai");
+    updateWeakTopic(currentTopic, true); saveSession(); saveProfile(); setTimeout(() => loadNextQuestion(), 1500);
+  } else if (apiOnline) {
+    try {
+      const markResp = await fetch(API + "/api/ai/mark", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({student_answer:answer, question_id:currentQ.id}) });
+      const mark = await markResp.json(); hideTyping();
+      if (mark.status === "CORRECT") { addMsg("🎉 正確！"+(mark.message||""), "correct"); stats.correct++; updateStats(); saveSession(); setTimeout(() => loadNextQuestion(), 1500); }
+      else if (mark.status === "PARTIAL") { addMsg("🤔 部分正確。"+(mark.message||"再試下？"), "wrong"); if (mark.hint) addMsg("💡 "+mark.hint, "ai"); }
+      else { addMsg("❌ 唔啱。"+(mark.message||"試下攞提示？"), "wrong"); if (mark.hint) addMsg("💡 "+mark.hint, "ai"); updateWeakTopic(currentTopic, false); saveProfile(); }
+    } catch(e) { hideTyping(); addMsg("❌ 唔啱。試下逐步解？", "wrong"); }
+  } else {
+    hideTyping();
+    addMsg("❌ 唔啱。正確答案：" + (currentQ.answer||"?"), "wrong");
+    if (currentQ.hints && currentQ.hints.length > 0) addMsg("💡 "+currentQ.hints[0], "ai");
+  }
+  document.getElementById("sendBtn").disabled = false;
+  document.getElementById("userInput").focus();
+}
+
+function checkAnswerLocally(answer) {
+  if (!currentQ || !currentQ.answer) return {correct:false};
+  const ua = answer.replace(/\s+/g,"").toLowerCase();
+  const ca = String(currentQ.answer).replace(/\s+/g,"").toLowerCase();
+  if (ua === ca) return {correct:true, score:currentQ.marks||5};
+  const un = parseFloat(ua), cn = parseFloat(ca);
+  if (!isNaN(un) && !isNaN(cn)) {
+    if (Math.abs(un-cn) < 0.001) return {correct:true, score:currentQ.marks||5};
+  }
+  const fm = ua.match(/^(\d+)\/(\d+)$/);
+  if (fm && !isNaN(cn)) { const v = parseInt(fm[1])/parseInt(fm[2]); if (Math.abs(v-cn) < 0.001) return {correct:true, score:currentQ.marks||5}; }
+  return {correct:false};
+}
+
+async function getHint() {
+  if (!currentQ) return;
+  hintLevel++; stats.hints++; updateStats(); saveSession();
+  if (currentQ.hints && currentQ.hints.length >= hintLevel) { addMsg("💡 <strong>提示 L"+hintLevel+"</strong>: "+currentQ.hints[hintLevel-1], "ai"); return; }
+  if (apiOnline) {
+    showTyping();
+    try {
+      const resp = await fetch(API+"/api/ai/tutor/hint", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({question:currentQ.question_text, student_answer:"", hint_level:hintLevel}) });
+      const data = await resp.json(); hideTyping();
+      if (data.hints && data.hints.length>0) addMsg("💡 <strong>提示 L"+hintLevel+"</strong>: "+data.hints[Math.min(hintLevel-1,data.hints.length-1)], "ai");
+      else generateSmartHint();
+    } catch(e) { hideTyping(); generateSmartHint(); }
+  } else { generateSmartHint(); }
+}
+
+function generateSmartHint() {
+  const hints = ["諗下：呢題涉及邊個數學概念？第一步應該點做？","試下將題目中嘅數字同單位寫出嚟","有冇類似嘅例題你做過？試下用同樣嘅方法","畫個圖或者列表幫自己理解題目"];
+  addMsg("💡 <strong>提示 L"+hintLevel+"</strong>: "+hints[Math.min(hintLevel-1,hints.length-1)], "ai");
+}
+
+async function solveIt() {
+  if (!currentQ) return;
+  if (currentQ.hints && currentQ.hints.length > 0) {
+    addMsg("🧮 <strong>逐步解答：</strong>", "ai");
+    currentQ.hints.forEach((h,i) => { setTimeout(() => addMsg("<strong>步驟 "+(i+1)+"：</strong>"+h, "ai"), i*300); });
+    setTimeout(() => addMsg("✅ <strong>答案："+currentQ.answer+"</strong>", "ai"), currentQ.hints.length*300+300);
+    return;
+  }
+  if (apiOnline) {
+    showTyping();
+    try {
+      const resp = await fetch(API+"/api/ai/tutor/solve", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({question:currentQ.question_text}) });
+      const data = await resp.json(); hideTyping();
+      if (data.steps) { addMsg("🧮 <strong>逐步解答：</strong>", "ai"); data.steps.forEach(s => addMsg(s, "ai")); }
+      else addMsg("🧮 答案："+(data.answer||currentQ.answer||"請參考提示"), "ai");
+    } catch(e) { hideTyping(); addMsg("🧮 答案："+(currentQ.answer||"未能計算"), "ai"); }
+  } else { addMsg("🧮 答案："+(currentQ.answer||"未能計算"), "ai"); }
+}
+
+async function loadNextQuestion() {
+  if (apiOnline) {
+    showTyping();
+    try {
+      const resp = await fetch(API+"/api/questions/random", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({topic:currentTopic, form:currentForm}) });
+      const data = await resp.json(); hideTyping();
+      if (!data.error) showQuestion(data);
+      else addMsg("⚠️ "+data.error, "system"), generateLocalQuestion(currentTopic, currentForm);
+    } catch(e) { hideTyping(); generateLocalQuestion(currentTopic, currentForm); }
+  } else { generateLocalQuestion(currentTopic, currentForm); }
+}
+
+function skipQuestion() {
+  if (currentQ && currentQ.answer) addMsg("📝 正確答案：<strong>"+currentQ.answer+"</strong>", "ai");
+  addMsg("⏭ 跳過，換新題目～", "system");
+  loadNextQuestion();
+}
+
+// ═══════════════ FREE-FORM AI ═══════════════
+
+
+
+// ═══════════════════════════════════════
+// FRELLMAPI TUNNEL - 99 models, 12 providers
+// ═══════════════════════════════════════
+const TUNNEL_URL = "https://minister-whale-most-bases.trycloudflare.com/v1";
+const TUNNEL_KEY = "freellmapi-bd1dc3c008a33b0b53260ee8183e13b4ebb7d9f15e975d91";
+
+
+// ═══════════════════════════════════════
+// GEMINI API - Direct backup (free tier)
+// ═══════════════════════════════════════
+const GEMINI_KEY = "AQ.Ab8RN6I5_C8Wqqqw_jGm6DzYxAOHRxTyk1I6sH0vmoim3TxzkA";
+const GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
+async function geminiAsk(question) {
+  try {
+    const gradeHint = studentProfile.grade ? "\n學生年級：" + studentProfile.grade : "";
+    const weakInfo = studentProfile.weakTopics.length > 0 ? "\n學生弱項：" + studentProfile.weakTopics.join("、") : "";
+    const trapInfo = studentProfile.trapPatterns.length > 0 ? "\n學生常犯陷阱：" + studentProfile.trapPatterns.join("、") : "";
+    
+    const systemPrompt = "你係霖楓學苑AI數學導師（霖楓老師）。用繁體中文+廣東話口語。針對香港小學P3-P6數學（包括呈分試SSPA）。\n【重要規則】\n1. 任何同數學有關嘅問題都要認真回答\n2. 完全同數學無關嘅問題，用友善語氣引導返數學話題\n3. 你係AI導師，唔係計數機！要解釋概念、引導思考、分析陷阱、分享口訣\n4. 保持親切鼓勵語氣，適時讚賞學生\n5. 根據學生弱項同常犯陷阱，針對性給予建議" + gradeHint + weakInfo + trapInfo;
+    
+    const qtype = detectQuestionType(question);
+    const fullPrompt = systemPrompt + "\n\n回應風格：" + qtype.style + "\n" + qtype.instruction + "\n每次回答100-350字。語氣親切鼓勵。\n\n學生問：" + question;
+    
+    const body = JSON.stringify({
+      contents: [{ parts: [{ text: fullPrompt }] }],
+      generationConfig: { maxOutputTokens: 500, temperature: 0.7 }
+    });
+    
+    const controller = new AbortController();
+    const timeout = setTimeout(function() { controller.abort(); }, 10000);
+    const resp = await fetch(GEMINI_URL + "?key=" + GEMINI_KEY, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body,
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || null;
+  } catch(e) { return null; }
+}
+
+async function tunnelAsk(question) {
+  try {
+    const qtype = detectQuestionType(question);
+    const gradeHint = studentGrade ? "\n學生年級：" + studentGrade : "";
+    const systemPrompt = "你係霖楓學苑AI數學導師（霖楓老師）。用繁體中文+廣東話口語。針對香港小學P3-P6數學（包括呈分試SSPA）。\n【重要規則】\n1. 任何同數學有關嘅問題都要認真回答（數學概念、計法、應用題、陷阱分析、考試技巧）\n2. 完全同數學無關嘅問題，先用友善語氣輕輕帶過，然後自然引導返數學話題。唔好直接拒絕，用「呢個都幾有趣～不如我哋傾下數學？」嘅方式過渡\n3. 你係AI導師，唔係計數機！要解釋概念、引導思考、分析陷阱、分享口訣\n4. 保持親切鼓勵語氣，適時讚賞學生\n回應風格：" + qtype.style + "\n" + qtype.instruction + "\n每次回答100-350字。語氣親切鼓勵。結尾可加一個思考問題。";
+
+    const messages = [{ role: "system", content: systemPrompt + gradeHint }];
+    const recentHistory = chatHistory.slice(-6);
+    for (let i = 0; i < recentHistory.length; i++) {
+      const h = recentHistory[i];
+      messages.push({ role: h.role === "學生" ? "user" : "assistant", content: h.text });
+    }
+    messages.push({ role: "user", content: question });
+
+    const controller = new AbortController();
+    const timeout = setTimeout(function() { controller.abort(); }, 8000);
+    const resp = await fetch(TUNNEL_URL + "/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + TUNNEL_KEY },
+      body: JSON.stringify({ model: "auto", messages: messages, max_tokens: 500, temperature: 0.7 }),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || null;
+  } catch(e) { return null; }
+}
+
+
+function detectQuestionType(q) {
+  const ql = q.toLowerCase();
+  if (/咩係|什麼是|what is|解釋|概念|定義|意思/.test(ql)) {
+    return { style: "詳細教學模式", instruction: "完整解釋概念，包括：定義→生活例子→運算方法→常見陷阱→記憶口訣。" };
+  }
+  if (/點計|點樣計|點解|點樣做|solve|計算|答案/.test(ql)) {
+    return { style: "蘇格拉底引導模式", instruction: "唔好直接俾答案！用引導式問題幫學生自己發現解法。每次一個問題。" };
+  }
+  if (/錯|陷阱|中招|扣分|trap/.test(ql)) {
+    return { style: "陷阱診斷模式", instruction: "分析常見錯誤原因，解釋點解會錯，俾正確方法同口訣避免。" };
+  }
+  if (/比較|分別|vs|對比/.test(ql)) {
+    return { style: "對比分析模式", instruction: "清楚列出兩個概念嘅分別，用表格或並列例子說明。" };
+  }
+  return { style: "綜合引導模式", instruction: "根據問題靈活回應。概念題詳細解釋，計算題引導思考。" };
+}
+
+
+// Unified chat history helper - keeps last 10 exchanges
+function addToHistory(question, answer) {
+  chatHistory.push({ role: "學生", text: question });
+  chatHistory.push({ role: "霖楓老師", text: answer });
+  if (chatHistory.length > 20) chatHistory.splice(0, 4);
+}
+
+async function freeAsk() {
+  const input = document.getElementById("userInput");
+  const question = input.value.trim();
+  if (!question) return;
+
+  addMsg(question, "user"); input.value = "";
+  document.getElementById("sendBtn").disabled = true;
+  showTyping();
+  saveFreeChat(question, "user");
+
+  // Step 1: Local regex (instant)
+  const localAnswer = generateLocalMathAnswer(question);
+  if (localAnswer) {
+    hideTyping(); addMsg(localAnswer, "ai"); saveFreeChat(localAnswer, "ai");
+    addToHistory(question, localAnswer);
+    document.getElementById("sendBtn").disabled = false; input.focus(); return;
+  }
+
+  // Step 2: frellmapi Tunnel (8s timeout)
+  const tunnelReply = await tunnelAsk(question);
+  if (tunnelReply) {
+    hideTyping(); addMsg(tunnelReply, "ai"); saveFreeChat(tunnelReply, "ai");
+    addToHistory(question, tunnelReply);
+    document.getElementById("sendBtn").disabled = false; input.focus(); return;
+  }
+
+  // Step 2.5: Gemini API (10s timeout)
+  const geminiReply = await geminiAsk(question);
+  if (geminiReply) {
+    hideTyping(); addMsg(geminiReply, "ai"); saveFreeChat(geminiReply, "ai");
+    addToHistory(question, geminiReply);
+    document.getElementById("sendBtn").disabled = false; input.focus(); return;
+  }
+
+  // Step 3: Render API (6s timeout)
+  if (apiOnline) {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(function() { ctrl.abort(); }, 6000);
+      const resp = await fetch(API+"/api/ai/tutor/chat", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({message:question, mode:"math_tutor"}), signal: ctrl.signal });
+      clearTimeout(t);
+      if (resp.ok) {
+        const data = await resp.json(); hideTyping();
+        const reply = data.response || data.reply || data.message || "";
+        if (reply && reply.length > 15 && !reply.startsWith("[")) {
+          addMsg(reply, "ai"); saveFreeChat(reply, "ai");
+          addToHistory(question, reply);
+          document.getElementById("sendBtn").disabled = false; input.focus(); return;
+        }
+      }
+    } catch(e) {}
+  }
+
+  // Step 4: Smart fallback
+  hideTyping();
+  const fb = generateSmartMathAnswer(question);
+  addMsg(fb, "ai"); saveFreeChat(fb, "ai");
+  addToHistory(question, fb);
+  document.getElementById("sendBtn").disabled = false; input.focus();
+}
+
+
+function generateLocalMathAnswer(q) {
+  const ql = q.toLowerCase();
+  // ===== SMART CALCULATOR with step-by-step =====
+  const calcMatch = ql.match(/([\d.]+)\s*([+\-×x*÷\/])\s*([\d.]+)/);
+  if (calcMatch) {
+    const a = parseFloat(calcMatch[1]), b = parseFloat(calcMatch[3]);
+    let result, op = calcMatch[2], stepByStep = "";
+    if (op === "+") { result = a + b; stepByStep = a + " + " + b + " = " + result; }
+    else if (op === "-") { result = a - b; stepByStep = a + " - " + b + " = " + result; }
+    else if (op === "×" || op === "x" || op === "*") { result = a * b; stepByStep = a + " × " + b + " = " + result; }
+    else if (op === "÷" || op === "/") { result = b !== 0 ? a / b : "除數不能為0"; stepByStep = a + " ÷ " + b + " = " + result; }
+    // Add educational context
+    let extra = "";
+    if (op === "-" && a < b) extra = "\n⚠️ 注意：被減數細過減數，結果會係負數！小學題目通常大數減細數～";
+    if (op === "÷" && a % b !== 0 && b !== 0) extra = "\n💡 除唔盡喎！可以寫做分數：" + a + "/" + b + " = " + (a/gcd(Math.round(a),Math.round(b))) + "/" + (b/gcd(Math.round(a),Math.round(b)));
+    return "🧮 " + stepByStep + extra;
+  }
+  const pctMatch = ql.match(/([\d.]+)\s*%\s*(?:of|嘅|的)?\s*([\d.]+)/);
+  if (pctMatch) { const pct=parseFloat(pctMatch[1]), val=parseFloat(pctMatch[2]); return "💯 "+val+" 的 "+pct+"% = **"+val*pct/100+"**"; }
+  if (ql.includes("lcm") || ql.includes("最小公倍數")) {
+    const nums = ql.match(/\d+/g);
+    if (nums && nums.length>=2) { const a=parseInt(nums[0]), b=parseInt(nums[1]); const lcm=(a*b)/gcd(a,b); return "🔗 "+a+" 和 "+b+" 的 LCM = **"+lcm+"**\n\nLCM(a,b) = a×b÷GCD(a,b)"+"\n= "+a+"×"+b+"÷"+gcd(a,b)+" = "+lcm; }
+  }
+  if (ql.includes("hcf") || ql.includes("gcd") || ql.includes("最大公因數")) {
+    const nums = ql.match(/\d+/g);
+    if (nums && nums.length>=2) { const a=parseInt(nums[0]), b=parseInt(nums[1]); return "🔗 "+a+" 和 "+b+" 的 HCF = **"+gcd(a,b)+"**"; }
+  }
+  if (ql.includes("質因數") || ql.includes("prime factor")) {
+    const numMatch = ql.match(/\b(\d+)\b/);
+    if (numMatch) { const n=parseInt(numMatch[1]); const factors=primeFactors(n); return "🔢 "+n+" = **"+factors.join(" × ")+"**"; }
+  }
+  if ((ql.includes("面積")||ql.includes("area")) && ql.match(/\d+/g)) {
+    const nums = ql.match(/\d+/g).map(Number);
+    if (nums.length>=2 && (ql.includes("長方")||ql.includes("rectangle"))) return "📐 長方形面積 = 長×闊 = "+nums[0]+"×"+nums[1]+" = **"+(nums[0]*nums[1])+"**\n\n單位係平方（cm²/m²）\n記住：面積用平方單位！";
+    if (nums.length>=2 && (ql.includes("三角")||ql.includes("triangle"))) return "📐 三角形面積 = 底×高÷2 = "+nums[0]+"×"+nums[1]+"÷2 = **"+(nums[0]*nums[1]/2)+"**\n\n⚠️ 記住要÷2！好多同學唔記得！";
+  }
+  // Word problem: discount/price
+  if ((ql.includes("折")||ql.includes("discount")||ql.includes("減價")) && ql.match(/\d+/g)) {
+    const nums = ql.match(/\d+/g).map(Number);
+    if (nums.length>=2) return "💰 折扣計算：原價"+nums[0]+"，"+nums[1]+"折 = "+nums[0]+"×"+(nums[1]/10)+" = **"+(nums[0]*nums[1]/10)+"**\n\n口訣：原價×折扣=折後價！";
+  }
+  // Word problem: money/buying
+  if ((ql.includes("買")||ql.includes("俾錢")||ql.includes("找錢")) && ql.match(/\d+/g)) {
+    const nums = ql.match(/\d+/g).map(Number);
+    if (nums.length>=2) {
+      const total = nums.slice(1).reduce(function(a,b){return a+b;},0);
+      const change = nums[0] - total;
+      return "🛒 買咗"+ (nums.length-1) +"樣嘢，總共：$"+total+"\n俾咗：$"+nums[0]+"\n找錢：$"+change+"\n\n計法：$"+nums[0]+" - $"+total+" = **$"+change+"**";
+    }
+  }
+  return null;
+}
+
+function generateSmartMathAnswer(q) {
+  const ql = q.toLowerCase().replace(/\s+/g,'');
+  
+  // Comprehensive math topic responses - tutorial style, HK Cantonese
+  const topics = [
+    { keys: ['分數','fraction','通分','約分'], resp: `📖 **分數概念全攻略**
+
+分數係用嚟表示「整體嘅一部分」。例如1/2代表將一件嘢分做2份，攞其中1份。
+
+**基本運算：**
+• 加減：必須先通分（分母變相同），然後分子相加減
+  例：1/2 + 1/3 = 3/6 + 2/6 = 5/6
+• 乘法：分子×分子，分母×分母，之後約簡
+  例：2/3 × 3/4 = 6/12 = 1/2
+• 除法：÷分數 = ×佢嘅倒數（分子分母調轉）
+  例：2/3 ÷ 4/5 = 2/3 × 5/4 = 10/12 = 5/6
+
+⚠️ **T4陷阱**：加減千祈唔可以直接加分子分母！1/2+1/3≠2/5！
+⚠️ **T3陷阱**：帶分數要先轉假分數先計！
+
+有具體題目想我幫你拆解嗎？ 😊` },
+    
+    { keys: ['百分','percent','%','折扣','漲價','減價'], resp: `📖 **百分數完全理解**
+
+百分數係「每一百份之中有幾多份」。25% = 25/100 = 1/4。
+
+**核心公式：**
+• 求部分：整體 × 百分數
+  例：200的30% = 200 × 0.3 = 60
+• 求整體：部分 ÷ 百分數
+  例：如果60係30%，整體 = 60 ÷ 0.3 = 200
+• 加價：原價 × (1 + 百分數)
+  例：$100加20% = $100 × 1.2 = $120
+• 折扣：原價 × 折扣率
+  例：$200八折 = $200 × 0.8 = $160
+
+⚠️ **T8陷阱**：連續百分數唔可以直接加減！
+$100加20%再減20% = $96，唔係$100！
+
+想我幫你計下具體題目嗎？` },
+    
+    { keys: ['小數','decimal','小數點'], resp: `📖 **小數運算精要**
+
+小數係分數嘅另一種寫法。0.5 = 5/10 = 1/2。
+
+**運算規則：**
+• 加減：對齊小數點，然後逐位加減
+• 乘法：先當整數計，之後數小數位
+  例：3.5 × 2 = 7.0（1位小數）
+  例：0.3 × 0.4 = 0.12（2位小數）
+• 除法：將除數變整數，被除數小數點同步移位
+  例：4.2 ÷ 0.6 = 42 ÷ 6 = 7
+
+⚠️ **T5陷阱**：小數乘法後小數位數 = 兩數小數位數之和！
+0.3(1位) × 0.02(2位) = 0.006(3位)
+
+有冇具體題目想我幫手？` },
+    
+    { keys: ['面積','周界','area','perimeter','長方形','正方形','三角形','梯形','平行四邊形'], resp: `📖 **面積與周界 — 唔好再撈亂！**
+
+**周界（Perimeter）**：圍住圖形外圍嘅總長度，用「cm」「m」等長度單位。
+**面積（Area）**：圖形內部佔據嘅空間，用「cm²」「m²」等平方單位。
+
+**常用公式：**
+• 正方形：周界=邊長×4 | 面積=邊長×邊長
+• 長方形：周界=(長+闊)×2 | 面積=長×闊
+• 三角形：面積=底×高÷2
+• 平行四邊形：面積=底×高
+• 梯形：面積=(上底+下底)×高÷2
+
+⚠️ **T6陷阱**：單位轉換！1m² = 10,000cm²（唔係100cm²！）
+⚠️ **T7陷阱**：周界用長度單位，面積用平方單位！
+
+要我幫你計具體圖形嗎？ 😊` },
+    
+    { keys: ['體積','volume','容量','正方體','長方體'], resp: `📖 **體積概念**
+
+體積係物體佔據嘅三維空間，用「cm³」「m³」等立方單位。
+
+**基本公式：**
+• 正方體：體積=邊長³
+• 長方體：體積=長×闊×高
+• 柱體：體積=底面積×高
+
+**單位換算：**
+• 1m³ = 1,000,000cm³（一百萬！唔係100！）
+• 1L = 1,000mL = 1,000cm³
+
+⚠️ **T9陷阱**：體積單位係「立方」！1m=100cm，但1m³=1,000,000cm³！
+
+需要幫你計體積題目嗎？` },
+    
+    { keys: ['代數','equation','方程','未知數','x=','y='], resp: `📖 **代數基礎 — 用字母代表未知數**
+
+代數係用英文字母（x, y, n...）代表未知嘅數字。
+
+**基本概念：**
+• 2x 代表 2 × x
+• x + 5 = 12 → x = 7
+• 移項法則：將數字搬去等號另一邊時要變號
+  加法變減法，乘法變除法
+
+**解方程步驟：**
+例：2x + 3 = 11
+1. 移項：2x = 11 - 3 → 2x = 8
+2. 求x：x = 8 ÷ 2 → x = 4
+
+⚠️ **T10陷阱**：移項記得變號！x+3唔係變-x+3！
+
+有方程題目想我幫你解嗎？` },
+    
+    { keys: ['速率','speed','距離','時間'], resp: `📖 **速率 — 唔好俾來回問題陰到！**
+
+速率 = 距離 ÷ 時間
+
+**基本公式（口訣：速率三寶）：**
+• 速率 = 距離 ÷ 時間
+• 距離 = 速率 × 時間
+• 時間 = 距離 ÷ 速率
+
+**單位轉換：**
+• m/s → km/h：×3.6
+• km/h → m/s：÷3.6
+
+⚠️ **T11陷阱**：來回平均速率 ≠ (去速+回速)÷2！
+例：去程60km/h行100km，回程40km/h行100km
+平均速率 = 總距離÷總時間 = 200÷(100/60+100/40) = 48km/h（唔係50！）
+
+想我幫你解速率應用題嗎？` },
+    
+    { keys: ['lcm','hcf','gcd','公倍數','公因數','質數','prime','因數','倍數'], resp: `📖 **LCM同HCF — 兩個成日撈亂嘅概念**
+
+**HCF（最大公因數）**：幾個數嘅共同因數中最大嗰個
+• 例：12同18嘅HCF
+  12嘅因數：1,2,3,4,6,12
+  18嘅因數：1,2,3,6,9,18
+  共同因數：1,2,3,6 → HCF=6
+
+**LCM（最小公倍數）**：幾個數嘅共同倍數中最細嗰個
+• 例：4同6嘅LCM
+  4嘅倍數：4,8,12,16,20,24...
+  6嘅倍數：6,12,18,24,30...
+  共同倍數：12,24... → LCM=12
+
+**口訣：HCF係「因」中最大，LCM係「倍」中最細**
+
+⚠️ **T12陷阱**：HCF≤每個數，LCM≥每個數！
+
+要我幫你計LCM/HCF嗎？` },
+    
+    { keys: ['平均數','average','mean','中位數','median','眾數','mode'], resp: `📖 **平均數、中位數、眾數**
+
+**平均數（Mean）**：所有數加埋÷個數
+• 例：3,7,8,10嘅平均數 = (3+7+8+10)÷4 = 7
+
+**中位數（Median）**：由細到大排好，中間嗰個
+• 單數個數：正中間
+• 雙數個數：中間兩個嘅平均
+• 例：3,7,8,10 → 中位數 = (7+8)÷2 = 7.5
+
+**眾數（Mode）**：出現次數最多嗰個
+• 例：2,3,3,5,7 → 眾數 = 3
+
+⚠️ **T13陷阱**：平均數會被極端值拉高/拉低！
+
+想我幫你做數據分析嗎？` },
+    
+    { keys: ['概率','probability','機會','可能'], resp: `📖 **概率基礎**
+
+概率 = 想要嘅結果數量 ÷ 所有可能結果數量
+
+**例子：**
+• 擲銀仔出「公」嘅概率 = 1/2
+• 擲骰仔出「6」嘅概率 = 1/6
+• 抽一張啤牌係「紅心」嘅概率 = 13/52 = 1/4
+
+⚠️ **T14陷阱**：獨立事件！擲兩次銀仔都係公嘅概率 = 1/2 × 1/2 = 1/4，唔係1/2！
+
+有概率題目想我幫手嗎？` },
+    
+    { keys: ['時間','time','鐘','小時','分鐘','秒'], resp: `📖 **時間計算**
+
+**單位換算：**
+• 1日 = 24小時
+• 1小時 = 60分鐘
+• 1分鐘 = 60秒
+
+**時間加減：**
+例：1小時20分 + 50分 = 2小時10分
+（20分+50分=70分=1小時10分，加埋原本1小時=2小時10分）
+
+⚠️ **T15陷阱**：時間用60進制，唔係10進制！
+1.5小時 = 1小時30分，唔係1小時50分！
+
+需要幫你計時間題目嗎？` },
+    
+    { keys: ['圖形','旋轉','對稱','反射','geometry','shape'], resp: `📖 **圖形與對稱**
+
+**對稱類型：**
+• 反射對稱（鏡像）：對摺後兩邊完全重疊
+• 旋轉對稱：旋轉一定角度後同原本一樣
+  例：正方形有4次旋轉對稱（每90°一次）
+
+**常見圖形對稱：**
+• 等邊三角形：3條對稱軸
+• 正方形：4條對稱軸
+• 長方形：2條對稱軸
+• 圓形：無限條對稱軸
+
+⚠️ 旋轉90°同反射係唔同㗎！旋轉係「轉」，反射係「反」！
+
+有圖形題目想我幫你分析嗎？` },
+    
+    { keys: ['進位','退位','借位','減法','subtract'], resp: `📖 **進退位加減法**
+
+**進位加法：** 個位加埋≥10，進1去十位
+例：27 + 35
+  個位：7+5=12（寫2進1）
+  十位：2+3+1=6
+  答案：62
+
+**退位減法：** 唔夠減時向上一位借
+例：1000 - 456
+  1000 = 999 + 1
+  999 - 456 = 543
+  543 + 1 = 544
+
+⚠️ 被減數有0嘅時候，要一路向左借位！
+
+要我幫你練進退位嗎？` }
+  ];
+  
+  // Try to match the question to a topic
+  for (const t of topics) {
+    for (const k of t.keys) {
+      if (ql.includes(k)) return t.resp;
+    }
+  }
+  
+  // No specific topic matched - friendly redirection
+  return `😊 我係霖楓AI數學導師，專幫香港小學生搞掂數學！
+
+你可以隨便問我：
+📐 **概念解釋**：咩係分數除法？LCM同HCF有咩分別？
+🧮 **逐步引導**：俾條題目我，我唔會直接講答案，而係引導你自己諗出嚟
+📝 **陷阱分析**：成日喺同一個位扣分？話我知，我幫你搵出問題
+💡 **口訣記憶**：獨家口訣幫你記實公式同概念
+🎯 **呈分試攻略**：P5/P6呈分試常考題型同應試技巧
+📊 **應用題拆解**：文字題睇唔明？我教你點樣從題目搵關鍵數字
+
+或者切換去「📝 練習模式」揀年級做練習啦！
+
+你想問咩數學問題？ 😊`
+
+  // Old general guidance (kept as reference)
+  const _unused = `🤔 好問題！雖然我冇辦法即時俾到完整答案，但等我哋一齊思考下：
+
+📐 **建議你試下：**
+1. 將問題拆開做細部分，一步步分析
+2. 畫個圖或者列表幫自己理解
+3. 諗下呢條題目涉及邊個數學概念
+
+💡 你可以試下用**練習模式**（左上角切換），揀返對應年級同主題做練習！
+
+或者重新形容一下你嘅問題，等我幫你更準確咁解答～ 😊`;
+}
+function quickAsk(question) { document.getElementById("userInput").value = question; freeAsk(); }
+
+// ═══════════════ UTILS ═══════════════
+function gcd(a,b) { a=Math.abs(a); b=Math.abs(b); while(b){[a,b]=[b,a%b];} return a; }
+function primeFactors(n) { const f=[]; let d=2; while(d*d<=n){while(n%d===0){f.push(d);n/=d;}d++;} if(n>1)f.push(n); return f; }
+
+function addMsg(text, role) {
+  const div = document.createElement("div");
+  div.className = "msg " + role;
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  div.innerHTML = text.replace(/\n/g, "<br>");
+  document.getElementById("chat").appendChild(div);
+  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+  if (window.MathJax) MathJax.typesetPromise([div]);
+}
+
+function updateStats() { document.getElementById("correctCount").textContent = stats.correct; document.getElementById("hintCount").textContent = stats.hints; document.getElementById("qCount").textContent = stats.total; }
+function showTyping() { const div=document.createElement("div"); div.className="typing"; div.id="typing"; div.innerHTML="<span></span><span></span><span></span>"; document.getElementById("chat").appendChild(div); document.getElementById("chat").scrollTop=document.getElementById("chat").scrollHeight; }
+function hideTyping() { const e=document.getElementById("typing"); if(e)e.remove(); }
+function saveSession() { try{localStorage.setItem("lf_tutor_session",JSON.stringify({stats}));}catch(e){} }
+function saveFreeChat(text,role) { try{const h=JSON.parse(localStorage.getItem("lf_free_chat")||"[]"); h.push({text,role,time:Date.now()}); if(h.length>100)h.splice(0,h.length-100); localStorage.setItem("lf_free_chat",JSON.stringify(h));}catch(e){} }
+
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Enter" && document.activeElement === document.getElementById("userInput")) handleSend();
+});

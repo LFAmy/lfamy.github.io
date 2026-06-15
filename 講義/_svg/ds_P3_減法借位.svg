@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景網格圖案 -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E8ECF0" stroke-width="0.5"/>
+    </pattern>
+
+    <!-- 主卡片漸層 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="40%" stop-color="#F8FAFE"/>
+      <stop offset="100%" stop-color="#EEF2F7"/>
+    </linearGradient>
+
+    <!-- 數字卡片漸層 - 百位 -->
+    <linearGradient id="hundredGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A90D9"/>
+      <stop offset="30%" stop-color="#3B7DD8"/>
+      <stop offset="60%" stop-color="#2D6BC4"/>
+      <stop offset="100%" stop-color="#1E5AAD"/>
+    </linearGradient>
+
+    <!-- 數字卡片漸層 - 十位 -->
+    <linearGradient id="tenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5BA0E8"/>
+      <stop offset="30%" stop-color="#4A90D9"/>
+      <stop offset="60%" stop-color="#3B7DD8"/>
+      <stop offset="100%" stop-color="#2D6BC4"/>
+    </linearGradient>
+
+    <!-- 數字卡片漸層 - 個位 -->
+    <linearGradient id="oneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6BB0F0"/>
+      <stop offset="30%" stop-color="#5BA0E8"/>
+      <stop offset="60%" stop-color="#4A90D9"/>
+      <stop offset="100%" stop-color="#3B7DD8"/>
+    </linearGradient>
+
+    <!-- 箭頭漸層 -->
+    <linearGradient id="arrowGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="50%" stop-color="#FF8E53"/>
+      <stop offset="100%" stop-color="#FF6B6B"/>
+    </linearGradient>
+
+    <linearGradient id="arrowGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF8E53"/>
+      <stop offset="50%" stop-color="#FFB347"/>
+      <stop offset="100%" stop-color="#FF8E53"/>
+    </linearGradient>
+
+    <linearGradient id="arrowGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFB347"/>
+      <stop offset="50%" stop-color="#FFC75F"/>
+      <stop offset="100%" stop-color="#FFB347"/>
+    </linearGradient>
+
+    <!-- 放射漸層光暈 -->
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 3D光影漸層 -->
+    <linearGradient id="shadow3D" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.1"/>
+    </linearGradient>
+
+    <!-- 雙層陰影濾鏡 -->
+    <filter id="doubleShadow" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#A0B4CC" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#8899AA" flood-opacity="0.15"/>
+    </filter>
+
+    <!-- 按鈕陰影 -->
+    <filter id="buttonShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#2D6BC4" flood-opacity="0.3"/>
+    </filter>
+
+    <!-- 箭頭發光 -->
+    <filter id="arrowGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#FAFBFC"/>
+  <rect width="600" height="400" fill="url(#grid)"/>
+
+  <!-- 主卡片 -->
+  <rect x="30" y="25" width="540" height="350" rx="16" ry="16" fill="url(#cardGrad)" filter="url(#doubleShadow)" stroke="#D0DCE8" stroke-width="1"/>
+
+  <!-- 卡片頂部光暈 -->
+  <rect x="30" y="25" width="540" height="80" rx="16" ry="16" fill="url(#glowGrad)" opacity="0.5"/>
+
+  <!-- 標題區域 -->
+  <text x="300" y="62" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="20" font-weight="bold" fill="#2D3748">🧮 減法借位 — 高位借1當10</text>
+  <text x="300" y="84" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="13" fill="#6B7A8F">三層階梯借位流程</text>
+
+  <!-- ===== 豎式計算區域 ===== -->
+
+  <!-- 橫線 -->
+  <line x1="180" y1="165" x2="420" y2="165" stroke="#4A5568" stroke-width="2.5"/>
+
+  <!-- 減號 -->
+  <text x="195" y="158" text-anchor="middle" font-family="'Courier New', monospace" font-size="28" font-weight="bold" fill="#4A5568">−</text>
+
+  <!-- 被減數 3 2 1 -->
+  <text x="260" y="148" text-anchor="middle" font-family="'Courier New', monospace" font-size="36" font-weight="bold" fill="#1A202C">3</text>
+  <text x="320" y="148" text-anchor="middle" font-family="'Courier New', monospace" font-size="36" font-weight="bold" fill="#1A202C">2</text>
+  <text x="380" y="148" text-anchor="middle" font-family="'Courier New', monospace" font-size="36" font-weight="bold" fill="#1A202C">1</text>
+
+  <!-- 減數 1 5 6 -->
+  <text x="260" y="195" text-anchor="middle" font-family="'Courier New', monospace" font-size="36" font-weight="bold" fill="#4A5568">1</text>
+  <text x="320" y="195" text-anchor="middle" font-family="'Courier New', monospace" font-size="36" font-weight="bold" fill="#4A5568">5</text>
+  <text x="380" y="195" text-anchor="middle" font-family="'Courier New', monospace" font-size="36" font-weight="bold" fill="#4A5568">6</text>
+
+  <!-- 位數標籤 -->
+  <text x="260" y="220" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="12" fill="#8899AA">百位</text>
+  <text x="320" y="220" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="12" fill="#8899AA">十位</text>
+  <text x="380" y="220" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="12" fill="#8899AA">個位</text>
+
+  <!-- ===== 借位標記 ===== -->
+
+  <!-- 百位 → 十位 借位箭頭（第一層） -->
+  <path d="M 275 130 C 275 110, 305 100, 315 110" stroke="url(#arrowGrad1)" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#arrowGlow)"/>
+  <polygon points="318,108 312,112 315,118" fill="#FF6B6B" filter="url(#arrowGlow)"/>
+
+  <!-- 十位 → 個位 借位箭頭（第二層） -->
+  <path d="M 335 130 C 335 115, 365 105, 375 115" stroke="url(#arrowGrad2)" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#arrowGlow)"/>
+  <polygon points="378,113 372,117 375,123" fill="#FF8E53" filter="url(#arrowGlow)"/>
+
+  <!-- 借位數字標記 -->
+
+  <!-- 百位：3 被借1，變成2 -->
+  <rect x="242" y="88" width="36" height="28" rx="8" ry="8" fill="url(#hundredGrad)" filter="url(#buttonShadow)"/>
+  <text x="260" y="108" text-anchor="middle" font-family="'Courier New', monospace" font-size="18" font-weight="bold" fill="#FFFFFF">2</text>
+
+  <!-- 十位：2 借來1變成12，再借1給個位變成11 -->
+  <rect x="302" y="88" width="36" height="28" rx="8" ry="8" fill="url(#tenGrad)" filter="url(#buttonShadow)"/>
+  <text x="320" y="108" text-anchor="middle" font-family="'Courier New', monospace" font-size="18" font-weight="bold" fill="#FFFFFF">11</text>
+
+  <!-- 個位：1 借來1變成11 -->
+  <rect x="362" y="88" width="36" height="28" rx="8" ry="8" fill="url(#oneGrad)" filter="url(#buttonShadow)"/>
+  <text x="380" y="108" text-anchor="middle" font-family="'Courier New', monospace" font-size="18" font-weight="bold" fill="#FFFFFF">11</text>
+
+  <!-- ===== 階梯說明 ===== -->
+
+  <!-- 階梯1：百位→十位 -->
+  <rect x="50" y="245" width="160" height="50" rx="10" ry="10" fill="#FFF0F0" stroke="#FF6B6B" stroke-width="1.5"/>
+  <text x="130" y="268" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="12" font-weight="bold" fill="#FF6B6B">第1階：百位借1</text>
+  <text x="130" y="286" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="11" fill="#CC5555">3 → 2（借1給十位）</text>
+
+  <!-- 階梯2：十位→個位 -->
+  <rect x="220" y="245" width="160" height="50" rx="10" ry="10" fill="#FFF5E8" stroke="#FF8E53" stroke-width="1.5"/>
+  <text x="300" y="268" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="12" font-weight="bold" fill="#FF8E53">第2階：十位借1</text>
+  <text x="300" y="286" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="11" fill="#CC7733">2+10=12 → 11（借1給個位）</text>
+
+  <!-- 階梯3：個位計算 -->
+  <rect x="390" y="245" width="160" height="50" rx="10" ry="10" fill="#FFFBE8" stroke="#FFB347" stroke-width="1.5"/>
+  <text x="470" y="268" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFB347">第3階：個位計算</text>
+  <text x="470" y="286" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="11" fill="#CC9933">1+10=11 → 11−6=5</text>
+
+  <!-- 階梯連接線 -->
+  <path d="M 210 270 L 218 270" stroke="#CCD5E0" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <path d="M 380 270 L 388 270" stroke="#CCD5E0" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- ===== 結果區域 ===== -->
+
+  <rect x="200" y="310" width="200" height="40" rx="12" ry="12" fill="#E8F5E9" stroke="#66BB6A" stroke-width="1.5" filter="url(#doubleShadow)"/>
+  <text x="300" y="336" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="16" font-weight="bold" fill="#2E7D32">答案：321 − 156 = 165</text>
+
+  <!-- 底部小提示 -->
+  <text x="300" y="368" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', Arial, sans-serif" font-size="10" fill="#A0B4CC">💡 借位口訣：高位借1，低位當10，逐階計算</text>
+</svg>

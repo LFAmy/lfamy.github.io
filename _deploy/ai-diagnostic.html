@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#1A3C6D">
+<title>霖楓學苑 · AI 智能診斷 v2.5 Pro</title>
+
+<link rel="stylesheet" href="/lf-academy-v8.css">
+<style>
+body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D);min-height:100vh;padding-top:var(--nav-height)}
+.auto-container{max-width:800px;margin:0 auto;padding:20px 24px}
+
+.auto-header{text-align:center;padding:30px 0 20px}
+.auto-header h1{color:white;margin-bottom:6px}
+.auto-header .badge{display:inline-block;background:linear-gradient(135deg,var(--purple),#6366F1);color:white;padding:4px 14px;border-radius:var(--radius-full);font-size:0.7em;font-weight:700;margin-bottom:8px}
+.auto-header p{color:rgba(255,255,255,0.5);font-size:0.88em}
+
+/* Data summary cards */
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px}
+.data-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:16px;text-align:center;backdrop-filter:blur(8px)}
+.data-card .val{font-family:var(--font-display);font-size:1.6em;font-weight:900;color:var(--gold)}
+.data-card .lbl{font-size:0.7em;color:rgba(255,255,255,0.4);margin-top:2px}
+
+/* Action button */
+.action-bar{text-align:center;margin:20px 0}
+.analyze-btn{padding:16px 40px;background:linear-gradient(135deg,var(--purple),#6366F1);color:white;border:none;border-radius:var(--radius-full);font-size:1em;font-weight:700;cursor:pointer;transition:all var(--duration);box-shadow:0 4px 20px rgba(124,58,237,0.3)}
+.analyze-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,0.4)}
+.analyze-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+/* Report */
+.report-panel{display:none}
+.report-section{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;backdrop-filter:blur(8px)}
+.report-section h3{color:var(--gold);font-size:0.9em;margin-bottom:12px;font-family:var(--font-sans)}
+.report-section .content{font-size:0.88em;color:rgba(255,255,255,0.8);line-height:1.8}
+.report-section .content strong{color:white}
+
+/* Weak topic bars */
+.weak-bar{margin:8px 0}
+.weak-bar .label{display:flex;justify-content:space-between;font-size:0.78em;margin-bottom:4px}
+.weak-bar .track{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.weak-bar .fill{height:100%;border-radius:3px;transition:width 0.8s}
+.fill-red{background:linear-gradient(90deg,#DC2626,#EF4444)}
+.fill-yellow{background:linear-gradient(90deg,#F59E0B,#FBBF24)}
+.fill-green{background:linear-gradient(90deg,#16A34A,#22C55E)}
+
+/* Loading */
+.loading-block{text-align:center;padding:30px}
+.loading-block .spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Tip */
+.auto-tip{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius);padding:14px 18px;margin:12px 0;font-size:0.78em;color:rgba(255,255,255,0.5)}
+</style>
+</head>
+<body>
+
+<div class="auto-container">
+  <div class="auto-header">
+    <div class="badge">MiMo v2.5 Pro 驅動</div>
+    <h1>🔬 AI 智能診斷</h1>
+    <p>自動分析學習數據 · 個人化診斷報告 · 智能學習計劃</p>
+  </div>
+
+  <!-- Data Summary -->
+  <div class="data-grid" id="dataSummary"></div>
+
+  <!-- Analyze Button -->
+  <div class="action-bar">
+    <button class="analyze-btn" id="analyzeBtn" onclick="runDiagnostic()">
+      🤖 AI 分析我的學習數據
+    </button>
+  </div>
+
+  <div class="auto-tip">
+    💡 MiMo v2.5 Pro 會分析你嘅 BKT 掌握度、SRS 複習排程、練習歷史、陷阱模式，然後生成一份完整嘅個人化學習診斷報告。
+  </div>
+
+  <!-- Report -->
+  <div class="report-panel" id="reportPanel"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/docs/data/lf-engines-v8.js"></script>
+<script src="/docs/data/lf-mimo-api.js"></script>
+<script src="/lf-shell-v8.js"></script>
+
+<script>
+/* ═══════════════════════════════════════
+   AI Auto-Diagnostic v2.5 Pro
+   Collects all learning data → MiMo analysis
+   ═══════════════════════════════════════ */
+
+/* ── Data Collection ── */
+function collectData() {
+  var data = { topics: {}, stats: {}, profile: {} };
+
+  // BKT mastery
+  try {
+    var bkt = JSON.parse(localStorage.getItem('lf_bkt_data') || '{}');
+    for (var k in bkt) {
+      data.topics[k] = {
+        mastery: Math.round((bkt[k].correct + 1) / (bkt[k].total + 2) * 100),
+        total: bkt[k].total || 0,
+        correct: bkt[k].correct || 0
+      };
+    }
+  } catch(e) {}
+
+  // Gamification
+  try {
+    var gami = JSON.parse(localStorage.getItem('lf_gamification') || '{}');
+    data.stats.points = gami.points || 0;
+    data.stats.streak = gami.streak || 0;
+    data.stats.maxStreak = gami.maxStreak || 0;
+    data.stats.badges = gami.badges || [];
+  } catch(e) {}
+
+  // SRS schedule
+  try {
+    var srs = JSON.parse(localStorage.getItem('lf_srs_schedule') || '{}');
+    data.srs = {};
+    for (var k in srs) {
+      data.srs[k] = {
+        correctRate: Math.round((srs[k].correctRate || 0) * 100),
+        due: Date.now() >= srs[k].nextReview,
+        lastReviewed: srs[k].lastReviewed
+      };
+    }
+  } catch(e) {}
+
+  // Student profile
+  try {
+    data.profile = JSON.parse(localStorage.getItem('lf_student_profile') || '{}');
+  } catch(e) {}
+
+  // Overall stats
+  var totalQ = 0, totalC = 0;
+  for (var k in data.topics) {
+    totalQ += data.topics[k].total;
+    totalC += data.topics[k].correct;
+  }
+  data.stats.totalQuestions = totalQ;
+  data.stats.totalCorrect = totalC;
+  data.stats.overallAccuracy = totalQ > 0 ? Math.round(totalC / totalQ * 100) : 0;
+
+  return data;
+}
+
+/* ── Render Summary ── */
+function renderSummary(data) {
+  var html = '';
+  html += '<div class="data-card"><div class="val">' + data.stats.totalQuestions + '</div><div class="lbl">總練習題數</div></div>';
+  html += '<div class="data-card"><div class="val">' + data.stats.overallAccuracy + '%</div><div class="lbl">整體正確率</div></div>';
+  html += '<div class="data-card"><div class="val">' + Object.keys(data.topics).length + '</div><div class="lbl">已練習課題</div></div>';
+  html += '<div class="data-card"><div class="val">' + data.stats.streak + '</div><div class="lbl">連續天數</div></div>';
+  document.getElementById('dataSummary').innerHTML = html;
+}
+
+/* ── Run Diagnostic ── */
+async function runDiagnostic() {
+  var btn = document.getElementById('analyzeBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ MiMo v2.5 Pro 分析中...';
+
+  var reportPanel = document.getElementById('reportPanel');
+  reportPanel.style.display = 'block';
+  reportPanel.innerHTML = '<div class="loading-block"><div class="spinner"></div><p style="color:rgba(255,255,255,0.5)">MiMo v2.5 Pro 正在分析你的學習數據...</p></div>';
+
+  var data = collectData();
+
+  if (data.stats.totalQuestions === 0) {
+    reportPanel.innerHTML = '<div class="report-section"><h3>📭 未有足夠數據</h3><div class="content">你仲未開始做練習！<br><br>👉 <a href="/practice.html" style="color:var(--gold)">開始做題練習</a>，完成至少10題之後再返嚟做 AI 診斷。</div></div>';
+    btn.disabled = false;
+    btn.textContent = '🤖 AI 分析我的學習數據';
+    return;
+  }
+
+  // Build prompt for MiMo
+  var prompt = buildDiagnosticPrompt(data);
+
+  // Call MiMo v2.5 Pro
+  var result = null;
+  if (typeof MIMO !== 'undefined') {
+    var messages = [
+      { role: 'system', content: '你係霖楓學苑AI學習診斷專家。根據學生嘅學習數據，生成一份完整嘅診斷報告。用繁體中文+廣東話。報告要包括：1)整體評估 2)最弱課題(排名) 3)最強課題 4)陷阱模式分析 5)建議學習計劃 6)呈分試預測。要具體、實用、鼓勵性。' },
+      { role: 'user', content: prompt }
+    ];
+    try {
+      var r = await MIMO.ask(messages, { maxTokens: 2000, temperature: 0.4, timeout: 25000 });
+      if (r && r.content) result = r.content;
+    } catch(e) { console.warn('MiMo diagnostic failed:', e.message); }
+  }
+
+  if (!result) {
+    result = generateLocalReport(data);
+  }
+
+  renderReport(result, data);
+  btn.disabled = false;
+  btn.textContent = '🔄 重新分析';
+}
+
+/* ── Build Prompt ── */
+function buildDiagnosticPrompt(data) {
+  var p = '以下是學生嘅學習數據，請生成診斷報告：\n\n';
+
+  p += '## 整體統計\n';
+  p += '- 總練習題數：' + data.stats.totalQuestions + '\n';
+  p += '- 整體正確率：' + data.stats.overallAccuracy + '%\n';
+  p += '- 連續學習天數：' + data.stats.streak + '\n';
+  p += '- 積分：' + data.stats.points + '\n';
+  if (data.stats.badges && data.stats.badges.length > 0) {
+    p += '- 已獲徽章：' + data.stats.badges.join('、') + '\n';
+  }
+
+  p += '\n## 課題掌握度（BKT數據）\n';
+  var topics = [];
+  for (var k in data.topics) {
+    topics.push({ name: k, mastery: data.topics[k].mastery, total: data.topics[k].total });
+  }
+  topics.sort(function(a, b) { return a.mastery - b.mastery; });
+  for (var i = 0; i < topics.length; i++) {
+    p += '- ' + topics[i].name + '：' + topics[i].mastery + '%（' + topics[i].total + '題）\n';
+  }
+
+  if (data.profile && data.profile.weakTopics && data.profile.weakTopics.length > 0) {
+    p += '\n## 弱項標記\n';
+    p += data.profile.weakTopics.join('、') + '\n';
+  }
+
+  if (data.profile && data.profile.strongTopics && data.profile.strongTopics.length > 0) {
+    p += '\n## 強項標記\n';
+    p += data.profile.strongTopics.join('、') + '\n';
+  }
+
+  if (data.srs) {
+    p += '\n## SRS 複習排程\n';
+    for (var k in data.srs) {
+      p += '- ' + k + '：正確率' + data.srs[k].correctRate + '% ' + (data.srs[k].due ? '(到期複習)' : '(未到期)') + '\n';
+    }
+  }
+
+  p += '\n請根據以上數據生成完整的個人化診斷報告。';
+  return p;
+}
+
+/* ── Local Report Fallback ── */
+function generateLocalReport(data) {
+  var topics = [];
+  for (var k in data.topics) {
+    topics.push({ name: k, mastery: data.topics[k].mastery, total: data.topics[k].total });
+  }
+  topics.sort(function(a, b) { return a.mastery - b.mastery; });
+
+  var weak3 = topics.slice(0, 3);
+  var strong3 = topics.slice(-3).reverse();
+  var weakNames = weak3.map(function(t) { return t.name + '(' + t.mastery + '%)'; }).join('、');
+  var strongNames = strong3.map(function(t) { return t.name + '(' + t.mastery + '%)'; }).join('、');
+
+  return [
+    '## 📊 整體評估',
+    '整體正確率 **' + data.stats.overallAccuracy + '%**（' + data.stats.totalQuestions + '題）。' +
+    (data.stats.overallAccuracy >= 80 ? '表現優秀，繼續保持！' :
+     data.stats.overallAccuracy >= 60 ? '表現良好，有明確進步空間。' :
+     '需要多加練習，打好基礎。'),
+
+    '## 🔴 最弱課題（需優先加強）',
+    weakNames || '未有足夠數據',
+
+    '## 🟢 最強課題（已掌握）',
+    strongNames || '未有足夠數據',
+
+    '## 📝 建議學習計劃',
+    '1. 每日完成10題練習（重點：' + (weak3[0] ? weak3[0].name : '基礎題') + '）',
+    '2. 使用AI導師理解錯題原因',
+    '3. 每週做一次模擬測驗檢視進步',
+    '4. 注意陷阱標記，建立錯題本',
+
+    '## 🎯 呈分試預測',
+    data.stats.overallAccuracy >= 80 ? '目前水平有望取得Band 1成績。繼續保持練習頻率！' :
+    data.stats.overallAccuracy >= 60 ? '目前處於Band 2水平。加強弱項練習可望提升至Band 1。' :
+    '建議增加練習量，針對弱項重點突破。'
+  ].join('\n\n');
+}
+
+/* ── Render Report ── */
+function renderReport(report, data) {
+  var html = '';
+
+  // Split report into sections
+  var sections = report.split(/\n##\s+/);
+  for (var i = 0; i < sections.length; i++) {
+    var section = sections[i].trim();
+    if (!section) continue;
+
+    var lines = section.split('\n');
+    var title = lines[0].replace(/^#+\s*/, '');
+    var content = lines.slice(1).join('\n');
+
+    html += '<div class="report-section">';
+    html += '<h3>' + title + '</h3>';
+    html += '<div class="content">' + formatContent(content) + '</div>';
+    html += '</div>';
+  }
+
+  // Add weak topic bars
+  var topics = [];
+  for (var k in data.topics) {
+    topics.push({ name: k, mastery: data.topics[k].mastery });
+  }
+  topics.sort(function(a, b) { return a.mastery - b.mastery; });
+
+  if (topics.length > 0) {
+    html += '<div class="report-section"><h3>📊 課題掌握度</h3>';
+    for (var j = 0; j < Math.min(topics.length, 8); j++) {
+      var t = topics[j];
+      var cls = t.mastery < 50 ? 'fill-red' : t.mastery < 75 ? 'fill-yellow' : 'fill-green';
+      html += '<div class="weak-bar"><div class="label"><span>' + t.name + '</span><span>' + t.mastery + '%</span></div><div class="track"><div class="fill ' + cls + '" style="width:' + t.mastery + '%"></div></div></div>';
+    }
+    html += '</div>';
+  }
+
+  // Actions
+  html += '<div style="text-align:center;margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">';
+  html += '<a href="/practice.html" class="lf-btn lf-btn-gold">📝 開始針對練習</a>';
+  html += '<a href="/ai-tutor.html" class="lf-btn lf-btn-primary">🤖 問 AI 導師</a>';
+  html += '<a href="/student.html" class="lf-btn lf-btn-outline" style="color:rgba(255,255,255,0.5);border-color:rgba(255,255,255,0.2)">🎒 學生中心</a>';
+  html += '</div>';
+
+  document.getElementById('reportPanel').innerHTML = html;
+}
+
+function formatContent(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>')
+    .replace(/^- (.+)$/gm, '• $1')
+    .replace(/(\d+)\.\s/g, '<strong>$1.</strong> ');
+}
+
+/* ── Init ── */
+(function() {
+  var data = collectData();
+  renderSummary(data);
+})();
+</script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
+</body>
+</html>

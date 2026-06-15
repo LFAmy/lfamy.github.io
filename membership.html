@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1A3C6D">
+<title>霖楓學苑 · 會員中心</title>
+
+<meta property="og:title" content="霖楓學苑 · 會員中心">
+<meta property="og:description" content="霖楓學苑會員方案。免費體驗、基本會員、專業會員。AI導師、練習系統。">
+<meta property="og:image" content="https://www.lfacademyhk.com/logo.png">
+
+<link rel="stylesheet" href="/lf-academy-v8.css">
+<style>
+body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D);min-height:100vh;padding-top:var(--nav-height)}
+.member-container{max-width:1000px;margin:0 auto;padding:20px 24px}
+
+.member-header{text-align:center;padding:40px 0 30px}
+.member-header h1{color:white;margin-bottom:8px}
+.member-header p{color:rgba(255,255,255,0.6)}
+
+/* User Status Bar */
+.user-bar{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;backdrop-filter:blur(12px)}
+.user-avatar{width:48px;height:48px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.4em;font-weight:900;color:var(--blue-dark);flex-shrink:0}
+.user-info{flex:1;min-width:200px}
+.user-info .name{color:white;font-weight:700;font-size:1.05em}
+.user-info .email{color:rgba(255,255,255,0.5);font-size:0.8em}
+.user-tier{display:inline-block;padding:4px 14px;border-radius:var(--radius-full);font-size:0.78em;font-weight:700}
+.tier-free{background:rgba(100,116,139,0.2);color:#94a3b8}
+.tier-basic{background:rgba(22,163,74,0.2);color:#4ade80}
+.tier-pro{background:rgba(124,58,237,0.2);color:#c4b5fd}
+
+/* Usage Dashboard */
+.usage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.usage-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:20px;text-align:center;backdrop-filter:blur(8px)}
+.usage-card h3{color:rgba(255,255,255,0.6);font-size:0.78em;margin-bottom:8px;font-family:var(--font-sans)}
+.usage-bar{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;margin:10px 0}
+.usage-bar-fill{height:100%;border-radius:4px;transition:width 0.5s var(--ease-out)}
+.fill-blue{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
+.fill-gold{background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+.fill-purple{background:linear-gradient(90deg,var(--purple),#6366F1)}
+.usage-num{font-family:var(--font-display);font-size:2em;font-weight:900;color:white}
+.usage-label{font-size:0.72em;color:rgba(255,255,255,0.4);margin-top:4px}
+
+/* Plan Cards */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:32px}
+.plan-card{background:var(--surface);border-radius:var(--radius-lg);padding:32px 24px;text-align:center;border:2px solid var(--border);transition:all var(--duration);position:relative;overflow:hidden}
+.plan-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.plan-card.featured{border-color:var(--gold);box-shadow:var(--shadow-gold);transform:scale(1.03)}
+.plan-card.featured::before{content:'最受歡迎';position:absolute;top:14px;right:-28px;background:var(--gold);color:white;padding:4px 36px;font-size:0.68em;font-weight:700;transform:rotate(45deg)}
+.plan-icon{font-size:2.5em;margin-bottom:8px}
+.plan-name{font-size:1.1em;font-weight:700;color:var(--blue);margin-bottom:4px}
+.plan-price{font-family:var(--font-display);font-size:2.2em;font-weight:900;color:var(--blue);margin:8px 0}
+.plan-price .period{font-size:0.4em;color:var(--text-muted)}
+.plan-features{text-align:left;margin:16px 0;font-size:0.85em;color:var(--text-secondary);line-height:2}
+.plan-features li{padding:3px 0}
+.plan-features li::before{content:'✓ ';color:var(--green);font-weight:700}
+.plan-features li.disabled::before{content:'✕ ';color:var(--text-muted)}
+.plan-features li.disabled{color:var(--text-muted)}
+
+.plan-btn{display:block;width:100%;padding:14px;border-radius:var(--radius-full);font-size:0.92em;font-weight:700;cursor:pointer;text-decoration:none;transition:all var(--duration-fast);border:none;font-family:var(--font-sans)}
+.plan-btn:hover{transform:translateY(-2px)}
+.plan-btn-current{background:var(--green);color:white;cursor:default}
+.plan-btn-current:hover{transform:none}
+.plan-btn-upgrade{background:var(--blue);color:white}
+.plan-btn-upgrade:hover{box-shadow:var(--shadow-blue)}
+.plan-btn-gold{background:var(--gold);color:var(--blue-dark)}
+.plan-btn-gold:hover{box-shadow:var(--shadow-gold)}
+.plan-btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}
+.plan-btn-outline:hover{background:var(--blue-glass)}
+
+/* Profile Section */
+.profile-section{background:var(--surface);border-radius:var(--radius-lg);padding:28px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+.profile-section h2{font-size:1em;margin-bottom:16px}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.profile-field label{display:block;font-size:0.78em;color:var(--text-muted);margin-bottom:4px}
+.profile-field input{width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);font-size:0.88em;outline:none;transition:border var(--duration-fast)}
+.profile-field input:focus{border-color:var(--blue)}
+.profile-field input:disabled{background:var(--surface-alt);color:var(--text-muted)}
+
+/* Learning Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:var(--surface);border-radius:var(--radius);padding:18px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat-card .icon{font-size:1.5em;margin-bottom:6px}
+.stat-card .val{font-family:var(--font-display);font-size:1.6em;font-weight:900;color:var(--blue)}
+.stat-card .lbl{font-size:0.72em;color:var(--text-muted);margin-top:2px}
+
+/* Auth Prompt */
+.auth-prompt{text-align:center;padding:60px 24px}
+.auth-prompt .icon{font-size:4em;margin-bottom:16px}
+.auth-prompt h2{color:white;margin-bottom:12px}
+.auth-prompt p{color:rgba(255,255,255,0.6);margin-bottom:24px}
+
+@media(max-width:768px){
+  .profile-grid{grid-template-columns:1fr}
+  .plan-grid{grid-template-columns:1fr}
+  .plan-card.featured{transform:none}
+}
+</style>
+<link rel="canonical" href="https://www.lfacademyhk.com/membership.html">
+</head>
+<body>
+
+<div class="member-container">
+  <div class="member-header">
+    <h1>⭐ 會員中心</h1>
+    <p>管理你的帳戶 · 查看使用量 · 升級方案</p>
+  </div>
+
+  <!-- ═══ AUTH PROMPT (not logged in) ═══ -->
+  <div class="auth-prompt" id="authPrompt">
+    <div class="icon">🔐</div>
+    <h2>請先登入</h2>
+    <p>登入以查看你的會員狀態、使用量和學習進度。</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="/auth.html" class="lf-btn lf-btn-xl lf-btn-primary">🔑 登入 / 註冊</a>
+      <a href="/ai-tutor.html" class="lf-btn lf-btn-xl lf-btn-gold">🤖 免登入試用 AI</a>
+    </div>
+  </div>
+
+  <!-- ═══ LOGGED IN ═══ -->
+  <div id="memberContent" style="display:none">
+    <!-- User Status Bar -->
+    <div class="user-bar">
+      <div class="user-avatar" id="userAvatar">👤</div>
+      <div class="user-info">
+        <div class="name" id="userName">載入中...</div>
+        <div class="email" id="userEmail"></div>
+      </div>
+      <span class="user-tier" id="userTier">免費體驗</span>
+      <button class="lf-btn lf-btn-ghost lf-btn-sm" onclick="if(confirm('確定要登出嗎？')) LF.logout();" style="color:rgba(255,255,255,0.5)">🚪 登出</button>
+    </div>
+
+    <!-- Usage Dashboard -->
+    <div class="usage-grid">
+      <div class="usage-card">
+        <h3>🤖 AI 問答</h3>
+        <div class="usage-num" id="usageAI">0/10</div>
+        <div class="usage-label">今日剩餘</div>
+        <div class="usage-bar"><div class="usage-bar-fill fill-blue" id="usageAIBar" style="width:0%"></div></div>
+      </div>
+      <div class="usage-card">
+        <h3>📝 練習題目</h3>
+        <div class="usage-num" id="usagePractice">0/5</div>
+        <div class="usage-label">今日剩餘</div>
+        <div class="usage-bar"><div class="usage-bar-fill fill-gold" id="usagePracticeBar" style="width:0%"></div></div>
+      </div>
+      <div class="usage-card">
+        <h3>🏆 積分</h3>
+        <div class="usage-num" id="usagePoints">0</div>
+        <div class="usage-label">累計積分</div>
+        <div class="usage-bar"><div class="usage-bar-fill fill-purple" id="usagePointsBar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- Learning Stats -->
+    <div class="stats-grid" id="learningStats">
+      <div class="stat-card"><div class="icon">📝</div><div class="val" id="statTotal">0</div><div class="lbl">總練習題數</div></div>
+      <div class="stat-card"><div class="icon">✅</div><div class="val" id="statCorrect">0</div><div class="lbl">正確率</div></div>
+      <div class="stat-card"><div class="icon">🔥</div><div class="val" id="statStreak">0</div><div class="lbl">最長連續答對</div></div>
+      <div class="stat-card"><div class="icon">🏅</div><div class="val" id="statBadges">0</div><div class="lbl">徽章</div></div>
+    </div>
+
+    <!-- ═══ PLAN COMPARISON ═══ -->
+    <h2 style="color:white;text-align:center;margin:32px 0 16px">💎 升級方案</h2>
+    <div class="plan-grid">
+      <!-- Free -->
+      <div class="plan-card" id="planFree">
+        <div class="plan-icon">🎁</div>
+        <div class="plan-name">免費體驗</div>
+        <div class="plan-price">$0<span class="period">/月</span></div>
+        <ul class="plan-features">
+          <li>每日 10 次 AI 問答</li>
+          <li>每日 5 次練習</li>
+          <li>基礎題庫</li>
+          <li class="disabled">陷阱診斷報告</li>
+          <li class="disabled">SRS 智能複習</li>
+          <li class="disabled">BKT 自適應難度</li>
+        </ul>
+        <button class="plan-btn plan-btn-current" disabled>目前方案</button>
+      </div>
+
+      <!-- Basic -->
+      <div class="plan-card featured" id="planBasic">
+        <div class="plan-icon">⭐</div>
+        <div class="plan-name">基本會員</div>
+        <div class="plan-price">$88<span class="period">/月</span></div>
+        <ul class="plan-features">
+          <li>每日 50 次 AI 問答</li>
+          <li>無限練習次數</li>
+          <li>完整題庫</li>
+          <li>陷阱診斷報告</li>
+          <li>SRS 智能複習</li>
+          <li class="disabled">BKT 自適應難度</li>
+        </ul>
+        <a href="https://wa.me/85294796459?text=我想升級基本會員%20$88/月" class="plan-btn plan-btn-gold">💬 WhatsApp 查詢</a>
+      </div>
+
+      <!-- Pro -->
+      <div class="plan-card" id="planPro">
+        <div class="plan-icon">💎</div>
+        <div class="plan-name">專業會員</div>
+        <div class="plan-price">$168<span class="period">/月</span></div>
+        <ul class="plan-features">
+          <li>無限 AI 問答</li>
+          <li>無限練習次數</li>
+          <li>完整題庫 + 獨家題目</li>
+          <li>每週詳細診斷報告</li>
+          <li>SRS 智能複習</li>
+          <li>BKT 自適應難度引擎</li>
+        </ul>
+        <a href="https://wa.me/85294796459?text=我想升級專業會員%20$168/月" class="plan-btn plan-btn-gold">💬 WhatsApp 查詢</a>
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <div class="profile-section">
+      <h2>👤 個人資料</h2>
+      <div class="profile-grid">
+        <div class="profile-field">
+          <label>姓名</label>
+          <input type="text" id="profileName" placeholder="你的名字" disabled>
+        </div>
+        <div class="profile-field">
+          <label>電郵</label>
+          <input type="email" id="profileEmail" placeholder="email@example.com" disabled>
+        </div>
+        <div class="profile-field">
+          <label>年級</label>
+          <input type="text" id="profileGrade" placeholder="例如：P5" disabled>
+        </div>
+        <div class="profile-field">
+          <label>會員等級</label>
+          <input type="text" id="profileTier" placeholder="免費體驗" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="/docs/data/lf-firebase-config.js"></script>
+<script src="/docs/data/lf-membership.js"></script>
+<script src="/lf-shell-v8.js"></script>
+
+<script>
+/* ═══════════════════════════════════════
+   MEMBERSHIP PORTAL
+   ═══════════════════════════════════════ */
+
+(function init() {
+  // Wait for LF shell to be ready
+  if (typeof LF !== 'undefined' && LF.state && LF.state.user) {
+    showMemberContent();
+  } else {
+    // Check localStorage
+    const email = localStorage.getItem('lf_user_email');
+    if (email) {
+      showMemberContent();
+    } else {
+      // Listen for auth changes
+      window.addEventListener('lf:auth', function(e) {
+        if (e.detail && e.detail.user) showMemberContent();
+      });
+      window.addEventListener('lf:ready', function(e) {
+        if (e.detail && e.detail.user) showMemberContent();
+      });
+    }
+  }
+})();
+
+function showMemberContent() {
+  document.getElementById('authPrompt').style.display = 'none';
+  document.getElementById('memberContent').style.display = 'block';
+
+  // Get user info
+  const name = localStorage.getItem('lf_user_name') || LF.state?.user?.displayName || LF.state?.user?.email?.split('@')[0] || '同學';
+  const email = localStorage.getItem('lf_user_email') || LF.state?.user?.email || '';
+  const membership = localStorage.getItem('lf_membership') || LF.state?.membership || 'free';
+  const role = localStorage.getItem('lf_user_role') || LF.state?.role || 'student';
+
+  document.getElementById('userName').textContent = name;
+  document.getElementById('userEmail').textContent = email;
+  document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+
+  // Tier badge
+  const tierEl = document.getElementById('userTier');
+  const tiers = { free: '免費體驗', basic: '基本會員', pro: '專業會員' };
+  const tierClasses = { free: 'tier-free', basic: 'tier-basic', pro: 'tier-pro' };
+  tierEl.textContent = tiers[membership] || '免費體驗';
+  tierEl.className = 'user-tier ' + (tierClasses[membership] || 'tier-free');
+
+  // Profile fields
+  document.getElementById('profileName').value = name;
+  document.getElementById('profileEmail').value = email;
+  document.getElementById('profileGrade').value = localStorage.getItem('lf_student_grade') || '未設定';
+  document.getElementById('profileTier').value = tiers[membership];
+
+  // Update plan cards
+  if (membership === 'free') {
+    document.getElementById('planFree').querySelector('.plan-btn').textContent = '目前方案';
+    document.getElementById('planFree').querySelector('.plan-btn').className = 'plan-btn plan-btn-current';
+    document.getElementById('planBasic').querySelector('.plan-btn').textContent = '升級至基本';
+    document.getElementById('planPro').querySelector('.plan-btn').textContent = '升級至專業';
+  } else if (membership === 'basic') {
+    document.getElementById('planFree').querySelector('.plan-btn').textContent = '已升級';
+    document.getElementById('planFree').querySelector('.plan-btn').className = 'plan-btn plan-btn-outline';
+    document.getElementById('planBasic').querySelector('.plan-btn').textContent = '目前方案';
+    document.getElementById('planBasic').querySelector('.plan-btn').className = 'plan-btn plan-btn-current';
+  } else if (membership === 'pro') {
+    document.getElementById('planFree').querySelector('.plan-btn').textContent = '已升級';
+    document.getElementById('planFree').querySelector('.plan-btn').className = 'plan-btn plan-btn-outline';
+    document.getElementById('planBasic').querySelector('.plan-btn').textContent = '已升級';
+    document.getElementById('planBasic').querySelector('.plan-btn').className = 'plan-btn plan-btn-outline';
+    document.getElementById('planPro').querySelector('.plan-btn').textContent = '目前方案';
+    document.getElementById('planPro').querySelector('.plan-btn').className = 'plan-btn plan-btn-current';
+  }
+
+  loadUsage();
+  loadStats();
+}
+
+function loadUsage() {
+  const membership = localStorage.getItem('lf_membership') || LF.state?.membership || 'free';
+  const limits = { free: { ai: 10, practice: 5 }, basic: { ai: 50, practice: 999 }, pro: { ai: 999, practice: 9999 } };
+  const tier = limits[membership] || limits.free;
+
+  const today = new Date().toISOString().slice(0, 10);
+  let usage;
+  try {
+    usage = JSON.parse(localStorage.getItem('lf_usage_' + today) || '{"ai":0,"practice":0}');
+  } catch(e) { usage = { ai: 0, practice: 0 }; }
+
+  const aiRemaining = Math.max(0, tier.ai - (usage.ai || 0));
+  const practiceRemaining = Math.max(0, tier.practice - (usage.practice || 0));
+
+  document.getElementById('usageAI').textContent = aiRemaining + '/' + tier.ai;
+  document.getElementById('usageAIBar').style.width = ((usage.ai || 0) / tier.ai * 100) + '%';
+
+  document.getElementById('usagePractice').textContent = practiceRemaining + '/' + tier.practice;
+  document.getElementById('usagePracticeBar').style.width = ((usage.practice || 0) / tier.practice * 100) + '%';
+
+  // Points
+  let points = 0;
+  try {
+    const gami = JSON.parse(localStorage.getItem('lf_gamification') || '{}');
+    points = gami.points || 0;
+  } catch(e) {}
+  document.getElementById('usagePoints').textContent = points;
+  document.getElementById('usagePointsBar').style.width = Math.min(100, points / 50) + '%';
+}
+
+function loadStats() {
+  // Load from gamification
+  try {
+    const gami = JSON.parse(localStorage.getItem('lf_gamification') || '{}');
+    document.getElementById('statStreak').textContent = gami.maxStreak || 0;
+    document.getElementById('statBadges').textContent = (gami.badges || []).length;
+
+    // Total questions from BKT
+    let totalQ = 0, totalCorrect = 0;
+    try {
+      const bkt = JSON.parse(localStorage.getItem('lf_bkt_data') || '{}');
+      for (const [, d] of Object.entries(bkt)) {
+        totalQ += d.total || 0;
+        totalCorrect += d.correct || 0;
+      }
+    } catch(e) {}
+    document.getElementById('statTotal').textContent = totalQ;
+    document.getElementById('statCorrect').textContent = totalQ > 0 ? Math.round(totalCorrect / totalQ * 100) + '%' : '0%';
+  } catch(e) {}
+}
+</script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
+</body>
+</html>

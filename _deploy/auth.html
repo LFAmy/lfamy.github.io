@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<a href="#auth-card" class="skip-link">跳至登入表格</a>
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
@@ -13,6 +14,7 @@
 <meta name="theme-color" content="#1A3C6D">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>霖楓學苑 · 登入</title>
+<link rel="stylesheet" href="/lf-academy-v8.css">
 <script src="/docs/data/lf-firebase-config.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -47,11 +49,11 @@ body{font-family:"Segoe UI",system-ui,sans-serif;background:linear-gradient(170d
 .footer-links{margin-top:12px;font-size:.8em;color:#94a3b8}
 .footer-links a{color:#1A3C6D;text-decoration:none}
 </style>
-</head>
+<link rel="canonical" href="https://www.lfacademyhk.com/auth.html"></head>
 <body>
 
 <div class="nav-top">
-  <a href="/" class="brand"><img src="logo.png" alt="霖楓學苑" style="height:26px;">霖楓學苑</a>
+  <a href="/" class="brand"><img loading="lazy" src="logo.png" alt="霖楓學苑" style="height:26px;">霖楓學苑</a>
   <a href="/">← 回首頁</a>
 </div>
 
@@ -60,7 +62,7 @@ body{font-family:"Segoe UI",system-ui,sans-serif;background:linear-gradient(170d
   <p class="sub">AI 智能學習平台 · 選擇你的身份</p>
 
   <!-- Role Selection -->
-  <div class="role-select">
+  <div class="role-select" aria-label="選擇身份">
     <div class="role-btn active" id="roleStudent" onclick="selectRole('student')">
       <span class="icon">🎒</span>
       <span class="label">我是學生</span>
@@ -72,21 +74,21 @@ body{font-family:"Segoe UI",system-ui,sans-serif;background:linear-gradient(170d
   </div>
 
   <div id="loginForm">
-    <input class="input" type="email" id="email" placeholder="電郵地址" autocomplete="email">
-    <input class="input" type="password" id="password" placeholder="密碼" autocomplete="current-password">
-    <button class="btn" onclick="login()">登入</button>
-    <button class="btn outline" onclick="showSignup()">📝 註冊新帳戶</button>
+    <input class="input" aria-required="true" type="email" id="email" placeholder autofocus="電郵地址" autocomplete="email">
+    <input class="input" aria-required="true" type="password" id="password" placeholder="密碼" autocomplete="current-password">
+    <button class="btn" type="button" onclick="login()">登入</button>
+    <button class="btn outline" type="button" onclick="showSignup()">📝 註冊新帳戶</button>
     <div class="divider"><span>或</span></div>
-    <button class="btn google" onclick="googleLogin()">🚀 使用 Google 登入</button>
+    <button class="btn google" type="button" onclick="googleLogin()">🚀 使用 Google 登入</button>
     <a href="javascript:void(0)" onclick="forgotPassword()" style="font-size:12px;color:#6B7280;text-decoration:none;display:block;margin-top:4px">忘記密碼？</a>
   </div>
 
   <div id="signupForm" style="display:none">
-    <input class="input" type="email" id="signupEmail" placeholder="電郵地址">
-    <input class="input" type="password" id="signupPassword" placeholder="密碼 (最少6位)">
-    <input class="input" type="text" id="signupName" placeholder="你的名字">
-    <button class="btn" onclick="signup()">建立帳戶</button>
-    <button class="btn outline" onclick="showLogin()">← 返回登入</button>
+    <input class="input" aria-required="true" type="email" id="signupEmail" placeholder="電郵地址">
+    <input class="input" aria-required="true" type="password" id="signupPassword" placeholder="密碼 (最少6位)">
+    <input class="input" aria-required="true" type="text" id="signupName" placeholder="你的名字">
+    <button class="btn" type="button" onclick="signup()">建立帳戶</button>
+    <button class="btn outline" type="button" onclick="showLogin()">← 返回登入</button>
   </div>
 
   <div class="error" id="error"></div>
@@ -292,5 +294,23 @@ function forgotPassword() {
 }
 </script>
 <script>if("serviceWorker"in navigator){navigator.serviceWorker.register("/sw.js")}</script>
+<div style="text-align:center;color:#16A34A;padding:10px;font-size:.85em">📱 ClassIn平台 · 唔使接送 · 全港適用</div><script>
+(function() {
+  function updateOnlineStatus() {
+    const el = document.getElementById('offlineBanner') || (function() {
+      const e = document.createElement('div');
+      e.id = 'offlineBanner';
+      e.style.cssText = 'position:fixed;top:60px;left:0;right:0;z-index:999;background:#FEF3C7;color:#92400E;padding:6px 16px;text-align:center;font-size:13px;font-weight:600;display:none';
+      e.textContent = '🔴 離線模式 — 登入需要網絡連線';
+      document.body.insertBefore(e, document.body.firstChild);
+      return e;
+    })();
+    el.style.display = navigator.onLine ? 'none' : 'block';
+  }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus();
+})();
+</script>
 </body>
 </html>

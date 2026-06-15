@@ -1,0 +1,1297 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="小學四年級數學練習：對稱。涵蓋小學數學 練習。霖楓學苑呈分試專家，陷阱題診斷教學法。" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小學四年級數學 對稱 | 霖楓學苑 LF Academy</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11pt;
+  --fs-small: 9pt;
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 1.9;
+  --lh-tight: 1.4;
+  --lh-answer: 2.2;  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+}
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
+
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
+
+.lf-student-info .lf-si-spacer { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+
+
+  /* ════════════════════════════════════════════════════════
+     LF Academy v8.0 — Enhanced A4 Print Styles
+     新增: 學生答題空間優化 · 打印裝訂邊距 · 浮水印 · 頁碼美化
+     ════════════════════════════════════════════════════════ */
+  
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 14mm 16mm 20mm 22mm;  /* left=22mm for binding */
+    @top-right {
+      content: string(grade-header);
+      font-size: 7pt;
+      color: var(--lf-gray);
+      font-family: var(--font-heading);
+    }
+    @bottom-left {
+      content: "LF Academy | lfacademyhk.com";
+      font-size: 6.5pt;
+      color: #9CA3AF;
+    }
+    @bottom-right {
+      content: "P " counter(page);
+      font-size: 7pt;
+      color: var(--lf-gray);
+    }
+  }
+  
+  /* Grade header for page top */
+  .lf-page::before {
+    string-set: grade-header attr(data-grade);
+  }
+  
+  /* Student workspace */
+  .lf-line {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #D1D5DB 0, #D1D5DB 4px, transparent 4px, transparent 8px);
+    margin: 6pt 0 8pt 0;
+  }
+  
+  .lf-answer-space {
+    min-height: 28pt;
+    border-bottom: 1.5px dashed #D1D5DB;
+    margin: 4pt 0;
+    padding: 2pt 4pt;
+  }
+  
+  .lf-answer-lines {
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 21pt, #E5E7EB 21pt, #E5E7EB 21.5pt);
+    min-height: 64pt;
+    padding: 2pt 8pt;
+    margin: 6pt 0;
+  }
+  
+  /* Cover page */
+  .lf-cover {
+    page-break-after: always;
+  }
+  
+  /* Trap cards - ensure visibility in B&W print */
+  .lf-trap-card {
+    border: 2px solid #333 !important;
+    background: #FAFAFA !important;
+  }
+  
+  .lf-trap-wrong {
+    color: #333 !important;
+    font-weight: 700 !important;
+    text-decoration: line-through;
+  }
+  
+  .lf-trap-right {
+    color: #000 !important;
+    font-weight: 900 !important;
+    border-left: 3px solid #000;
+    padding-left: 8pt;
+  }
+  
+  /* SSPA Challenge questions */
+  .enrichment-challenge {
+    border: 2px solid #333 !important;
+    background: #FAFAFA !important;
+  }
+  
+  /* Prevent content breaks */
+  .lf-trap-card, .enrichment-challenge, .lf-ex, .lf-kp {
+    page-break-inside: avoid;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+  
+  /* Hide interactive elements */
+  .no-print, .lf-game, .lf-ai-section {
+    display: none !important;
+  }
+  
+  /* Score/name area */
+  .lf-print-header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8pt 0;
+    border-bottom: 1px solid #333;
+    margin-bottom: 12pt;
+  }
+  
+  .lf-print-header .name-line {
+    display: inline-block;
+    min-width: 120pt;
+    border-bottom: 1px solid #333;
+    margin: 0 4pt;
+  }
+  
+  /* Page break before major sections */
+  .lf-sspa-section {
+    page-break-before: always;
+  }
+  
+  /* Watermark */
+  .lf-page {
+    position: relative;
+  }
+  
+  .lf-page::after {
+    content: "LF Academy";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 60pt;
+    color: rgba(0,0,0,0.03);
+    pointer-events: none;
+    z-index: -1;
+    font-family: var(--font-heading);
+    white-space: nowrap;
+  }
+
+}
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P4 講義",
+      "item": "https://lfamy.github.io/講義/P4/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "對稱"
+    }
+  ]
+}</script>
+<!-- === LF Graphics Engine === -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="../../docs/data/lf-graphics.js"></script>
+<style>
+.math-diagram { max-width:100%; height:auto; margin:10px auto; display:block; border-radius:8px; }
+.chart-wrap { max-width:500px; margin:15px auto; }
+.chart-wrap canvas { width:100% !important; }
+.svg-shape { display:inline-block; vertical-align:middle; }
+</style>
+<!-- === END Graphics Engine === -->
+
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="lf-page">
+<div class="lf-cover">
+<div class="lf-cover-logo">霖楓學苑 · LF Academy</div>
+<div class="lf-cover-grade">小四 · 第 30 堂 · 學生版講義</div>
+<div class="lf-cover-title">對稱</div>
+<div class="lf-cover-subtitle">軸對稱 · 鏡像 · 對稱軸可以係斜嘅 · 65 分鐘</div>
+<div class="lf-cover-info">
+<b>對應教材：</b>《小學數學新思維（第二版）》4下D冊 單元一<br/>
+<b>核心陷阱：</b>🪤 <b>對稱軸一定係垂直線？錯！對稱軸可以係斜嘅！</b><br/>
+<b>SSPA 關聯：</b><span class="lf-sspa-badge lf-sspa-high">🔴 高頻</span> 呈分試幾何題基礎，P5-P6常出對稱圖形辨識<br/>
+<b>前置知識：</b>P3 基本圖形認識 · 鏡像概念 · 正方形/長方形特性<br/>
+<b>本堂目標：</b>❶ 認識軸對稱 ❷ 找出對稱軸 ❸ 完成對稱圖形 ❹ 分辨對稱軸方向
+  </div>
+<div class="lf-cover-row">
+<span>學生姓名：<span class="lf-line"></span></span><span>班級：<span class="lf-line"></span></span><span>日期：<span class="lf-line"></span></span><span>完成時長：<span class="lf-line"></span></span>
+</div>
+</div>
+<div>
+  <div class="lf-parent-summary">
+    <div class="lf-ps-title">家長30秒摘要</div>
+    本堂重點：<span class="lf-ps-tag trap">陷阱破解</span><span class="lf-ps-tag goal">掌握關鍵概念</span><span class="lf-ps-tag sspa">呈分試關聯</span><span class="lf-ps-tag hk">香港課程</span><br>
+    <strong>學完本堂，小朋友將能夠：</strong>① 識別本課陷阱 ② 正確解題 ③ 應用口訣<br>
+    <strong>常見錯誤：</strong>請留意講義中的警告框<br>
+    <strong>家中鞏固建議：</strong>完成課後3題練習，重點留意陷阱題
+  </div>
+<div class="lf-h1">一、熱身啟動題 （5 分鐘）（共 5 題，5 分鐘）</div>
+  <div class="lf-story"><div class="lf-story-title">🇭🇰 香港生活數學</div>數學喺日常生活中無處不在！由茶餐廳計數到搭車時間，由買嘢找續到睇樓面積，全部都係數學。今日我哋就用香港人嘅生活場景嚟學數學，等你發現：原來數學咁有用、咁好玩！</div>
+
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">1</td><td>照鏡時，你舉起左手，鏡入面嘅你會舉起邊隻手？</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:38px;"></td></tr>
+<tr><td class="lf-qn">2</td><td>以下邊啲英文字母有對稱軸？A · B · C · D · E · M · T</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:75px;"></td></tr>
+<tr><td class="lf-qn">3</td><td>正方形有幾多條對稱軸？畫出嚟。</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:80px;"></td></tr>
+<tr><td class="lf-qn">4</td><td>長方形有幾多條對稱軸？（提示：唔係4條！）</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:75px;"></td></tr>
+<tr><td class="lf-qn">5</td><td>等邊三角形有幾多條對稱軸？</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:75px;"></td></tr>
+</table>
+<div class="lf-h1">二、核心知識精講 （15 分鐘） ＋ 例題練習</div>
+<div class="lf-kp">
+<div class="lf-kp-title">知識點一：什麼是軸對稱？ <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div>
+<div class="lf-kp-rules">
+      ① <b>軸對稱：</b>一個圖形沿一條直線對摺後，兩邊<b>完全重疊</b><br/>
+      ② <b>對稱軸 = 摺線：</b>對稱軸係一條想像中的線，圖形沿呢條線對摺後兩邊一模一樣<br/>
+      ③ <b>鏡像效果：</b>對稱軸兩邊係對方的鏡像。距離對稱軸相同距離的點會對應<br/>
+      ④ <b>重點：</b>對稱軸可以係垂直、水平、或<b>斜向</b>（45度都得！）
+    </div>
+</div>
+
+<div class="lf-why">
+<div style="font-weight:900;color:#166534;font-size:14px;margin-bottom:6px;">WHY BOX：軸對稱 vs 旋轉對稱 — 兩種不同的對稱</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>軸對稱（Reflection Symmetry）：</b>圖形沿一條線對摺，兩邊完全重疊。<br/>
+像蝴蝶翅膀、人臉（左右對稱）<br/><br/>
+<b>旋轉對稱（Rotational Symmetry）：</b>圖形繞中心點旋轉一定角度後，看起來和原來一樣。<br/>
+像風車、雪花<br/><br/>
+<b>摺數（Order）：</b>正方形有 4 摺旋轉對稱（每 90° 重複一次）<br/>
+<em style="color:#6B7280;">分辨技巧：軸對稱 = 照鏡子，旋轉對稱 = 轉圈圈</em>
+</div>
+
+💡 對稱軸=將圖形分成兩個完全相同部分的線。找對稱軸：想像將圖形沿線對摺，兩邊完全重疊就是對稱軸。正方形有4條對稱軸，長方形有2條。
+</div>
+<div class="lf-tip">💡 對稱軸=將圖形分成兩個完全相同部分的線。找對稱軸：想像將圖形沿線對摺，兩邊完全重疊就是對稱軸。正方形有4條對稱軸，長方形有2條。</div>
+
+
+<div style="text-align:center;margin:8px 0;">
+<svg height="170" viewbox="0 0 500 170" width="500">
+<text fill="#1A3C6D" font-size="13" font-weight="900" text-anchor="middle" x="250" y="16">對稱軸的各種方向</text>
+<!-- Vertical symmetry -->
+<rect fill="#F0F9FF" height="125" rx="4" stroke="#1A3C6D" stroke-width="1.5" width="130" x="30" y="30"></rect>
+<line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="95" x2="95" y1="30" y2="155"></line>
+<text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="95" y="170">垂直對稱軸</text>
+<!-- Arrow shape -->
+<polygon fill="#DBEAFE" points="55,70 95,45 135,70 95,115" stroke="#1A3C6D" stroke-width="1.5"></polygon>
+<!-- Horizontal symmetry -->
+<rect fill="#F0FDF4" height="125" rx="4" stroke="#1A3C6D" stroke-width="1.5" width="130" x="185" y="30"></rect>
+<line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="185" x2="315" y1="92" y2="92"></line>
+<text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="250" y="170">水平對稱軸</text>
+<ellipse cx="250" cy="92" fill="#DCFCE7" rx="45" ry="30" stroke="#16A34A" stroke-width="1.5"></ellipse>
+<!-- Diagonal symmetry -->
+<rect fill="#FFFBEB" height="125" rx="4" stroke="#1A3C6D" stroke-width="1.5" width="130" x="340" y="30"></rect>
+<line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2" x1="350" x2="460" y1="40" y2="145"></line>
+<text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="405" y="170">斜向對稱軸</text>
+</svg>
+</div>
+<div class="lf-kp">
+<div class="lf-kp-title">知識點二：常見圖形的對稱軸數量 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA 必考</span></div>
+<div class="lf-kp-rules">
+      ① <b>正方形：4 條</b>（垂直+水平+兩條對角線）<br/>
+      ② <b>長方形：2 條</b>（垂直+水平）⚠️ 對角線唔係對稱軸！<br/>
+      ③ <b>等邊三角形：3 條</b>（每條從頂點到對邊中點）<br/>
+      ④ <b>等腰三角形：1 條</b>（從頂點到底邊中點）<br/>
+      ⑤ <b>圓形：無限多條</b>（任何穿過圓心的直線都係對稱軸）<br/>
+      ⑥ <b>平行四邊形（非菱形）：0 條！</b>
+</div>
+</div>
+<div class="fig-row">
+<div class="fig-card">
+<svg height="130" viewbox="0 0 140 130" width="140">
+<rect fill="#DBEAFE" height="90" stroke="#1A3C6D" stroke-width="2.5" width="90" x="25" y="20"></rect>
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="70" x2="70" y1="20" y2="110"></line>
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="25" x2="115" y1="65" y2="65"></line>
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="25" x2="115" y1="20" y2="110"></line>
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="115" x2="25" y1="20" y2="110"></line>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="70" y="125">正方形：4條</text>
+</svg>
+</div>
+<div class="fig-card">
+<svg height="130" viewbox="0 0 140 130" width="140">
+<rect fill="#DCFCE7" height="70" stroke="#16A34A" stroke-width="2.5" width="100" x="20" y="25"></rect>
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="70" x2="70" y1="25" y2="95"></line>
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="20" x2="120" y1="60" y2="60"></line>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="70" y="110">長方形：2條</text>
+<text fill="#DC2626" font-size="9" text-anchor="middle" x="70" y="123">對角線唔係！</text>
+</svg>
+</div>
+<div class="fig-card">
+<svg height="130" viewbox="0 0 140 130" width="140">
+<polygon fill="#FEF3C7" points="70,20 20,100 120,100" stroke="#C9A84C" stroke-width="2.5"></polygon>
+<line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="1.5" x1="70" x2="70" y1="20" y2="100"></line>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="70" y="120">等腰三角形：1條</text>
+</svg>
+</div>
+</div>
+<div class="warn">⚠️ 致命陷阱：長方形嘅對角線唔係對稱軸！沿對角線對摺，兩邊唔會完全重疊（因為長同闊唔同）。</div>
+</div>
+<div>
+<div class="lf-kp">
+<div class="lf-kp-title">知識點三：完成對稱圖形 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA 必考</span></div>
+<div class="lf-kp-rules">
+      ① <b>Step 1：</b>在方格紙上，找出對稱軸的位置<br/>
+      ② <b>Step 2：</b>原有圖形的每個頂點，量度它到對稱軸的<b>垂直距離</b><br/>
+      ③ <b>Step 3：</b>在對稱軸的另一邊，相同距離處標出對應點<br/>
+      ④ <b>Step 4：</b>連接所有對應點，完成鏡像<br/>
+      ⑤ <b>要訣：</b>數格！對稱軸左邊2格 → 右邊2格。對稱軸上邊3格 → 下邊3格
+    </div>
+</div>
+<div style="text-align:center;margin:8px 0;">
+<svg height="180" viewbox="0 0 320 180" width="320">
+<text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="160" y="16">在方格紙上完成對稱圖形（對稱軸 = 紅色虛線）</text>
+<!-- Grid -->
+<rect fill="#FFF" height="130" stroke="#D1D5DB" stroke-width="0.5" width="260" x="30" y="28"></rect>
+<!-- Grid lines -->
+<line stroke="#D1D5DB" stroke-width="0.3" x1="30" x2="30" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="56" x2="56" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="82" x2="82" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="108" x2="108" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="134" x2="134" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="160" x2="160" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="186" x2="186" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="212" x2="212" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="238" x2="238" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="264" x2="264" y1="28" y2="158"></line>
+<line stroke="#D1D5DB" stroke-width="0.3" x1="290" x2="290" y1="28" y2="158"></line>
+<!-- Symmetry axis -->
+<line stroke="#DC2626" stroke-dasharray="6,3" stroke-width="2.5" x1="160" x2="160" y1="28" y2="158"></line>
+<!-- Half shape on left -->
+<polygon fill="#DBEAFE" points="82,54 82,132 134,132 134,80 108,54" stroke="#1A3C6D" stroke-width="2"></polygon>
+<!-- Symmetric half on right (lighter) -->
+<polygon fill="#DBEAFE" fill-opacity="0.4" points="238,54 186,54 186,80 160,80 160,132 186,132 238,132" stroke="#1A3C6D" stroke-dasharray="3,2" stroke-width="1"></polygon>
+<text fill="#6B7280" font-size="10" text-anchor="middle" x="160" y="175">左邊=原有·右邊=對稱（虛線=學生要畫）</text>
+</svg>
+</div>
+<div class="lf-ex"><div class="lf-ex-title">例1</div><div class="lf-ex-q">在方格紙上，畫出以紅色虛線為對稱軸的對稱圖形。</div></div>
+<div class="lf-ex"><div class="lf-ex-title">例2</div><div class="lf-ex-q">以下哪條線是圖形的對稱軸？（給出選項，圖形=等腰三角形）</div></div>
+<div class="lf-game"><div class="lf-game-title">🏆 陷阱獵人·計時挑戰</div><div class="lf-game-desc">每題限時90秒！搵出隱藏嘅陷阱，答對+1分，連續答對分數加倍！留意題目中嘅「陷阱關鍵字」— 佢會話你知邊度最易出錯！</div><div class="lf-game-action">⭐ 開始挑戰 →</div></div>
+<div class="grule">每人攞張紙，對摺後剪一個形狀。打開！睇邊個嘅對稱圖形最靚！</div>
+</div>
+<div class="lf-h2">知識點一至三 同步練習</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">6</td><td>寫出以下圖形各有幾多條對稱軸：(a)正方形 (b)長方形 (c)圓形</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:75px;"></td></tr>
+<tr><td class="lf-qn">7</td><td>等腰三角形有1條對稱軸，呢條軸由邊度到邊度？</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:75px;"></td></tr>
+<tr><td class="lf-qn">8</td><td>在方格紙上，以垂直虛線為對稱軸，畫出一個三角形的對稱圖形。</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:62px;"></td></tr>
+</table>
+</div>
+<div>
+<div class="lf-h1">三、課堂分層同步練習 （20 分鐘）</div>
+<div class="lf-h2">🌱 基礎層（全體必做，共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">9</td><td>以下邊啲英文字母係軸對稱？H · N · S · X · Z</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:80px;"></td></tr>
+<tr><td class="lf-qn">10</td><td>「回」字有冇對稱軸？有幾多條？</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:80px;"></td></tr>
+<tr><td class="lf-qn">11</td><td>在下面方格中，畫出以紅色線為對稱軸的對稱圖形。<br/><svg height="100" viewbox="0 0 200 100" width="200"><rect fill="#FFF" height="80" stroke="#D1D5DB" stroke-width="0.5" width="170" x="15" y="10"></rect><line stroke="#DC2626" stroke-dasharray="5,3" stroke-width="2" x1="100" x2="100" y1="10" y2="90"></line><polygon fill="#DBEAFE" points="50,25 50,75 85,50" stroke="#1A3C6D" stroke-width="1.5"></polygon></svg></td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:88px;"></td></tr>
+</table>
+<div class="lf-h2">🌿 進階層（🚶🚀 選做，共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">12</td><td>以下邊個圖形有兩條對稱軸？A.等腰三角形 B.等邊三角形 C.長方形 D.平行四邊形</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:80px;"></td></tr>
+<tr><td class="lf-qn">13</td><td>菱形有幾多條對稱軸？畫出嚟並解釋。</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:88px;"></td></tr>
+<tr><td class="lf-qn">14</td><td>一個平行四邊形（非菱形非正方形），有冇對稱軸？點解？</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:75px;"></td></tr>
+</table>
+<div class="lf-h2">🌳 挑戰層（🚀 選做，共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">15</td><td>一個正五邊形有幾多條對稱軸？畫出示意圖。</td><td class="qd d3">🌳</td><td class="lf-ans" style="min-height:90px;"></td></tr>
+<tr><td class="lf-qn">16</td><td>在方格紙上，有一條斜向的對稱軸（45度）。完成對稱圖形。</td><td class="qd d3">🌳</td><td class="lf-ans" style="min-height:65px;"></td></tr>
+<tr><td class="lf-qn">17</td><td>兩個三角形拼埋一齊，新圖形會有幾多條對稱軸？試畫兩種不同拼法。</td><td class="qd d3">🌳</td><td class="lf-ans" style="min-height:68px;"></td></tr>
+</table>
+<div class="lf-h2">🏔️ 終極挑戰（🚀 選做，共 1 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">18</td><td>一張正方形紙，對摺一次後再對摺一次，然後剪去一個角。打開後，圖形有幾多條對稱軸？畫出可能嘅結果。</td><td class="qd d4">🏔️</td><td class="lf-ans" style="min-height:75px;"></td></tr>
+</table>
+</div>
+<div>
+<div class="lf-h1">四、應用題 （12 分鐘）（SSPA 文字題，共 5 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">19</td><td>國旗上有好多對稱圖案。畫一個有對稱軸的簡單旗幟圖案。</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:88px;"></td></tr>
+<tr><td class="lf-qn">20</td><td>一個風箏形狀有冇對稱軸？如果有，畫出嚟。</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:85px;"></td></tr>
+<tr><td class="lf-qn">21</td><td>一個「十」字形有幾多條對稱軸？畫圖說明。</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:88px;"></td></tr>
+<tr><td class="lf-qn">22</td><td>把一個長方形沿對角線剪開，得到兩個三角形。呢兩個三角形係咪對稱？</td><td class="qd d3">🌳</td><td class="lf-ans" style="min-height:85px;"></td></tr>
+<tr><td class="lf-qn">23</td><td>在方格紙上，以水平線為對稱軸，畫出一個「山」字形狀的對稱圖。</td><td class="qd d3">🌳</td><td class="lf-ans" style="min-height:65px;"></td></tr>
+</table>
+<div class="lf-h1">五、課後功課 （課後完成）</div>
+<div class="lf-h2">基礎必做（共 5 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">H1</td><td>寫出正方形、長方形、等邊三角形各有幾多條對稱軸。</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:80px;"></td></tr>
+<tr><td class="lf-qn">H2</td><td>以下邊啲數字有對稱軸？0 1 2 3 4 5 6 7 8 9</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:80px;"></td></tr>
+<tr><td class="lf-qn">H3</td><td>畫一個有1條對稱軸的圖形，標出對稱軸。</td><td class="qd d1">🌱</td><td class="lf-ans" style="min-height:88px;"></td></tr>
+<tr><td class="lf-qn">H4</td><td>在方格紙上完成以垂直線為對稱軸的對稱圖形。</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:90px;"></td></tr>
+<tr><td class="lf-qn">H5</td><td>長方形有兩條對稱軸。畫出長方形同佢嘅兩條對稱軸。</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:88px;"></td></tr>
+</table>
+<div class="lf-h2">進階選做（共 3 題，🚀 選做）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr>
+<tr><td class="lf-qn">H6</td><td>一個平行四邊形（非特殊）有對稱軸嗎？用草圖解釋。</td><td class="qd d2">🌿</td><td class="lf-ans" style="min-height:85px;"></td></tr>
+<tr><td class="lf-qn">H7</td><td>正六邊形有幾多條對稱軸？畫圖標出最少三條。</td><td class="qd d3">🌳</td><td class="lf-ans" style="min-height:62px;"></td></tr>
+<tr><td class="lf-qn">H8</td><td>畫出一個有斜向對稱軸的圖形（45度對稱軸）。</td><td class="qd d3">🌳</td><td class="lf-ans" style="min-height:62px;"></td></tr>
+</table>
+</div>
+<div>
+<div class="lf-h1">六、本堂核心易錯點總結 （8 分鐘）</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ 本堂自我檢查（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅陷阱</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住口訣</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 學習目標回顧 — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有陷阱類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂口訣</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr>
+<tr><td>1</td><td><b>對稱軸一定係垂直線</b></td><td>對稱軸可以係垂直、水平、或斜向（任何角度！）</td></tr>
+<tr><td>2</td><td><b>長方形對角線係對稱軸</b>（❌）</td><td>長方形得2條對稱軸（垂直+水平），對角線唔係</td></tr>
+<tr><td>3</td><td><b>正方形對稱軸數量:3條</b>（❌）</td><td>正方形有4條：垂直+水平+2條對角線</td></tr>
+<tr><td>4</td><td><b>平行四邊形有對稱軸</b>（❌）</td><td>一般平行四邊形0條。只有菱形/正方形/長方形有</td></tr>
+<tr><td>5</td><td><b>完成對稱圖形時距離計錯</b></td><td>數格！對稱軸到點嘅垂直距離要兩邊一樣</td></tr>
+<tr><td>6</td><td><b>等腰三角形對稱軸唔係由頂點到底邊中點</b></td><td>等腰三角形唯一對稱軸＝頂點垂直落到底邊中點</td></tr>
+<tr><td>7</td><td><b>圓形對稱軸數量:1條</b>（❌）</td><td>圓形有無限多條對稱軸！任何穿過圓心嘅直線都得</td></tr>
+</table>
+<div class="mn">🧠 口訣：「對稱軸係摺線，兩邊一模一樣。正方有四長方二，等腰三角只得一。對稱軸可以斜，唔好以為只得直。」</div>
+<div class="lf-h1">七、解題四步卡</div>
+<div class="sc">
+<div class="sc-card"><div class="snum">1</div><div class="stitle">想像對摺</div><div class="sdetail">沿住可能嘅對稱軸想像對摺。兩邊完全重疊→就係對稱軸</div></div>
+<div class="sc-card"><div class="snum">2</div><div class="stitle">數對稱軸</div><div class="sdetail">找出所有可能的對稱軸：垂直、水平、對角線。逐條試</div></div>
+<div class="sc-card"><div class="snum">3</div><div class="stitle">數格畫對稱</div><div class="sdetail">每個頂點→量度到對稱軸距離→在對面同樣距離標點→連線</div></div>
+<div class="sc-card"><div class="snum">4</div><div class="stitle">驗收</div><div class="sdetail">檢查對稱圖形：兩邊係咪鏡像？距離係咪一樣？形狀方向啱？</div></div>
+</div>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「對稱」</b>。<br/>
+<b>最易錯嘅 3 個陷阱：</b> 🪤 對稱軸一定係垂直線？錯！對稱軸可以係斜嘅！<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「對稱」嘅最重要口訣俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查陷阱？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳挑戰層 17-21
+  </div>
+<div class="end-note">🪤 霖楓學苑 · LF Academy · 不教數學，教避開陷阱。 · LF-P4-下-L30</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L30 | 40題 · 對稱 · 軸對稱鏡像
+</div>
+
+<div class="lf-h1"><span class="h1-icon">✅</span> 答案參考（做完先睇！）</div>
+<div class="lf-parent-summary"><div class="lf-ps-title">📝 答案快查</div>
+<table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="lf-qn">1</td><td style="font-size:11px">照鏡時，你舉起左手，鏡入面嘅你會舉起邊隻手？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">2</td><td style="font-size:11px">以下邊啲英文字母有對稱軸？A · B · C · D · E · M · T</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">3</td><td style="font-size:11px">正方形有幾多條對稱軸？畫出嚟。</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">4</td><td style="font-size:11px">長方形有幾多條對稱軸？（提示：唔係4條！）</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+<tr><td class="lf-qn">5</td><td style="font-size:11px">等邊三角形有幾多條對稱軸？</td><td style="font-weight:900;color:var(--gold);padding:5px 10px;font-size:12px">問老師</td></tr>
+</table>
+<div style="font-size:9px;color:var(--gray-400);text-align:center;margin-top:4px">⚠️ 請先自己完成練習，再查答案！🟢=自動計算 🟡=請向老師確認</div>
+</div>
+
+<div style='text-align:center;margin:20px 0'><img src='/講義/_svg/tkz_triangle.svg' style='max-width:100%;height:auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08)' alt='tkz_triangle'></div>
+
+<div class="lf-h1">🤖 <div class="lf-h1"><span>🪤</span> 陷阱診斷專區 — 高品質陷阱題</div>
+    <p>以下題目由AI教研團隊精心設計，每題針對一個常見考試陷阱。做完即知你的陷阱弱項！</p>
+    <div class="lf-trap-section">
+        <div class="lf-trap-card" data-trap="T1" data-hq-id="LF-T1-AI">
+            <div class="lf-trap-header">
+                <span class="lf-trap-badge">T1</span>
+                <span class="lf-trap-diff">⭐⭐</span>
+                <span class="lf-trap-id">LF-T1-AI</span>
+            </div>
+            <div>
+                <div class="lf-trap-q">以下哪一個圖形是對稱圖形？\nA. 平行四邊形\nB. 正方形\nC. 梯形\nD. 直角三角形</div>
+                <div class="lf-trap-wrong">
+                    <span class="lf-ex-label">常見錯誤</span>
+                    <span >學生選A，因為平行四邊形對角線相等，誤以為有對稱軸。</span>
+                </div>
+                <div class="lf-trap-right">
+                    <span class="lf-ex-label">正確思路</span>
+                    <span >正確答案是B。正方形有4條對稱軸（兩條對角線和兩條中線），是對稱圖形。平行四邊形沒有對稱軸，除非是菱形或長方形。</span>
+                </div>
+                <div class="lf-trap-note">💡 記住：對稱軸要摺疊後兩邊完全重疊，不是對角線相等就等於對稱。</div>
+            </div>
+        </div><div class="lf-trap-card" data-trap="T2" data-hq-id="LF-T2-AI">
+            <div class="lf-trap-header">
+                <span class="lf-trap-badge">T2</span>
+                <span class="lf-trap-diff">⭐⭐⭐</span>
+                <span class="lf-trap-id">LF-T2-AI</span>
+            </div>
+            <div>
+                <div class="lf-trap-q">下圖是一個對稱圖形的一半，虛線是對稱軸。如果左邊有3個圓圈，右邊應該有幾個圓圈？\n（圖示：左邊有3個圓圈，虛線在中間）</div>
+                <div class="lf-trap-wrong">
+                    <span class="lf-ex-label">常見錯誤</span>
+                    <span >學生答3個，以為左右數量一樣，但忽略了對稱軸上的圓圈要算一次。</span>
+                </div>
+                <div class="lf-trap-right">
+                    <span class="lf-ex-label">正確思路</span>
+                    <span >正確答案是3個。對稱圖形左右兩邊的圓圈數量相同，左邊有3個，右邊也有3個，總共6個。注意：如果對稱軸上有圓圈，則只算一次。</span>
+                </div>
+                <div class="lf-trap-note">💡 對稱軸兩邊的圖案要完全一樣，但軸上的點只屬於一邊。</div>
+            </div>
+        </div>
+    </div>
+<div class="lf-h1">AI 智能補充練習</div>
+<div style="background:linear-gradient(135deg,#F0F9FF,#EFF6FF);border:2px solid #3B82F6;border-radius:10px;padding:14px 18px;margin:10px 0;">
+<div class="lf-ex"><div class="lf-ex-title">🪤 陷阱引爆例題 1</div><div class="lf-ex-q">下圖是一個正方形，畫出一條對稱軸。
+（圖：一個正方形，頂點標記為A、B、C、D，順時針方向）</div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>連接A和C的直線（對角線）<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生以為正方形只有兩條對稱軸，但只記得對角線，忘記了還有通過對邊中點的直線。</div></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>連接AB中點和CD中點的直線，或連接AD中點和BC中點的直線，或連接A和C的直線，或連接B和D的直線（共4條）。<div style="font-size:9pt;color:#14532D;margin-top:4pt;">1. 正方形有4條對稱軸。
+2. 第一條：通過上下兩邊中點的垂直線。
+3. 第二條：通過左右兩邊中點的水平線。
+4. 第三條：從左上角到右下角的對角線。
+5. 第四條：從右上角到左下角的對角線。
+6. 畫出其中一條即可。</div></div></div><div style="font-size:9pt;color:#6B7280;margin-top:4pt;font-style:italic;">💡 陷阱：正方形有4條對稱軸，不只是對角線！</div></div>
+<div class="lf-ex"><div class="lf-ex-title">🪤 陷阱引爆例題 2</div><div class="lf-ex-q">以下哪個英文字母是對稱圖形？
+A) F  B) H  C) N  D) R</div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ 常見錯誤</div>A) F<div style="font-size:9pt;color:#991B1B;margin-top:4pt;">學生以為F左右兩邊差不多，但實際上F的左邊和右邊不完全一樣，沒有對稱軸。</div></div><div class="lf-ex-right"><div class="lf-ex-label">✅ 正確解法</div>B) H<div style="font-size:9pt;color:#14532D;margin-top:4pt;">1. 檢查每個字母是否有對稱軸。
+2. F：左右不對稱，上下也不對稱。
+3. H：有一條垂直對稱軸穿過中間，左右兩邊相同。
+4. N：旋轉180度後相同，但沒有反射對稱軸。
+5. R：左右不對稱。
+6. 所以答案是H。</div></div></div><div style="font-size:9pt;color:#6B7280;margin-top:4pt;font-style:italic;">💡 陷阱：不要只看字母的形狀大概相似，要檢查摺疊後是否完全重疊。</div></div>
+<div class="lf-ai-section"><div class="lf-ai-title">🎯 AI自動生成 · 課外延伸練習</div>
+<table class="lf-qt"><tr><th>#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="lf-qn">1</td><td>197÷8=?</td><td style="color:#16A34A;font-weight:700;">24...5</td></tr>
+<tr><td class="lf-qn">2</td><td>361+378=?</td><td style="color:#16A34A;font-weight:700;">739</td></tr>
+<tr><td class="lf-qn">3</td><td>272+458=?</td><td style="color:#16A34A;font-weight:700;">730</td></tr>
+</table></div></div>
+
+<div class="lf-footer">LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</body>
+</html>

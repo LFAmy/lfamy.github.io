@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 陰影濾鏡 -->
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="4" stdDeviation="4" flood-color="#1E293B" flood-opacity="0.25"/>
+    </filter>
+    <filter id="softShadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#1E293B" flood-opacity="0.15"/>
+    </filter>
+    
+    <!-- 漸變色 -->
+    <linearGradient id="frontFace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#4F46E5"/>
+    </linearGradient>
+    <linearGradient id="topFace" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#818CF8"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="sideFace" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#3730A3"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    
+    <!-- 箭頭標記 -->
+    <marker id="arrowBlue" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#4F46E5"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#10B981"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#F9FAFB" rx="12"/>
+  
+  <!-- 頂部裝飾條 -->
+  <rect x="0" y="0" width="600" height="8" fill="url(#headerGrad)" rx="4"/>
+
+  <!-- 標題 -->
+  <text x="300" y="38" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="22" font-weight="bold" fill="#1E293B">長方體的體積與表面積</text>
+  <line x1="180" y1="48" x2="420" y2="48" stroke="#4F46E5" stroke-width="2" opacity="0.4"/>
+
+  <!-- ==================== 長方體3D透視圖 ==================== -->
+  <g transform="translate(140, 100)">
+    <!-- 後面（看不見的邊） -->
+    <path d="M30,30 L210,30 L210,150 L30,150 Z" fill="#E0E7FF" stroke="#A5B4FC" stroke-width="1" opacity="0.3"/>
+    
+    <!-- 頂面 -->
+    <polygon points="0,60 180,60 210,30 30,30" fill="url(#topFace)" stroke="#4F46E5" stroke-width="2" filter="url(#softShadow)"/>
+    
+    <!-- 右側面 -->
+    <polygon points="180,60 180,180 210,150 210,30" fill="url(#sideFace)" stroke="#4F46E5" stroke-width="2" filter="url(#softShadow)"/>
+    
+    <!-- 正面 -->
+    <polygon points="0,60 180,60 180,180 0,180" fill="url(#frontFace)" stroke="#4F46E5" stroke-width="2" filter="url(#shadow)"/>
+    
+    <!-- 頂面網格線（輔助視覺） -->
+    <line x1="45" y1="60" x2="75" y2="30" stroke="#A5B4FC" stroke-width="0.5" opacity="0.5"/>
+    <line x1="90" y1="60" x2="120" y2="30" stroke="#A5B4FC" stroke-width="0.5" opacity="0.5"/>
+    <line x1="135" y1="60" x2="165" y2="30" stroke="#A5B4FC" stroke-width="0.5" opacity="0.5"/>
+    
+    <!-- 正面網格線 -->
+    <line x1="45" y1="60" x2="45" y2="180" stroke="#A5B4FC" stroke-width="0.5" opacity="0.4"/>
+    <line x1="90" y1="60" x2="90" y2="180" stroke="#A5B4FC" stroke-width="0.5" opacity="0.4"/>
+    <line x1="135" y1="60" x2="135" y2="180" stroke="#A5B4FC" stroke-width="0.5" opacity="0.4"/>
+    
+    <!-- 頂點圓點 -->
+    <circle cx="0" cy="60" r="3" fill="#F59E0B"/>
+    <circle cx="180" cy="60" r="3" fill="#F59E0B"/>
+    <circle cx="210" cy="30" r="3" fill="#F59E0B"/>
+    <circle cx="30" cy="30" r="3" fill="#F59E0B"/>
+    <circle cx="0" cy="180" r="3" fill="#F59E0B"/>
+    <circle cx="180" cy="180" r="3" fill="#F59E0B"/>
+    <circle cx="210" cy="150" r="3" fill="#F59E0B"/>
+    <circle cx="30" cy="150" r="3" fill="#F59E0B"/>
+
+    <!-- 長度標示（長） - 下方 -->
+    <line x1="0" y1="195" x2="180" y2="195" stroke="#EF4444" stroke-width="2" marker-start="url(#arrowRed)" marker-end="url(#arrowRed)"/>
+    <text x="90" y="212" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="14" font-weight="bold" fill="#EF4444">長 (l)</text>
+    
+    <!-- 寬度標示（寬） - 右側 -->
+    <line x1="195" y1="60" x2="225" y2="30" stroke="#10B981" stroke-width="2" marker-start="url(#arrowGreen)" marker-end="url(#arrowGreen)"/>
+    <text x="230" y="38" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="14" font-weight="bold" fill="#10B981">寬 (w)</text>
+    
+    <!-- 高度標示（高） - 左側 -->
+    <line x1="-20" y1="60" x2="-20" y2="180" stroke="#F59E0B" stroke-width="2" marker-start="url(#arrowOrange)" marker-end="url(#arrowOrange)"/>
+    <text x="-35" y="125" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="14" font-weight="bold" fill="#F59E0B" transform="rotate(-90, -35, 125)">高 (h)</text>
+  </g>
+
+  <!-- ==================== 體積公式 ==================== -->
+  <g transform="translate(380, 105)">
+    <rect x="0" y="0" width="200" height="120" rx="10" fill="white" stroke="#4F46E5" stroke-width="2" filter="url(#shadow)"/>
+    
+    <text x="100" y="28" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" font-weight="bold" fill="#4F46E5">體積公式</text>
+    <line x1="20" y1="36" x2="180" y2="36" stroke="#4F46E5" stroke-width="1" opacity="0.3"/>
+    
+    <text x="100" y="62" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="20" font-weight="bold" fill="#1E293B">V = l × w × h</text>
+    
+    <text x="100" y="88" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#64748B">體積 = 長 × 寬 × 高</text>
+    
+    <rect x="50" y="96" width="100" height="16" rx="4" fill="#EEF2FF"/>
+    <text x="100" y="108" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="11" fill="#4F46E5">單位：立方厘米 (cm³)</text>
+  </g>
+
+  <!-- ==================== 表面積公式 ==================== -->
+  <g transform="translate(380, 240)">
+    <rect x="0" y="0" width="200" height="135" rx="10" fill="white" stroke="#10B981" stroke-width="2" filter="url(#shadow)"/>
+    
+    <text x="100" y="28" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" font-weight="bold" fill="#10B981">表面積公式</text>
+    <line x1="20" y1="36" x2="180" y2="36" stroke="#10B981" stroke-width="1" opacity="0.3"/>
+    
+    <text x="100" y="58" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="16" font-weight="bold" fill="#1E293B">S = 2(lw + lh + wh)</text>
+    
+    <text x="100" y="82" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#64748B">表面積 = 2×(長×寬 + 長×高 + 寬×高)</text>
+    
+    <rect x="30" y="92" width="140" height="34" rx="6" fill="#ECFDF5"/>
+    <text x="100" y="108" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="11" fill="#10B981">單位：平方厘米 (cm²)</text>
+    <text x="100" y="121" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" fill="#94A3B8">表面積 = 6個面的面積總和</text>
+  </g>
+
+  <!-- ==================== 底部提示 ==================== -->
+  <g transform="translate(30, 355)">
+    <rect x="0" y="0" width="540" height="32" rx="8" fill="#F1F5F9"/>
+    <text x="270" y="20" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#64748B">
+      💡 小提示：長方體有 6 個面，相對的面面積相等。體積是佔據空間的大小，表面積是外表面的大小。
+    </text>
+  </g>
+
+  <!-- 圖例 -->
+  <g transform="translate(30, 100)">
+    <rect x="0" y="0" width="95" height="90" rx="8" fill="white" stroke="#E2E8F0" stroke-width="1" filter="url(#softShadow)"/>
+    <text x="47" y="18" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" font-weight="bold" fill="#475569">圖例</text>
+    <line x1="10" y1="14" x2="85" y2="14" stroke="#E2E8F0" stroke-width="0.5"/>
+    
+    <rect x="10" y="24" width="12" height="12" rx="2" fill="#EF4444"/>
+    <text x="28" y="34" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" fill="#475569">長 (l)</text>
+    
+    <rect x="10" y="42" width="12" height="12" rx="2" fill="#10B981"/>
+    <text x="28" y="52" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" fill="#475569">寬 (w)</text>
+    
+    <rect x="10" y="60" width="12" height="12" rx="2" fill="#F59E0B"/>
+    <text x="28" y="70" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" fill="#475569">高 (h)</text>
+    
+    <rect x="10" y="78" width="12" height="12" rx="2" fill="#4F46E5"/>
+    <text x="28" y="88" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="10" fill="#475569">長方體面</text>
+  </g>
+</svg>

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/lf-academy-v8.css">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="霖楓學苑">
 <meta name="theme-color" content="#1A3C6D">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -194,7 +195,7 @@ body{font-family:'Noto Sans HK',sans-serif;color:var(--gray-900);background:var(
   "makesOffer": {
     "@type": "Course",
     "name": "小學數學陷阱診斷課程",
-    "description": "一對三線上數學課程，專攻呈分試陷阱題。10大陷阱分類法，210堂講義。",
+    "description": "ClassIn一對三線上數學課程，專攻呈分試陷阱題。10大陷阱分類法，210堂講義。唔使接送，全港適用。",
     "educationalLevel": "P3-P6",
     "offers": {
       "@type": "Offer",
@@ -224,8 +225,8 @@ body{font-family:'Noto Sans HK',sans-serif;color:var(--gray-900);background:var(
   "offers": { "@type": "Offer", "name": "免費陷阱診斷", "price": "0", "priceCurrency": "HKD" }
 }
 </script>
-<link rel="manifest" href="/manifest.json"></head>
-<body>
+<link rel="manifest" href="/manifest.json"><link rel="canonical" href="https://www.lfacademyhk.com/"></head>
+<body data-lf-no-shell>
 
 <!-- ═══ NAV ═══ -->
 <nav class="nav" id="nav">
@@ -277,7 +278,7 @@ body{font-family:'Noto Sans HK',sans-serif;color:var(--gray-900);background:var(
 <div class="pain-card">
 <div class="pain-icon">😰</div>
 <h3>狂操卷但分數冇升</h3>
-<p>一般補習社只係俾你狂做練習，但冇人幫你分析你到底踩中咗咩陷阱。做100次都係會錯。</p>
+<p>傳統數學班只係俾你狂做練習，但冇人幫你分析你到底踩中咗咩陷阱。做100次都係會錯。</p>
 </div>
 <div class="pain-card">
 <div class="pain-icon">😤</div>
@@ -479,7 +480,7 @@ body{font-family:'Noto Sans HK',sans-serif;color:var(--gray-900);background:var(
 <div class="result">📈 52→85 (+33分) · 呈分試 Band 1</div>
 </div>
 <div class="testimonial-card">
-<div class="quote">之前補過3間補習社都冇用。霖楓第一堂就用陷阱診斷搵到佢嘅問題。針對性練咗一個月，分數由68升到91。</div>
+<div class="quote">之前試過3間數學班都冇用。霖楓第一堂就用陷阱診斷搵到佢嘅問題。針對性練咗一個月，分數由68升到91。</div>
 <div class="author">李生 · P5學生家長</div>
 <div class="result">📈 68→91 (+23分) · 數學變最強科</div>
 </div>
@@ -733,6 +734,41 @@ function submitLead(e){
 
   <script src="/docs/data/lf-analytics.js"></script>
   <script src="/docs/data/lf-membership-sync.js"></script>
+<script src="/lf-shell-v8.js"></script>
+
+<script>
+// Smart CTAs: update based on auth state
+(function() {
+  function updateCTAs() {
+    var loggedIn = localStorage.getItem('lf_user_email');
+    var heroActions = document.querySelector('.hero-actions');
+    if (!heroActions) return;
+    
+    if (loggedIn) {
+      // User is logged in — show "enter learning center" CTA
+      var existingCtas = heroActions.querySelectorAll('a');
+      existingCtas.forEach(function(a) {
+        if (a.textContent.includes('免費註冊')) {
+          a.href = '/student.html';
+          a.textContent = '🎒 進入學習中心';
+          a.style.background = 'var(--gold)';
+        }
+        if (a.textContent.includes('免費診斷')) {
+          a.href = '/practice.html';
+          a.textContent = '📝 開始練習';
+        }
+      });
+    }
+  }
+  
+  // Run on load and when auth changes
+  updateCTAs();
+  window.addEventListener('lf:auth', updateCTAs);
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'lf_user_email' || e.key === 'lf_session') updateCTAs();
+  });
+})();
+</script>
 </body>
 </html>
 

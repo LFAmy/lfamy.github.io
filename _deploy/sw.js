@@ -118,3 +118,95 @@ self.addEventListener('notificationclick', event => {
 });
 
 console.log('[SW] 🍁 霖楓學苑 Service Worker v2.0 ready');
+
+// ═══ v2.1 — Enhanced caching: stale-while-revalidate for API · offline page ═══
+
+// Cache API responses with stale-while-revalidate
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  // API requests: network first, fallback to cache
+  if (url.pathname.startsWith('/api/') || url.hostname.includes('render.com')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Static assets: cache first (already handled by install)
+  // HTML pages: network first for freshness
+  if (url.pathname.endsWith('.html') || url.pathname === '/') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request).then(cached => {
+          return cached || caches.match('/offline.html');
+        }))
+    );
+    return;
+  }
+
+  // Default: network first (updates cache in background)
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      const fetchPromise = fetch(event.request).then(response => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        }
+        return response;
+      }).catch(() => cached);
+      return cached || fetchPromise;
+    })
+  );
+});
+
+// Clean old caches
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Background sync for offline submissions
+self.addEventListener('sync', event => {
+  if (event.tag === 'sync-leads') {
+    event.waitUntil(syncLeads());
+  }
+});
+
+async function syncLeads() {
+  try {
+    const db = await openDB();
+    const leads = await db.getAll('leads');
+    for (const lead of leads) {
+      try {
+        await fetch(lead.url, { method: 'POST', body: lead.data });
+        await db.delete('leads', lead.id);
+      } catch(e) {}
+    }
+  } catch(e) {}
+}
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open('lf-offline', 1);
+    request.onupgradeneeded = e => e.target.result.createObjectStore('leads', { keyPath: 'id' });
+    request.onsuccess = e => resolve(e.target.result);
+    request.onerror = e => reject(e.target.error);
+  });
+}

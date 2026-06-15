@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<a href="#parent-content" class="skip-link">跳至家長中心</a>
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
@@ -91,6 +92,7 @@ body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;backg
 .animate:nth-child(4){animation-delay:0.24s}
 </style>
 <link rel="stylesheet" href="/docs/data/mobile-rwd.css">
+<link rel="stylesheet" href="/lf-academy-v8.css">
 </head>
 <body>
 <!-- Accessibility: Skip to content -->
@@ -115,7 +117,7 @@ body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;backg
 </div>
 
 <!-- Quick Actions -->
-<div class="section animate">
+<div class="section animate" aria-label="功能區塊">
   <div class="section-title">⚡ 快速行動</div>
   <div class="cards">
     <a href="/parent-dashboard.html" class="card primary">
@@ -149,7 +151,7 @@ body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;backg
 </div>
 
 <!-- Alerts -->
-<div class="section animate">
+<div class="section animate" aria-label="功能區塊">
   <div class="section-title">🔔 重要提醒</div>
   <ul class="alert-list" id="alertList">
     <li><span class="dot red"></span>陳小明在「面積公式」陷阱正確率只有 45%，建議加強</li>
@@ -225,5 +227,24 @@ body{font-family:'Noto Sans HK','PingFang SC','Microsoft YaHei',sans-serif;backg
 })();
 </script>
 
+<script>
+(function() {
+  function updateOnlineStatus() {
+    const el = document.getElementById('offlineBanner') || (function() {
+      const e = document.createElement('div');
+      e.id = 'offlineBanner';
+      e.style.cssText = 'position:fixed;top:52px;left:0;right:0;z-index:999;background:#FEF3C7;color:#92400E;padding:6px 16px;text-align:center;font-size:13px;font-weight:600;display:none';
+      e.textContent = '🔴 離線模式 — 數據更新需要網絡';
+      document.body.insertBefore(e, document.body.firstChild);
+      return e;
+    })();
+    el.style.display = navigator.onLine ? 'none' : 'block';
+  }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus();
+})();
+</script>
 </body>
 </html>
+

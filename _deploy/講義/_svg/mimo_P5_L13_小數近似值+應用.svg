@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景網格圖案 -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E8ECF0" stroke-width="0.5"/>
+    </pattern>
+
+    <!-- 卡片1：四捨五入決策樹 - 漸層背景 -->
+    <linearGradient id="card1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#667eea"/>
+      <stop offset="25%" stop-color="#764ba2"/>
+      <stop offset="50%" stop-color="#6b4fa0"/>
+      <stop offset="75%" stop-color="#5a6fd6"/>
+      <stop offset="100%" stop-color="#4f8cff"/>
+    </linearGradient>
+
+    <!-- 卡片2：漸層背景 -->
+    <linearGradient id="card2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f093fb"/>
+      <stop offset="20%" stop-color="#f5576c"/>
+      <stop offset="40%" stop-color="#e74c6f"/>
+      <stop offset="70%" stop-color="#f093fb"/>
+      <stop offset="100%" stop-color="#c471ed"/>
+    </linearGradient>
+
+    <!-- 卡片3：漸層背景 -->
+    <linearGradient id="card3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4facfe"/>
+      <stop offset="30%" stop-color="#00f2fe"/>
+      <stop offset="50%" stop-color="#0cd4e8"/>
+      <stop offset="75%" stop-color="#2d9ee0"/>
+      <stop offset="100%" stop-color="#5b8def"/>
+    </linearGradient>
+
+    <!-- 放射漸層：3D光影效果 -->
+    <radialGradient id="card1Shine" cx="30%" cy="25%" r="60%" fx="25%" fy="20%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+      <stop offset="40%" stop-color="rgba(255,255,255,0.15)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.08)"/>
+    </radialGradient>
+
+    <radialGradient id="card2Shine" cx="30%" cy="25%" r="60%" fx="25%" fy="20%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+      <stop offset="40%" stop-color="rgba(255,255,255,0.15)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.08)"/>
+    </radialGradient>
+
+    <radialGradient id="card3Shine" cx="30%" cy="25%" r="60%" fx="25%" fy="20%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+      <stop offset="40%" stop-color="rgba(255,255,255,0.15)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.08)"/>
+    </radialGradient>
+
+    <!-- 箭頭定義 -->
+    <marker id="arrowRight" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 L3,4 Z" fill="#5a6fd6"/>
+    </marker>
+    <marker id="arrowDown" markerWidth="8" markerHeight="12" refX="4" refY="10" orient="auto">
+      <path d="M0,0 L8,0 L4,12 Z" fill="#5a6fd6"/>
+    </marker>
+    <marker id="arrowDownGreen" markerWidth="8" markerHeight="12" refX="4" refY="10" orient="auto">
+      <path d="M0,0 L8,0 L4,12 Z" fill="#2ecc71"/>
+    </marker>
+    <marker id="arrowDownRed" markerWidth="8" markerHeight="12" refX="4" refY="10" orient="auto">
+      <path d="M0,0 L8,0 L4,12 Z" fill="#e74c3c"/>
+    </marker>
+
+    <!-- 雙層陰影濾鏡 -->
+    <filter id="doubleShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.12)"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.08)"/>
+    </filter>
+
+    <filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.15)"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,0.06)"/>
+    </filter>
+
+    <!-- 圓角矩形裁剪 -->
+    <clipPath id="cardClip1"><rect x="15" y="50" width="180" height="310" rx="16"/></clipPath>
+    <clipPath id="cardClip2"><rect x="210" y="50" width="180" height="310" rx="16"/></clipPath>
+    <clipPath id="cardClip3"><rect x="405" y="50" width="180" height="310" rx="16"/></clipPath>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#FAFBFC"/>
+  <rect width="600" height="400" fill="url(#grid)"/>
+
+  <!-- 標題 -->
+  <text x="300" y="32" text-anchor="middle" font-family="'Microsoft JhengHei', 'Noto Sans TC', sans-serif" font-size="18" font-weight="bold" fill="#2c3e50">小數近似值 · 四捨五入決策樹</text>
+
+  <!-- ==================== 卡片1 ==================== -->
+  <g filter="url(#cardShadow)">
+    <!-- 卡片背景 -->
+    <rect x="15" y="50" width="180" height="310" rx="16" fill="url(#card1Grad)"/>
+    <!-- 3D光影 -->
+    <rect x="15" y="50" width="180" height="310" rx="16" fill="url(#card1Shine)"/>
+  </g>
+
+  <!-- 卡片1內容 -->
+  <g clip-path="url(#cardClip1)">
+    <!-- 題目 -->
+    <text x="105" y="90" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="14" font-weight="bold" fill="#fff">例題 1</text>
+    <text x="105" y="112" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="13" fill="rgba(255,255,255,0.9)">3.1416 → 十分位</text>
+
+    <!-- 原數字 -->
+    <rect x="45" y="130" width="120" height="40" rx="8" fill="rgba(255,255,255,0.2)"/>
+    <text x="105" y="156" text-anchor="middle" font-family="'Courier New', monospace" font-size="18" font-weight="bold" fill="#fff">3.1416</text>
+
+    <!-- 箭頭向下 -->
+    <line x1="105" y1="170" x2="105" y2="195" stroke="#fff" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+    <!-- 看下一位 -->
+    <rect x="40" y="198" width="130" height="36" rx="18" fill="rgba(255,255,255,0.25)"/>
+    <text x="105" y="221" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="12" fill="#fff">看下一位：4</text>
+
+    <!-- 判斷分支 -->
+    <line x1="105" y1="234" x2="105" y2="258" stroke="#fff" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+    <!-- 4 < 5 → 捨去 -->
+    <rect x="35" y="262" width="140" height="32" rx="14" fill="rgba(231,76,60,0.7)"/>
+    <text x="105" y="283" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="12" font-weight="bold" fill="#fff">4 &lt; 5 → 捨去</text>
+
+    <!-- 結果 -->
+    <line x1="105" y1="294" x2="105" y2="315" stroke="#fff" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+    <rect x="45" y="318" width="120" height="36" rx="10" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <text x="105" y="341" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" font-weight="bold" fill="#fff">3.1</text>
+  </g>
+
+  <!-- ==================== 卡片2 ==================== -->
+  <g filter="url(#cardShadow)">
+    <rect x="210" y="50" width="180" height="310" rx="16" fill="url(#card2Grad)"/>
+    <rect x="210" y="50" width="180" height="310" rx="16" fill="url(#card2Shine)"/>
+  </g>
+
+  <g clip-path="url(#cardClip2)">
+    <text x="300" y="90" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="14" font-weight="bold" fill="#fff">例題 2</text>
+    <text x="300" y="112" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="13" fill="rgba(255,255,255,0.9)">2.7182 → 百分位</text>
+
+    <rect x="240" y="130" width="120" height="40" rx="8" fill="rgba(255,255,255,0.2)"/>
+    <text x="300" y="156" text-anchor="middle" font-family="'Courier New', monospace" font-size="18" font-weight="bold" fill="#fff">2.7182</text>
+
+    <line x1="300" y1="170" x2="300" y2="195" stroke="#fff" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+    <rect x="235" y="198" width="130" height="36" rx="18" fill="rgba(255,255,255,0.25)"/>
+    <text x="300" y="221" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="12" fill="#fff">看下一位：8</text>
+
+    <line x1="300" y1="234" x2="300" y2="258" stroke="#fff" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+    <rect x="230" y="262" width="140" height="32" rx="14" fill="rgba(46,204,113,0.7)"/>
+    <text x="300" y="283" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="12" font-weight="bold" fill="#fff">8 ≥ 5 → 進位</text>
+
+    <line x1="300" y1="294" x2="300" y2="315" stroke="#fff" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+    <rect x="240" y="318" width="120" height="36" rx="10" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <text x="300" y="341" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" font-weight="bold" fill="#fff">2.72</text>
+  </g>
+
+  <!-- ==================== 卡片3 ==================== -->
+  <g filter="url(#cardShadow)">
+    <rect x="405" y="50" width="180" height="310" rx="16" fill="url(#card3Grad)"/>
+    <rect x="405" y="50" width="180" height="310" rx="16" fill="url(#card3Shine)"/>
+  </g>
+
+  <g clip-path="url(#cardClip3)">
+    <text x="495" y="90" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="14" font-weight="bold" fill="#fff">例題 3</text>
+    <text x="495" y="112" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="13" fill="rgba(255,255,255,0.9)">5.9999 → 個位</text>
+
+    <rect x="435" y="130" width="120" height="40" rx="8" fill="rgba(255,255,255,0.2)"/>
+    <text x="495" y="156" text-anchor="middle" font-family="'Courier New', monospace" font-size="18" font-weight="bold" fill="#fff">5.9999</text>
+
+    <line x1="495" y1="170" x2="495" y2="195" stroke="#fff" stroke-width="2" marker-end="url(#arrowDown)"/>
+
+    <rect x="430" y="198" width="130" height="36" rx="18" fill="rgba(255,255,255,0.25)"/>
+    <text x="495" y="221" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="12" fill="#fff">看下一位：9</text>
+
+    <line x1="495" y1="234" x2="495" y2="258" stroke="#fff" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+    <rect x="425" y="262" width="140" height="32" rx="14" fill="rgba(46,204,113,0.7)"/>
+    <text x="495" y="283" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="12" font-weight="bold" fill="#fff">9 ≥ 5 → 進位</text>
+
+    <line x1="495" y1="294" x2="495" y2="315" stroke="#fff" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+    <rect x="435" y="318" width="120" height="36" rx="10" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <text x="495" y="341" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" font-weight="bold" fill="#fff">6.0</text>
+  </g>
+
+  <!-- 底部提示 -->
+  <text x="300" y="385" text-anchor="middle" font-family="'Microsoft JhengHei', sans-serif" font-size="11" fill="#95a5a6">口訣：看下一位，≥5 進位，&lt;5 捨去</text>
+</svg>

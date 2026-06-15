@@ -1,0 +1,233 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%" fx="30%" fy="30%">
+      <stop offset="0%" stop-color="#f0f4ff"/>
+      <stop offset="100%" stop-color="#d0d8e8"/>
+    </radialGradient>
+
+    <!-- 卡片1陰影 -->
+    <filter id="shadow1" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="4" stdDeviation="6" flood-color="#2a3a5c" flood-opacity="0.35"/>
+      <feDropShadow dx="-1" dy="-1" stdDeviation="3" flood-color="#ffffff" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- 卡片2陰影 -->
+    <filter id="shadow2" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="4" stdDeviation="6" flood-color="#2a3a5c" flood-opacity="0.35"/>
+      <feDropShadow dx="-1" dy="-1" stdDeviation="3" flood-color="#ffffff" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- 3D立體漸變 - 立方體表面 -->
+    <linearGradient id="cubeTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7eb3"/>
+      <stop offset="100%" stop-color="#ff5a9a"/>
+    </linearGradient>
+    <linearGradient id="cubeFront" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff9a76"/>
+      <stop offset="100%" stop-color="#e87a54"/>
+    </linearGradient>
+    <linearGradient id="cubeSide" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb347"/>
+      <stop offset="100%" stop-color="#e8962a"/>
+    </linearGradient>
+
+    <!-- 3D立體漸變 - 圓柱體 -->
+    <linearGradient id="cylBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4facfe"/>
+      <stop offset="30%" stop-color="#8fd3ff"/>
+      <stop offset="60%" stop-color="#6bc0ff"/>
+      <stop offset="100%" stop-color="#3d8cdb"/>
+    </linearGradient>
+    <radialGradient id="cylTop" cx="45%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#b8e3ff"/>
+      <stop offset="100%" stop-color="#4facfe"/>
+    </radialGradient>
+
+    <!-- 3D立體漸變 - 球體 -->
+    <radialGradient id="sphereGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="30%" stop-color="#8b6fe8"/>
+      <stop offset="70%" stop-color="#6d4fc7"/>
+      <stop offset="100%" stop-color="#4a2d9e"/>
+    </radialGradient>
+
+    <!-- 高光 -->
+    <radialGradient id="highlight" cx="30%" cy="25%" r="30%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 卡片1漸變背景 -->
+    <linearGradient id="card1Bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8f0ff"/>
+    </linearGradient>
+
+    <!-- 卡片2漸變背景 -->
+    <linearGradient id="card2Bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0f8ff"/>
+    </linearGradient>
+
+    <!-- 放射狀裝飾 -->
+    <radialGradient id="deco1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff7eb3" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ff7eb3" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="deco2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4facfe" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#4facfe" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 陷阱標記漸變 -->
+    <linearGradient id="trapGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff4444"/>
+      <stop offset="50%" stop-color="#ff6666"/>
+      <stop offset="100%" stop-color="#ff4444"/>
+    </linearGradient>
+
+    <!-- 箭頭標記 -->
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff4444"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4facfe"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" rx="20" fill="url(#bgGrad)"/>
+
+  <!-- 標題 -->
+  <text x="300" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#2a3a5c" letter-spacing="2">
+    體積陷阱 2：表面積 vs 體積
+  </text>
+  <line x1="120" y1="48" x2="480" y2="48" stroke="#2a3a5c" stroke-width="1.5" stroke-opacity="0.2"/>
+
+  <!-- ==================== 卡片 1 ==================== -->
+  <g filter="url(#shadow1)">
+    <rect x="20" y="60" width="270" height="320" rx="16" fill="url(#card1Bg)"/>
+    <!-- 裝飾放射圓 -->
+    <circle cx="155" cy="200" r="120" fill="url(#deco1)"/>
+    <!-- 卡片邊框 -->
+    <rect x="20" y="60" width="270" height="320" rx="16" fill="none" stroke="#ff7eb3" stroke-width="1.5" stroke-opacity="0.3"/>
+  </g>
+
+  <!-- 卡片1標題 -->
+  <rect x="35" y="75" width="240" height="32" rx="8" fill="#ff7eb3" fill-opacity="0.15"/>
+  <text x="155" y="96" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#e85a8a">
+    ⚠️ 陷阱：表面積當體積
+  </text>
+
+  <!-- 3D 立方體 -->
+  <g transform="translate(155, 175)">
+    <!-- 頂面 -->
+    <polygon points="0,-55 45,-30 0,-5 -45,-30" fill="url(#cubeTop)" stroke="#e85a8a" stroke-width="1.2"/>
+    <!-- 正面 -->
+    <polygon points="-45,-30 0,-5 0,45 -45,20" fill="url(#cubeFront)" stroke="#e85a8a" stroke-width="1.2"/>
+    <!-- 側面 -->
+    <polygon points="0,-5 45,-30 45,20 0,45" fill="url(#cubeSide)" stroke="#e85a8a" stroke-width="1.2"/>
+    <!-- 高光 -->
+    <polygon points="-30,-20 -10,-10 -10,10 -30,0" fill="#ffffff" fill-opacity="0.15"/>
+    <!-- 尺寸標註 - 長 -->
+    <line x1="-45" y1="52" x2="0" y2="52" stroke="#ff4444" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+    <line x1="-45" y1="52" x2="-45" y2="49" stroke="#ff4444" stroke-width="1.5"/>
+    <line x1="0" y1="52" x2="0" y2="49" stroke="#ff4444" stroke-width="1.5"/>
+    <text x="-22" y="64" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#ff4444" font-weight="bold">5cm</text>
+    <!-- 尺寸標註 - 高 -->
+    <line x1="-55" y1="-30" x2="-55" y2="20" stroke="#ff4444" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+    <line x1="-55" y1="-30" x2="-52" y2="-30" stroke="#ff4444" stroke-width="1.5"/>
+    <line x1="-55" y1="20" x2="-52" y2="20" stroke="#ff4444" stroke-width="1.5"/>
+    <text x="-68" y="-8" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#ff4444" font-weight="bold" transform="rotate(-90,-68,-8)">5cm</text>
+    <!-- 尺寸標註 - 寬 -->
+    <line x1="48" y1="-30" x2="48" y2="20" stroke="#ff4444" stroke-width="1.5" marker-end="url(#arrowRed)"/>
+    <line x1="48" y1="-30" x2="45" y2="-30" stroke="#ff4444" stroke-width="1.5"/>
+    <line x1="48" y1="20" x2="45" y2="20" stroke="#ff4444" stroke-width="1.5"/>
+    <text x="60" y="-8" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#ff4444" font-weight="bold" transform="rotate(90,60,-8)">5cm</text>
+  </g>
+
+  <!-- 錯誤計算 -->
+  <rect x="35" y="270" width="240" height="45" rx="8" fill="#ff4444" fill-opacity="0.08"/>
+  <text x="155" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#cc3333" font-weight="bold">
+    錯誤：表面積 = 6 × (5×5)
+  </text>
+  <text x="155" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#cc3333" font-weight="bold">
+    = 150 cm² ❌
+  </text>
+
+  <!-- 正確提示 -->
+  <rect x="35" y="325" width="240" height="40" rx="8" fill="#22c55e" fill-opacity="0.1"/>
+  <text x="155" y="342" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#16a34a" font-weight="bold">
+    正確：體積 = 5 × 5 × 5
+  </text>
+  <text x="155" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#16a34a" font-weight="bold">
+    = 125 cm³ ✅
+  </text>
+
+  <!-- ==================== 卡片 2 ==================== -->
+  <g filter="url(#shadow2)">
+    <rect x="310" y="60" width="270" height="320" rx="16" fill="url(#card2Bg)"/>
+    <!-- 裝飾放射圓 -->
+    <circle cx="445" cy="200" r="120" fill="url(#deco2)"/>
+    <!-- 卡片邊框 -->
+    <rect x="310" y="60" width="270" height="320" rx="16" fill="none" stroke="#4facfe" stroke-width="1.5" stroke-opacity="0.3"/>
+  </g>
+
+  <!-- 卡片2標題 -->
+  <rect x="325" y="75" width="240" height="32" rx="8" fill="#4facfe" fill-opacity="0.15"/>
+  <text x="445" y="96" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#3a7bd5">
+    ✅ 正確：體積計算
+  </text>
+
+  <!-- 3D 圓柱體 -->
+  <g transform="translate(445, 175)">
+    <!-- 柱體 -->
+    <ellipse cx="0" cy="40" rx="50" ry="15" fill="#3d8cdb" stroke="#2a6cb5" stroke-width="1"/>
+    <rect x="-50" y="-30" width="100" height="70" fill="url(#cylBody)" stroke="#2a6cb5" stroke-width="1"/>
+    <ellipse cx="0" cy="-30" rx="50" ry="15" fill="url(#cylTop)" stroke="#2a6cb5" stroke-width="1"/>
+    <!-- 高光 -->
+    <rect x="-30" y="-25" width="12" height="60" rx="6" fill="#ffffff" fill-opacity="0.15"/>
+    <!-- 尺寸標註 - 半徑 -->
+    <line x1="0" y1="55" x2="50" y2="55" stroke="#4facfe" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+    <line x1="0" y1="55" x2="0" y2="52" stroke="#4facfe" stroke-width="1.5"/>
+    <line x1="50" y1="55" x2="50" y2="52" stroke="#4facfe" stroke-width="1.5"/>
+    <text x="25" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#4facfe" font-weight="bold">r=3cm</text>
+    <!-- 尺寸標註 - 高 -->
+    <line x1="58" y1="-30" x2="58" y2="40" stroke="#4facfe" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+    <line x1="58" y1="-30" x2="55" y2="-30" stroke="#4facfe" stroke-width="1.5"/>
+    <line x1="58" y1="40" x2="55" y2="40" stroke="#4facfe" stroke-width="1.5"/>
+    <text x="70" y="8" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#4facfe" font-weight="bold" transform="rotate(90,70,8)">h=7cm</text>
+  </g>
+
+  <!-- 正確計算 -->
+  <rect x="325" y="270" width="240" height="45" rx="8" fill="#22c55e" fill-opacity="0.08"/>
+  <text x="445" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#16a34a" font-weight="bold">
+    體積 = π × r² × h
+  </text>
+  <text x="445" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#16a34a" font-weight="bold">
+    = π × 3² × 7 ≈ 197.92 cm³ ✅
+  </text>
+
+  <!-- 對比提示 -->
+  <rect x="325" y="325" width="240" height="40" rx="8" fill="#4facfe" fill-opacity="0.1"/>
+  <text x="445" y="342" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#3a7bd5" font-weight="bold">
+    💡 體積用 cm³，表面積用 cm²
+  </text>
+  <text x="445" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#3a7bd5" font-weight="bold">
+    單位不同，不能混淆！
+  </text>
+
+  <!-- 中間連接裝飾 -->
+  <g transform="translate(290, 200)">
+    <circle cx="0" cy="0" r="4" fill="#ff7eb3" opacity="0.6"/>
+    <circle cx="0" cy="-15" r="3" fill="#4facfe" opacity="0.6"/>
+    <circle cx="0" cy="15" r="3" fill="#ff7eb3" opacity="0.4"/>
+    <circle cx="0" cy="-30" r="2" fill="#4facfe" opacity="0.4"/>
+    <circle cx="0" cy="30" r="2" fill="#ff7eb3" opacity="0.3"/>
+  </g>
+
+  <!-- 底部提示條 -->
+  <rect x="20" y="388" width="560" height="2" rx="1" fill="#2a3a5c" fill-opacity="0.1"/>
+</svg>

@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """LF AI Tutor Engine v2.0 — frellmapi Socratic 對話引導 + 規則 fallback"""
-import psycopg2
+try:
+    import psycopg2
+    HAS_DB = True
+except ImportError:
+    psycopg2 = None
+    HAS_DB = False
 import re
 import sys
 
@@ -94,7 +99,7 @@ def get_next_hint(question_id, hint_level, conn):
 # ═══ v3.0 Intelligent Socratic Chat ═══
 def socratic_chat(message: str, conversation_history: str = "", topic: str = "",
                   student_answer: str = "", correct_answer: str = "",
-                  student_name: str = "") -> dict:
+                  student_name: str = "", mode: str = "teacher") -> dict:
     """
     Intelligent Socratic response that integrates:
     - Topic knowledge base (grade-appropriate prompts)
@@ -147,7 +152,7 @@ def socratic_chat(message: str, conversation_history: str = "", topic: str = "",
         import random
         topic_prompt = random.choice(socratic_prompts)
 
-    system = f"""你是霖楓學苑的 AI 數學導師。以蘇格拉底式對話引導香港小學學生思考。
+    system = f"""你是霖楓學苑的 AI 數學導師。根據教學模式(mode)決定風格。mode=teacher直接教學俾步驟答案；mode=friend輕鬆引導；mode=coach考試技巧。如果學生直接問答案就俾答案。
 
 當前課題：{topic or '數學'}
 核心概念：{concept_list}
@@ -161,7 +166,7 @@ def socratic_chat(message: str, conversation_history: str = "", topic: str = "",
 1. 如果學生答對→正面鼓勵 + 追問為什麼這樣想
 2. 如果學生答錯→追問思路，不直接說「錯」
 3. 如果學生困惑→用{concept_list}引導
-4. 每次只問一個引導性問題
+4. 直接回答學生問題，俾教學
 5. 用香港小學程度繁體中文
 6. 參考課題提示：{topic_prompt if topic_prompt else '因應學生情況引導'}"""
 

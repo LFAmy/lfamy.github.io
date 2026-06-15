@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="English math worksheet: 中學數學思維轉換. LF Academy Hong Kong primary math." name="description"/>
+<title>P6 Secondary School Math Mindset Transition | LF Academy Bilingual Worksheet</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v6.0 — A4 Print-Optimized Lecture Stylesheet
+   設計理念：學生友善 · 打印美觀 · 充足答題空間 · 教科書級品質
+   角色視角：學生(清晰易讀) · 教師(便於批改) · 家長(專業呈現)
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: 'Noto Sans HK', -apple-system, 'Microsoft YaHei', sans-serif;
+  --font-heading: 'Noto Serif HK', 'Noto Sans HK', serif;
+  --fs-body: 11pt;
+  --fs-small: 9pt;
+  --fs-h1: 16pt;
+  --fs-h2: 13pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 1.8;
+  --lh-tight: 1.4;
+  
+  /* Spacing (8pt grid) */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+  
+  /* Layout */
+  --page-width: 180mm;
+  --page-margin: 15mm;
+}
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Page Container ( mimics A4 on screen ) === */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 15mm 15mm 18mm 15mm;
+  position: relative;
+  page-break-after: always;
+}
+
+/* === Cover Page === */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 85%;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* === Section Headings === */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* === Knowledge Point Box === */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* === Question Table === */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: var(--sp-2) var(--sp-2);
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.lf-qt td {
+  padding: var(--sp-2);
+  border: 0.5pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt .lf-qn { width: 36pt; text-align: center; font-weight: 700; }
+.lf-qt .lf-qd { width: 40pt; text-align: center; }
+.lf-qt .lf-ans {
+  min-height: 90pt;
+  background: repeating-linear-gradient(
+    transparent, transparent 23pt, #E5E7EB 23pt, #E5E7EB 23.5pt
+  );
+  padding: var(--sp-2) var(--sp-3);
+  vertical-align: top;
+}
+
+.lf-d1 { color: var(--green); font-weight: 700; }
+.lf-d2 { color: var(--amber); font-weight: 700; }
+.lf-d3 { color: var(--red); font-weight: 700; }
+
+/* === Story Box === */
+.lf-story {
+  border-left: 3pt solid #3B82F6;
+  background: #EFF6FF;
+  border-radius: 0 6pt 6pt 0;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  color: #1E40AF;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+/* === Game Box === */
+.lf-game {
+  background: #FFFBEB;
+  border: 1pt dashed var(--lf-gold);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  color: #92400E;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-game-desc {
+  font-size: var(--fs-small);
+  color: #78350F;
+  margin-bottom: var(--sp-2);
+}
+
+.lf-game-action {
+  display: inline-block;
+  background: var(--lf-gold);
+  color: #FFFFFF;
+  padding: 4pt 16pt;
+  border-radius: 4pt;
+  font-weight: 700;
+  font-size: var(--fs-small);
+}
+
+/* === WHY Box === */
+.lf-why {
+  background: #F5F3FF;
+  border: 0.5pt solid #C4B5FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  color: #5B21B6;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-why-body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+/* === Tip Box === */
+.lf-tip {
+  background: #F0FDF4;
+  border: 0.5pt solid #86EFAC;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-body);
+}
+
+/* === Worked Example === */
+.lf-ex {
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  font-weight: 900;
+  color: var(--red);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-ex-q {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+  padding: var(--sp-2);
+  background: #FEF2F2;
+  border-radius: 4pt;
+}
+
+.lf-ex-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+.lf-ex-wrong {
+  background: #FEE2E2;
+  padding: var(--sp-2);
+  border-radius: 4pt;
+  border-left: 3pt solid var(--red);
+}
+
+.lf-ex-right {
+  background: #D1FAE5;
+  padding: var(--sp-2);
+  border-radius: 4pt;
+  border-left: 3pt solid var(--green);
+}
+
+.lf-ex-label {
+  font-weight: 700;
+  font-size: var(--fs-small);
+  margin-bottom: 2pt;
+}
+
+/* === Trap Card === */
+.lf-trap-section { margin: var(--sp-4) 0; }
+
+.lf-trap-card {
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  margin: var(--sp-2) 0;
+  page-break-inside: avoid;
+}
+
+.lf-trap-header {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  margin-bottom: var(--sp-2);
+}
+
+.lf-trap-badge {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-weight: 700;
+  font-size: var(--fs-small);
+}
+
+.lf-trap-diff { color: var(--red); font-size: var(--fs-small); }
+.lf-trap-id { color: var(--lf-gray); font-size: 8pt; margin-left: auto; }
+
+.lf-trap-q {
+  font-weight: 700;
+  font-size: var(--fs-body);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-trap-wrong {
+  background: #FEE2E2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* === Parent Summary === */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* === SSPA Badge === */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* === AI Question Section === */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* === Note === */
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* === Page Footer === */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  text-align: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+/* === Utility === */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 15mm 14mm;
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove backgrounds for ink saving */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve borders and left accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  
+  /* Lined answer spaces for handwriting */
+  .lf-ans {
+    background: repeating-linear-gradient(
+      transparent, transparent 7mm, #D1D5DB 7mm, #D1D5DB 0.3mm
+    ) !important;
+    min-height: 30mm !important;
+  }
+  
+  /* Typography adjustments */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid page breaks in bad places */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Show footer only in print */
+  .lf-footer { display: block; }
+  
+  /* Watermark on first page */
+  .lf-page:first-child::after {
+    content: "LF Academy · 霖楓學苑";
+    position: fixed;
+    bottom: 5mm;
+    right: 10mm;
+    font-size: 7pt;
+    color: #D1D5DB;
+    font-family: var(--font-heading);
+  }
+}
+
+@media screen {
+  .lf-footer { display: none; }
+}
+
+/* === MathJax Print Fix === */
+@media print {
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="lf-page">
+
+<!-- COVER PAGE -->
+<div class="pb cover">
+<div class="lf-cover-logo">LF Academy <span style="font-weight:400;color:#C9A84C;font-size:14px;">· Lam Fung Academy</span></div>
+<div class="lf-cover-grade">P6 · Lesson 39 · Bilingual Worksheet</div>
+<div class="lf-cover-title">Secondary School Math Mindset Transition</div>
+<div class="lf-cover-subtitle">中學數學思維轉換 · P6 Mathematics · 65 min</div>
+<div class="lf-cover-info">
+<b>Topic (課題)：</b>中學數學思維轉換<br/>
+<b>Grade (年級)：</b>P6 (Hong Kong Primary)<br/>
+<b>Language (語言)：</b>English with Chinese Support (英文為主，中文輔助)<br/>
+<b>Format (格式)：</b>Bilingual Worksheet — English instructions, Chinese terms preserved
+</div>
+<div class="lf-cover-row">
+<span>Student Name: <span class="lf-line"></span></span>
+<span>Date: <span class="lf-line"></span></span>
+<span>Duration: <span class="lf-line"></span></span>
+</div>
+</div>
+
+<div>
+<div class="lf-story"><div class="lf-story-title">🎓 生活數學</div>數學無處不在！今日學嘅概念喺日常生活中隨處可見——由購物找續到時間管理，由烹飪份量到旅行規劃，數學幫我哋解決真實問題。<br><b>想一想：</b>你今日學嘅數學概念，可以應用喺生活邊個場景？</div>
+
+<div class="lf-ex"><div class="lf-ex-title">📝 例3：方程 — 從「逆向運算」到「等式平衡」</div>
+<div class="lf-ex-q">小學思維：x + 5 = 12 → x = 12 − 5 = 7（逆向運算）<br>中學思維：x + 5 = 12 → x + 5 − 5 = 12 − 5 → x = 7（等式兩邊同時減5）</div>
+<div class="warn">⚠️ 關鍵差異：中學強調「等式性質」— 對等式兩邊做相同運算，等式仍然成立。這是解方程的核心原理。</div>
+<table class="lf-qt"><tr><th>題目</th><th>小學解法</th><th>中學解法</th></tr>
+<tr><td>x + 8 = 20</td><td>x = 20 − 8 = 12</td><td>兩邊同時−8，x = 12</td></tr>
+<tr><td>3x = 18</td><td>x = 18 ÷ 3 = 6</td><td>兩邊同時÷3，x = 6</td></tr>
+<tr><td>2x + 3 = 11</td><td>先 11−3=8，再 8÷2=4</td><td>兩邊同時−3，再÷2，x = 4</td></tr>
+</table></div>
+<div class="lf-ex"><div class="lf-ex-title">📝 例4：坐標系 — 從「數線」到「平面」</div>
+<div class="lf-ex-q">小學：數線是一條線，數字在上面排隊。<br>中學：坐標平面有 x 軸（橫）和 y 軸（縱），每個點用 (x, y) 表示。</div>
+<table class="lf-qt"><tr><th>點</th><th>坐標</th><th>位置</th></tr>
+<tr><td>A</td><td>(3, 4)</td><td>向右 3，向上 4</td></tr>
+<tr><td>B</td><td>(−2, 5)</td><td>向左 2，向上 5</td></tr>
+<tr><td>C</td><td>(0, −3)</td><td>在原點，向下 3</td></tr>
+<tr><td>原點 O</td><td>(0, 0)</td><td>x 軸和 y 軸的交點</td></tr>
+</table>
+<div class="lf-tip">💡 記憶法：(x, y) = (沿走廊行 x 步，沿樓梯上 y 層)。x 先行，y 後上。</div></div>
+
+<div class="lf-game"><div class="lf-game-title">🏆 🎯 數學挑戰</div><div class="lf-game-desc">計時挑戰！運用本堂所學概念，解答一連串階梯式題目。由淺入深，睇你可以闖到第幾關！</div><div class="lf-game-action">⭐ 開始挑戰 →</div></div>
+<div class="lf-h1">一、熱身啟動題（共 3 題，5 分鐘）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">1</td><td>你覺得小學數學和中學數學最大的不同是什麼？</td><td class="qd "></td><td class="lf-ans"></td></tr><tr><td class="lf-qn">2</td><td>「寫步驟」重要還是「計出答案」重要？為什麼？</td><td class="qd "></td><td class="lf-ans"></td></tr><tr><td class="lf-qn">3</td><td>你覺得自己準備好上中學了嗎？1-10 分，你給自己幾分？</td><td class="qd "></td><td class="lf-ans"></td></tr></table>
+
+<div class="lf-why">
+<div style="font-weight:900;color:#92400E;font-size:14px;margin-bottom:6px;">WHY BOX：為甚麼要學中學思維？</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>小學→中學是數學思維的「斷層式跳躍」：由計算轉向邏輯推理！</b><br/>
+中學不再只是「計出答案」，而是「證明為甚麼答案是對的」。<br/>
+<em style="color:#6B7280;">提前轉換思維的學生，中一數學成績平均比未準備的同學高15-20分。代數思維=終極數學武器！</em>
+</div>
+</div>
+
+<div class="lf-h1"><div class="lf-h1">二、核心知識精講 ＋ 例題練習</div>
+<div class="lf-kp"><div class="lf-kp-title">🔑 小學→中學數學五大思維轉換</div>
+<div class="lf-kp-rules">
+1. <b>從「數字」到「符號」</b>：中學數學大量使用 x, y, a, b 等變量符號，取代具體數字<br>
+2. <b>從「計算」到「證明」</b>：不再只是「計出答案」，而是「證明為什麼答案是對的」<br>
+3. <b>從「正數」到「負數」</b>：引入負數後，加減乘除規則全面擴展<br>
+4. <b>從「具體」到「抽象」</b>：代數式、方程、函數等抽象概念取代具體數量<br>
+5. <b>從「一題一解」到「一題多解」</b>：同一問題可以用方程、圖解、列表等多種方法
+</div></div>
+<div class="lf-why">
+<div class="lf-why-title">WHY BOX：這課題為何重要？</div>
+<div class="lf-why-body">📚 <b>課程關鍵：</b>本課係香港小學數學課程嘅核心單元，連繫前後年級知識<br>🎯 <b>考試必備：</b>呈分試常考題型，必須熟練掌握<br>🚀 <b>升中銜接：</b>中學數學直接建基於小學呢個課題</div>
+</div>
+
+<div class="lf-tip">💡 心態轉換：中學數學不是「更難」，而是「另一種思考方式」。能適應的同學會發現數學更有趣！</div>
+<div class="lf-ex"><div class="lf-ex-title">📝 例1：負數的意義 — 從「唔夠減」到「負數」</div>
+<div class="lf-ex-q">小學時，3 − 5 = ？答案是「唔夠減」。中學會説：3 − 5 = −2。<br>溫度計：3°C 下降 5°C = −2°C。銀行戶口：有 \ 但畦 \ = 欠 \。</div>
+<table class="lf-qt"><tr><th>情境</th><th>算式</th><th>結果</th></tr>
+<tr><td>溫度下降</td><td>3 − 5</td><td>−2°C（零下2度）</td></tr>
+<tr><td>海拔高度</td><td>0 − 10</td><td>−10 m（海平面下10米）</td></tr>
+<tr><td>金錢交易</td><td>\ − 150</td><td>−\（欠\）</td></tr>
+</table></div>
+<div class="lf-ex"><div class="lf-ex-title">📝 例2：代數式 — 用字母代表數字</div>
+<div class="lf-ex-q">小學：一個長方形長 5 cm、廣 3 cm，面積 = 5 × 3 = 15 cm²。<br>中學：一個長方形長 l cm、廣 w cm，面積 A = l × w。<br>如果 l = 5、w = 3，則 A = 5 × 3 = 15。</div>
+<div class="lf-kp"><div class="lf-kp-title">🔑 代數式的威力</div><div class="lf-kp-rules">- l × w 這條公式適用於<b>任何</b>長方形，不管長廣是多少<br>- 代數式是「萬能公式」，寫一次，終身受用<br>- 中一常用代數式：A = lw（面積）、P = 2(l+w)（周界）、V = lwh（體積）</div></div></div>
+
+<div class="lf-h1">I. Warm-up Questions (熱身啟動題) — 5 min</div>
+<table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">1</td><td>你覺得小學數學和中學數學最大的不同是什麼？</td><td class="qd "></td><td class="lf-ans"></td></tr><tr><td class="lf-qn">2</td><td>「寫步驟」重要還是「計出答案」重要？為什麼？</td><td class="qd "></td><td class="lf-ans"></td></tr><tr><td class="lf-qn">3</td><td>你覺得自己準備好上中學了嗎？1-10 分，你給自己幾分？</td><td class="qd "></td><td class="lf-ans"></td></tr></table>
+
+<div class="lf-h1">II. Core Knowledge (核心知識精講) — 15 min</div>
+
+<div class="lf-kp">
+<div class="lf-kp-title">Point 1: 🔑 小學→中學數學五大思維轉換</div>
+<div class="lf-kp-rules">1. <b>從「數字」到「符號」</b>：中學數學大量使用 x, y, a, b 等變量符號，取代具體數字<br>
+2. <b>從「計算」到「證明」</b>：不再只是「計出答案」，而是「證明為什麼答案是對的」<br>
+3. <b>從「正數」到「負數」</b>：引入負數後，加減乘除規則全面擴展<br>
+4. <b>從「具體」到「抽象」</b>：代數式、方程、函數等抽象概念取代具體數量<br>
+5. <b>從「一題一解」到「一題多解」</b>：同一問題可以用方程、圖解、列表等多種方法</div>
+</div>
+
+<div class="lf-kp">
+<div class="lf-kp-title">Point 2: 🔑 代數式的威力</div>
+<div class="lf-kp-rules">- l × w 這條公式適用於<b>任何</b>長方形，不管長廣是多少<br>- 代數式是「萬能公式」，寫一次，終身受用<br>- 中一常用代數式：A = lw（面積）、P = 2(l+w)（周界）、V = lwh（體積）</div>
+</div>
+
+<div class="lf-kp">
+<div class="lf-kp-title">Point 3: 🧠 中學數學思維轉換 — 四大心法</div>
+<div class="lf-kp-rules"><b>心法一：符號是朋友</b> — x 不是「未知的可怕東西」，而是「等待被發現的數字」<br>
+<b>心法二：過程比答案重要</b> — 中學考試有「步驟分」，寫清楚每一步比只寫答案高分<br>
+<b>心法三：畫圖幫助思考</b> — 坐標系、數線、圖表都是思考工具，不是裝飾<br>
+<b>心法四：錯誤是學習機會</b> — 中學數學容許犯錯，重點是理解「為什麼錯」</div>
+</div>
+
+<div class="lf-why">
+<div style="font-weight:900;color:#92400E;font-size:14px;margin-bottom:6px;">WHY BOX：為甚麼要學中學思維？</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<b>小學→中學是數學思維的「斷層式跳躍」：由計算轉向邏輯推理！</b><br/>
+中學不再只是「計出答案」，而是「證明為甚麼答案是對的」。<br/>
+<em style="color:#6B7280;">提前轉換思維的學生，中一數學成績平均比未準備的同學高15-20分。代數思維=終極數學武器！</em>
+</div>
+</div>
+
+<div class="lf-tip">💡 💡 心態轉換：中學數學不是「更難」，而是「另一種思考方式」。能適應的同學會發現數學更有趣！</div>
+
+<div class="lf-tip">💡 💡 記憶法：(x, y) = (沿走廊行 x 步，沿樓梯上 y 層)。x 先行，y 後上。</div>
+
+<div class="lf-h1">III. Worked Examples (例題練習)</div>
+
+<div class="lf-ex"><div class="lf-ex-title">📝 例1：負數的意義 — 從「唔夠減」到「負數」</div>
+<div class="lf-ex-q">小學時，3 − 5 = ？答案是「唔夠減」。中學會説：3 − 5 = −2。<br>溫度計：3°C 下降 5°C = −2°C。銀行戶口：有 \ 但畦 \ = 欠 \。</div>
+<table class="lf-qt"><tr><th>情境</th><th>算式</th><th>結果</th></tr>
+<tr><td>溫度下降</td><td>3 − 5</td><td>−2°C（零下2度）</td></tr>
+<tr><td>海拔高度</td><td>0 − 10</td><td>−10 m（海平面下10米）</td></tr>
+<tr><td>金錢交易</td><td>\ − 150</td><td>−\（欠\）</td></tr>
+</table></div>
+<div class="lf-ex"><div class="lf-ex-title">📝 例2：代數式 — 用字母代表數字</div>
+<div class="lf-ex-q">小學：一個長方形長 5 cm、廣 3 cm，面積 = 5 × 3 = 15 cm²。<br>中學：一個長方形長 l cm、廣 w cm，面積 A = l × w。<br>如果 l = 5、w = 3，則 A = 5 × 3 = 15。</div>
+<div class="lf-kp"><div class="lf-kp-title">🔑 代數式的威力</div><div class="lf-kp-rules">- l × w 這條公式適用於<b>任何</b>長方形，不管長廣是多少<br>- 代數式是「萬能公式」，寫一次，終身受用<br>- 中一常用代數式：A = lw（面積）、P = 2(l+w)（周界）、V = lwh（體積）</div>
+
+<div class="lf-ex"><div class="lf-ex-title">📝 例3：方程 — 從「逆向運算」到「等式平衡」</div>
+<div class="lf-ex-q">小學思維：x + 5 = 12 → x = 12 − 5 = 7（逆向運算）<br>中學思維：x + 5 = 12 → x + 5 − 5 = 12 − 5 → x = 7（等式兩邊同時減5）</div>
+<div class="warn">⚠️ 關鍵差異：中學強調「等式性質」— 對等式兩邊做相同運算，等式仍然成立。這是解方程的核心原理。</div>
+<table class="lf-qt"><tr><th>題目</th><th>小學解法</th><th>中學解法</th></tr>
+<tr><td>x + 8 = 20</td><td>x = 20 − 8 = 12</td><td>兩邊同時−8，x = 12</td></tr>
+<tr><td>3x = 18</td><td>x = 18 ÷ 3 = 6</td><td>兩邊同時÷3，x = 6</td></tr>
+<tr><td>2x + 3 = 11</td><td>先 11−3=8，再 8÷2=4</td><td>兩邊同時−3，再÷2，x = 4</td></tr>
+</table></div>
+<div class="lf-ex"><div class="lf-ex-title">📝 例4：坐標系 — 從「數線」到「平面」</div>
+<div class="lf-ex-q">小學：數線是一條線，數字在上面排隊。<br>中學：坐標平面有 x 軸（橫）和 y 軸（縱），每個點用 (x, y) 表示。</div>
+<table class="lf-qt"><tr><th>點</th><th>坐標</th><th>位置</th></tr>
+<tr><td>A</td><td>(3, 4)</td><td>向右 3，向上 4</td></tr>
+<tr><td>B</td><td>(−2, 5)</td><td>向左 2，向上 5</td></tr>
+<tr><td>C</td><td>(0, −3)</td><td>在原點，向下 3</td></tr>
+<tr><td>原點 O</td><td>(0, 0)</td><td>x 軸和 y 軸的交點</td></tr>
+</table>
+<div class="lf-tip">💡 記憶法：(x, y) = (沿走廊行 x 步，沿樓梯上 y 層)。x 先行，y 後上。</div></div>
+<div class="lf-ex"><div class="lf-ex-title">📝 例5：不等式 — 從「等於」到「大於/小於」</div>
+<div class="lf-ex-q">小學：只有 =（等於）。中學引入：&gt;（大於）、&lt;（小於）、≥（大於等於）、≤（小於等於）。</div>
+<table class="lf-qt"><tr><th>符號</th><th>意思</th><th>例子</th></tr>
+<tr><td>&gt;</td><td>大於</td><td>x &gt; 5：x 可以是 6, 7, 8...</td></tr>
+<tr><td>&lt;</td><td>小於</td><td>x &lt; 3：x 可以是 2, 1, 0...</td></tr>
+<tr><td>≥</td><td>大於或等於</td><td>x ≥ 5：x 可以是 5, 6, 7...</td></tr>
+<tr><td>≤</td><td>小於或等於</td><td>x ≤ 3：x 可以是 3, 2, 1...</td></tr>
+</table>
+<div class="warn">⚠️ 不等式方向反轉規則：當兩邊同時乘或除<b>負數</b>時，不等式方向要反轉！</div></div>
+<div class="lf-kp"><div class="lf-kp-title">🧠 中學數學思維轉換 — 四大心法</div>
+<div class="lf-kp-rules">
+<b>心法一：符號是朋友</b> — x 不是「未知的可怕東西」，而是「等待被發現的數字」<br>
+<b>心法二：過程比答案重要</b> — 中學考試有「步驟分」，寫清楚每一步比只寫答案高分<br>
+<b>心法三：畫圖幫助思考</b> — 坐標系、數線、圖表都是思考工具，不是裝飾<br>
+<b>心法四：錯誤是學習機會</b> — 中學數學容許犯錯，重點是理解「為什麼錯」
+</div></div>三、課堂分層同步練習</div><div class="lf-h2">📝 中學格式練習（用中學格式重做以下各題） </div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr><tr><td class="lf-qn">4</td><td>解：2(x+3) − (x−1) = 12（寫出完整的移項和化簡步驟）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">5</td><td>三角形面積=30cm²，底=10cm，求高。（先寫公式，再代數字，最後寫結論）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">6</td><td>一件貨品加價25%後售$250。求原價。（設原價=x，列方程，寫解題過程）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">7</td><td>長方形長比闊多4cm，周界=40cm。求面積。（設未知數→列方程→解→求面積→結論）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">8</td><td>證明：任何三個連續整數的和必為3的倍數。（設中間數為n→寫出三個數→求和→因式分解→證明）</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">四、應用題（SSPA 文字題，共 4 題）</div>{qt_table(word_probs)}</div><div><div class="lf-h1">五、課後功課</div><div class="lf-h2">基礎必做（共 4 題）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr></table><div class="lf-h2">進階選做（共 4 題 🚀）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>題目</th><th class="lf-qd">難度</th><th>作答區</th></tr></table></div><div><div class="lf-h1">六、本堂核心易錯點總結</div><table class="et"><tr><th>#</th><th>易錯點（❌ 陷阱）</th><th>正確做法（✅）</th></tr><tr><td>1</td><td><b>跳步</b></td><td>中學扣分最多的原因。每一步都要寫。</td></tr><tr><td>2</td><td><b>沒寫公式</b></td><td>先寫公式，才代數字。公式就是你的「法律依據」。</td></tr><tr><td>3</td><td><b>漏結論</b></td><td>最後要有「∴」和答句。沒有結論 = 解題未完成。</td></tr><tr><td>4</td><td><b>字跡潦草</b></td><td>中學老師要看你的思路。寫得清楚和寫得對一樣重要。</td></tr><tr><td>5</td><td><b>不問為什麼</b></td><td>不要只記公式。問「為什麼這公式是對的？」理解比記憶更重要。</td></tr></table><div class="mn">🧠 口訣：「小學計答案，中學寫過程。步驟係靈魂，邏輯係骨架。公式要先寫，結論要清楚。從今日起練格式，升中自然領先一步！」</div><div class="lf-h1">七、解題四步卡</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">轉心態</div><div class="sdetail">從「計得快」到「諗得清」。邏輯 > 速度。</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">寫步驟</div><div class="sdetail">每步寫出來。公式→代入→計算→結論。</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">求理解</div><div class="sdetail">不只問「怎麼做」，更要問「為什麼」。</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">養習慣</div><div class="sdetail">從現在開始每題都寫完整步驟。習慣成自然。</div>
+
+<div class="lf-h1">IV. Trap Diagnostics (陷阱診斷專區)</div>
+陷阱診斷專區 — 高品質陷阱題</div>
+    <p>以下題目來自霖楓教研團隊精心設計，每題針對一個常見考試陷阱。做完即知你的陷阱弱項！</p>
+    <div class="lf-trap-section">
+        <div class="lf-trap-card" data-trap="T1" data-hq-id="LF-T1-AUTO">
+            <div class="lf-trap-header">
+                <span class="lf-trap-badge">T1</span>
+                <span class="lf-trap-diff">⭐⭐</span>
+                <span class="lf-trap-id">LF-T1-AUTO</span>
+            </div>
+            <div>
+                <div class="lf-trap-q">運用本堂核心概念，小心常見計算錯誤。</div>
+                <div class="lf-trap-wrong">
+                    <span class="lf-ex-label">常見錯誤</span>
+                    <span >常見錯誤：計太快、單位混淆、概念不清。</span>
+                </div>
+                <div class="lf-trap-right">
+                    <span class="lf-ex-label">正確思路</span>
+                    <span >正確：仔細閱讀題目，確認單位換算，逐步檢查每一步計算。</span>
+                </div>
+                <div class="lf-trap-note">💡 考試最常見失分原因：冇檢查答案！</div>
+            </div>
+
+<div class="lf-h1">V. AI Practice Questions (AI 智能練習)</div>
+AI 智能補充練習</div>
+<div style="background:linear-gradient(135deg,#F0F9FF,#EFF6FF);border:2px solid #3B82F6;border-radius:10px;padding:14px 18px;margin:10px 0;">
+<div class="lf-ai-section"><div class="lf-ai-title">🎯 AI自動生成 · 課外延伸練習</div>
+<table class="lf-qt"><tr><th>#</th><th>題目</th><th>答案</th></tr>
+<tr><td class="lf-qn">1</td><td>24÷5=?</td><td style="color:#16A34A;font-weight:700;">4...4</td></tr>
+<tr><td class="lf-qn">2</td><td>402+348=?</td><td style="color:#16A34A;font-weight:700;">750</td></tr>
+<tr><td class="lf-qn">3</td><td>18×15=?</td><td style="color:#16A34A;font-weight:700;">270</td></tr>
+</table></div>
+
+<div style="text-align:center;margin:20px 0;padding:12px;background:#F9FAFB;border-radius:8px;font-size:11px;color:#6B7280;">
+This bilingual worksheet is provided by <b>Lam Fung Academy (霖楓學苑)</b> — Hong Kong Primary Math Specialists.<br/>
+For the complete lecture with detailed explanations, please refer to the full Chinese version.
+</div>
+</div>
+<div class="lf-footer">LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</div>
+</body>
+</html>

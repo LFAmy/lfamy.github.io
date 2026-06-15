@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 網格背景圖案 -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E8ECF0" stroke-width="0.5"/>
+    </pattern>
+
+    <!-- 頂層金字塔漸變（括號）- 多層放射漸變 -->
+    <radialGradient id="topGrad" cx="50%" cy="40%" r="60%" fx="45%" fy="35%">
+      <stop offset="0%" stop-color="#FFF9C4"/>
+      <stop offset="25%" stop-color="#FFD54F"/>
+      <stop offset="50%" stop-color="#FFC107"/>
+      <stop offset="75%" stop-color="#FFB300"/>
+      <stop offset="100%" stop-color="#FF8F00"/>
+    </radialGradient>
+
+    <!-- 中層金字塔漸變（乘除）- 多層放射漸變 -->
+    <radialGradient id="midGrad" cx="50%" cy="40%" r="60%" fx="45%" fy="35%">
+      <stop offset="0%" stop-color="#E3F2FD"/>
+      <stop offset="25%" stop-color="#90CAF9"/>
+      <stop offset="50%" stop-color="#42A5F5"/>
+      <stop offset="75%" stop-color="#1E88E5"/>
+      <stop offset="100%" stop-color="#1565C0"/>
+    </radialGradient>
+
+    <!-- 底層金字塔漸變（加減）- 多層放射漸變 -->
+    <radialGradient id="botGrad" cx="50%" cy="40%" r="60%" fx="45%" fy="35%">
+      <stop offset="0%" stop-color="#E8F5E9"/>
+      <stop offset="25%" stop-color="#A5D6A7"/>
+      <stop offset="50%" stop-color="#66BB6A"/>
+      <stop offset="75%" stop-color="#43A047"/>
+      <stop offset="100%" stop-color="#2E7D32"/>
+    </radialGradient>
+
+    <!-- 例題卡片漸變 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#F8F9FA"/>
+      <stop offset="60%" stop-color="#F0F2F5"/>
+      <stop offset="100%" stop-color="#E8ECF0"/>
+    </linearGradient>
+
+    <!-- 陰影濾鏡 - 雙層陰影 -->
+    <filter id="shadowLight" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.12"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+
+    <filter id="shadowHeavy" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.15"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+
+    <filter id="shadowCard" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.10"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.06"/>
+    </filter>
+
+    <!-- 3D 光影效果 - 頂部高光 -->
+    <linearGradient id="highlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- 箭頭標記 -->
+    <marker id="arrowDown" markerWidth="10" markerHeight="8" refX="5" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#78909C"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#FAFBFC"/>
+  <rect width="600" height="400" fill="url(#grid)"/>
+
+  <!-- 標題 -->
+  <text x="300" y="32" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="18" font-weight="bold" fill="#37474F" letter-spacing="1">運算優先級金字塔</text>
+  <line x1="200" y1="40" x2="400" y2="40" stroke="#B0BEC5" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- ==================== 金字塔結構 ==================== -->
+
+  <!-- 底層：加減（最大） -->
+  <g filter="url(#shadowHeavy)">
+    <polygon points="100,340 500,340 420,260 180,260" fill="url(#botGrad)" stroke="#2E7D32" stroke-width="1.5" stroke-linejoin="round"/>
+    <!-- 3D 高光 -->
+    <polygon points="100,340 500,340 420,260 180,260" fill="url(#highlight)"/>
+    <!-- 邊緣高光線 -->
+    <line x1="180" y1="260" x2="100" y2="340" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="1"/>
+    <line x1="180" y1="260" x2="420" y2="260" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="0.5"/>
+  </g>
+
+  <!-- 中層：乘除 -->
+  <g filter="url(#shadowHeavy)">
+    <polygon points="140,250 460,250 400,180 200,180" fill="url(#midGrad)" stroke="#1565C0" stroke-width="1.5" stroke-linejoin="round"/>
+    <!-- 3D 高光 -->
+    <polygon points="140,250 460,250 400,180 200,180" fill="url(#highlight)"/>
+    <line x1="200" y1="180" x2="140" y2="250" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="1"/>
+    <line x1="200" y1="180" x2="400" y2="180" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="0.5"/>
+  </g>
+
+  <!-- 頂層：括號（最小） -->
+  <g filter="url(#shadowHeavy)">
+    <polygon points="190,170 410,170 370,110 230,110" fill="url(#topGrad)" stroke="#FF8F00" stroke-width="1.5" stroke-linejoin="round"/>
+    <!-- 3D 高光 -->
+    <polygon points="190,170 410,170 370,110 230,110" fill="url(#highlight)"/>
+    <line x1="230" y1="110" x2="190" y2="170" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1"/>
+    <line x1="230" y1="110" x2="370" y2="110" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="0.5"/>
+  </g>
+
+  <!-- ==================== 階層連接箭頭 ==================== -->
+  <!-- 頂→中 -->
+  <line x1="300" y1="170" x2="300" y2="180" stroke="#78909C" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+  <!-- 中→底 -->
+  <line x1="300" y1="250" x2="300" y2="260" stroke="#78909C" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- ==================== 標籤文字 ==================== -->
+
+  <!-- 頂層：括號 -->
+  <text x="300" y="148" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="16" font-weight="bold" fill="#5D4037">括號 ( )</text>
+  <text x="300" y="163" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="11" fill="#6D4C41">優先計算</text>
+
+  <!-- 中層：乘除 -->
+  <text x="300" y="222" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">乘除 × ÷</text>
+  <text x="300" y="238" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="11" fill="#E3F2FD">其次計算</text>
+
+  <!-- 底層：加減 -->
+  <text x="300" y="308" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">加減 + −</text>
+  <text x="300" y="324" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="11" fill="#E8F5E9">最後計算</text>
+
+  <!-- ==================== 例題卡片 ==================== -->
+  <g filter="url(#shadowCard)">
+    <!-- 卡片背景 - 圓角 -->
+    <rect x="30" y="55" width="160" height="100" rx="12" ry="12" fill="url(#cardGrad)" stroke="#DDE3E8" stroke-width="1"/>
+
+    <!-- 卡片標題 -->
+    <rect x="30" y="55" width="160" height="28" rx="12" ry="12" fill="#FFECB3" opacity="0.6"/>
+    <rect x="30" y="71" width="160" height="12" fill="#FFECB3" opacity="0.6"/>
+    <text x="110" y="73" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="12" font-weight="bold" fill="#5D4037">📝 例題</text>
+
+    <!-- 例題內容 -->
+    <text x="110" y="98" text-anchor="middle" font-family="'Times New Roman','CMU Serif',serif" font-size="18" font-weight="bold" fill="#37474F">
+      <tspan font-style="italic">(</tspan>
+      <tspan>½ + ¼</tspan>
+      <tspan font-style="italic">)</tspan>
+      <tspan> × ⅔</tspan>
+    </text>
+
+    <!-- 分隔線 -->
+    <line x1="45" y1="108" x2="175" y2="108" stroke="#E0E0E0" stroke-width="0.8"/>
+
+    <!-- 解題提示 -->
+    <text x="110" y="125" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="10" fill="#78909C">先算括號內，再算乘法</text>
+
+    <!-- 小三角形指示 -->
+    <polygon points="190,105 198,100 198,110" fill="#FFB300" opacity="0.7"/>
+  </g>
+
+  <!-- ==================== 運算步驟說明 ==================== -->
+  <g filter="url(#shadowCard)">
+    <rect x="410" y="55" width="160" height="100" rx="12" ry="12" fill="url(#cardGrad)" stroke="#DDE3E8" stroke-width="1"/>
+
+    <rect x="410" y="55" width="160" height="28" rx="12" ry="12" fill="#E3F2FD" opacity="0.6"/>
+    <rect x="410" y="71" width="160" height="12" fill="#E3F2FD" opacity="0.6"/>
+    <text x="490" y="73" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="12" font-weight="bold" fill="#1565C0">💡 解題步驟</text>
+
+    <text x="490" y="96" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="10" fill="#546E7A">① ½ + ¼ = ¾</text>
+    <text x="490" y="112" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="10" fill="#546E7A">② ¾ × ⅔ = ½</text>
+
+    <line x1="425" y1="120" x2="555" y2="120" stroke="#E0E0E0" stroke-width="0.8"/>
+
+    <text x="490" y="137" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="11" font-weight="bold" fill="#43A047">答案：½</text>
+  </g>
+
+  <!-- ==================== 底部裝飾 ==================== -->
+  <line x1="180" y1="365" x2="420" y2="365" stroke="#CFD8DC" stroke-width="0.8" stroke-dasharray="6,4"/>
+  <text x="300" y="382" text-anchor="middle" font-family="'Microsoft YaHei','PingFang HK','Noto Sans HK',Arial,sans-serif" font-size="10" fill="#B0BEC5">P6 數學 · 分數四則運算 · 優先級金字塔</text>
+
+  <!-- 裝飾小點 -->
+  <circle cx="160" cy="365" r="2" fill="#CFD8DC"/>
+  <circle cx="440" cy="365" r="2" fill="#CFD8DC"/>
+</svg>

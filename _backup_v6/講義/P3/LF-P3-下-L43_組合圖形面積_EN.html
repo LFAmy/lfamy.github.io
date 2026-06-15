@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="English math worksheet: 組合圖形面積. LF Academy Hong Kong primary math. 面積計算 圖形面積 幾何 幾何圖形 對稱 立體" name="description"/><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1.0" name="viewport"/><title>P3 Math 組合圖形面積 Worksheet | LF Academy</title><style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v6.0 — A4 Print-Optimized Lecture Stylesheet
+   設計理念：學生友善 · 打印美觀 · 充足答題空間 · 教科書級品質
+   角色視角：學生(清晰易讀) · 教師(便於批改) · 家長(專業呈現)
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: 'Noto Sans HK', -apple-system, 'Microsoft YaHei', sans-serif;
+  --font-heading: 'Noto Serif HK', 'Noto Sans HK', serif;
+  --fs-body: 11pt;
+  --fs-small: 9pt;
+  --fs-h1: 16pt;
+  --fs-h2: 13pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 1.8;
+  --lh-tight: 1.4;
+  
+  /* Spacing (8pt grid) */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+  
+  /* Layout */
+  --page-width: 180mm;
+  --page-margin: 15mm;
+}
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Page Container ( mimics A4 on screen ) === */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 15mm 15mm 18mm 15mm;
+  position: relative;
+  page-break-after: always;
+}
+
+/* === Cover Page === */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 85%;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* === Section Headings === */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* === Knowledge Point Box === */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* === Question Table === */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: var(--sp-2) var(--sp-2);
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.lf-qt td {
+  padding: var(--sp-2);
+  border: 0.5pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt .lf-qn { width: 36pt; text-align: center; font-weight: 700; }
+.lf-qt .lf-qd { width: 40pt; text-align: center; }
+.lf-qt .lf-ans {
+  min-height: 90pt;
+  background: repeating-linear-gradient(
+    transparent, transparent 23pt, #E5E7EB 23pt, #E5E7EB 23.5pt
+  );
+  padding: var(--sp-2) var(--sp-3);
+  vertical-align: top;
+}
+
+.lf-d1 { color: var(--green); font-weight: 700; }
+.lf-d2 { color: var(--amber); font-weight: 700; }
+.lf-d3 { color: var(--red); font-weight: 700; }
+
+/* === Story Box === */
+.lf-story {
+  border-left: 3pt solid #3B82F6;
+  background: #EFF6FF;
+  border-radius: 0 6pt 6pt 0;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  color: #1E40AF;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+/* === Game Box === */
+.lf-game {
+  background: #FFFBEB;
+  border: 1pt dashed var(--lf-gold);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  color: #92400E;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-game-desc {
+  font-size: var(--fs-small);
+  color: #78350F;
+  margin-bottom: var(--sp-2);
+}
+
+.lf-game-action {
+  display: inline-block;
+  background: var(--lf-gold);
+  color: #FFFFFF;
+  padding: 4pt 16pt;
+  border-radius: 4pt;
+  font-weight: 700;
+  font-size: var(--fs-small);
+}
+
+/* === WHY Box === */
+.lf-why {
+  background: #F5F3FF;
+  border: 0.5pt solid #C4B5FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  color: #5B21B6;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-why-body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+/* === Tip Box === */
+.lf-tip {
+  background: #F0FDF4;
+  border: 0.5pt solid #86EFAC;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-body);
+}
+
+/* === Worked Example === */
+.lf-ex {
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  font-weight: 900;
+  color: var(--red);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-ex-q {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+  padding: var(--sp-2);
+  background: #FEF2F2;
+  border-radius: 4pt;
+}
+
+.lf-ex-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+.lf-ex-wrong {
+  background: #FEE2E2;
+  padding: var(--sp-2);
+  border-radius: 4pt;
+  border-left: 3pt solid var(--red);
+}
+
+.lf-ex-right {
+  background: #D1FAE5;
+  padding: var(--sp-2);
+  border-radius: 4pt;
+  border-left: 3pt solid var(--green);
+}
+
+.lf-ex-label {
+  font-weight: 700;
+  font-size: var(--fs-small);
+  margin-bottom: 2pt;
+}
+
+/* === Trap Card === */
+.lf-trap-section { margin: var(--sp-4) 0; }
+
+.lf-trap-card {
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  margin: var(--sp-2) 0;
+  page-break-inside: avoid;
+}
+
+.lf-trap-header {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+  margin-bottom: var(--sp-2);
+}
+
+.lf-trap-badge {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-weight: 700;
+  font-size: var(--fs-small);
+}
+
+.lf-trap-diff { color: var(--red); font-size: var(--fs-small); }
+.lf-trap-id { color: var(--lf-gray); font-size: 8pt; margin-left: auto; }
+
+.lf-trap-q {
+  font-weight: 700;
+  font-size: var(--fs-body);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-trap-wrong {
+  background: #FEE2E2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* === Parent Summary === */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* === SSPA Badge === */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* === AI Question Section === */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* === Note === */
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* === Page Footer === */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  text-align: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+/* === Utility === */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 15mm 14mm;
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove backgrounds for ink saving */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve borders and left accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  
+  /* Lined answer spaces for handwriting */
+  .lf-ans {
+    background: repeating-linear-gradient(
+      transparent, transparent 7mm, #D1D5DB 7mm, #D1D5DB 0.3mm
+    ) !important;
+    min-height: 30mm !important;
+  }
+  
+  /* Typography adjustments */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid page breaks in bad places */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Show footer only in print */
+  .lf-footer { display: block; }
+  
+  /* Watermark on first page */
+  .lf-page:first-child::after {
+    content: "LF Academy · 霖楓學苑";
+    position: fixed;
+    bottom: 5mm;
+    right: 10mm;
+    font-size: 7pt;
+    color: #D1D5DB;
+    font-family: var(--font-heading);
+  }
+}
+
+@media screen {
+  .lf-footer { display: none; }
+}
+
+/* === MathJax Print Fix === */
+@media print {
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+
+</style><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P3 講義",
+      "item": "https://lfamy.github.io/講義/P3/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "組合圖形面積"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div style="text-align:center;margin:24px 0"><img src="../_svg/composite_shape.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+<div class="lf-page"><div class="lf-cover">
+<div class="lf-cover-logo">LF Academy · LF Academy</div>
+<div class="lf-cover-grade">小三 · 第 43 堂 · Student Edition Handout</div>
+<div class="lf-cover-title">組合圖形Area</div>
+<div class="lf-cover-subtitle">分割法 · 填補法 · L形Area · 65 min · 1-on-3 Online Lesson</div>
+<div class="lf-cover-info"><b>Textbook Reference：</b>《小學數學新思維（第二版）》3下B冊<br/><b>SSPA 關聯：</b><span class="lf-sspa-badge lf-sspa-high">🔴 必考</span> 組合圖形Area係呈分試經典題型<br/><b>Prerequisites：</b>L42 Area概念 · SquareRectangleArea公式<br/><b>Lesson Objectives：</b>❶ 掌握分割法 ❷ 掌握填補法 ❸ 計算L形/T形等組合圖形Area<br/><b>核心Trap：</b>🪤 T16 重疊部分重複計算 · T17 填補後忘記減 · T18 分割後漏計某一塊</div>
+<div class="lf-cover-row"><span>Student Name：<span class="lf-line"></span></span><span>Class：<span class="lf-line"></span></span><span>Date：<span class="lf-line"></span></span><span>Duration：<span class="lf-line"></span></span></div>
+</div><div><div <div="" style="text-align:center;margin:12px 0;"><svg style="max-width:240px;width:100%;height:auto;display:block;margin:8px auto;" viewbox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+<circle cx="120" cy="120" fill="#DBEAFE" r="60" stroke="#1A3C6D" stroke-width="2.5"></circle>
+<line stroke="#6B7280" stroke-dasharray="5,3" stroke-width="1.5" x1="120" x2="180" y1="120" y2="120"></line>
+<circle cx="120" cy="120" fill="#1A3C6D" r="3"></circle>
+<text fill="#6B7280" font-family="Noto Sans HK,sans-serif" font-size="10" text-anchor="middle" x="150.0" y="110">r=3 cm</text>
+</svg></div>
+class="lf-h1"&gt;一、Warm-Up（共 5 題，5 min）</div>
+<div class="lf-game"><div class="lf-game-title">📐 幾何探險家</div><div class="lf-game-desc">計算面積&體積，小心公式陷阱！三角形要除2、梯形上下底唔好調轉！</div><div class="lf-game-action">🔍 開始探險 →</div></div>
+<table class="lf-qt"><tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr><tr><td class="lf-qn">1</td><td>一個L形可以分成幾個Rectangle？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">2</td><td>填補法係咩意思？補成咩圖形？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">3</td><td>3cm×4cmRectangleArea=？4cm×2cmRectangleArea=？總和=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">4</td><td>一個5cm×4cmRectangle剪去一個2cm×1cm嘅小Rectangle，剩餘Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">5</td><td>重疊嘅部分Area要點處理？加一次定減一次？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table><div class="lf-h1">二、Core Knowledge （15 min） ＋ Worked Examples</div><div class="lf-kp"><div class="lf-kp-title">知識點一：分割法 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <b>分割法</b>=<div style="text-align:center;margin:10px 0;"><svg style="max-width:260px;width:100%;height:auto;display:block;margin:8px auto;" viewbox="0 0 260 200" xmlns="http://www.w3.org/2000/svg">
+<polygon fill="#DBEAFE" points="20,20 180,20 180,140 80,140 80,60 20,60" stroke="#1A3C6D" stroke-width="2.5"></polygon>
+<line stroke="#6B7280" stroke-dasharray="4,3" stroke-width="1" x1="80" x2="180" y1="60" y2="60"></line>
+<line stroke="#6B7280" stroke-dasharray="4,3" stroke-width="1" x1="80" x2="80" y1="60" y2="140"></line>
+<line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="20" x2="180" y1="32" y2="32"></line>
+<line stroke="#6B7280" stroke-width="1" x1="20" x2="20" y1="27" y2="37"></line>
+<line stroke="#6B7280" stroke-width="1" x1="180" x2="180" y1="27" y2="37"></line>
+<text fill="#6B7280" font-family="Noto Sans HK,sans-serif" font-size="10" text-anchor="middle" x="100.0" y="46">8 cm</text>
+<line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="195" x2="195" y1="20" y2="140"></line>
+<line stroke="#6B7280" stroke-width="1" x1="190" x2="200" y1="20" y2="20"></line>
+<line stroke="#6B7280" stroke-width="1" x1="190" x2="200" y1="140" y2="140"></line>
+</svg></div>將組合圖形切成幾個簡單圖形，分別計Area後加總<br/>② 常用切割：L形→2個Rectangle；T形→2個Rectangle；十字形→3或5個Rectangle<br/>③ <b>步驟：</b>畫分界線→標尺寸→分別計Area→相加<br/>④ 例：L形（6×2+4×3）→Area=6×2+4×3=12+12=24cm²<br/>⑤ <b>關鍵：</b>每塊都係規則形狀，唔好整出Triangle！</div></div><div class="lf-kp"><div class="lf-kp-title">知識點二：填補法 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA</span></div><div class="lf-kp-rules">① <b>填補法</b>=將不規則圖形補成一個大Rectangle，再減去補上嘅部分<br/>② 例：L形可補成大Rectangle（6×5），再減去缺角（4×3）<br/>→Area=6×5−4×3=30−12=18cm²<br/>③ <b>選擇方法：</b>如果缺嘅部分規則→用填補法更簡單<br/>④ Mnemonic：「補完成大Rectangle，減返缺角就搞掂！」</div></div><div class="lf-kp"><div class="lf-kp-title">知識點三：分割vs填補選擇策略 <span class="lf-sspa-badge lf-sspa-high">🟡 SSPA</span></div><div class="lf-kp-rules">① <b>分割法適用場景：</b>圖形可以清楚分成2-3個Rectangle<br/>② <b>填補法適用場景：</b>圖形近似Rectangle只缺一角<br/>③ <b>兩種方法互驗：</b>分割計一次，填補計一次→答案應該一樣！<br/>④ <b>標註技巧：</b>每條邊都標上長度，唔標嘅邊要從已知邊推算</div></div><div class="lf-ex"><div class="lf-ex-title">例1</div><div class="lf-ex-q">一個L形：上方Rectangle8cm×3cm，左下方Rectangle4cm×5cm。用分割法求Area。</div></div><div class="lf-ex"><div class="lf-ex-title">例2</div><div class="lf-ex-q">同上L形：補成大Rectangle，用填補法驗算。</div></div><div class="lf-ex"><div class="lf-ex-title">例3</div><div class="lf-ex-q">一個T形：上方橫條10cm×3cm，中間豎條3cm×6cm。求總Area。</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ Trap引爆</div>L形分成兩個Rectangle 6×3=18 4×3=12<br/>18+12=30<br/>但重疊部分3×3=9冇減！<br/><b>❌ 錯！</b></div><div class="lf-ex-right"><div class="lf-ex-label">✅ Correct Approach</div>正確分割=不重疊分割！<br/>分界線在正確位置<br/>確保各塊唔重疊 ✓</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ Trap引爆</div>填補法：大Rectangle6×5=30<br/>減去缺角=30−3=27<br/>但缺角係4×3=12！<br/><b>❌ 錯！</b></div><div class="lf-ex-right"><div class="lf-ex-label">✅ Correct Approach</div>大Rectangle：6×5=30<br/>缺角：4×3=12（係Rectangle！）<br/>Area：30−12=18 ✓</div></div><div class="lf-ex-compare"><div class="lf-ex-wrong"><div class="lf-ex-label">❌ Trap引爆</div>T形：橫條10×3=30 豎條3×6=18<br/>總=30+18=48<br/><b>但重疊計漏咗3×3=9！</b></div><div class="lf-ex-right"><div class="lf-ex-label">✅ Correct Approach</div>橫豎重疊部分=3×3=9<br/>正確：30+18−9=39 ✓<br/>或：30+(3×3)=39 ✓</div></div><div class="warn">⚠️ 分割時每塊之間唔可以有重疊！分界線要清晰，一塊塊分離咁計。</div><div class="warn">⚠️ 填補法最易錯係缺角Area計錯！缺角通常都係Rectangle，要確認佢嘅長和闊。</div><div class="warn">⚠️ 做完用另一種方法驗算！分割同填補答案應該完全一樣。</div></div><div><div class="lf-h1">三、Tiered Practice （20 min）</div><div class="lf-h2">🌱 Foundation Tier（共6題） Foundation Tier（All Must Complete）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr><tr><td class="lf-qn">6</td><td>一個L形分成兩個Rectangle：4×2和3×5。總Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">7</td><td>大Rectangle8×5，入面挖去3×2洞口。剩餘Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">8</td><td>U形：兩個豎條（各6×2）+底條（4×2）。總Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">9</td><td>十字形分成5個小Square（邊長各2cm）。總Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">10</td><td>Rectangle10×6剪去右下角3×4。剩餘Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">11</td><td>T形：橫條8cm×2cm，豎條2cm×5cm。用分割法求Area。</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🌿 Intermediate Tier（共5題） Intermediate Tier（🚶🚀 Optional）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr><tr><td class="lf-qn">12</td><td>L形：將大Rectangle12×9嘅左上角（6×5）剪去。Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">13</td><td>回字形：外框8×8，內框4×4。Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">14</td><td>Trapezoid田：上8×4、下12×3，重疊4×2。總Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">15</td><td>階Trapezoid：第一級6×2、第二級4×2、第三級2×2。Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">16</td><td>公園L形草地：12×7大Rectangle減左上角5×3。Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🌳 Challenge Tier（共5題） Challenge Tier（🚀 Optional）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr><tr><td class="lf-qn">17</td><td>不規則圖形分成3個Rectangle（6×3,4×2,3×5）唔重疊。總Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">18</td><td>Rectangle15×10中間挖L形洞（由4×3和2×5組成）。剩餘Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">19</td><td>一個圖形分割法計出48cm²，填補法計出52cm²。邊個啱？點解？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">20</td><td>牆長8m高4m，中間有2m×1.5m窗和1m×2m門。牆Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">21</td><td>H形：兩條豎條（各8×2）加橫條（4×2）。Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table><div class="lf-h2">🏔️ Extreme Tier（共2題） </div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr><tr><td class="lf-qn">22</td><td>20×15Rectangle四角各剪去3×3Square。剩餘Area=？Perimeter=？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">23</td><td>不規則六邊形用3種不同分割方法計Area。畫出來並比較。</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">四、Word Problems （12 min）（SSPA 文字題，共 8 題）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr><tr><td class="lf-qn">24</td><td>海報長60cm闊40cm，中間貼20cm×15cm相。未被遮Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">25</td><td>課室地面L形：前半8m×6m，後半4m×4m。總Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">26</td><td>花園15m×10m，中間兩條交叉小路（各闊1m）。種植Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">27</td><td>牆3m×2m上面凸出1m×0.5m（T形）。總Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">28</td><td>三塊地毯：兩塊3m×2m+一塊4m×3m。總Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">29</td><td>游泳池25m×15m，旁2m闊行人路圍住。路Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">30</td><td>拼布被面：5個30cmSquare+4個30cm×20cmRectangle。總Area用m²表示。</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">31</td><td>運動場100m×60mRectangle加兩個半Circle形。Rectangle部分Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">五、Homework （課後完成）</div><div class="lf-h2">Foundation (Required)（共 9 題）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr><tr><td class="lf-qn">H1</td><td>L形：大Rectangle6×7減去3×3缺角。Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H2</td><td>T形：橫條6×2，豎條2×4。Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H3</td><td>Rectangle9×6挖去中間3×4的洞。剩餘Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H4</td><td>兩個Rectangle拼埋：5×3和4×2，冇重疊。總Area=？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H5</td><td>十字形分成5個小Square，各邊長3cm。總Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H6</td><td>L形用分割計得35cm²，填補計得35cm²。可靠嗎？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H7</td><td>回字形：外框10×8，內框6×4。Area=？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H8</td><td>組合圖形分割成4塊：3×2、4×3、2×2、5×1。總Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H9</td><td>Rectangle12×8四角各剪去1×1。用分割和填補各計一次。</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr></table><div class="lf-h2">Advanced (Optional)（共 5 題 🚀）</div><table class="lf-qt"><tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr><tr><td class="lf-qn">H10</td><td>田字形（4個相同Rectangle），每個5×3，冇重疊。總Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H11</td><td>牆長10m高3m，有兩個2m×1m窗和2.5m×1m門。剩餘Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H12</td><td>大Rectangle20×12減去兩個角（各5×3和4×2）。Area=？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H13</td><td>花園長30m闊20m，中間2m闊十字路。種植Area=？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr><tr><td class="lf-qn">H14</td><td>E形圖案：三條橫各6×2，一條豎8×2連接。求總Area。</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr></table></div><div><div class="lf-h1">六、Common Error Summary （8 min）</div><div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self Check（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅Trap</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住Mnemonic</span>
+</div></div>
+<table class="et"><tr><th>#</th><th>Common Error（❌ Trap）</th><th>Correct Approach（✅）</th></tr><tr><td>1</td><td><b>重疊部分雙重計</b></td><td>分割圖形時分界線要確保各塊完全分離，唔可以重疊計兩次。</td></tr><tr><td>2</td><td><b>填補法缺角計錯</b></td><td>缺角係完整嘅Rectangle！確認缺角嘅長和闊再計Area。</td></tr><tr><td>3</td><td><b>分割漏計某塊</b></td><td>複雜圖形分多塊時，做清單：每塊尺寸和Area，打剔確認全部加齊。</td></tr><tr><td>4</td><td><b>單位唔統一</b></td><td>全部尺寸要先統一單位先好開始計！cm/m混用會計錯100倍。</td></tr><tr><td>5</td><td><b>填補後忘記減</b></td><td>填補=大Area−補上去嘅Area−挖空嘅Area。減完先係答案！</td></tr><tr><td>6</td><td><b>兩種方法答案不一致</b></td><td>唔一致=一定有嘢錯。立即用第三種分割方法再驗。</td></tr><tr><td>7</td><td><b>剪角後尺寸推算錯</b></td><td>剪去四角後，剩餘邊長=原長−2×剪角邊長。</td></tr></table><div class="mn">🧠 Mnemonic：「組合圖形計Area，分割填補任你揀。分割係切開逐塊加，填補係補完再減返。最緊要驗算唔同方法，答案一致先過關！」</div><div class="lf-h1">七、4-Step Problem Solving （5 min）</div><div class="sc"><div class="sc-card"><div class="snum">1</div><div class="stitle">觀察</div><div class="sdetail">圖形可以點分？切幾刀？補咩形？邊種快？</div></div><div class="sc-card"><div class="snum">2</div><div class="stitle">標註</div><div class="sdetail">每條已知邊標長度。缺邊從已知邊推算。</div></div><div class="sc-card"><div class="snum">3</div><div class="stitle">計算</div><div class="sdetail">分割：逐塊Area相加。填補：大Area−缺的Area。兩法互驗。</div></div><div class="sc-card"><div class="snum">4</div><div class="stitle">覆檢</div><div class="sdetail">各塊加總=填補結果？單位正確？冇漏冇重複？</div></div></div>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「組合圖形Area」</b>。 重點：❶ 掌握分割法 ❷ 掌握填補法 ❸ 計算L形/T形等組合圖形Area。<br/>
+<b>最易錯嘅 3 個Trap：</b> 🪤 T16 重疊部分重複計算 · T17 填補後忘記減 · T18 分割後漏計某一塊<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「組合圖形Area」嘅最重要Mnemonic俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查Trap？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳Challenge Tier 17-21
+  </div>
+<div class="end-note">🪤 LF Academy · LF Academy · We don't teach math — we teach trap avoidance.。 · LF-P3-下-L43</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 LF-P3-下-L43</div></div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">Ctrl+P | LF-P3-下-L43<div class="lf-footer">LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</div>
+</body></html>

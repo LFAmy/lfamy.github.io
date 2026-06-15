@@ -1,0 +1,61 @@
+# LF Academy Enrichment Schema v1.0
+# Formal contract for all enrichment JSON files
+
+{
+  "enrichment_schema": {
+    "version": "1.0",
+    "required_fields": ["advanced_traps", "sspa_challenges", "thinking_tip"],
+    "optional_fields": ["cross_grade_ref", "traps", "challenge_questions"],
+    
+    "advanced_traps": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "itemSchema": {
+        "wrong": "string (min 10 chars) - the incorrect approach",
+        "why_wrong": "string (min 10 chars) - explanation of error",
+        "right": "string (min 10 chars) - the correct approach",
+        "note": "string (min 10 chars) - concise learning point"
+      }
+    },
+    
+    "sspa_challenges": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "itemSchema": {
+        "question": "string (min 20 chars) - clear problem statement",
+        "answer": "string (min 3 chars) - concise final answer, NO meta-commentary",
+        "solution": "string (min 50 chars) - step-by-step solution with verification",
+        "marks": "integer (1-8, grade-appropriate: P3≤5, P4≤6, P5≤7, P6≤8)"
+      }
+    },
+    
+    "thinking_tip": {
+      "type": "string",
+      "minLength": 40,
+      "description": "Learning strategy or mindset tip for the topic"
+    },
+    
+    "cross_grade_ref": {
+      "type": "string (optional)",
+      "description": "Format: 【跨級知識鏈】topic: PX: lectures | PY: lectures"
+    },
+    
+    "quality_rules": {
+      "no_meta_commentary": "Solutions MUST NOT contain trial-and-error, '等等', '不對', '重新設計', '改為'",
+      "no_algebra_in_p3": "P3 solutions MUST NOT use x=, algebra, or equation solving",
+      "grade_appropriate_vocab": "Use vocabulary appropriate for grade level",
+      "self_contained_solutions": "Solutions must be complete, not referencing external knowledge",
+      "verifiable_answers": "Answers must be mathematically verifiable"
+    },
+    
+    "scoring_rubric": {
+      "structure": "0-25: completeness of traps, challenges, tip",
+      "content": "0-20: answer coherence, no meta-commentary",
+      "grade_appropriate": "0-20: topics aligned with curriculum",
+      "solution_quality": "0-20: step-by-step, verification, clarity",
+      "visual": "0-15: references to diagrams, SVGs, visual aids"
+    }
+  }
+}

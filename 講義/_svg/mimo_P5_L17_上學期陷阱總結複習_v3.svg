@@ -1,0 +1,290 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 網格背景圖案 -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E8ECF0" stroke-width="0.5"/>
+    </pattern>
+
+    <!-- 紅燈致命錯誤 - 多層放射漸變 -->
+    <radialGradient id="redGrad" cx="40%" cy="35%" r="65%" fx="35%" fy="30%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="25%" stop-color="#FF4444"/>
+      <stop offset="50%" stop-color="#E53935"/>
+      <stop offset="75%" stop-color="#C62828"/>
+      <stop offset="100%" stop-color="#8E0000"/>
+    </radialGradient>
+
+    <!-- 紅燈高光 -->
+    <radialGradient id="redHighlight" cx="30%" cy="25%" r="40%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.7)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0.2)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+
+    <!-- 黃燈常見錯誤 - 多層放射漸變 -->
+    <radialGradient id="yellowGrad" cx="40%" cy="35%" r="65%" fx="35%" fy="30%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="25%" stop-color="#FFD54F"/>
+      <stop offset="50%" stop-color="#FFC107"/>
+      <stop offset="75%" stop-color="#FFA000"/>
+      <stop offset="100%" stop-color="#FF6F00"/>
+    </radialGradient>
+
+    <!-- 黃燈高光 -->
+    <radialGradient id="yellowHighlight" cx="30%" cy="25%" r="40%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.8)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0.3)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+
+    <!-- 綠燈已掌握 - 多層放射漸變 -->
+    <radialGradient id="greenGrad" cx="40%" cy="35%" r="65%" fx="35%" fy="30%">
+      <stop offset="0%" stop-color="#81C784"/>
+      <stop offset="25%" stop-color="#66BB6A"/>
+      <stop offset="50%" stop-color="#43A047"/>
+      <stop offset="75%" stop-color="#2E7D32"/>
+      <stop offset="100%" stop-color="#1B5E20"/>
+    </radialGradient>
+
+    <!-- 綠燈高光 -->
+    <radialGradient id="greenHighlight" cx="30%" cy="25%" r="40%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.7)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0.2)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+
+    <!-- 卡片背景漸變 -->
+    <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F5F7FA"/>
+    </linearGradient>
+
+    <!-- 標題漸變 -->
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1A237E"/>
+      <stop offset="50%" stop-color="#283593"/>
+      <stop offset="100%" stop-color="#1A237E"/>
+    </linearGradient>
+
+    <!-- 箭頭 - 向下 -->
+    <g id="arrowDown">
+      <path d="M0,0 L8,12 L16,0" fill="none" stroke="#78909C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- 箭頭 - 向右 -->
+    <g id="arrowRight">
+      <path d="M0,0 L12,8 L0,16" fill="none" stroke="#78909C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- 雙層陰影濾鏡 -->
+    <filter id="doubleShadow" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.12)"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.08)"/>
+    </filter>
+
+    <!-- 輕陰影濾鏡 -->
+    <filter id="lightShadow" x="-5%" y="-5%" width="115%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="rgba(0,0,0,0.1)"/>
+    </filter>
+
+    <!-- 發光濾鏡 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#FAFBFC"/>
+  <rect width="600" height="400" fill="url(#grid)"/>
+
+  <!-- 頂部裝飾條 -->
+  <rect x="0" y="0" width="600" height="5" fill="url(#titleGrad)" opacity="0.8"/>
+
+  <!-- 主標題 -->
+  <text x="300" y="38" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="20" font-weight="700" fill="url(#titleGrad)" letter-spacing="2">
+    🚦 P5 數學陷阱總結
+  </text>
+  <text x="300" y="56" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="11" fill="#78909C" letter-spacing="1">
+    紅燈 · 黃燈 · 綠燈 ｜ 掌握你的學習進度
+  </text>
+
+  <!-- 三欄佈局 -->
+  <!-- ============ 紅燈欄：致命錯誤 ============ -->
+  <g transform="translate(20, 75)">
+    <!-- 紅燈卡片 - 雙層陰影 -->
+    <rect x="0" y="0" width="175" height="300" rx="14" ry="14" fill="url(#cardBg)" filter="url(#doubleShadow)"/>
+    <rect x="0" y="0" width="175" height="300" rx="14" ry="14" fill="none" stroke="#E53935" stroke-width="1.5" opacity="0.3"/>
+
+    <!-- 紅燈指示燈 - 3D 光影 -->
+    <circle cx="87" cy="35" r="18" fill="url(#redGrad)" filter="url(#glow)"/>
+    <circle cx="87" cy="35" r="18" fill="url(#redHighlight)"/>
+    <circle cx="87" cy="35" r="18" fill="none" stroke="#8E0000" stroke-width="0.5" opacity="0.5"/>
+
+    <!-- 紅燈內圈高光 -->
+    <ellipse cx="80" cy="28" rx="6" ry="4" fill="rgba(255,255,255,0.35)"/>
+
+    <!-- 欄目標題 -->
+    <text x="87" y="68" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="13" font-weight="700" fill="#C62828">
+      致命錯誤
+    </text>
+    <text x="87" y="82" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="9" fill="#E53935" opacity="0.7">
+      ⚠️ 必須立即糾正
+    </text>
+
+    <!-- 分隔線 -->
+    <line x1="15" y1="92" x2="160" y2="92" stroke="#E53935" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- 陷阱項目 -->
+    <g font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="10" fill="#37474F">
+      <!-- 項目 1 -->
+      <rect x="12" y="100" width="151" height="28" rx="6" fill="#FFEBEE" opacity="0.6"/>
+      <text x="20" y="117" font-weight="600" fill="#C62828">✖ 小數點對位</text>
+      <text x="20" y="126" font-size="8" fill="#78909C">加減時未對齊小數點</text>
+
+      <!-- 項目 2 -->
+      <rect x="12" y="134" width="151" height="28" rx="6" fill="#FFEBEE" opacity="0.6"/>
+      <text x="20" y="151" font-weight="600" fill="#C62828">✖ 分數通分錯誤</text>
+      <text x="20" y="160" font-size="8" fill="#78909C">最小公倍數找錯</text>
+
+      <!-- 項目 3 -->
+      <rect x="12" y="168" width="151" height="28" rx="6" fill="#FFEBEE" opacity="0.6"/>
+      <text x="20" y="185" font-weight="600" fill="#C62828">✖ 周長面積混淆</text>
+      <text x="20" y="194" font-size="8" fill="#78909C">公式用錯／單位漏寫</text>
+
+      <!-- 項目 4 -->
+      <rect x="12" y="202" width="151" height="28" rx="6" fill="#FFEBEE" opacity="0.6"/>
+      <text x="20" y="219" font-weight="600" fill="#C62828">✖ 除法餘數處理</text>
+      <text x="20" y="228" font-size="8" fill="#78909C">餘數＞除數未檢查</text>
+    </g>
+
+    <!-- 底部提示 -->
+    <rect x="12" y="248" width="151" height="22" rx="6" fill="#E53935" opacity="0.12"/>
+    <text x="87" y="263" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="9" fill="#C62828" font-weight="600">
+      🎯 先搞懂概念再做題
+    </text>
+
+    <!-- 箭頭指向下一欄 -->
+    <use href="#arrowRight" x="168" y="140"/>
+  </g>
+
+  <!-- ============ 黃燈欄：常見錯誤 ============ -->
+  <g transform="translate(212, 75)">
+    <!-- 黃燈卡片 -->
+    <rect x="0" y="0" width="175" height="300" rx="14" ry="14" fill="url(#cardBg)" filter="url(#doubleShadow)"/>
+    <rect x="0" y="0" width="175" height="300" rx="14" ry="14" fill="none" stroke="#FFA000" stroke-width="1.5" opacity="0.3"/>
+
+    <!-- 黃燈指示燈 -->
+    <circle cx="87" cy="35" r="18" fill="url(#yellowGrad)" filter="url(#glow)"/>
+    <circle cx="87" cy="35" r="18" fill="url(#yellowHighlight)"/>
+    <circle cx="87" cy="35" r="18" fill="none" stroke="#FF6F00" stroke-width="0.5" opacity="0.5"/>
+    <ellipse cx="80" cy="28" rx="6" ry="4" fill="rgba(255,255,255,0.4)"/>
+
+    <!-- 欄目標題 -->
+    <text x="87" y="68" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="13" font-weight="700" fill="#E65100">
+      常見錯誤
+    </text>
+    <text x="87" y="82" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="9" fill="#FFA000" opacity="0.7">
+      🔄 需要多加練習
+    </text>
+
+    <!-- 分隔線 -->
+    <line x1="15" y1="92" x2="160" y2="92" stroke="#FFA000" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- 陷阱項目 -->
+    <g font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="10" fill="#37474F">
+      <!-- 項目 1 -->
+      <rect x="12" y="100" width="151" height="28" rx="6" fill="#FFF8E1" opacity="0.7"/>
+      <text x="20" y="117" font-weight="600" fill="#E65100">△ 約分不徹底</text>
+      <text x="20" y="126" font-size="8" fill="#78909C">分子分母還有公因數</text>
+
+      <!-- 項目 2 -->
+      <rect x="12" y="134" width="151" height="28" rx="6" fill="#FFF8E1" opacity="0.7"/>
+      <text x="20" y="151" font-weight="600" fill="#E65100">△ 單位換算混淆</text>
+      <text x="20" y="160" font-size="8" fill="#78909C">km↔m 進率 1000</text>
+
+      <!-- 項目 3 -->
+      <rect x="12" y="168" width="151" height="28" rx="6" fill="#FFF8E1" opacity="0.7"/>
+      <text x="20" y="185" font-weight="600" fill="#E65100">△ 括號運算順序</text>
+      <text x="20" y="194" font-size="8" fill="#78909C">先乘除後加減</text>
+
+      <!-- 項目 4 -->
+      <rect x="12" y="202" width="151" height="28" rx="6" fill="#FFF8E1" opacity="0.7"/>
+      <text x="20" y="219" font-weight="600" fill="#E65100">△ 分數加減分母</text>
+      <text x="20" y="228" font-size="8" fill="#78909C">分母不變分子相加減</text>
+    </g>
+
+    <!-- 底部提示 -->
+    <rect x="12" y="248" width="151" height="22" rx="6" fill="#FFA000" opacity="0.12"/>
+    <text x="87" y="263" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="9" fill="#E65100" font-weight="600">
+      📝 每日練習 5 題
+    </text>
+
+    <!-- 箭頭指向下一欄 -->
+    <use href="#arrowRight" x="168" y="140"/>
+  </g>
+
+  <!-- ============ 綠燈欄：已掌握 ============ -->
+  <g transform="translate(404, 75)">
+    <!-- 綠燈卡片 -->
+    <rect x="0" y="0" width="175" height="300" rx="14" ry="14" fill="url(#cardBg)" filter="url(#doubleShadow)"/>
+    <rect x="0" y="0" width="175" height="300" rx="14" ry="14" fill="none" stroke="#43A047" stroke-width="1.5" opacity="0.3"/>
+
+    <!-- 綠燈指示燈 -->
+    <circle cx="87" cy="35" r="18" fill="url(#greenGrad)" filter="url(#glow)"/>
+    <circle cx="87" cy="35" r="18" fill="url(#greenHighlight)"/>
+    <circle cx="87" cy="35" r="18" fill="none" stroke="#1B5E20" stroke-width="0.5" opacity="0.5"/>
+    <ellipse cx="80" cy="28" rx="6" ry="4" fill="rgba(255,255,255,0.35)"/>
+
+    <!-- 欄目標題 -->
+    <text x="87" y="68" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="13" font-weight="700" fill="#2E7D32">
+      已掌握
+    </text>
+    <text x="87" y="82" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="9" fill="#43A047" opacity="0.7">
+      ✅ 可以放心了
+    </text>
+
+    <!-- 分隔線 -->
+    <line x1="15" y1="92" x2="160" y2="92" stroke="#43A047" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- 陷阱項目 -->
+    <g font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="10" fill="#37474F">
+      <!-- 項目 1 -->
+      <rect x="12" y="100" width="151" height="28" rx="6" fill="#E8F5E9" opacity="0.7"/>
+      <text x="20" y="117" font-weight="600" fill="#2E7D32">✓ 整數四則運算</text>
+      <text x="20" y="126" font-size="8" fill="#78909C">加減乘除都正確</text>
+
+      <!-- 項目 2 -->
+      <rect x="12" y="134" width="151" height="28" rx="6" fill="#E8F5E9" opacity="0.7"/>
+      <text x="20" y="151" font-weight="600" fill="#2E7D32">✓ 分數基本概念</text>
+      <text x="20" y="160" font-size="8" fill="#78909C">分子分母意義清楚</text>
+
+      <!-- 項目 3 -->
+      <rect x="12" y="168" width="151" height="28" rx="6" fill="#E8F5E9" opacity="0.7"/>
+      <text x="20" y="185" font-weight="600" fill="#2E7D32">✓ 圖形辨認</text>
+      <text x="20" y="194" font-size="8" fill="#78909C">正方形長方形三角形</text>
+
+      <!-- 項目 4 -->
+      <rect x="12" y="202" width="151" height="28" rx="6" fill="#E8F5E9" opacity="0.7"/>
+      <text x="20" y="219" font-weight="600" fill="#2E7D32">✓ 時間換算</text>
+      <text x="20" y="228" font-size="8" fill="#78909C">時分秒互換熟練</text>
+    </g>
+
+    <!-- 底部提示 -->
+    <rect x="12" y="248" width="151" height="22" rx="6" fill="#43A047" opacity="0.12"/>
+    <text x="87" y="263" text-anchor="middle" font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif" font-size="9" fill="#2E7D32" font-weight="600">
+      🏆 挑戰進階題目
+    </text>
+  </g>
+
+  <!-- 底部進度條 -->
+  <g transform="translate(50, 388)">
+    <rect x="0" y="0" width="500" height="4" rx="2" fill="#E8ECF0"/>
+    <rect x="0" y="0" width="160" height="4" rx="2" fill="#E53935" opacity="0.8"/>
+    <rect x="170" y="0" width="160" height="4" rx="2" fill="#FFA000" opacity="0.8"/>
+    <rect x="340" y="0" width="160" height="4" rx="2" fill="#43A047" opacity="0.8"/>
+  </g>
+</svg>

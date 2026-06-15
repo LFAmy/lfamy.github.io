@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LF-P5-S2-L26 Volume concept + cuboid/cuboid volume + surface area — Student Handout v6 (EN)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+  :root {
+    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
+    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
+    --lightbg:#F9FAFB; --borderc:#D1D5DB;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:'Noto Sans HK',sans-serif;
+    background:#E5E5E5; color:var(--ink);
+    font-size:13px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media print {
+    body { background:white; font-size:11px; }
+    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
+    .pb.cover-page { page-break-after:always; }
+    .page-break { page-break-before:always; }
+    .no-print { display:none!important; }
+    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
+    .qt td { padding:4px 6px; }
+    .qt { font-size:10.5px; }
+    .qt .qtxt { font-size:11.5px; }
+    .h1 { font-size:14px; margin:12px 0 7px; }
+    .h2 { font-size:12px; }
+    .kp { padding:7px 10px; }
+    .kp-rules { font-size:10.5px; }
+    .ex { padding:7px 10px; }
+    .ex-q { font-size:12px; }
+    .warn { font-size:10.5px; padding:5px 8px; }
+    .mn { font-size:12px; padding:8px 10px; }
+    .sc { gap:6px; }
+    .sc-i { padding:10px; }
+    .sc-i .n { width:26px;height:26px;font-size:14px; }
+    .sc-i .t { font-size:11px; }
+    .tc { gap:8px; }
+    .tc-w, .tc-r { padding:10px; }
+    .et { font-size:10px; }
+  }
+
+  .container { max-width:1000px; margin:0 auto; }
+
+  .pb {
+    width:100%;
+    background:var(--white);
+    padding:36px 48px;
+    display:flex; flex-direction:column;
+  }
+
+  /* ── FRACTIONS ── */
+  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
+  .f .n { font-size:inherit; line-height:1.15; }
+  .f .d { font-size:inherit; line-height:1.15; }
+  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+
+  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
+  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
+  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+
+  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
+  .fi .n { font-size:inherit; line-height:1; }
+  .fi .d { font-size:inherit; line-height:1; }
+  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+
+  /* ── COVER ── */
+  .cover {
+    justify-content:center; align-items:center; text-align:center;
+    background:var(--white);
+  }
+  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
+  .cv-badge {
+    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
+    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
+    margin:16px 0;
+  }
+  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
+  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
+  .cv-info {
+    display:inline-block; text-align:left;
+    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
+    padding:18px 24px; font-size:12px; line-height:2;
+  }
+  .cv-info b { color:var(--blue); }
+  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
+  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+
+  /* ── SECTIONS ── */
+  .h1 {
+    font-family:'Noto Serif HK',serif;
+    font-size:17px; font-weight:900; color:var(--blue);
+    padding:7px 12px; margin:18px 0 10px;
+    border-left:4px solid var(--gold); background:#FFFBEB;
+  }
+  .h2 {
+    font-family:'Noto Serif HK',serif;
+    font-size:14px; font-weight:700; color:var(--blue);
+    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
+  }
+
+  /* ── KP ── */
+  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
+  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
+  .kp-rules { font-size:12px; line-height:1.7; }
+  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+
+  /* ── EXAMPLE ── */
+  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
+  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
+  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+
+  /* ── WARN ── */
+  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+
+  /* ── MNEMONIC ── */
+  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+
+  /* ── TABLES ── */
+  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
+  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
+  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
+  .qt tr:nth-child(even) td { background:#FAFBFC; }
+  .qt .qn { width:34px; text-align:center; font-weight:700; }
+  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
+  .qt .qw {
+    min-height:90px;
+    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
+  }
+  .qt .qtxt { font-size:13px; line-height:1.7; }
+  .d1 { background:#FEF3C7; color:#92400E; }
+  .d2 { background:#DCFCE7; color:#166534; }
+  .d3 { background:#DBEAFE; color:#1E40AF; }
+  .d4 { background:#F3E8FF; color:#7C3AED; }
+
+  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
+  .sh { background:#FEE2E2; color:#991B1B; }
+  .sm { background:#FEF3C7; color:#92400E; }
+
+  /* ── TRAP COMPARE ── */
+  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
+  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
+  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
+  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .tc-w .eq { font-size:16px; color:var(--red); }
+  .tc-r .eq { font-size:16px; color:var(--green); }
+  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
+  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+
+  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
+  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
+  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .sc-i .t { font-size:13px; font-weight:900; }
+  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+
+  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
+  .et th { background:var(--red); color:white; padding:5px 8px; }
+  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+
+  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+
+  .svg-wrap { text-align:center; margin:10px 0; }
+  .svg-wrap svg { max-width:100%; }
+
+/* MathJax print/PDF fixes */
+@media print {
+  mjx-container[display="true"] { margin: 8px 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+</style>
+<script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="container">
+<!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
+<div class="pb cover-page cover">
+<div class="cv-logo">Lam Fung Academy<span style="font-weight:400;color:#C9A84C;font-size:14px;">· LF Academy</span></div>
+<div class="cv-badge">Primary 5 · Lesson 26 · Student Handout</div>
+<div class="cv-title">Volume concept + cuboid/cuboid volume + surface area</div>
+<div class="cv-sub">Unit 1 · 3D shape graphics · 65 minutes · 1-to-3 Online Lesson</div>
+<div class="cv-info">
+<b>Corresponding textbooks:</b>"New Thinking in Primary School Mathematics (Second Edition)" Volume 5B Unit 1 + Modern Education 5L B Unit 1<br/>
+<b>Core Traps:</b>🪴 T1 Solid - Volume vs Surface Area Confusion · Unit Mismatch · Misuse of Cube Formula<br/>
+<b>SSPA Related:</b><span class="ss sh">🔴 High frequency</span>The sub-test is required every year, accounting for about 12-15% of Paper 1<br/>
+<b>Prerequisite knowledge:</b>P4 Perimeter and area of rectangle/square · Power calculation · Unit conversion (m↔cm)<br/>
+<b>Course goal:</b>❶ Understand the concept and units of volume ❷ Formula for volume of cuboid ❸ Volume of cube ❹ Calculation of surface area and its difference with volume</div>
+<div class="cv-row">
+<span>Student Name: <span class="ln"></span></span>
+<span>Class: <span class="ln"></span></span>
+<span>Date: <span class="ln"></span></span>
+<span>Time Spent: <span class="ln"></span></span>
+</div>
+</div>
+<!-- ═══════════════ PAGE 2: WARM-UP + KP1 ═══════════════ -->
+<div class="pb">
+<div class="h1">I.Warm-Up Questions（total 5 question，5 minutes）</div>
+
+<div class="game-box"><div class="game-title">📐 幾何探險家</div><div class="game-desc">計算面積&體積，小心公式陷阱！三角形要除2、梯形上下底唔好調轉！</div><div class="game-action">🔍 開始探險 →</div></div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space（Show full working）</th></tr>
+<tr><td class="qn">1</td><td class="qtxt">The length of the rectangle is 8 cm, the width is 5 cm, the area = ? What is the unit?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">2</td><td class="qtxt">1 m = ？cm；1 m² = ？cm²</td><td class="qd d1">Basic</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">3</td><td class="qtxt">Calculate 12 × 5 × 3 = ?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">4</td><td class="qtxt">Calculate 7³ = ? (i.e. 7×7×7)</td><td class="qd d2">Advanced</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">5</td><td class="qtxt">How many faces does a cube have? What is the shape of each face?</td><td class="qd d1">Basic</td><td class="qw" style="min-height:90px;"></td></tr>
+</table>
+<div class="h1">II.Core Knowledge ＋ Worked Examples</div>
+<div class="kp">
+<div class="kp-title">Knowledge point 1: Volume concept and units (cm³ and m³) 🔴 SSPA</div>
+<div class="kp-rules">
+<strong>What is the volume?</strong><br/>① Volume = object<strong>The size of the space occupied</strong>(three dimensions: length × width × height)<br/>② 1 cm³ = the space occupied by a cube with a side length of 1 cm (the size of a dice)<br/>③ 1 m³ = side length 1 m cube (about the size of a large washing machine)<br/>
+      ④ <strong>Unit conversion (very important!)</strong>：1 m = 100 cm，1 m³ = 100×100×100 = <strong>1,000,000 cm³</strong><br/>
+      ⑤ <strong>Area vs Volume |||SEP|||: Area = two dimensions (cm²); volume = three dimensions (cm³) -</strong>Never confuse units!<strong>Never mix up units!</strong>
+</div>
+<div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:300px;height:auto;" viewbox="0 0 300 170" xmlns="http://www.w3.org/2000/svg">
+<!-- 1cm³ isometric cube -->
+<rect fill="#DBEAFE" height="80" rx="1" stroke="#1A3C6D" stroke-width="2" width="80" x="80" y="60"></rect>
+<polygon fill="#BFDBFE" points="80,60 120,30 200,30 160,60" stroke="#1A3C6D" stroke-width="2"></polygon>
+<polygon fill="#93C5FD" points="160,60 200,30 200,110 160,140" stroke="#1A3C6D" stroke-width="2"></polygon>
+<!-- Edge labels -->
+<line marker-end="url(#arrowGold)" stroke="#C9A84C" stroke-width="1.5" x1="80" x2="160" y1="150" y2="150"></line>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="120" y="164">1 cm</text>
+<line marker-end="url(#arrowGold)" stroke="#C9A84C" stroke-width="1.5" x1="68" x2="68" y1="140" y2="60"></line>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="56" y="104">1 cm</text>
+<line marker-end="url(#arrowGold)" stroke="#C9A84C" stroke-width="1.5" x1="210" x2="210" y1="110" y2="30"></line>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="224" y="74">1 cm</text>
+<!-- Volume label -->
+<rect fill="#FEF3C7" height="22" rx="4" stroke="#C9A84C" stroke-width="1" width="48" x="95" y="83"></rect>
+<text fill="#1A3C6D" font-size="11" font-weight="900" text-anchor="middle" x="119" y="99">1 cm³</text>
+<!-- Arrow markers -->
+<defs>
+<marker id="arrowGold" markerheight="6" markerwidth="6" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#C9A84C"></path>
+</marker>
+</defs>
+</svg>
+<div style="font-size:9px;color:#6B7280;margin-top:2px;">Cube with side length 1 cm → Volume = 1 cm³ (size of three-dimensional space)</div>
+</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪴 Trap detonation example</div>
+<div class="ex-q">1 m³ = ？cm³</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (70% students)</div><div class="eq">1 m³ = 100 cm³ 😅</div><div class="why">I only did 1×100 and forgot to multiply each of the three dimensions by 100!</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">1 m³ = 100×100×100<br/>= <strong>1,000,000 cm³</strong></div><div class="why">1 m = 100 cm, cubed → 100³</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "Multiply one dimension by 100, two dimensions by ten thousand, three dimensions by one million - convert m to cm and see clearly the power!"</div>
+<div class="warn">⚠️ The most frequent error: m³ → cm³ forgetting to multiply by 1,000,000 (multiply the cubes by 100 each)</div>
+<div class="warn">⚠️ The second most frequent error: volume is measured in cm² - volume must be in "cubic" units (cm³ / m³)</div>
+<div class="h2">Knowledge Point - Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 1</td><td class="qtxt">Count: How many 1 cm³ small cubes are made of in the picture below? (Picture: 2×3×2 cuboid)</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">Example 2</td><td class="qtxt">2 m³ = ? cm³ (write down the conversion steps)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">Example 3</td><td class="qtxt">3,000,000 cm³ = ？m³</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+<div class="h2">Knowledge Point 1 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">6</td><td class="qtxt">A cube with side length 1 cm has volume = ? What is the unit?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:75px;"></td></tr>
+<tr><td class="qn">7</td><td class="qtxt">1.5 m³ = ？cm³</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">8</td><td class="qtxt">500,000 cm³ = ? m³ (answer as a decimal)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 3: KP2 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">📦 Volume representation of cuboid: length × width × height (three-dimensional space)</strong><br/>
+<svg height="170" viewbox="0 0 220 170" width="220" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="120" x="25" y="31"></rect><polygon fill="#DBEAFE" points="25,31 41,15 161,15 145,31" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="145,31 161,15 161,95 145,111" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="85" y="127">l</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Length = 8 units, width = 5 units, height = 3 units. Volume = 8×5×3=120 cubic units. Note that volume is a "three-dimensional" concept (cm³), not area (cm²)!</div>
+</div>
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:8px 0;">
+<div style="flex:1; min-width:200px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">🟦 Cube (special cuboid)</strong><br/>
+<svg height="200" viewbox="0 0 210 200" width="210" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="80" x="25" y="41"></rect><polygon fill="#DBEAFE" points="25,41 51,15 131,15 105,41" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="105,41 131,15 131,95 105,121" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="65" y="137">l</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Length = width = height = 5cm. V=a³=5³=125 cm³. The cube is a special case of the cuboid.</div>
+</div></div>
+<div style="flex:1; min-width:200px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">📏 Comparison: Area (2D·cm²)</strong><br/>
+<svg height="100" viewbox="0 0 190 100" width="190" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="60" stroke="#1A3C6D" stroke-width="3" width="120" x="35" y="15"></rect><polyline fill="none" points="45,15 45,25 35,25" stroke="#1A3C6D" stroke-width="2"></polyline><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="93">l</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="end" x="21" y="45">w</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Area of ​​rectangle = l × w (two dimensions). Don’t get confused: the unit of area is cm² and the unit of volume is cm³!</div>
+</div></div>
+</div>
+<div class="kp-title">Knowledge point 2: Volume of cuboid V = length × width × height 🔴 SSPA required test</div>
+<div class="kp-rules">
+<strong>Cuboid volume formula:</strong><br/>
+      ① <strong>V = L × W × H</strong>(length × width × height)<br/>② Essence: base area (length × width) × number of layers (height)<br/>③ Extension: given V and two of the sides, the third side can be found → L = V ÷ W ÷ H<br/>
+      ④ <strong>Unit consistency</strong>: Length, width and height must be in the same unit to be multiplied! Convert different units first</div>
+<div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:400px;height:auto;" viewbox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+<!-- Rectangular prism front face -->
+<rect fill="#DBEAFE" height="95" rx="1" stroke="#1A3C6D" stroke-width="2" width="160" x="50" y="55"></rect>
+<!-- Top face (L × W parallelogram) -->
+<polygon fill="#BFDBFE" points="50,55 90,25 250,25 210,55" stroke="#1A3C6D" stroke-width="2"></polygon>
+<!-- Right face (W × H parallelogram) -->
+<polygon fill="#93C5FD" points="210,55 250,25 250,120 210,150" stroke="#1A3C6D" stroke-width="2"></polygon>
+<!-- Dimension arrows -->
+<line stroke="#1A3C6D" stroke-width="1.5" x1="50" x2="210" y1="164" y2="164"></line>
+<polygon fill="#1A3C6D" points="50,164 58,160 58,168"></polygon>
+<polygon fill="#1A3C6D" points="210,164 202,160 202,168"></polygon>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="40" x2="40" y1="150" y2="55"></line>
+<polygon fill="#1A3C6D" points="40,150 36,142 44,142"></polygon>
+<polygon fill="#1A3C6D" points="40,55 36,63 44,63"></polygon>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="225" x2="255" y1="20" y2="20"></line>
+<polygon fill="#1A3C6D" points="225,20 233,16 233,24"></polygon>
+<polygon fill="#1A3C6D" points="255,20 247,16 247,24"></polygon>
+<!-- Dimension labels -->
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="130" y="178">Length L</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="26" y="108">High H</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="245" y="18">Width W</text>
+<!-- Formula box -->
+<rect fill="#FEF3C7" height="40" rx="6" stroke="#C9A84C" stroke-width="1.5" width="105" x="280" y="75"></rect>
+<text fill="#DC2626" font-size="13" font-weight="900" text-anchor="middle" x="332" y="100">V = L × W × H</text>
+</svg>
+<div style="font-size:9px;color:#6B7280;margin-top:2px;">Volume of cuboid = length × width × height. Note that the three sides must have the same unit to be multiplied.</div>
+</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪴 Trap detonation example</div>
+<div class="ex-q">A cuboid is 2 m long, 50 cm wide, and 30 cm high. Volume = ? cm³</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (60% students)</div><div class="eq">V = 2×50×30 = 3000 cm³ ❌</div><div class="why">The units are not unified! 2 m is 200 cm, not 2!</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">2 m = 200 cm<br/>V = 200×50×30<br/>= <strong>300,000 cm³</strong></div><div class="why">Unify the units first → then multiply!</div></div>
+</div>
+</div>
+<div class="mn">🧠 Tip: "Length multiplied by width multiplied by height, the units must be consistent - m and cm cannot be mixed together and multiplied together!"</div>
+<div class="warn">⚠️ Fatal error: Multiplying different units directly (2 m × 50 cm × 30 cm) → The answer must be wrong!</div>
+<div class="h2">Knowledge Point 2 Worked Examples</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 4</td><td class="qtxt">The cuboid is 10 cm long, 6 cm wide, and 4 cm high. Volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">Example 5</td><td class="qtxt">The cuboid is 1.5 m long, 0.8 m wide, and 0.5 m high. Volume = ? m³</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">Example 6</td><td class="qtxt">The cuboid has a volume of 240 cm³, a length of 10 cm, and a width of 6 cm. High = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+<div class="h2">Knowledge Point 2 Synchronization practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">9</td><td class="qtxt">Cuboid 12×5×8 cm. Volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">10</td><td class="qtxt">Cuboid 3 m × 2 m × 1.5 m. Volume = ? m³</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">11</td><td class="qtxt">The cuboid is 1 m long, 40 cm wide, and 25 cm high. Volume = ? cm³</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">12</td><td class="qtxt">The cuboid has a volume of 360 cm³, a length of 12 cm, and a height of 5 cm. Broad = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">13</td><td class="qtxt">The cuboid is 80 cm long, 0.5 m wide, and 40 cm high. Volume = ? m³ (answer as a decimal)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 4: KP3 + KP4 ═══════════════ -->
+<div class="pb">
+<div class="kp">
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">📐 Volume of cuboid V = length × width × height — 3D visualization</strong><br/>
+<svg height="180" viewbox="0 0 250 180" width="250" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="140" x="25" y="35"></rect><polygon fill="#DBEAFE" points="25,35 45,15 185,15 165,35" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="165,35 185,15 185,95 165,115" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="131">l</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Marking: length (l)=10cm, width (w)=6cm, height (h)=4cm. Volume=10×6×4=240 cm³. The units of each side must be consistent!</div>
+</div>
+<div class="kp-title">Knowledge point 3: Volume of cube V = a³ 🔴 SSPA required test</div>
+<div class="kp-rules">
+<strong>Special formula for cube:</strong><br/>① A cube is a cuboid with<strong>length = width = height</strong>→ V = a × a × a =<strong>a³</strong><br/>② a³ means a multiplied by itself three times,<strong>is not a×3</strong>(This is the most common mistake!)<br/>③ Example: side length 5 cm → V = 5³ = 5×5×5 = 125 cm³<br/>④ Given the volume, find the side length: a = ∛V (open cube root, use trial calculation/factorization for P5-P6)</div>
+<div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:380px;height:auto;" viewbox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+<!-- Cube front face -->
+<rect fill="#DBEAFE" height="100" rx="1" stroke="#1A3C6D" stroke-width="2" width="100" x="70" y="55"></rect>
+<!-- Top face -->
+<polygon fill="#BFDBFE" points="70,55 110,25 210,25 170,55" stroke="#1A3C6D" stroke-width="2"></polygon>
+<!-- Right face -->
+<polygon fill="#93C5FD" points="170,55 210,25 210,125 170,155" stroke="#1A3C6D" stroke-width="2"></polygon>
+<!-- 'a' labels -->
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="120" y="172">a</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="end" x="56" y="110">a</text>
+<text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="begin" x="215" y="42">a</text>
+<!-- Equals sign on front face -->
+<text fill="#1A3C6D" font-size="13" font-weight="900" text-anchor="middle" x="120" y="100">a × a × a</text>
+<!-- Formula box -->
+<rect fill="#FEF3C7" height="45" rx="6" stroke="#C9A84C" stroke-width="1.5" width="110" x="250" y="72"></rect>
+<text fill="#DC2626" font-size="14" font-weight="900" text-anchor="middle" x="305" y="100">V = a³</text>
+</svg>
+<div style="font-size:9px;color:#6B7280;margin-top:2px;">Cube = length = width = height = a, V = a × a × a = a³. Note that a³ ≠ a×3!</div>
+</div>
+</div>
+<div class="ex">
+<div class="ex-title">🪴 Trap detonation example</div>
+<div class="ex-q">The side length of a cube is 4 cm, its volume = ?</div>
+<div class="tc">
+<div class="tc-w"><div class="lbl">❌ Common mistakes (50% students)</div><div class="eq">V = 4×3 = 12 cm³ ❌</div><div class="why">Mistaking a³ for a×3! A cube is multiplied by itself three times!</div></div>
+<div class="tc-r"><div class="lbl">✅ Correct solution</div><div class="eq">V = 4³ = 4×4×4<br/>= <strong>64 cm³</strong></div><div class="why">a³ = a×a×a, not a×3</div></div>
+</div>
+</div>
+<div class="mn">🧠 Formula: "The volume of a square cubed, 4³ is 64, not 12 - multiplied by itself three times, not three!"</div>
+<div class="warn">⚠️ The most fatal error: a³ is treated as a×3. 4³ = 64, not 12. Write 4×4×4=64 every time.</div>
+<div class="h2">Knowledge Point three example question + practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">Example 7</td><td class="qtxt">The side length of a cube is 9 cm, its volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">Example 8</td><td class="qtxt">Volume of cube is 216 cm³, side length = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">14</td><td class="qtxt">The side length of the cube is 7 cm. Volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">15</td><td class="qtxt">The side length of the cube is 0.5 m. Volume = ? m³</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">16</td><td class="qtxt">Cube volume 125 cm³. Side length = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">17</td><td class="qtxt">The side length of the cube is 15 cm. Volume = ? cm³; how much m³?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:95px;"></td></tr>
+</table>
+<div class="kp">
+<div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:8px 0;">
+<div style="flex:1; min-width:180px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">Cube 4cm</strong><br/>
+<svg height="180" viewbox="0 0 190 180" width="190" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="70" stroke="#1A3C6D" stroke-width="3" width="70" x="25" y="38"></rect><polygon fill="#DBEAFE" points="25,38 48,15 118,15 95,38" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="95,38 118,15 118,85 95,108" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="60" y="124">l</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">V=4³=64 cm³. Note: 4³ ≠ 4×3!</div>
+</div></div>
+<div style="flex:1; min-width:180px;"><div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">Cube 5cm</strong><br/>
+<svg height="200" viewbox="0 0 210 200" width="210" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="80" x="25" y="41"></rect><polygon fill="#DBEAFE" points="25,41 51,15 131,15 105,41" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="105,41 131,15 131,95 105,121" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="65" y="137">l</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">V=5³=125 cm³。SA=6×5²=150 cm²。</div>
+</div></div>
+</div>
+<div class="warn">⚠️ Note: 5³ = 5×5×5 = 125 (not 5×3=15). a³ is a multiplied by itself three times, not a times 3!</div>
+<div class="kp-title">Knowledge Point 4: Surface Area (SA) VS Volume (V) 🔴 SSPA Advanced</div>
+<div class="kp-rules">
+<strong>Surface area formula:</strong><br/>
+      ① <strong>Cuboid surface area</strong>= 2×(LW + LH + WH) = 2×(Length×Width + Length×Height + Width×Height)<br/>
+      ② <strong>Cube surface area</strong>= 6 × a² (6 identical square faces)<br/>
+      ③ <strong>SA unit is cm² (square meter) |||SEP|||, the unit of V is cm³ (cubic meter) -</strong>The unit is different!<strong>④ Common test method: compare SA and V of two solids, or find the side length if SA is known</strong><br/>④ Common test methods: Compare SA and V of two solids, or find the side length if SA is known</div>
+<div style="margin:10px 0 0;text-align:center;">
+<svg style="width:100%;max-width:420px;height:auto;" viewbox="0 0 420 185" xmlns="http://www.w3.org/2000/svg">
+<!-- Prism front face (L×H) -->
+<rect fill="#DBEAFE" height="90" rx="1" stroke="#1A3C6D" stroke-width="2" width="160" x="40" y="55"></rect>
+<!-- Top face (L×W) -->
+<polygon fill="#BFDBFE" points="40,55 80,25 240,25 200,55" stroke="#1A3C6D" stroke-width="2"></polygon>
+<!-- Right face (W×H) -->
+<polygon fill="#93C5FD" points="200,55 240,25 240,115 200,145" stroke="#1A3C6D" stroke-width="2"></polygon>
+<!-- Face area labels on surfaces -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="120" y="108">L × H (front)</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" transform="rotate(-15,130,45)" x="130" y="105">L × W (top)</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" transform="rotate(90,210,90)" x="210" y="90">W × H (side)</text>
+<!-- Dimension labels -->
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="120" y="162">L</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="end" x="28" y="108">H</text>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="begin" x="250" y="35">W</text>
+<!-- SA formula box -->
+<rect fill="#FEF3C7" height="130" rx="6" stroke="#C9A84C" stroke-width="1.5" width="130" x="275" y="28"></rect>
+<text fill="#1A3C6D" font-size="11" font-weight="900" text-anchor="middle" x="340" y="50">Surface area (SA)</text>
+<line stroke="#C9A84C" stroke-width="1" x1="288" x2="392" y1="58" y2="58"></line>
+<text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="340" y="74">= 2 × (L×W + L×H + W×H)</text>
+<line stroke="#C9A84C" stroke-width="1" x1="288" x2="392" y1="82" y2="82"></line>
+<text fill="#16A34A" font-size="10" font-weight="700" text-anchor="middle" x="340" y="100">SA unit: cm²</text>
+<text fill="#DC2626" font-size="10" font-weight="700" text-anchor="middle" x="340" y="118">V unit: cm³</text>
+<text fill="#1A3C6D" font-size="11" font-weight="900" text-anchor="middle" x="340" y="148">⚠ The units are different!</text>
+</svg>
+<div style="font-size:9px;color:#6B7280;margin-top:2px;">SA = sum of areas of 6 faces. Each side appears 2 times (front/back, up/down, left/right).</div>
+</div>
+</div>
+<div class="sc">
+<div class="sc-i"><div class="n">V</div><div class="t">volume</div><div class="d">Length×width×height unit cm³</div></div>
+<div class="sc-i"><div class="n">SA</div><div class="t">surface area</div><div class="d">2(LW+LH+WH) unit cm²</div></div>
+<div class="sc-i"><div class="n">L</div><div class="t">total edge length</div><div class="d">4(L+W+H) unit cm</div></div>
+<div class="sc-i"><div class="n">⚠</div><div class="t">Don't be confused</div><div class="d">Three formulas and three units!</div></div>
+</div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 9: cuboid 8×5×3 cm. Find (a) volume (b) surface area.</div></div>
+<div class="ex"><div class="ex-title">example</div><div class="ex-q">Example 10: The side length of the cube is 6 cm. Find (a) volume (b) surface area. Compare the values ​​of V and SA.</div></div>
+<div class="h2">Knowledge Point Four Synchronization Practice</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">18</td><td class="qtxt">Cuboid 10×6×4 cm. (a) Volume = ? (b) Surface area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">19</td><td class="qtxt">The side length of the cube is 5 cm. (a) Volume = ? (b) Surface area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">20</td><td class="qtxt">Cuboid 12×8×6 cm. Surface area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 5: SVG + TIERED PRACTICE ═══════════════ -->
+<div class="pb">
+<div class="svg-wrap">
+<img src="_svg/L26_cuboid.svg" style="max-width:100%;height:auto;"/>
+</div>
+<div style="text-align:center; margin:8px 0; padding:8px; background:#F0F9FF; border:1px solid var(--borderc); border-radius:5px;">
+<strong style="font-size:13px; color:var(--blue);">🔍 Volume vs surface area - two ways to measure the same cuboid</strong><br/>
+<svg height="180" viewbox="0 0 250 180" width="250" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="80" stroke="#1A3C6D" stroke-width="3" width="140" x="25" y="35"></rect><polygon fill="#DBEAFE" points="25,35 45,15 185,15 165,35" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="165,35 185,15 185,95 165,115" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="95" y="131">l</text></svg>
+<div style="font-size:9px; color:var(--gray); margin-top:3px;">Volume (V) = internal space = 10 × 6 × 4 = 240 cm³ (three dimensions·cubic). Surface area (SA) = outer wrapping paper = 2(10×6+10×4+6×4)=2(60+40+24)=248 cm² (two dimensions·square).</div>
+</div>
+<div class="h1">III. Lesson Layered Synchronization Practice</div>
+<div class="h2">Basic layer (total 5 questions, everyone must do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">21</td><td class="qtxt">Cuboid 8×4×3 cm. Volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">22</td><td class="qtxt">The side length of the cube is 6 cm. Volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">23</td><td class="qtxt">Cuboid 5×5×10 cm. (a) Volume = ? (b) Surface area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">24</td><td class="qtxt">The side length of the cube is 8 cm. Volume = ? Surface area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">25</td><td class="qtxt">2.5 m³ = ？cm³</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+</table>
+<div class="h2">Advanced layer (total 5 questions, 🚶🚀 choose do)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">26</td><td class="qtxt">The cuboid is 2 m long, 1.2 m wide, and 80 cm high. Volume = ? m³</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">27</td><td class="qtxt">The cuboid has a volume of 480 cm³, a length of 10 cm, and a width of 8 cm. High = ? Surface area = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">28</td><td class="qtxt">The surface area of ​​the cube is 150 cm². Side length = ? Volume = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">29</td><td class="qtxt">Compare: A (cuboid 10×6×4 cm) and B (cube with sides 6 cm). Which one is larger? How much bigger?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">30</td><td class="qtxt">The cuboid is 1.5 m long, 0.8 m wide, and 60 cm high. Surface area = ? m²</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 6: MORE PRACTICE + APPLICATION ═══════════════ -->
+<div class="pb">
+<div class="h2">🌳 challenge layer (total 3 questions, 🚀 choose do, SSPAKiller Questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">31</td><td class="qtxt">The side length of a cube is twice the height of a cuboid. Cuboid 10×8×6 cm. How much larger is the volume of the cube than the volume of the cuboid?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">32</td><td class="qtxt">The internal dimensions of a rectangular water tank are 80 cm × 50 cm × 60 cm. (a) How many cm³ of water can the tank hold? How many m³ is it? (b) Internal surface area of ​​the tank = ? (not counting the above)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">33</td><td class="qtxt">Assemble 8 cubes with sides 3 cm into one large cube. (a) Side length of a large cube = ? (b) Volume of large cube = ? (c) How much less is the SA of the large cube than the total SA of the 8 small cubes?</td><td class="qd d4">🏔</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+<div class="h1">IV.applicationquestionspecial topic (SSPA text question)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space (column → calculate → answer sentence)</th></tr>
+<tr><td class="qn">34</td><td class="qtxt">A rectangular fish tank is 60 cm long, 30 cm wide, and 40 cm high. What is the volume of the fish tank in cm³? How many m³ is it?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">35</td><td class="qtxt">A cube gift box has a side length of 15 cm. To wrap all sides of the gift box with floral paper (without overlapping), what is the minimum cm² of floral paper needed?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">36</td><td class="qtxt">The internal length of a rectangular container is 6 m, the width is 2.5 m, and the height is 2.4 m. How many cubes with a side length of 1 m can be placed in a container?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">37</td><td class="qtxt">The rectangular pool is 8 m long, 5 m wide, and 1.5 m deep. The walls and bottom of the pool should be paved with tiles (not the top). What is the total area to be tiled in m²?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">38</td><td class="qtxt">A square volume of wood has a side length of 10 cm. Cut it into 8 small cubes of the same size. (a) The side length of each small cube = ? (b) Volume of each small cube = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+<tr><td class="qn">39</td><td class="qtxt">A cuboid room is 5 m long, 4 m wide, and 3 m high. (a) Volume of room = ? m³ (b) Total surface area of ​​four walls and ceiling = ? m² (excluding floor)</td><td class="qd d3">🌳</td><td class="qw" style="min-height:90px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 7: CHALLENGE + HOMEWORK ═══════════════ -->
+<div class="pb">
+<div class="h1">V.🏔️ Ultimate challenge area</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">🏔1</td><td class="qtxt">The volume of a cube is 512 cm³. (a) Side length = ? (b) Surface area = ? (c) If this cube is cut into smaller cubes with a side length of 4 cm, how many cubes can be cut out?</td><td class="qd d4">🏔</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">🏔2</td><td class="qtxt">The cuboid is 12×9×8 cm and the side of the cube is 10 cm. (a) What is the difference in volume between the two? (b) What is the difference between the surface areas of the two? (c) If the height of a cuboid is increased by 2 cm, will the new volume be larger or smaller than the cube?</td><td class="qd d4">🏔</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">🏔3</td><td class="qtxt">A cuboid water tank without a lid is made of 1 cm thick glass. External dimensions are 52 cm × 32 cm × 42 cm. (a) Internal volume (capacity) of the water tank = ? (b) How many cm² of glass are needed to make this tank? (excluding top cover)</td><td class="qd d4">🏔</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+<div class="h1">VI.Class afterhomework</div>
+<div class="h2">Basic must-do questions (total 5 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H1</td><td class="qtxt">Cuboid 9×5×4 cm. Volume = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">H2</td><td class="qtxt">The side length of the cube is 7 cm. Volume = ? Surface area = ?</td><td class="qd d1">🌱</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">H3</td><td class="qtxt">Cuboid 12×8×10 cm. (a) Volume = ? (b) Surface area = ?</td><td class="qd d2">🌿</td><td class="qw" style="min-height:95px;"></td></tr>
+<tr><td class="qn">H4</td><td class="qtxt">3 m³ = ? cm³ (write down the conversion steps)</td><td class="qd d2">🌿</td><td class="qw" style="min-height:90px;"></td></tr>
+<tr><td class="qn">H5</td><td class="qtxt">The cuboid has a volume of 360 cm³, a length of 12 cm, and a height of 5 cm. Find the breadth and surface area.</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+</table>
+<div class="h2">For advanced, choose doquestion (total 2 questions)</div>
+<table class="qt">
+<tr><th class="qn">#</th><th>Question</th><th class="qd">Difficulty</th><th>Working Space</th></tr>
+<tr><td class="qn">H6</td><td class="qtxt">The surface area of ​​the cube is 294 cm². Side length = ? Volume = ?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:100px;"></td></tr>
+<tr><td class="qn">H7</td><td class="qtxt">A room is 6 m long, 4 m wide and 3 m high. How many m² are the total areas of the four walls? What is the minimum roll required for wallpapering (5 m² per roll)?</td><td class="qd d3">🌳</td><td class="qw" style="min-height:88px;"></td></tr>
+</table>
+</div>
+<!-- ═══════════════ PAGE 8: ERROR SUMMARY ═══════════════ -->
+<div class="pb">
+<div class="h1">VII. The Lessoncorecommon errorsummary</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self-examination in this hall (tick after completion)</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I know the pitfalls of solving each knowledge point</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can complete 🌱basic questions independently</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I can challenge 🌿advanced questions</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ I remember the formula</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Review of Learning Objectives - After completing this lesson you should be able to:</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Identify all trap types in our hall</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Solve 🌱basic questions independently (100% correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Challenge🌿Advanced questions (80%+ correct)</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ Explain the lesson formula to classmates</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>common error</th><th>Correct Approach</th></tr>
+<tr><td>1</td><td><strong>a³ mistaking a×3 |||SEP|||: side length 5 cm → V=5×3=15 (wrong!)</strong>: side length 5 cm → V=5×3=15 (wrong!)</td><td>a³ = a×a×a。5³ = 5×5×5 = 125 cm³</td></tr>
+<tr><td>2</td><td><strong>m³ ↔ cm³ Conversion error |||SEP|||: 1 m³ = 100 cm³ (wrong!)</strong>: 1 m³ = 100 cm³ (wrong!)</td><td>1 m³ = 100×100×100 = 1,000,000 cm³ (cubed, times 100)</td></tr>
+<tr><td>3</td><td><strong>Multiply different units directly</strong>：2 m × 50 cm × 30 cm</td><td>Unify the unit first (full rotation cm or full rotation m) → then calculate</td></tr>
+<tr><td>4</td><td><strong>Volume vs surface area confusion |||SEP|||: Asked SA Answered V (unit cm³ vs cm²)</strong>:Ask SA Answered V (unit cm³ vs cm²)</td><td>See clearly what the question is asking! V=three dimensions (cm³); SA=sum of six sides (cm²)</td></tr>
+<tr><td>5</td><td><strong>The cube SA formula is wrong |||SEP|||: SA = a³ or SA = 4×a²</strong>: SA = a³ or SA = 4×a²</td><td>Cube SA = 6×a² (six identical faces)</td></tr>
+<tr><td>6</td><td><strong>Cuboid SA omitted a certain face |||SEP|||: only 4 faces were counted</strong>: Only 4 faces are counted</td><td>SA = 2(LW + LH + WH), six faces are the same.</td></tr>
+<tr><td>7</td><td><strong>Missing units in application questions |||SEP|||: only write numbers, do not write cm³ / m³, or do not write the answer sentence</strong>: Only write numbers, do not write cm³ / m³, or do not write an answer sentence</td><td>The submission test requires complete answers + correct units, otherwise step points will be deducted</td></tr>
+</table>
+<div class="end-note">Lam Fung Academy · LF Academy · We don't teach math. We teach trap avoidance.</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related topics: L03 Area of ​​parallelograms and triangles · L04 Area of ​​trapezoidal polygon · L05 Area trap special project · Related topics: L25 Volume word problems · L26 Volume concept · L27 Composite three-dimensional drainage method</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Print Ctrl+P PDF | 9 pages · 71 questions | LF-P5-S2-L26 v6 EN
+</div>
+</body>
+</html>

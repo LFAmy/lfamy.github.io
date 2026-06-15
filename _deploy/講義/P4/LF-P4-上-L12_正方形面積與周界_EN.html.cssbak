@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+
+<html lang="zh-HK">
+<head><meta content="English math worksheet: 正方形面積與周界. LF Academy Hong Kong primary math. 面積計算 圖形面積 幾何 周界計算 周長" name="description"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>P4 Math 正方形面積與周界 Worksheet | LF Academy</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
+
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11pt;
+  --fs-small: 9pt;
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 1.9;
+  --lh-tight: 1.4;
+  --lh-answer: 2.2;  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+}
+
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
+
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
+
+.lf-student-info .lf-si-spacer { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
+  mjx-container > svg { max-width: 100%; height: auto; }
+}
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+</style>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "霖楓學苑",
+      "item": "https://lfamy.github.io"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "P4 講義",
+      "item": "https://lfamy.github.io/講義/P4/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "正方形面積與周界"
+    }
+  ]
+}</script><script>
+MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<div style="text-align:center;margin:24px 0"><img src="../_svg/composite_shape.svg" alt="" style="max-width:95%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)"></div>
+
+<div class="lf-page">
+<div class="lf-cover">
+<div class="lf-cover-logo">LF Academy · LF Academy</div>
+<div class="lf-cover-grade">小四 · 第 12 堂 · Student Edition Handout</div>
+<div class="lf-cover-title">SquareArea與Perimeter</div>
+<div class="lf-cover-subtitle">A=a² · P=4a · 65 min · 1-on-3 Online Lesson</div>
+<div class="lf-cover-info">
+<b>Textbook Reference：</b>《小學數學新思維（第二版）》4下A冊 單元七（續）<br/>
+<b>SSPA 關聯：</b><span class="lf-sspa-badge lf-sspa-high">🔴 必考</span> SquareArea/Perimeter係呈分試幾何題核心，每年必出<br/>
+<b>Prerequisites：</b>L11 Area概念 · RectangleArea · Perimeter複習<br/>
+<b>Lesson Objectives：</b>❶ SquareArea公式 A=a² ❷ SquarePerimeter公式 P=4a ❸ 區分AreavsPerimeter ❹ 已知Area/Perimeter反求邊長<br/>
+<b>核心Trap：</b>🪤 T34 Area用 a×4 · T35 給Perimeter求Area時用錯公式 · T36 單位混淆（cm vs cm²）
+  </div>
+<div class="lf-cover-row">
+<span>Student Name：<span class="lf-line"></span></span><span>Class：<span class="lf-line"></span></span><span>Date：<span class="lf-line"></span></span><span>Duration：<span class="lf-line"></span></span>
+</div>
+</div>
+<div>
+<div class="lf-h1">一、Warm-Up （5 min）（共 5 題，5 min）</div>
+
+<div class="lf-game"><div class="lf-game-title">📐 幾何探險家</div><div class="lf-game-desc">計算面積&體積，小心公式陷阱！三角形要除2、梯形上下底唔好調轉！</div><div class="lf-game-action">🔍 開始探險 →</div></div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">1</td><td>Square邊長 4 cm。Perimeter = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">2</td><td>Square邊長 4 cm。Area = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">3</td><td>邊長 5 cm 的Square，Area=25 ___。單位應該係咩？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">4</td><td>SquarePerimeter = 24 cm。邊長 = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">5</td><td>SquareArea = 49 cm²。邊長 = ？（提示：邊長×邊長=49）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h1">二、Core Knowledge （15 min） ＋ Worked Examples</div>
+<div class="lf-kp">
+<div class="lf-kp-title">知識點一：SquareArea公式 <span class="lf-sspa-badge lf-sspa-high">🔴 SSPA 必考</span></div>
+<div class="lf-kp-rules">
+      ① <b>Square = 四邊相等的特殊Rectangle</b><br/>
+      ② <b>Area = <div style="text-align:center;margin:12px 0;"><svg style="max-width:205px;width:100%;height:auto;display:block;margin:8px auto;" viewbox="0 0 205 195" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#DBEAFE" height="125" rx="2" stroke="#1A3C6D" stroke-width="2.5" width="125" x="20" y="20"></rect>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="77.5" x2="87.5" y1="12" y2="12"></line>
+<line stroke="#1A3C6D" stroke-width="1.5" x1="77.5" x2="87.5" y1="163" y2="163"></line>
+<line stroke="#6B7280" stroke-dasharray="4,2" stroke-width="1" x1="20" x2="145" y1="35" y2="35"></line>
+<line stroke="#6B7280" stroke-width="1" x1="20" x2="20" y1="30" y2="40"></line>
+<line stroke="#6B7280" stroke-width="1" x1="145" x2="145" y1="30" y2="40"></line>
+<text fill="#6B7280" font-family="Noto Sans HK,sans-serif" font-size="10" text-anchor="middle" x="82.5" y="49">5 cm</text>
+</svg></div>
+邊長 × 邊長 = a²</b>（a 係邊長）<br/>
+      ③ <b>Perimeter = 邊長 × 4 = 4a</b>（四邊加埋）<br/>
+      ④ <b>致命對比：</b>邊長=5cm → Area=5×5=25cm² · Perimeter=5×4=20cm。完全唔同！<br/>
+      ⑤ Area同Perimeter的單位：Area有 ²，Perimeter冇 ²
+    </div>
+</div>
+<div style="text-align:center;margin:10px 0;">
+<svg height="150" viewbox="0 0 500 150" width="500" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#F0F9FF" height="120" stroke="#1A3C6D" stroke-width="2.5" width="120" x="40" y="15"></rect>
+<text fill="#DC2626" font-size="28" font-weight="900" text-anchor="middle" x="100" y="80">A=a²</text>
+<text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="100" y="148">Area = a×a</text>
+<text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" transform="rotate(-90,10,75)" x="10" y="75">a</text>
+<text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="100" y="10">a</text>
+<rect fill="none" height="120" stroke="#DC2626" stroke-dasharray="8,3" stroke-width="4" width="120" x="260" y="15"></rect>
+<text fill="#DC2626" font-size="24" font-weight="900" text-anchor="middle" x="320" y="80">P=4a</text>
+<text fill="#DC2626" font-size="13" font-weight="700" text-anchor="middle" x="320" y="148">Perimeter = a+a+a+a</text>
+<rect fill="#F0FDF4" height="50" stroke="#16A34A" stroke-width="3" width="50" x="400" y="30"></rect>
+<text fill="#166534" font-size="18" font-weight="900" text-anchor="middle" x="425" y="60">?</text>
+<text fill="#6B7280" font-size="11" text-anchor="middle" x="425" y="100">邊長?=5</text>
+<text fill="#16A34A" font-size="10" text-anchor="middle" x="425" y="115">A=25 P=20</text>
+</svg>
+</div>
+<div class="lf-kp">
+<div class="lf-kp-title">知識點二：反求邊長 <span class="lf-sspa-badge lf-sspa-high">🟡 SSPA</span></div>
+<div class="lf-kp-rules">
+      ① <b>已知Area求邊長：</b>搵一個數，自乘等於Area → 邊長 = √Area<br/>
+        P4只要求簡單數字：Area=25→邊長=5（因為5×5=25）<br/>
+      ② <b>已知Perimeter求邊長：</b>邊長 = Perimeter ÷ 4<br/>
+      ③ <b>兩步題（Trap！）：</b>Question給Perimeter問Area → 要先從Perimeter求邊長，再求Area！
+    </div>
+</div>
+<div class="lf-ex"><div class="lf-ex-title">例1</div><div class="lf-ex-q">Square邊長 8 cm。Area = ？Perimeter = ？</div></div>
+<div class="lf-ex"><div class="lf-ex-title">例2</div><div class="lf-ex-q">SquarePerimeter = 36 cm。邊長 = ？Area = ？</div></div>
+<div class="lf-ex-compare">
+<div class="lf-ex-wrong"><div class="lf-ex-label">🪤 Trap引爆</div>Square邊長6cm。<br/>小明：Area=6×4=24<br/>小美：Area=6×6=36<br/>邊個啱？</div>
+<div class="lf-ex-right"><div class="lf-ex-label">✅ Revealed</div>小美啱！Area=邊長²=36cm²<br/>小明用咗Perimeter公式（6×4）<br/>呢個錯誤=扣3分=跌Grade</div>
+</div>
+<div class="warn">⚠️ 70%學生會將SquareArea計錯做 a×4！記住：4條邊加埋=Perimeter·邊長自己乘自己=Area。</div>
+<div class="warn">⚠️ 已知Perimeter求Area = 兩步！例：P=32→a=8→A=64。唔好直接用32×任何嘢！</div>
+</div>
+<div>
+<div class="lf-h1">三、Tiered Practice （20 min）</div>
+<div class="lf-h2">🌱 Foundation Tier（All Must Complete，共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">6</td><td>Square邊長 9 cm。Area = ？Perimeter = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">7</td><td>Square邊長 12 cm。Area = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">8</td><td>SquareArea = 81 cm²。邊長 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">🌿 Intermediate Tier（🚶🚀 Optional，共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">9</td><td>SquarePerimeter = 48 cm。邊長 = ？Area = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">10</td><td>SquareA邊長 7 cm，SquareBPerimeter是A的2倍。B的Area = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">11</td><td>一個Square和一個Rectangle（長10cm闊4cm）有相同的Perimeter。Square的Area = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">🌳 Challenge Tier（🚀 Optional，共 3 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">12</td><td>Square邊長增加 2 cm 後，新Area = 64 cm²。原邊長 = ？原Area = ？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">13</td><td>Square邊長增加 3 cm 後，新Perimeter = 52 cm。原Area = ？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">14</td><td>兩個Square的Area之和 = 100 cm²。大Square的邊長比小Square大 2 cm。兩個Square的邊長各 = ？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">🏔️ 終極挑戰（🚀 Optional，共 1 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">15</td><td>用 40 cm 鐵線圍成一個Square。如果改用同樣鐵線圍一個Rectangle（長比闊大 4 cm），哪個圖形Area較大？大幾多？</td><td class="qd d4">🏔️</td><td class="lf-ans"></td></tr>
+</table>
+</div>
+<div>
+<div class="lf-h1">四、Word Problems （12 min）（SSPA 文字題）</div>
+<div class="lf-ex"><div class="lf-ex-title">例3</div><div class="lf-ex-q">Square花圃Perimeter = 32 m。花圃的Area = ？m²。</div></div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">16</td><td>Square桌面邊長 80 cm。Area = ？cm²</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">17</td><td>Square地磚Area = 900 cm²。邊長 = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">18</td><td>Square操場Perimeter = 200 m。操場Area = ？m²</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">19</td><td>Square相架Area = 144 cm²。要圍邊框，需要多長的邊框材料？（即係求Perimeter）</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">20</td><td>一個Square花園，沿對角線鋪一條小路。Square邊長 10 m。小路把花園分成兩個Triangle，每個TriangleArea = ？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+</table>
+</div>
+<div>
+<div class="lf-h1">五、Homework （課後完成）</div>
+<div class="lf-h2">Foundation (Required)（共 6 題）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">H1</td><td>Square邊長 6 cm。Area = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H2</td><td>Square邊長 11 cm。Perimeter = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H3</td><td>SquareArea = 64 cm²。邊長 = ？</td><td class="qd d1">🌱</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H4</td><td>SquarePerimeter = 28 cm。邊長 = ？Area = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H5</td><td>Square邊長 15 cm。Area = ？Perimeter = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H6</td><td>Square地毯Area = 400 cm²。邊長 = ？</td><td class="qd d2">🌿</td><td class="lf-ans"></td></tr>
+</table>
+<div class="lf-h2">Advanced (Optional)（共 2 題，🚀 Optional）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th class="lf-qd">Difficulty</th><th>Answer Area</th></tr>
+<tr><td class="lf-qn">H7</td><td>Square邊長增加一倍後，Area變成原來的幾倍？Perimeter變成原來的幾倍？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+<tr><td class="lf-qn">H8</td><td>大SquareArea 100 cm²，小SquareArea 36 cm²。大Square的邊長比小Square長幾多 cm？</td><td class="qd d3">🌳</td><td class="lf-ans"></td></tr>
+</table>
+</div>
+<div>
+<div class="lf-h1">六、Common Error Summary （8 min）</div>
+<div style="margin:14px 0;padding:10px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:6px;font-size:12px;">
+<strong style="color:#166534;">✅ Self Check（完成後打剔）</strong>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我識得分辦每個知識點嘅Trap</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠獨立完成🌱基礎題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我能夠挑戰🌿進階題</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 我記得住Mnemonic</span>
+</div>
+</div>
+<div style="margin:12px 0;padding:10px 14px;background:#FFFBEB;border:1.5px solid var(--gold);border-radius:6px;font-size:12px;">
+<strong style="color:#92400E;">🎯 Learning Objectives Review — 完成本堂後你應該能夠：</strong>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 辨認本堂所有Trap類型</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 獨立解答🌱基礎題（100%正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 挑戰🌿進階題（80%+正確）</span>
+<span style="background:white;padding:3px 8px;border-radius:4px;border:1px solid #D1D5DB;">☐ 向同學解釋本堂Mnemonic</span>
+</div>
+</div>
+<table class="et">
+<tr><th>#</th><th>Common Error（❌ Trap）</th><th>Correct Approach（✅）</th></tr>
+<tr><td>1</td><td><b>Area用 a×4</b>：邊長5→A=20 ❌</td><td>A=a²=5×5=25cm²。a×4=Perimeter！</td></tr>
+<tr><td>2</td><td><b>Perimeter用 a²</b>：邊長5→P=25 ❌</td><td>P=4a=4×5=20cm。Perimeter係四條邊加埋。</td></tr>
+<tr><td>3</td><td><b>單位搞亂</b>：Area答案寫cm、Perimeter寫cm²</td><td>Area=cm²/m²。Perimeter=cm/m。有²同冇²要分清！</td></tr>
+<tr><td>4</td><td><b>給Perimeter求Area直接代</b>：P=32→A=32×? ❌</td><td>先求邊長（32÷4=8），再求Area（8×8=64）→兩步！</td></tr>
+<tr><td>5</td><td><b>Area求邊長用÷4</b>：A=36→邊長=36÷4=9 ❌</td><td>找邊長×邊長=36的數→6（6²=36）。唔係除！</td></tr>
+<tr><td>6</td><td><b>邊長double=Areadouble</b>：2a→2A ❌</td><td>邊長×2→Area×4（因為(2a)²=4a²）。Area係邊長嘅平方！</td></tr>
+<tr><td>7</td><td><b>Square當Rectangle計</b>：用A=l×w但l=w（都啱）</td><td>Square係特殊Rectangle，用A=a²最直接。兩者答案一樣。</td></tr>
+</table>
+<div class="mn">🧠 Mnemonic：「正方四邊一樣長，Area a² Perimeter 4a。邊長二次方係Area，記得單位要有平方。」</div>
+<div class="lf-h1">七、4-Step Problem Solving</div>
+<div class="sc">
+<div class="sc-card"><div class="snum">1</div><div class="stitle">搵邊長a</div><div class="sdetail">Question直接俾a？定係要從Perimeter（÷4）或Area（開方）求？</div></div>
+<div class="sc-card"><div class="snum">2</div><div class="stitle">揀公式</div><div class="sdetail">搵Area→A=a²。搵Perimeter→P=4a。唔好調轉！</div></div>
+<div class="sc-card"><div class="snum">3</div><div class="stitle">計算</div><div class="sdetail">a²=a×a。心算或直式。大數字（例如80²=6400）要小心！</div></div>
+<div class="sc-card"><div class="snum">4</div><div class="stitle">配單位</div><div class="sdetail">Area→cm²/m²。Perimeter→cm/m。答案合理？Area通常大過Perimeter。</div></div>
+</div>
+<div class="lf-h1">附錄：考後加強練習（S1-S4）</div>
+<table class="lf-qt">
+<tr><th class="lf-qn">#</th><th>Question</th><th>答案</th></tr>
+<tr><td class="lf-qn">S1</td><td>Square邊長 11 cm。(a) Perimeter = ？(b) Area = ？</td><td class="lf-ans">(a) 44cm (b) 121cm²</td></tr>
+<tr><td class="lf-qn">S2</td><td>Square的Perimeter是 56 cm。它的Area是多少？</td><td class="lf-ans">56÷4=14cm → 14²=196cm²</td></tr>
+<tr><td class="lf-qn">S3</td><td>一個Square和一個Rectangle的Perimeter相等。Square邊長 10 cm。Rectangle長 14 cm，闊 = ？</td><td class="lf-ans">40÷2−14=6cm</td></tr>
+<tr><td class="lf-qn">S4</td><td>一個Square花圃的Area是 81 m²。(a) 邊長 = ？(b) Perimeter = ？(c) 如果每米籬笆 $8，圍住花圃要多少錢？</td><td class="lf-ans">(a) 9m (b) 36m (c) $288</td></tr>
+</table>
+<!-- ═══ PARENT CORNER ═══ -->
+<div style="margin:18px 0 8px;padding:14px 16px;background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F59E0B;border-radius:8px;font-size:11.5px;line-height:1.7;">
+<strong style="color:#92400E;font-size:13px;">🏠 家長角落 · Parent Corner</strong>
+<div style="margin-top:6px;color:#78350F;">
+<b>今日學咗咩？</b> 小朋友學咗<b>「SquareArea與Perimeter」</b>。 重點：❶ SquareArea公式 A=a² ❷ SquarePerimeter公式 P=4a ❸ 區分AreavsPerimeter ❹ 已知Area/Perimeter反求邊長。<br/>
+<b>最易錯嘅 3 個Trap：</b> 留意老師圈出嘅TrapQuestion<br/>
+<b>你可以問小朋友：</b>「你可唔可以解釋「SquareArea與Perimeter」嘅最重要Mnemonic俾我聽？」<br/>
+<b>溫馨提示：</b>唔需要識教數學 — 只需要問小朋友「點解咁計？」同「有冇檢查Trap？」就夠。
+  </div>
+</div>
+<!-- ═══ TEACHER REFERENCE ═══ -->
+<div style="margin:14px 0 8px;padding:10px 14px;background:#F8FAFC;border:1px dashed #94A3B8;border-radius:6px;font-size:10px;color:#64748B;text-align:center;">
+  📝 <b>教師參考</b>：熱身題答案 → 1)___ 2)___ 3)___ 4)___ 5)___ | 課堂練習重點關注題號：🌳Challenge Tier 17-21
+  </div>
+<div class="end-note">🪤 LF Academy · LF Academy · We don't teach math — we teach trap avoidance.。 · LF-P4-上-L12</div><div style="font-size:10px;color:var(--gray);margin-top:4px;text-align:center;">📚 Related Topics：L03 Parallelogram與TriangleArea · L04 Trapezoid多邊形Area · L05 AreaTrap專項 · Related Topics：L12 SquareArea與Perimeter · L14 PerimeterWord Problems</div>
+</div>
+</div>
+<div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
+  Ctrl+P | P4-L12 | 41題 · SquareAreaPerimeter
+<div class="lf-footer">LF Academy · 霖楓學苑 | 香港小學數學專科</div>
+</div>
+</body>
+</html>

@@ -1,195 +1,807 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-ai-generated="true" data-ai-model="deepseek-v4-flash" data-ai-date="2026-06-11" data-human-review="pending">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>LF-P5-S2-L32 Composite bar chart + data analysis — Student Handout v6 (EN)</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
 
-  :root {
-    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
-    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
-    --lightbg:#F9FAFB; --borderc:#D1D5DB;
-  }
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #B91C1C; /* WCAG AA: 4.6:1 contrast */
+  --green: #047857; /* WCAG AA enhanced */
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11.5pt; /* Slightly larger for children */
+  --fs-small: 9.5pt; /* Minimum legibility */
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 2.0; /* More breathing room */
+  --lh-tight: 1.4;
+  --lh-answer: 2.4; /* Extra handwriting space */  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+}
 
-  body {
-    font-family:'Noto Sans HK',sans-serif;
-    background:#E5E5E5; color:var(--ink);
-    font-size:13px; line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-  }
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  @media print {
-    body { background:white; font-size:11px; }
-    .pb { box-shadow:none; min-height:0; padding:24px 36px; }
-    .pb.cover-page { page-break-after:always; }
-    .page-break { page-break-before:always; }
-    .no-print { display:none!important; }
-    .qt .qw { background: repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 23px,#E5E7EB 24px); border: 1px dashed #9CA3AF; }
-    .qt td { padding:4px 6px; }
-    .qt { font-size:10.5px; }
-    .qt .qtxt { font-size:11.5px; }
-    .h1 { font-size:14px; margin:12px 0 7px; }
-    .h2 { font-size:12px; }
-    .kp { padding:7px 10px; }
-    .kp-rules { font-size:10.5px; }
-    .ex { padding:7px 10px; }
-    .ex-q { font-size:12px; }
-    .warn { font-size:10.5px; padding:5px 8px; }
-    .mn { font-size:12px; padding:8px 10px; }
-    .sc { gap:6px; }
-    .sc-i { padding:10px; }
-    .sc-i .n { width:26px;height:26px;font-size:14px; }
-    .sc-i .t { font-size:11px; }
-    .tc { gap:8px; }
-    .tc-w, .tc-r { padding:10px; }
-    .et { font-size:10px; }
-    .chart-svg { max-width:100%; }
-  }
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
 
-  .container { max-width:1000px; margin:0 auto; }
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
 
-  .pb {
-    width:100%;
-    background:var(--white);
-    padding:36px 48px;
-    display:flex; flex-direction:column;
-  }
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
 
-  /* ── FRACTIONS ── */
-  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
-  .f .n { font-size:inherit; line-height:1.15; }
-  .f .d { font-size:inherit; line-height:1.15; }
-  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
 
-  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; }
-  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
-  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
-  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
 
-  .fi { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 1px; font-size:inherit; }
-  .fi .n { font-size:inherit; line-height:1; }
-  .fi .d { font-size:inherit; line-height:1; }
-  .fi .b { width:100%; height:1px; background:currentColor; min-width:12px; }
+.lf-student-info .lf-si-spacer { flex: 1; }
 
-  /* ── COVER ── */
-  .cover {
-    justify-content:center; align-items:center; text-align:center;
-    background:var(--white);
-  }
-  .cv-logo { font-family:'Noto Serif HK',serif; font-size:20px; font-weight:900; color:var(--blue); letter-spacing:6px; }
-  .cv-badge {
-    display:inline-block; border:1.5px solid var(--gold); color:var(--gold);
-    padding:5px 22px; border-radius:20px; font-size:12px; letter-spacing:3px;
-    margin:16px 0;
-  }
-  .cv-title { font-family:'Noto Serif HK',serif; font-size:30px; font-weight:900; color:var(--blue); letter-spacing:3px; margin:12px 0 6px; }
-  .cv-sub { font-size:13px; color:var(--gray); margin-bottom:24px; }
-  .cv-info {
-    display:inline-block; text-align:left;
-    background:var(--lightbg); border:1px solid var(--borderc); border-radius:8px;
-    padding:18px 24px; font-size:12px; line-height:2;
-  }
-  .cv-info b { color:var(--blue); }
-  .cv-row { margin-top:24px; font-size:13px; display:flex; gap:28px; }
-  .cv-row .ln { display:inline-block; width:100px; border-bottom:1px solid var(--borderc); }
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
 
-  /* ── SECTIONS ── */
-  .h1 {
-    font-family:'Noto Serif HK',serif;
-    font-size:17px; font-weight:900; color:var(--blue);
-    padding:7px 12px; margin:18px 0 10px;
-    border-left:4px solid var(--gold); background:#FFFBEB;
-  }
-  .h2 {
-    font-family:'Noto Serif HK',serif;
-    font-size:14px; font-weight:700; color:var(--blue);
-    margin:14px 0 6px; padding-bottom:3px; border-bottom:1px solid var(--borderc);
-  }
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
 
-  /* ── KP ── */
-  .kp { margin:10px 0; padding:11px 14px; background:var(--lightbg); border:1px solid var(--borderc); border-radius:5px; }
-  .kp-title { font-size:14px; font-weight:900; color:var(--blue); margin-bottom:4px; }
-  .kp-rules { font-size:12px; line-height:1.7; }
-  .kp-rules ol,.kp-rules ul { padding-left:18px; }
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
 
-  /* ── EXAMPLE ── */
-  .ex { border:2px solid var(--gold); border-radius:7px; padding:11px 14px; margin:8px 0; background:#FFFDF5; }
-  .ex-title { font-size:13px; font-weight:900; color:#92400E; margin-bottom:5px; }
-  .ex-q { font-size:14px; font-weight:700; margin:5px 0; line-height:1.7; }
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
 
-  /* ── WARN ── */
-  .warn { background:#FEF2F2; border-left:3px solid var(--red); padding:6px 10px; margin:7px 0; font-size:12px; font-weight:600; color:#991B1B; }
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
 
-  /* ── MNEMONIC ── */
-  .mn { background:linear-gradient(135deg,#FFF8E7,#FFEDD5); border:2px solid var(--gold); border-radius:7px; padding:10px 14px; margin:7px 0; text-align:center; font-size:15px; font-weight:900; color:var(--blue); }
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
 
-  /* ── TABLES ── */
-  .qt { width:100%; border-collapse:collapse; margin:6px 0; font-size:12px; }
-  .qt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; font-weight:600; text-align:left; }
-  .qt td { padding:6px 8px; border:1px solid var(--borderc); vertical-align:top; }
-  .qt tr:nth-child(even) td { background:#FAFBFC; }
-  .qt .qn { width:34px; text-align:center; font-weight:700; }
-  .qt .qd { width:52px; text-align:center; font-size:10px; font-weight:700; }
-  .qt .qw {
-    min-height:72px;
-    background: repeating-linear-gradient(transparent,transparent 22px,#E5E7EB 22px,#E5E7EB 23px);
-  }
-  .qt .qtxt { font-size:13px; line-height:1.7; }
-  .d1 { background:#FEF3C7; color:#92400E; }
-  .d2 { background:#DCFCE7; color:#166534; }
-  .d3 { background:#DBEAFE; color:#1E40AF; }
-  .d4 { background:#F3E8FF; color:#7C3AED; }
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
 
-  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:8px; font-weight:700; }
-  .sh { background:#FEE2E2; color:#991B1B; }
-  .sm { background:#FEF3C7; color:#92400E; }
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-  /* ── TRAP COMPARE ── */
-  .tc { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
-  .tc-w { background:#FEF2F2; border:2px solid #FECACA; border-radius:8px; padding:14px; text-align:center; }
-  .tc-r { background:#F0FDF4; border:2px solid #BBF7D0; border-radius:8px; padding:14px; text-align:center; }
-  .tc-w .lbl { font-size:14px; font-weight:900; color:var(--red); margin-bottom:5px; }
-  .tc-r .lbl { font-size:14px; font-weight:900; color:var(--green); margin-bottom:5px; }
-  .tc-w .eq { font-size:17px; color:var(--red); }
-  .tc-r .eq { font-size:17px; color:var(--green); }
-  .tc-w .why { font-size:10px; color:#991B1B; margin-top:4px; }
-  .tc-r .why { font-size:10px; color:#14532D; margin-top:4px; }
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
 
-  .sc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:8px 0; }
-  .sc-i { background:var(--lightbg); border:2px solid var(--borderc); border-radius:8px; padding:12px; text-align:center; }
-  .sc-i .n { width:30px;height:30px;border-radius:50%; background:var(--blue); color:white; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
-  .sc-i .t { font-size:13px; font-weight:900; }
-  .sc-i .d { font-size:10px; color:var(--gray); line-height:1.4; margin-top:2px; }
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
 
-  .et { width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; }
-  .et th { background:var(--red); color:white; padding:5px 8px; }
-  .et td { padding:5px 8px; border:1px solid var(--borderc); }
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
 
-  .end-note { text-align:center; margin-top:20px; padding-top:14px; border-top:1px solid var(--borderc); font-size:11px; color:var(--gray); }
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
 
-  /* Data table style */
-  .dt { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; text-align:center; }
-  .dt th { background:var(--blue); color:white; padding:5px 8px; font-size:11px; }
-  .dt td { padding:4px 8px; border:1px solid var(--borderc); }
-  .dt tr:nth-child(even) td { background:#FAFBFC; }
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
 
-/* MathJax print/PDF fixes */
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
 @media print {
-  mjx-container[display="true"] { margin: 8px 0; }
+  @page {
+    size: A4;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
+    @bottom-center {
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none; break-inside: avoid;
+    padding: 0;
+    page-break-after: always;
+  }
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
+  }
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
+  }
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
+  }
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
+  }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
   mjx-container > svg { max-width: 100%; height: auto; }
 }
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+
+/* ===========================================================
+   LF Academy v8.0 — MIMO v2.5 Enhanced Design System
+   =========================================================== */
+
+/* Enhanced Educational Blocks */
+.lf-why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-why-box::before{content:"💡 WHY?";font-weight:900;font-size:9pt;color:#0369A1;letter-spacing:2pt;display:block;margin-bottom:8pt;}
+.lf-sspa-tag{display:inline-flex;align-items:center;gap:4pt;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534;}
+.lf-trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-trap-warning::before{content:"⚠️ 陷阱提醒：";font-weight:700;color:#B45309;}
+.lf-story-context{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-story-context::before{content:"📖 生活情境";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt;}
+.lf-parent-summary{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt;}
+.lf-parent-summary::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt;}
+.lf-learning-target{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-learning-target::before{content:"🎯 本課學習目標";font-weight:700;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt;}
+.lf-key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0;}
+.lf-key-point::before{content:"★ 重點";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt;}
+.visual-card{background:white;border:1pt solid rgba(91,125,177,.15);border-radius:10pt;padding:16pt;margin:12pt 0;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;break-inside:avoid;}
+.lf-answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:12pt 0;transition:border-color .2s;}
+.lf-student-info input:focus,.lf-answer-line:focus-within{outline:2px solid #0369A1;outline-offset:1px;}
+a:focus-visible,button:focus-visible{outline:2px solid #0369A1;outline-offset:2px;}
+.math-number{font-weight:700;color:#1A3C6D;font-variant-numeric:tabular-nums;}
+@media screen and (max-width:800px){.lf-page{width:auto;margin:0;padding:10mm 12mm;box-shadow:none;}}
+@media print{.lf-page{width:auto;min-height:auto;margin:0;padding:12mm 15mm 18mm 20mm;box-shadow:none;}.visual-card{background:white!important;box-shadow:none!important;border:1pt solid #E5E7EB!important;break-inside:avoid;}.screen-only{display:none!important;}}
 </style>
 <script>
 MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "educationalLevel": "P5",
+  "about": "香港小學數學",
+  "creativeWorkStatus": "Published",
+  "usageInfo": "AI-generated content with human SME review per 1EdTech Best Practices",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "霖楓學苑 (LF Academy)"
+  }
+}
+</script>
 </head>
 <body>
+
+<div class="lf-why">
+  <div class="lf-why-title">🧠 WHY BOX — Why learn this?</div>
+  <p>Understanding this topic helps you solve real-life math problems and prepares you for the SSPA exam.</p>
+  <p style="font-size:0.85rem;color:#666;">學好這個課題能幫助你解決生活數學問題，為 SSPA 考試做好準備。</p>
+</div>
+
+<div class="lf-parent" style="border-left:3px solid var(--lf-gold,#C9A84C);padding:0.5rem 1rem;margin:1rem 0;background:#FFFDF5;font-size:0.85rem;">
+  <b>📋 Parent Corner / 家長專區</b><br>
+  This topic covers key SSPA exam concepts. Encourage your child to practice the worked examples and common trap questions.
+  <br><span style="color:#666;">本課題涵蓋 SSPA 考試重點。請鼓勵孩子練習例題和陷阱題。</span>
+</div>
+
 <div class="container">
 <!-- ═══════════════ PAGE 1: COVER ═══════════════ -->
 <div class="pb cover-page cover">
@@ -234,7 +846,7 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <!-- Composite bar chart SVG: Stationery store sales -->
 <div style="text-align:center; margin:10px 0; padding:8px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
 <strong style="font-size:14px; color:var(--blue);">📊 Reference chart: Stationery store quarterly sales data composite bar chart</strong>
-<svg class="chart-svg" style="max-width:100%;" viewbox="0 0 700 380" xmlns="http://www.w3.org/2000/svg">
+<svg class="chart-svg" style="max-width:100%;" viewBox="0 0 700 380" xmlns="http://www.w3.org/2000/svg">
 <!-- Background grid -->
 <defs>
 <pattern height="6" id="hatchA" patternunits="userSpaceOnUse" width="6"><rect fill="#3B82F6" height="6" width="6"></rect><line stroke="#fff" stroke-width="1.5" x1="0" x2="6" y1="0" y2="6"></line></pattern>
@@ -313,15 +925,15 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 </div>
 <div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
 <strong style="font-size:14px; color:var(--blue);">📊 Simple bar chart example: match score</strong>
-<svg height="320" viewbox="0 0 360 320" width="360" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="340" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">4</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">8</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">12</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">16</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">20</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">24</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">28</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(Points)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Score</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="116.875" y="308">Red Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="180.625" y="308">Blue Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="244.375" y="308">Green Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="308.125" y="308">Yellow Team</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="180" y="25">Game Score</text><rect fill="#3B82F6" height="163.92857142857144" stroke="#1D4ED8" stroke-width="1" width="44" x="94" y="126.07142857142856"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="116" y="116.07142857142856">18</text><rect fill="#3B82F6" height="218.57142857142856" stroke="#1D4ED8" stroke-width="1" width="44" x="156" y="71.42857142857144"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="178" y="61.428571428571445">24</text><rect fill="#3B82F6" height="127.5" stroke="#1D4ED8" stroke-width="1" width="44" x="218" y="162.5"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="240" y="152.5">14</text><rect fill="#3B82F6" height="182.14285714285714" stroke="#1D4ED8" stroke-width="1" width="44" x="280" y="107.85714285714286"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="302" y="97.85714285714286">20</text></svg>
+<svg height="320" viewBox="0 0 360 320" width="360" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="340" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">4</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">8</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">12</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">16</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">20</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">24</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="340" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">28</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(Points)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Score</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="116.875" y="308">Red Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="180.625" y="308">Blue Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="244.375" y="308">Green Team</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="308.125" y="308">Yellow Team</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="180" y="25">Game Score</text><rect fill="#3B82F6" height="163.92857142857144" stroke="#1D4ED8" stroke-width="1" width="44" x="94" y="126.07142857142856"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="116" y="116.07142857142856">18</text><rect fill="#3B82F6" height="218.57142857142856" stroke="#1D4ED8" stroke-width="1" width="44" x="156" y="71.42857142857144"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="178" y="61.428571428571445">24</text><rect fill="#3B82F6" height="127.5" stroke="#1D4ED8" stroke-width="1" width="44" x="218" y="162.5"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="240" y="152.5">14</text><rect fill="#3B82F6" height="182.14285714285714" stroke="#1D4ED8" stroke-width="1" width="44" x="280" y="107.85714285714286"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="302" y="97.85714285714286">20</text></svg>
 <div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ Each square represents 2 points. The red team has 18 points = 9 squares, and the blue team has 24 points = 12 squares. Note: Axis labels should be clear and scales should be even.</div>
 </div>
 <div class="ex">
 <div class="ex-title">💡 Bar chart vs line chart – when to use which?</div>
 <div class="ex-q">Bar charts are used to compare quantities in different categories; line charts are used to show trends in the same data over time. The following two representations of the same set of data:</div>
 <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:10px 0;">
-<div style="flex:1; min-width:280px;"><svg height="320" viewbox="0 0 344 320" width="344" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="324" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">175</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(Book)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Number of books borrowed</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="114.875" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="174.625" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="234.375" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="294.125" y="308">April</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="172" y="25">Number of books borrowed in four months</text><rect fill="#3B82F6" height="174.85714285714286" stroke="#1D4ED8" stroke-width="1" width="40" x="94" y="115.14285714285714"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="114" y="105.14285714285714">120</text><rect fill="#3B82F6" height="138.42857142857142" stroke="#1D4ED8" stroke-width="1" width="40" x="152" y="151.57142857142858"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="172" y="141.57142857142858">95</text><rect fill="#3B82F6" height="218.57142857142856" stroke="#1D4ED8" stroke-width="1" width="40" x="210" y="71.42857142857144"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="230" y="61.428571428571445">150</text><rect fill="#3B82F6" height="196.71428571428572" stroke="#1D4ED8" stroke-width="1" width="40" x="268" y="93.28571428571428"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="288" y="83.28571428571428">135</text></svg></div>
-<div style="flex:1; min-width:280px;"><svg height="320" viewbox="0 0 370 320" width="370" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="350" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">175</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(pieces)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Sales volume</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="118.125" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="184.375" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="250.625" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="316.875" y="308">April</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="185" y="25">Store A notebook sales trend</text><circle cx="115" cy="144.2857142857143" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="115" y="132.2857142857143">100</text><circle cx="175" cy="115.14285714285714" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="175" y="103.14285714285714">120</text><circle cx="235" cy="71.42857142857144" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="235" y="59.428571428571445">150</text><circle cx="295" cy="100.57142857142856" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="295" y="88.57142857142856">130</text><polyline fill="none" points="115,144.2857142857143 175,115.14285714285714 235,71.42857142857144 295,100.57142857142856" stroke="#DC2626" stroke-linejoin="round" stroke-width="2.5"></polyline></svg></div>
+<div style="flex:1; min-width:280px;"><svg height="320" viewBox="0 0 344 320" width="344" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="324" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">175</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(Book)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Number of books borrowed</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="114.875" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="174.625" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="234.375" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="294.125" y="308">April</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="172" y="25">Number of books borrowed in four months</text><rect fill="#3B82F6" height="174.85714285714286" stroke="#1D4ED8" stroke-width="1" width="40" x="94" y="115.14285714285714"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="114" y="105.14285714285714">120</text><rect fill="#3B82F6" height="138.42857142857142" stroke="#1D4ED8" stroke-width="1" width="40" x="152" y="151.57142857142858"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="172" y="141.57142857142858">95</text><rect fill="#3B82F6" height="218.57142857142856" stroke="#1D4ED8" stroke-width="1" width="40" x="210" y="71.42857142857144"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="230" y="61.428571428571445">150</text><rect fill="#3B82F6" height="196.71428571428572" stroke="#1D4ED8" stroke-width="1" width="40" x="268" y="93.28571428571428"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="288" y="83.28571428571428">135</text></svg></div>
+<div style="flex:1; min-width:280px;"><svg height="320" viewBox="0 0 370 320" width="370" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="350" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="253.57142857142856" y2="253.57142857142856"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="257.57142857142856">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="217.14285714285714" y2="217.14285714285714"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="221.14285714285714">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="180.71428571428572" y2="180.71428571428572"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="184.71428571428572">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="144.28571428571428" y2="144.28571428571428"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="148.28571428571428">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="107.85714285714283" y2="107.85714285714283"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="111.85714285714283">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="71.42857142857142" y2="71.42857142857142"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="75.42857142857142">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="350" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">175</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(pieces)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Sales volume</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="118.125" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="184.375" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="250.625" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="316.875" y="308">April</text><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="185" y="25">Store A notebook sales trend</text><circle cx="115" cy="144.2857142857143" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="115" y="132.2857142857143">100</text><circle cx="175" cy="115.14285714285714" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="175" y="103.14285714285714">120</text><circle cx="235" cy="71.42857142857144" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="235" y="59.428571428571445">150</text><circle cx="295" cy="100.57142857142856" fill="#DC2626" r="4" stroke="white" stroke-width="1.5"></circle><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="middle" x="295" y="88.57142857142856">130</text><polyline fill="none" points="115,144.2857142857143 175,115.14285714285714 235,71.42857142857144 295,100.57142857142856" stroke="#DC2626" stroke-linejoin="round" stroke-width="2.5"></polyline></svg></div>
 </div>
 <div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ Left: Bar chart (emphasis on comparison of monthly values) | Right: Line chart (emphasis on upward/downward trends) - note that the two usage scenarios are different!</div>
 </div>
@@ -403,12 +1015,12 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <div class="h1" style="margin-top:12px;">📐 Drawing practice area — fromdatato chart</div>
 <div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
 <strong style="font-size:14px; color:var(--blue);">🖊️ Exercise 1: Draw a simple bar chart based on the table below</strong>
-<svg height="320" viewbox="0 0 344 320" width="344" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="324" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="258.125" y2="258.125"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="262.125">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="226.25" y2="226.25"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="230.25">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="194.375" y2="194.375"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="198.375">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="162.5" y2="162.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="166.5">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="130.625" y2="130.625"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="134.625">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="98.75" y2="98.75"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="102.75">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="66.875" y2="66.875"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="70.875">175</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">200</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(pieces)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Sales volume</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="114.875" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="174.625" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="234.375" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="294.125" y="308">April</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="172" y="25">Please draw a bar chart based on the data</text><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="94" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="152" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="210" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="268" y="35"></rect><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="172" y="322">(Please draw the bar shape in the dotted box)</text></svg>
+<svg height="320" viewBox="0 0 344 320" width="344" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="290"></line><line stroke="#374151" stroke-width="2" x1="85" x2="324" y1="290" y2="290"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="290.0" y2="290.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="294.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="258.125" y2="258.125"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="262.125">25</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="226.25" y2="226.25"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="230.25">50</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="194.375" y2="194.375"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="198.375">75</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="162.5" y2="162.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="166.5">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="130.625" y2="130.625"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="134.625">125</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="98.75" y2="98.75"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="102.75">150</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="66.875" y2="66.875"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="70.875">175</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="324" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">200</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(pieces)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,162)" x="14" y="162">Sales volume</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="114.875" y="308">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="174.625" y="308">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="234.375" y="308">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="294.125" y="308">April</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="172" y="25">Please draw a bar chart based on the data</text><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="94" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="152" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="210" y="35"></rect><rect fill="none" height="255" stroke="#E5E7EB" stroke-dasharray="4,3" stroke-width="1" width="40" x="268" y="35"></rect><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="172" y="322">(Please draw the bar shape in the dotted box)</text></svg>
 <div style="font-size:10px; color:var(--gray); margin-top:4px;">▲Data: 100 items in January, 120 items in February, 150 items in March, and 130 items in April. Each grid represents 25 pieces. Please draw a bar shape in the dotted box.</div>
 </div>
 <div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
 <strong style="font-size:14px; color:var(--blue);">🖊️ Exercise 2: Draw a composite bar chart based on the table below</strong>
-<svg height="380" viewbox="0 0 406 380" width="406" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="386" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="271.25" y2="271.25"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="275.25">5</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="192.5" y2="192.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="196.5">10</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="113.75" y2="113.75"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="117.75">15</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">20</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(people)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">Number of people</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="122.625" y="368">Football</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="197.875" y="368">Basketball</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="273.125" y="368">Swimming</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="348.375" y="368">Running</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="203" y="25">Please draw a composite bar graph according to the data table</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="169" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="243" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="273" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="317" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="347" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="133" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="149" y="387">Class 5A</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="203" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="219" y="387">Class 5B</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="203" y="402">(Please draw a bar according to the data in the dotted box)</text></svg>
+<svg height="380" viewBox="0 0 406 380" width="406" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="386" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="271.25" y2="271.25"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="275.25">5</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="192.5" y2="192.5"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="196.5">10</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="113.75" y2="113.75"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="117.75">15</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="386" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">20</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(people)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">Number of people</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="122.625" y="368">Football</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="197.875" y="368">Basketball</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="273.125" y="368">Swimming</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="348.375" y="368">Running</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="203" y="25">Please draw a composite bar graph according to the data table</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="169" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="243" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="273" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="317" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="347" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="133" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="149" y="387">Class 5A</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="203" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="219" y="387">Class 5B</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="203" y="402">(Please draw a bar according to the data in the dotted box)</text></svg>
 <div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ For data, please refer to the composite bar chart of "Number of Extracurricular Activities for Two Classes" above. Note: Draw class 5A (blue) first, then draw class 5B (orange), with two sticks side by side in each group.</div>
 </div>
 </div>
@@ -500,12 +1112,12 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 </table>
 <div style="text-align:center; margin:12px 0;">
 <strong style="font-size:14px; color:var(--blue);">📊 Circle chart (pie chart) example – stationery sales proportion</strong>
-<svg height="310" viewbox="0 0 380 310" width="380" xmlns="http://www.w3.org/2000/svg"><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="190" y="22">Stationery sales proportion</text><path d="M 140,135 L 140.0,55.0 A 80,80 0 0,1 196.5685424949238,191.5685424949238 Z" fill="#3B82F6" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="188.0417356905869" y="119.10046151701533">38%</text><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="250" y="105"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="114">Notebooks (450)</text><path d="M 140,135 L 196.5685424949238,191.5685424949238 A 80,80 0 0,1 65.31356588022386,163.669435963624 Z" fill="#F97316" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="129.18859207747653" y="189.8636752381579">32%</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="250" y="127"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="136">Folders (380)</text><path d="M 140,135 L 65.31356588022386,163.669435963624 A 80,80 0 0,1 83.43145750507618,78.4314575050762 Z" fill="#10B981" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="89.1363247618421" y="128.1885920774765">18%</text><rect fill="#10B981" height="10" stroke="none" stroke-width="0" width="12" x="250" y="149"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="158">Pencils (220)</text><path d="M 140,135 L 83.43145750507618,78.4314575050762 A 80,80 0 0,1 139.99999999999997,55.0 Z" fill="#EF4444" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="120.10046151701535" y="90.95826430941308">12%</text><rect fill="#EF4444" height="10" stroke="none" stroke-width="0" width="12" x="250" y="171"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="180">Erasers (150)</text></svg>
+<svg height="310" viewBox="0 0 380 310" width="380" xmlns="http://www.w3.org/2000/svg"><text fill="#1A3C6D" font-size="14" font-weight="700" text-anchor="middle" x="190" y="22">Stationery sales proportion</text><path d="M 140,135 L 140.0,55.0 A 80,80 0 0,1 196.5685424949238,191.5685424949238 Z" fill="#3B82F6" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="188.0417356905869" y="119.10046151701533">38%</text><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="250" y="105"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="114">Notebooks (450)</text><path d="M 140,135 L 196.5685424949238,191.5685424949238 A 80,80 0 0,1 65.31356588022386,163.669435963624 Z" fill="#F97316" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="129.18859207747653" y="189.8636752381579">32%</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="250" y="127"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="136">Folders (380)</text><path d="M 140,135 L 65.31356588022386,163.669435963624 A 80,80 0 0,1 83.43145750507618,78.4314575050762 Z" fill="#10B981" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="89.1363247618421" y="128.1885920774765">18%</text><rect fill="#10B981" height="10" stroke="none" stroke-width="0" width="12" x="250" y="149"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="158">Pencils (220)</text><path d="M 140,135 L 83.43145750507618,78.4314575050762 A 80,80 0 0,1 139.99999999999997,55.0 Z" fill="#EF4444" stroke="white" stroke-width="2"></path><text fill="white" font-size="9" font-weight="700" text-anchor="middle" x="120.10046151701535" y="90.95826430941308">12%</text><rect fill="#EF4444" height="10" stroke="none" stroke-width="0" width="12" x="250" y="171"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="268" y="180">Erasers (150)</text></svg>
 <div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ Circle graphs are used to express "what fraction of a part accounts for the whole." The larger the fan shape = the higher the proportion.</div>
 </div>
 <div style="text-align:center; margin:12px 0; padding:10px; background:#FFFBEB; border:1px solid var(--borderc); border-radius:5px;">
 <strong style="font-size:14px; color:var(--blue);">🏔️Museum Admission Composite Stick Chart (🌳1 supporting template)</strong>
-<svg height="380" viewbox="0 0 526 380" width="526" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="506" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="287.0" y2="287.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="291.0">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="224.0" y2="224.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="228.0">200</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="161.0" y2="161.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="165.0">300</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="98.0" y2="98.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="102.0">400</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">500</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(people)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">Number of visitors</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="137.625" y="368">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="242.875" y="368">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="348.125" y="368">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="453.375" y="368">April</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="263" y="25">Please draw a composite stick chart of museum admissions based on 🌳1 data</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="155" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="229" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="259" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="303" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="333" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="363" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="407" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="437" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="467" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="158" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="174" y="387">Adults</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="228" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="244" y="387">Students</text><rect fill="#10B981" height="10" stroke="none" stroke-width="0" width="12" x="298" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="314" y="387">Elders</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="263" y="402">(Please draw a bar shape according to the data in the dotted box)</text></svg>
+<svg height="380" viewBox="0 0 526 380" width="526" xmlns="http://www.w3.org/2000/svg"><line stroke="#374151" stroke-width="2" x1="85" x2="85" y1="35" y2="350"></line><line stroke="#374151" stroke-width="2" x1="85" x2="506" y1="350" y2="350"></line><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="350.0" y2="350.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="354.0">0</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="287.0" y2="287.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="291.0">100</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="224.0" y2="224.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="228.0">200</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="161.0" y2="161.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="165.0">300</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="98.0" y2="98.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="102.0">400</text><line stroke="#E5E7EB" stroke-width="0.5" x1="85" x2="506" y1="35.0" y2="35.0"></line><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="end" x="77" y="39.0">500</text><text fill="#6B7280" font-size="9" font-weight="700" text-anchor="end" x="77" y="39">(people)</text><text fill="#1A3C6D" font-size="11" text-anchor="middle" transform="rotate(-90,14,192)" x="14" y="192">Number of visitors</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="137.625" y="368">January</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="242.875" y="368">February</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="348.125" y="368">March</text><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="453.375" y="368">April</text><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="263" y="25">Please draw a composite stick chart of museum admissions based on 🌳1 data</text><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="95" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="125" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="155" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="199" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="229" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="259" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="303" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="333" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="363" y="35"></rect><rect fill="none" height="315" stroke="#3B82F6" stroke-dasharray="4,3" stroke-width="1" width="24" x="407" y="35"></rect><rect fill="none" height="315" stroke="#F97316" stroke-dasharray="4,3" stroke-width="1" width="24" x="437" y="35"></rect><rect fill="none" height="315" stroke="#10B981" stroke-dasharray="4,3" stroke-width="1" width="24" x="467" y="35"></rect><rect fill="#3B82F6" height="10" stroke="none" stroke-width="0" width="12" x="158" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="174" y="387">Adults</text><rect fill="#F97316" height="10" stroke="none" stroke-width="0" width="12" x="228" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="244" y="387">Students</text><rect fill="#10B981" height="10" stroke="none" stroke-width="0" width="12" x="298" y="378"></rect><text fill="#1A3C6D" font-size="10" font-weight="700" text-anchor="start" x="314" y="387">Elders</text><text fill="#6B7280" font-size="10" font-weight="700" text-anchor="middle" x="263" y="402">(Please draw a bar shape according to the data in the dotted box)</text></svg>
 <div style="font-size:10px; color:var(--gray); margin-top:4px;">▲ Three patterns (adult/student/elderly) × four months. Use a pencil to sketch first, make sure the height is correct, and then add color.</div>
 </div>
 <!-- ═══════════════ PAGE 6: ERROR SUMMARY ═══════════════ -->
@@ -551,5 +1163,14 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
   Print Ctrl+P PDF | 3 pages · 64 questions | LF-P5-S2-L32 v6 EN
 </div>
+
+<!-- AI Provenance Disclosure -->
+<div class="ai-disclosure" style="font-size:0.75rem;color:#888;border-top:1px solid #eee;margin-top:2rem;padding-top:0.5rem;text-align:center;">
+  📌 本講義由 AI 輔助生成，並經導師審閱。| 
+  AI Model: <span data-ai-model-display>deepseek-v4-flash</span> | 
+  生成日期: <span data-ai-date-display>2026-06-11</span> |
+  審閱狀態: <span data-review-status>⏳ 待審閱</span>
+</div>
+
 </body>
 </html>

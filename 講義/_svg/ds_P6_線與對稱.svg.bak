@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 陰影濾鏡 -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+    <filter id="shadowLight" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+
+    <!-- 漸變色 -->
+    <linearGradient id="gradLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="gradRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#EF4444"/>
+    </linearGradient>
+    <linearGradient id="gradBottom" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="gradTitle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+
+    <!-- 箭頭定義 -->
+    <marker id="arrowBlue" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#4F46E5"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#10B981"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#6B7280"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#F8FAFC" rx="12"/>
+
+  <!-- 標題 -->
+  <text x="300" y="38" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="22" font-weight="bold" fill="url(#gradTitle)">線與對稱 — 軸對稱 vs 旋轉對稱</text>
+
+  <!-- ==================== 左側：軸對稱（蝴蝶） ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="20" y="55" width="270" height="155" rx="12" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="155" y="82" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="15" font-weight="bold" fill="#4F46E5">🦋 軸對稱（蝴蝶）</text>
+
+  <!-- 蝴蝶身體（中心線） -->
+  <line x1="155" y1="95" x2="155" y2="195" stroke="#4F46E5" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrowBlue)"/>
+  <line x1="155" y1="95" x2="155" y2="85" stroke="#4F46E5" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arrowBlue)"/>
+
+  <!-- 蝴蝶左翅 -->
+  <g>
+    <ellipse cx="125" cy="130" rx="38" ry="28" fill="#4F46E5" opacity="0.7" transform="rotate(-10, 125, 130)"/>
+    <ellipse cx="130" cy="170" rx="28" ry="18" fill="#7C3AED" opacity="0.6" transform="rotate(5, 130, 170)"/>
+    <!-- 左翅花紋 -->
+    <circle cx="120" cy="125" r="6" fill="#F59E0B" opacity="0.8"/>
+    <circle cx="128" cy="168" r="4" fill="#F59E0B" opacity="0.7"/>
+  </g>
+
+  <!-- 蝴蝶右翅（鏡像） -->
+  <g>
+    <ellipse cx="185" cy="130" rx="38" ry="28" fill="#4F46E5" opacity="0.7" transform="rotate(10, 185, 130)"/>
+    <ellipse cx="180" cy="170" rx="28" ry="18" fill="#7C3AED" opacity="0.6" transform="rotate(-5, 180, 170)"/>
+    <!-- 右翅花紋 -->
+    <circle cx="190" cy="125" r="6" fill="#F59E0B" opacity="0.8"/>
+    <circle cx="182" cy="168" r="4" fill="#F59E0B" opacity="0.7"/>
+  </g>
+
+  <!-- 蝴蝶觸角 -->
+  <path d="M155,100 Q140,88 132,82" stroke="#4F46E5" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M155,100 Q170,88 178,82" stroke="#4F46E5" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <circle cx="132" cy="82" r="2.5" fill="#F59E0B"/>
+  <circle cx="178" cy="82" r="2.5" fill="#F59E0B"/>
+
+  <!-- 對稱軸標籤 -->
+  <text x="155" y="210" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#4F46E5" font-weight="bold">對稱軸</text>
+
+  <!-- ==================== 右側：旋轉對稱（風車） ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="310" y="55" width="270" height="155" rx="12" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+  <text x="445" y="82" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="15" font-weight="bold" fill="#F59E0B">🌀 旋轉對稱（風車）</text>
+
+  <!-- 風車旋轉中心 -->
+  <circle cx="445" cy="140" r="5" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+
+  <!-- 風車葉片（4片） -->
+  <!-- 葉片1：上 -->
+  <g>
+    <path d="M445,140 L430,95 L445,100 L460,95 Z" fill="#F59E0B" opacity="0.85" stroke="#D97706" stroke-width="0.5"/>
+  </g>
+  <!-- 葉片2：右 -->
+  <g>
+    <path d="M445,140 L490,155 L445,160 L490,165 Z" fill="#EF4444" opacity="0.85" stroke="#DC2626" stroke-width="0.5"/>
+  </g>
+  <!-- 葉片3：下 -->
+  <g>
+    <path d="M445,140 L430,185 L445,180 L460,185 Z" fill="#F59E0B" opacity="0.85" stroke="#D97706" stroke-width="0.5"/>
+  </g>
+  <!-- 葉片4：左 -->
+  <g>
+    <path d="M445,140 L400,155 L445,160 L400,165 Z" fill="#EF4444" opacity="0.85" stroke="#DC2626" stroke-width="0.5"/>
+  </g>
+
+  <!-- 旋轉箭頭（弧形） -->
+  <path d="M445,105 A38,38 0 0,1 478,130" stroke="#10B981" stroke-width="1.8" fill="none" marker-end="url(#arrowGreen)" stroke-dasharray="4,3"/>
+  <path d="M445,175 A38,38 0 0,1 412,150" stroke="#10B981" stroke-width="1.8" fill="none" marker-end="url(#arrowGreen)" stroke-dasharray="4,3"/>
+
+  <!-- 旋轉角度標示 -->
+  <text x="472" y="112" font-family="Microsoft YaHei, sans-serif" font-size="10" fill="#10B981" font-weight="bold">90°</text>
+  <text x="400" y="165" font-family="Microsoft YaHei, sans-serif" font-size="10" fill="#10B981" font-weight="bold">90°</text>
+
+  <!-- 旋轉中心標籤 -->
+  <text x="445" y="210" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#F59E0B" font-weight="bold">旋轉中心 · 4次旋轉對稱</text>
+
+  <!-- ==================== 下方：對比說明 ==================== -->
+  <g filter="url(#shadowLight)">
+    <rect x="20" y="225" width="560" height="160" rx="12" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+
+  <!-- 左下方：軸對稱說明 -->
+  <rect x="35" y="240" width="245" height="130" rx="8" fill="#EEF2FF" stroke="#C7D2FE" stroke-width="1"/>
+  <text x="157" y="262" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="13" font-weight="bold" fill="#4F46E5">軸對稱特點</text>
+  <line x1="60" y1="272" x2="255" y2="272" stroke="#C7D2FE" stroke-width="1"/>
+  <text x="50" y="292" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#374151">• 沿對稱軸摺疊，兩側完全重合</text>
+  <text x="50" y="312" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#374151">• 對稱軸是一條直線</text>
+  <text x="50" y="332" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#374151">• 左右兩邊互為鏡像</text>
+  <text x="50" y="352" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#374151">• 例子：蝴蝶、人臉、字母 A</text>
+
+  <!-- 右下方：旋轉對稱說明 -->
+  <rect x="320" y="240" width="245" height="130" rx="8" fill="#FFF7ED" stroke="#FDE68A" stroke-width="1"/>
+  <text x="442" y="262" text-anchor="middle" font-family="Microsoft YaHei, sans-serif" font-size="13" font-weight="bold" fill="#F59E0B">旋轉對稱特點</text>
+  <line x1="345" y1="272" x2="540" y2="272" stroke="#FDE68A" stroke-width="1"/>
+  <text x="335" y="292" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#374151">• 繞旋轉中心轉動後與原圖重合</text>
+  <text x="335" y="312" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#374151">• 旋轉中心是一個點</text>
+  <text x="335" y="332" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#374151">• 每次旋轉角度 = 360° ÷ 次數</text>
+  <text x="335" y="352" font-family="Microsoft YaHei, sans-serif" font-size="11" fill="#374151">• 例子：風車、雪花、時鐘指針</text>
+
+  <!-- 底部裝飾線 -->
+  <rect x="20" y="390" width="560" height="3" rx="1.5" fill="url(#gradTitle)"/>
+</svg>

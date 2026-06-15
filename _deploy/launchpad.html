@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<a href="#lp-content" class="skip-link">跳至控制台</a>
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
@@ -6,500 +7,408 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>霖楓學苑 · Launchpad v2.1 | 總控制台</title>
+<title>霖楓學苑 · Launchpad v3.0 | AI 智能控制台</title>
+
+<link rel="stylesheet" href="/lf-academy-v8.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
-:root{--blue:#1A3C6D;--gold:#C9A84C;--red:#DC2626;--green:#16A34A;--white:#FFF;--gray:#6B7280;--lightbg:#F9FAFB;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Noto Sans HK',sans-serif;background:#F3F4F6;color:#1A1A1A;font-size:13px;line-height:1.6;}
-.topbar{background:linear-gradient(135deg,#1A3C6D,#1E4D8C);color:white;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
-.topbar h1{font-family:'Noto Serif HK',serif;font-size:19px;}
-.topbar .sub{color:#C9A84C;font-size:11px;}
-.topbar .status{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;}
-.topbar .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#16A34A;margin-right:4px;}
-.container{max-width:1300px;margin:0 auto;padding:16px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px;}
-.card{background:white;border-radius:10px;padding:18px;box-shadow:0 2px 6px rgba(0,0,0,0.06);}
-.card h2{font-size:15px;color:var(--blue);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--gold);}
-.card h3{font-size:12px;color:var(--blue);margin:10px 0 6px;}
-.btn{display:block;width:100%;padding:9px 14px;margin:4px 0;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;transition:all 0.15s;font-family:'Noto Sans HK',sans-serif;}
-.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15);}
-.btn-blue{background:var(--blue);color:white;}
-.btn-gold{background:var(--gold);color:white;}
-.btn-green{background:var(--green);color:white;}
-.btn-red{background:var(--red);color:white;}
-.btn-outline{background:white;color:var(--blue);border:2px solid var(--blue);}
-.btn-sm{padding:5px 10px;font-size:10px;display:inline-block;width:auto;margin:2px;}
-.stat-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #E5E7EB;font-size:11px;}
-.stat-row .val{font-weight:900;}
-.cmd-box{background:#1E1E1E;color:#E5E5E5;padding:10px 14px;border-radius:7px;font-family:Consolas,monospace;font-size:11px;margin:6px 0;overflow-x:auto;white-space:nowrap;}
-.cmd-box .prompt{color:#C9A84C;}
-.cmd-box .cmd{color:#93C5FD;}
-.cmd-box .highlight{color:#F59E0B;font-weight:700;}
-.quick-actions{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;}
-.tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;margin-left:4px;}
-.tag-new{background:#EDE9FE;color:#7C3AED;}
-.tag-web{background:#DCFCE7;color:#166534;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:4px;}
-.tag-local{background:#FEF3C7;color:#92400E;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:4px;}
-.footer{text-align:center;padding:20px;color:#6B7280;font-size:10px;}
-.footer a{color:var(--blue);}
-@media(max-width:768px){.grid{grid-template-columns:1fr;}}
+/* ═══ Launchpad Specific ═══ */
+body{background:linear-gradient(160deg,#091524 0%,#0F2440 30%,#1A3C6D 60%,#1E4D8C 100%);min-height:100vh;color:rgba(255,255,255,0.85);padding-top:var(--nav-height)}
+.lp-container{max-width:1340px;margin:0 auto;padding:20px 24px}
+.lp-header{padding:8px 0 20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+.lp-header h1{font-family:var(--font-serif);font-size:1.6em;color:white;margin:0}
+.lp-header .sub{color:var(--gold);font-size:0.8em;margin-top:2px}
+.lp-status{display:flex;gap:16px;flex-wrap:wrap;font-size:0.78em}
+.lp-status .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px}
+.dot-online{background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,0.4)}
+.dot-offline{background:#fbbf24}
 
-/* ═══ UX Pro Max v1.0: Accessibility + Reduced Motion ═══ */
-:focus-visible{outline:2px solid var(--gold,#C9A84C);outline-offset:2px;border-radius:2px;}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important;}
+.lp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px;margin-bottom:24px}
+
+.lp-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-lg);padding:22px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:all var(--duration)}
+.lp-card:hover{border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.07)}
+.lp-card h2{font-size:0.95em;color:var(--gold);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:8px}
+.lp-card h3{font-size:0.82em;color:rgba(255,255,255,0.7);margin:12px 0 6px}
+.lp-card-wide{grid-column:1/-1}
+
+.lp-stat-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.8em}
+.lp-stat-row .val{font-weight:700;color:var(--gold);font-family:var(--font-mono);font-size:0.92em}
+.lp-stat-row .val-green{color:#4ade80}
+.lp-stat-row .val-red{color:#f87171}
+
+.lp-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius-full);font-size:0.78em;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:all var(--duration-fast);white-space:nowrap;font-family:var(--font-sans)}
+.lp-btn:hover{transform:translateY(-1px)}
+.lp-btn-primary{background:rgba(255,255,255,0.15);color:white}
+.lp-btn-primary:hover{background:rgba(255,255,255,0.25)}
+.lp-btn-gold{background:var(--gold);color:var(--blue-dark);font-weight:700}
+.lp-btn-gold:hover{background:var(--gold-light);box-shadow:0 4px 16px rgba(201,168,76,0.3)}
+.lp-btn-blue{background:var(--blue);color:white;border:1px solid rgba(255,255,255,0.15)}
+.lp-btn-red{background:var(--red);color:white}
+.lp-btn-outline{background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.2)}
+.lp-btn-outline:hover{background:rgba(255,255,255,0.1);color:white}
+.lp-btn-sm{padding:5px 12px;font-size:0.7em}
+
+.lp-actions{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+
+.lp-cmd{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-sm);padding:10px 14px;font-family:var(--font-mono);font-size:0.72em;margin:6px 0;overflow-x:auto;white-space:nowrap;color:#e2e8f0}
+.lp-cmd .prompt{color:var(--gold)}
+.lp-cmd .cmd{color:#93c5fd}
+.lp-cmd .hl{color:#fbbf24;font-weight:700}
+
+.lp-tag{display:inline-block;padding:2px 8px;border-radius:var(--radius-full);font-size:0.65em;font-weight:700}
+.lp-tag-new{background:rgba(124,58,237,0.2);color:#c4b5fd}
+.lp-tag-web{background:rgba(22,163,74,0.2);color:#86efac}
+.lp-tag-local{background:rgba(251,191,36,0.2);color:#fde68a}
+
+.lp-ai-snapshot{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(99,102,241,0.1));border:1px solid rgba(124,58,237,0.2);border-radius:var(--radius-lg);padding:20px}
+.lp-ai-snapshot h2{color:#c4b5fd!important;border-color:rgba(124,58,237,0.2)!important}
+
+.lp-input{width:100%;padding:9px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-sm);color:white;font-size:0.82em;outline:none;transition:border var(--duration-fast)}
+.lp-input:focus{border-color:var(--gold)}
+.lp-input::placeholder{color:rgba(255,255,255,0.3)}
+
+.lp-footer{text-align:center;padding:24px;color:rgba(255,255,255,0.3);font-size:0.72em}
+.lp-footer a{color:var(--gold)}
+
+@media(max-width:768px){
+  .lp-grid{grid-template-columns:1fr}
+  .lp-header{flex-direction:column}
 }
-
 </style>
+
+<meta property="og:title" content="霖楓學苑 · Launchpad v3.0">
+<meta property="og:description" content="AI智能數學教育平台控制台。">
+<meta property="og:image" content="https://www.lfacademyhk.com/logo.png">
+<link rel="canonical" href="https://www.lfacademyhk.com/launchpad.html">
 </head>
 <body>
 
-<div class="topbar">
-<div>
-<h1>🪤 霖楓學苑 · LF Academy</h1>
-<div class="sub">Launchpad v2.1 · 總控制台 · 2026-05-24</div>
-</div>
-<div class="status">
-<span><span class="dot"></span> 系統正常</span>
-<span>📚 208 堂</span>
-<span>📄 206 PDF</span>
-<span>📐 420+ SVG</span>
-<span>✅ 173 AK</span>
-</div>
-</div>
+<div class="lp-container">
+  <!-- ═══ HEADER ═══ -->
+  <div class="lp-header">
+    <div>
+      <h1>霖楓學苑 · LF Academy</h1>
+      <div class="sub">Launchpad v3.0 · AI 智能控制台 · <span id="liveDate"></span></div>
+    </div>
+    <div class="lp-status">
+      <span><span class="dot dot-online" id="sysDot"></span> <span id="sysStatus">檢查中...</span></span>
+      <span id="apiStatus">🔗 API: 檢查中...</span>
+      <span>📚 <span id="lectureCount">208</span> 堂</span>
+      <span>📄 <span id="pdfCount">206</span> PDF</span>
+      <span>📐 <span id="svgCount">420+</span> SVG</span>
+      <span>✅ <span id="akCount">173</span> AK</span>
+    </div>
+  </div>
 
-<div class="container">
-<div class="grid">
+  <div class="lp-grid">
+    <!-- ═══ AI 今日快照 ═══ -->
+    <div class="lp-card lp-ai-snapshot">
+      <h2>🤖 AI 今日快照 <span class="lp-tag lp-tag-new">v3.0</span></h2>
+      <div class="lp-stat-row"><span>📅 今日日期</span><span class="val" id="snapDate">--</span></div>
+      <div class="lp-stat-row"><span>🧠 AI 引擎</span><span class="val" id="snapEngine">檢查中...</span></div>
+      <div class="lp-stat-row"><span>🔗 API 狀態</span><span class="val" id="snapAPI">檢查中...</span></div>
+      <div class="lp-stat-row"><span>📢 今日排程</span><span class="val" id="snapPosts">檢查中...</span></div>
+      <div class="lp-stat-row"><span>👥 活躍用戶</span><span class="val" id="snapUsers">--</span></div>
+      <div style="margin-top:8px;padding:8px 12px;background:rgba(201,168,76,0.08);border-radius:8px;font-size:0.78em;color:var(--gold)" id="snapSuggestion">載入中...</div>
+      <div class="lp-actions" style="margin-top:10px">
+        <a href="/ai-tutor.html" class="lp-btn lp-btn-gold">🤖 AI 導師</a>
+        <a href="/practice.html" class="lp-btn lp-btn-primary">📝 做題練習</a>
+        <a href="/membership.html" class="lp-btn lp-btn-outline">⭐ 會員中心</a>
+      </div>
+    </div>
 
-<!-- CARD: AI 智能快照 v1.0 (NEW) -->
-<div class="card" style="border-left:4px solid #7C3AED;background:linear-gradient(135deg,#FAF5FF,#EDE9FE);">
-<h2>🤖 AI 今日快照 <span class="tag-new" style="font-size:10px;">v1.0</span></h2>
-<div id="aiSnapshot">
-  <div class="stat-row"><span>📅 今日日期</span><span class="val" id="snapDate">--</span></div>
-  <div class="stat-row"><span>📢 今日排程貼文</span><span class="val" id="snapPosts">檢查中...</span></div>
-  <div class="stat-row"><span>🟢 API 狀態</span><span class="val" id="snapAPI">檢查中...</span></div>
-  <div class="stat-row"><span>🧠 AI 引擎</span><span class="val" id="snapAI">檢查中...</span></div>
-  <div class="stat-row"><span>💡 智能建議</span><span class="val" id="snapSuggestion" style="color:#7C3AED;font-size:11px;">載入中...</span></div>
-  <div class="quick-actions" style="margin-top:8px;">
-    <a href="./docs/social/social_calendar_v2.html" class="btn btn-blue btn-sm" style="width:auto;">📅 查看內容日曆</a>
-    <a href="./docs/social/publish/" class="btn btn-gold btn-sm" style="width:auto;">🚀 今日發佈</a>
-    <a href="./ai-tutor.html" class="btn btn-green btn-sm" style="width:auto;">🤖 AI 導師</a>
+    <!-- ═══ 快速啟動 ═══ -->
+    <div class="lp-card">
+      <h2>🚀 快速啟動</h2>
+      <div class="lp-actions">
+        <a href="/ai-tutor.html" class="lp-btn lp-btn-gold">🤖 AI導師</a>
+        <a href="/practice.html" class="lp-btn lp-btn-primary">📝 做題</a>
+        <a href="/docs/ai-diagnostic.html" class="lp-btn lp-btn-outline">🔬 診斷</a>
+        <a href="/講義/master_index.html" class="lp-btn lp-btn-outline">📚 講義</a>
+        <a href="/docs/enroll.html" class="lp-btn lp-btn-red">🎯 報名</a>
+        <a href="/docs/student-platform.html" class="lp-btn lp-btn-outline">🎓 學生平台</a>
+        <a href="/docs/teacher-dashboard.html" class="lp-btn lp-btn-outline">👨‍🏫 老師後台</a>
+        <a href="/docs/crm.html" class="lp-btn lp-btn-outline">🔥 CRM</a>
+        <a href="/docs/parent-portal.html" class="lp-btn lp-btn-outline">👨‍👩‍👧 家長</a>
+      </div>
+
+      <h3>📣 市場推廣</h3>
+      <div class="lp-actions">
+        <a href="/docs/social/social_calendar_ultimate.html" class="lp-btn lp-btn-gold lp-btn-sm">📅 宣傳日曆</a>
+        <a href="/docs/whatsapp-ai.html" class="lp-btn lp-btn-outline lp-btn-sm">📱 WA AI</a>
+        <a href="/docs/ad-link-generator.html" class="lp-btn lp-btn-outline lp-btn-sm">🔗 廣告連結</a>
+        <a href="/docs/testimonials.html" class="lp-btn lp-btn-outline lp-btn-sm">🌟 見證</a>
+      </div>
+
+      <h3>📊 營運工具</h3>
+      <div class="lp-actions">
+        <a href="/_operations/trap_diagnostic_full.html" class="lp-btn lp-btn-red lp-btn-sm">🧪 全面診斷</a>
+        <a href="/docs/test-generator.html" class="lp-btn lp-btn-primary lp-btn-sm">🤖 智能出題</a>
+        <a href="/docs/online-test.html" class="lp-btn lp-btn-outline lp-btn-sm">💻 線上測驗</a>
+        <a href="/docs/booking.html" class="lp-btn lp-btn-outline lp-btn-sm">📅 預約</a>
+        <a href="/docs/hub.html" class="lp-btn lp-btn-outline lp-btn-sm">🏠 Hub</a>
+      </div>
+    </div>
+
+    <!-- ═══ 年級快速瀏覽 ═══ -->
+    <div class="lp-card">
+      <h2>📖 年級講義</h2>
+      <div class="lp-actions">
+        <a href="/講義/P3/" class="lp-btn lp-btn-primary">P3 小三 (43堂)</a>
+        <a href="/講義/P4/" class="lp-btn lp-btn-primary">P4 小四 (43堂)</a>
+        <a href="/講義/P5/" class="lp-btn lp-btn-gold">P5 小五 (80堂)</a>
+        <a href="/講義/P6/" class="lp-btn lp-btn-primary">P6 小六 (42堂)</a>
+        <a href="/講義/EN/" class="lp-btn lp-btn-outline lp-btn-sm">🌐 EN</a>
+        <a href="/講義/master_index.html" class="lp-btn lp-btn-outline lp-btn-sm">🔍 搜尋</a>
+      </div>
+
+      <h3>🧠 AI 工具箱 <span class="lp-tag lp-tag-new">v15.0</span></h3>
+      <div class="lp-actions">
+        <a href="/docs/ai-content-engine.html" class="lp-btn lp-btn-outline lp-btn-sm">📝 內容引擎</a>
+        <a href="/docs/ai-variant-generator.html" class="lp-btn lp-btn-outline lp-btn-sm">🔄 變體生成</a>
+        <a href="/docs/ai-worksheet-generator.html" class="lp-btn lp-btn-outline lp-btn-sm">📄 工作紙</a>
+        <a href="/docs/ai-voice-tutor.html" class="lp-btn lp-btn-outline lp-btn-sm">🎙 語音導師</a>
+      </div>
+    </div>
+
+    <!-- ═══ 系統狀態 ═══ -->
+    <div class="lp-card">
+      <h2>📊 系統狀態 v3.0</h2>
+      <div class="lp-stat-row"><span>P3 小三</span><span class="val">43 HTML | 40 PDF</span></div>
+      <div class="lp-stat-row"><span>P4 小四</span><span class="val">43 HTML | 40 PDF</span></div>
+      <div class="lp-stat-row"><span>P5 小五</span><span class="val">80 HTML | 86 PDF</span></div>
+      <div class="lp-stat-row"><span>P6 小六</span><span class="val">42 HTML | 40 PDF</span></div>
+      <div class="lp-stat-row" style="border-top:1px solid rgba(255,255,255,0.12);margin-top:8px;padding-top:8px;font-weight:700">
+        <span>📦 總計</span><span class="val" style="color:#4ade80">208 堂 | 206 PDF | 420+ SVG</span>
+      </div>
+      <div class="lp-stat-row"><span>✅ 答案冊</span><span class="val" style="color:#c4b5fd">173 份 (83%)</span></div>
+      <div class="lp-stat-row"><span>🌐 EN 翻譯</span><span class="val">168 份</span></div>
+      <div class="lp-stat-row"><span>🔧 Python 腳本</span><span class="val">165 個</span></div>
+      <div class="lp-stat-row"><span>📋 營運資產</span><span class="val">25+ HTML</span></div>
+    </div>
+
+    <!-- ═══ 系統指令 (本機) ═══ -->
+    <div class="lp-card">
+      <h2>🖥️ 系統指令 <span class="lp-tag lp-tag-local">本機</span></h2>
+      <p style="font-size:0.72em;color:rgba(255,255,255,0.4);margin-bottom:10px">VS Code 終端機執行</p>
+
+      <div class="lp-cmd"><span class="prompt">PS&gt;</span> <span class="cmd hl">python scripts/deploy.py --push</span></div>
+      <p style="font-size:0.65em;color:rgba(255,255,255,0.3);margin:3px 0 10px">⬆️ 一鍵部署到網站</p>
+
+      <div class="lp-cmd"><span class="prompt">PS&gt;</span> <span class="cmd">python scripts/pipeline_master_index.py --deploy</span></div>
+      <p style="font-size:0.65em;color:rgba(255,255,255,0.3);margin:3px 0 10px">重建索引 + 自動部署</p>
+
+      <div class="lp-cmd"><span class="prompt">PS&gt;</span> <span class="cmd">python scripts/auto_answer_key.py --grade P5</span></div>
+      <p style="font-size:0.65em;color:rgba(255,255,255,0.3);margin:3px 0 10px">生成答案冊</p>
+
+      <div class="lp-cmd"><span class="prompt">PS&gt;</span> <span class="cmd">python scripts/pipeline_quality.py --issues-only</span></div>
+      <p style="font-size:0.65em;color:rgba(255,255,255,0.3);margin:3px 0 10px">品質審計</p>
+
+      <div class="lp-cmd"><span class="prompt">PS&gt;</span> <span class="cmd hl">python scripts/lf_smart_monthly.py --month 7</span></div>
+      <p style="font-size:0.65em;color:rgba(255,255,255,0.3);margin:3px 0 8px">🤖 AI生成當月宣傳日曆</p>
+
+      <a href="/_operations/efficiency_toolkit.html" class="lp-btn lp-btn-outline lp-btn-sm" style="margin-top:6px">⚡ 效率工具箱 →</a>
+    </div>
+
+    <!-- ═══ 教師管理 ═══ -->
+    <div class="lp-card" style="border-left:2px solid var(--purple)">
+      <h2>👩‍🏫 教師管理 <span class="lp-tag lp-tag-new">內部</span></h2>
+      <div id="teacherAuthCheck" style="text-align:center;padding:16px">
+        <p style="color:rgba(255,255,255,0.4);font-size:0.82em;margin-bottom:12px">請先登入管理員帳號</p>
+        <a href="/auth.html" class="lp-btn lp-btn-gold">🔐 前往登入</a>
+      </div>
+
+      <div id="teacherPanel" style="display:none">
+        <h3>➕ 建立教師帳號</h3>
+        <div id="teacherMsg" style="font-size:0.75em;margin-bottom:8px;display:none;padding:8px;border-radius:6px"></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <input type="text" id="tName" placeholder="教師姓名" class="lp-input">
+          <input type="email" id="tEmail" placeholder="教師電郵" class="lp-input">
+          <input type="password" id="tPassword" placeholder="設定密碼 (最少8位)" class="lp-input">
+          <button class="lp-btn lp-btn-gold" onclick="createTeacher()">✨ 建立教師帳號</button>
+        </div>
+        <h3 style="margin-top:16px">📋 現有教師</h3>
+        <div id="teacherList" style="font-size:0.75em;color:rgba(255,255,255,0.4)">載入中...</div>
+      </div>
+    </div>
   </div>
 </div>
+
+<div class="lp-footer">
+  🪤 霖楓學苑 · LF Academy · Launchpad v3.0 ·
+  <a href="/">首頁</a> ·
+  <a href="/docs/enroll.html">報名</a> ·
+  <a href="/docs/user_guide.html">使用指南</a>
 </div>
 
-
-
-<!-- CARD: AI 智能系統 (NEW v4.0) -->
-<div class="card" style="border-left:4px solid #A855F7;background:linear-gradient(135deg,#FAF5FF,#F5F3FF);">
-<h2>🧠 AI 智能系統 <span class="tag-new">v4.0</span></h2>
-<div class="quick-actions">
-  <a href="./docs/social/social_calendar_ultimate.html" class="btn btn-gold btn-sm" style="width:auto;">📅 終極宣傳日曆 ⭐NEW (完整文案+海報)</a>
-<a href="./docs/social/social_calendar_v3.html" class="btn btn-blue btn-sm" style="width:auto;">📅 AI 智能日曆 v3</a>
-  <a href="./docs/social/social_calendar_v2.html" class="btn btn-outline btn-sm" style="width:auto;">📅 社群日曆 v2</a>
-  <a href="./docs/new-town-plaza-strategy.html" class="btn btn-gold btn-sm" style="width:auto;">🏢 新城市廣場海報策略 ⭐NEW</a>
-  <a href="#" class="btn btn-green btn-sm" style="width:auto;" onclick="runAIContentCheck()">🤖 AI內容檢查</a>
-</div>
-<div id="aiSystemsStatus" style="font-size:10px;color:#6B7280;margin-top:8px;">
-  <span id="aiEngineStatus">🧠 AI引擎: 檢查中...</span> ·
-  <span id="aiCalendarStatus">📅 智能日曆: 檢查中...</span> ·
-  <span id="aiABTestStatus">🧪 AB測試: 檢查中...</span>
-</div>
-</div>
-
-
-<!-- CARD: Quick Nav -->
-<div class="card">
-<h2>📚 講義與教學 <span class="tag-web">網頁可用</span></h2>
-
-<div class="quick-actions">
-<a href="./docs/system-index.html" class="btn btn-blue btn-sm" target="_blank">📚 講義總索引 (208堂)</a>
-<a href="./_operations/answer_keys/answer_key_index.html" class="btn btn-outline btn-sm" target="_blank">✅ 答案冊索引 (173份)</a>
-<a href="./docs/teacher-training.html" class="btn btn-green btn-sm" target="_blank">👩‍🏫 教師培訓手冊</a>
-  <a href="./docs/teacher-training.html" class="btn btn-gold btn-sm" target="_blank">🎓 教師培訓中心 ⭐NEW</a>
-  <a href="./docs/teacher-lesson-planner.html" class="btn btn-blue btn-sm" target="_blank">📝 教案生成器 ⭐NEW</a>
-<a href="./docs/trap-quiz.html" class="btn btn-outline btn-sm" target="_blank">📋 陷阱速查海報</a>
-<a href="./_operations/brand_positioning_v2.html" class="btn btn-outline btn-sm" target="_blank">🎯 品牌定位 v2.0</a>
-</div>
-</div>
-
-<!-- CARD: Marketing & Enrollment -->
-<div class="card">
-<h2>📣 市場與招生 <span class="tag-web">網頁可用</span></h2>
-
-<div class="quick-actions">
-<a href="./docs/enroll.html" class="btn btn-red btn-sm" target="_blank">🎯 報名頁面</a>
-<a href="./docs/sspa_rescue_package.html" class="btn btn-gold btn-sm" target="_blank">💎 SSPA急救包</a>
-<a href="./docs/testimonials.html" class="btn btn-green btn-sm" target="_blank">🌟 學生見證牆</a>
-<a href="./docs/blog_trap_teaching.html" class="btn btn-outline btn-sm" target="_blank">📝 Blog·陷阱教學法</a>
-<a href="./docs/partner.html" class="btn btn-outline btn-sm" target="_blank">🤝 合作夥伴</a>
-<a href="./docs/pay.html" class="btn btn-outline btn-sm" target="_blank">💳 付款方式</a>
-<a href="./_operations/parent_comm_templates.html" class="btn btn-outline btn-sm" target="_blank">💬 家長通訊模板</a>
-<a href="./_operations/social_media_30day_calendar.html" class="btn btn-outline btn-sm" target="_blank">📱 社交媒體日曆</a>
-</div>
-</div>
-
-<!-- CARD: Operations Tools -->
-<div class="card">
-<h2>📊 營運工具 <span class="tag-web">網頁可用</span></h2>
-
-<div class="quick-actions">
-<a href="./_operations/trap_diagnostic_full.html" class="btn btn-red btn-sm" target="_blank">🧪 P3-P6 全面診斷</a>
-<a href="./docs/trap-quiz.html" class="btn btn-gold btn-sm" target="_blank">⚡ 2分鐘快速測試</a>
-<a href="./docs/test-generator.html" class="btn btn-red btn-sm" target="_blank">🤖 AI 智能出題</a>
-<a href="./docs/online-test.html" class="btn btn-green btn-sm" target="_blank">💻 線上測驗</a>
-<a href="./docs/student-platform.html" class="btn btn-blue btn-sm" target="_blank">🎓 學生平台</a>
-<a href="./docs/teacher-dashboard.html" class="btn btn-gold btn-sm" target="_blank">👨‍🏫 老師後台</a>
-<a href="./_operations/trap_diagnostic_test.html" class="btn btn-outline btn-sm" target="_blank">🧪 診斷 (P5-P6版)</a>
-<a href="./_operations/student_progress_tracker.html" class="btn btn-green btn-sm" target="_blank">📊 學生進度追蹤</a>
-<a href="./_operations/parent_report_generator.html" class="btn btn-gold btn-sm" target="_blank">📝 家長報告生成器</a>
-<a href="./_operations/trap_effectiveness_tracker.html" class="btn btn-outline btn-sm" target="_blank">📈 TEI 陷阱成效</a>
-<a href="./_operations/campaign_calendar_2025-26.html" class="btn btn-outline btn-sm" target="_blank">📅 學年行銷日曆</a>
-<a href="./_operations/whatsapp_nurture_sequence.html" class="btn btn-outline btn-sm" target="_blank">📱 WhatsApp 序列</a>
-<a href="./docs/crm.html" class="btn btn-gold btn-sm" target="_blank">🔥 Sales CRM</a>
-<a href="./docs/ad-link-generator.html" class="btn btn-blue btn-sm" target="_blank">🔗 廣告連結產生器</a>
-<a href="/_disabled.html" class="btn btn-gold btn-sm" target="_blank">📱 社群日曆 v2</a>
-<a href="./docs/wa-responses.html" class="btn btn-green btn-sm" target="_blank">💬 WhatsApp 回覆</a>
-<a href="./docs/ai-wa-reply.html" class="btn btn-gold btn-sm" target="_blank">🤖 AI 智能回覆</a>
-<a href="/_disabled.html" class="btn btn-blue btn-sm" target="_blank">📝 家長註冊</a>
-<a href="./docs/ocr-scan.html" class="btn btn-red btn-sm" target="_blank">📸 OCR 掃描</a>
-<a href="./docs/booking.html" class="btn btn-green btn-sm" target="_blank">📅 線上預約</a>
-<a href="./docs/learning-path.html" class="btn btn-gold btn-sm" target="_blank">🎯 學習路徑</a>
-<a href="./docs/reactivation-kit.html" class="btn btn-red btn-sm" target="_blank">🎯 Lead 再激活</a>
-<a href="./docs/student-journey.html" class="btn btn-gold btn-sm" target="_blank">🎓 學生旅程</a>
-<a href="./docs/post-trial-report.html" class="btn btn-red btn-sm" target="_blank">📋 試堂報告</a>
-<a href="./docs/teacher-manual.html" class="btn btn-blue btn-sm" target="_blank">📖 教學手冊</a>
-<a href="./docs/growth-systems.html" class="btn btn-gold btn-sm" target="_blank">📈 增長系統</a>
-<a href="./docs/parent-portal.html" class="btn btn-blue btn-sm" target="_blank">👨‍👩‍👧 家長進度</a>
-<a href="./docs/referral-tracker.html" class="btn btn-green btn-sm" target="_blank">🎁 轉介紹</a>
-<a href="./docs/daily-workflow.html" class="btn btn-gold btn-lg" target="_blank" style="font-size:15px;padding:14px 32px">📋 今日工作流程</a>
-<a href="./docs/hub.html" class="btn btn-red btn-sm" target="_blank">🏠 LF Hub</a>
-<a href="./docs/daily-ops.html" class="btn btn-red btn-sm" target="_blank">📋 每日操作</a>
-<a href="./docs/social/publish/" class="btn btn-red btn-sm" target="_blank">🚀 今日發佈</a>
-<a href="./ai-tutor.html" class="btn btn-blue btn-sm" target="_blank">🤖 AI 數學導師 ⭐NEW</a>
-<a href="./docs/social/social_calendar_v2.html" class="btn btn-gold btn-sm" target="_blank">📅 社群內容日曆 v2 ⭐NEW</a>
-<a href="./docs/social/videos/" class="btn btn-blue btn-sm" target="_blank">🎬 影片庫</a>
-<a href="./docs/track.html" class="btn btn-outline btn-sm" target="_blank">📊 UTM 追蹤頁</a>
-
-<div class="cmd-box">
-<span class="prompt">PS&gt;</span> <span class="cmd highlight">python scripts/lf_smart_monthly.py --month 7</span>
-</div>
-<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">🤖 AI生成當月宣傳日曆（ClassIn網課·全港適用·不重複內容）</p>
-
-<a href="./_operations/efficiency_toolkit.html" class="btn btn-blue btn-sm" target="_blank">⚡ 效率工具箱</a>
-<a href="./docs/user_guide.html" class="btn btn-outline btn-sm" target="_blank">📖 完整使用指南</a>
-<a href="./docs/setup-guide.html" class="btn btn-gold btn-sm" target="_blank">📋 CRM 設定手冊</a>
-</div>
-</div>
-
-
-<!-- CARD: Teacher Management -->
-<div class="card" style="border-left:4px solid #7C3AED;">
-<h2>👩‍🏫 教師帳號管理 <span class="tag-new">內部工具</span></h2>
-
-<div id="teacherAuthCheck" style="text-align:center;padding:12px;">
-  <p style="color:#6B7280;font-size:12px;">請先登入管理員帳號</p>
-  <a href="/auth.html" class="btn btn-blue btn-sm" style="display:inline-block;width:auto;">🔐 前往登入</a>
-</div>
-
-<div id="teacherPanel" style="display:none;">
-  <!-- Create Teacher Form -->
-  <h3>➕ 建立教師帳號</h3>
-  <div id="teacherMsg" style="font-size:11px;margin-bottom:8px;display:none;"></div>
-  
-  <div style="display:flex;flex-direction:column;gap:6px;">
-    <input type="text" id="tName" placeholder="教師姓名" style="padding:8px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit;">
-    <input type="email" id="tEmail" placeholder="教師電郵" style="padding:8px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit;">
-    <input type="password" id="tPassword" placeholder="設定密碼 (最少8位)" style="padding:8px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;font-family:inherit;">
-    <button class="btn btn-blue btn-sm" onclick="createTeacher()" style="width:auto;">✨ 建立教師帳號</button>
-  </div>
-  
-  <!-- Teacher List -->
-  <h3 style="margin-top:14px;">📋 現有教師</h3>
-  <div id="teacherList" style="font-size:11px;color:#6B7280;">載入中...</div>
-</div>
-</div>
-
-<!-- CARD: System Status -->
-<div class="card">
-<h2>📊 系統狀態 v3.0</h2>
-<div class="stat-row"><span>P3 小三</span><span class="val">43 HTML | 40 PDF</span></div>
-<div class="stat-row"><span>P4 小四</span><span class="val">43 HTML | 40 PDF</span></div>
-<div class="stat-row"><span>P5 小五</span><span class="val">80 HTML | 86 PDF</span></div>
-<div class="stat-row"><span>P6 小六</span><span class="val">42 HTML | 40 PDF</span></div>
-<div class="stat-row" style="font-weight:900;border-top:2px solid var(--blue);margin-top:6px;">
-<span>📦 總計</span><span class="val" style="color:var(--blue);">208 堂 | 206 PDF | 420+ SVG</span>
-</div>
-<div class="stat-row"><span>✅ 答案冊</span><span class="val" style="color:#7C3AED;">173 份 (83%)</span></div>
-<div class="stat-row"><span>🌐 EN 翻譯</span><span class="val">168 份</span></div>
-<div class="stat-row"><span>🔧 Python 腳本</span><span class="val">30+ 個</span></div>
-<div class="stat-row"><span>📋 營運資產</span><span class="val">25+ HTML</span></div>
-</div>
-
-<!-- CARD: System Commands (LOCAL ONLY) -->
-<div class="card">
-<h2>🖥️ 系統指令 <span class="tag-local">僅限本機</span></h2>
-<p style="font-size:10px;color:var(--gray);margin-bottom:8px;">這些指令需要在 VS Code 終端機執行（網頁上無法使用）</p>
-
-<div class="cmd-box">
-<span class="prompt">PS&gt;</span> <span class="cmd highlight">python scripts/deploy.py --push</span>
-</div>
-<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">⬆️ 一鍵部署到網站（最重要！修改講義後必執行）</p>
-
-<div class="cmd-box">
-<span class="prompt">PS&gt;</span> <span class="cmd">python scripts/pipeline_master_index.py --deploy</span>
-</div>
-<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">重建索引 + 自動部署</p>
-
-<div class="cmd-box">
-<span class="prompt">PS&gt;</span> <span class="cmd">python scripts/auto_answer_key.py --grade P5</span>
-</div>
-<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">生成答案冊（可換P3/P4/P6）</p>
-
-<div class="cmd-box">
-<span class="prompt">PS&gt;</span> <span class="cmd">python scripts/pipeline_quality.py --issues-only</span>
-</div>
-<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">品質審計</p>
-
-<div class="cmd-box">
-<span class="prompt">PS&gt;</span> <span class="cmd">python scripts/pipeline_en_translate.py --grade P5</span>
-</div>
-<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">EN 翻譯批次</p>
-
-
-<div class="cmd-box">
-<span class="prompt">PS&gt;</span> <span class="cmd highlight">python scripts/lf_smart_monthly.py --month 7</span>
-</div>
-<p style="font-size:10px;color:var(--gray);margin:2px 0 8px;">🤖 AI生成當月宣傳日曆（ClassIn網課·全港適用·不重複內容）</p>
-
-<a href="./_operations/efficiency_toolkit.html" class="btn btn-outline btn-sm" style="margin-top:8px;" target="_blank">⚡ 更多效率工具 →</a>
-</div>
-
-<!-- CARD: Grade Quick Access -->
-<div class="card">
-<h2>📖 按年級瀏覽</h2>
-<a href="./講義/P3/" class="btn btn-outline" target="_blank">📖 P3 小三 (43堂)</a>
-<a href="./講義/P4/" class="btn btn-outline" target="_blank">📖 P4 小四 (43堂)</a>
-<a href="./講義/P5/" class="btn btn-outline" target="_blank">📖 P5 小五 (80堂)</a>
-<a href="./講義/P6/" class="btn btn-outline" target="_blank">📖 P6 小六 (42堂)</a>
-<a href="./講義/EN/" class="btn btn-outline" target="_blank">🌐 EN 英文版</a>
-<a href="./docs/system-index.html" class="btn btn-blue" target="_blank">🔍 搜尋全部講義</a>
-</div>
-
-</div>
-</div>
-
-<div class="footer">
-🪤 霖楓學苑 · LF Academy · Launchpad v2.1 ·
-<a href="./docs/index.html">首頁</a> ·
-<a href="./docs/enroll.html">報名</a> ·
-<a href="./docs/user_guide.html">使用指南</a>
-</div>
-
+<!-- ═══ SCRIPTS ═══ -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script src="/docs/data/lf-firebase-config.js"></script>
-
-<script src="/docs/data/lf-core.js"></script>
-<script src="/docs/data/lf-event-bus.js"></script>
+<script src="/lf-shell-v8.js"></script>
 
 <script>
-// Initialize Firebase from shared config
-try { firebase.initializeApp(LF_FIREBASE_CONFIG); } catch(e) {}
-const auth = firebase.auth();
-const db = firebase.firestore();
+// ═══ Firebase Init ═══
+(function initFirebase() {
+  if (typeof LF_FIREBASE_CONFIG === 'undefined') return;
+  try { firebase.initializeApp(LF_FIREBASE_CONFIG); } catch(e) {}
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-// Check auth state
-auth.onAuthStateChanged(function(user) {
-  if (user) {
-    document.getElementById("teacherAuthCheck").style.display = "none";
-    document.getElementById("teacherPanel").style.display = "block";
-    loadTeachers();
-  } else {
-    document.getElementById("teacherAuthCheck").style.display = "block";
-    document.getElementById("teacherPanel").style.display = "none";
-  }
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      document.getElementById('teacherAuthCheck').style.display = 'none';
+      document.getElementById('teacherPanel').style.display = 'block';
+      loadTeachers();
+    } else {
+      document.getElementById('teacherAuthCheck').style.display = 'block';
+      document.getElementById('teacherPanel').style.display = 'none';
+    }
+  });
+})();
+
+// ═══ Live Date ═══
+document.getElementById('liveDate').textContent = new Date().toLocaleDateString('zh-HK', {
+  weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+  hour: '2-digit', minute: '2-digit'
 });
 
-function showTeacherMsg(text, type) {
-  var el = document.getElementById("teacherMsg");
-  el.textContent = text;
-  el.style.display = "block";
-  el.style.color = type === "ok" ? "#16A34A" : "#DC2626";
-  el.style.background = type === "ok" ? "#DCFCE7" : "#FEF2F2";
-  el.style.padding = "6px 10px";
-  el.style.borderRadius = "6px";
-}
-
-async function createTeacher() {
-  var name = document.getElementById("tName").value.trim();
-  var email = document.getElementById("tEmail").value.trim();
-  var password = document.getElementById("tPassword").value;
-  
-  if (!name || !email || !password) {
-    showTeacherMsg("請填寫所有欄位", "err");
-    return;
-  }
-  if (password.length < 8) {
-    showTeacherMsg("密碼最少需要8位", "err");
-    return;
-  }
-  
-  showTeacherMsg("建立中...", "ok");
-  
-  try {
-    // Use Firebase Auth REST API to create account without signing out admin
-    var apiKey = LF_FIREBASE_CONFIG.apiKey;
-    var resp = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + apiKey,
-      {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: false
-        })
-      }
-    );
-    
-    var data = await resp.json();
-    
-    if (data.error) {
-      var msg = data.error.message || "建立失敗";
-      if (data.error.message === "EMAIL_EXISTS") msg = "此電郵已被使用";
-      showTeacherMsg("❌ " + msg, "err");
-      return;
-    }
-    
-    // Store teacher profile in Firestore
-    await db.collection("users").doc(data.localId).set({
-      email: email,
-      displayName: name,
-      role: "teacher",
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      status: "active",
-      createdBy: auth.currentUser ? auth.currentUser.uid : "admin"
-    });
-    
-    showTeacherMsg("✅ 教師 " + name + " 帳號已建立！", "ok");
-    document.getElementById("tName").value = "";
-    document.getElementById("tEmail").value = "";
-    document.getElementById("tPassword").value = "";
-    
-    // Refresh teacher list
-    loadTeachers();
-    
-    // Clear message after 3s
-    setTimeout(function() {
-      document.getElementById("teacherMsg").style.display = "none";
-    }, 3000);
-    
-  } catch(e) {
-    showTeacherMsg("❌ 錯誤: " + e.message, "err");
-  }
-}
-
-async function loadTeachers() {
-  var list = document.getElementById("teacherList");
-  try {
-    var snap = await db.collection("users").where("role", "==", "teacher").orderBy("createdAt", "desc").get();
-    
-    if (snap.empty) {
-      list.innerHTML = "<p>暫無教師帳號</p>";
-      return;
-    }
-    
-    var html = "";
-    snap.forEach(function(doc) {
-      var d = doc.data();
-      var name = d.displayName || d.email || "未知";
-      var date = d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleDateString("zh-HK") : "未知";
-      var status = d.status === "active" ? "🟢" : "⚪";
-      html += '<div class="stat-row"><span>' + status + ' ' + name + '</span><span class="val" style="font-size:10px;">' + date + '</span></div>';
-    });
-    
-    list.innerHTML = html;
-  } catch(e) {
-    list.innerHTML = "<p style='color:#DC2626;'>載入失敗: " + e.message + "</p>";
-  }
-}
-
-// ═══ AI Smart Snapshot ═══
-(function initAISnapshot() {
-  document.getElementById('snapDate').textContent = new Date().toLocaleDateString('zh-HK', {weekday:'short',year:'numeric',month:'short',day:'numeric'});
-  
-  // Check API health
+// ═══ System Health ═══
+(function checkHealth() {
   fetch('https://lf-api-f80h.onrender.com/api/health')
-    .then(r => r.json().then(d => ({ok:r.ok, data:d})).catch(() => ({ok:false})))
+    .then(r => r.json().then(d => ({ ok: r.ok, data: d })).catch(() => ({ ok: false })))
     .then(r => {
-      document.getElementById('snapAPI').innerHTML = r.ok ? '🟢 正常' : '🔴 離線';
-      document.getElementById('snapAI').innerHTML = (r.ok && r.data && r.data.ai !== 'offline') ? '🟢 在線' : '🟡 備援模式';
+      if (r.ok) {
+        document.getElementById('sysDot').className = 'dot dot-online';
+        document.getElementById('sysStatus').textContent = '系統正常';
+        document.getElementById('apiStatus').innerHTML = '🔗 API: <span style="color:#4ade80">在線</span>';
+        document.getElementById('snapAPI').innerHTML = '<span style="color:#4ade80">🟢 在線</span>';
+        document.getElementById('snapEngine').innerHTML = (r.data && r.data.ai !== 'offline')
+          ? '<span style="color:#4ade80">🟢 AI 就緒</span>'
+          : '<span style="color:#fbbf24">🟡 備援模式</span>';
+      } else {
+        document.getElementById('sysDot').className = 'dot dot-offline';
+        document.getElementById('sysStatus').textContent = 'API 離線';
+        document.getElementById('apiStatus').innerHTML = '🔗 API: <span style="color:#fbbf24">離線</span>';
+        document.getElementById('snapAPI').innerHTML = '<span style="color:#fbbf24">🟡 離線</span>';
+        document.getElementById('snapEngine').innerHTML = '<span style="color:#fbbf24">🟡 備援模式</span>';
+      }
     })
     .catch(() => {
-      document.getElementById('snapAPI').innerHTML = '🔴 離線';
-      document.getElementById('snapAI').innerHTML = '🔴 不可用';
+      document.getElementById('sysDot').className = 'dot dot-offline';
+      document.getElementById('sysStatus').textContent = '無法連接';
+      document.getElementById('snapAPI').innerHTML = '<span style="color:#f87171">🔴 離線</span>';
     });
 
   // Smart suggestion based on day of week
-  var d = new Date().getDay();
-  var suggestions = {
+  const day = new Date().getDay();
+  const suggestions = {
     0: '📅 星期日：適合發佈親子互動/輕鬆內容',
     1: '📚 星期一：適合發佈教育乾貨（陷阱解密）',
     2: '🎯 星期二：適合發佈互動測驗/投票',
-    3: '⭐ 星期三：適合發佈Social Proof（真實案例）',
+    3: '⭐ 星期三：適合發佈 Social Proof（真實案例）',
     4: '⚡ 星期四：適合發佈緊急感內容（SSPA倒數）',
     5: '💬 星期五：適合發佈人設/創辦人故事',
-    6: '🎬 星期六：適合發佈Reels/短影音'
+    6: '🎬 星期六：適合發佈 Reels/短影音'
   };
-  document.getElementById('snapSuggestion').textContent = suggestions[d] || '📋 查看內容日曆規劃今日貼文';
-  
-  // Check social calendar for today's posts
-  fetch('./docs/social/social_calendar_v2.html')
+  document.getElementById('snapSuggestion').textContent = '💡 ' + (suggestions[day] || '查看內容日曆規劃今日貼文');
+
+  // Count today's posts from social calendar
+  fetch('/docs/social/social_calendar_ultimate.html')
     .then(r => r.text())
     .then(html => {
-      var today = new Date().toISOString().slice(5,10); // MM-DD
-      var match = html.match(new RegExp(today.replace('-','-') + '.*?</div>', 's'));
-      if (match) {
-        var titleMatch = match[0].match(/post-title">([^<]+)</);
-        var count = (html.match(new RegExp(today.replace('-','-'), 'g')) || []).length;
-        document.getElementById('snapPosts').innerHTML = '📝 ' + count + ' 篇待發佈';
-        if (titleMatch) {
-          document.getElementById('snapSuggestion').textContent = '📢 今日貼文：' + titleMatch[1].substring(0,40) + '... → 前往日曆查看';
-        }
-      } else {
-        document.getElementById('snapPosts').innerHTML = '📭 今日暫無排程';
-      }
-    })
-    .catch(() => {
-      document.getElementById('snapPosts').innerHTML = '⚠️ 無法載入';
-    });
+      const today = new Date().toISOString().slice(5, 10);
+      const count = (html.match(new RegExp(today, 'g')) || []).length;
+      document.getElementById('snapPosts').innerHTML = count > 0
+        ? '<span style="color:#4ade80">📝 ' + count + ' 篇</span>'
+        : '📭 暫無排程';
+    }).catch(() => { document.getElementById('snapPosts').textContent = '⚠️ 無法載入'; });
 })();
 
-
-// ═══ AI Systems Status ═══
-function runAIContentCheck() {
-  document.getElementById('aiEngineStatus').innerHTML = '🧠 AI引擎: ✅ v1.0 就緒 (日曆感知+家長心理學)';
-  document.getElementById('aiCalendarStatus').innerHTML = '📅 智能日曆: ✅ v3.0 (56篇+7 AB測試)';
-  document.getElementById('aiABTestStatus').innerHTML = '🧪 AB測試: ✅ 7個活躍測試';
+// ═══ Teacher Management ═══
+function showTeacherMsg(text, type) {
+  const el = document.getElementById('teacherMsg');
+  el.textContent = text;
+  el.style.display = 'block';
+  el.style.color = type === 'ok' ? '#4ade80' : '#f87171';
+  el.style.background = type === 'ok' ? 'rgba(22,163,74,0.15)' : 'rgba(220,38,38,0.15)';
 }
 
-// Auto-check
-(function(){
-  fetch('./docs/social/social_calendar_v3.html', {method:'HEAD'})
-    .then(r => {
-      if (r.ok) {
-        document.getElementById('aiCalendarStatus').innerHTML = '📅 智能日曆: ✅ v3.0 在線';
-      }
-    }).catch(() => {});
-  document.getElementById('aiEngineStatus').innerHTML = '🧠 AI引擎: ✅ v1.0 就緒';
-  document.getElementById('aiABTestStatus').innerHTML = '🧪 AB測試: ✅ 就緒';
-})();
+async function createTeacher() {
+  const name = document.getElementById('tName').value.trim();
+  const email = document.getElementById('tEmail').value.trim();
+  const password = document.getElementById('tPassword').value;
+  if (!name || !email || !password) { showTeacherMsg('請填寫所有欄位', 'err'); return; }
+  if (password.length < 8) { showTeacherMsg('密碼最少需要8位', 'err'); return; }
 
+  showTeacherMsg('建立中...', 'ok');
+  try {
+    const apiKey = LF_FIREBASE_CONFIG.apiKey;
+    const resp = await fetch(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + apiKey,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, returnSecureToken: false }) }
+    );
+    const data = await resp.json();
+    if (data.error) {
+      const msg = data.error.message === 'EMAIL_EXISTS' ? '此電郵已被使用' : (data.error.message || '建立失敗');
+      showTeacherMsg('❌ ' + msg, 'err'); return;
+    }
+
+    await firebase.firestore().collection('users').doc(data.localId).set({
+      email, displayName: name, role: 'teacher',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      status: 'active'
+    });
+
+    showTeacherMsg('✅ 教師 ' + name + ' 帳號已建立！', 'ok');
+    document.getElementById('tName').value = '';
+    document.getElementById('tEmail').value = '';
+    document.getElementById('tPassword').value = '';
+    loadTeachers();
+    setTimeout(() => { document.getElementById('teacherMsg').style.display = 'none'; }, 3000);
+  } catch(e) { showTeacherMsg('❌ 錯誤: ' + e.message, 'err'); }
+}
+
+async function loadTeachers() {
+  const list = document.getElementById('teacherList');
+  try {
+    const snap = await firebase.firestore().collection('users')
+      .where('role', '==', 'teacher').orderBy('createdAt', 'desc').get();
+    if (snap.empty) { list.innerHTML = '<p>暫無教師帳號</p>'; return; }
+
+    let html = '';
+    snap.forEach(doc => {
+      const d = doc.data();
+      const name = d.displayName || d.email || '未知';
+      const date = d.createdAt
+        ? new Date(d.createdAt.seconds * 1000).toLocaleDateString('zh-HK')
+        : '未知';
+      const status = d.status === 'active' ? '🟢' : '⚪';
+      html += '<div class="lp-stat-row"><span>' + status + ' ' + name + '</span><span class="val" style="font-size:0.82em">' + date + '</span></div>';
+    });
+    list.innerHTML = html;
+  } catch(e) { list.innerHTML = '<p style="color:#f87171">載入失敗: ' + e.message + '</p>'; }
+}
 </script>
-
+<script>
+(function() {
+  function updateOnlineStatus() {
+    const el = document.getElementById('offlineBanner') || (function() {
+      const e = document.createElement('div');
+      e.id = 'offlineBanner';
+      e.style.cssText = 'position:fixed;top:var(--nav-height,60px);left:0;right:0;z-index:999;background:#FEF3C7;color:#92400E;padding:6px 16px;text-align:center;font-size:13px;font-weight:600;display:none';
+      e.textContent = '🔴 離線模式 — API健康檢查不準確';
+      document.body.insertBefore(e, document.body.firstChild);
+      return e;
+    })();
+    el.style.display = navigator.onLine ? 'none' : 'block';
+  }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus();
+})();
+</script>
 </body>
 </html>
 

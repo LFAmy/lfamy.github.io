@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f0c29"/>
+      <stop offset="50%" stop-color="#302b63"/>
+      <stop offset="100%" stop-color="#24243e"/>
+    </linearGradient>
+
+    <!-- 放射漸變 3D 光影 - 選擇 -->
+    <radialGradient id="selectGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="40%" stop-color="#FFA500"/>
+      <stop offset="80%" stop-color="#FF8C00"/>
+      <stop offset="100%" stop-color="#CC7000"/>
+    </radialGradient>
+
+    <!-- 放射漸變 3D 光影 - 計算 -->
+    <radialGradient id="calcGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#7FDBFF"/>
+      <stop offset="40%" stop-color="#0074D9"/>
+      <stop offset="80%" stop-color="#0050A0"/>
+      <stop offset="100%" stop-color="#003570"/>
+    </radialGradient>
+
+    <!-- 放射漸變 3D 光影 - 應用 -->
+    <radialGradient id="appGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="40%" stop-color="#E74C3C"/>
+      <stop offset="80%" stop-color="#C0392B"/>
+      <stop offset="100%" stop-color="#922B21"/>
+    </radialGradient>
+
+    <!-- 階梯背景漸變 -->
+    <linearGradient id="stepBgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.03)"/>
+    </linearGradient>
+
+    <!-- 雙層陰影濾鏡 -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.4)"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,0.2)"/>
+    </filter>
+
+    <!-- 內陰影 -->
+    <filter id="innerShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feOffset dx="0" dy="2" result="offsetBlur"/>
+      <feComposite in="SourceGraphic" in2="offsetBlur" operator="over"/>
+    </filter>
+
+    <!-- 發光效果 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 光澤遮罩 -->
+    <linearGradient id="shineMask" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.35)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0.05)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)" rx="0"/>
+
+  <!-- 裝飾圓點 -->
+  <circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.15)"/>
+  <circle cx="150" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="550" cy="60" r="2" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="480" cy="40" r="1" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="30" cy="350" r="1.5" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="570" cy="370" r="2" fill="rgba(255,255,255,0.12)"/>
+
+  <!-- 標題 -->
+  <text x="300" y="42" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#FFFFFF" filter="url(#glow)">SSPA 策略時間分配</text>
+  <text x="300" y="62" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="rgba(255,255,255,0.5)">香港小學數學考試策略</text>
+
+  <!-- ==================== 階梯 1：選擇（10 分） ==================== -->
+  <g filter="url(#cardShadow)">
+    <!-- 階梯底座（3D 效果） -->
+    <rect x="60" y="310" width="480" height="28" rx="8" fill="rgba(0,0,0,0.3)"/>
+    <rect x="60" y="308" width="480" height="28" rx="8" fill="url(#stepBgGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+    <!-- 階梯主體 -->
+    <rect x="60" y="280" width="480" height="30" rx="8" fill="url(#selectGrad)"/>
+    <!-- 光澤層 -->
+    <rect x="60" y="280" width="480" height="15" rx="8" fill="url(#shineMask)"/>
+
+    <!-- 分數標籤 -->
+    <text x="90" y="300" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#fff">選擇題</text>
+    <text x="440" y="300" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#fff">10 分</text>
+
+    <!-- 進度條背景 -->
+    <rect x="180" y="293" width="220" height="8" rx="4" fill="rgba(0,0,0,0.25)"/>
+    <!-- 進度條 -->
+    <rect x="180" y="293" width="55" height="8" rx="4" fill="#fff" opacity="0.7"/>
+  </g>
+
+  <!-- ==================== 階梯 2：計算（20 分） ==================== -->
+  <g filter="url(#cardShadow)">
+    <rect x="60" y="250" width="480" height="28" rx="8" fill="rgba(0,0,0,0.3)"/>
+    <rect x="60" y="248" width="480" height="28" rx="8" fill="url(#stepBgGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+    <rect x="60" y="220" width="480" height="30" rx="8" fill="url(#calcGrad)"/>
+    <rect x="60" y="220" width="480" height="15" rx="8" fill="url(#shineMask)"/>
+
+    <text x="90" y="240" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#fff">計算題</text>
+    <text x="440" y="240" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#fff">20 分</text>
+
+    <rect x="180" y="233" width="220" height="8" rx="4" fill="rgba(0,0,0,0.25)"/>
+    <rect x="180" y="233" width="110" height="8" rx="4" fill="#fff" opacity="0.7"/>
+  </g>
+
+  <!-- ==================== 階梯 3：應用（30 分） ==================== -->
+  <g filter="url(#cardShadow)">
+    <rect x="60" y="190" width="480" height="28" rx="8" fill="rgba(0,0,0,0.3)"/>
+    <rect x="60" y="188" width="480" height="28" rx="8" fill="url(#stepBgGrad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+    <rect x="60" y="160" width="480" height="30" rx="8" fill="url(#appGrad)"/>
+    <rect x="60" y="160" width="480" height="15" rx="8" fill="url(#shineMask)"/>
+
+    <text x="90" y="180" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#fff">應用題</text>
+    <text x="440" y="180" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#fff">30 分</text>
+
+    <rect x="180" y="173" width="220" height="8" rx="4" fill="rgba(0,0,0,0.25)"/>
+    <rect x="180" y="173" width="165" height="8" rx="4" fill="#fff" opacity="0.7"/>
+  </g>
+
+  <!-- ==================== 目標箭頭 ==================== -->
+  <!-- 箭頭桿 -->
+  <line x1="300" y1="160" x2="300" y2="100" stroke="#FFD700" stroke-width="3" stroke-dasharray="6,4" opacity="0.8"/>
+  <!-- 箭頭頭 -->
+  <polygon points="300,90 290,105 310,105" fill="#FFD700" filter="url(#glow)"/>
+
+  <!-- 目標標籤 -->
+  <rect x="255" y="75" width="90" height="22" rx="11" fill="rgba(255,215,0,0.2)" stroke="#FFD700" stroke-width="1"/>
+  <text x="300" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#FFD700">目標：60 分</text>
+
+  <!-- ==================== 底部說明卡片 ==================== -->
+  <g filter="url(#cardShadow)">
+    <rect x="60" y="340" width="480" height="45" rx="10" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+    <!-- 圖例 -->
+    <circle cx="90" cy="358" r="5" fill="#FFA500"/>
+    <text x="100" y="362" font-family="Arial, sans-serif" font-size="10" fill="rgba(255,255,255,0.6)">選擇</text>
+
+    <circle cx="160" cy="358" r="5" fill="#0074D9"/>
+    <text x="170" y="362" font-family="Arial, sans-serif" font-size="10" fill="rgba(255,255,255,0.6)">計算</text>
+
+    <circle cx="230" cy="358" r="5" fill="#E74C3C"/>
+    <text x="240" y="362" font-family="Arial, sans-serif" font-size="10" fill="rgba(255,255,255,0.6)">應用</text>
+
+    <text x="340" y="362" font-family="Arial, sans-serif" font-size="10" fill="rgba(255,255,255,0.4)">階梯式策略：由淺入深，逐步攻堅</text>
+
+    <!-- 小裝飾線 -->
+    <line x1="60" y1="370" x2="540" y2="370" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  </g>
+
+  <!-- 裝飾性邊框光暈 -->
+  <rect x="2" y="2" width="596" height="396" rx="12" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+</svg>

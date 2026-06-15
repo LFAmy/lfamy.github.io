@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 背景漸變 -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%" fx="45%" fy="35%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F0F4F8"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </radialGradient>
+
+    <!-- 主卡片漸變 - 3D光影效果 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="25%" stop-color="#F8FAFC"/>
+      <stop offset="50%" stop-color="#F1F5F9"/>
+      <stop offset="75%" stop-color="#E9EEF4"/>
+      <stop offset="100%" stop-color="#DCE3EB"/>
+    </linearGradient>
+
+    <!-- 標題漸變 -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+
+    <!-- 紅燈警告區漸變 - 多層放射 -->
+    <radialGradient id="redZoneGrad" cx="50%" cy="50%" r="55%" fx="40%" fy="40%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="20%" stop-color="#FF4444"/>
+      <stop offset="45%" stop-color="#E53935"/>
+      <stop offset="75%" stop-color="#C62828"/>
+      <stop offset="100%" stop-color="#B71C1C"/>
+    </radialGradient>
+
+    <!-- 紅燈光暈 -->
+    <radialGradient id="redGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#FF8A80" stop-opacity="0.6"/>
+      <stop offset="40%" stop-color="#FF5252" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#D50000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 括號區漸變 -->
+    <linearGradient id="bracketGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4CAF50"/>
+      <stop offset="50%" stop-color="#388E3C"/>
+      <stop offset="100%" stop-color="#2E7D32"/>
+    </linearGradient>
+
+    <!-- 乘除區漸變 -->
+    <linearGradient id="mulDivGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF9800"/>
+      <stop offset="50%" stop-color="#F57C00"/>
+      <stop offset="100%" stop-color="#E65100"/>
+    </linearGradient>
+
+    <!-- 加減區漸變 -->
+    <linearGradient id="addSubGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#42A5F5"/>
+      <stop offset="50%" stop-color="#1E88E5"/>
+      <stop offset="100%" stop-color="#1565C0"/>
+    </linearGradient>
+
+    <!-- 陰影濾鏡 - 雙層陰影 -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#1E293B" flood-opacity="0.15"/>
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+
+    <filter id="redZoneShadow" x="-8%" y="-8%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#B71C1C" flood-opacity="0.35"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#D50000" flood-opacity="0.15"/>
+    </filter>
+
+    <filter id="stepShadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+
+    <!-- 紅燈閃爍動畫 -->
+    <filter id="blinkFilter">
+      <feGaussianBlur stdDeviation="2">
+        <animate attributeName="stdDeviation" values="2;5;2" dur="1.5s" repeatCount="indefinite"/>
+      </feGaussianBlur>
+    </filter>
+
+    <!-- 警告標誌漸變 -->
+    <linearGradient id="warnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD54F"/>
+      <stop offset="50%" stop-color="#FFC107"/>
+      <stop offset="100%" stop-color="#FFA000"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="url(#bgGrad)" rx="0"/>
+
+  <!-- 主卡片 -->
+  <rect x="20" y="15" width="560" height="370" rx="20" ry="20" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+
+  <!-- 卡片邊框高光 -->
+  <rect x="20" y="15" width="560" height="370" rx="20" ry="20" fill="none" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="1.5"/>
+
+  <!-- 標題 -->
+  <text x="300" y="52" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="20" font-weight="bold" fill="url(#titleGrad)" letter-spacing="2">
+    混合計算陷阱
+  </text>
+
+  <!-- 標題底線 -->
+  <line x1="200" y1="62" x2="400" y2="62" stroke="#CBD5E1" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- 運算優先級標題 -->
+  <text x="300" y="85" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="12" fill="#64748B" letter-spacing="1">
+    運算優先級：括號 → 乘除 → 加減
+  </text>
+
+  <!-- ===== 紅燈警告區 ===== -->
+  <rect x="40" y="95" width="520" height="120" rx="14" ry="14" fill="url(#redZoneGrad)" filter="url(#redZoneShadow)"/>
+
+  <!-- 紅燈光暈 -->
+  <rect x="40" y="95" width="520" height="120" rx="14" ry="14" fill="url(#redGlow)"/>
+
+  <!-- 紅燈警告區邊框 -->
+  <rect x="40" y="95" width="520" height="120" rx="14" ry="14" fill="none" stroke="#FF8A80" stroke-opacity="0.4" stroke-width="1.5"/>
+
+  <!-- 警告圖標 - 感嘆號 -->
+  <circle cx="72" cy="155" r="18" fill="url(#warnGrad)" filter="url(#stepShadow)"/>
+  <text x="72" y="162" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#B71C1C">!</text>
+
+  <!-- 紅燈文字 -->
+  <text x="300" y="120" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF" letter-spacing="1">
+    ⚠️ 注意！運算順序陷阱 ⚠️
+  </text>
+
+  <!-- 陷阱算式 -->
+  <text x="300" y="148" text-anchor="middle" font-family="'Courier New', monospace" font-size="22" font-weight="bold" fill="#FFFFFF">
+    3 + 4 × 2 = ?
+  </text>
+
+  <!-- 錯誤答案 -->
+  <text x="215" y="178" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" fill="#FFCDD2" text-decoration="line-through">
+    3 + 4 × 2 = 14 ✗
+  </text>
+
+  <!-- 正確答案 -->
+  <text x="385" y="178" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" font-weight="bold" fill="#FFFFFF">
+    3 + 4 × 2 = 11 ✓
+  </text>
+
+  <!-- 紅燈閃爍指示 -->
+  <circle cx="530" cy="115" r="8" fill="#FF6B6B" filter="url(#blinkFilter)"/>
+  <circle cx="530" cy="115" r="4" fill="#FFCDD2" opacity="0.8"/>
+
+  <!-- ===== 優先級步驟區 ===== -->
+
+  <!-- 步驟 1：括號 -->
+  <rect x="40" y="230" width="160" height="65" rx="12" ry="12" fill="url(#bracketGrad)" filter="url(#stepShadow)"/>
+  <rect x="40" y="230" width="160" height="65" rx="12" ry="12" fill="none" stroke="#A5D6A7" stroke-opacity="0.4" stroke-width="1"/>
+
+  <!-- 步驟編號 -->
+  <circle cx="60" cy="250" r="10" fill="#FFFFFF" opacity="0.25"/>
+  <text x="60" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">1</text>
+
+  <text x="120" y="252" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" font-weight="bold" fill="#FFFFFF">
+    ( ) 括號
+  </text>
+  <text x="120" y="275" text-anchor="middle" font-family="'Courier New', monospace" font-size="11" fill="#E8F5E9">
+    先算括號內
+  </text>
+
+  <!-- 箭頭 1→2 -->
+  <text x="210" y="268" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#94A3B8">→</text>
+
+  <!-- 步驟 2：乘除 -->
+  <rect x="220" y="230" width="160" height="65" rx="12" ry="12" fill="url(#mulDivGrad)" filter="url(#stepShadow)"/>
+  <rect x="220" y="230" width="160" height="65" rx="12" ry="12" fill="none" stroke="#FFCC80" stroke-opacity="0.4" stroke-width="1"/>
+
+  <circle cx="240" cy="250" r="10" fill="#FFFFFF" opacity="0.25"/>
+  <text x="240" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">2</text>
+
+  <text x="300" y="252" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" font-weight="bold" fill="#FFFFFF">
+    × ÷ 乘除
+  </text>
+  <text x="300" y="275" text-anchor="middle" font-family="'Courier New', monospace" font-size="11" fill="#FFF3E0">
+    其次算乘除
+  </text>
+
+  <!-- 箭頭 2→3 -->
+  <text x="390" y="268" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#94A3B8">→</text>
+
+  <!-- 步驟 3：加減 -->
+  <rect x="400" y="230" width="160" height="65" rx="12" ry="12" fill="url(#addSubGrad)" filter="url(#stepShadow)"/>
+  <rect x="400" y="230" width="160" height="65" rx="12" ry="12" fill="none" stroke="#90CAF9" stroke-opacity="0.4" stroke-width="1"/>
+
+  <circle cx="420" cy="250" r="10" fill="#FFFFFF" opacity="0.25"/>
+  <text x="420" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">3</text>
+
+  <text x="480" y="252" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="13" font-weight="bold" fill="#FFFFFF">
+    + - 加減
+  </text>
+  <text x="480" y="275" text-anchor="middle" font-family="'Courier New', monospace" font-size="11" fill="#E3F2FD">
+    最後算加減
+  </text>
+
+  <!-- 底部提示 -->
+  <rect x="140" y="310" width="320" height="55" rx="10" ry="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1" filter="url(#stepShadow)"/>
+
+  <!-- 提示圖標 -->
+  <text x="165" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="18">💡</text>
+
+  <text x="300" y="332" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="11" fill="#475569">
+    記住：先乘除後加減，括號最優先！
+  </text>
+  <text x="300" y="352" text-anchor="middle" font-family="'Microsoft YaHei', 'PingFang SC', Arial, sans-serif" font-size="10" fill="#94A3B8">
+    不要被數字順序迷惑，要按運算符號決定順序
+  </text>
+
+  <!-- 底部裝飾線 -->
+  <line x1="80" y1="378" x2="520" y2="378" stroke="#CBD5E1" stroke-width="0.5" stroke-linecap="round" opacity="0.5"/>
+</svg>

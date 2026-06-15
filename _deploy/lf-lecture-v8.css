@@ -1,0 +1,209 @@
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v8.0 — Shared Lecture Stylesheet
+   2026-06-05 · A4 Print-First · Mobile Responsive · a11y
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+
+/* === CSS Custom Properties === */
+:root {
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  --red: #DC2626;
+  --green: #059669;
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  --font-body: 'Noto Sans HK', -apple-system, 'Microsoft YaHei', sans-serif;
+  --font-serif: 'Noto Serif HK', 'Times New Roman', serif;
+  --page-width: 210mm;
+  --page-padding: 20mm;
+  --answer-line-color: #CBD5E1;
+}
+
+/* === Reset === */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;-webkit-text-size-adjust:100%}
+body{font-family:var(--font-body);color:var(--lf-ink);background:#F3F4F6;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* === Page Container (A4-like) === */
+.lf-page{max-width:900px;margin:0 auto;padding:16px;background:white;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+
+/* === Cover === */
+.lf-cover{background:linear-gradient(135deg,#0A1A35,#1A3C6D,#1E4D8C);color:white;border-radius:12px;padding:40px 32px;margin-bottom:24px;position:relative;overflow:hidden}
+.lf-cover::before{content:'';position:absolute;top:-30%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(201,168,76,0.12),transparent 70%);border-radius:50%}
+.lf-cover::after{content:'';position:absolute;bottom:-20%;left:-10%;width:200px;height:200px;background:radial-gradient(circle,rgba(201,168,76,0.08),transparent 70%);border-radius:50%}
+.lf-cover>*{position:relative;z-index:1}
+.lf-cover-logo{font-family:var(--font-serif);font-size:1.1em;font-weight:900;margin-bottom:8px}
+.lf-cover-grade{font-size:0.85em;opacity:0.7;margin-bottom:4px}
+.lf-cover-title{font-family:var(--font-serif);font-size:1.8em;font-weight:900;margin:8px 0}
+.lf-cover-subtitle{font-size:0.85em;opacity:0.65;margin-bottom:16px}
+.lf-cover-info{font-size:0.78em;line-height:2;opacity:0.85;background:rgba(255,255,255,0.06);border-radius:8px;padding:14px 18px;margin-top:12px}
+.lf-cover-info b{color:var(--lf-gold)}
+
+/* === Section Headers === */
+.lf-section-title{font-family:var(--font-serif);font-size:1.3em;font-weight:900;color:var(--lf-blue);margin:28px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--lf-gold)}
+.lf-subsection-title{font-weight:700;color:var(--lf-blue);margin:16px 0 8px;font-size:1.05em}
+
+/* === WHY BOX === */
+.lf-why-box{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1px solid #93C5FD;border-radius:10px;padding:18px 22px;margin:16px 0;position:relative}
+.lf-why-box::before{content:'💡 WHY BOX';position:absolute;top:-10px;left:16px;background:var(--lf-blue);color:white;padding:2px 14px;border-radius:12px;font-size:0.7em;font-weight:900;letter-spacing:1px}
+.lf-why-box p{font-size:0.92em;color:#1E40AF;margin-top:4px}
+
+/* === Trap Alert === */
+.lf-trap-alert{background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;padding:14px 18px;margin:12px 0;display:flex;align-items:flex-start;gap:10px}
+.lf-trap-alert .trap-icon{font-size:1.2em;flex-shrink:0}
+.lf-trap-alert .trap-content{flex:1}
+.lf-trap-alert .trap-num{display:inline-block;background:var(--red);color:white;padding:1px 8px;border-radius:8px;font-size:0.7em;font-weight:900;margin-right:4px}
+.lf-trap-alert .trap-name{font-weight:700;color:#C2410C;font-size:0.88em}
+.lf-trap-alert .trap-desc{font-size:0.8em;color:#9A3412;margin-top:2px}
+
+/* === Trap Badge (inline) === */
+.lf-trap-badge{display:inline-block;background:var(--red);color:white;padding:1px 7px;border-radius:6px;font-size:0.65em;font-weight:900;margin:0 2px;vertical-align:middle}
+
+/* === Example Block === */
+.lf-example{background:#F8FAFC;border:1px solid var(--lf-border);border-radius:10px;padding:20px;margin:14px 0}
+.lf-example-title{font-weight:900;color:var(--lf-blue);margin-bottom:8px;font-size:0.9em}
+
+/* === Exercise Area === */
+.lf-exercise{padding:14px 0}
+.lf-exercise-item{margin-bottom:20px}
+.lf-exercise-item .q-num{display:inline-block;background:var(--lf-blue);color:white;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:0.75em;font-weight:900;margin-right:8px}
+.lf-exercise-item .q-text{font-size:0.95em;line-height:1.8}
+.lf-exercise-item .a-line{border-bottom:1.5px dashed var(--answer-line-color);min-width:120px;display:inline-block;margin:0 4px}
+
+/* === SSPA Tag === */
+.lf-sspa-tag{display:inline-block;background:linear-gradient(135deg,var(--purple),#6366F1);color:white;padding:2px 10px;border-radius:10px;font-size:0.65em;font-weight:700;margin-left:4px}
+
+/* === Key Point === */
+.lf-key-point{background:#FEF3C7;border-left:4px solid var(--amber);padding:10px 16px;margin:10px 0;font-size:0.9em;border-radius:0 8px 8px 0}
+
+/* === Table (for math) === */
+.lf-math-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:0.9em}
+.lf-math-table th{background:var(--lf-blue);color:white;padding:10px 12px;text-align:center;font-weight:700}
+.lf-math-table td{padding:8px 12px;border:1px solid var(--lf-border);text-align:center}
+.lf-math-table tr:nth-child(even){background:#F8FAFC}
+
+/* === Step List === */
+.lf-step-list{counter-reset:step;list-style:none;padding:0}
+.lf-step-list li{counter-increment:step;padding:8px 0 8px 40px;position:relative;margin:4px 0}
+.lf-step-list li::before{content:counter(step);position:absolute;left:0;top:6px;width:28px;height:28px;background:var(--lf-blue);color:white;border-radius:50%;text-align:center;line-height:28px;font-size:0.8em;font-weight:900}
+
+/* === Student Answer Space === */
+.lf-answer-lines{display:flex;flex-direction:column;gap:20px;margin:16px 0;padding:12px;background:repeating-linear-gradient(transparent,transparent 31px,var(--answer-line-color) 31px,var(--answer-line-color) 32px);border:1px solid var(--lf-border);border-radius:8px;min-height:120px}
+
+/* === Parent Summary === */
+.lf-parent-summary{background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1px solid #86EFAC;border-radius:10px;padding:16px 20px;margin:20px 0}
+.lf-parent-summary h3{color:var(--green);font-size:0.9em;margin-bottom:6px}
+.lf-parent-summary p{font-size:0.85em;color:#166534;line-height:1.7}
+
+/* === Lecture Nav Bar === */
+.lf-lecture-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:8px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--lf-border);margin-bottom:16px;border-radius:8px 8px 0 0;flex-wrap:wrap;gap:8px}
+.lf-lecture-nav a{color:var(--lf-blue);text-decoration:none;font-size:0.82em;font-weight:600;padding:4px 10px;border-radius:6px;transition:all 0.15s}
+.lf-lecture-nav a:hover{background:#EFF6FF}
+.lf-lecture-nav .brand{font-family:var(--font-serif);font-size:0.95em;font-weight:900}
+.lf-lecture-nav .practice-cta{background:var(--green);color:white!important;padding:5px 14px;border-radius:16px;font-size:0.75em}
+
+/* === Utility === */
+.lf-text-center{text-align:center}
+.lf-text-sm{font-size:0.85em}
+.lf-text-xs{font-size:0.72em}
+.lf-mt-8{margin-top:8px}
+.lf-mt-16{margin-top:16px}
+.lf-mb-16{margin-bottom:16px}
+
+/* ═══════════════ PRINT STYLES ═══════════════ */
+@media print {
+  @page{size:A4;margin:15mm}
+  body{background:white;font-size:12px}
+  .lf-page{max-width:100%;box-shadow:none;padding:0;border-radius:0}
+  .lf-cover{background:white!important;color:var(--lf-ink)!important;border:2px solid var(--lf-blue);border-radius:0;padding:24px}
+  .lf-cover>*{color:var(--lf-ink)!important}
+  .lf-cover-info{background:#F8FAFC!important}
+  .lf-cover-logo,.lf-cover-title{color:var(--lf-blue)!important}
+  .lf-lecture-nav{display:none!important}
+  .lf-trap-alert{background:white!important;border:1px solid #ccc!important}
+  .lf-why-box{background:white!important;border:1px solid #ccc!important}
+  .lf-answer-lines{background:repeating-linear-gradient(transparent,transparent 27px,#ccc 27px,#ccc 28px)}
+}
+
+/* ═══════════════ MOBILE ═══════════════ */
+@media(max-width:768px){
+  html{font-size:14px}
+  .lf-page{border-radius:0;padding:10px}
+  .lf-cover{padding:24px 18px;border-radius:8px}
+  .lf-cover-title{font-size:1.4em}
+  .lf-section-title{font-size:1.1em}
+  .lf-lecture-nav{position:relative;border-radius:0;margin:-10px -10px 12px}
+}
+
+@media(max-width:480px){
+  html{font-size:13px}
+  .lf-cover{padding:18px 14px}
+  .lf-cover-title{font-size:1.2em}
+  .lf-example{padding:12px}
+}
+
+/* ═══════════════ ACCESSIBILITY ═══════════════ */
+:focus-visible{outline:2px solid var(--lf-gold);outline-offset:2px;border-radius:2px}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+}
+
+/* ═══════════════ MathJax Fixes ═══════════════ */
+mjx-container{overflow:visible!important;max-width:100%}
+mjx-container svg{max-width:100%;height:auto}
+
+/* ═══════════════════════════════════════════════════════════════
+
+/* ═══════════════════════════════════════════════════════════════
+   LF Lecture v8.2 — Design System Enhancements
+   2026-06-15 · Dark Mode · Enhanced UX · a11y
+   ═══════════════════════════════════════════════════════════════ */
+
+/* === Focus States (WCAG 2.4.7) === */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible {
+  outline: 2.5px solid #2D5AA0 !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+
+/* === Skip Link (WCAG 2.4.1) === */
+.skip-link { position: absolute; top: -100px; left: 0; background: #1E3F73; color: white; padding: 8px 16px; z-index: 10000; font-weight: 700; }
+.skip-link:focus { top: 0; }
+
+/* === Print Styles === */
+@media print {
+  @page { size: A4; margin: 15mm; }
+  body { background: white !important; color: black !important; font-size: 12px; }
+  .no-print, nav, footer { display: none !important; }
+  a { color: #1E3F73 !important; text-decoration: underline !important; }
+  .lf-page { max-width: 100%; box-shadow: none; padding: 0; border-radius: 0; }
+  .lf-cover { background: white !important; color: var(--lf-ink) !important; border: 2px solid var(--lf-blue); }
+  .lf-cover > * { color: var(--lf-ink) !important; }
+  .lf-lecture-nav { display: none !important; }
+}
+
+/* === Custom Scrollbar === */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #F3F4F6; }
+::-webkit-scrollbar-thumb { background: #5B8CDE; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #2D5AA0; }
+
+/* === Reduced Motion (WCAG 2.3.3) === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === Enhanced Card Containment === */
+.card, .lesson-card, .feature-card { contain: layout style paint; }
+

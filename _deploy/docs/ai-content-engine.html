@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霖楓學苑 · AI內容引擎</title>
+<meta property="og:title" content="霖楓學苑 · AI社交內容引擎">
+<meta property="og:description" content="AI自動生成社交媒體貼文+海報文案，品牌聲音一致。">
+<meta property="og:image" content="https://www.lfacademyhk.com/logo.png">
+<link rel="canonical" href="https://www.lfacademyhk.com/docs/ai-content-engine.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:#f1f5f9;min-height:100vh}
+.nav-top{position:sticky;top:0;background:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.nav-top a{color:#1A3C6D;text-decoration:none;font-weight:600;font-size:.9em}
+.container{max-width:900px;margin:0 auto;padding:24px 20px}
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.card h2{color:#1A3C6D;font-size:1.2em;margin-bottom:12px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.controls select,.controls input{padding:10px;border:2px solid #e2e8f0;border-radius:10px;font-size:.9em}
+.controls select{min-width:140px}
+.btn{padding:10px 24px;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:.9em;transition:all .2s}
+.btn-primary{background:#1A3C6D;color:#fff}
+.btn-primary:hover{background:#0F2440}
+.btn-outline{background:#fff;color:#1A3C6D;border:2px solid #1A3C6D}
+.btn-copy{background:#16A34A;color:#fff;padding:6px 14px;font-size:.8em}
+.post-card{background:#f8fafc;border-radius:12px;padding:16px;margin-bottom:12px;border-left:4px solid #1A3C6D}
+.post-card.education{border-left-color:#2563EB}
+.post-card.engagement{border-left-color:#F97316}
+.post-card.social_proof{border-left-color:#16A34A}
+.post-card.urgency{border-left-color:#DC2626}
+.post-card.personality{border-left-color:#7C3AED}
+.post-title{font-weight:700;color:#1e293b;margin-bottom:8px;font-size:1.05em}
+.post-body{color:#475569;font-size:.9em;line-height:1.6;margin-bottom:8px}
+.post-cta{color:#1A3C6D;font-weight:600;font-size:.85em;margin-bottom:4px}
+.post-tags{color:#94a3b8;font-size:.75em}
+.post-meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.post-layer{font-size:.7em;padding:2px 8px;border-radius:8px;font-weight:600}
+.loading{text-align:center;padding:30px;color:#64748b}
+.spinner{width:36px;height:36px;border:4px solid #e2e8f0;border-top-color:#1A3C6D;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.poster-spec{font-size:.75em;color:#64748b;margin-top:8px;padding:8px;background:#fff;border-radius:8px}
+</style>
+<link rel="stylesheet" href="/lf-academy-v8.css">
+</head>
+<body>
+
+<div class="nav-top">
+  <a href="/"><img src="/logo.png" alt="霖楓學苑" style="height:24px">霖楓學苑</a>
+  <div>
+    <a href="/ai-tutor.html">🤖 AI導師</a>
+    <a href="/docs/ai-diagnostic.html" style="margin-left:12px">🧬 診斷</a>
+    <a href="/docs/whatsapp-ai.html" style="margin-left:12px">💬 WhatsApp</a>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="card">
+  <h2>🤖 AI社交內容引擎</h2>
+  <p style="color:#64748b;font-size:.85em;margin-bottom:16px">AI自動生成品牌一致嘅社交媒體貼文 + 海報設計規格。可直接複製使用。</p>
+  
+  <div class="controls">
+    <select id="contentType">
+      <option value="education">📚 教育內容</option>
+      <option value="engagement">🎯 互動挑戰</option>
+      <option value="social_proof">⭐ 真實見證</option>
+      <option value="urgency">⚡ 限時行動</option>
+      <option value="personality">💬 個人分享</option>
+    </select>
+    <select id="trapTopic">
+      <option value="">隨機陷阱主題</option>
+      <option value="分數加減">分數加減</option>
+      <option value="圖形旋轉對稱">圖形旋轉/對稱</option>
+      <option value="概率基礎">概率基礎</option>
+      <option value="除數漏寫0">除數漏寫0</option>
+      <option value="試商不調整">試商不調整</option>
+      <option value="周界面積混淆">周界面積混淆</option>
+      <option value="時間計算">時間計算</option>
+      <option value="百分數應用">百分數應用</option>
+      <option value="體積容量">體積vs容量</option>
+      <option value="應用題理解">應用題理解偏差</option>
+      <option value="速率陷阱">速率陷阱</option>
+      <option value="代數基礎">代數基礎</option>
+      <option value="平均數誤解">平均數誤解</option>
+      <option value="LCM/HCF">LCM/HCF混淆</option>
+      <option value="單位換算">單位換算陷阱</option>
+    </select>
+    <select id="count">
+      <option value="1">1篇</option>
+      <option value="3" selected>3篇</option>
+      <option value="5">5篇</option>
+      <option value="7">7篇</option>
+    </select>
+    <button class="btn btn-primary" onclick="generateContent()">🚀 生成內容</button>
+  </div>
+</div>
+
+<div class="card hidden" id="loadingCard">
+  <div class="loading">
+    <div class="spinner"></div>
+    <p>AI正在生成品牌貼文…</p>
+  </div>
+</div>
+
+<div id="resultsArea"></div>
+
+</div>
+
+<script>
+const TUNNEL = "https://bali-situated-tag-onion.trycloudflare.com/v1";
+const TKEY = "freellmapi-bd1dc3c008a33b0b53260ee8183e13b4ebb7d9f15e975d91";
+
+const COLORS = {
+  education: {hex:"#2563EB",name:"藍",canva:"教育類 - 藍色簡約",size:"1080x1080"},
+  engagement: {hex:"#F97316",name:"橙",canva:"互動類 - 橙色挑戰",size:"1080x1080"},
+  social_proof: {hex:"#16A34A",name:"綠",canva:"見證類 - 綠色溫暖",size:"1080x1920"},
+  urgency: {hex:"#DC2626",name:"紅",canva:"限時類 - 紅色緊急",size:"1080x1080"},
+  personality: {hex:"#7C3AED",name:"紫",canva:"個人類 - 紫色親切",size:"1080x1920"}
+};
+
+async function generateContent(){
+  const type = document.getElementById("contentType").value;
+  const trap = document.getElementById("trapTopic").value || "隨機數學陷阱";
+  const count = parseInt(document.getElementById("count").value);
+  
+  document.getElementById("loadingCard").classList.remove("hidden");
+  document.getElementById("resultsArea").innerHTML = "";
+  
+  const typeNames = {education:"教育內容",engagement:"互動挑戰",social_proof:"真實見證",urgency:"限時行動",personality:"個人分享"};
+  const typeGuides = {
+    education:"解釋數學概念或陷阱，提供實用技巧，語氣專業親切，150-250字",
+    engagement:"問答挑戰或投票，引發家長互動留言，語氣活潑有趣，80-150字",
+    social_proof:"家長/學生真實見證故事，展示進步成果，語氣溫暖真誠，100-200字",
+    urgency:"限時優惠或截止提醒，製造合理緊迫感，語氣急切但不誇張，80-150字",
+    personality:"幕後分享或老師心得，建立個人連結，語氣輕鬆親切，100-200字"
+  };
+  
+  const prompt = "你係霖楓學苑社交媒體內容生成器。生成" + count + "篇不同嘅" + typeNames[type] + "貼文。\n\n" +
+    "品牌規範：\n- 霖楓學苑係香港小學數學陷阱診斷專家\n- 用10大陷阱分類法+ClassIn平台上堂\n- 唔使接送，全港適用，P3-P6呈分試\n- 品牌口號：你唔係數學渣，你只係未學識睇陷阱\n\n" +
+    "今次主題/陷阱：" + trap + "\n" +
+    "貼文類型風格：" + typeGuides[type] + "\n\n" +
+    "每篇貼文用以下JSON格式輸出（必須嚴格遵守）：\n" +
+    '{"title":"貼文標題","body":"貼文內文","cta":"行動呼籲","tags":"hashtag"}\n\n' +
+    "要求：\n- 全部用繁體中文+純正香港廣東話口語\n- 唔可以用「補習社」「Zoom」「線下」「面授」「死背」\n- 必須提到「ClassIn」「唔使接送」「全港適用」其中至少一個\n- CTA要引導留言/Inbox/試堂\n- " + count + "篇貼文內容不可重複\n- 用JSON array格式回覆，例如：[{...},{...}]";
+
+  try {
+    const resp = await fetch(TUNNEL + "/chat/completions", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+TKEY},
+      body:JSON.stringify({
+        model:"auto",
+        messages:[{role:"user",content:prompt}],
+        max_tokens:2000, temperature:0.8
+      })
+    });
+    const data = await resp.json();
+    const raw = data.choices[0].message.content;
+    
+    // Parse JSON from response
+    let posts = [];
+    try {
+      const jsonMatch = raw.match(/\[[\s\S]*\]/);
+      if (jsonMatch) posts = JSON.parse(jsonMatch[0]);
+    } catch(e){}
+    
+    if (posts.length === 0) {
+      // Fallback: parse manually
+      posts = parseFallback(raw, count, type);
+    }
+    
+    renderPosts(posts, type);
+  } catch(e){
+    const posts = generateLocalPosts(count, type, trap);
+    renderPosts(posts, type);
+  }
+  
+  document.getElementById("loadingCard").classList.add("hidden");
+}
+
+function parseFallback(raw, count, type){
+  const posts = [];
+  const blocks = raw.split(/\n(?={)/);
+  for (const block of blocks){
+    try {
+      const post = JSON.parse(block.trim());
+      if (post.title) posts.push(post);
+    } catch(e){}
+  }
+  return posts.slice(0, count);
+}
+
+function generateLocalPosts(count, type, trap){
+  const templates = {
+    education:[
+      {title:"【家長必睇】"+trap+"陷阱——你小朋友中咗未？",body:"好多P3-P6學生喺「"+trap+"」呢個位成日錯，唔係唔識計，係踩中咗隱藏陷阱！\n\n3個常見錯誤：\n❌ 冇看清楚單位就計\n❌ 跳步太快漏咗關鍵數字\n❌ 做完唔檢查\n\n想知你小朋友嘅陷阱指紋？留言「診斷」免費幫你分析～",cta:"留言「診斷」免費做陷阱分析！",tags:"#數學陷阱 #香港小學 #ClassIn網課 #唔使接送 #霖楓學苑"},
+      {title:"三分鐘教你避開"+trap+"陷阱",body:"【快教系列】"+trap+"係全港小學生十大常見陷阱之一！\n\n📝 口訣記住：先睇清題目，再揀啱方法，最後check答案！\n\n每日花5分鐘練針對性題目，兩個禮拜見效～\n暑假試堂優惠進行中，留言「試堂」預約！",cta:"留言「試堂」預約免費體驗",tags:"#數學口訣 #陷阱診斷 #暑假規劃 #ClassIn平台 #霖楓學苑"}
+    ],
+    engagement:[
+      {title:"問答挑戰！"+trap+"你識唔識？（9成家長答錯）",body:"【互動時間】以下邊個係"+trap+"最常見嘅錯誤？\n\nA. 冇通分就直接加減\nB. 單位寫錯（cm vs cm²）\nC. 睇漏題目中嘅關鍵字\nD. 以上皆是\n\n留言寫低你嘅答案！聽日開估+詳細解釋～",cta:"留言寫低你嘅答案👇",tags:"#數學挑戰 #家長互動 #香港教育 #霖楓學苑"},
+      {title:"暑假投票：你最想小朋友改善邊個數學弱項？",body:"【投票】暑假就到，你最想小朋友喺邊方面進步？\n\n📊 分數運算\n🧮 應用題理解\n📐 圖形與面積\n⏰ 時間計算\n💯 百分數應用\n\n留言投票！最多人揀嘅topic我會出詳細教學貼文～",cta:"留言投票+講低你小朋友年級！",tags:"#暑假規劃 #數學投票 #家長互動 #霖楓學苑"}
+    ],
+    social_proof:[
+      {title:"由驚數學變鍾意數學——P5學生真實故事",body:"「之前呀女一見到數學書就喊，考試永遠唔合格。試咗霖楓嘅陷阱診斷之後，原來佢唔係唔識，係成日踩中同樣嘅陷阱！針對性練咗兩個月，最近一次測驗攞咗78分！」\n\n——P5學生媽咪嘅真實分享\n\n每個小朋友都有自己嘅「陷阱指紋」，搵出嚟就有得救！",cta:"想知你小朋友嘅陷阱指紋？留言「診斷」",tags:"#真實見證 #數學進步 #陷阱診斷 #家長分享 #霖楓學苑"}
+    ],
+    urgency:[
+      {title:"【限時】暑假試堂優惠——最後名額！",body:"📣 暑假試堂優惠最後召集！\n\n✅ 30分鐘免費AI陷阱診斷\n✅ 一對三體驗堂\n✅ 個人化學習建議\n\n用ClassIn平台上堂，唔使接送～\n名額有限，留言「試堂」即刻留位！",cta:"留言「試堂」即刻留位！",tags:"#限時優惠 #暑假試堂 #ClassIn網課 #唔使接送 #霖楓學苑"}
+    ],
+    personality:[
+      {title:"霖楓老師：我點樣用10分鐘搵出學生嘅隱藏陷阱",body:"教咗咁耐數學，最開心唔係見到學生攞100分，而係見到佢由「我唔得㗎」變成「原來咁簡單！」\n\n每個學生都有自己嘅「陷阱指紋」，有啲人成日錯分數通分，有啲人永遠喺單位度扣分。搵出嚟，針對性練，進步係必然嘅。\n\n你小朋友嘅陷阱指紋係咩？留言分享吓～",cta:"留言分享你嘅經驗！",tags:"#霖楓老師 #教學心得 #陷阱診斷 #數學教育 #霖楓學苑"}
+    ]
+  };
+  
+  const pool = templates[type] || templates.education;
+  const results = [];
+  for (let i = 0; i < count; i++){
+    const t = pool[i % pool.length];
+    results.push({...t, title:t.title.replace("陷阱",trap+"陷阱").replace(trap+trap,trap)});
+  }
+  return results;
+}
+
+function renderPosts(posts, type){
+  const color = COLORS[type];
+  let html = "";
+  
+  posts.forEach(function(post, i){
+    html += '<div class="post-card ' + type + '">';
+    html += '<div class="post-title">' + (post.title || "貼文 #"+(i+1)) + '</div>';
+    html += '<div class="post-body">' + (post.body || "").replace(/\n/g,"<br>") + '</div>';
+    html += '<div class="post-cta">👉 ' + (post.cta || "留言了解更多") + '</div>';
+    html += '<div class="post-tags">' + (post.tags || "#霖楓學苑") + '</div>';
+    html += '<div class="poster-spec">';
+    html += '🎨 <strong>海報規格：</strong>' + color.canva + ' | ' + color.hex + ' | ' + color.size + '<br>';
+    html += '佈局：標題置頂 → 內容居中 → CTA底部 | 氛圍：品牌' + color.name + '色調';
+    html += '</div>';
+    html += '<div class="post-meta">';
+    html += '<span class="post-layer" style="background:' + color.hex + '20;color:' + color.hex + '">AI生成 · 品牌一致</span>';
+    html += '<button class="btn btn-copy" onclick="copyPost(this)" data-copy="' + (post.title||"") + '\n\n' + (post.body||"") + '\n\n👉 ' + (post.cta||"") + '\n' + (post.tags||"") + '">📋 複製</button>';
+    html += '</div></div>';
+  });
+  
+  document.getElementById("resultsArea").innerHTML = html;
+}
+
+function copyPost(btn){
+  const text = btn.getAttribute("data-copy");
+  navigator.clipboard.writeText(text).then(function(){
+    btn.textContent = "✅ 已複製！";
+    setTimeout(function(){btn.textContent = "📋 複製"}, 2000);
+  });
+}
+</script>
+</body>
+</html>

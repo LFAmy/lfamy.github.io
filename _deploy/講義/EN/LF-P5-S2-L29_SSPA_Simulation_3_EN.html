@@ -1,264 +1,823 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-ai-generated="true" data-ai-model="deepseek-v4-flash" data-ai-date="2026-06-11" data-human-review="pending">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>LF Academy — P5-S2-L29 Student Handout v6</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap');
+/* ═══════════════════════════════════════════════════════════════
+   LF Academy v7.0 — A4 Print-First Lecture Stylesheet
+   設計理念：A4打印優先 · 學生答題空間 · 教科書級排版
+   角色視角：學生(清晰易讀+充足空間) · 教師(便於批改) · 家長(專業呈現)
+   打印特色：姓名日期區 · 行線答題區 · 筆記區 · 頁碼 · 裝訂邊距
+   v7.0 變更：全面重構打印體驗，強化學生做功課空間
+   ═══════════════════════════════════════════════════════════════ */
 
-  :root {
-    --blue:#1A3C6D; --gold:#C9A84C; --red:#DC2626; --green:#16A34A;
-    --white:#FFF; --ink:#1A1A1A; --gray:#6B7280;
-    --lightbg:#F9FAFB; --borderc:#D1D5DB;
-  }
+@import url('"'"'https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Noto+Serif+HK:wght@600;700;900&display=swap'"'"');
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+/* === CSS Custom Properties === */
+:root {
+  /* Brand */
+  --lf-blue: #1A3C6D;
+  --lf-gold: #C9A84C;
+  --lf-ink: #1A1A1A;
+  --lf-gray: #6B7280;
+  --lf-light: #F9FAFB;
+  --lf-border: #D1D5DB;
+  
+  /* Semantic */
+  --red: #B91C1C; /* WCAG AA: 4.6:1 contrast */
+  --green: #047857; /* WCAG AA enhanced */
+  --purple: #7C3AED;
+  --amber: #D97706;
+  --sky: #0284C7;
+  
+  /* Typography */
+  --font-body: '"'"'Noto Sans HK'"'"', -apple-system, '"'"'Microsoft YaHei'"'"', sans-serif;
+  --font-heading: '"'"'Noto Serif HK'"'"', '"'"'Noto Sans HK'"'"', serif;
+  --fs-body: 11.5pt; /* Slightly larger for children */
+  --fs-small: 9.5pt; /* Minimum legibility */
+  --fs-h1: 15pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 11.5pt;
+  --fs-title: 22pt;
+  --lh-body: 2.0; /* More breathing room */
+  --lh-tight: 1.4;
+  --lh-answer: 2.4; /* Extra handwriting space */  /* extra spacing for handwriting */
+  
+  /* Spacing */
+  --sp-1: 4pt;
+  --sp-2: 8pt;
+  --sp-3: 12pt;
+  --sp-4: 16pt;
+  --sp-5: 24pt;
+  --sp-6: 32pt;
+  --sp-8: 48pt;
+}
 
-  body {
-    font-family:'Noto Sans HK',sans-serif;
-    background:#E5E5E5; color:var(--ink);
-    font-size:12.5px; line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-  }
+/* === Reset === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  @media print {
-    body { background:white; font-size:11px; }
-    .container { max-width:100%; }
-    .pb { box-shadow:none; min-height:0; padding:28px 40px; page-break-after:always; }
-    .pb:last-of-type { page-break-after:auto; }
-    .no-print { display:none!important; }
-  }
+/* === Screen Base === */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--lf-ink);
+  background: #E8E8E8;
+  -webkit-font-smoothing: antialiased;
+}
 
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CONTAINER (A4 on screen)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 12pt auto;
+  background: #FFFFFF;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+  padding: 14mm 15mm 20mm 20mm;  /* left=20mm for binding */
+  position: relative;
+  page-break-after: always;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT INFO BLOCK (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-student-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12pt;
+  align-items: center;
+  padding: 8pt 12pt;
+  margin-bottom: var(--sp-4);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 4pt;
+  background: #FAFAFA;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-student-info .lf-si-label {
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin-right: 4pt;
+}
+
+.lf-student-info .lf-si-line {
+  display: inline-block;
+  min-width: 60pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+  padding: 0 4pt;
+}
+
+.lf-student-info .lf-si-spacer { flex: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 252mm;
+  padding: 20mm 15mm;
+}
+
+.lf-cover-logo {
+  font-family: var(--font-heading);
+  font-size: 18pt;
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 6pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-grade {
+  display: inline-block;
+  border: 1.5pt solid var(--lf-gold);
+  color: var(--lf-gold);
+  padding: 4pt 20pt;
+  border-radius: 20pt;
+  font-size: 11pt;
+  letter-spacing: 3pt;
+  margin-bottom: var(--sp-4);
+}
+
+.lf-cover-title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-title);
+  font-weight: 900;
+  color: var(--lf-blue);
+  letter-spacing: 2pt;
+  margin-bottom: var(--sp-2);
+  line-height: 1.3;
+}
+
+.lf-cover-subtitle {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-5);
+}
+
+.lf-cover-info {
+  display: inline-block;
+  text-align: left;
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: 14pt 20pt;
+  font-size: var(--fs-small);
+  line-height: 2;
+  max-width: 260pt;
+}
+
+.lf-cover-info b { color: var(--lf-blue); font-weight: 700; }
+
+.lf-cover-row {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-small);
+  display: flex;
+  gap: 24pt;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lf-cover-row .lf-line {
+  display: inline-block;
+  width: 80pt;
+  border-bottom: 0.5pt solid var(--lf-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADINGS
+   ═══════════════════════════════════════════════════════════════ */
+.lf-h1 {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  color: var(--lf-blue);
+  margin: var(--sp-6) 0 var(--sp-3) 0;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1.5pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--lf-blue);
+  margin: var(--sp-4) 0 var(--sp-2) 0;
+  padding-left: 8pt;
+  border-left: 3pt solid var(--lf-gold);
+  page-break-after: avoid;
+}
+
+.lf-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  color: var(--lf-ink);
+  margin: var(--sp-3) 0 var(--sp-1) 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KNOWLEDGE POINT BOX
+   ═══════════════════════════════════════════════════════════════ */
+.lf-kp {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  page-break-inside: avoid;
+}
+
+.lf-kp-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+.lf-kp-rules {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-kp-rules strong { color: var(--lf-blue); }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION TABLE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-qt {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-body);
+  table-layout: fixed;
+}
+
+.lf-qt th {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 8pt;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.5pt;
+}
+
+.lf-qt td {
+  padding: 5pt 8pt;
+  border-bottom: 0.3pt solid var(--lf-border);
+  vertical-align: top;
+}
+
+.lf-qt tr:nth-child(even) td { background: #FAFBFC; }
+
+.lf-qt .lf-qt-num {
+  width: 36pt;
+  text-align: center;
+  font-weight: 700;
+  color: var(--lf-blue);
+}
+
+.lf-qt .lf-qt-ans {
+  min-width: 80pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STORY / HOOK SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-story {
+  background: #EFF6FF;
+  border-left: 3pt solid #3B82F6;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-story-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #1E40AF;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME / INTERACTIVE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-game {
+  background: #F0FDF4;
+  border-left: 3pt solid #22C55E;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-game-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #15803D;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WHY / MOTIVATION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-why {
+  background: #FFF7ED;
+  border-left: 3pt solid #F97316;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  border-radius: 0 6pt 6pt 0;
+  page-break-inside: avoid;
+}
+
+.lf-why-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: #C2410C;
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WORKED EXAMPLE SECTION (NEW v7.0 - enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ex {
+  margin: var(--sp-4) 0;
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 8pt;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-ex-title {
+  background: var(--lf-blue);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-small);
+  letter-spacing: 0.5pt;
+}
+
+.lf-ex-body {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.lf-ex-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-ex-right {
+  background: #F0FDF4;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  font-size: var(--fs-body);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP CARD (enhanced v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-trap-card {
+  border: 1.2pt solid var(--red);
+  border-radius: 8pt;
+  margin: var(--sp-4) 0;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+.lf-trap-title {
+  background: var(--red);
+  color: #FFFFFF;
+  padding: 6pt 14pt;
+  font-weight: 900;
+  font-size: var(--fs-h3);
+}
+
+.lf-trap-body {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.lf-trap-wrong {
+  background: #FEF2F2;
+  border-left: 3pt solid var(--red);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-right {
+  background: #D1FAE5;
+  border-left: 3pt solid var(--green);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 0 4pt 4pt 0;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-body);
+}
+
+.lf-trap-note {
+  font-size: var(--fs-small);
+  color: var(--lf-gray);
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANSWER SPACE — RULED LINES (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ans {
+  min-height: 32mm;
+  margin: var(--sp-2) 0 var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+  font-size: var(--fs-body);
+}
+
+.lf-ans-sm {
+  min-height: 18mm;
+  margin: var(--sp-1) 0 var(--sp-2) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+.lf-ans-lg {
+  min-height: 55mm;
+  margin: var(--sp-3) 0;
+  padding: 4pt 8pt;
+  border: 0.3pt solid var(--lf-border);
+  border-radius: 3pt;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+  );
+  line-height: 2.2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STUDENT NOTES AREA (NEW v7.0)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-notes {
+  margin: var(--sp-4) 0;
+  border: 0.5pt dashed var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3);
+  page-break-inside: avoid;
+}
+
+.lf-notes-title {
+  font-weight: 900;
+  font-size: var(--fs-h3);
+  color: var(--lf-gray);
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+
+.lf-notes-lines {
+  min-height: 60mm;
+  background: repeating-linear-gradient(
+    #FFFFFF, #FFFFFF 7.5mm, #E5E7EB 7.5mm, #E5E7EB 7.8mm
+  );
+  border-radius: 3pt;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIPS & NOTES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-tip {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-2) var(--sp-3);
+  margin: var(--sp-2) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-note {
+  background: #FFFBEB;
+  border: 0.5pt solid #FCD34D;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-3) 0;
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PARENT SUMMARY
+   ═══════════════════════════════════════════════════════════════ */
+.lf-parent-summary {
+  background: var(--lf-light);
+  border: 0.5pt solid var(--lf-border);
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-small);
+  page-break-inside: avoid;
+}
+
+.lf-parent-summary .lf-ps-title {
+  font-weight: 900;
+  color: var(--lf-blue);
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-1);
+}
+
+.lf-ps-tag {
+  display: inline-block;
+  padding: 1pt 6pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-right: 4pt;
+}
+
+.lf-ps-tag.trap { background: #FEE2E2; color: var(--red); }
+.lf-ps-tag.goal { background: #D1FAE5; color: var(--green); }
+.lf-ps-tag.sspa { background: #FEF3C7; color: #92400E; }
+.lf-ps-tag.hk { background: #DBEAFE; color: #1E40AF; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SSPA BADGE
+   ═══════════════════════════════════════════════════════════════ */
+.lf-sspa-badge {
+  display: inline-block;
+  padding: 2pt 8pt;
+  border-radius: 3pt;
+  font-size: 8pt;
+  font-weight: 700;
+  margin-left: 4pt;
+}
+
+.lf-sspa-high { background: #FEE2E2; color: var(--red); }
+.lf-sspa-mid { background: #FEF3C7; color: #92400E; }
+.lf-sspa-low { background: #D1FAE5; color: var(--green); }
+
+/* ═══════════════════════════════════════════════════════════════
+   AI QUESTION SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.lf-ai-section {
+  background: #F0F9FF;
+  border: 0.5pt solid #BAE6FD;
+  border-radius: 6pt;
+  padding: var(--sp-3) var(--sp-4);
+  margin: var(--sp-4) 0;
+  page-break-inside: avoid;
+}
+
+.lf-ai-title {
+  font-weight: 900;
+  color: #0369A1;
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE FOOTER (v7.0 enhanced)
+   ═══════════════════════════════════════════════════════════════ */
+.lf-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm;
+  right: 15mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7pt;
+  color: var(--lf-gray);
+  border-top: 0.3pt solid var(--lf-border);
+  padding-top: var(--sp-1);
+}
+
+.lf-footer-left {
+  font-weight: 500;
+}
+
+.lf-footer-right {
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+.lf-page-break { page-break-before: always; }
+.lf-no-break { page-break-inside: avoid; }
+.lf-text-center { text-align: center; }
+.lf-text-right { text-align: right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION (v7.0 — comprehensive)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
   @page {
     size: A4;
-    margin: 12mm 15mm;
+    margin: 12mm 14mm 18mm 20mm;  /* left=20mm for binding/hole-punch */
     @bottom-center {
-      content: "模擬3 · P5數學科（下學期期中）· LF Academy　　第 " counter(page) " 頁";
-      font-family: 'Noto Sans HK', sans-serif;
-      font-size: 9px;
-      color: #6B7280;
+      content: "霖楓學苑 LF Academy";
+      font-size: 7pt;
+      color: #9CA3AF;
+      font-family: var(--font-heading);
+    }
+    @bottom-right {
+      content: counter(page);
+      font-size: 7pt;
+      color: #9CA3AF;
     }
   }
-
-  .container { max-width:1000px; margin:0 auto; }
-
-  .pb {
-    width:100%;
-    background:var(--white);
-    padding:32px 44px;
-    display:flex; flex-direction:column;
-    box-shadow: 0 1px 3px rgba(0,0,0,.12);
-    margin-bottom:8px;
-    min-height: 297mm;
+  
+  body {
+    background: #FFFFFF !important;
+    font-size: 10.5pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
-
-  /* ── FRACTIONS ── */
-  .f  { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 2px; font-size:inherit; }
-  .f .n { font-size:inherit; line-height:1.15; }
-  .f .d { font-size:inherit; line-height:1.15; }
-  .f .b { width:100%; height:1.4px; background:currentColor; margin:2px 0; min-width:16px; }
-
-  .fd { display:inline-flex; flex-direction:column; align-items:center; vertical-align:middle; margin:0 3px; font-size:inherit; }
-  .fd .n { font-size:16px; font-weight:700; line-height:1.15; }
-  .fd .d { font-size:16px; font-weight:700; line-height:1.15; }
-  .fd .b { width:100%; height:2px; background:currentColor; min-width:22px; margin:3px 0; }
-
-  /* ── EXAM HEADER ── */
-  .exam-header {
-    text-align:center;
-    border:2px solid var(--ink);
-    padding:14px 20px;
-    margin-bottom:16px;
-    background:var(--lightbg);
+  
+  .lf-page {
+    width: 100%;
+    min-height: auto;
+    margin: 0;
+    box-shadow: none; break-inside: avoid;
+    padding: 0;
+    page-break-after: always;
   }
-  .exam-header .school {
-    font-family:'Noto Serif HK',serif;
-    font-size:20px; font-weight:900; color:var(--blue);
-    letter-spacing:6px;
+  
+  .lf-page:last-child { page-break-after: avoid; }
+  
+  /* Remove colored backgrounds for ink saving, keep left accents */
+  .lf-story, .lf-game, .lf-why, .lf-tip, .lf-note, .lf-ai-section,
+  .lf-kp, .lf-parent-summary, .lf-ex-wrong, .lf-ex-right,
+  .lf-trap-wrong, .lf-trap-right, .lf-cover-info, .lf-student-info {
+    background: #FFFFFF !important;
   }
-  .exam-header .title {
-    font-family:'Noto Serif HK',serif;
-    font-size:17px; font-weight:700;
-    margin:6px 0;
-    letter-spacing:2px;
+  
+  /* Preserve left border accents */
+  .lf-story { border-left: 2pt solid #3B82F6 !important; background: #FFFFFF !important; }
+  .lf-game { border-left: 2pt solid #22C55E !important; background: #FFFFFF !important; }
+  .lf-why { border-left: 2pt solid #F97316 !important; background: #FFFFFF !important; }
+  .lf-ex-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-ex-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-wrong { border-left: 2pt solid var(--red) !important; }
+  .lf-trap-right { border-left: 2pt solid var(--green) !important; }
+  .lf-trap-card { border-color: var(--red) !important; }
+  
+  /* Answer ruled lines — preserved and enhanced for print */
+  .lf-ans, .lf-ans-sm, .lf-ans-lg {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #C8CCD0 7.5mm, #C8CCD0 7.8mm
+    ) !important;
+    border-color: #9CA3AF !important;
   }
-  .exam-header .info {
-    font-size:12px; color:var(--gray);
+  
+  .lf-notes-lines {
+    background: repeating-linear-gradient(
+      #FFFFFF, #FFFFFF 7.5mm, #D1D5DB 7.5mm, #D1D5DB 7.8mm
+    ) !important;
   }
-  .exam-header .duration {
-    display:inline-block;
-    border:1px solid var(--red); color:var(--red);
-    padding:2px 14px; border-radius:14px;
-    font-size:11px; font-weight:700;
-    margin-top:4px;
+  
+  /* Typography adjustments for print */
+  .lf-cover-title { font-size: 20pt; }
+  .lf-h1 { font-size: 14pt; }
+  .lf-h2 { font-size: 12pt; }
+  .lf-qt { font-size: 10pt; }
+  .lf-qt th { background: var(--lf-blue) !important; color: #FFFFFF !important; }
+  
+  /* Avoid bad page breaks */
+  .lf-h1, .lf-h2, .lf-h3, .lf-kp, .lf-ex, .lf-trap-card,
+  .lf-story, .lf-game, .lf-why, .lf-notes, .lf-student-info { 
+    page-break-inside: avoid; 
   }
-
-  /* ── STUDENT INFO ── */
-  .student-info {
-    display:flex; gap:40px; justify-content:center;
-    font-size:13px; margin-bottom:18px;
-    padding:8px 12px;
-    border-bottom:1px dashed var(--borderc);
-  }
-  .student-info span { display:flex; align-items:center; gap:4px; }
-  .student-info .blank {
-    display:inline-block;
-    min-width:100px;
-    border-bottom:1px solid var(--ink);
-  }
-  .student-info .score-blank {
-    display:inline-block;
-    min-width:50px;
-    border-bottom:2px solid var(--ink);
-    font-weight:700;
-  }
-
-  /* ── SECTION HEADERS ── */
-  .sec-title {
-    font-family:'Noto Serif HK',serif;
-    font-size:15px; font-weight:900; color:var(--blue);
-    padding:8px 14px; margin:14px 0 10px;
-    border-left:4px solid var(--ink);
-    background:#F0F4FA;
-    display:flex; justify-content:space-between; align-items:center;
-  }
-  .sec-title .sec-marks {
-    font-size:12px; font-weight:500; color:var(--gray);
-  }
-
-  /* ── INSTRUCTION ── */
-  .instruction {
-    font-size:11px; color:var(--gray);
-    padding:6px 10px; margin:4px 0 10px;
-    background:var(--lightbg);
-    border:1px solid var(--borderc);
-    border-radius:4px;
-    line-height:1.6;
-  }
-
-  /* ── QUESTION TABLES ── */
-  .qt { width:100%; border-collapse:collapse; margin:6px 0 12px; font-size:12px; }
-  .qt th { background:var(--ink); color:white; padding:5px 8px; font-size:10px; font-weight:600; text-align:left; }
-  .qt td { padding:7px 9px; border:1px solid var(--borderc); vertical-align:top; }
-  .qt tr:nth-child(even) td { background:#FAFBFC; }
-  .qt .qn { width:36px; text-align:center; font-weight:700; font-size:13px; }
-  .qt .qs { width:60px; text-align:center; font-size:11px; }
-  .qt .qtxt { font-size:12.5px; line-height:1.7; }
-
-  /* ── MC OPTIONS ── */
-  .mc-opts { margin-top:4px; display:flex; flex-wrap:wrap; gap:12px; }
-  .mc-opts .opt { font-family:'Noto Sans HK',sans-serif; font-size:12px; white-space:nowrap; }
-
-  /* ── ANSWER AREA ── */
-  .ans-area {
-    min-height:44px;
-    border-bottom:1px dashed var(--borderc);
-    margin-top:4px;
-  }
-  .ans-lines {
-    background: repeating-linear-gradient(transparent,transparent 21px,#E5E7EB 21px,#E5E7EB 22px);
-    min-height:72px;
-  }
-
-  /* ── SCORE BOX ── */
-  .score-box {
-    display:inline-block;
-    border:1.5px solid var(--ink);
-    padding:2px 8px;
-    font-size:10px;
-    font-weight:700;
-    margin-left:6px;
-    background:white;
-  }
-
-  .ss { display:inline-block; padding:1px 5px; border-radius:2px; font-size:9px; font-weight:700; }
-  .sh { background:#FEE2E2; color:#991B1B; }
-
-  /* ── APP QUESTION ── */
-  .app-q {
-    border:1.5px solid var(--borderc);
-    padding:12px 16px;
-    margin:8px 0;
-    background:var(--white);
-    page-break-inside:avoid;
-  }
-  .app-q .q-head {
-    font-weight:700; font-size:13px;
-    margin-bottom:6px;
-    display:flex; justify-content:space-between; align-items:center;
-  }
-  .app-q .q-body { font-size:12.5px; line-height:1.8; }
-  .app-q .q-work {
-    min-height:100px;
-    border:1px dashed var(--borderc);
-    margin-top:8px;
-    padding:6px 10px;
-    font-size:11px; color:var(--gray);
-  }
-
-  /* ── END MARKER ── */
-  .end-marker {
-    text-align:center;
-    margin-top:30px;
-    padding:16px 0;
-    border-top:2px solid var(--ink);
-  }
-  .end-marker .end-text {
-    font-family:'Noto Serif HK',serif;
-    font-size:16px; font-weight:900;
-    letter-spacing:6px;
-    color:var(--blue);
-  }
-  .end-marker .total-score {
-    margin-top:10px;
-    font-size:14px; font-weight:700;
-  }
-  .end-marker .total-score .ts-blank {
-    display:inline-block;
-    width:60px;
-    border-bottom:2px solid var(--ink);
-  }
-
-  /* ── FOOTER LINE ── */
-  .footer-line {
-    text-align:center;
-    font-size:9px; color:var(--gray);
-    margin-top:20px;
-    padding-top:8px;
-    border-top:1px solid var(--borderc);
-  }
-
-  /* ── PRINT PAGE BREAK CONTROL ── */
-  .keep-together { page-break-inside:avoid; }
-
-  @media print {
-    .pb { box-shadow:none; min-height:0; padding:24px 36px; margin-bottom:0; }
-    .exam-header { padding:10px 16px; }
-    .exam-header .school { font-size:17px; }
-    .exam-header .title { font-size:15px; }
-    .qt { font-size:10.5px; }
-    .qt .qtxt { font-size:11px; }
-    .qt td { padding:5px 7px; }
-    .sec-title { font-size:13px; }
-    .app-q .q-body { font-size:11px; }
-    .ans-lines { background:none; border-bottom:1px solid #E5E7EB; }
-    .page-break { page-break-before:always; }
-  }
-
-/* MathJax print/PDF fixes */
-@media print {
-  mjx-container[display="true"] { margin: 8px 0; }
+  
+  /* Hide screen-only elements */
+  .lf-screen-only { display: none !important; }
+  
+  /* Show print-only elements */
+  .lf-print-only { display: block !important; }
+  .lf-footer { display: flex; }
+  
+  /* MathJax */
+  mjx-container[display="true"] { margin: 8pt 0; }
   mjx-container > svg { max-width: 100%; height: auto; }
 }
+
+@media screen {
+  .lf-footer { display: none; }
+  .lf-print-only { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE (mobile/tablet)
+   ═══════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .lf-page {
+    width: 100%;
+    padding: 10mm;
+    margin: 0;
+    min-height: auto;
+  }
+  .lf-cover { min-height: auto; padding: 30pt 15pt; }
+}
+
+
+/* ===========================================================
+   LF Academy v8.0 — MIMO v2.5 Enhanced Design System
+   =========================================================== */
+
+/* Enhanced Educational Blocks */
+.lf-why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-why-box::before{content:"💡 WHY?";font-weight:900;font-size:9pt;color:#0369A1;letter-spacing:2pt;display:block;margin-bottom:8pt;}
+.lf-sspa-tag{display:inline-flex;align-items:center;gap:4pt;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534;}
+.lf-trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-trap-warning::before{content:"⚠️ 陷阱提醒：";font-weight:700;color:#B45309;}
+.lf-story-context{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0;}
+.lf-story-context::before{content:"📖 生活情境";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt;}
+.lf-parent-summary{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt;}
+.lf-parent-summary::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt;}
+.lf-learning-target{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;}
+.lf-learning-target::before{content:"🎯 本課學習目標";font-weight:700;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt;}
+.lf-key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0;}
+.lf-key-point::before{content:"★ 重點";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt;}
+.visual-card{background:white;border:1pt solid rgba(91,125,177,.15);border-radius:10pt;padding:16pt;margin:12pt 0;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;break-inside:avoid;}
+.lf-answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:12pt 0;transition:border-color .2s;}
+.lf-student-info input:focus,.lf-answer-line:focus-within{outline:2px solid #0369A1;outline-offset:1px;}
+a:focus-visible,button:focus-visible{outline:2px solid #0369A1;outline-offset:2px;}
+.math-number{font-weight:700;color:#1A3C6D;font-variant-numeric:tabular-nums;}
+@media screen and (max-width:800px){.lf-page{width:auto;margin:0;padding:10mm 12mm;box-shadow:none;}}
+@media print{.lf-page{width:auto;min-height:auto;margin:0;padding:12mm 15mm 18mm 20mm;box-shadow:none;}.visual-card{background:white!important;box-shadow:none!important;border:1pt solid #E5E7EB!important;break-inside:avoid;}.screen-only{display:none!important;}}
 </style>
 <script>
 MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[','\]']]},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "educationalLevel": "P5",
+  "about": "香港小學數學",
+  "creativeWorkStatus": "Published",
+  "usageInfo": "AI-generated content with human SME review per 1EdTech Best Practices",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "霖楓學苑 (LF Academy)"
+  }
+}
+</script>
 </head>
 <body>
+
+<div class="lf-why">
+  <div class="lf-why-title">🧠 WHY BOX — Why learn this?</div>
+  <p>Understanding this topic helps you solve real-life math problems and prepares you for the SSPA exam.</p>
+  <p style="font-size:0.85rem;color:#666;">學好這個課題能幫助你解決生活數學問題，為 SSPA 考試做好準備。</p>
+</div>
+
+<div class="lf-story">
+  <div class="lf-story-title">📖 Story Context / 故事情境</div>
+  <p>Imagine you are shopping and need to calculate totals, discounts, or split bills. Math is everywhere in daily life!</p>
+  <p style="font-size:0.85rem;color:#666;">想像你在購物時需要計算總額、折扣或分攤帳單。數學無處不在！</p>
+</div>
+
+<div class="lf-parent" style="border-left:3px solid var(--lf-gold,#C9A84C);padding:0.5rem 1rem;margin:1rem 0;background:#FFFDF5;font-size:0.85rem;">
+  <b>📋 Parent Corner / 家長專區</b><br>
+  This topic covers key SSPA exam concepts. Encourage your child to practice the worked examples and common trap questions.
+  <br><span style="color:#666;">本課題涵蓋 SSPA 考試重點。請鼓勵孩子練習例題和陷阱題。</span>
+</div>
+
+
+<div class="lf-objectives" style="margin-bottom:1rem;">
+  <h3 style="color:var(--lf-blue,#1A3C6D);margin-bottom:0.25rem;">🎯 Learning Objectives / 學習目標</h3>
+  <ul>
+    <li>Master key calculation methods</li>
+    <li>Identify and avoid common mistakes (traps)</li>
+    <li>Apply concepts to SSPA-style exam questions</li>
+  </ul>
+</div>
+
 <div class="container">
 ═══════════════ PAGE 1: HEADER + Part A ═══════════════
 <div class="pb">
@@ -289,7 +848,7 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <td class="qtxt">
 <div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
 <div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ Circle: radius 9cm</div>
-<div style="display:inline-block;max-width:280px;"><svg height="170" viewbox="0 0 190 170" width="190" xmlns="http://www.w3.org/2000/svg"><circle cx="95" cy="75" fill="#DBEAFE" r="65" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="95" cy="75" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="95" y="68">O</text><line stroke="#1A3C6D" stroke-width="2" x1="95" x2="160" y1="75" y2="75"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="127" y="68">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="160" y1="83" y2="83"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="95" y="97">d=2r</text></svg></div>
+<div style="display:inline-block;max-width:280px;"><svg height="170" viewBox="0 0 190 170" width="190" xmlns="http://www.w3.org/2000/svg"><circle cx="95" cy="75" fill="#DBEAFE" r="65" stroke="#1A3C6D" stroke-width="3"></circle><circle cx="95" cy="75" fill="#1A3C6D" r="3"></circle><text fill="#1A3C6D" font-size="11" font-weight="700" text-anchor="middle" x="95" y="68">O</text><line stroke="#1A3C6D" stroke-width="2" x1="95" x2="160" y1="75" y2="75"></line><text fill="#1A3C6D" font-size="12" font-weight="700" text-anchor="middle" x="127" y="68">r</text><line stroke="#DC2626" stroke-dasharray="5,2" stroke-width="2" x1="30" x2="160" y1="83" y2="83"></line><text fill="#DC2626" font-size="11" font-weight="700" text-anchor="middle" x="95" y="97">d=2r</text></svg></div>
 </div>The radius of a circle is 9 cm. What is the diameter?<div class="mc-opts">
 <span class="opt">A. 4.5 cm</span>
 <span class="opt">B. 9 cm</span>
@@ -328,7 +887,7 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <td class="qtxt">
 <div style="text-align:center;margin:8px 0;padding:6px;background:#FAFBFC;border:1px solid var(--borderc);border-radius:4px;">
 <div style="font-size:10px;color:var(--gray);margin-bottom:4px;">▲ Cuboid: 8×5×4cm</div>
-<div style="display:inline-block;max-width:280px;"><svg height="160" viewbox="0 0 225 160" width="225" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="65" stroke="#1A3C6D" stroke-width="3" width="120" x="25" y="33"></rect><polygon fill="#DBEAFE" points="25,33 43,15 163,15 145,33" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="145,33 163,15 163,80 145,98" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="85" y="114">l</text></svg></div>
+<div style="display:inline-block;max-width:280px;"><svg height="160" viewBox="0 0 225 160" width="225" xmlns="http://www.w3.org/2000/svg"><rect fill="#DBEAFE" height="65" stroke="#1A3C6D" stroke-width="3" width="120" x="25" y="33"></rect><polygon fill="#DBEAFE" points="25,33 43,15 163,15 145,33" stroke="#1A3C6D" stroke-width="3"></polygon><polygon fill="#BFDBFE" points="145,33 163,15 163,80 145,98" stroke="#1A3C6D" stroke-width="3"></polygon><text fill="#1A3C6D" font-size="13" font-weight="700" text-anchor="middle" x="85" y="114">l</text></svg></div>
 </div>The cuboid is 8 cm long, 5 cm wide, and 4 cm high. Volume = ?<div class="mc-opts">
 <span class="opt">A. 17 cm³</span>
 <span class="opt">B. 80 cm³</span>
@@ -591,5 +1150,14 @@ MathJax={tex:{inlineMath:[['$','$'],['\(','\)']],displayMath:[['$$','$$'],['\[',
 <div class="no-print" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;padding:10px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:100;">
   Print Ctrl+P PDF | 9 pages · 50 questions | LF-P5-S2-L29 v6 EN
 </div>
+
+<!-- AI Provenance Disclosure -->
+<div class="ai-disclosure" style="font-size:0.75rem;color:#888;border-top:1px solid #eee;margin-top:2rem;padding-top:0.5rem;text-align:center;">
+  📌 本講義由 AI 輔助生成，並經導師審閱。| 
+  AI Model: <span data-ai-model-display>deepseek-v4-flash</span> | 
+  生成日期: <span data-ai-date-display>2026-06-11</span> |
+  審閱狀態: <span data-review-status>⏳ 待審閱</span>
+</div>
+
 </body>
 </html>

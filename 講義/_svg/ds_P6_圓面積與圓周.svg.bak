@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <!-- 陰影濾鏡 -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#00000033"/>
+    </filter>
+    <filter id="shadowLight" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#00000022"/>
+    </filter>
+    
+    <!-- 箭頭標記 -->
+    <marker id="arrowBlue" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#4F46E5"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#F59E0B"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#10B981"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 L2,4 Z" fill="#EF4444"/>
+    </marker>
+    
+    <!-- 漸變 -->
+    <linearGradient id="gradCircle" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EEF2FF"/>
+      <stop offset="100%" stop-color="#E0E7FF"/>
+    </linearGradient>
+    <linearGradient id="gradRadius" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="gradDiameter" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#FBBF24"/>
+    </linearGradient>
+    <linearGradient id="gradCircum" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#34D399"/>
+    </linearGradient>
+    <linearGradient id="gradArea" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="100%" stop-color="#F87171"/>
+    </linearGradient>
+    <linearGradient id="gradCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F3F4F6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="600" height="400" fill="#F9FAFB" rx="8"/>
+  
+  <!-- 標題 -->
+  <text x="300" y="32" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="20" font-weight="bold" fill="#1F2937">圓面積與圓周 — 公式與示例</text>
+
+  <!-- ==================== 左側：圓形圖 ==================== -->
+  <g transform="translate(160, 210)">
+    <!-- 圓形 -->
+    <circle cx="0" cy="0" r="100" fill="url(#gradCircle)" stroke="#4F46E5" stroke-width="2.5" filter="url(#shadow)"/>
+    <circle cx="0" cy="0" r="100" fill="none" stroke="#4F46E5" stroke-width="2.5"/>
+    
+    <!-- 圓心點 -->
+    <circle cx="0" cy="0" r="4" fill="#1F2937"/>
+    <text x="0" y="-8" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#1F2937" font-weight="bold">O</text>
+
+    <!-- 半徑 r — 從圓心到右邊緣 -->
+    <line x1="0" y1="0" x2="85" y2="0" stroke="#4F46E5" stroke-width="2.5" marker-end="url(#arrowBlue)" stroke-dasharray="6,3"/>
+    <text x="42" y="-10" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="15" fill="#4F46E5" font-weight="bold">r = 5 cm</text>
+
+    <!-- 直徑 d — 從左邊緣到右邊緣 -->
+    <line x1="-85" y1="50" x2="85" y2="50" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#arrowOrange)" marker-start="url(#arrowOrange)"/>
+    <text x="0" y="72" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="15" fill="#F59E0B" font-weight="bold">d = 10 cm</text>
+
+    <!-- 圓周示意（弧形箭頭） -->
+    <path d="M 85,-30 A 90,90 0 0,1 -30,-85" fill="none" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrowGreen)" stroke-dasharray="5,4"/>
+    <text x="60" y="-60" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#10B981" font-weight="bold">圓周</text>
+
+    <!-- 面積示意（斜線區域） -->
+    <path d="M 0,0 L 60,0 A 60,60 0 0,1 30,52 Z" fill="#EF444433" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="30" y="30" text-anchor="middle" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="12" fill="#EF4444" font-weight="bold">面積</text>
+  </g>
+
+  <!-- ==================== 右側：公式卡片 ==================== -->
+  <g transform="translate(380, 80)">
+    <!-- 半徑卡片 -->
+    <g filter="url(#shadowLight)">
+      <rect x="0" y="0" width="190" height="52" rx="8" fill="url(#gradCard)" stroke="#E5E7EB" stroke-width="1"/>
+      <rect x="0" y="0" width="6" height="52" rx="3" fill="#4F46E5"/>
+      <text x="16" y="22" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#6B7280">半徑</text>
+      <text x="16" y="42" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" fill="#4F46E5" font-weight="bold">r = d ÷ 2</text>
+    </g>
+
+    <!-- 直徑卡片 -->
+    <g transform="translate(0, 62)" filter="url(#shadowLight)">
+      <rect x="0" y="0" width="190" height="52" rx="8" fill="url(#gradCard)" stroke="#E5E7EB" stroke-width="1"/>
+      <rect x="0" y="0" width="6" height="52" rx="3" fill="#F59E0B"/>
+      <text x="16" y="22" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#6B7280">直徑</text>
+      <text x="16" y="42" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" fill="#F59E0B" font-weight="bold">d = 2r</text>
+    </g>
+
+    <!-- 圓周卡片 -->
+    <g transform="translate(0, 124)" filter="url(#shadowLight)">
+      <rect x="0" y="0" width="190" height="52" rx="8" fill="url(#gradCard)" stroke="#E5E7EB" stroke-width="1"/>
+      <rect x="0" y="0" width="6" height="52" rx="3" fill="#10B981"/>
+      <text x="16" y="22" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#6B7280">圓周</text>
+      <text x="16" y="42" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" fill="#10B981" font-weight="bold">C = 2πr</text>
+    </g>
+
+    <!-- 面積卡片 -->
+    <g transform="translate(0, 186)" filter="url(#shadowLight)">
+      <rect x="0" y="0" width="190" height="52" rx="8" fill="url(#gradCard)" stroke="#E5E7EB" stroke-width="1"/>
+      <rect x="0" y="0" width="6" height="52" rx="3" fill="#EF4444"/>
+      <text x="16" y="22" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#6B7280">面積</text>
+      <text x="16" y="42" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="18" fill="#EF4444" font-weight="bold">A = πr²</text>
+    </g>
+  </g>
+
+  <!-- ==================== 底部：計算示例 ==================== -->
+  <g transform="translate(0, 330)">
+    <rect x="20" y="0" width="560" height="58" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" filter="url(#shadowLight)"/>
+    
+    <!-- 示例標題 -->
+    <text x="36" y="22" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="13" fill="#6B7280">實際計算示例（r = 5 cm，π ≈ 3.14）</text>
+    
+    <!-- 圓周計算 -->
+    <text x="36" y="44" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="14" fill="#10B981" font-weight="bold">C = 2 × 3.14 × 5 = 31.4 cm</text>
+    
+    <!-- 面積計算 -->
+    <text x="280" y="44" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="14" fill="#EF4444" font-weight="bold">A = 3.14 × 5² = 3.14 × 25 = 78.5 cm²</text>
+    
+    <!-- 分隔線 -->
+    <line x1="260" y1="10" x2="260" y2="48" stroke="#E5E7EB" stroke-width="1"/>
+  </g>
+
+  <!-- 圖例 -->
+  <g transform="translate(20, 75)">
+    <rect x="0" y="0" width="120" height="90" rx="6" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1" filter="url(#shadowLight)"/>
+    <text x="10" y="18" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="11" fill="#6B7280" font-weight="bold">圖例</text>
+    
+    <line x1="10" y1="30" x2="35" y2="30" stroke="#4F46E5" stroke-width="2.5"/>
+    <text x="40" y="34" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="11" fill="#4F46E5">半徑 r</text>
+    
+    <line x1="10" y1="48" x2="35" y2="48" stroke="#F59E0B" stroke-width="2.5"/>
+    <text x="40" y="52" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="11" fill="#F59E0B">直徑 d</text>
+    
+    <line x1="10" y1="66" x2="35" y2="66" stroke="#10B981" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <text x="40" y="70" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="11" fill="#10B981">圓周</text>
+    
+    <rect x="10" y="76" width="25" height="8" rx="2" fill="#EF444433" stroke="#EF4444" stroke-width="1"/>
+    <text x="40" y="85" font-family="Microsoft YaHei, SimHei, sans-serif" font-size="11" fill="#EF4444">面積</text>
+  </g>
+</svg>
