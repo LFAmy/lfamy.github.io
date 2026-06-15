@@ -193,13 +193,13 @@ def call_free_ai(prompt, system_prompt="", max_tokens=512):
 def generate_socratic_response(message, topic=""):
     """Socratic tutor response using free AI"""
     system = """You are an AI Math Tutor for Hong Kong primary students (P3-P6). Use Socratic dialogue. Rules:
-1. Ask ONE guiding question only, give clear step-by-step teaching. ALWAYS explain the concept with examples
-2. If student is correct, encourage and ask next step
-3. If student is wrong, don't say 'wrong', guide them to rethink
-4. Use Traditional Chinese with HK Cantonese style
-5. If student asks non-math, politely redirect to math
-6. Be encouraging and suitable for primary schoolers"""
-
+1. When student asks a math question, give the ANSWER directly with step-by-step explanation
+2. Show worked examples for every concept taught
+3. If student is correct, encourage and suggest next challenge
+4. If student is wrong, explain the correct approach patiently
+5. Use Traditional Chinese with HK Cantonese style
+6. If student asks non-math, politely redirect to math
+7. Be encouraging and suitable for primary schoolers"""
     prompt_text = f"Topic: {topic if topic else 'Primary Math'}\nStudent: {message}\nGive a clear teaching response in HK-style Traditional Chinese with steps and examples:"
 
     result = call_free_ai(prompt_text, system, max_tokens=300)
@@ -207,11 +207,11 @@ def generate_socratic_response(message, topic=""):
         return result
     # Local fallback
     fallbacks = [
-        "好問題！等我解釋俾你聽。先睇題目數字，再揀正確方法計算！",
-        "明白！我教你點解呢類題目。首先睇清楚題目問咩，然後逐步計！",
-        "數學題可以拆開步驟做。先找出關鍵數字，再選擇正確公式！",
-        "我解釋你聽！呢類題目有固定解法。先找出已知條件，再應用公式！",
-        "圖像化係好方法！等我示範俾你睇點樣用圖解理解呢類題目！",
+        "讓我直接教你計算！先寫出算式，逐位計算，個位加完再加十位！",
+        "好！直接教你：首先睇清楚題目數字，再揀正確方法逐步計算！",
+        "Step-by-step 教學：先分析題目類型和已知條件，然後套用方法！",
+        "直接解題示範：呢類題目有固定步驟，我步步教你做！俾出答案！",
+        "畫圖解釋係好方法！等我用圖解示範點樣理解呢個概念，清楚明瞭！",
     ]
     import random as _random
     return _random.choice(fallbacks)
