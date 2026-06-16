@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-HK">
 <head>
 <meta charset="UTF-8">
@@ -13,6 +13,7 @@
 <meta property="og:url" content="https://www.lfacademyhk.com/ai-tutor.html">
 <title>霖楓學苑 · AI 數學導師 v3.0</title>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="/lf-math-solver.js"></script>
 <link rel="stylesheet" href="/lf-academy-v8.css">
 <style>
 body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D,#1E4D8C);min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:var(--nav-height)}
@@ -66,6 +67,11 @@ body{background:linear-gradient(170deg,#091524,#0F2440,#1A3C6D,#1E4D8C);min-heig
   <div class="mode-tabs">
     <button class="mode-tab active" onclick="switchMode('practice')"><span style="display:block;font-size:1.2em;margin-bottom:2px">&#x1F4DD;</span>練習模式</button>
     <button class="mode-tab" onclick="switchMode('free')"><span style="display:block;font-size:1.2em;margin-bottom:2px">&#x1F4AC;</span>自由問答</button>
+  </div>
+  <div class="mode-tabs" style="margin-top:0;margin-bottom:4px">
+    <button class="mode-tab active" style="font-size:0.75em;padding:6px" onclick="switchRole('teacher',this)">&#x1F9D1;&#x200D;&#x1F3EB; 老師教學</button>
+    <button class="mode-tab" style="font-size:0.75em;padding:6px" onclick="switchRole('friend',this)">&#x1F91D; 朋友引導</button>
+    <button class="mode-tab" style="font-size:0.75em;padding:6px" onclick="switchRole('coach',this)">&#x1F3C6; 考試教練</button>
   </div>
   <div class="stats-bar">
     <span>&#x2705; 正確: <b id="correctCount">0</b></span>
@@ -133,6 +139,13 @@ function switchMode(mode) {
   currentMode = mode;
   document.querySelectorAll('.mode-tab').forEach(function(t) { t.classList.remove('active'); });
   event.target.classList.add('active');
+function switchRole(role, btn) {
+  currentRole = role;
+  var roleNames = {'teacher': '\uD83E\uDDD1\u200D\uD83C\uDFEB \u8001\u5E2B\u6559\u5B78', 'friend': '\uD83E\uDD1D \u670B\u53CB\u5F15\u5C0E', 'coach': '\uD83C\uDFC6 \u8003\u8A66\u6559\u7DF4'};
+  document.querySelectorAll('.mode-tabs:nth-of-type(2) .mode-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  addMsg('\uD83D\uDD04 \u5DF2\u5207\u63DB\u5230\uFF1A' + roleNames[role], 'system');
+}
   document.getElementById('topicView').style.display = 'none';
   document.getElementById('qArea').style.display = 'none';
   document.getElementById('freeChat').style.display = 'none';
@@ -283,6 +296,18 @@ function freeAsk(question) {
   var isOnline = document.getElementById('statusDot').className.indexOf('dot-online') >= 0;
   addMsg('\uD83E\uDD16 *\u6B63\u5728\u601D\u8003...*', 'ai');
   
+  // Try client-side math solver first
+  var solved = MATH_SOLVER.solve(question);
+  if (solved) {
+    setTimeout(function() {
+      var msgs = document.querySelectorAll('.msg:last-child');
+      var lastMsg = msgs[msgs.length - 1];
+      if (lastMsg && lastMsg.textContent.includes('\u601D\u8003')) lastMsg.remove();
+      addMsg(MATH_SOLVER.teach(question, solved), 'ai');
+    }, 600);
+    return;
+  }
+  
   if (isOnline) {
     // Call Render chat API with mode parameter
     var grade = currentTopic ? currentTopic.grade : 'P4';
@@ -325,50 +350,45 @@ function freeAskOffline(question) {
 
     if (q.includes('+') && nums && nums.length >= 2) {
       var a = parseInt(nums[0]), b = parseInt(nums[1]);
-      response = '\uD83D\uDCA1 <strong>\u8A08\u7B97\u6B65\u9A5F\uFF1A</strong>\\n' + a + ' + ' + b + ' = ?\\n' +
-        '\u2460\uFE0F \u500B\u4F4D\uFF1A' + (a%10) + ' + ' + (b%10) + ' = ' + ((a%10)+(b%10)) + '\\n' +
-        '\u2461\uFE0F \u5341\u4F4D\uFF1A' + Math.floor(a/10) + ' + ' + Math.floor(b/10) + ' = ' + (Math.floor(a/10)+Math.floor(b/10)) + '\\n' +
+      response = '\uD83D\uDCA1 <strong>\u8A08\u7B97\u6B65\u9A5F\uFF1A</strong>\n' + a + ' + ' + b + ' = ?\n' +
+        '\u2460\uFE0F \u500B\u4F4D\uFF1A' + (a%10) + ' + ' + (b%10) + ' = ' + ((a%10)+(b%10)) + '\n' +
+        '\u2461\uFE0F \u5341\u4F4D\uFF1A' + Math.floor(a/10) + ' + ' + Math.floor(b/10) + ' = ' + (Math.floor(a/10)+Math.floor(b/10)) + '\n' +
         '\u2705 \u7B54\u6848\uFF1A' + a + ' + ' + b + ' = ' + (a+b);
     } else if ((q.includes('-') || q.includes('\u6E1B')) && nums && nums.length >= 2) {
       var a = parseInt(nums[0]), b = parseInt(nums[1]);
-      response = '\uD83D\uDCA1 <strong>\u8A08\u7B97\u6B65\u9A5F\uFF1A</strong>\\n' + a + ' - ' + b + ' = ?\\n' +
-        '\u2460\uFE0F \u500B\u4F4D\uFF1A' + (a%10) + ' - ' + (b%10) + ' = ' + ((a%10)-(b%10)) + '\\n' +
-        '\u2461\uFE0F \u5341\u4F4D\uFF1A' + Math.floor(a/10) + ' - ' + Math.floor(b/10) + ' = ' + (Math.floor(a/10)-Math.floor(b/10)) + '\\n' +
+      response = '\uD83D\uDCA1 <strong>\u8A08\u7B97\u6B65\u9A5F\uFF1A</strong>\n' + a + ' - ' + b + ' = ?\n' +
+        '\u2460\uFE0F \u500B\u4F4D\uFF1A' + (a%10) + ' - ' + (b%10) + ' = ' + ((a%10)-(b%10)) + '\n' +
+        '\u2461\uFE0F \u5341\u4F4D\uFF1A' + Math.floor(a/10) + ' - ' + Math.floor(b/10) + ' = ' + (Math.floor(a/10)-Math.floor(b/10)) + '\n' +
         '\u2705 \u7B54\u6848\uFF1A' + a + ' - ' + b + ' = ' + (a-b);
-    } else if ((q.includes('\u00D7') || q.includes('x') || q.includes('*') || q.includes('\u4E58')) && nums && nums.length >= 2) {
-      var a = parseInt(nums[0]), b = parseInt(nums[1]);
-      response = '\uD83D\uDCA1 <strong>\u4E58\u6CD5\u6B65\u9A5F\uFF1A</strong>\\n' + a + ' \u00D7 ' + b + ' = ?\\n' +
-        '\u2460\uFE0F ' + a + ' = ' + Math.floor(a/10)*10 + ' + ' + (a%10) + '\\n' +
-        '\u2461\uFE0F ' + Math.floor(a/10)*10 + ' \u00D7 ' + b + ' = ' + (Math.floor(a/10)*10*b) + '\\n' +
-        '\u2462\uFE0F ' + (a%10) + ' \u00D7 ' + b + ' = ' + ((a%10)*b) + '\\n' +
-        '\u2463\uFE0F \u76F8\u52A0\uFF1A' + (Math.floor(a/10)*10*b + (a%10)*b) + '\\n' +
-        '\u2705 \u7B54\u6848\uFF1A' + a + ' \u00D7 ' + b + ' = ' + (a*b);
-    } else if (q.includes('\u5206\u6578') || q.includes('\/')) {
-      response = '\uD83D\uDCD6 <strong>\u5206\u6578\u6559\u5B78\uFF1A</strong>\\n' +
-        '\u5206\u6578 = \u5206\u5B50(\u4E0A) / \u5206\u6BCD(\u4E0B)\\n\\n' +
-        '\u4F8B\uFF1A1/2 + 1/3 = ?\\n' +
-        '\u2460\uFE0F \u901A\u5206\uFF1A\u516C\u5206\u6BCD = 6\\n' +
-        '\u2461\uFE0F 1/2 = 3/6\uFF0C1/3 = 2/6\\n' +
-        '\u2462\uFE0F 3/6 + 2/6 = 5/6\\n\\n' +
-        '\uD83D\uDCAC \u6253\u689D\u5177\u9AD4\u5206\u6578\u984C\u76EE\uFF0C\u6211\u5E6B\u4F60\u9010\u6B65\u8A08\U0001F447';
+    } else if (q.includes('\u00D7') || q.includes('x') || q.includes('*') || q.includes('\u4E58')) {
+      // Multiplication with smaller numbers
+      var mulNums = q.match(/\d+/g);
+      if (mulNums && mulNums.length >= 2) {
+        var a = parseInt(mulNums[0]), b = parseInt(mulNums[1]);
+        if (a > 100 && b > 100) { a = Math.min(a,b); b = Math.max(a,b) < 100 ? Math.max(a,b) : 7; }
+        response = '\uD83D\uDCA1 <strong>\u4E58\u6CD5\u6B65\u9A5F\uFF1A</strong>\n' + a + ' \u00D7 ' + b + ' = ?\n' +
+          '\u2705 \u7B54\u6848\uFF1A' + a + ' \u00D7 ' + b + ' = ' + (a*b) + '\n' +
+          '\uD83D\uDCD6 \u9A57\u7B97\uFF1A' + (a*b) + ' \u00F7 ' + b + ' = ' + ((a*b)/b);
+      }
+    } else if (q.includes('\u5206\u6578') || q.includes('/')) {
+      response = '\uD83D\uDCD6 <strong>\u5206\u6578\u6559\u5B78\uFF1A</strong>\n' +
+        '\u5206\u6578 = \u5206\u5B50(\u4E0A) / \u5206\u6BCD(\u4E0B)\n\n' +
+        '\u4F8B\uFF1A1/2 + 1/3 = ?\n' +
+        '\u2460\uFE0F \u901A\u5206\uFF1A\u516C\u5206\u6BCD = 6\n' +
+        '\u2461\uFE0F 1/2 = 3/6\uFF0C1/3 = 2/6\n' +
+        '\u2462\uFE0F 3/6 + 2/6 = 5/6\n\n' +
+        '\uD83D\uDCAC \u6253\u689D\u5177\u9AD4\u5206\u6578\u984C\u76EE\uFF0C\u6211\u5E6B\u4F60\u9010\u6B65\u8A08!';
     } else if (q.includes('\u767E\u5206') || q.includes('percent') || q.includes('%')) {
-      response = '\uD83D\uDCA1 <strong>\u767E\u5206\u6578\uFF1A</strong>\\n' +
-        '\u767E\u5206\u6578 = \u6BCF100\u4EFD\u6709\u5E7E\u591A\u4EFD\\n\\n' +
-        '\u4F8B\uFF1A\u5546\u54C1\u539F\u50F9$200\uFF0C\u62538\u6298 = ?\\n' +
-        '\u2460\uFE0F 8\u6298 = 80%\\n' +
-        '\u2461\uFE0F 80% = 80/100 = 0.8\\n' +
-        '\u2462\uFE0F $200 \u00D7 0.8 = $160\\n' +
+      response = '\uD83D\uDCA1 <strong>\u767E\u5206\u6578\uFF1A</strong>\n' +
+        '\u767E\u5206\u6578 = \u6BCF100\u4EFD\u6709\u5E7E\u591A\u4EFD\n\n' +
+        '\u4F8B\uFF1A\u539F\u50F9$200\uFF0C\u7B54\u68488\u6298 = ?\n' +
+        '\u2460\uFE0F 8\u6298 = 80%\n' +
+        '\u2461\uFE0F 80% = 80/100 = 0.8\n' +
+        '\u2462\uFE0F $200 \u00D7 0.8 = $160\n' +
         '\u2705 \u7B54\u6848\uFF1A$160';
-    } else if (q.includes('\u65B9\u7A0B') || q.includes('algebra')) {
-      response = '\uD83D\uDD11 <strong>\u65B9\u7A0B\u6559\u5B78\uFF1A</strong>\\n' +
-        '\u65B9\u7A0B = \u6709\u672A\u77E5\u6578\u7684\u7B49\u5F0F\\n\\n' +
-        '\u4F8B\uFF1Ax + 5 = 12\\n' +
-        '\u2460\uFE0F \u79FB\u9805\uFF1Ax = 12 - 5\\n' +
-        '\u2461\uFE0F \u8A08\u7B97\uFF1Ax = 7\\n' +
-        '\u2705 \u9A57\u7B97\uFF1A7 + 5 = 12 \u2713';
     } else {
-      response = '\uD83D\uDCD6 <strong>\u6578\u5B78\u6559\u5B78\uFF1A</strong>\\n\u8ACB\u6253\u689D\u5177\u9AD4\u6578\u5B78\u984C\u76EE\uFF0C\u4F8B\u5982\uFF1A\\n' +
-        '\u2022 "58+27=\u5E7E\u591A"\\n\u2022 "100-45=\u5E7E\u591A"\\n\u2022 "12\u00D78=\u5E7E\u591A"\\n\u2022 "1/2+1/3\u9EDE\u6A23\u8A08"\\n\u2022 "200\u768430%=\u5E7E\u591A"\\n\\n' +
+      response = '\uD83D\uDCD6 <strong>\u6578\u5B78\u6559\u5B78\uFF1A</strong>\n\u8ACB\u6253\u689D\u5177\u9AD4\u6578\u5B78\u984C\u76EE\uFF0C\u4F8B\u5982\uFF1A\n' +
+        '\u2022 "58+27=\u5E7E\u591A"\n\u2022 "100-45=\u5E7E\u591A"\n\u2022 "12\u00D78=\u5E7E\u591A"\n\u2022 "1/2+1/3\u9EDE\u6A23\u8A08"\n\n' +
         '\u6211\u6703\u5E6B\u4F60\u9010\u6B65\u8A08\u7B97\u548C\u89E3\u91CB\uFF01';
     }
     addMsg(response, 'ai');
