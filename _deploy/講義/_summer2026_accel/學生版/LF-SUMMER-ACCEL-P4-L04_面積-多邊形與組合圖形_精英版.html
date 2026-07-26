@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P4 暑期班 第4堂：面積：多邊形與組合圖形 (V2 精英版) — LF Academy</title>
+<style>
+:root{--p:#6A1B9A;--a:#FFD600}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK","Segoe UI",system-ui,sans-serif;background:#E8E8E8;color:#1A1A1A;line-height:1.9;-webkit-font-smoothing:antialiased}
+.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm}
+.lf-student-info{display:flex;flex-wrap:wrap;gap:12pt;align-items:center;padding:8pt 12pt;margin-bottom:16pt;border:.5pt solid #CBD5E1;border-radius:4pt;background:#FAFAFA;font-size:9.5pt}
+.lf-student-info .label{font-weight:700;color:#6A1B9A}
+.lf-student-info .line{display:inline-block;min-width:60pt;border-bottom:.5pt solid #CBD5E1;padding:0 4pt}
+.lf-h1{font-family:"Noto Serif HK",serif;font-size:15pt;font-weight:900;color:#6A1B9A;border-bottom:2pt solid #FFD600;padding-bottom:8pt;margin-bottom:12pt}
+.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt;padding-left:4pt;border-left:4pt solid #FFD600}
+.why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0}
+.why-box::before{content:"💡 為什麼要學這個？";font-weight:900;font-size:9pt;color:#0369A1;display:block;margin-bottom:8pt}
+.story-box{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0}
+.story-box::before{content:"📖 課堂情境故事";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt}
+.recall-box{background:#F0FDF4;border:1.5pt solid #22C55E;border-radius:10pt;padding:16pt;margin:16pt 0}
+.recall-box::before{content:"🔄 知識回顧";font-weight:900;font-size:9pt;color:#15803D;display:block;margin-bottom:8pt}
+.concept-box{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:16pt;margin:16pt 0}
+.concept-box::before{content:"🔑 核心概念";font-weight:900;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt}
+.example{background:#F8FAFC;border-left:4pt solid #6A1B9A;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.example-title{font-weight:900;font-size:10pt;color:#6A1B9A;margin-bottom:8pt}
+.example-title::before{content:"✏️ "}
+.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:120pt;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:10pt 0}
+.trap-warning{background:#FFF7ED;border-left:4pt solid #F97316;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.trap-warning .title{font-weight:900;color:#B45309;font-size:10pt;margin-bottom:6pt}
+.practice-q{background:white;border:1pt solid #E5E7EB;border-radius:8pt;padding:14pt 16pt;margin:10pt 0}
+.practice-q .q-num{display:inline-block;background:#6A1B9A;color:white;padding:2pt 10pt;border-radius:12pt;font-size:9pt;font-weight:700;margin-right:6pt}
+.practice-q .q-level{font-size:8pt;color:#6B7280}
+.answer-line-double{min-height:64pt;border:1pt dashed #CBD5E1;border-radius:4pt;margin:8pt 0 8pt 28pt;background:repeating-linear-gradient(transparent,transparent 23px,#F3F4F6 24px)}
+.sspa-tag{display:inline-block;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534}
+.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:8pt;padding:14pt;margin:14pt 0}
+.key-point .title{font-weight:900;font-size:9pt;color:#15803D;margin-bottom:6pt}
+.parent-box{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt}
+.parent-box .title{font-weight:700;font-size:9pt;color:#7C3AED;margin-bottom:8pt}
+@media print{body{background:white}.lf-page{box-shadow:none;margin:0;padding:12mm 15mm 18mm 20mm}}
+.example,.practice-q,.trap-warning,.key-point,.parent-box,.why-box,.story-box,.concept-box,.recall-box{page-break-inside:avoid;break-inside:avoid}
+.lf-h1,.lf-h2{page-break-after:avoid;break-after:avoid}
+.fig-center{text-align:center;margin:10pt 0}
+.fig-center svg{max-width:100%;height:auto}
+.hint-box{background:#F0F9FF;border:1pt solid #7DD3FC;border-radius:6pt;padding:8pt 12pt;margin:8pt 0;font-size:9pt;color:#0369A1}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="lf-page">
+<div style="display:flex;align-items:center;gap:8pt;margin-bottom:8pt;"><div style="background:linear-gradient(135deg,#6A1B9A,#6A1B9Add);color:white;padding:3pt 12pt;border-radius:6pt;font-weight:900;font-size:10pt;letter-spacing:1pt">LF</div><div><span style="font-weight:700;font-size:10pt;color:#6A1B9A">霖楓學苑</span><br><span style="font-size:7.5pt;color:#6B7280">Lam Fung Academy · 香港數學教育專家</span></div></div>
+<div class="lf-student-info"><span><span class="label">姓名：</span><span class="line"></span></span><span><span class="label">日期：</span><span class="line"></span></span><span><span class="label">年級：</span>P4 (V2 精英版)</span><span class="sspa-tag">SSPA 呈分試</span></div>
+<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:900;font-size:10pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><ol style="margin:6pt 0 0 18pt;"><li>三角形面積 = $\frac{底\times高}{2}$</li><li>平行四邊形面積 = 底 × 高</li><li>梯形面積 = $\frac{(上底+下底)\times高}{2}$</li><li>組合圖形：分割成基本圖形再求和</li><li>反求問題：已知面積求底或高</li></ol></div>
+<div class="lf-h1">📚 第4堂：面積：多邊形與組合圖形</div>
+<div class="why-box"><p>裝修要買幾多地板？油漆要買幾多桶？花園要鋪幾多草皮？</p><p style="margin-top:8pt;">面積計算無處不在！學懂三角形、平行四邊形、梯形和組合圖形的面積，你就能解決生活中所有「佔地多大」的問題！</p></div>
+<div class="story-box"><p>🏠 小明屋企要裝修：客廳牆壁係長方形（長6m、高3m），天花板有一個三角形裝飾區（底2m、高1.5m），窗邊有一個梯形花槽（上底0.8m、下底1.2m、高0.5m）。</p><p style="margin-top:8pt;">油漆師父問：「牆壁面積幾多？天花板三角形裝飾區要用特別油漆，面積又係幾多？」</p><p>小明學咗面積公式，好快就計到答案！你又得唔得？</p></div>
+<div class="recall-box"><p><strong>前置知識（之前學過的）：</strong></p><ul style="margin:6pt 0 0 18pt;font-size:10pt;"><li>三年級學過：長方形面積 = 長 × 闊</li><li>正方形面積 = 邊長 × 邊長</li><li>單位：cm²、m²（面積要加「平方」）</li></ul></div>
+<div class="concept-box"><p style="font-weight:700;margin-bottom:8pt;">📐 面積公式一覽：</p><ul style="margin:6pt 0 0 18pt;font-size:10.5pt;">
+<li><strong>三角形</strong>：面積 = $\frac{底\times高}{2}$</li>
+<li><strong>平行四邊形</strong>：面積 = 底 × 高（因為可以切開變成長方形）</li>
+<li><strong>梯形</strong>：面積 = $\frac{(上底+下底)\times高}{2}$（可以分做兩個三角形）</li>
+<li><strong>組合圖形</strong>：先用<strong>分割法</strong>分開，逐個計再加埋</li>
+</ul>
+<div class="fig-center">
+<svg viewBox="-36 -36 792 257" width="792" height="257" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;">
+  <!-- 三角形 -->
+  <polygon points="10,150 100,20 190,150" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="100" y1="20" x2="100" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="10" y1="150" x2="190" y2="150" stroke="#16A34A" stroke-width="2.5"/>
+  <circle cx="100" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="100,140 110,140 110,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="60" y="168" fill="#16A34A" font-size="12" font-weight="bold" text-anchor="middle">底</text>
+  <text x="85" y="88" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="middle">高</text>
+  <text x="100" y="12" fill="#333" font-size="11" text-anchor="middle">三角形</text>
+  <text x="100" y="183" fill="#6B21A8" font-size="10" text-anchor="middle">底×高÷2</text>
+  <!-- 平行四邊形 -->
+  <polygon points="240,150 420,150 380,20 200,20" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="250" y1="20" x2="250" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="200" y1="150" x2="420" y2="150" stroke="#16A34A" stroke-width="2.5"/>
+  <circle cx="250" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="250,140 260,140 260,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="310" y="168" fill="#16A34A" font-size="12" font-weight="bold" text-anchor="middle">底</text>
+  <text x="235" y="88" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="middle">高</text>
+  <text x="310" y="12" fill="#333" font-size="11" text-anchor="middle">平行四邊形</text>
+  <text x="310" y="183" fill="#6B21A8" font-size="10" text-anchor="middle">底×高</text>
+  <!-- 梯形 -->
+  <polygon points="490,150 700,150 650,20 540,20" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="540" y1="20" x2="540" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="540" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="540,140 550,140 550,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="620" y="168" fill="#16A34A" font-size="12" font-weight="bold" text-anchor="middle">下底</text>
+  <text x="498" y="168" fill="#16A34A" font-size="12" font-weight="bold" text-anchor="middle">上底</text>
+  <text x="525" y="88" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="middle">高</text>
+  <text x="595" y="12" fill="#333" font-size="11" text-anchor="middle">梯形</text>
+  <text x="595" y="183" fill="#6B21A8" font-size="10" text-anchor="middle">(上底+下底)×高÷2</text>
+</svg>
+</div></div>
+
+<!-- ===================== 例題 ===================== -->
+
+<div class="lf-h2">✏️ 例題</div>
+
+<!-- 例題1：三角形面積 -->
+<div class="example"><div class="example-title">例題1：三角形面積</div>
+<div class="fig-center">
+<svg viewBox="-36 -36 392 272" width="392" height="272" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="20,175 170,20 320,175" fill="#DBEAFE" stroke="#2563EB" stroke-width="2.5"/>
+  <!-- 高線（紅色虛線） -->
+  <line x1="170" y1="20" x2="170" y2="175" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,4"/>
+  <!-- 底線（綠色） -->
+  <line x1="20" y1="175" x2="320" y2="175" stroke="#16A34A" stroke-width="3"/>
+  <!-- 端點圓點 -->
+  <circle cx="170" cy="20" r="3.5" fill="#DC2626"/>
+  <circle cx="170" cy="175" r="3.5" fill="#DC2626"/>
+  <!-- 直角標記 -->
+  <polyline points="170,165 180,165 180,175" fill="none" stroke="#DC2626" stroke-width="1.8"/>
+  <!-- 尺寸標示線 - 高 -->
+  <line x1="155" y1="20" x2="155" y2="175" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="155" cy="20" r="2.5" fill="#DC2626"/>
+  <circle cx="155" cy="175" r="2.5" fill="#DC2626"/>
+  <text x="145" y="100" fill="#DC2626" font-size="15" font-weight="bold" text-anchor="end">高 = 8 cm</text>
+  <!-- 尺寸標示線 - 底 -->
+  <line x1="50" y1="190" x2="290" y2="190" stroke="#16A34A" stroke-width="1.5"/>
+  <circle cx="50" cy="190" r="2.5" fill="#16A34A"/>
+  <circle cx="290" cy="190" r="2.5" fill="#16A34A"/>
+  <text x="170" y="205" fill="#16A34A" font-size="15" font-weight="bold" text-anchor="middle">底 = 12 cm</text>
+</svg>
+</div>
+<p style="margin-bottom:8pt;">一個三角形底 $12$ cm，高 $8$ cm，面積是多少？</p>
+<div class="workspace" style="min-height:80pt;"></div></div>
+
+<!-- 例題2：平行四邊形面積 -->
+<div class="example"><div class="example-title">例題2：平行四邊形面積</div>
+<div class="fig-center">
+<svg viewBox="-36 -36 432 272" width="432" height="272" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="40,175 320,175 280,25 0,25" fill="#DBEAFE" stroke="#2563EB" stroke-width="2.5"/>
+  <!-- 高線 -->
+  <line x1="70" y1="25" x2="70" y2="175" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,4"/>
+  <!-- 底線 -->
+  <line x1="40" y1="175" x2="320" y2="175" stroke="#16A34A" stroke-width="3"/>
+  <circle cx="70" cy="175" r="3.5" fill="#DC2626"/>
+  <polyline points="70,165 80,165 80,175" fill="none" stroke="#DC2626" stroke-width="1.8"/>
+  <!-- 高尺寸線 -->
+  <line x1="55" y1="25" x2="55" y2="175" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="55" cy="25" r="2.5" fill="#DC2626"/>
+  <circle cx="55" cy="175" r="2.5" fill="#DC2626"/>
+  <text x="42" y="103" fill="#DC2626" font-size="15" font-weight="bold" text-anchor="end">高 = 10 cm</text>
+  <!-- 底尺寸線 -->
+  <line x1="70" y1="190" x2="290" y2="190" stroke="#16A34A" stroke-width="1.5"/>
+  <circle cx="70" cy="190" r="2.5" fill="#16A34A"/>
+  <circle cx="290" cy="190" r="2.5" fill="#16A34A"/>
+  <text x="180" y="205" fill="#16A34A" font-size="15" font-weight="bold" text-anchor="middle">底 = 15 cm</text>
+</svg>
+</div>
+<p style="margin-bottom:8pt;">一個平行四邊形底 $15$ cm，高 $10$ cm，面積是多少？</p>
+<div class="workspace" style="min-height:80pt;"></div></div>
+
+<!-- 例題3：梯形面積 -->
+<div class="example"><div class="example-title">例題3：梯形面積</div>
+<div class="fig-center">
+<svg viewBox="-36 -36 452 272" width="452" height="272" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="70,175 350,175 290,25 130,25" fill="#DBEAFE" stroke="#2563EB" stroke-width="2.5"/>
+  <!-- 高線 -->
+  <line x1="130" y1="25" x2="130" y2="175" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,4"/>
+  <circle cx="130" cy="175" r="3.5" fill="#DC2626"/>
+  <polyline points="130,165 140,165 140,175" fill="none" stroke="#DC2626" stroke-width="1.8"/>
+  <!-- 上底尺寸線 -->
+  <line x1="130" y1="14" x2="290" y2="14" stroke="#2563EB" stroke-width="1.5"/>
+  <circle cx="130" cy="14" r="2.5" fill="#2563EB"/>
+  <circle cx="290" cy="14" r="2.5" fill="#2563EB"/>
+  <text x="210" y="10" fill="#2563EB" font-size="14" font-weight="bold" text-anchor="middle">上底 = 6 cm</text>
+  <!-- 下底尺寸線 -->
+  <line x1="100" y1="190" x2="320" y2="190" stroke="#16A34A" stroke-width="1.5"/>
+  <circle cx="100" cy="190" r="2.5" fill="#16A34A"/>
+  <circle cx="320" cy="190" r="2.5" fill="#16A34A"/>
+  <text x="210" y="205" fill="#16A34A" font-size="14" font-weight="bold" text-anchor="middle">下底 = 12 cm</text>
+  <!-- 高尺寸線 -->
+  <line x1="115" y1="25" x2="115" y2="175" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="115" cy="25" r="2.5" fill="#DC2626"/>
+  <circle cx="115" cy="175" r="2.5" fill="#DC2626"/>
+  <text x="102" y="103" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="end">高 = 5 cm</text>
+</svg>
+</div>
+<p style="margin-bottom:8pt;">一個梯形上底 $6$ cm，下底 $12$ cm，高 $5$ cm，面積是多少？</p>
+<div class="workspace" style="min-height:80pt;"></div></div>
+
+<!-- 例題4：組合圖形（L形） -->
+<div class="example"><div class="example-title">例題4：組合圖形 — L形分割法</div>
+<div class="fig-center">
+<svg viewBox="-36 -36 472 302" width="472" height="302" xmlns="http://www.w3.org/2000/svg">
+  <!-- L形主體 -->
+  <polygon points="40,200 280,200 280,120 180,120 180,30 40,30" fill="#DBEAFE" stroke="#2563EB" stroke-width="2.5"/>
+  <!-- 分割線 -->
+  <line x1="40" y1="120" x2="180" y2="120" stroke="#DC2626" stroke-width="2" stroke-dasharray="8,5"/>
+  <!-- 垂直尺寸線（左） -->
+  <line x1="22" y1="30" x2="22" y2="120" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="22" cy="30" r="2.5" fill="#DC2626"/>
+  <circle cx="22" cy="120" r="2.5" fill="#DC2626"/>
+  <text x="12" y="78" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="end">6 cm</text>
+  <!-- 垂直尺寸線（全長） -->
+  <line x1="300" y1="120" x2="300" y2="200" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="300" cy="120" r="2.5" fill="#DC2626"/>
+  <circle cx="300" cy="200" r="2.5" fill="#DC2626"/>
+  <text x="312" y="163" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="start">4 cm</text>
+  <!-- 水平尺寸線（頂） -->
+  <line x1="40" y1="18" x2="180" y2="18" stroke="#2563EB" stroke-width="1.5"/>
+  <circle cx="40" cy="18" r="2.5" fill="#2563EB"/>
+  <circle cx="180" cy="18" r="2.5" fill="#2563EB"/>
+  <text x="110" y="14" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">6 cm</text>
+  <!-- 水平尺寸線（底） -->
+  <line x1="40" y1="215" x2="280" y2="215" stroke="#2563EB" stroke-width="1.5"/>
+  <circle cx="40" cy="215" r="2.5" fill="#2563EB"/>
+  <circle cx="280" cy="215" r="2.5" fill="#2563EB"/>
+  <text x="160" y="228" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">10 cm</text>
+  <!-- 水平尺寸線（中） -->
+  <line x1="180" y1="215" x2="280" y2="215" stroke="#2563EB" stroke-width="1.5"/>
+  <circle cx="180" cy="215" r="2.5" fill="#2563EB"/>
+  <circle cx="280" cy="215" r="2.5" fill="#2563EB"/>
+  <text x="230" y="228" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">? cm</text>
+  <!-- 區域標籤 -->
+  <text x="110" y="78" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="middle">A</text>
+  <text x="110" y="165" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="middle">B</text>
+</svg>
+</div>
+<p style="margin-bottom:8pt;">把L形分割成兩個長方形 (A 和 B)，並找出缺少的尺寸，然後計總面積。</p>
+<div class="workspace" style="min-height:80pt;"></div></div>
+
+<!-- 例題5：組合圖形（三角形+長方形） -->
+<div class="example"><div class="example-title">例題5：組合圖形 — 三角形 + 長方形</div>
+<div class="fig-center">
+<svg viewBox="-36 -36 492 322" width="492" height="322" xmlns="http://www.w3.org/2000/svg">
+  <!-- 三角形屋頂 -->
+  <polygon points="210,20 30,110 390,110" fill="#FDE68A" stroke="#D97706" stroke-width="2.5"/>
+  <!-- 長方形牆身 -->
+  <rect x="30" y="110" width="360" height="105" fill="#DBEAFE" stroke="#2563EB" stroke-width="2.5"/>
+  <!-- 三角形高線 -->
+  <line x1="210" y1="20" x2="210" y2="110" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,4"/>
+  <circle cx="210" cy="110" r="3.5" fill="#DC2626"/>
+  <polyline points="210,100 220,100 220,110" fill="none" stroke="#DC2626" stroke-width="1.8"/>
+  <!-- 三角形高尺寸線 -->
+  <line x1="195" y1="20" x2="195" y2="110" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="195" cy="20" r="2.5" fill="#DC2626"/>
+  <circle cx="195" cy="110" r="2.5" fill="#DC2626"/>
+  <text x="182" y="68" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="end">高 = 6 m</text>
+  <!-- 底線 -->
+  <line x1="210" y1="230" x2="390" y2="230" stroke="#16A34A" stroke-width="2"/>
+  <circle cx="210" cy="230" r="3.5" fill="#16A34A"/>
+  <!-- 底尺寸線 -->
+  <line x1="80" y1="230" x2="390" y2="230" stroke="#16A34A" stroke-width="1.5"/>
+  <circle cx="80" cy="230" r="2.5" fill="#16A34A"/>
+  <circle cx="390" cy="230" r="2.5" fill="#16A34A"/>
+  <text x="235" y="245" fill="#16A34A" font-size="14" font-weight="bold" text-anchor="middle">底 = 12 m</text>
+  <!-- 長方形高尺寸線 -->
+  <line x1="410" y1="110" x2="410" y2="215" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="410" cy="110" r="2.5" fill="#DC2626"/>
+  <circle cx="410" cy="215" r="2.5" fill="#DC2626"/>
+  <text x="418" y="165" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="start">長方形高 = 5 m</text>
+</svg>
+</div>
+<p style="margin-bottom:8pt;">一個三角形屋頂（底 $12$ m、高 $6$ m）下面連着一個長方形牆身（$12\times5$ m²）。求整幅牆面積。</p>
+<div class="workspace" style="min-height:80pt;"></div></div>
+
+<!-- 例題6：反求問題 -->
+<div class="example"><div class="example-title">例題6：反求問題 — 已知面積求高</div>
+<div class="fig-center">
+<svg viewBox="-36 -36 392 272" width="392" height="272" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="20,175 170,20 320,175" fill="#FEF3C7" stroke="#D97706" stroke-width="2.5"/>
+  <!-- 高線 -->
+  <line x1="170" y1="20" x2="170" y2="175" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,4"/>
+  <circle cx="170" cy="175" r="3.5" fill="#DC2626"/>
+  <polyline points="170,165 180,165 180,175" fill="none" stroke="#DC2626" stroke-width="1.8"/>
+  <!-- 底線 -->
+  <line x1="20" y1="175" x2="320" y2="175" stroke="#16A34A" stroke-width="3"/>
+  <!-- 高尺寸線 -->
+  <line x1="155" y1="20" x2="155" y2="175" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="155" cy="20" r="2.5" fill="#DC2626"/>
+  <circle cx="155" cy="175" r="2.5" fill="#DC2626"/>
+  <text x="170" y="14" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="middle">高 = ?</text>
+  <!-- 底尺寸線 -->
+  <line x1="50" y1="190" x2="290" y2="190" stroke="#16A34A" stroke-width="1.5"/>
+  <circle cx="50" cy="190" r="2.5" fill="#16A34A"/>
+  <circle cx="290" cy="190" r="2.5" fill="#16A34A"/>
+  <text x="170" y="205" fill="#16A34A" font-size="15" font-weight="bold" text-anchor="middle">底 = 12 cm</text>
+  <text x="170" y="78" fill="#D97706" font-size="16" font-weight="bold" text-anchor="middle">面積 = 60 cm²</text>
+</svg>
+</div>
+<p style="margin-bottom:8pt;">一個三角形面積 $60$ cm²，底 $12$ cm，高是多少？</p>
+<div class="workspace" style="min-height:80pt;"></div></div>
+
+<div style="background:#F0F9FF;border:1pt solid #7DD3FC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>🔍 自我檢查：</strong>做完例題後，問自己：「答案合理嗎？單位對嗎（cm²/m²）？高是否垂直於底？分割組合圖形時有冇漏計？」</div>
+
+<div class="trap-warning"><div class="title">⚠️ 小心陷阱！</div>
+<p style="margin-top:8pt;"><strong>陷阱1：</strong> 三角形漏了「÷2」！面積 = 底 × 高 ÷ 2，不是底 × 高</p>
+<p style="margin-top:8pt;"><strong>陷阱2：</strong> 高不是斜邊！高必須垂直（⊥）於底邊</p>
+<p style="margin-top:8pt;"><strong>陷阱3：</strong> 梯形公式漏了括號：(上底+下底)×高÷2，唔係上底+下底×高÷2</p>
+<p style="margin-top:8pt;"><strong>陷阱4：</strong> 組合圖形分割後漏計某部分，或者重疊部分計多了</p>
+<p style="margin-top:8pt;"><strong>陷阱5：</strong> 單位寫錯 cm（周界）vs cm²（面積）</p>
+</div>
+
+<!-- ===================== 課堂練習 ===================== -->
+
+<div class="lf-h2">📝 課堂練習</div>
+
+<!-- Q1 -->
+<div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">基礎 · 三角形</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 372 242" width="372" height="242" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="20,150 160,20 300,150" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="160" y1="20" x2="160" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="160" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="160,142 168,142 168,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <line x1="146" y1="20" x2="146" y2="150" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="146" cy="20" r="2" fill="#DC2626"/>
+  <circle cx="146" cy="150" r="2" fill="#DC2626"/>
+  <text x="136" y="88" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="end">高=9 cm</text>
+  <line x1="20" y1="163" x2="300" y2="163" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="20" cy="163" r="2.5" fill="#16A34A"/>
+  <circle cx="300" cy="163" r="2.5" fill="#16A34A"/>
+  <text x="160" y="169" fill="#16A34A" font-size="14" font-weight="bold" text-anchor="middle">底=12.5 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">(a) 底 $12.5$ cm、高 $9$ cm，面積是多少？<br>(b) 如果高不變，底延長 $2.5$ cm（變成 $15$ cm），新面積比原來大多少 cm²？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q2 -->
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">基礎 · 三角形反求</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 372 242" width="372" height="242" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="20,150 160,20 300,150" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <line x1="160" y1="20" x2="160" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="160" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="160,142 168,142 168,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="160" y="12" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="middle">高=?</text>
+  <text x="160" y="169" fill="#16A34A" font-size="14" font-weight="bold" text-anchor="middle">底=10.5 cm</text>
+  <text x="160" y="88" fill="#D97706" font-size="15" font-weight="bold" text-anchor="middle">面積=42 cm²</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">三角形面積 $42$ cm²，底 $10.5$ cm，求高。<br>之後如果底不變，高變成原來的 $2$ 倍，新面積是多少？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q3 -->
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">基礎 · 比較</span>
+<p style="margin-top:8pt;">三角形 A：底 $8$ cm、高 $9$ cm。平行四邊形 B：底 $6$ cm、高 $12$ cm。<br>(a) 分別計算 A 和 B 的面積。<br>(b) 哪個面積較大？大多少 cm²？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q4 -->
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">基礎 · 平行四邊形</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 432 242" width="432" height="242" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="30,150 310,150 270,20 0,20" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="50" y1="20" x2="50" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="50" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="50,142 58,142 58,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <line x1="36" y1="20" x2="36" y2="150" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="36" cy="20" r="2" fill="#DC2626"/>
+  <circle cx="36" cy="150" r="2" fill="#DC2626"/>
+  <text x="26" y="88" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="end">高=7.5 cm</text>
+  <line x1="30" y1="163" x2="310" y2="163" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="30" cy="163" r="2.5" fill="#16A34A"/>
+  <circle cx="310" cy="163" r="2.5" fill="#16A34A"/>
+  <text x="170" y="169" fill="#16A34A" font-size="14" font-weight="bold" text-anchor="middle">底=9.6 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">底 $9.6$ cm、高 $7.5$ cm，面積是多少？<br>（答案可寫小數）</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q5 -->
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">基礎 · 平行四邊形反求</span>
+<p style="margin-top:8pt;">一個平行四邊形面積 $84$ cm²，高 $8$ cm，求底。<br>如果底不變，高減少 $2$ cm，新面積比原來少多少？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q6 -->
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">進階 · 梯形</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 432 242" width="432" height="242" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="70,150 330,150 280,20 120,20" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="120" y1="20" x2="120" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="120" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="120,142 128,142 128,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <line x1="120" y1="10" x2="280" y2="10" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="120" cy="10" r="2" fill="#2563EB"/>
+  <circle cx="280" cy="10" r="2" fill="#2563EB"/>
+  <text x="200" y="8" fill="#2563EB" font-size="13" font-weight="bold" text-anchor="middle">上底=4.5 cm</text>
+  <line x1="90" y1="163" x2="310" y2="163" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="90" cy="163" r="2" fill="#16A34A"/>
+  <circle cx="310" cy="163" r="2" fill="#16A34A"/>
+  <text x="200" y="169" fill="#16A34A" font-size="13" font-weight="bold" text-anchor="middle">下底=7.5 cm</text>
+  <line x1="106" y1="20" x2="106" y2="150" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="106" cy="20" r="2" fill="#DC2626"/>
+  <circle cx="106" cy="150" r="2" fill="#DC2626"/>
+  <text x="96" y="88" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="end">高=6 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">梯形上底 $4.5$ cm、下底 $7.5$ cm、高 $6$ cm。<br>(a) 面積是多少？<br>(b) 如果上底和下底同時加倍，面積會變成多少？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q7 -->
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">進階 · 梯形反求</span>
+<p style="margin-top:8pt;">一個梯形面積 $63$ cm²，上底 $5$ cm、下底 $9$ cm，求高。<br>如果上底減少 $1$ cm，高不變，面積會變成多少？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q8 -->
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">進階 · 組合圖形應用</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 512 292" width="512" height="292" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="250,20 50,110 450,110" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
+  <rect x="50" y="110" width="400" height="100" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="250" y1="20" x2="250" y2="110" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="250" cy="110" r="3" fill="#DC2626"/>
+  <polyline points="250,102 258,102 258,110" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <line x1="236" y1="20" x2="236" y2="110" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="236" cy="20" r="2" fill="#DC2626"/>
+  <circle cx="236" cy="110" r="2" fill="#DC2626"/>
+  <text x="226" y="68" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="end">高=4.5 m</text>
+  <line x1="90" y1="225" x2="410" y2="225" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="90" cy="225" r="2.5" fill="#16A34A"/>
+  <circle cx="410" cy="225" r="2.5" fill="#16A34A"/>
+  <text x="250" y="238" fill="#16A34A" font-size="13" font-weight="bold" text-anchor="middle">底=12 m</text>
+  <line x1="465" y1="110" x2="465" y2="210" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="465" cy="110" r="2" fill="#DC2626"/>
+  <circle cx="465" cy="210" r="2" fill="#DC2626"/>
+  <text x="474" y="163" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="start">牆高=5 m</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">一間屋的正面：三角形屋頂（底 $12$ m、高 $4.5$ m）下連長方形牆身（$12\times5$ m²）。<br>(a) 整面牆面積是多少？<br>(b) 要在屋頂部分油特別油漆，每 m² 成本 $120，比牆身每 m² $45 貴多少？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q9 -->
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">進階 · 梯形應用</span>
+<p style="margin-top:8pt;">一個梯形花圃，上底 $2.5$ m、下底 $3.5$ m、高 $4$ m。<br>(a) 花圃面積是多少？<br>(b) 如果每 m² 可以種 $8$ 棵花，這個花圃最多可以種多少棵花？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q10 -->
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">進階 · 組合圖形 3 部分</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 472 292" width="472" height="292" xmlns="http://www.w3.org/2000/svg">
+  <rect x="30" y="30" width="180" height="80" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <rect x="30" y="110" width="300" height="80" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <rect x="210" y="30" width="120" height="80" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="30" y1="110" x2="210" y2="110" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="120" y="75" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">A</text>
+  <text x="180" y="155" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">B</text>
+  <text x="270" y="75" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">C</text>
+  <line x1="30" y1="18" x2="210" y2="18" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="30" cy="18" r="2" fill="#2563EB"/>
+  <circle cx="210" cy="18" r="2" fill="#2563EB"/>
+  <text x="120" y="14" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">9 cm</text>
+  <line x1="210" y1="18" x2="330" y2="18" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="210" cy="18" r="2" fill="#2563EB"/>
+  <circle cx="330" cy="18" r="2" fill="#2563EB"/>
+  <text x="270" y="14" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">6 cm</text>
+  <line x1="30" y1="205" x2="330" y2="205" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="30" cy="205" r="2" fill="#16A34A"/>
+  <circle cx="330" cy="205" r="2" fill="#16A34A"/>
+  <text x="180" y="218" fill="#16A34A" font-size="12" font-weight="bold" text-anchor="middle">15 cm</text>
+  <line x1="16" y1="30" x2="16" y2="190" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="16" cy="30" r="2" fill="#DC2626"/>
+  <circle cx="16" cy="190" r="2" fill="#DC2626"/>
+	  <text x="8" y="73" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="end">4 cm</text>
+	  <text x="8" y="113" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="end">8 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">圖形由 A、B、C 三個長方形組成，中間橫線將高度平分。<br>(a) B 的面積是多少？<br>(b) 整幅圖形的總面積是多少？（提示：A 和 C 各高多少 cm？）</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q11 -->
+<div class="practice-q"><span class="q-num">Q11</span> <span class="q-level">進階 · 多步應用</span>
+<p style="margin-top:8pt;">一個平行四邊形停車場，底 $24$ m、高 $15$ m。<br>(a) 面積是多少？<br>(b) 每個車位需要 $18$ m²，最多可劃出多少個車位？<br>(c) 若要在停車場鋪瀝青，每 m² 成本 $85，總成本是多少？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q12 -->
+<div class="practice-q"><span class="q-num">Q12</span> <span class="q-level">挑戰 ⭐</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 502 292" width="502" height="292" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="25" width="400" height="160" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="120,185 360,185 300,40 60,40" fill="white" stroke="#D97706" stroke-width="2.5" stroke-dasharray="8,5" opacity="0.9"/>
+  <line x1="160" y1="40" x2="160" y2="185" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="160" cy="185" r="3" fill="#DC2626"/>
+  <polyline points="160,177 168,177 168,185" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="200" y="115" fill="#D97706" font-size="14" font-weight="bold" text-anchor="middle">剪走平行四邊形</text>
+  <line x1="60" y1="200" x2="380" y2="200" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="60" cy="200" r="2" fill="#2563EB"/>
+  <circle cx="380" cy="200" r="2" fill="#2563EB"/>
+  <text x="220" y="213" fill="#2563EB" font-size="13" font-weight="bold" text-anchor="middle">24 cm</text>
+  <line x1="430" y1="25" x2="430" y2="185" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="430" cy="25" r="2" fill="#DC2626"/>
+  <circle cx="430" cy="185" r="2" fill="#DC2626"/>
+  <text x="440" y="108" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="start">15 cm</text>
+  <line x1="60" y1="28" x2="300" y2="28" stroke="#D97706" stroke-width="1.2"/>
+  <circle cx="60" cy="28" r="2" fill="#D97706"/>
+  <circle cx="300" cy="28" r="2" fill="#D97706"/>
+  <text x="180" y="24" fill="#D97706" font-size="12" font-weight="bold" text-anchor="middle">底=12 cm</text>
+  <line x1="146" y1="40" x2="146" y2="185" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="146" cy="40" r="2" fill="#DC2626"/>
+  <circle cx="146" cy="185" r="2" fill="#DC2626"/>
+  <text x="136" y="115" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="end">高=8 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">一張長方形卡紙 $24\times15$ cm²，剪走一個平行四邊形（底 $12$ cm、高 $8$ cm）。<br>(a) 剩餘面積是多少？<br>(b) 如果剪走的平行四邊形改成底不變、高 $10$ cm，剩餘面積會減少多少？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q13 -->
+<div class="practice-q"><span class="q-num">Q13</span> <span class="q-level">挑戰 ⭐⭐</span>
+<p style="margin-top:8pt;">一個梯形面積 $96$ cm²，上底 $8$ cm、高 $8$ cm。<br>(a) 下底是多少？<br>(b) 如果下底減少 $4$ cm，要保持面積不變，高需要變成多少？</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q14 -->
+<div class="practice-q"><span class="q-num">Q14</span> <span class="q-level">挑戰 ⭐⭐</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 472 282" width="472" height="282" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="40,190 340,190 340,130 240,130 240,60 140,60 140,30 40,30" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <line x1="40" y1="130" x2="240" y2="130" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="8,5"/>
+  <line x1="40" y1="60" x2="140" y2="60" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="8,5"/>
+  <text x="90" y="48" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="middle">A</text>
+  <text x="140" y="100" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="middle">B</text>
+  <text x="200" y="165" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="middle">C</text>
+  <!-- 底 -->
+  <line x1="40" y1="205" x2="340" y2="205" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="40" cy="205" r="2" fill="#2563EB"/>
+  <circle cx="340" cy="205" r="2" fill="#2563EB"/>
+  <text x="190" y="218" fill="#2563EB" font-size="13" font-weight="bold" text-anchor="middle">15 cm</text>
+  <!-- 左下 -->
+  <line x1="40" y1="220" x2="240" y2="220" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="40" cy="220" r="2" fill="#2563EB"/>
+  <circle cx="240" cy="220" r="2" fill="#2563EB"/>
+  <text x="140" y="232" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">10 cm</text>
+  <!-- 右下 -->
+  <line x1="240" y1="220" x2="340" y2="220" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="240" cy="220" r="2" fill="#2563EB"/>
+  <circle cx="340" cy="220" r="2" fill="#2563EB"/>
+  <text x="290" y="232" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">5 cm</text>
+  <!-- 全高 -->
+  <line x1="22" y1="30" x2="22" y2="190" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="22" cy="30" r="2" fill="#DC2626"/>
+  <circle cx="22" cy="190" r="2" fill="#DC2626"/>
+  <text x="12" y="113" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="end">8 cm</text>
+  <!-- 上高 -->
+  <line x1="356" y1="30" x2="356" y2="60" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="356" cy="30" r="2" fill="#DC2626"/>
+  <circle cx="356" cy="60" r="2" fill="#DC2626"/>
+  <text x="366" y="48" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="start">2 cm</text>
+  <!-- 中高 -->
+  <line x1="356" y1="60" x2="356" y2="130" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="356" cy="60" r="2" fill="#DC2626"/>
+  <circle cx="356" cy="130" r="2" fill="#DC2626"/>
+  <text x="366" y="98" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="start">3.5 cm</text>
+  <!-- A 闊 -->
+  <line x1="40" y1="18" x2="140" y2="18" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="40" cy="18" r="2" fill="#2563EB"/>
+  <circle cx="140" cy="18" r="2" fill="#2563EB"/>
+  <text x="90" y="14" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">5 cm</text>
+  <!-- 頂 -->
+  <line x1="140" y1="18" x2="240" y2="18" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="140" cy="18" r="2" fill="#2563EB"/>
+  <circle cx="240" cy="18" r="2" fill="#2563EB"/>
+  <text x="190" y="14" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">? cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">上圖由 A（左上）、B（中左）、C（底）三個長方形組成。除了 ? cm 外所有尺寸已給。<br>先找出 ? 的尺寸（提示：B 闊 = 10 cm，C 闊 = 15 cm，A 闊 = ?），再計算總面積。</p>
+<div class="answer-line-double"></div></div>
+
+<!-- Q15 -->
+<div class="practice-q"><span class="q-num">Q15</span> <span class="q-level">挑戰 ⭐⭐⭐</span>
+<p style="margin-top:8pt;">一塊平行四邊形土地面積 $180$ m²，底 $15$ m。<br>(a) 高是多少？<br>(b) 現在要擴建，將底增加 $5$ m，高不變，新土地面積是多少？<br>(c) 擴建部分（增加的部分）面積是多少？<br>(d) 如果在整塊新土地上鋪草皮，每 m² $32，總共要多少錢？</p>
+<div class="answer-line-double"></div></div>
+<!-- ===================== 功課 ===================== -->
+
+<div class="lf-h2">📝 功課（回家練習）</div>
+
+<div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做 · 三角形</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 372 242" width="372" height="242" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="20,150 160,20 300,150" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="160" y1="20" x2="160" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="160" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="160,142 168,142 168,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <line x1="146" y1="20" x2="146" y2="150" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="146" cy="20" r="2" fill="#DC2626"/>
+  <circle cx="146" cy="150" r="2" fill="#DC2626"/>
+  <text x="136" y="88" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="end">高=5 cm</text>
+  <line x1="20" y1="163" x2="300" y2="163" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="20" cy="163" r="2.5" fill="#16A34A"/>
+  <circle cx="300" cy="163" r="2.5" fill="#16A34A"/>
+  <text x="160" y="169" fill="#16A34A" font-size="14" font-weight="bold" text-anchor="middle">底=16 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">底 $16$ cm、高 $5$ cm，面積是多少？<br>如果底不變，高變成原來的 $3$ 倍，新面積是多少？</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做 · 平行四邊形</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 432 242" width="432" height="242" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="40,150 320,150 280,20 0,20" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="60" y1="20" x2="60" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="60" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="60,142 68,142 68,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <line x1="46" y1="20" x2="46" y2="150" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="46" cy="20" r="2" fill="#DC2626"/>
+  <circle cx="46" cy="150" r="2" fill="#DC2626"/>
+  <text x="36" y="88" fill="#DC2626" font-size="14" font-weight="bold" text-anchor="end">高=9 cm</text>
+  <line x1="40" y1="163" x2="320" y2="163" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="40" cy="163" r="2.5" fill="#16A34A"/>
+  <circle cx="320" cy="163" r="2.5" fill="#16A34A"/>
+  <text x="180" y="169" fill="#16A34A" font-size="14" font-weight="bold" text-anchor="middle">底=18 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">底 $18$ cm、高 $9$ cm，面積是多少？<br>另一個平行四邊形面積相同，但高只有 $6$ cm，底是多少？</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做 · 梯形</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 442 242" width="442" height="242" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="80,150 340,150 290,20 140,20" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="140" y1="20" x2="140" y2="150" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="140" cy="150" r="3" fill="#DC2626"/>
+  <polyline points="140,142 148,142 148,150" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <line x1="140" y1="10" x2="290" y2="10" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="140" cy="10" r="2" fill="#2563EB"/>
+  <circle cx="290" cy="10" r="2" fill="#2563EB"/>
+  <text x="215" y="8" fill="#2563EB" font-size="13" font-weight="bold" text-anchor="middle">上底=5.5 cm</text>
+  <line x1="100" y1="163" x2="320" y2="163" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="100" cy="163" r="2" fill="#16A34A"/>
+  <circle cx="320" cy="163" r="2" fill="#16A34A"/>
+  <text x="210" y="169" fill="#16A34A" font-size="13" font-weight="bold" text-anchor="middle">下底=8.5 cm</text>
+  <line x1="126" y1="20" x2="126" y2="150" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="126" cy="20" r="2" fill="#DC2626"/>
+  <circle cx="126" cy="150" r="2" fill="#DC2626"/>
+  <text x="116" y="88" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="end">高=6 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">梯形上底 $5.5$ cm、下底 $8.5$ cm、高 $6$ cm。<br>(a) 面積是多少？<br>(b) 如果將上底和下底交換（上底=8.5、下底=5.5），面積會改變嗎？為甚麼？</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做 · 三角形反求</span>
+<p style="margin-top:8pt;">三角形面積 $54$ cm²，底 $12$ cm，求高。<br>如果底減少 $4$ cm，要保持面積不變，高需要變成多少？</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做 · 平行四邊形反求</span>
+<p style="margin-top:8pt;">平行四邊形面積 $93.6$ cm²，高 $7.8$ cm，求底。<br>（答案保留小數一位）</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做 · 組合圖形</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 472 282" width="472" height="282" xmlns="http://www.w3.org/2000/svg">
+  <rect x="30" y="30" width="100" height="70" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <rect x="30" y="100" width="240" height="70" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <rect x="130" y="30" width="140" height="70" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <line x1="30" y1="100" x2="130" y2="100" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="8,5"/>
+  <text x="80" y="70" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">A</text>
+  <text x="150" y="140" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">B</text>
+  <text x="200" y="70" fill="#333" font-size="14" font-weight="bold" text-anchor="middle">C</text>
+	  <!-- 頂 -->
+	  <line x1="30" y1="24" x2="130" y2="24" stroke="#2563EB" stroke-width="1.2"/>
+	  <circle cx="30" cy="24" r="2" fill="#2563EB"/>
+	  <circle cx="130" cy="24" r="2" fill="#2563EB"/>
+		  <text x="80" y="20" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">A=? cm</text>
+	  <!-- 頂右 -->
+	  <line x1="130" y1="24" x2="270" y2="24" stroke="#2563EB" stroke-width="1.2"/>
+	  <circle cx="130" cy="24" r="2" fill="#2563EB"/>
+	  <circle cx="270" cy="24" r="2" fill="#2563EB"/>
+	  <text x="200" y="20" fill="#2563EB" font-size="12" font-weight="bold" text-anchor="middle">C=7 cm</text>
+  <!-- 底 -->
+  <line x1="30" y1="185" x2="270" y2="185" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="30" cy="185" r="2" fill="#16A34A"/>
+  <circle cx="270" cy="185" r="2" fill="#16A34A"/>
+  <text x="150" y="198" fill="#16A34A" font-size="12" font-weight="bold" text-anchor="middle">12 cm</text>
+  <!-- 左高 -->
+  <line x1="16" y1="30" x2="16" y2="170" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="16" cy="30" r="2" fill="#DC2626"/>
+  <circle cx="16" cy="170" r="2" fill="#DC2626"/>
+  <text x="8" y="103" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="end">8 cm</text>
+  <!-- 下高 -->
+  <line x1="286" y1="100" x2="286" y2="170" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="286" cy="100" r="2" fill="#DC2626"/>
+  <circle cx="286" cy="170" r="2" fill="#DC2626"/>
+  <text x="296" y="138" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="start">? cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">已知 C=7 cm、B=12 cm，全高=8 cm。<br>圖形A的闊比圖形B的闊多1cm。<br>先找出 A 和下半高（? cm），再計算 A + B + C 總面積。</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">必做 · 組合圖形</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 512 292" width="512" height="292" xmlns="http://www.w3.org/2000/svg">
+  <rect x="30" y="90" width="400" height="105" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="230,20 30,90 430,90" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
+  <line x1="230" y1="20" x2="230" y2="90" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="230" cy="90" r="3" fill="#DC2626"/>
+  <polyline points="230,82 238,82 238,90" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <line x1="216" y1="20" x2="216" y2="90" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="216" cy="20" r="2" fill="#DC2626"/>
+  <circle cx="216" cy="90" r="2" fill="#DC2626"/>
+  <text x="206" y="58" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="end">高=8 cm</text>
+  <line x1="60" y1="210" x2="400" y2="210" stroke="#16A34A" stroke-width="1.2"/>
+  <circle cx="60" cy="210" r="2.5" fill="#16A34A"/>
+  <circle cx="400" cy="210" r="2.5" fill="#16A34A"/>
+  <text x="230" y="223" fill="#16A34A" font-size="13" font-weight="bold" text-anchor="middle">底=15 cm</text>
+  <line x1="445" y1="90" x2="445" y2="195" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="445" cy="90" r="2" fill="#DC2626"/>
+  <circle cx="445" cy="195" r="2" fill="#DC2626"/>
+  <text x="454" y="145" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="start">高=10 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">三角形屋頂（底 $15$ cm、高 $8$ cm）+ 長方形牆身（$15\times10$ cm²）。<br>(a) 總面積是多少？<br>(b) 屋頂面積佔總面積的幾分之幾？<br>(c) 如果牆身開一扇 $3\times2$ cm² 的窗，牆身淨面積是多少？</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">挑戰 ⭐</span>
+<p style="margin-top:8pt;">一個梯形面積 $90$ cm²，上底 $8$ cm、下底 $12$ cm，求高。<br>如果將梯形的高增加 $2$ cm，上底不變，下底要變成多少才能保持面積不變？</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐⭐</span>
+<div class="fig-center">
+<svg viewBox="-36 -36 512 282" width="512" height="282" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="25" width="440" height="155" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="120,180 360,180 300,40 60,40" fill="#FDE68A" stroke="#D97706" stroke-width="2" opacity="0.7"/>
+  <line x1="140" y1="40" x2="140" y2="180" stroke="#DC2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="140" cy="180" r="3" fill="#DC2626"/>
+  <polyline points="140,172 148,172 148,180" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="220" y="115" fill="#D97706" font-size="14" font-weight="bold" text-anchor="middle">平行四邊形</text>
+  <line x1="60" y1="195" x2="420" y2="195" stroke="#2563EB" stroke-width="1.2"/>
+  <circle cx="60" cy="195" r="2" fill="#2563EB"/>
+  <circle cx="420" cy="195" r="2" fill="#2563EB"/>
+  <text x="240" y="208" fill="#2563EB" font-size="13" font-weight="bold" text-anchor="middle">22 cm</text>
+  <line x1="460" y1="25" x2="460" y2="180" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="460" cy="25" r="2" fill="#DC2626"/>
+  <circle cx="460" cy="180" r="2" fill="#DC2626"/>
+  <text x="454" y="106" fill="#DC2626" font-size="13" font-weight="bold" text-anchor="end">14 cm</text>
+  <line x1="60" y1="28" x2="300" y2="28" stroke="#D97706" stroke-width="1.2"/>
+  <circle cx="60" cy="28" r="2" fill="#D97706"/>
+  <circle cx="300" cy="28" r="2" fill="#D97706"/>
+  <text x="180" y="24" fill="#D97706" font-size="12" font-weight="bold" text-anchor="middle">底=12 cm</text>
+  <line x1="126" y1="40" x2="126" y2="180" stroke="#DC2626" stroke-width="1.2"/>
+  <circle cx="126" cy="40" r="2" fill="#DC2626"/>
+  <circle cx="126" cy="180" r="2" fill="#DC2626"/>
+  <text x="116" y="113" fill="#DC2626" font-size="12" font-weight="bold" text-anchor="end">高=7 cm</text>
+</svg>
+</div>
+<p style="margin-top:8pt;">長方形 $22\times14$ cm² 內有一個平行四邊形（底 $12$ cm、高 $7$ cm）。<br>(a) 剩餘面積是多少？<br>(b) 剩餘部分佔長方形面積的幾分之幾？</p>
+<div class="answer-line-double"></div></div>
+
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐⭐⭐</span>
+<p style="margin-top:8pt;">一個三角形面積 $96$ cm²，底 $12$ cm。<br>(a) 高是多少？<br>(b) 平行四邊形與三角形等高（高相同），平行四邊形的底是 $8$ cm，面積是多少？<br>(c) 三角形和平行四邊形的面積和是多少？</p>
+<div class="answer-line-double"></div></div>
+<!-- ===================== 課後純計算練習 ===================== -->
+
+<div class="lf-h2">🧮 課後純計算練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">計算</span><p style="margin-top:8pt;">三角形底 $12$、高 $8$，面積 = ______ cm²</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">計算</span><p style="margin-top:8pt;">平行四邊形底 $15$、高 $10$，面積 = ______ cm²</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">計算</span><p style="margin-top:8pt;">梯形上底 $6$、下底 $14$、高 $5$，面積 = ______ cm²</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$48 \div 4 = $ ______（反求）</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$72 \div 6 	imes 2 = $ ______（底×高）</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$25 - 2 	imes 8 = $ ______（上底下底和）</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">計算</span><p style="margin-top:8pt;">底 × 高 $= 90$，底 $= 9$，高 = ______</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$(8 + 4) 	imes 6 = $ ______（梯形）</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$rac{1}{2} 	imes 20 	imes 7 = $ ______（÷2 提醒）</p><div class="answer-line-double"></div></div><div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$(7 + 13) 	imes 5 \div 2 = $ ______</p><div class="answer-line-double"></div></div></div><div class="lf-h2">🤔 延伸思考</div>
+<div style="background:#FFF7ED;border:1.5pt solid #FB923C;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;"><p style="font-weight:900;font-size:10pt;color:#C2410C;margin-bottom:8pt;">💭 代入不同角色，從多元角度思考</p>
+<ol style="margin:6pt 0 0 18pt;font-size:10pt;">
+<li><strong>📐 建築師：</strong>客廳牆壁長 $6$ m、高 $2.8$ m，有一扇窗 $1.5\times1.2$ m。要油牆壁，實際面積多少？每升油漆可油 $10$ m²，要買幾多升？<br><br>💬 <em>延伸討論：</em>門窗位置要唔要減去？損耗率大約幾多？</li>
+<li><strong>🏗️ 工程師：</strong>一條梯形排水渠，上闊 $3$ m、下闊 $1$ m、深 $1.5$ m。橫截面面積是多少？水流速度 $2$ m/s，每秒流量多少？<br><br>💬 <em>延伸討論：</em>為甚麼排水渠通常係梯形而唔係長方形？</li>
+<li><strong>🌳 園藝設計師：</strong>三角形花園底 $8$ m、高 $5$ m，要鋪草皮每 m² $\$45$，共需多少錢？如果預算 $\$1000$，夠唔夠？<br><br>💬 <em>延伸討論：</em>園藝設計仲要考慮咩成本？</li>
+<li><strong>🧑‍🔬 科學家：</strong>平行四邊形太陽能板，底 $2$ m、高 $1.2$ m。每塊板功率 $150$ W/m²，一塊板可產生多少瓦？<br><br>💬 <em>延伸討論：</em>太陽能板的方向會影響效率嗎？</li>
+<li><strong>🔗 數學家：</strong>點解三角形面積要「÷2」？平行四邊形唔使？試用長方形面積公式推導三角形和梯形公式。<br><br>💬 <em>延伸討論：</em>所有圖形嘅面積公式，其實都係由長方形面積演變出來！</li>
+</ol></div>
+
+<div style="background:#F0FDF4;border:1pt solid #86EFAC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><p style="font-weight:700;color:#15803D;margin-bottom:6pt;">📊 本課反思（完成後打 ✓）</p>
+<p>□ 我理解了核心概念 &nbsp; □ 我能獨立完成例題 &nbsp; □ 我知道常見陷阱 &nbsp; □ 我需要加強 ____________</p></div>
+
+<div class="key-point"><div class="title">★ 重點整理</div>
+<ul style="margin:6pt 0 0 18pt;">
+<li>三角形面積 = $\frac{底\times高}{2}$（唔好漏÷2！）</li>
+<li>平行四邊形面積 = 底 × 高（切割平移變長方形）</li>
+<li>梯形面積 = $\frac{(上底+下底)\times高}{2}$（分做兩個三角形）</li>
+<li>組合圖形：先分割 → 逐個計 → 加埋</li>
+<li>反求問題：用公式倒轉計（乘變除、除變乘）</li>
+<li>高必須垂直（⊥）於底邊</li>
+</ul></div>
+
+<div style="background:#EFF6FF;border:1pt solid #93C5FD;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>📋 SSPA考試連結：</strong>本課屬於「度量範疇 — 面積」範疇，三角形/平行四邊形/梯形面積是呈分試必考題型。</div>
+
+<div class="parent-box"><div class="title">👨‍👩‍👧 家長專區</div>
+<ol style="margin:6pt 0 0 18pt;">
+<li>請子女練習面積：多邊形與組合圖形相關題目</li>
+<li>檢查計算步驟是否完整（公式→代入數字→計算→寫單位）</li>
+<li>問：「三角形、平行四邊形、梯形嘅面積公式係點嚟㗎？」</li>
+<li>留意常見錯誤：三角形漏÷2、高唔垂直、梯形公式漏括號</li>
+</ol>
+<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA：度量範疇 — 面積</p></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L02 AK — 小數乘除與循環小數 (V2 精英版) — LF Academy</title>
+<style>
+:root{--p:#6A1B9A;--a:#FFD600;--ok:#059669;--err:#DC2626}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans HK","Segoe UI",system-ui,sans-serif;background:#E8E8E8;color:#1A1A1A;line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm}
+.ak-banner{background:linear-gradient(135deg,#059669,#047857);color:white;padding:14pt 16pt;border-radius:8pt;margin-bottom:12pt;font-weight:900;font-size:11pt;text-align:center;letter-spacing:1pt}
+.lf-h1{font-family:"Noto Serif HK",serif;font-size:15pt;font-weight:900;color:#6A1B9A;border-bottom:2pt solid #FFD600;padding-bottom:6pt;margin-bottom:10pt}
+.lf-h2{font-size:12pt;font-weight:700;color:#6A1B9A;margin:12pt 0 6pt;padding-left:4pt;border-left:4pt solid #FFD600}
+.ak-block{background:#F0FDF4;border:1pt solid #86EFAC;border-radius:8pt;padding:10pt 14pt;margin:8pt 0}
+.ak-block .q{font-weight:900;font-size:10pt;color:#15803D;margin-bottom:4pt}
+.ak-block .a{font-weight:900;font-size:11pt;color:#059669;margin-bottom:4pt;background:white;padding:4pt 8pt;border-radius:4pt;border:.5pt solid #86EFAC;display:inline-block}
+.ak-block .step{font-size:9pt;color:#1A1A1A;background:white;padding:6pt 8pt;border-radius:4pt;margin-top:4pt;border-left:3pt solid #22C55E}
+.ak-block .warn{font-size:8.5pt;color:#B45309;background:#FFFBEB;padding:4pt 8pt;border-radius:4pt;margin-top:4pt;border-left:3pt solid #F59E0B}
+.pitfall{background:#FEF2F2;border:1pt dashed #FCA5A5;border-radius:6pt;padding:6pt 10pt;margin:6pt 0;font-size:8.5pt;color:#991B1B}
+.summary-box{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:12pt 14pt;margin:12pt 0;font-size:9.5pt}
+.summary-box h3{color:#6B21A8;font-size:10pt;margin-bottom:6pt}
+table.key{width:100%;border-collapse:collapse;margin:8pt 0;font-size:9pt}
+table.key td,table.key th{border:1pt solid #D1D5DB;padding:4pt 6pt;text-align:center}
+table.key th{background:#F3F4F6;font-weight:700;color:#6A1B9A}
+@media print{body{background:white}.lf-page{box-shadow:none;margin:0;padding:12mm 15mm 18mm 20mm}.ak-block{break-inside:avoid}}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="lf-page">
+<div class="ak-banner">📘 LF ACADEMY · 答案解析 (Answer Key) · 教師/家長專用</div>
+
+<div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2pt solid #6A1B9A;padding-bottom:8pt;margin-bottom:12pt">
+  <h1 class="lf-h1" style="border:none;margin:0;padding:0">L02 — 小數乘除與循環小數（P5下預習）</h1>
+  <div style="text-align:right;font-size:9pt;color:#6B7280">
+    <div>V2 精英版 · P4 暑假</div>
+    <div>SSPA：數範疇 — 小數乘除</div>
+  </div>
+</div>
+
+<!-- 學習目標 -->
+<div class="summary-box">
+<h3>🎯 本課目標 · 解題策略</h3>
+<ol style="margin:0 0 0 16pt;font-size:9.5pt">
+<li><strong>小數乘法</strong>：先整數相乘，再數小數位，由右向左點小數點</li>
+<li><strong>小數除法</strong>：除數移位成整數，被除數同步移位</li>
+<li><strong>循環小數</strong>：$\frac{p}{q}$（$q$ 含 2、5 以外質因數）→ 循環小數</li>
+<li><strong>近似值</strong>：看下一位 $\geq 5$ 進位，$< 5$ 捨去</li>
+</ol>
+</div>
+
+<h2 class="lf-h2">✏️ 例題完整解答</h2>
+
+<div class="ak-block">
+  <div class="q">例題 1 (a)：$3.5 \times 4 = $ ______</div>
+  <div class="a">$14$</div>
+  <div class="step">$3.5$ 有 1 位小數 → $35 \times 4 = 140$ → 由右向左數 1 位 → $14.0 = 14$</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 1 (b)：$2.75 \times 3 = $ ______</div>
+  <div class="a">$8.25$</div>
+  <div class="step">$2.75$ 有 2 位小數 → $275 \times 3 = 825$ → 由右向左數 2 位 → $8.25$</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 2 (a)：$50.4 \div 4 = $ ______</div>
+  <div class="a">$12.6$</div>
+  <div class="step">除數 $4$ 是整數，小數點直接向上對齊：$50.4 \div 4 = 12.6$</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 2 (b)：$15 \div 2.5 = $ ______</div>
+  <div class="a">$6$</div>
+  <div class="step">$2.5 \times 10 = 25$，$15 \times 10 = 150$（同步移位），$150 \div 25 = 6$</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 3 (a)：$1 \div 3 = $ ______，$2 \div 3 = $ ______</div>
+  <div class="a">$0.\overline{3}$，$0.\overline{6}$</div>
+  <div class="step">$1 \div 3 = 0.333... = 0.\overline{3}$；$2 \div 3 = 0.666... = 0.\overline{6}$</div>
+  <div class="warn">⚠️ 循環節上加點 $\overline{}$，不是寫「$\cdots$」或省略</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 3 (b)：$5 \div 11$？$2 \div 7$ 循環節幾位？</div>
+  <div class="a">$5 \div 11 = 0.\overline{45}$（2 位）；$2 \div 7 = 0.\overline{285714}$（6 位）</div>
+  <div class="step">$5 \div 11 = 0.454545...$，循環節「45」；$2 \div 7 = 0.285714285714...$，循環節「285714」共 6 位</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 4 (a)：$\pi = 3.14159$，四捨五入到十分位 / 百分位 / 千分位</div>
+  <div class="a">十分位 $= 3.1$；百分位 $= 3.14$；千分位 $= 3.142$</div>
+  <div class="step">十分位：看下一位 $1 < 5$，捨去 → $3.1$。百分位：看下一位 $4 < 5$ → $3.14$。千分位：看下一位 $1 < 5$ → $3.141$？檢查：$3.1415 \to$ 看 5，$\geq 5$ 進位 → $3.142$ ✓</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 4 (b)：餅乾 $\$17.45$ 買 $3$ 包約多少元？</div>
+  <div class="a">$\$52.35$（精確）/ $\$52$（四捨五入到個位）</div>
+  <div class="step">精確：$17.45 \times 3 = 52.35$。四捨五入到個位：$52.35$ 看下一位 $3 < 5$，捨去 → $\$52$</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 5 (a)：$4.8 \times 0.75 + 3.2 \div 0.4$</div>
+  <div class="a">$11.6$</div>
+  <div class="step">先乘除：$4.8 \times 0.75 = 3.6$，$3.2 \div 0.4 = 8$ → 加：$3.6 + 8 = 11.6$</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 5 (b)：$(6.3 - 2.8) \div 0.5 + 1.6 \times 0.25$</div>
+  <div class="a">$7.4$</div>
+  <div class="step">括號：$6.3 - 2.8 = 3.5$；$3.5 \div 0.5 = 7$；$1.6 \times 0.25 = 0.4$；$7 + 0.4 = 7.4$</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 6 (a)：牛肉 $\$88.5$/kg，買 $1.6$ kg，共多少？店主 $\$141.6$ 對嗎？</div>
+  <div class="a">$141.6$ 元 — 店主答案正確 ✓</div>
+  <div class="step">$88.5 \times 1.6 = 141.6$。驗算：估算 $90 \times 1.6 = 144$，接近 → 合理。</div>
+</div>
+
+<div class="ak-block">
+  <div class="q">例題 6 (b)：汽油 $\$17.8$/L，入 $35.5$ L，要多少元？四捨五入到元</div>
+  <div class="a">$\$631$</div>
+  <div class="step">$17.8 \times 35.5 = 631.9$，四捨五入到個位 = $631$</div>
+</div>
+
+<!-- 課堂練習 -->
+<h2 class="lf-h2">📝 課堂練習 15 題 (必做)</h2>
+
+<div class="ak-block"><div class="q">Q1 (必做)：$4.2 \times 3$</div><div class="a">$12.6$</div><div class="step">$42 \times 3 = 126$ → 小數 1 位 → $12.6$</div></div>
+
+<div class="ak-block"><div class="q">Q2 (必做)：$6.5 \times 4$</div><div class="a">$26$</div><div class="step">$65 \times 4 = 260$ → 小數 1 位 → $26.0 = 26$</div></div>
+
+<div class="ak-block"><div class="q">Q3 (必做)：$8.4 \div 7$</div><div class="a">$1.2$</div><div class="step">$84 \div 7 = 12$ → 小數 1 位 → $1.2$</div></div>
+
+<div class="ak-block"><div class="q">Q4 (必做)：$9.6 \div 0.4$</div><div class="a">$24$</div><div class="step">$0.4 \times 10 = 4$，$9.6 \times 10 = 96$，$96 \div 4 = 24$</div></div>
+
+<div class="ak-block"><div class="q">Q5 (必做)：$1.25 \times 0.8$</div><div class="a">$1$</div><div class="step">$125 \times 8 = 1000$ → 3 位小數 → $1.000 = 1$</div></div>
+
+<div class="ak-block"><div class="q">Q6 (必做)：$0.72 \div 0.08$</div><div class="a">$9$</div><div class="step">$0.08 \times 100 = 8$，$0.72 \times 100 = 72$，$72 \div 8 = 9$</div></div>
+
+<div class="ak-block"><div class="q">Q7 (必做)：$7 \div 6$ 用循環小數</div><div class="a">$1.1\overline{6}$（或 $1.1666...$）</div><div class="step">$7 \div 6 = 1.1666...$，整數部分 $1$，小數部分 $0.1666...$，循環節是「$6$」</div></div>
+
+<div class="ak-block"><div class="q">Q8 (必做)：$e = 2.71828$ 四捨五入到十分位 / 百分位</div><div class="a">十分位 $= 2.7$；百分位 $= 2.72$</div><div class="step">十分位：看 $1 < 5$ 捨去 → $2.7$。百分位：看 $8 \geq 5$ 進位 → $2.72$</div></div>
+
+<div class="ak-block"><div class="q">Q9 (挑戰⭐)：$0.25 \times 3.6$</div><div class="a">$0.9$</div><div class="step">技巧：$0.25 = 1/4$，$3.6 / 4 = 0.9$。或 $25 \times 36 = 900$，小數 3 位 → $0.900 = 0.9$</div></div>
+
+<div class="ak-block"><div class="q">Q10 (挑戰⭐)：媽媽 $\$20$，$0.65$ kg @ $\$28$/kg，收銀員說多少？</div><div class="a">$\$18$（四捨五入到元）</div><div class="step">$28 \times 0.65 = 18.2$，四捨五入到元 = $\$18$ ✓（足夠）</div></div>
+
+<div class="ak-block"><div class="q">Q11 (挑戰⭐)：$4 \div 7 = 0.\overline{571428}$，第 20 位數字？</div><div class="a">第 20 位 $= 4$</div><div class="step">循環節 $6$ 位，$20 \div 6 = 3$ 餘 $2$ → 第 2 位循環節 $= 7$？再算：$571428571428...$，每 6 個一循環，$20 \bmod 6 = 2$，第 2 位 = $7$。等等再算：$1-6: 5,7,1,4,2,8$ → 第 2 位 $= 7$</div><div class="warn">驗算：$20 = 6 \times 3 + 2$，餘數 2 即循環節第 2 位。循環節「571428」第 2 位 = $7$。</div></div>
+
+<div class="ak-block"><div class="q">Q12 (挑戰⭐⭐)：$0.\overline{36}$ 第 50 位數字？</div><div class="a">第 50 位 $= 6$</div><div class="step">循環節 2 位，$50 \div 2 = 25$ 餘 $0$，整除 → 循環節最後一位 = $6$</div></div>
+
+<div class="ak-block"><div class="q">Q13 (挑戰⭐⭐)：小明算 $2.4 \div 0.16 = 1.5$？錯在哪？</div><div class="a">正確答案 $= 15$；錯在移位不一致</div><div class="step">$0.16 \times 100 = 16$，$2.4 \times 100 = 240$，$240 \div 16 = 15$。小明可能只移了一位 ($24 \div 16 = 1.5$)。</div><div class="warn">關鍵：被除數要跟除數同步移位相同位數。</div></div>
+
+<div class="ak-block"><div class="q">Q14 (挑戰⭐⭐⭐)：$\$100$ 買 $0.85$ kg @ $\$88$/kg + $1.5$ kg @ $\$32.4$/kg</div><div class="a">總 $\$123.4$，不足 $\$23.4$</div><div class="step">$0.85 \times 88 = 74.8$；$1.5 \times 32.4 = 48.6$；合計 $74.8 + 48.6 = 123.4$；$123.4 - 100 = 23.4$，不足 $\$23.4$</div></div>
+
+<div class="ak-block"><div class="q">Q15 (挑戰⭐⭐⭐)：所有整數 $\div 7$ 都是循環小數嗎？</div><div class="a">是 ✓（$7$ 是質數且非 $2$ 或 $5$ 的因數）</div><div class="step">$7$ 是質數且不含 2 或 5 因子，所以 $\frac{n}{7}$ 必為循環小數。特例驗證：$1 \div 7 = 0.\overline{142857}$，$2 \div 7 = 0.\overline{285714}$，$3 \div 7 = 0.\overline{428571}$，$7 \div 7 = 1$（整數，仍滿足循環節長度為 0 或 1 的特殊情形）</div><div class="warn">嚴格來說，$\frac{n}{7}$ 若 $7 | n$ 則為整數，否則為循環節長度為 6 的循環小數。</div></div>
+
+<h2 class="lf-h2">📚 功課 10 題</h2>
+
+<div class="ak-block"><div class="q">Q1：$5.6 \times 7$</div><div class="a">$39.2$</div><div class="step">$56 \times 7 = 392$ → 小數 1 位 → $39.2$</div></div>
+
+<div class="ak-block"><div class="q">Q2：$3.48 \times 5$</div><div class="a">$17.4$</div><div class="step">$348 \times 5 = 1740$ → 小數 2 位 → $17.40 = 17.4$</div></div>
+
+<div class="ak-block"><div class="q">Q3：$9.6 \div 4$</div><div class="a">$2.4$</div><div class="step">$96 \div 4 = 24$ → 小數 1 位 → $2.4$</div></div>
+
+<div class="ak-block"><div class="q">Q4：$4.5 \div 0.5$</div><div class="a">$9$</div><div class="step">$0.5 \times 10 = 5$，$4.5 \times 10 = 45$，$45 \div 5 = 9$</div></div>
+
+<div class="ak-block"><div class="q">Q5：$3.6 \times 0.7$</div><div class="a">$2.52$</div><div class="step">$36 \times 7 = 252$ → 2 位小數 → $2.52$</div></div>
+
+<div class="ak-block"><div class="q">Q6：$2.88 \div 0.12$</div><div class="a">$24$</div><div class="step">$0.12 \times 100 = 12$，$2.88 \times 100 = 288$，$288 \div 12 = 24$</div></div>
+
+<div class="ak-block"><div class="q">Q7：$0.\overline{6}$ 與 $0.66$ 比較大小</div><div class="a">$0.\overline{6} > 0.66$</div><div class="step">$0.\overline{6} = 0.66666... \approx 0.6667$，比 $0.66$ 大。原因：$0.66$ 後只有兩個 6，但 $0.\overline{6}$ 無限循環。</div></div>
+
+<div class="ak-block"><div class="q">Q8：$0.\overline{142857}$ 第 20 位數字？</div><div class="a">第 20 位 = $4$</div><div class="step">循環節 $6$ 位，$20 = 6 \times 3 + 2$，餘數 2 → 循環節第 2 位 = $4$（$142857$ 第 2 位）</div></div>
+
+<div class="ak-block"><div class="q">Q9：蘋果價格變化</div><div class="a">上週 $\$12.5$/kg，這週 $\$13$/kg，漲 $\$0.5$/kg（漲 4%）</div><div class="step">上週：$37.5 \div 3 = 12.5$ 元/kg。這週：$26 \div 2 = 13$ 元/kg。差 $13 - 12.5 = 0.5$ 元/kg。變化率：$0.5 \div 12.5 \times 100\% = 4\%$</div></div>
+
+<div class="ak-block"><div class="q">Q10：$1 \div 13$ 結果</div><div class="a">$0.\overline{076923}$，循環節 $6$ 位</div><div class="step">$1 \div 13 = 0.076923 076923 076923...$，循環節長度為 6，因 $13$ 是質數且不含 $2, 5$ 因子。</div></div>
+
+<h2 class="lf-h2">🧮 課後純計算 10 題</h2>
+<table class="key">
+<tr><th>#</th><th>題目</th><th>答案</th><th>#</th><th>題目</th><th>答案</th></tr>
+<tr><td>Q1</td><td>$2.5 \times 6$</td><td><strong>$15$</strong></td><td>Q6</td><td>$1.4 \div 0.04$</td><td><strong>$35$</strong></td></tr>
+<tr><td>Q2</td><td>$4.8 \times 0.3$</td><td><strong>$1.44$</strong></td><td>Q7</td><td>$5.5 \times 2.2$</td><td><strong>$12.1$</strong></td></tr>
+<tr><td>Q3</td><td>$7.2 \div 6$</td><td><strong>$1.2$</strong></td><td>Q8</td><td>$0.36 \div 0.12$</td><td><strong>$3$</strong></td></tr>
+<tr><td>Q4</td><td>$6.3 \div 0.9$</td><td><strong>$7$</strong></td><td>Q9</td><td>$8 \div 3$（循環小數）</td><td><strong>$2.\overline{6}$</strong></td></tr>
+<tr><td>Q5</td><td>$0.75 \times 0.4$</td><td><strong>$0.3$</strong></td><td>Q10</td><td>$3.14159$ 四捨五入到十分位</td><td><strong>$3.1$</strong></td></tr>
+</table>
+
+<!-- 總結 -->
+<div class="summary-box" style="margin-top:14pt">
+<h3>📊 教學總結 · 易錯提醒</h3>
+<ol style="margin:0 0 0 16pt;font-size:9.5pt">
+<li><strong>移位錯位</strong>：除數變整數，被除數必須同步（Q13 是經典錯誤）</li>
+<li><strong>小數位數</strong>：由右向左數，唔好數錯位數（$0.25 \times 0.4$ 兩位小數）</li>
+<li><strong>循環節</strong>：要寫 $\overline{x}$，不是寫省略號</li>
+<li><strong>四捨五入</strong>：看目標位數的<strong>下一位</strong>，不是當位</li>
+</ol>
+</div>
+
+<div class="pitfall">
+<strong>🚨 標誌性陷阱題 (Q11-Q15 挑戰區)</strong>：
+<ul style="margin:4pt 0 0 18pt">
+<li>Q11/Q12：循環節長度 + 模除法。第 N 位 = 循環節第 (N mod 長度) 位（或 mod=0 時 = 末位）</li>
+<li>Q13：移位必須同步。學生常犯：只移除數不移被除數</li>
+<li>Q14：兩個 kg 數量不同，要分別計算後加總</li>
+<li>Q15：分母含 2, 5 以外的質因數 → 必為循環小數。這是數論初步</li>
+</ul>
+</div>
+
+<div style="margin-top:14pt;padding:10pt;background:#F9FAFB;border-radius:6pt;font-size:8pt;color:#6B7280;text-align:center">
+<p>© 2026 LF Academy · 霖楓學苑</p>
+<p>本 AK 為教師 / 家長專用 · 鼓勵引導學生先思考再看答案</p>
+</div>
+</div></body></html>

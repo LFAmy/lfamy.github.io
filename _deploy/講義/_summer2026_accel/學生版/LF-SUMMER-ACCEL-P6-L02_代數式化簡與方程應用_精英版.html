@@ -1,71 +1,138 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-<style>:root{--lf-blue:#1A3C6D;--lf-gold:#C9A84C;--lf-ink:#1A1A1A;--lf-gray:#6B7280;--lf-light:#F9FAFB;--lf-border:#D1D5DB;--red:#DC2626;--green:#059669;--purple:#7C3AED;--amber:#D97706;--sky:#0284C7;--font-body:"Noto Sans HK",sans-serif;--font-serif:"Noto Serif HK",serif}</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P6 暑期班 L02：代數式化簡與方程應用 (精英版) — LF Academy</title>
-<style>:root{--lf-blue:#1A3C6D;--lf-gold:#C9A84C;--lf-ink:#1A1A1A;--lf-gray:#6B7280;--lf-light:#F9FAFB;--lf-border:#D1D5DB;--red:#DC2626;--green:#059669;--purple:#7C3AED;--amber:#D97706;--sky:#0284C7;--font-body:'Noto Sans HK',sans-serif;--font-serif:'Noto Serif HK',serif}</style>
-<style>:root{--p:#6A1B9A;--a:#FFD600;--radius:10pt;--sp:12pt}
+<title>P6 暑期班 第2堂：代數式化簡與方程應用 (V2 精英版) — LF Academy</title>
+<style>
+:root{--p:#6A1B9A;--a:#FFD600}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"Noto Sans HK","Segoe UI",system-ui,sans-serif;background:#E8E8E8;color:#1A1A1A;line-height:1.9;-webkit-font-smoothing:antialiased}
-.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm;position:relative}
+.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm}
 .lf-student-info{display:flex;flex-wrap:wrap;gap:12pt;align-items:center;padding:8pt 12pt;margin-bottom:16pt;border:.5pt solid #CBD5E1;border-radius:4pt;background:#FAFAFA;font-size:9.5pt}
 .lf-student-info .label{font-weight:700;color:#6A1B9A}
 .lf-student-info .line{display:inline-block;min-width:60pt;border-bottom:.5pt solid #CBD5E1;padding:0 4pt}
 .lf-h1{font-family:"Noto Serif HK",serif;font-size:15pt;font-weight:900;color:#6A1B9A;border-bottom:2pt solid #FFD600;padding-bottom:8pt;margin-bottom:12pt}
-.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt}
+.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt;padding-left:4pt;border-left:4pt solid #FFD600}
 .why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0}
 .why-box::before{content:"💡 為什麼要學這個？";font-weight:900;font-size:9pt;color:#0369A1;display:block;margin-bottom:8pt}
 .story-box{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0}
 .story-box::before{content:"📖 課堂情境故事";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt}
-.example{background:#F8FAFC;border-left:3pt solid #6A1B9A;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0}
-.trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0}
-.trap-warning::before{content:"⚠️ 小心陷阱！";font-weight:700;color:#B45309;display:block;margin-bottom:4pt}
+.recall-box{background:#F0FDF4;border:1.5pt solid #22C55E;border-radius:10pt;padding:16pt;margin:16pt 0}
+.recall-box::before{content:"🔄 知識回顧";font-weight:900;font-size:9pt;color:#15803D;display:block;margin-bottom:8pt}
+.concept-box{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:16pt;margin:16pt 0}
+.concept-box::before{content:"🔑 核心概念";font-weight:900;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt}
+.example{background:#F8FAFC;border-left:4pt solid #6A1B9A;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.example-title{font-weight:900;font-size:10pt;color:#6A1B9A;margin-bottom:8pt}
+.example-title::before{content:"✏️ "}
+.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:120pt;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:10pt 0}
+.trap-warning{background:#FFF7ED;border-left:4pt solid #F97316;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.trap-warning .title{font-weight:900;color:#B45309;font-size:10pt;margin-bottom:6pt}
+.practice-q{background:white;border:1pt solid #E5E7EB;border-radius:8pt;padding:14pt 16pt;margin:10pt 0}
+.practice-q .q-num{display:inline-block;background:#6A1B9A;color:white;padding:2pt 10pt;border-radius:12pt;font-size:9pt;font-weight:700;margin-right:6pt}
+.practice-q .q-level{font-size:8pt;color:#6B7280}
+.answer-line-double{min-height:64pt;border:1pt dashed #CBD5E1;border-radius:4pt;margin:8pt 0 8pt 28pt;background:repeating-linear-gradient(transparent,transparent 23px,#F3F4F6 24px)}
 .sspa-tag{display:inline-block;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534}
-.answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:8pt 0}
-.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:150px;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:12pt 0}
-.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0}
-.key-point::before{content:"★ 重點整理";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt}
+.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:8pt;padding:14pt;margin:14pt 0}
+.key-point .title{font-weight:900;font-size:9pt;color:#15803D;margin-bottom:6pt}
 .parent-box{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt}
-.parent-box::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt}
+.parent-box .title{font-weight:700;font-size:9pt;color:#7C3AED;margin-bottom:8pt}
 @media print{body{background:white}.lf-page{box-shadow:none;margin:0;padding:12mm 15mm 18mm 20mm}}
+.example,.practice-q,.trap-warning,.key-point,.parent-box,.why-box,.story-box,.concept-box,.recall-box{page-break-inside:avoid;break-inside:avoid}
+.lf-h1,.lf-h2{page-break-after:avoid;break-after:avoid}
 </style>
 <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","educationalLevel":"Primary","provider":{"@type":"EducationalOrganization","name":"霖楓學苑 (LF Academy)"}}</script>
-<style>.__lf-audit-marker{color:var(--lf-blue)}</style>
 </head>
 <body>
 <div class="lf-page">
-<div class="lf-student-info">
-<span><span class="label">姓名：</span><span class="line"></span></span>
-<span><span class="label">日期：</span><span class="line"></span></span>
-<span><span class="label">年級：</span>P6 (V2 精英版)</span>
-<span class="sspa-tag">SSPA</span>
-</div>
-<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:700;font-size:9pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><p>完成本課後，你將能夠掌握<strong>代數式化簡與方程應用</strong>，這個數學技能對升中一學生的學習非常重要。</p></div>
+<div style="display:flex;align-items:center;gap:8pt;margin-bottom:8pt;"><div style="background:linear-gradient(135deg,#6A1B9A,#6A1B9Add);color:white;padding:3pt 12pt;border-radius:6pt;font-weight:900;font-size:10pt;letter-spacing:1pt">LF</div><div><span style="font-weight:700;font-size:10pt;color:#6A1B9A">霖楓學苑</span><br><span style="font-size:7.5pt;color:#6B7280">Lam Fung Academy · 香港數學教育專家</span></div></div>
+<div class="lf-student-info"><span><span class="label">姓名：</span><span class="line"></span></span><span><span class="label">日期：</span><span class="line"></span></span><span><span class="label">年級：</span>P6 (V2 精英版)</span><span class="sspa-tag">SSPA 呈分試</span></div>
+<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:900;font-size:10pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><ol style="margin:6pt 0 0 18pt;"><li>代入求值：把$x$的值代入</li><li>化簡：展開→合併同類項</li><li>$x^2=x\times x$</li><li>用比例解決日常生活分配問題</li></ol></div>
 <div class="lf-h1">📚 第2堂：代數式化簡與方程應用</div>
-<div class="why-box"><p>學好<strong>代數式化簡與方程應用</strong>對升中一學生非常重要！這是日常生活中經常需要用到的數學技能。</p></div>
-<div class="story-box"><p>📝 化簡高手：3x+2x-5+4x = ? 合併同類項，化簡代數式！</p></div>
-<div class="lf-h2">📖 課堂內容</div>
-<p>代數式化簡 · 代入法 · 一元一次方程</p>
-<div class="example"><strong>例題示範：</strong><p style="margin-top:4pt;">（教師會在課堂上逐步講解例題，請預留空間做筆記）</p><div class="workspace"></div></div>
-<div class="trap-warning"><p><strong>常見陷阱：</strong>同類項合併</p><p style="margin-top:4pt;font-size:9pt;">💡 <em>記住這個提醒，考試時就不會再犯同樣的錯了！</em></p></div>
-<div class="lf-h2">📝 課堂練習</div>
-<div style="margin:12pt 0">
-<div style="margin:8pt 0;padding-left:12pt"><strong>必做題：</strong></div>
-<div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div>
-<div style="margin:12pt 0 8pt;padding-left:12pt"><strong>挑戰題：</strong></div>
-<div class="answer-line"></div><div class="answer-line"></div>
-</div>
-<div class="key-point"><p>本課重點已涵蓋 SSPA 考試範圍：<strong>代數範疇 — 代數方程</strong></p></div>
-<div class="parent-box">
-<p><strong>📋 給家長的溫習建議：</strong></p>
-<p style="margin-top:4pt;">1. 請檢查子女的課堂練習是否完成<br>2. 可以讓子女向你解釋今天學到的概念（教學相長）<br>3. 留意常見陷阱，在日常生活中找相關例子練習</p>
-<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA 考試：代數範疇 — 代數方程</p>
-</div>
-</div>
-</body>
-</html>
+<div class="why-box"><p>工程設計、科學計算、解密遊戲……方程是解決未知問題的最強工具！學好代數式化簡與方程應用，你就能設未知數、列方程、解開生活中的數學謎題！</p></div><div class="story-box"><p>如果$x=3$，求$2x^2-3x+1$的值。</p></div><div class="recall-box"><p><strong>前置知識（之前學過的）：</strong></p><ul style="margin:6pt 0 0 18pt;font-size:10pt;"><li>五年級學過：代數式化簡</li></ul></div><div class="concept-box"><ul style="margin:6pt 0 0 18pt;"><li>代入求值：把$x$的值代入</li><li>化簡：展開→合併同類項</li><li>$x^2=x\times x$</li></ul></div>
+<div class="lf-h2">✏️ 例題</div>
+<div class="example"><div class="example-title">例題1：展開括號</div>
+<p style="margin-bottom:8pt;">(a) 化簡：$3(2x + 4)$。</p>
+<p style="margin-bottom:8pt;">(b) 改用相同方法重做。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="hint-box">注意運算順序和步驟。</div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題2：合併同類項</div>
+<div class="hint-box">注意數位對齊，必要時在末尾補零。</div>
+<p style="margin-bottom:8pt;">(a) 化簡：$5x + 3x - 2x$。</p>
+<p style="margin-bottom:8pt;">(b) 改用相同方法重做。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div>
+<div class="hint-box">多步計算時，嚴格遵守「先乘除後加減」的順序。</div></div>
+<div class="example"><div class="example-title">例題3：綜合</div>
+<p style="margin-bottom:8pt;">(a) 化簡：$3(2x + 4) - 2(x - 1)$。</p>
+<p style="margin-bottom:8pt;">(b) 改用相同方法重做。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="hint-box">四捨五入時，看目標位數的後一位：≥5進位，<5捨去。</div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題4：比例分配</div>
+<p style="margin-bottom:8pt;">(a) 糖麵粉比例$2:5$，用$350$g麵粉要多少糖？</p>
+<p style="margin-bottom:8pt;">(b) 甲乙按$3:2$分配$500$元，各得多少？</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
 
+<div class="example"><div class="example-title">例題5：多步方程</div>
+<div class="hint-box">移項要變號，先化簡再求解，解完代入驗算。</div>
+<p style="margin-bottom:8pt;">(a) 解方程：$4x - 7 = 2x + 11$</p>
+<p style="margin-bottom:8pt;">(b) 解方程：$3(x + 2) = 2(x - 1) + 10$</p>
+<div style="margin:6pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題6：方程應用</div>
+<div class="hint-box">設較小的數為 $x$，按題目條件列方程。</div>
+<p style="margin-bottom:8pt;">(a) 小明年齡是弟弟 $3$ 倍，兩人年齡和 $28$。各多少歲？</p>
+<p style="margin-bottom:8pt;">(b) 長方形周界 $36$ cm，長是闊 $2$ 倍。長和闊各多少？</p>
+<div style="margin:6pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div style="background:#F0F9FF;border:1pt solid #7DD3FC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>🔍 自我檢查：</strong>做完例題後，問自己：「答案合理嗎？單位對嗎？可以用另一種方法驗算嗎？」</div><div class="trap-warning"><div class="title">⚠️ 小心陷阱！</div><p style="margin-top:8pt;"><strong>陷阱1：</strong> 移項要變號好</p><p style="margin-top:8pt;"><strong>陷阱2：</strong> 先加減後乘除</p><p style="margin-top:8pt;"><strong>陷阱3：</strong> 展開括號每項都要乘</p></div>
+<div class="lf-h2">📝 課堂練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做</span><p style="margin-top:8pt;">化簡：$3(2x + 4)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做</span><p style="margin-top:8pt;">化簡：$5x + 3x - 2x$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做</span><p style="margin-top:8pt;">化簡：$3(2x + 4) - 2(x - 1)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做</span><p style="margin-top:8pt;">化簡：$2a + 3b - a + 5b$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做</span><p style="margin-top:8pt;">展開：$4(3x - 2)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做</span><p style="margin-top:8pt;">化簡：$5(a + 2) - 3(a - 1)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">必做</span><p style="margin-top:8pt;">合併同類項：$7x^2 + 3x - 2x^2 + 5x$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">必做</span><p style="margin-top:8pt;">如果 $x = 3$，求 $2x + 5$ 的值。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">化簡：$\frac{1}{2}(4x + 6)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">展開並化簡：$2(x + 3) + 3(x - 2)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q11</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">化簡：$6m - 2(3m - 4)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q12</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">如果 $x = 2, y = 4$，求 $3x + 2y$ 的值。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q13</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">化簡：$a^2 + 2a - a^2 + 5$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q14</span> <span class="q-level">挑戰 ⭐⭐⭐</span><p style="margin-top:8pt;">展開：$-3(2x - 5)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q15</span> <span class="q-level">挑戰 ⭐⭐⭐</span><p style="margin-top:8pt;">化簡並求值：$3(2x - 1) + 2(x + 4)$，$x = 2$。</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">📝 功課（回家練習）</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做</span><p style="margin-top:8pt;">解：$2x - 3 = 11$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做</span><p style="margin-top:8pt;">解：$\frac{x}{4} + 3 = 7$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做</span><p style="margin-top:8pt;">解：$4x - 5 = 2x + 11$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做</span><p style="margin-top:8pt;">解：$3(2x - 1) = 15$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做</span><p style="margin-top:8pt;">解：$\frac{x+2}{3} = 5$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做</span><p style="margin-top:8pt;">解：$7 - 2x = 3$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">一個數的 $5$ 倍等於 $3$ 倍加 $12$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">解：$2(x + 5) = 3(x - 1)$。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">長方形周長 $36$ cm，長是闊 $2$ 倍。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">解：$\frac{2x-1}{3} = x - 3$。</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">🧮 課後純計算練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$(-5) + (+3) = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$(-3) - (-7) = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$3(2x + 4) = \underline{\hspace{2cm}}$（展開）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$25\% \times 360 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{5}{8} + \frac{3}{10} = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$|-7| + |3| = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$0.5^2 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$12\% \times 250 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{2}{3} \div \frac{4}{9} = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$(-2) \times (-6) = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">🤔 延伸思考</div>
+<div style="background:#FFF7ED;border:1.5pt solid #FB923C;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;"><p style="font-weight:900;font-size:10pt;color:#C2410C;margin-bottom:8pt;">💭 代入不同角色，從多元角度思考</p>
+<ol style="margin:6pt 0 0 18pt;font-size:10pt;">
+<li><strong>🧩 解謎者：</strong>設 $x$ 是某數，$3x + 7 = 22$。這條方程描述的是一個甚麼情境？<br><br>💬 <em>延伸討論：</em>方程為甚麼被稱為「代數」？它與算術有甚麼本質區別？</li><li><strong>👷 工程師：</strong>橋樑載重 $W$ 噸，每輛車重 $2.5$ 噸，最多同時容納 $n$ 輛車。列不等式：$2.5n < W$。<br><br>💬 <em>延伸討論：</em>工程設計中為甚麼要用不等式而不是等式？安全系數怎樣用數學表示？</li><li><strong>💻 程式員：</strong>寫程式時常有公式 $\text{total} = \text{price} \times (1 + \text{tax})$。這對應數學中甚麼公式？<br><br>💬 <em>延伸討論：</em>試將這個公式改為在折扣後的公式。程式員為甚麼要理解背後的數學？</li><li><strong>🧑‍🏫 老師：</strong>學生常犯錯誤：$3(x+4) = 3x + 4$（忘了乘 $4$）。為甚麼這是錯的？用面積模型怎樣解釋？<br><br>💬 <em>延伸討論：</em>分配律的幾何解釋是怎樣的？</li><li><strong>🔗 數學家：</strong>方程 $x + y = 10$ 和 $2x - y = 5$。你能找到一組 $(x,y)$ 同時滿足兩個方程嗎？<br><br>💬 <em>延伸討論：</em>兩個方程兩個未知數為甚麼通常有唯一解？如果只有一個方程呢？</li>
+</ol></div><div style="background:#F0FDF4;border:1pt solid #86EFAC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><p style="font-weight:700;color:#15803D;margin-bottom:6pt;">📊 本課反思（完成後打 ✓）</p>
+<p>□ 我理解了核心概念 &nbsp; □ 我能獨立完成例題 &nbsp; □ 我知道常見陷阱 &nbsp; □ 我需要加強 ____________</p></div><div class="key-point"><div class="title">★ 重點整理</div><ul style="margin:6pt 0 0 18pt;"><li>代入求值：把$x$的值代入</li><li>化簡：展開→合併同類項</li><li>$x^2=x\times x$</li></ul></div><div style="background:#EFF6FF;border:1pt solid #93C5FD;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>📋 SSPA考試連結：</strong>本課屬於「代數範疇 — 代數式」範疇。</div><div class="parent-box"><div class="title">👨‍👩‍👧 家長專區</div><ol style="margin:6pt 0 0 18pt;"><li>請子女練習代數式化簡與方程應用相關題目</li><li>檢查計算步驟是否完整</li><li>問：「代數式化簡與方程應用最重要的概念是什麼？」</li><li>留意常見錯誤類型</li></ol>
+<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA：代數範疇 — 代數式</p></div>
+</div></body></html>

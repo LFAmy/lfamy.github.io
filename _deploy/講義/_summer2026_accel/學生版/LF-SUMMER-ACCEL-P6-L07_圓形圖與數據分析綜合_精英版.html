@@ -1,71 +1,138 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-<style>:root{--lf-blue:#1A3C6D;--lf-gold:#C9A84C;--lf-ink:#1A1A1A;--lf-gray:#6B7280;--lf-light:#F9FAFB;--lf-border:#D1D5DB;--red:#DC2626;--green:#059669;--purple:#7C3AED;--amber:#D97706;--sky:#0284C7;--font-body:"Noto Sans HK",sans-serif;--font-serif:"Noto Serif HK",serif}</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P6 暑期班 L07：圓形圖與數據分析綜合 (精英版) — LF Academy</title>
-<style>:root{--lf-blue:#1A3C6D;--lf-gold:#C9A84C;--lf-ink:#1A1A1A;--lf-gray:#6B7280;--lf-light:#F9FAFB;--lf-border:#D1D5DB;--red:#DC2626;--green:#059669;--purple:#7C3AED;--amber:#D97706;--sky:#0284C7;--font-body:'Noto Sans HK',sans-serif;--font-serif:'Noto Serif HK',serif}</style>
-<style>:root{--p:#6A1B9A;--a:#FFD600;--radius:10pt;--sp:12pt}
+<title>P6 暑期班 第7堂：圓形圖與數據分析綜合 (V2 精英版) — LF Academy</title>
+<style>
+:root{--p:#6A1B9A;--a:#FFD600}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"Noto Sans HK","Segoe UI",system-ui,sans-serif;background:#E8E8E8;color:#1A1A1A;line-height:1.9;-webkit-font-smoothing:antialiased}
-.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm;position:relative}
+.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm}
 .lf-student-info{display:flex;flex-wrap:wrap;gap:12pt;align-items:center;padding:8pt 12pt;margin-bottom:16pt;border:.5pt solid #CBD5E1;border-radius:4pt;background:#FAFAFA;font-size:9.5pt}
 .lf-student-info .label{font-weight:700;color:#6A1B9A}
 .lf-student-info .line{display:inline-block;min-width:60pt;border-bottom:.5pt solid #CBD5E1;padding:0 4pt}
 .lf-h1{font-family:"Noto Serif HK",serif;font-size:15pt;font-weight:900;color:#6A1B9A;border-bottom:2pt solid #FFD600;padding-bottom:8pt;margin-bottom:12pt}
-.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt}
+.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt;padding-left:4pt;border-left:4pt solid #FFD600}
 .why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0}
 .why-box::before{content:"💡 為什麼要學這個？";font-weight:900;font-size:9pt;color:#0369A1;display:block;margin-bottom:8pt}
 .story-box{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0}
 .story-box::before{content:"📖 課堂情境故事";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt}
-.example{background:#F8FAFC;border-left:3pt solid #6A1B9A;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0}
-.trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0}
-.trap-warning::before{content:"⚠️ 小心陷阱！";font-weight:700;color:#B45309;display:block;margin-bottom:4pt}
+.recall-box{background:#F0FDF4;border:1.5pt solid #22C55E;border-radius:10pt;padding:16pt;margin:16pt 0}
+.recall-box::before{content:"🔄 知識回顧";font-weight:900;font-size:9pt;color:#15803D;display:block;margin-bottom:8pt}
+.concept-box{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:16pt;margin:16pt 0}
+.concept-box::before{content:"🔑 核心概念";font-weight:900;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt}
+.example{background:#F8FAFC;border-left:4pt solid #6A1B9A;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.example-title{font-weight:900;font-size:10pt;color:#6A1B9A;margin-bottom:8pt}
+.example-title::before{content:"✏️ "}
+.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:120pt;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:10pt 0}
+.trap-warning{background:#FFF7ED;border-left:4pt solid #F97316;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.trap-warning .title{font-weight:900;color:#B45309;font-size:10pt;margin-bottom:6pt}
+.practice-q{background:white;border:1pt solid #E5E7EB;border-radius:8pt;padding:14pt 16pt;margin:10pt 0}
+.practice-q .q-num{display:inline-block;background:#6A1B9A;color:white;padding:2pt 10pt;border-radius:12pt;font-size:9pt;font-weight:700;margin-right:6pt}
+.practice-q .q-level{font-size:8pt;color:#6B7280}
+.answer-line-double{min-height:64pt;border:1pt dashed #CBD5E1;border-radius:4pt;margin:8pt 0 8pt 28pt;background:repeating-linear-gradient(transparent,transparent 23px,#F3F4F6 24px)}
 .sspa-tag{display:inline-block;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534}
-.answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:8pt 0}
-.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:150px;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:12pt 0}
-.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0}
-.key-point::before{content:"★ 重點整理";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt}
+.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:8pt;padding:14pt;margin:14pt 0}
+.key-point .title{font-weight:900;font-size:9pt;color:#15803D;margin-bottom:6pt}
 .parent-box{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt}
-.parent-box::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt}
+.parent-box .title{font-weight:700;font-size:9pt;color:#7C3AED;margin-bottom:8pt}
 @media print{body{background:white}.lf-page{box-shadow:none;margin:0;padding:12mm 15mm 18mm 20mm}}
+.example,.practice-q,.trap-warning,.key-point,.parent-box,.why-box,.story-box,.concept-box,.recall-box{page-break-inside:avoid;break-inside:avoid}
+.lf-h1,.lf-h2{page-break-after:avoid;break-after:avoid}
 </style>
 <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","educationalLevel":"Primary","provider":{"@type":"EducationalOrganization","name":"霖楓學苑 (LF Academy)"}}</script>
-<style>.__lf-audit-marker{color:var(--lf-blue)}</style>
 </head>
 <body>
 <div class="lf-page">
-<div class="lf-student-info">
-<span><span class="label">姓名：</span><span class="line"></span></span>
-<span><span class="label">日期：</span><span class="line"></span></span>
-<span><span class="label">年級：</span>P6 (V2 精英版)</span>
-<span class="sspa-tag">SSPA</span>
-</div>
-<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:700;font-size:9pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><p>完成本課後，你將能夠掌握<strong>圓形圖與數據分析綜合</strong>，這個數學技能對升中一學生的學習非常重要。</p></div>
+<div style="display:flex;align-items:center;gap:8pt;margin-bottom:8pt;"><div style="background:linear-gradient(135deg,#6A1B9A,#6A1B9Add);color:white;padding:3pt 12pt;border-radius:6pt;font-weight:900;font-size:10pt;letter-spacing:1pt">LF</div><div><span style="font-weight:700;font-size:10pt;color:#6A1B9A">霖楓學苑</span><br><span style="font-size:7.5pt;color:#6B7280">Lam Fung Academy · 香港數學教育專家</span></div></div>
+<div class="lf-student-info"><span><span class="label">姓名：</span><span class="line"></span></span><span><span class="label">日期：</span><span class="line"></span></span><span><span class="label">年級：</span>P6 (V2 精英版)</span><span class="sspa-tag">SSPA 呈分試</span></div>
+<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:900;font-size:10pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><ol style="margin:6pt 0 0 18pt;"><li>圓形圖角度=百分率×$360°$</li><li>百分率=部分÷整體×$100\%$</li><li>從圓形圖推理數據</li><li>用圓形圖與數據分析綜合計算組合圖形的面積和周界</li></ol></div>
 <div class="lf-h1">📚 第7堂：圓形圖與數據分析綜合</div>
-<div class="why-box"><p>學好<strong>圓形圖與數據分析綜合</strong>對升中一學生非常重要！這是日常生活中經常需要用到的數學技能。</p></div>
-<div class="story-box"><p>🎯 班級興趣調查：用圓形圖呈現同學最喜歡的課外活動，計算每個扇形的度數！</p></div>
-<div class="lf-h2">📖 課堂內容</div>
-<p>圓形圖閱讀製作 · 百分數解讀 · 數據推論</p>
-<div class="example"><strong>例題示範：</strong><p style="margin-top:4pt;">（教師會在課堂上逐步講解例題，請預留空間做筆記）</p><div class="workspace"></div></div>
-<div class="trap-warning"><p><strong>常見陷阱：</strong>百分數與度數換算</p><p style="margin-top:4pt;font-size:9pt;">💡 <em>記住這個提醒，考試時就不會再犯同樣的錯了！</em></p></div>
-<div class="lf-h2">📝 課堂練習</div>
-<div style="margin:12pt 0">
-<div style="margin:8pt 0;padding-left:12pt"><strong>必做題：</strong></div>
-<div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div>
-<div style="margin:12pt 0 8pt;padding-left:12pt"><strong>挑戰題：</strong></div>
-<div class="answer-line"></div><div class="answer-line"></div>
-</div>
-<div class="key-point"><p>本課重點已涵蓋 SSPA 考試範圍：<strong>數據處理 — 圖表綜合</strong></p></div>
-<div class="parent-box">
-<p><strong>📋 給家長的溫習建議：</strong></p>
-<p style="margin-top:4pt;">1. 請檢查子女的課堂練習是否完成<br>2. 可以讓子女向你解釋今天學到的概念（教學相長）<br>3. 留意常見陷阱，在日常生活中找相關例子練習</p>
-<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA 考試：數據處理 — 圖表綜合</p>
-</div>
-</div>
-</body>
-</html>
+<div class="why-box"><p>建築設計、工程製圖、藝術創作……幾何是形狀與空間的科學！學好圓形圖與數據分析綜合，你就能理解圖形的奧秘，設計出美麗的結構！</p></div><div class="story-box"><p>班上40人：籃球12人足球16人游泳8人其他4人。畫圓形圖。</p></div><div class="recall-box"><p><strong>前置知識（之前學過的）：</strong></p><ul style="margin:6pt 0 0 18pt;font-size:10pt;"><li>五年級學過：角的分類（銳角</li><li>直角</li><li>鈍角</li><li>平角）</li></ul></div><div class="concept-box"><ul style="margin:6pt 0 0 18pt;"><li>圓形圖角度=百分率×$360°$</li><li>百分率=部分÷整體×$100\%$</li><li>從圓形圖推理數據</li></ul></div>
+<div class="lf-h2">✏️ 例題</div>
+<div class="example"><div class="example-title">例題1：百分數計算</div>
+<p style="margin-bottom:8pt;">(a)$250$ 的 $20\%$ 是多少？</p>
+<p style="margin-bottom:8pt;">(b) 同主題加深題。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="hint-box">先理解題目要求，再選擇合適的計算方法。</div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題2：百分數轉換</div>
+<div class="hint-box">把大問題拆成幾個小步驟，逐個解決。</div>
+<p style="margin-bottom:8pt;">(a) 3/8 把 $\frac{3}{8}$ 化為百分數。</p>
+<p style="margin-bottom:8pt;">(b) 約至最簡分數。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div>
+<div class="hint-box">畫圖或列表幫助理解問題。</div></div>
+<div class="example"><div class="example-title">例題3：應用題</div>
+<p style="margin-bottom:8pt;">(a)一件衣服原價 $350$ 元，加價 $20\%$ 後是多少？</p>
+<p style="margin-bottom:8pt;">(b) 用估算檢查答案。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="hint-box">最後檢查答案：單位是否正確？答案是否合理？</div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題4：複合體積</div>
+<p style="margin-bottom:8pt;">(a) 三角柱底面直角三角形(3cm,4cm)柱高10cm，求體積。</p>
+<p style="margin-bottom:8pt;">(b) L形立體由兩個長方體組成，求體積。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
 
+<div class="example"><div class="example-title">例題5：角度計算</div>
+<div class="hint-box">平行線：同位角相等、內錯角相等、同旁內角互補。</div>
+<p style="margin-bottom:8pt;">(a) 兩條平行線被截線穿過，一角 $75\degree$，求其餘三角。</p>
+<p style="margin-bottom:8pt;">(b) 三角形中兩角分別 $65\degree$ 和 $45\degree$，求第三角。</p>
+<div style="margin:6pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題6：圖形推理</div>
+<div class="hint-box">邊長變 $n$ 倍，面積變 $n^2$ 倍。</div>
+<p style="margin-bottom:8pt;">(a) 正方形邊長 $8$ cm，周界和面積各多少？如果邊長加倍，面積變為多少倍？</p>
+<p style="margin-bottom:8pt;">(b) 長方形長 $10$ cm、闊 $6$ cm，周界和面積各多少？</p>
+<div style="margin:6pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div style="background:#F0F9FF;border:1pt solid #7DD3FC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>🔍 自我檢查：</strong>做完例題後，問自己：「答案合理嗎？單位對嗎？可以用另一種方法驗算嗎？」</div><div class="trap-warning"><div class="title">⚠️ 小心陷阱！</div><p style="margin-top:8pt;"><strong>陷阱1：</strong> 高不是斜邊！要畫垂直線</p><p style="margin-top:8pt;"><strong>陷阱2：</strong> 面積和周界的單位不同</p><p style="margin-top:8pt;"><strong>陷阱3：</strong> 梯形只有一對平行邊</p></div>
+<div class="lf-h2">📝 課堂練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做</span><p style="margin-top:8pt;">$250$ 的 $20\%$ 是多少？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做</span><p style="margin-top:8pt;">3/8 把 $\frac{3}{8}$ 化為百分數。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做</span><p style="margin-top:8pt;">一件衣服原價 $350$ 元加價 $20\%$ 後是多少？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做</span><p style="margin-top:8pt;">$80$ 是 $200$ 的百分之幾？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做</span><p style="margin-top:8pt;">把 $45\%$ 化為分數。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做</span><p style="margin-top:8pt;">一個數的 $25\%$ 是 $60$，求這個數。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">必做</span><p style="margin-top:8pt;">$150$ 減少 $20\%$ 後是多少？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">必做</span><p style="margin-top:8pt;">$30\%$ 的 $500 = $</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">3/4 把 $0.375$ 化為百分數。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">$120$ 增加 $15\%$ 後是多少？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q11</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">$40$ 人中 $60\%$ 是女生，女生多少人？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q12</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">考試 $80$ 分是滿分 $120$ 分的百分之幾？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q13</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">原價 $800$ 元打 $75\%$ 折，現價多少？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q14</span> <span class="q-level">挑戰 ⭐⭐⭐</span><p style="margin-top:8pt;">1/4 把 $1\frac{1}{4}$ 化為百分數。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q15</span> <span class="q-level">挑戰 ⭐⭐⭐</span><p style="margin-top:8pt;">$200$ 的 $\square\%$ 等於 $50$，求 $\square$。</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">📝 功課（回家練習）</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做</span><p style="margin-top:8pt;">90 r=14 cm 一個圓半徑 $14$ cm，圓周？($\pi$取$\frac{22}{7}$)</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做</span><p style="margin-top:8pt;">90 r=10 cm 一個圓直徑 $21$ cm，面積。（$\pi$ 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做</span><p style="margin-top:8pt;">圓周 $88$ cm，求半徑。（$\pi$ 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做</span><p style="margin-top:8pt;">圓面積 $616$ cm²，求半徑。（$\pi$ 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做</span><p style="margin-top:8pt;">90 r=7 cm 半圓半徑 $7$ cm，周界。（$\pi$ 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做</span><p style="margin-top:8pt;">90 r=1 cm 圓形桌面直徑 $1.4$ m，面積。（$\pi$ 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">90 r=7 cm 圓的半徑增 $1$ 倍，面積增多少倍。（$\pi$ 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">$\pi r^2$（$r=21$, $\pi=\frac{22}{7}$）=？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">90 r=35 cm 圓形跑道半徑 $35$ m，跑一圈多少米。（$\pi$ 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">r=7 cm 圓面積 $308$ cm²，周界。（$\pi$ 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">🧮 課後純計算練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$(-5) + (+3) = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$(-3) - (-7) = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$3(2x + 4) = \underline{\hspace{2cm}}$（展開）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$25\% \times 360 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{5}{8} + \frac{3}{10} = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$|-7| + |3| = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$0.5^2 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$12\% \times 250 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{2}{3} \div \frac{4}{9} = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$(-2) \times (-6) = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">🤔 延伸思考</div>
+<div style="background:#FFF7ED;border:1.5pt solid #FB923C;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;"><p style="font-weight:900;font-size:10pt;color:#C2410C;margin-bottom:8pt;">💭 代入不同角色，從多元角度思考</p>
+<ol style="margin:6pt 0 0 18pt;font-size:10pt;">
+<li><strong>📐 建築師：</strong>設計一個梯形花園，上底 $8$ m、下底 $12$ m、高 $6$ m。面積是多少？需要多少泥土（每 m² 厚 $0.2$ m）？<br><br>💬 <em>延伸討論：</em>為甚麼梯形面積公式是 $(a+b)h \div 2$？怎樣用平行四邊形面積推導？</li><li><strong>👨‍🎨 設計師：</strong>圓形 Logo 半徑 $5$ cm，內有一個圓心角 $72°$ 的扇形。扇形面積佔圓面積的幾分之幾？<br><br>💬 <em>延伸討論：</em>設計中為甚麼經常用到圓形和扇形？它們有甚麼對稱美感？</li><li><strong>👷 工程師：</strong>三角支架的兩條邊分別長 $3$ m 和 $4$ m，夾角 $90°$。第三邊多長？三角形為甚麼是最穩固的形狀？<br><br>💬 <em>延伸討論：</em>為甚麼橋樑和建築中經常使用三角形結構？</li><li><strong>🧭 探險家：</strong>從起點向東 $3$ km，再向北 $4$ km。終點距離起點多遠？方向是甚麼？<br><br>💬 <em>延伸討論：</em>GPS 定位的原理和坐標系有甚麼關係？</li><li><strong>🔗 數學家：</strong>三角形內角和 $180°$，四邊形 $360°$。$n$ 邊形的內角和是多少？怎樣推導？<br><br>💬 <em>延伸討論：</em>這個規律為甚麼只對凸多邊形成立？凹多邊形呢？</li>
+</ol></div><div style="background:#F0FDF4;border:1pt solid #86EFAC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><p style="font-weight:700;color:#15803D;margin-bottom:6pt;">📊 本課反思（完成後打 ✓）</p>
+<p>□ 我理解了核心概念 &nbsp; □ 我能獨立完成例題 &nbsp; □ 我知道常見陷阱 &nbsp; □ 我需要加強 ____________</p></div><div class="key-point"><div class="title">★ 重點整理</div><ul style="margin:6pt 0 0 18pt;"><li>圓形圖角度=百分率×$360°$</li><li>百分率=部分÷整體×$100\%$</li><li>從圓形圖推理數據</li></ul></div><div style="background:#EFF6FF;border:1pt solid #93C5FD;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>📋 SSPA考試連結：</strong>本課屬於「數據處理 — 圓形圖」範疇。</div><div class="parent-box"><div class="title">👨‍👩‍👧 家長專區</div><ol style="margin:6pt 0 0 18pt;"><li>請子女練習圓形圖與數據分析綜合相關題目</li><li>檢查計算步驟是否完整</li><li>問：「圓形圖與數據分析綜合最重要的概念是什麼？」</li><li>留意常見錯誤類型</li></ol>
+<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA：數據處理 — 圓形圖</p></div>
+</div></body></html>

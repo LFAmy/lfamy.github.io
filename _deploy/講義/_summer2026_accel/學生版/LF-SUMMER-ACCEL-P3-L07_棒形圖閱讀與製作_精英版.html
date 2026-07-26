@@ -1,71 +1,138 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-<style>:root{--lf-blue:#1A3C6D;--lf-gold:#C9A84C;--lf-ink:#1A1A1A;--lf-gray:#6B7280;--lf-light:#F9FAFB;--lf-border:#D1D5DB;--red:#DC2626;--green:#059669;--purple:#7C3AED;--amber:#D97706;--sky:#0284C7;--font-body:"Noto Sans HK",sans-serif;--font-serif:"Noto Serif HK",serif}</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P3 暑期班 L07：棒形圖閱讀與製作 (精英版) — LF Academy</title>
-<style>:root{--lf-blue:#1A3C6D;--lf-gold:#C9A84C;--lf-ink:#1A1A1A;--lf-gray:#6B7280;--lf-light:#F9FAFB;--lf-border:#D1D5DB;--red:#DC2626;--green:#059669;--purple:#7C3AED;--amber:#D97706;--sky:#0284C7;--font-body:'Noto Sans HK',sans-serif;--font-serif:'Noto Serif HK',serif}</style>
-<style>:root{--p:#6A1B9A;--a:#FFD600;--radius:10pt;--sp:12pt}
+<title>P3 暑期班 第7堂：棒形圖閱讀與製作 (V2 精英版) — LF Academy</title>
+<style>
+:root{--p:#6A1B9A;--a:#FFD600}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"Noto Sans HK","Segoe UI",system-ui,sans-serif;background:#E8E8E8;color:#1A1A1A;line-height:1.9;-webkit-font-smoothing:antialiased}
-.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm;position:relative}
+.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm}
 .lf-student-info{display:flex;flex-wrap:wrap;gap:12pt;align-items:center;padding:8pt 12pt;margin-bottom:16pt;border:.5pt solid #CBD5E1;border-radius:4pt;background:#FAFAFA;font-size:9.5pt}
 .lf-student-info .label{font-weight:700;color:#6A1B9A}
 .lf-student-info .line{display:inline-block;min-width:60pt;border-bottom:.5pt solid #CBD5E1;padding:0 4pt}
 .lf-h1{font-family:"Noto Serif HK",serif;font-size:15pt;font-weight:900;color:#6A1B9A;border-bottom:2pt solid #FFD600;padding-bottom:8pt;margin-bottom:12pt}
-.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt}
+.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt;padding-left:4pt;border-left:4pt solid #FFD600}
 .why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0}
 .why-box::before{content:"💡 為什麼要學這個？";font-weight:900;font-size:9pt;color:#0369A1;display:block;margin-bottom:8pt}
 .story-box{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0}
 .story-box::before{content:"📖 課堂情境故事";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt}
-.example{background:#F8FAFC;border-left:3pt solid #6A1B9A;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0}
-.trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0}
-.trap-warning::before{content:"⚠️ 小心陷阱！";font-weight:700;color:#B45309;display:block;margin-bottom:4pt}
+.recall-box{background:#F0FDF4;border:1.5pt solid #22C55E;border-radius:10pt;padding:16pt;margin:16pt 0}
+.recall-box::before{content:"🔄 知識回顧";font-weight:900;font-size:9pt;color:#15803D;display:block;margin-bottom:8pt}
+.concept-box{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:16pt;margin:16pt 0}
+.concept-box::before{content:"🔑 核心概念";font-weight:900;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt}
+.example{background:#F8FAFC;border-left:4pt solid #6A1B9A;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.example-title{font-weight:900;font-size:10pt;color:#6A1B9A;margin-bottom:8pt}
+.example-title::before{content:"✏️ "}
+.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:120pt;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:10pt 0}
+.trap-warning{background:#FFF7ED;border-left:4pt solid #F97316;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.trap-warning .title{font-weight:900;color:#B45309;font-size:10pt;margin-bottom:6pt}
+.practice-q{background:white;border:1pt solid #E5E7EB;border-radius:8pt;padding:14pt 16pt;margin:10pt 0}
+.practice-q .q-num{display:inline-block;background:#6A1B9A;color:white;padding:2pt 10pt;border-radius:12pt;font-size:9pt;font-weight:700;margin-right:6pt}
+.practice-q .q-level{font-size:8pt;color:#6B7280}
+.answer-line-double{min-height:64pt;border:1pt dashed #CBD5E1;border-radius:4pt;margin:8pt 0 8pt 28pt;background:repeating-linear-gradient(transparent,transparent 23px,#F3F4F6 24px)}
 .sspa-tag{display:inline-block;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534}
-.answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:8pt 0}
-.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:150px;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:12pt 0}
-.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0}
-.key-point::before{content:"★ 重點整理";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt}
+.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:8pt;padding:14pt;margin:14pt 0}
+.key-point .title{font-weight:900;font-size:9pt;color:#15803D;margin-bottom:6pt}
 .parent-box{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt}
-.parent-box::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt}
+.parent-box .title{font-weight:700;font-size:9pt;color:#7C3AED;margin-bottom:8pt}
 @media print{body{background:white}.lf-page{box-shadow:none;margin:0;padding:12mm 15mm 18mm 20mm}}
+.example,.practice-q,.trap-warning,.key-point,.parent-box,.why-box,.story-box,.concept-box,.recall-box{page-break-inside:avoid;break-inside:avoid}
+.lf-h1,.lf-h2{page-break-after:avoid;break-after:avoid}
 </style>
 <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","educationalLevel":"Primary","provider":{"@type":"EducationalOrganization","name":"霖楓學苑 (LF Academy)"}}</script>
-<style>.__lf-audit-marker{color:var(--lf-blue)}</style>
 </head>
 <body>
 <div class="lf-page">
-<div class="lf-student-info">
-<span><span class="label">姓名：</span><span class="line"></span></span>
-<span><span class="label">日期：</span><span class="line"></span></span>
-<span><span class="label">年級：</span>P3 (V2 精英版)</span>
-<span class="sspa-tag">SSPA</span>
-</div>
-<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:700;font-size:9pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><p>完成本課後，你將能夠掌握<strong>棒形圖閱讀與製作</strong>，這個數學技能對升小四學生的學習非常重要。</p></div>
+<div style="display:flex;align-items:center;gap:8pt;margin-bottom:8pt;"><div style="background:linear-gradient(135deg,#6A1B9A,#6A1B9Add);color:white;padding:3pt 12pt;border-radius:6pt;font-weight:900;font-size:10pt;letter-spacing:1pt">LF</div><div><span style="font-weight:700;font-size:10pt;color:#6A1B9A">霖楓學苑</span><br><span style="font-size:7.5pt;color:#6B7280">Lam Fung Academy · 香港數學教育專家</span></div></div>
+<div class="lf-student-info"><span><span class="label">姓名：</span><span class="line"></span></span><span><span class="label">日期：</span><span class="line"></span></span><span><span class="label">年級：</span>P3 (V2 精英版)</span><span class="sspa-tag">SSPA 呈分試</span></div>
+<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:900;font-size:10pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><ol style="margin:6pt 0 0 18pt;"><li>棒形圖結構：標題軸刻度棒</li><li>讀取數據：看棒的頂端對應刻度</li><li>製作：收集→畫軸→標刻度→畫棒</li><li>用坐標描述位置並畫出路線</li></ol></div>
 <div class="lf-h1">📚 第7堂：棒形圖閱讀與製作</div>
-<div class="why-box"><p>學好<strong>棒形圖閱讀與製作</strong>對升小四學生非常重要！這是日常生活中經常需要用到的數學技能。</p></div>
-<div class="story-box"><p>📊 學校圖書館統計：各年級借書的數量用棒形圖來呈現，快來分析哪個年級最愛看書！</p></div>
-<div class="lf-h2">📖 課堂內容</div>
-<p>棒形圖讀取數據 · 製作棒形圖 · 數據比較</p>
-<div class="example"><strong>例題示範：</strong><p style="margin-top:4pt;">（教師會在課堂上逐步講解例題，請預留空間做筆記）</p><div class="workspace"></div></div>
-<div class="trap-warning"><p><strong>常見陷阱：</strong>軸刻度讀錯</p><p style="margin-top:4pt;font-size:9pt;">💡 <em>記住這個提醒，考試時就不會再犯同樣的錯了！</em></p></div>
-<div class="lf-h2">📝 課堂練習</div>
-<div style="margin:12pt 0">
-<div style="margin:8pt 0;padding-left:12pt"><strong>必做題：</strong></div>
-<div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div>
-<div style="margin:12pt 0 8pt;padding-left:12pt"><strong>挑戰題：</strong></div>
-<div class="answer-line"></div><div class="answer-line"></div>
-</div>
-<div class="key-point"><p>本課重點已涵蓋 SSPA 考試範圍：<strong>數據處理 — 棒形圖</strong></p></div>
-<div class="parent-box">
-<p><strong>📋 給家長的溫習建議：</strong></p>
-<p style="margin-top:4pt;">1. 請檢查子女的課堂練習是否完成<br>2. 可以讓子女向你解釋今天學到的概念（教學相長）<br>3. 留意常見陷阱，在日常生活中找相關例子練習</p>
-<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA 考試：數據處理 — 棒形圖</p>
-</div>
-</div>
-</body>
-</html>
+<div class="why-box"><p>新聞數據、市場調查、比賽統計……數據時代需要數據思維！學好棒形圖閱讀與製作，你就能從數據中發現規律，做出明智判斷！</p></div><div class="story-box"><p>班上同學最愛的水果投票結果怎樣用棒形圖表示？</p></div><div class="recall-box"><p><strong>前置知識（之前學過的）：</strong></p><ul style="margin:6pt 0 0 18pt;font-size:10pt;"><li>三年級學過：數據收集和整理</li></ul></div><div class="concept-box"><ul style="margin:6pt 0 0 18pt;"><li>棒形圖結構：標題軸刻度棒</li><li>讀取數據：看棒的頂端對應刻度</li><li>製作：收集→畫軸→標刻度→畫棒</li></ul></div>
+<div class="lf-h2">✏️ 例題</div>
+<div class="example"><div class="example-title">例題1：讀圖</div>
+<p style="margin-bottom:8pt;">(a) 從棒形圖中，哪個類別的數值最大？</p>
+<p style="margin-bottom:8pt;">(b) 根據數據畫棒形圖。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="hint-box">先理解題目要求，再選擇合適的計算方法。</div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題2：百分率</div>
+<div class="hint-box">把大問題拆成幾個小步驟，逐個解決。</div>
+<p style="margin-bottom:8pt;">(a) 班上 $40$ 人，喜歡籃球 $12$ 人。籃球佔全班的百分之幾？</p>
+<p style="margin-bottom:8pt;">(b) 計算百分率增減。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div>
+<div class="hint-box">畫圖或列表幫助理解問題。</div></div>
+<div class="example"><div class="example-title">例題3：畫圖</div>
+<p style="margin-bottom:8pt;">(a) 根據數據畫一個圓形圖。（每 $1$ 人佔圓心角幾度？）</p>
+<p style="margin-bottom:8pt;">(b) 計算周界和面積。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="hint-box">最後檢查答案：單位是否正確？答案是否合理？</div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題4：路線描述</div>
+<p style="margin-bottom:8pt;">(a) 從$(1,2)$向東走$3$格再向北$2$格到哪？</p>
+<p style="margin-bottom:8pt;">(b) 學校$(4,5)$到圖書館$(7,3)$，用方向描述路線。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
 
+<div class="example"><div class="example-title">例題5：數據分析</div>
+<div class="hint-box">平均數 = 總和÷個數；中位數要先排序；眾數是出現最多的數。</div>
+<p style="margin-bottom:8pt;">(a) 成績 $85,92,78,92,88,95,70$，求平均數、中位數和眾數。</p>
+<p style="margin-bottom:8pt;">(b) 某月銷量 $120,150,180,160,200,220$，預測下月銷量。</p>
+<div style="margin:6pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題6：概率入門</div>
+<div class="hint-box">概率 = 有利結果數 ÷ 所有可能結果數。</div>
+<p style="margin-bottom:8pt;">(a) 擲一個骰子，擲到偶數的概率是多少？質數呢？</p>
+<p style="margin-bottom:8pt;">(b) 袋中有 $3$ 紅 $2$ 藍球，抽到紅球概率？</p>
+<div style="margin:6pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div style="background:#F0F9FF;border:1pt solid #7DD3FC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>🔍 自我檢查：</strong>做完例題後，問自己：「答案合理嗎？單位對嗎？可以用另一種方法驗算嗎？」</div><div class="trap-warning"><div class="title">⚠️ 小心陷阱！</div><p style="margin-top:8pt;"><strong>陷阱1：</strong> 平均數受極端值影響</p><p style="margin-top:8pt;"><strong>陷阱2：</strong> 眾數可能不止一個</p><p style="margin-top:8pt;"><strong>陷阱3：</strong> 中位數要先排序</p></div>
+<div class="lf-h2">📝 課堂練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做</span><p style="margin-top:8pt;">班上 $40$ 人，喜歡籃球 $12$ 人足球 $16$ 人游泳 $8$ 人其他 $4$ 人。各佔百分之幾？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做</span><p style="margin-top:8pt;">畫一個圓形圖，每 $1$ 人佔圓心角幾度。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做</span><p style="margin-top:8pt;">從棒形圖中讀出最高和最低的類別。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做</span><p style="margin-top:8pt;">一個圓形圖中「體育」佔 $90°$，是全班的百分之幾。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做</span><p style="margin-top:8pt;">棒形圖的刻度要怎樣設定？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做</span><p style="margin-top:8pt;">75% 100% $120$ 人中 $45\%$ 喜歡音樂，多少人？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">必做</span><p style="margin-top:8pt;">一個圓形圖中三個部分分別佔 $120°, 90°, 150°$，各佔百分之幾。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">必做</span><p style="margin-top:8pt;">棒形圖中 $A$ 類別的棒高 $6$ cm（每 cm 代表 $10$ 人），$A$ 有多少人？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">從數據畫棒形圖的步驟是什麼？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">一個圓形圖中某類佔 $72°$，佔總數的百分之幾。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q11</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">75% 100% $200$ 人中 $30\%$ 喜歡畫畫，$25\%$ 喜歡音樂，其餘喜歡運動。喜歡運動多少人？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q12</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">棒形圖和圓形圖各有什麼優點。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q13</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">一個班男女生比 $3:2$，圓形圖中男生佔多少度？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q14</span> <span class="q-level">挑戰 ⭐⭐⭐</span><p style="margin-top:8pt;">75% 100% $50$ 人的調查中，$A$ 佔 $40\%$，$B$ 佔 $35\%$，$C$ 佔其餘。$C$ 有多少人？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q15</span> <span class="q-level">挑戰 ⭐⭐⭐</span><p style="margin-top:8pt;">怎樣從圓形圖反推原始數據。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">📝 功課（回家練習）</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做</span><p style="margin-top:8pt;">75% 100% $200$ 人中 $30\%$ 喜歡畫畫 $25\%$ 音樂其餘運動。運動多少人？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做</span><p style="margin-top:8pt;">棒形圖和圓形圖各有什麼優點。（圓周率 取 $\frac{23}{9}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做</span><p style="margin-top:8pt;">一個班男女比 $3:2$，圓形圖男生佔多少度？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做</span><p style="margin-top:8pt;">75% 100% $50$ 人調查 $A$ $40\%$ $B$ $35\%$ $C$ 其餘。$C$ 多少人？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做</span><p style="margin-top:8pt;">怎樣從圓形圖反推原始數據。（圓周率 取 $\frac{23}{9}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做</span><p style="margin-top:8pt;">圓形圖中某類佔 $72°$，佔總數百分之幾。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">棒形圖刻度要怎樣設定？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">一個圓形圖三部分 $120°,90°,150°$，各百分之幾。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">棒形圖中 $A$ 棒高 $6$ cm（每cm $10$ 人），$A$ 多少人？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">75% 100% $121$ 人中 $47\%$ 喜歡音樂，多少人？</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">🧮 課後純計算練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$234 + 567 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$1000 - 678 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$3456 + 6544 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$8000 - 3456 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$12 \times 3 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$45 \times 6 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$72 \div 9 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$144 \div 12 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$7 \times 8 + 5 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$100 - 36 - 24 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">🤔 延伸思考</div>
+<div style="background:#FFF7ED;border:1.5pt solid #FB923C;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;"><p style="font-weight:900;font-size:10pt;color:#C2410C;margin-bottom:8pt;">💭 代入不同角色，從多元角度思考</p>
+<ol style="margin:6pt 0 0 18pt;font-size:10pt;">
+<li><strong>📊 數據分析師：</strong>班級考試成績：$85,92,78,92,88,95,70$。求平均數、中位數和眾數。哪個最能代表全班水平？<br><br>💬 <em>延伸討論：</em>為甚麼有時候平均數不能反映真實情況？極端值怎樣影響平均數？</li><li><strong>📈 市場分析師：</strong>某產品銷量（月）：$120, 150, 180, 160, 200, 220$。畫折線圖並預測下月銷量。你的預測可信嗎？<br><br>💬 <em>延伸討論：</em>統計預測為甚麼不可能完全準確？影響銷量的因素有哪些？</li><li><strong>🏀 運動教練：</strong>籃球隊員身高（cm）：$175, 182, 168, 190, 177, 185, 178, 172$。分佈怎樣？平均身高多少？<br><br>💬 <em>延伸討論：</em>教練怎樣用統計數據制定訓練計劃和戰術？</li><li><strong>🔗 數學家：</strong>擲兩個公正骰子，和為 $7$ 的概率是多少？用樹形圖列出所有可能。<br><br>💬 <em>延伸討論：</em>概率論最早起源於賭博問題。你認為數學家研究賭博是對的嗎？為甚麼？</li><li><strong>🧑‍🏫 老師：</strong>全班 $40$ 人考試，平均 $72$ 分。轉來一位新同學考 $92$ 分，新平均分是多少？如果轉來的是考 $52$ 分呢？<br><br>💬 <em>延伸討論：</em>數據變動對平均數的影響說明了甚麼統計學道理？</li>
+</ol></div><div style="background:#F0FDF4;border:1pt solid #86EFAC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><p style="font-weight:700;color:#15803D;margin-bottom:6pt;">📊 本課反思（完成後打 ✓）</p>
+<p>□ 我理解了核心概念 &nbsp; □ 我能獨立完成例題 &nbsp; □ 我知道常見陷阱 &nbsp; □ 我需要加強 ____________</p></div><div class="key-point"><div class="title">★ 重點整理</div><ul style="margin:6pt 0 0 18pt;"><li>棒形圖結構：標題軸刻度棒</li><li>讀取數據：看棒的頂端對應刻度</li><li>製作：收集→畫軸→標刻度→畫棒</li></ul></div><div style="background:#EFF6FF;border:1pt solid #93C5FD;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>📋 SSPA考試連結：</strong>本課屬於「數據處理 — 棒形圖」範疇。</div><div class="parent-box"><div class="title">👨‍👩‍👧 家長專區</div><ol style="margin:6pt 0 0 18pt;"><li>請子女練習棒形圖閱讀與製作相關題目</li><li>檢查計算步驟是否完整</li><li>問：「棒形圖閱讀與製作最重要的概念是什麼？」</li><li>留意常見錯誤類型</li></ol>
+<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA：數據處理 — 棒形圖</p></div>
+</div></body></html>

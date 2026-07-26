@@ -1,71 +1,138 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-<style>:root{--lf-blue:#1A3C6D;--lf-gold:#C9A84C;--lf-ink:#1A1A1A;--lf-gray:#6B7280;--lf-light:#F9FAFB;--lf-border:#D1D5DB;--red:#DC2626;--green:#059669;--purple:#7C3AED;--amber:#D97706;--sky:#0284C7;--font-body:"Noto Sans HK",sans-serif;--font-serif:"Noto Serif HK",serif}</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P5 暑期班 L05：立體圖形與表面面積（P6下預習） (精英版) — LF Academy 霖楓學苑</title>
-<style>:root{--lf-blue:#1A3C6D;--lf-gold:#C9A84C;--lf-ink:#1A1A1A;--lf-gray:#6B7280;--lf-light:#F9FAFB;--lf-border:#D1D5DB;--red:#DC2626;--green:#059669;--purple:#7C3AED;--amber:#D97706;--sky:#0284C7;--font-body:'Noto Sans HK',sans-serif;--font-serif:'Noto Serif HK',serif}</style>
-<style>:root{--p:#1A3C6D;--a:#C9A84C;--radius:10pt;--sp:12pt}
+<title>P5 暑期班 第5堂：立體圖形與表面面積（P6下預習） (V2 精英版) — LF Academy</title>
+<style>
+:root{--p:#6A1B9A;--a:#FFD600}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans HK','Segoe UI',system-ui,sans-serif;background:#E8E8E8;color:#1A1A1A;line-height:1.9;-webkit-font-smoothing:antialiased}
-.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm;position:relative}
+body{font-family:"Noto Sans HK","Segoe UI",system-ui,sans-serif;background:#E8E8E8;color:#1A1A1A;line-height:1.9;-webkit-font-smoothing:antialiased}
+.lf-page{width:210mm;min-height:297mm;margin:12pt auto;background:white;box-shadow:0 2px 20px rgba(0,0,0,.12);padding:14mm 15mm 20mm 20mm}
 .lf-student-info{display:flex;flex-wrap:wrap;gap:12pt;align-items:center;padding:8pt 12pt;margin-bottom:16pt;border:.5pt solid #CBD5E1;border-radius:4pt;background:#FAFAFA;font-size:9.5pt}
 .lf-student-info .label{font-weight:700;color:#6A1B9A}
 .lf-student-info .line{display:inline-block;min-width:60pt;border-bottom:.5pt solid #CBD5E1;padding:0 4pt}
-.lf-h1{font-family:'Noto Serif HK',serif;font-size:15pt;font-weight:900;color:#6A1B9A;border-bottom:2pt solid #FFD600;padding-bottom:8pt;margin-bottom:12pt}
-.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt}
+.lf-h1{font-family:"Noto Serif HK",serif;font-size:15pt;font-weight:900;color:#6A1B9A;border-bottom:2pt solid #FFD600;padding-bottom:8pt;margin-bottom:12pt}
+.lf-h2{font-size:12.5pt;font-weight:700;color:#6A1B9A;margin:16pt 0 8pt;padding-left:4pt;border-left:4pt solid #FFD600}
 .why-box{background:#EFF6FF;border:1.5pt solid #3B82F6;border-radius:10pt;padding:16pt;margin:16pt 0}
 .why-box::before{content:"💡 為什麼要學這個？";font-weight:900;font-size:9pt;color:#0369A1;display:block;margin-bottom:8pt}
 .story-box{background:#FDF2F8;border:1pt solid #EC4899;border-radius:10pt;padding:16pt;margin:16pt 0}
 .story-box::before{content:"📖 課堂情境故事";font-weight:700;font-size:9pt;color:#BE185D;display:block;margin-bottom:8pt}
-.example{background:#F8FAFC;border-left:3pt solid #6A1B9A;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0}
-.trap-warning{background:#FFF7ED;border-left:3pt solid #F97316;border-radius:0 6pt 6pt 0;padding:12pt 16pt;margin:12pt 0}
-.trap-warning::before{content:"⚠️ 小心陷阱！";font-weight:700;color:#B45309;display:block;margin-bottom:4pt}
+.recall-box{background:#F0FDF4;border:1.5pt solid #22C55E;border-radius:10pt;padding:16pt;margin:16pt 0}
+.recall-box::before{content:"🔄 知識回顧";font-weight:900;font-size:9pt;color:#15803D;display:block;margin-bottom:8pt}
+.concept-box{background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:16pt;margin:16pt 0}
+.concept-box::before{content:"🔑 核心概念";font-weight:900;font-size:9pt;color:#B45309;display:block;margin-bottom:8pt}
+.example{background:#F8FAFC;border-left:4pt solid #6A1B9A;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.example-title{font-weight:900;font-size:10pt;color:#6A1B9A;margin-bottom:8pt}
+.example-title::before{content:"✏️ "}
+.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:120pt;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:10pt 0}
+.trap-warning{background:#FFF7ED;border-left:4pt solid #F97316;border-radius:0 8pt 8pt 0;padding:14pt 16pt;margin:14pt 0}
+.trap-warning .title{font-weight:900;color:#B45309;font-size:10pt;margin-bottom:6pt}
+.practice-q{background:white;border:1pt solid #E5E7EB;border-radius:8pt;padding:14pt 16pt;margin:10pt 0}
+.practice-q .q-num{display:inline-block;background:#6A1B9A;color:white;padding:2pt 10pt;border-radius:12pt;font-size:9pt;font-weight:700;margin-right:6pt}
+.practice-q .q-level{font-size:8pt;color:#6B7280}
+.answer-line-double{min-height:64pt;border:1pt dashed #CBD5E1;border-radius:4pt;margin:8pt 0 8pt 28pt;background:repeating-linear-gradient(transparent,transparent 23px,#F3F4F6 24px)}
 .sspa-tag{display:inline-block;background:#F0FDF4;border:.5pt solid #22C55E;border-radius:6pt;padding:2pt 8pt;font-size:8pt;font-weight:600;color:#166534}
-.answer-line{min-height:28px;border-bottom:1.5pt solid #CBD5E1;margin:8pt 0}
-.workspace{background:repeating-linear-gradient(transparent,transparent 23px,#E5E7EB 24px);min-height:150px;padding:8pt;border:1pt solid #CBD5E1;border-radius:4pt;margin:12pt 0}
-.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:6pt;padding:12pt;margin:12pt 0}
-.key-point::before{content:"★ 重點整理";font-weight:700;font-size:8pt;color:#15803D;display:block;margin-bottom:4pt}
+.key-point{background:#F0FDF4;border:1pt solid #22C55E;border-radius:8pt;padding:14pt;margin:14pt 0}
+.key-point .title{font-weight:900;font-size:9pt;color:#15803D;margin-bottom:6pt}
 .parent-box{background:#F5F3FF;border:1pt solid #8B5CF6;border-radius:10pt;padding:16pt;margin:16pt 0;font-size:9.5pt}
-.parent-box::before{content:"👨‍👩‍👧 家長專區";font-weight:700;font-size:9pt;color:#7C3AED;display:block;margin-bottom:8pt}
+.parent-box .title{font-weight:700;font-size:9pt;color:#7C3AED;margin-bottom:8pt}
 @media print{body{background:white}.lf-page{box-shadow:none;margin:0;padding:12mm 15mm 18mm 20mm}}
-:root{--p:#1A3C6D;--a:#C9A84C;--radius:10pt;--sp:12pt}</style>
-<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\[","\]"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","educationalLevel":"Primary","provider":{"@type":"EducationalOrganization","name":"霖楓學苑 (LF Academy)"}}</script>
-<style>.__lf-audit-marker{color:var(--lf-blue)}</style>
+.example,.practice-q,.trap-warning,.key-point,.parent-box,.why-box,.story-box,.concept-box,.recall-box{page-break-inside:avoid;break-inside:avoid}
+.lf-h1,.lf-h2{page-break-after:avoid;break-after:avoid}
+</style>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]]}};</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
 <div class="lf-page">
-<div class="lf-student-info">
-<span><span class="label">姓名：</span><span class="line"></span></span>
-<span><span class="label">日期：</span><span class="line"></span></span>
-<span><span class="label">年級：</span>P5 (V2 精英版)</span>
-<span class="sspa-tag">SSPA</span>
-</div>
-<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:700;font-size:9pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><p>完成本課後，你將能夠掌握相關數學概念並應用於 SSPA 考試題型。</p></div>
-
+<div style="display:flex;align-items:center;gap:8pt;margin-bottom:8pt;"><div style="background:linear-gradient(135deg,#6A1B9A,#6A1B9Add);color:white;padding:3pt 12pt;border-radius:6pt;font-weight:900;font-size:10pt;letter-spacing:1pt">LF</div><div><span style="font-weight:700;font-size:10pt;color:#6A1B9A">霖楓學苑</span><br><span style="font-size:7.5pt;color:#6B7280">Lam Fung Academy · 香港數學教育專家</span></div></div>
+<div class="lf-student-info"><span><span class="label">姓名：</span><span class="line"></span></span><span><span class="label">日期：</span><span class="line"></span></span><span><span class="label">年級：</span>P5 (V2 精英版)</span><span class="sspa-tag">SSPA 呈分試</span></div>
+<div style="background:#FFFBEB;border:1pt solid #F59E0B;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;font-size:9.5pt;"><div style="font-weight:900;font-size:10pt;color:#B45309;margin-bottom:8pt;">🎯 本課學習目標</div><ol style="margin:6pt 0 0 18pt;"><li>長方體表面積=$2(長闊+長高+闊高)$</li><li>柱體展開圖：兩個底面+側面</li><li>錐體展開圖：圓形底面+扇形側面</li><li>計算扇形面積並理解圓周率意義</li></ol></div>
 <div class="lf-h1">📚 第5堂：立體圖形與表面面積（P6下預習）</div>
-<div class="why-box"><p>學好<strong>立體圖形與表面面積（P6下預習）</strong>對升小六學生非常重要！這是SSPA考試的常考題型，也是日常生活中經常需要用到的數學技能。掌握了這個課題，你的數學基礎會更加穩固！</p></div>
-<div class="story-box"><p>🎁 禮物盒設計：三角柱的表面面積，展開圖幫你計算包裝紙用量！</p></div>
-<div class="lf-h2">📖 課堂內容</div>
-<p>柱體/錐體表面面積 · 展開圖 · 總表面面積公式</p>
-<div class="example"><strong>例題示範：</strong><p style="margin-top:4pt;">（教師會在課堂上逐步講解例題，請預留空間做筆記）</p><div class="workspace"></div></div>
-<div class="trap-warning"><p><strong>常見陷阱：</strong>底面積與側面積的區分</p><p style="margin-top:4pt;font-size:9pt;">💡 <em>記住這個提醒，考試時就不會再犯同樣的錯了！</em></p></div>
-<div class="lf-h2">📝 課堂練習</div>
-<div style="margin:12pt 0">
-<div style="margin:8pt 0;padding-left:12pt"><strong>必做題：</strong></div>
-<div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div>
-<div style="margin:12pt 0 8pt;padding-left:12pt"><strong>挑戰題：</strong></div>
-<div class="answer-line"></div><div class="answer-line"></div>
-</div>
-<div class="key-point"><p>本課重點已涵蓋 SSPA 考試範圍：<strong>度量範疇 — 立體</strong></p></div>
-<div class="parent-box">
-<p><strong>📋 給家長的溫習建議：</strong></p>
-<p style="margin-top:4pt;">1. 請檢查子女的課堂練習是否完成<br>2. 可以讓子女向你解釋今天學到的概念（教學相長）<br>3. 留意常見陷阱，在日常生活中找相關例子練習</p>
-<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA 考試：度量範疇 — 立體</p>
-</div>
-</div>
-</body>
-</html>
+<div class="why-box"><p>裝修算地板、設計花園、買地毯……懂得立體圖形與表面面積（P6下預習），你就能計算空間大小，做出精準的測量和規劃！</p></div><div class="story-box"><p>長方體長8cm闊5cm高3cm，表面面積是多少？</p></div><div class="recall-box"><p><strong>前置知識（之前學過的）：</strong></p><ul style="margin:6pt 0 0 18pt;font-size:10pt;"><li>四年級學過：面積單位</li><li>長方形面積</li></ul></div><div class="concept-box"><ul style="margin:6pt 0 0 18pt;"><li>長方體表面積=$2(長闊+長高+闊高)$</li><li>柱體展開圖：兩個底面+側面</li><li>錐體展開圖：圓形底面+扇形側面</li></ul></div>
+<div class="lf-h2">✏️ 例題</div>
+<div class="example"><div class="example-title">例題1：計算周界</div>
+<p style="margin-bottom:8pt;">(a) 12 cm 8 cm 一個長方形花圃長 $12$ 米闊 $8$ 米，求周界。</p>
+<p style="margin-bottom:8pt;">(b) 計算周界和面積，注意單位。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="hint-box">注意運算順序和步驟。</div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題2：計算面積</div>
+<div class="hint-box">注意數位對齊，必要時在末尾補零。</div>
+<p style="margin-bottom:8pt;">(a) 6 cm 6 cm 一個正方形地板邊長 $6$ 米，求面積。</p>
+<p style="margin-bottom:8pt;">(b) 計算周界和面積，注意單位。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div>
+<div class="hint-box">多步計算時，嚴格遵守「先乘除後加減」的順序。</div></div>
+<div class="example"><div class="example-title">例題3：應用題</div>
+<p style="margin-bottom:8pt;">(a) 一個花園長 $15$ 米闊 $10$ 米，每平方米種 $4$ 朵花，共可種多少朵？</p>
+<p style="margin-bottom:8pt;">(b) 同方法重做加深印象。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="hint-box">四捨五入時，看目標位數的後一位：≥5進位，<5捨去。</div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題4：扇形計算</div>
+<p style="margin-bottom:8pt;">(a) 圓形花園半徑7m，求周界面積($\pi=\frac{22}{7}$)。</p>
+<p style="margin-bottom:8pt;">(b) 扇形圓心角90°半徑10cm，求面積。</p>
+<div style="margin:8pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
 
+<div class="example"><div class="example-title">例題5：綜合圖形</div>
+<div class="hint-box">平行四邊形面積 = 底 × 高；梯形面積 = (上底+下底)×高÷2。</div>
+<p style="margin-bottom:8pt;">(a) 平行四邊形底 $12$ cm、高 $8$ cm，面積是多少？</p>
+<p style="margin-bottom:8pt;">(b) 梯形上底 $6$ cm、下底 $10$ cm、高 $5$ cm，面積是多少？</p>
+<div style="margin:6pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div class="example"><div class="example-title">例題6：圖形應用</div>
+<div class="hint-box">先計算面積，再用面積 × 每單位數量。</div>
+<p style="margin-bottom:8pt;">(a) 長方形花園長 $15$ m、闊 $8$ m，面積多少？每 m² 種 $4$ 棵花，共可種多少棵？</p>
+<p style="margin-bottom:8pt;">(b) 三角形花圃底 $10$ m、高 $6$ m，面積多少？每 m² 造價 $\$250$，共需多少？</p>
+<div style="margin:6pt 0;"><strong>解題空間：</strong></div>
+<div class="workspace" style="min-height:100pt;"></div></div>
+<div style="background:#F0F9FF;border:1pt solid #7DD3FC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>🔍 自我檢查：</strong>做完例題後，問自己：「答案合理嗎？單位對嗎？可以用另一種方法驗算嗎？」</div><div class="trap-warning"><div class="title">⚠️ 小心陷阱！</div><p style="margin-top:8pt;"><strong>陷阱1：</strong> 不要混淆周界和面積</p><p style="margin-top:8pt;"><strong>陷阱2：</strong> 面積單位要加²（cm²/m²）</p><p style="margin-top:8pt;"><strong>陷阱3：</strong> 高必須垂直於底邊</p></div>
+<div class="lf-h2">📝 課堂練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做</span><p style="margin-top:8pt;">10 cm 4 cm 5 cm 長方體長 $10$ cm 闊 $5$ cm 高 $4$ cm，求體積。</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做</span><p style="margin-top:8pt;">10 cm 4 cm 5 cm 同一長方體表面面積？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做</span><p style="margin-top:8pt;">5 cm 4 cm 5 cm 正方體邊長 $5$ cm，體積和表面面積？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做</span><p style="margin-top:8pt;">20 cm 2 cm 10 cm 排水法：物體放入長 $20$ cm 闊 $10$ cm 水缸，水位升 $2$ cm。體積？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做</span><p style="margin-top:8pt;">$500$ cm³ = 多少 mL？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做</span><p style="margin-top:8pt;">30 cm 15 cm 20 cm 長方體水箱長 $30$ cm 闊 $20$ cm 高 $15$ cm，容積多少升？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">必做</span><p style="margin-top:8pt;">90 r=7 cm 一個圓柱底面半徑 $7$ cm 高 $10$ cm，體積？(圓周率 取 $\frac{22}{7}$)</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">必做</span><p style="margin-top:8pt;">正方體表面面積 $150$ cm²，邊長多少？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">8 cm 3 cm 5 cm 長方體長 $8$ cm 闊 $5$ cm 高 $3$ cm，表面面積？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">27 cm 4 cm 5 cm 一個立方體體積 $27$ cm³，邊長多少？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q11</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">柱體底面積 $20$ cm² 高 $12$ cm，體積？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q12</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">3 cm 1 cm 2 cm 一個長方體長闊高比 $3:2:1$，體積 $48$ cm³，各邊長？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q13</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">圓柱側面展開是什麼圖形。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q14</span> <span class="q-level">挑戰 ⭐⭐⭐</span><p style="margin-top:8pt;">$1$ m³ = 多少 cm³？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q15</span> <span class="q-level">挑戰 ⭐⭐⭐</span><p style="margin-top:8pt;">一個水缸長 $50$ cm 闊 $40$ cm，裝了 $60$ 升水，水高多少？</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">📝 功課（回家練習）</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">必做</span><p style="margin-top:8pt;">5 cm 4 cm 5 cm 正方體邊長 $7$ cm，體積和表面面積？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">必做</span><p style="margin-top:8pt;">90 r=7 cm 圓柱底半徑 $7$ cm 高 $10$ cm，體積。（圓周率 取 $\frac{22}{7}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">必做</span><p style="margin-top:8pt;">正方體表面面積 $150$ cm²，邊長？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">必做</span><p style="margin-top:8pt;">柱體底面積 $21$ cm² 高 $13$ cm，體積？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">必做</span><p style="margin-top:8pt;">3 cm 1 cm 2 cm 長闊高比 $3:2:1$，體積 $48$ cm³，各邊？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">必做</span><p style="margin-top:8pt;">圓柱側面展開是什麼圖形。（圓周率 取 $\frac{23}{9}$）</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">$1$ m³ = 多少 cm³？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">挑戰 ⭐</span><p style="margin-top:8pt;">水缸長 $50$ cm 闊 $40$ cm 裝 $60$ 升水，水高？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">64 cm 4 cm 5 cm 一個立方體體積 $64$ cm³，邊長？</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">挑戰 ⭐⭐</span><p style="margin-top:8pt;">120 cm 4 cm 6 cm 長方體體積 $120$ cm³，長 $6$ cm 闊 $4$ cm，高？</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">🧮 課後純計算練習</div><div class="practice-section"><div class="practice-q"><span class="q-num">Q1</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{3}{4} \div \frac{2}{5} = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q2</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$7.2 \div 1.2 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q3</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$25\% \times 80 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q4</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$120 \times 15\% = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q5</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{22}{7} \times 7 \times 2 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q6</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{22}{7} \times 7 \times 7 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q7</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{5}{6} - \frac{1}{4} = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q8</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$4.5 \times 2.8 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q9</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$360 \div 45 = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+<div class="practice-q"><span class="q-num">Q10</span> <span class="q-level">計算</span><p style="margin-top:8pt;">$\frac{2}{3} \times \frac{9}{10} = \underline{\hspace{2cm}}$</p><div class="answer-line-double"></div></div>
+</div>
+<div class="lf-h2">🤔 延伸思考</div>
+<div style="background:#FFF7ED;border:1.5pt solid #FB923C;border-radius:10pt;padding:14pt 16pt;margin:12pt 0;"><p style="font-weight:900;font-size:10pt;color:#C2410C;margin-bottom:8pt;">💭 代入不同角色，從多元角度思考</p>
+<ol style="margin:6pt 0 0 18pt;font-size:10pt;">
+<li><strong>📐 建築師：</strong>房間長 $6.4$ m、闊 $5.2$ m。地板面積多少？要鋪地磚每塊 $0.4$ m²，最少需要幾塊？<br><br>💬 <em>延伸討論：</em>實際鋪磚時，「最少需要幾塊」和「需要買幾塊」為甚麼不一樣？</li><li><strong>👷 工程師：</strong>水箱長 $2.5$ m、闊 $1.8$ m、高 $1.2$ m。能裝多少立方米水？<br><br>💬 <em>延伸討論：</em>為甚麼工程圖則上的尺寸要精確到小數點後多位？誤差積累會有甚麼後果？</li><li><strong>🛒 消費者：</strong>A 公司洗衣機容量 $8.5$ kg，$\$3200$；B 公司 $10.2$ kg，$\$3980$。哪間每公斤較便宜？<br><br>💬 <em>延伸討論：</em>除了容量和價錢，買洗衣機還要考慮甚麼因素？</li><li><strong>🧑‍🔬 科學家：</strong>一個不規則石頭放進 $500$ mL 量杯，水位升到 $635$ mL。石頭體積是多少 L？<br><br>💬 <em>延伸討論：</em>排水法測體積的原理是甚麼？為甚麼石頭必須完全浸沒？</li><li><strong>🔗 數學家：</strong>表面面積相同的長方體和正方體，哪個體積較大？為甚麼自然界很多東西是球形？<br><br>💬 <em>延伸討論：</em>這與「等周定理」有關，你認為自然界為甚麼偏好球形？</li>
+</ol></div><div style="background:#F0FDF4;border:1pt solid #86EFAC;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><p style="font-weight:700;color:#15803D;margin-bottom:6pt;">📊 本課反思（完成後打 ✓）</p>
+<p>□ 我理解了核心概念 &nbsp; □ 我能獨立完成例題 &nbsp; □ 我知道常見陷阱 &nbsp; □ 我需要加強 ____________</p></div><div class="key-point"><div class="title">★ 重點整理</div><ul style="margin:6pt 0 0 18pt;"><li>長方體表面積=$2(長闊+長高+闊高)$</li><li>柱體展開圖：兩個底面+側面</li><li>錐體展開圖：圓形底面+扇形側面</li></ul></div><div style="background:#EFF6FF;border:1pt solid #93C5FD;border-radius:8pt;padding:12pt 16pt;margin:12pt 0;font-size:9.5pt;"><strong>📋 SSPA考試連結：</strong>本課屬於「度量範疇 — 立體」範疇。</div><div class="parent-box"><div class="title">👨‍👩‍👧 家長專區</div><ol style="margin:6pt 0 0 18pt;"><li>請子女練習立體圖形與表面面積（P6下預習）相關題目</li><li>檢查計算步驟是否完整</li><li>問：「立體圖形與表面面積（P6下預習）最重要的概念是什麼？」</li><li>留意常見錯誤類型</li></ol>
+<p style="margin-top:8pt;font-size:8pt;">🏫 霖楓學苑 LF Academy · SSPA：度量範疇 — 立體</p></div>
+</div></body></html>
